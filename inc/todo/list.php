@@ -145,7 +145,7 @@ $completed_todos     = get_posts( $completed_todo_args );
 if ( empty( $todos ) ) {
 	?>
 	<div id="message" class="info">
-		<p><?php echo esc_html( 'Sorry, no ' . $profile_menu_slug . ' found.', 'wb-todo' ); ?></p>
+		<p><?php echo esc_html( 'Sorry, no ' . $profile_menu_label . ' found.', 'wb-todo' ); ?></p>
 	</div>
 	<?php } else { ?>
 

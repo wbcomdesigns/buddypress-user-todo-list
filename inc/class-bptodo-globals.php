@@ -120,7 +120,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 				$this->profile_menu_label_plural = $settings['profile_menu_label_plural'];
 			}
 
-			$this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
+			$this->profile_menu_slug = apply_filters( 'wbbptodo_slug', 'to-do' );
+			//$this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
 
 			/** Allow User To Add Todo Category. */
 			$this->allow_user_add_category = 'no';
