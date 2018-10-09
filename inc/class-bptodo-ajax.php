@@ -176,7 +176,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					'result'         => 'todo-completed',
 					'completed_todo' => $completed_todos,
 					'completed_html' => $completed_html,
-					'avg_percentage' => $avg_percentage,
+					'avg_percentage' => round( $avg_percentage, 2 ),
 					'due_date_str' => $due_date_str,
 				);
 				echo wp_json_encode( $response );
