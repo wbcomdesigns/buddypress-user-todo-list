@@ -3,7 +3,7 @@
  * Plugin Name: BuddyPress User To-Do List
  * Plugin URI: https://wbcomdesigns.com/contact/
  * Description: This plugin allows users to create to do items in their profile section and simple interface to schedule your task.
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -42,7 +42,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-	define( 'BPTODO_VERSION', '1.0.4' );
+	define( 'BPTODO_VERSION', '1.0.5' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
