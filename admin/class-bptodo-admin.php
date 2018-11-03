@@ -72,7 +72,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_add_menu_page() {
-			add_submenu_page( 'edit.php?post_type=bp-todo', __( 'BuddyPress Member To-Do List Settings', 'wb-todo' ), __( 'Settings', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
+			add_submenu_page( 'edit.php?post_type=bp-todo', esc_html__( 'BuddyPress Member To-Do List Settings', 'wb-todo' ), esc_html__( 'Settings', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
 		}
 
 		/**
@@ -126,7 +126,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_general_settings() {
-			$this->plugin_settings_tabs['user-todo-list-settings'] = __( 'General', 'wb-todo' );
+			$this->plugin_settings_tabs['user-todo-list-settings'] = esc_html__( 'General', 'wb-todo' );
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_general', ' ', array( &$this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
 		}
@@ -152,7 +152,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_support_settings() {
-			$this->plugin_settings_tabs['bptodo-support'] = __( 'Support', 'wb-todo' );
+			$this->plugin_settings_tabs['bptodo-support'] = esc_html__( 'Support', 'wb-todo' );
 			register_setting( 'bptodo-support', 'bptodo-support' );
 			add_settings_section( 'section_support', ' ', array( &$this, 'bptodo_support_settings_content' ), 'bptodo-support' );
 		}
@@ -178,7 +178,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_shortcode_settings() {
-			$this->plugin_settings_tabs['user-todo-list-shortcodes'] = __( 'Shortcodes', 'wb-todo' );
+			$this->plugin_settings_tabs['user-todo-list-shortcodes'] = esc_html__( 'Shortcodes', 'wb-todo' );
 			register_setting( 'user-todo-list-shortcodes', 'user-todo-list-shortcodes' );
 			add_settings_section( 'section_shortcodes', ' ', array( &$this, 'bptodo_general_shortcodes_content' ), 'user-todo-list-shortcodes' );
 		}

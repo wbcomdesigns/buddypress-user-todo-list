@@ -31,7 +31,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) ) { ?>
 						<?php foreach ( $todo_cats as $todo_cat ) { ?>
-						<option value="<?php echo esc_html( $todo_cat->name ); ?>"><?php echo esc_html( $todo_cat->name, 'wb-todo' ); ?></option>
+						<option value="<?php echo esc_html( $todo_cat->name ); ?>"><?php echo esc_html( $todo_cat->name ); ?></option>
 						<?php } ?>
 						<?php } ?>
 					</select>
@@ -41,7 +41,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 				</div>
 				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
-					<input type="text" id="todo-category-name" placeholder="<?php echo esc_html( $profile_menu_label . ' category', 'wb-todo' ); ?>">
+					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_html( $add_cat_nonce ); ?>">
 					<button type="button" id="add-todo-cat"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
@@ -101,7 +101,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 			<td width="20%"></td>
 			<td width="80%">
 				<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
-				<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php printf( esc_html__( ' Submit %s ', 'wb-todo' ), $profile_menu_label );?>">
+				<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label );?>" >
 			</td>
 		</tr>
 	</table>

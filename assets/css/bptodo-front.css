@@ -1,11 +1,11 @@
-.todo-completed{
+.todo-completed {
 	text-decoration: line-through;
 }
 .add-todo-cat-row{
 	display: none;
 	margin-top: 15px;
 }
-.bptodo-expires-today, .bptodo-expired{
+.bptodo-expires-today, .bptodo-expired {
 	color: red;
 }
 .bptodo-add-todo-success {
@@ -20,7 +20,7 @@
 	color: #0F9200;
 }
 
-/* TODO LIST CSS */
+/** TODO LIST CSS **/
 .bptodo-adming-setting{
 	float: left;
 	width: 100%;
@@ -255,7 +255,7 @@ a:focus, button:focus{
 }
 
 .bptodo-light-grey {
-	background-color: #f1f1f1;
+	background-color: #ccc;
 	position: relative;
 	margin-top: 5%;
 }
@@ -287,6 +287,10 @@ a:focus, button:focus{
 	top: 40px;
 	min-width: 100px;
 }
+
+.bp-nouveau .bptodo-progress-section .task-progress-task-count-wrap {
+	top: 55px;
+}	
 
 .bptodo-progress-section h5 {
 	margin: 0 0 2.625rem;
@@ -372,25 +376,28 @@ a:focus, button:focus{
 
 /*** To-do Priority css ***/
 .bptodo-priority .bptodo-priority-critical {
-	display: block;
 	width: 55px;
 	margin: 0 auto;
 	color: #fff;
 	background: #f44336;
+	width: 80%;
+	display: block;
 }
 
 .bptodo-priority .bptodo-priority-high {
-	display: block;
 	width: 55px;
 	margin: 0 auto;
 	color: #fff;
 	background: #FB8C00;
+	width: 80%;
+	display: block;
 }
 
 .bptodo-priority .bptodo-priority-normal {
-	display: block;
 	width: 55px;
 	margin: 0 auto;
 	color: #fff;
 	background: #4CAF50;
+	width: 80%;
+	display: block;
 }

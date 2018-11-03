@@ -93,7 +93,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
 				wp_delete_post( $tid, true );
-				esc_html_e( 'todo-removed', 'wb-todo' );
+				echo 'todo-removed';
 				die;
 			}
 		}
@@ -132,7 +132,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 					$due_date_td_class = 'bptodo-expired';
 				} elseif ( 0 == $diff_days ) {
-					$due_date_str      = __('Today is the last day to complete. Hurry Up!','wb-todo');
+					$due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!','wb-todo');
 					$due_date_td_class = 'bptodo-expires-today';
 					$all_remaining_todo++;
 				} else {
@@ -140,20 +140,20 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$all_remaining_todo++;
 				}
 				if ( 'complete' == $todo_status ) {
-					$due_date_str      = __('Completed!','wb-todo');
+					$due_date_str      = esc_html__('Completed!','wb-todo');
 					$due_date_td_class = '';
 					$all_completed_todo++;
 				}
 				if ( ! empty( $todo_priority ) ) {
 					if ( 'critical' == $todo_priority ) {
 						$priority_class = 'bptodo-priority-critical';
-						$priority_text = __('Critical','wb-todo');
+						$priority_text = esc_html__('Critical','wb-todo');
 					} elseif ( 'high' == $todo_priority ) {
 						$priority_class = 'bptodo-priority-high';
-						$priority_text = __('High','wb-todo');
+						$priority_text = esc_html__('High','wb-todo');
 					} else {
 						$priority_class = 'bptodo-priority-normal';
-						$priority_text = __('Normal','wb-todo');
+						$priority_text = esc_html__('Normal','wb-todo');
 					}
 				}
 				$completed_html  = '';
@@ -162,13 +162,13 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				<td class="todo-completed">' . $todo_title . '</td>
 				<td class="bp-to-do-actions">
 				<ul>
-				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Remove: %s ', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-times"></i></a></li>';
+				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-times"></i></a></li>';
 				if ( 'complete' !== $todo_status ) {
 
-					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . sprintf( esc_html__( 'Edit: %s ', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-edit"></i></a></li>
-					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Complete: %s ', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-check"></i></a></li>';
+					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-edit"></i></a></li>
+					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-check"></i></a></li>';
 				} else {
-					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . sprintf( esc_html__( ' Undo Complete: %s ', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
+					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
 				}
 				$completed_html .= '</ul></td></tr>';
 				/** End of html of completed todo. */
@@ -177,7 +177,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					'completed_todo' => $completed_todos,
 					'completed_html' => $completed_html,
 					'avg_percentage' => round( $avg_percentage, 2 ),
-					'due_date_str' => $due_date_str,
+					'due_date_str'   => $due_date_str,
 				);
 				echo wp_json_encode( $response );
 				die;

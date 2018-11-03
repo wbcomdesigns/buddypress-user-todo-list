@@ -4,7 +4,7 @@ Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
 Tested up to: 4.9.8
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,11 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+
+= 1.0.6 =
+* Fix - Fixed Translation issues.
+* Fix - Compatibility with BuddyPress 3.2.0
+* Enhancement - Added French translation files – credits to Jean Pierre Michaud
 
 = 1.0.5 =
 * Fix - slug issue in other language.

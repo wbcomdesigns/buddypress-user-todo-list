@@ -1,0 +1,560 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Project-Id-Version: BuddyPress User To-Do List\n"
+"POT-Creation-Date: 2018-10-22 20:28-0400\n"
+"PO-Revision-Date: 2018-10-29 15:04-0400\n"
+"Language-Team: jean-pierre michaud <translation@wpenhancer.agency>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: bp-user-todo-list.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Last-Translator: jean-pierre michaud <translation@wpenhancer.agency>\n"
+"Language: fr_FR\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/class-bptodo-admin.php:75 admin/class-bptodo-admin.php:90
+msgid "BuddyPress Member To-Do List Settings"
+msgstr "Paramètres de Liste de tâches à faire des Membres"
+
+#: admin/class-bptodo-admin.php:75 bp-user-todo-list.php:93
+msgid "Settings"
+msgstr "Paramètres"
+
+#: admin/class-bptodo-admin.php:93
+msgid "Email Support"
+msgstr "Envoyer un courriel au soutien technique"
+
+#: admin/class-bptodo-admin.php:94
+msgid "User Manual"
+msgstr "Manuel d’Instructions"
+
+#: admin/class-bptodo-admin.php:95
+msgid "Rate Us on WordPress.org"
+msgstr "Évaluez-nous sur WordPress.org"
+
+#: admin/class-bptodo-admin.php:129
+msgid "General"
+msgstr "Général"
+
+#: admin/class-bptodo-admin.php:155 bp-user-todo-list.php:94
+msgid "Support"
+msgstr "Support"
+
+#: admin/class-bptodo-admin.php:181
+msgid "Shortcodes"
+msgstr "Shortcodes"
+
+#: admin/inc/bptodo-general-settings.php:18
+msgid "To-do Label (Singular)"
+msgstr "Etiquette Tâches à Faire (singulier)"
+
+#: admin/inc/bptodo-general-settings.php:20
+msgid "Label"
+msgstr "Étiquette"
+
+#: admin/inc/bptodo-general-settings.php:26
+msgid "To-dos Label (Plural)"
+msgstr "Etiquette Tâches à Faire (pluriel)"
+
+#: admin/inc/bptodo-general-settings.php:28
+msgid "To-dos"
+msgstr "Tâches à Faire"
+
+#: admin/inc/bptodo-general-settings.php:34
+msgid "Allow User To Add Category"
+msgstr "Permettre aux membres d'ajouter des catégories"
+
+#: admin/inc/bptodo-general-settings.php:40
+msgid "Allow the loggedin user to create To-Do category."
+msgstr ""
+"Permettre les usagers connectés de créer des catégories de tâches à faire."
+
+#: admin/inc/bptodo-general-settings.php:41
+msgid ""
+"Check this option if you want to allow normal users of the site to have the "
+"ability to create the To-Do category."
+msgstr ""
+"Cocher cette option si vous voulez permettre aux membres normaux du site "
+"d'avoir la capacité de créer des catégories dans l'outil des Tâches à Faire."
+
+#: admin/inc/bptodo-general-settings.php:47
+msgid "Send Notification"
+msgstr "Envoyer une notification"
+
+#: admin/inc/bptodo-general-settings.php:53
+msgid "Send a BP notification to the user whose To-Do due date has arrived."
+msgstr ""
+"Envoyer une notification via BP pour les usagers qui ont une Tâche à Faire "
+"en date."
+
+#: admin/inc/bptodo-general-settings.php:54
+msgid ""
+"Check this option if you want to send notification to the member as a "
+"reminder for his/her task due date."
+msgstr ""
+"Cochez cette option si vous souhaitez envoyer une notification au membre en "
+"guise de rappel pour sa date d'échéance de tâche."
+
+#: admin/inc/bptodo-general-settings.php:60
+msgid "Send Mail"
+msgstr "Envoyer Email"
+
+#: admin/inc/bptodo-general-settings.php:66
+msgid "Send a mail to the user whose To-Do due date has arrived."
+msgstr "Envoyer une email pour les usagers qui ont une Tâche à Faire en date."
+
+#: admin/inc/bptodo-general-settings.php:67
+msgid ""
+"Check this option if you want to send mail to the member as a reminder for "
+"his/her task due date."
+msgstr ""
+"Cochez cette option si vous souhaitez envoyer un email au membre en guise de "
+"rappel pour sa date d'échéance de tâche."
+
+#: admin/inc/bptodo-shortcodes-settings.php:20
+msgid "This shortcode will list all the "
+msgstr "Cette shortcode listera tous les "
+
+#: admin/inc/bptodo-shortcodes-settings.php:22
+msgid " category wise."
+msgstr " en catégories."
+
+#: admin/inc/bptodo-shortcodes-settings.php:25
+msgid "Arguments accepted:"
+msgstr "Arguments acceptés:"
+
+#: admin/inc/bptodo-shortcodes-settings.php:29
+msgid "category : "
+msgstr "categorie : "
+
+#: admin/inc/bptodo-shortcodes-settings.php:30
+msgid "you need to provide the category id of which the "
+msgstr "Vous devez fournir le ID de la catégorie que vous "
+
+#: admin/inc/bptodo-shortcodes-settings.php:32
+msgid " you want to show."
+msgstr " voulez afficher."
+
+#: admin/inc/bptodo-support.php:15
+msgid "FAQ(s)"
+msgstr "FAQ"
+
+#: admin/inc/bptodo-support.php:22
+msgid "Does this plugin require any other plugin to work?"
+msgstr "Est-ce plugin besoin de tout autre plugin pour travailler?"
+
+#: admin/inc/bptodo-support.php:24
+msgid ""
+"As the name of the plugin justifies, this plugin helps manage To-Do List for "
+"BuddyPress Members, this plugin requires BuddyPress plugin to be installed "
+"and active."
+msgstr ""
+"Comme le nom du plugin justifie, ce plugin permet de gérer une liste des "
+"Tâches à Faire pour les membres, ce plugin nécessite BuddyPress plugin pour "
+"être installé et actif."
+
+#: admin/inc/bptodo-support.php:25
+msgid ""
+"You'll also get an admin notice and the plugin will become ineffective if "
+"the required plugin is not there."
+msgstr ""
+"Vous obtiendrez également un avis d'administration et le plugin deviendra "
+"inactif si le plugin requis n'est pas présent."
+
+#: admin/inc/bptodo-support.php:31
+msgid "Plugin Working?"
+msgstr "Est-ce que ce plugin fonctionne?"
+
+#: admin/inc/bptodo-support.php:33
+msgid ""
+"This plugin creates a menu To-Do in the user profile. User can add a set of "
+"tasks and can manage them accordingly."
+msgstr ""
+"Ce plugin crée un menu de Tâches à Faire dans le profil de l'usager. Les "
+"membres peuvent créer une série de tâches et les gérer de façon efficace."
+
+#: admin/inc/bptodo-support.php:34
+msgid "A user can even Export his/her list."
+msgstr "Un utilisateur peut même exporter sa liste."
+
+#: admin/inc/bptodo-support.php:40
+msgid "How to go for any custom development?"
+msgstr "Comment faire pour tout développement personnalisé?"
+
+#: admin/inc/bptodo-support.php:42
+msgid "If you need additional help you can contact us for"
+msgstr ""
+"Si vous avez besoin d'aide supplémentaire, vous pouvez nous contacter pour"
+
+#: admin/inc/bptodo-support.php:42
+msgid "Custom Development"
+msgstr "Développement sur mesure"
+
+#: bp-user-todo-list.php:140 bp-user-todo-list.php:156
+msgid "BuddyPress Member To-Do List"
+msgstr "Paramètres de Liste de tâches à faire des Membres"
+
+#: bp-user-todo-list.php:141 bp-user-todo-list.php:157
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: inc/class-bptodo-ajax.php:96
+msgid "todo-removed"
+msgstr "tâche enlevée"
+
+#: inc/class-bptodo-ajax.php:132 inc/class-bptodo-hooks.php:222
+#: inc/todo/bptodo-by-category-template.php:89
+#: inc/todo/bptodo-by-category-template.php:184
+#: inc/todo/bptodo-by-category-template.php:278
+#: inc/todo/bptodo-by-category-template.php:372 inc/todo/list.php:260
+#: inc/todo/list.php:336 inc/todo/list.php:414 inc/todo/list.php:492
+#: inc/todo/list.php:590
+#, php-format
+msgid "Expired %d days ago!"
+msgstr "Expirait il y a %d jours!"
+
+#: inc/class-bptodo-ajax.php:135 inc/class-bptodo-hooks.php:224
+#: inc/todo/bptodo-by-category-template.php:92
+#: inc/todo/bptodo-by-category-template.php:187
+#: inc/todo/bptodo-by-category-template.php:281
+#: inc/todo/bptodo-by-category-template.php:375 inc/todo/list.php:263
+#: inc/todo/list.php:339 inc/todo/list.php:417 inc/todo/list.php:495
+#: inc/todo/list.php:593
+msgid "Today is the last day to complete. Hurry Up!"
+msgstr "Aujourd'hui est le dernier jour pour terminer. Dépêche-toi!"
+
+#: inc/class-bptodo-ajax.php:139 inc/class-bptodo-hooks.php:226
+#: inc/todo/bptodo-by-category-template.php:95
+#: inc/todo/bptodo-by-category-template.php:190
+#: inc/todo/bptodo-by-category-template.php:284
+#: inc/todo/bptodo-by-category-template.php:378 inc/todo/list.php:266
+#: inc/todo/list.php:343 inc/todo/list.php:421 inc/todo/list.php:499
+#: inc/todo/list.php:597
+#, php-format
+msgid "%d days left to complete the task!"
+msgstr "%d jours restants pour terminer la tâche!"
+
+#: inc/class-bptodo-ajax.php:143 inc/class-bptodo-hooks.php:230
+#: inc/todo/bptodo-by-category-template.php:98
+#: inc/todo/bptodo-by-category-template.php:193
+#: inc/todo/bptodo-by-category-template.php:287
+#: inc/todo/bptodo-by-category-template.php:381 inc/todo/list.php:269
+#: inc/todo/list.php:347 inc/todo/list.php:425 inc/todo/list.php:503
+#: inc/todo/list.php:601
+msgid "Completed!"
+msgstr "Terminé!"
+
+#: inc/class-bptodo-ajax.php:150 inc/todo/add.php:93 inc/todo/edit.php:111
+#: inc/todo/list.php:276 inc/todo/list.php:354 inc/todo/list.php:432
+#: inc/todo/list.php:510 inc/todo/list.php:608
+msgid "Critical"
+msgstr "Critique"
+
+#: inc/class-bptodo-ajax.php:153 inc/todo/add.php:94 inc/todo/edit.php:112
+#: inc/todo/list.php:279 inc/todo/list.php:357 inc/todo/list.php:435
+#: inc/todo/list.php:513 inc/todo/list.php:611
+msgid "High"
+msgstr "Élevé"
+
+#: inc/class-bptodo-ajax.php:156 inc/todo/add.php:95 inc/todo/edit.php:113
+#: inc/todo/list.php:282 inc/todo/list.php:360 inc/todo/list.php:438
+#: inc/todo/list.php:516 inc/todo/list.php:614
+msgid "Normal"
+msgstr "Normal"
+
+#: inc/class-bptodo-ajax.php:165 inc/todo/bptodo-by-category-template.php:131
+#: inc/todo/bptodo-by-category-template.php:226
+#: inc/todo/bptodo-by-category-template.php:320
+#: inc/todo/bptodo-by-category-template.php:414
+#, php-format
+msgid "Remove: %s "
+msgstr "Supprimer: %s "
+
+#: inc/class-bptodo-ajax.php:168 inc/todo/bptodo-by-category-template.php:133
+#: inc/todo/bptodo-by-category-template.php:228
+#: inc/todo/bptodo-by-category-template.php:322
+#: inc/todo/bptodo-by-category-template.php:416
+#, php-format
+msgid "Edit: %s "
+msgstr "Editer: %s "
+
+#: inc/class-bptodo-ajax.php:169 inc/todo/bptodo-by-category-template.php:134
+#: inc/todo/bptodo-by-category-template.php:229
+#: inc/todo/bptodo-by-category-template.php:323
+#: inc/todo/bptodo-by-category-template.php:417
+#, php-format
+msgid "Complete: %s "
+msgstr "Completer: %s "
+
+#: inc/class-bptodo-ajax.php:171 inc/todo/bptodo-by-category-template.php:136
+#: inc/todo/bptodo-by-category-template.php:231
+#: inc/todo/bptodo-by-category-template.php:325
+#: inc/todo/bptodo-by-category-template.php:419 inc/todo/list.php:311
+#: inc/todo/list.php:388 inc/todo/list.php:466 inc/todo/list.php:544
+#: inc/todo/list.php:633
+#, php-format
+msgid " Undo Complete: %s "
+msgstr " Réactiver: %s "
+
+#: inc/class-bptodo-cpt.php:44 inc/class-bptodo-cpt.php:46
+#: inc/class-bptodo-cpt.php:47
+msgid "To-Do Items"
+msgstr "Items à Faire"
+
+#: inc/class-bptodo-cpt.php:45
+msgid "To-Do Item"
+msgstr "Item à Faire"
+
+#: inc/class-bptodo-cpt.php:48
+msgid "View To-Do Item"
+msgstr "Voir l'Item à Faire"
+
+#: inc/class-bptodo-cpt.php:49
+msgid "All To-Do Items"
+msgstr "Tous les Items à Faire"
+
+#: inc/class-bptodo-cpt.php:50
+msgid "Search To-Do Item"
+msgstr "Chercher un Item à Faire"
+
+#: inc/class-bptodo-cpt.php:51
+msgid "Parent To-Do Item:"
+msgstr "Tâche Principale à Faire:"
+
+#: inc/class-bptodo-cpt.php:52
+msgid "No To-Do Item Found"
+msgstr "Aucun Item à Faire"
+
+#: inc/class-bptodo-cpt.php:53
+msgid "No To-Do Item Found In Trash"
+msgstr "Aucun Item à Faire dans la Poubelle"
+
+#: inc/class-bptodo-cpt.php:92 inc/class-bptodo-cpt.php:93
+msgid "To-Do Category"
+msgstr "Categorie à Faire"
+
+#: inc/class-bptodo-cpt.php:94
+msgid "Search To-Do Items Categories"
+msgstr "Chercher dans les Catégories d'Items à Faire"
+
+#: inc/class-bptodo-cpt.php:95
+msgid "All To-Do Items Categories"
+msgstr "Toutes les Catégories d'Items à Faire"
+
+#: inc/class-bptodo-cpt.php:96
+msgid "Parent To-Do Item Category"
+msgstr "Catégorie Principale d'Items à Faire"
+
+#: inc/class-bptodo-cpt.php:97
+msgid "Parent To-Do Item Category:"
+msgstr "Catégorie Principale d'Items à Faire:"
+
+#: inc/class-bptodo-cpt.php:98
+msgid "Edit Category"
+msgstr "Modifier la catégorie"
+
+#: inc/class-bptodo-cpt.php:99
+msgid "Update Category"
+msgstr "Mettre à jour la catégorie"
+
+#: inc/class-bptodo-cpt.php:100
+msgid "Add To-Do Item Category"
+msgstr "Ajouter une Catégorie d'Item à Faire"
+
+#: inc/class-bptodo-cpt.php:101
+msgid "No To-Do Item Categories Found"
+msgstr "Aucune Catégorie d'Item à Faire trouvée"
+
+#: inc/class-bptodo-cpt.php:102
+msgid "Categories"
+msgstr "Catégories"
+
+#: inc/class-bptodo-globals.php:113
+msgid "To-Do"
+msgstr "A Faire"
+
+#: inc/class-bptodo-globals.php:114
+msgid "To-Dos"
+msgstr "Tâches"
+
+#: inc/class-bptodo-hooks.php:165
+msgid "List"
+msgstr "Liste"
+
+#: inc/class-bptodo-hooks.php:175 inc/class-bptodo-profile-menu.php:67
+#: inc/todo/add.php:47 inc/todo/edit.php:65
+msgid "Add"
+msgstr "Ajouter"
+
+#: inc/class-bptodo-profile-menu.php:55
+msgid " <span class=\"count\">"
+msgstr " <span class=\"count\">"
+
+#: inc/class-bptodo-profile-menu.php:118
+#, php-format
+msgid " Edit %1s : %2s "
+msgstr " Editer %1s : %2s "
+
+#: inc/class-bptodo-profile-menu.php:120
+#, php-format
+msgid " Add a new %s in your list "
+msgstr " Ajouter un nouveau %s à votre liste "
+
+#: inc/class-bptodo-profile-menu.php:164
+msgid " List"
+msgstr " Liste"
+
+#: inc/todo/add.php:26 inc/todo/edit.php:37
+msgid "Category"
+msgstr "Catégorie"
+
+#: inc/todo/add.php:31 inc/todo/add.php:92 inc/todo/edit.php:42
+#: inc/todo/edit.php:110
+msgid "--Select--"
+msgstr "--Sélectionner--"
+
+#: inc/todo/add.php:55 inc/todo/add.php:58 inc/todo/edit.php:73
+#: inc/todo/edit.php:76
+msgid "Title"
+msgstr "Titre"
+
+#: inc/todo/add.php:64 inc/todo/edit.php:82
+msgid "Summary"
+msgstr "Résumé"
+
+#: inc/todo/add.php:79 inc/todo/add.php:82
+#: inc/todo/bptodo-by-category-template.php:69
+#: inc/todo/bptodo-by-category-template.php:164
+#: inc/todo/bptodo-by-category-template.php:258
+#: inc/todo/bptodo-by-category-template.php:352 inc/todo/edit.php:97
+#: inc/todo/edit.php:100 inc/todo/list.php:236
+msgid "Due Date"
+msgstr "Date d'échéance"
+
+#: inc/todo/add.php:88 inc/todo/edit.php:106 inc/todo/list.php:234
+#: inc/todo/list.php:569
+msgid "Priority"
+msgstr "Priorité"
+
+#: inc/todo/add.php:104
+#, php-format
+msgid " Submit %s "
+msgstr "Soumettre un %s"
+
+#: inc/todo/bptodo-by-category-template-loggedout-user.php:13
+msgid "You need to be loggedin to view the todo items."
+msgstr "Vous devez être connecté pour afficher les items à faire."
+
+#: inc/todo/bptodo-by-category-template.php:60
+msgid "PAST"
+msgstr "ANCIEN"
+
+#: inc/todo/bptodo-by-category-template.php:67
+#: inc/todo/bptodo-by-category-template.php:162
+#: inc/todo/bptodo-by-category-template.php:256
+#: inc/todo/bptodo-by-category-template.php:350 inc/todo/list.php:235
+#: inc/todo/list.php:570
+msgid "Task"
+msgstr "Tâche"
+
+#: inc/todo/bptodo-by-category-template.php:68
+#: inc/todo/bptodo-by-category-template.php:163
+#: inc/todo/bptodo-by-category-template.php:257
+#: inc/todo/bptodo-by-category-template.php:351
+msgid "Task Description"
+msgstr "Description de tâche"
+
+#: inc/todo/bptodo-by-category-template.php:70
+#: inc/todo/bptodo-by-category-template.php:165
+#: inc/todo/bptodo-by-category-template.php:259
+#: inc/todo/bptodo-by-category-template.php:353
+msgid "Mark Complete"
+msgstr "Marquer comme complété"
+
+#: inc/todo/bptodo-by-category-template.php:249
+msgid "TOMORROW"
+msgstr "DEMAIN"
+
+#: inc/todo/bptodo-by-category-template.php:343
+msgid "SOMEDAY"
+msgstr "UN JOUR"
+
+#: inc/todo/bptodo-by-category-template.php:349
+msgid "Sr. No."
+msgstr "Sr. No."
+
+#: inc/todo/bptodo-by-category-template.php:439
+msgid "There are no todos in this category."
+msgstr "Il n'y a pas de choses à faire dans cette catégorie."
+
+#: inc/todo/bptodo-by-category-template.php:446
+msgid "Please provide a valid category ID."
+msgstr "Veuillez fournir un ID de catégorie valide."
+
+#: inc/todo/bptodo-by-category-template.php:453
+msgid "Please provide any category ID."
+msgstr "Veuillez fournir n'importe quel ID de catégorie."
+
+#: inc/todo/edit.php:123
+#, php-format
+msgid "Update %s"
+msgstr "Mettre à jour %s"
+
+#: inc/todo/list.php:187
+msgid "At a Glance"
+msgstr "D’un coup d’œil"
+
+#: inc/todo/list.php:237 inc/todo/list.php:571
+msgid "Actions"
+msgstr "Actions"
+
+#: inc/todo/list.php:305 inc/todo/list.php:383 inc/todo/list.php:461
+#: inc/todo/list.php:539 inc/todo/list.php:628
+#, php-format
+msgid " Remove: %s "
+msgstr "Supprimer: %s "
+
+#: inc/todo/list.php:308 inc/todo/list.php:385 inc/todo/list.php:463
+#: inc/todo/list.php:541 inc/todo/list.php:630
+#, php-format
+msgid " Edit: %s "
+msgstr "Editer: %s "
+
+#: inc/todo/list.php:309 inc/todo/list.php:386 inc/todo/list.php:464
+#: inc/todo/list.php:542 inc/todo/list.php:631
+#, php-format
+msgid " Complete: %s "
+msgstr "Completer: %s "
+
+#. Plugin Name of the plugin/theme
+msgid "BuddyPress User To-Do List"
+msgstr "BuddyPress Liste des Choses à Faire"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wbcomdesigns.com/contact/"
+msgstr "https://wbcomdesigns.com/contact/"
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin allows users to create to do items in their profile section and "
+"simple interface to schedule your task."
+msgstr ""
+"Ce plugin permet aux membres de créer une liste de choses à faire, afin de "
+"faire un suivi de projet."
+
+#. Author of the plugin/theme
+msgid "Wbcom Designs"
+msgstr "Wbcom Designs"
+
+#. Author URI of the plugin/theme
+msgid "http://wbcomdesigns.com"
+msgstr "http://wbcomdesigns.com"

@@ -39,7 +39,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div>
 					<button class="bptodo-accordion"><?php esc_html_e( 'How to go for any custom development?', 'wb-todo' ); ?></button>
 					<div class="panel">
-						<p><?php esc_html_e( 'If you need additional help you can contact us for', 'wb-todo' ); ?> <a href="https://wbcomdesigns.com/contact/" target="_blank" title="Custom Development by Wbcom Designs"><?php esc_html_e( 'Custom Development', 'wb-todo' ); ?></a>.</p>
+						<p><?php
+						echo sprintf( esc_html__( 'If you need additional help you can contact us for %1$s.', 'wb-todo' ), '<a href="https://wbcomdesigns.com/contact/" target="_blank" title="Custom Development by Wbcom Designs">'. esc_html__( 'Custom Development', 'wb-todo' ) .'</a>' );
+						?>
+						</p>
 					</div>
 				</div>
 			</div>

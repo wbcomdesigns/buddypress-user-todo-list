@@ -49,7 +49,7 @@ jQuery( document ).ready( function () {
             function ( response ) {
                 jQuery( '#export_my_tasks' ).html( '<i class="fa fa-download" aria-hidden="true"></i>' );
                 tasks = response;
-                JSONToCSVConvertor( tasks, "Buddypress - My Tasks List", true );
+                JSONToCSVConvertor( tasks, todo_ajax_object.export_file_heading, true );
             },
             "JSON"
             );
@@ -72,7 +72,7 @@ jQuery( document ).ready( function () {
         var name = jQuery( '#todo-category-name' ).val();
         var btn_text = jQuery(this).html();
         if ( name == '' ) {
-            jQuery( '#todo-category-name' ).addClass( 'bptodo-add-cat-empty' ).attr( 'placeholder', 'Category name is required.' );
+            jQuery( '#todo-category-name' ).addClass( 'bptodo-add-cat-empty' ).attr( 'placeholder', todo_ajax_object.required_cat_text );
         } else {
             var security_nonce = jQuery( '#bptodo-add-category-nonce' ).val();
             jQuery( this ).html( btn_text+' <i class="fa fa-refresh fa-spin"></i>' );
@@ -93,7 +93,7 @@ jQuery( document ).ready( function () {
                         jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
                     }
                 }
-                );
+            );
         }
     });
 
@@ -146,7 +146,7 @@ jQuery( document ).ready( function () {
                     jQuery('#bptodo-completed tbody').append( response.completed_html );
                     jQuery('.bptodo-color').css('width', response.avg_percentage+'%');
                     jQuery('.bptodo-light-grey b').text( response.avg_percentage+'%');
-                    clicked_tid.closest( 'td' ).html( '<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="Undo Complete"><i class="fa fa-undo"></i></a></li></ul>' )
+                    clicked_tid.closest( 'td' ).html( '<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" '+ todo_ajax_object.undo_todo_title +'"><i class="fa fa-undo"></i></a></li></ul>' )
                 }
             }
             );
@@ -202,8 +202,7 @@ function JSONToCSVConvertor( JSONData, ReportTitle, ShowLabel ) {
         return;
     }
 
-    var fileName = "MyTasks_";
-    fileName += ReportTitle.replace( / /g, "_" );
+    var fileName = ReportTitle.replace( / /g, "_" );
     var uri = 'data:text/csv;charset=utf-8,' + escape( CSV );
     var link = document.createElement( "a" );
     link.href = uri;

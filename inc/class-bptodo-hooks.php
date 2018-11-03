@@ -73,8 +73,8 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 								if ( 'no' == $due_date_mail_sent ) {
 									$author       = get_userdata( $author_id );
 									$author_email = $author->data->user_email;
-									$subject      = 'BP Task - WordPress';
-									$messsage     = 'Your task: ' . $todo->post_title . ' is going to exipre today. Kindly finish it up! Thanks!';
+									$subject      = esc_html__( 'BP Task - WordPress', 'wb-todo' );
+									$messsage     = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
 									wp_mail( $author_email, $subject, $messsage );
 									update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
 								}
@@ -124,7 +124,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 				$todo_add_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add';
 				?>
 				<div id="bptodo-add-todo-btn" class="generic-button">
-					<a href="<?php echo esc_attr( $todo_add_url ); ?>" class="add-todo"><?php echo esc_html( 'Add ' . $profile_menu_label, 'wb-todo' ); ?></a>
+					<a href="<?php echo esc_attr( $todo_add_url ); ?>" class="add-todo"><?php echo sprintf( esc_html__( 'Add %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></a>
 				</div>
 				<?php
 			}
@@ -162,7 +162,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 					array(
 						'parent' => 'my-account-' . $profile_menu_slug,
 						'id'     => 'my-account-' . $profile_menu_slug . '-list',
-						'title'  => __( 'List', 'wb-todo' ),
+						'title'  => esc_html__( 'List', 'wb-todo' ),
 						'href'   => trailingslashit( $todo_list_url ),
 					)
 				);
@@ -172,7 +172,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 					array(
 						'parent' => 'my-account-' . $profile_menu_slug,
 						'id'     => 'my-account-' . $profile_menu_slug . '-add',
-						'title'  => __( 'Add', 'wb-todo' ),
+						'title'  => esc_html__( 'Add', 'wb-todo' ),
 						'href'   => trailingslashit( $todo_add_url ),
 					)
 				);
@@ -188,9 +188,9 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 * @param    array $defaults contain default settings.
 		 */
 		public function bptodo_due_date_column_heading( $defaults ) {
-			$defaults['due_date'] = 'Due Date';
-			$defaults['status']   = 'Status';
-			$defaults['todo_id']  = 'ID';
+			$defaults['due_date'] = esc_html__( 'Due Date', 'wb-todo' );
+			$defaults['status']   = esc_html__( 'Status', 'wb-todo' );
+			$defaults['todo_id']  = esc_html__( 'ID', 'wb-todo' );
 			return $defaults;
 		}
 
@@ -209,7 +209,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 
 			if ( 'due_date' == $column_name ) {
 				$due_date = get_post_meta( $post_id, 'todo_due_date', true );
-				echo esc_html( date( 'F jS, Y', strtotime( $due_date ) ), 'wb-todo' );
+				echo esc_html( date( 'F jS, Y', strtotime( $due_date ) ) );
 			}
 
 			if ( 'status' == $column_name ) {
@@ -221,20 +221,20 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 				if ( $diff_days < 0 ) {
 					$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 				} elseif ( 0 == $diff_days ) {
-					$due_date_str      = __('Today is the last day to complete. Hurry Up!','wb-todo');
+					$due_date_str = esc_html__( 'Today is the last day to complete. Hurry Up!','wb-todo');
 				} else {
 					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 				}
 
 				if ( 'complete' == $todo_status ) {
-					$due_date_str      = __('Completed!','wb-todo');
+					$due_date_str = esc_html__( 'Completed!', 'wb-todo' );
 				}
 
-				echo esc_html( $due_date_str, 'wb-todo' );
+				echo esc_html( $due_date_str );
 			}
 
 			if ( 'todo_id' == $column_name ) {
-				echo esc_html( $post_id, 'wb-todo' );
+				echo esc_html( $post_id );
 			}
 		}
 
@@ -276,9 +276,9 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 					$todo_title = $todo->post_title;
 					$todo_link  = get_permalink( $item_id );
 
-					$custom_title = $profile_menu_label . ' due date arrived for task: ' . $todo_title;
+					$custom_title = sprintf( esc_html__( '%1$s due date arrived for task: %2$s', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 					$custom_link  = $todo_link;
-					$custom_text  = 'Your ' . $profile_menu_label . ': ' . $todo_title . ' is due today. Please complete it as soon as possible.';
+					$custom_text  = sprintf( esc_html__( 'Your %1$s: %2$s is due today. Please complete it as soon as possible.', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 
 					/** WP Toolbar. */
 					if ( 'string' === $format ) {

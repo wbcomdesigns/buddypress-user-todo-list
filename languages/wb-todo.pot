@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: BuddyPress User To-Do List\n"
-"POT-Creation-Date: 2018-07-18 14:32+0530\n"
+"POT-Creation-Date: 2018-11-03 16:18+0530\n"
 "PO-Revision-Date: 2018-07-18 14:32+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -54,83 +54,75 @@ msgid "Shortcodes"
 msgstr ""
 
 #: admin/inc/bptodo-general-settings.php:18
-msgid "Profile Menu Label"
+msgid "To-do Label (Singular)"
 msgstr ""
 
 #: admin/inc/bptodo-general-settings.php:20
 msgid "Label"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:21
-msgid ""
-"This label will be seen in the profile menu(Please make sure you enter "
-"\"singular\" text)."
+#: admin/inc/bptodo-general-settings.php:26
+msgid "To-dos Label (Plural)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:27
-msgid "Allow User To Add Category"
-msgstr ""
-
-#: admin/inc/bptodo-general-settings.php:33
-msgid "Allow the loggedin user to create To-Do category."
+#: admin/inc/bptodo-general-settings.php:28
+msgid "To-dos"
 msgstr ""
 
 #: admin/inc/bptodo-general-settings.php:34
+msgid "Allow User To Add Category"
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:40
+msgid "Allow the loggedin user to create To-Do category."
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:41
 msgid ""
 "Check this option if you want to allow normal users of the site to have the "
 "ability to create the To-Do category."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:40
+#: admin/inc/bptodo-general-settings.php:47
 msgid "Send Notification"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:46
+#: admin/inc/bptodo-general-settings.php:53
 msgid "Send a BP notification to the user whose To-Do due date has arrived."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:47
+#: admin/inc/bptodo-general-settings.php:54
 msgid ""
 "Check this option if you want to send notification to the member as a "
 "reminder for his/her task due date."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:53
+#: admin/inc/bptodo-general-settings.php:60
 msgid "Send Mail"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:59
+#: admin/inc/bptodo-general-settings.php:66
 msgid "Send a mail to the user whose To-Do due date has arrived."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:60
+#: admin/inc/bptodo-general-settings.php:67
 msgid ""
 "Check this option if you want to send mail to the member as a reminder for "
 "his/her task due date."
 msgstr ""
 
 #: admin/inc/bptodo-shortcodes-settings.php:20
-msgid "This shortcode will list all the "
+#, php-format
+msgid "This shortcode will list all the %1$s category wise."
 msgstr ""
 
-#: admin/inc/bptodo-shortcodes-settings.php:22
-msgid " category wise."
-msgstr ""
-
-#: admin/inc/bptodo-shortcodes-settings.php:25
+#: admin/inc/bptodo-shortcodes-settings.php:23
 msgid "Arguments accepted:"
 msgstr ""
 
-#: admin/inc/bptodo-shortcodes-settings.php:29
-msgid "category : "
-msgstr ""
-
-#: admin/inc/bptodo-shortcodes-settings.php:30
-msgid "you need to provide the category id of which the "
-msgstr ""
-
-#: admin/inc/bptodo-shortcodes-settings.php:32
-msgid " you want to show."
+#: admin/inc/bptodo-shortcodes-settings.php:28
+#, php-format
+msgid "You need to provide the category id of which the %1$s you want to show."
 msgstr ""
 
 #: admin/inc/bptodo-support.php:15
@@ -172,11 +164,12 @@ msgstr ""
 msgid "How to go for any custom development?"
 msgstr ""
 
-#: admin/inc/bptodo-support.php:42
-msgid "If you need additional help you can contact us for"
+#: admin/inc/bptodo-support.php:43
+#, php-format
+msgid "If you need additional help you can contact us for %1$s."
 msgstr ""
 
-#: admin/inc/bptodo-support.php:42
+#: admin/inc/bptodo-support.php:43
 msgid "Custom Development"
 msgstr ""
 
@@ -188,102 +181,108 @@ msgstr ""
 msgid "BuddyPress"
 msgstr ""
 
-#: inc/class-bptodo-ajax.php:96
-msgid "todo-removed"
+#: bp-user-todo-list.php:143 bp-user-todo-list.php:159
+#, php-format
+msgid "%1$s is ineffective now as it requires %2$s to be installed and active."
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:132 inc/class-bptodo-hooks.php:222
-#: inc/todo/bptodo-by-category-template.php:89
-#: inc/todo/bptodo-by-category-template.php:184
-#: inc/todo/bptodo-by-category-template.php:278
-#: inc/todo/bptodo-by-category-template.php:372 inc/todo/list.php:259
-#: inc/todo/list.php:335 inc/todo/list.php:413 inc/todo/list.php:491
-#: inc/todo/list.php:589
+#: inc/todo/bptodo-by-category-template.php:90
+#: inc/todo/bptodo-by-category-template.php:185
+#: inc/todo/bptodo-by-category-template.php:279
+#: inc/todo/bptodo-by-category-template.php:373 inc/todo/list.php:288
+#: inc/todo/list.php:364 inc/todo/list.php:442 inc/todo/list.php:520
+#: inc/todo/list.php:618
 #, php-format
 msgid "Expired %d days ago!"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:135 inc/class-bptodo-hooks.php:224
-#: inc/todo/bptodo-by-category-template.php:92
-#: inc/todo/bptodo-by-category-template.php:187
-#: inc/todo/bptodo-by-category-template.php:281
-#: inc/todo/bptodo-by-category-template.php:375 inc/todo/list.php:262
-#: inc/todo/list.php:338 inc/todo/list.php:416 inc/todo/list.php:494
-#: inc/todo/list.php:592
+#: inc/todo/bptodo-by-category-template.php:93
+#: inc/todo/bptodo-by-category-template.php:188
+#: inc/todo/bptodo-by-category-template.php:282
+#: inc/todo/bptodo-by-category-template.php:376 inc/todo/list.php:291
+#: inc/todo/list.php:367 inc/todo/list.php:445 inc/todo/list.php:523
+#: inc/todo/list.php:621
 msgid "Today is the last day to complete. Hurry Up!"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:139 inc/class-bptodo-hooks.php:226
-#: inc/todo/bptodo-by-category-template.php:95
-#: inc/todo/bptodo-by-category-template.php:190
-#: inc/todo/bptodo-by-category-template.php:284
-#: inc/todo/bptodo-by-category-template.php:378 inc/todo/list.php:265
-#: inc/todo/list.php:342 inc/todo/list.php:420 inc/todo/list.php:498
-#: inc/todo/list.php:596
+#: inc/todo/bptodo-by-category-template.php:96
+#: inc/todo/bptodo-by-category-template.php:191
+#: inc/todo/bptodo-by-category-template.php:285
+#: inc/todo/bptodo-by-category-template.php:379 inc/todo/list.php:294
+#: inc/todo/list.php:371 inc/todo/list.php:449 inc/todo/list.php:527
+#: inc/todo/list.php:625
 #, php-format
 msgid "%d days left to complete the task!"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:143 inc/class-bptodo-hooks.php:230
-#: inc/todo/bptodo-by-category-template.php:98
-#: inc/todo/bptodo-by-category-template.php:193
-#: inc/todo/bptodo-by-category-template.php:287
-#: inc/todo/bptodo-by-category-template.php:381 inc/todo/list.php:268
-#: inc/todo/list.php:346 inc/todo/list.php:424 inc/todo/list.php:502
-#: inc/todo/list.php:600
+#: inc/todo/bptodo-by-category-template.php:99
+#: inc/todo/bptodo-by-category-template.php:194
+#: inc/todo/bptodo-by-category-template.php:288
+#: inc/todo/bptodo-by-category-template.php:382 inc/todo/list.php:297
+#: inc/todo/list.php:375 inc/todo/list.php:453 inc/todo/list.php:531
+#: inc/todo/list.php:629
 msgid "Completed!"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:150 inc/todo/add.php:93 inc/todo/edit.php:111
-#: inc/todo/list.php:275 inc/todo/list.php:353 inc/todo/list.php:431
-#: inc/todo/list.php:509 inc/todo/list.php:607
+#: inc/todo/list.php:304 inc/todo/list.php:382 inc/todo/list.php:460
+#: inc/todo/list.php:538 inc/todo/list.php:636
 msgid "Critical"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:153 inc/todo/add.php:94 inc/todo/edit.php:112
-#: inc/todo/list.php:278 inc/todo/list.php:356 inc/todo/list.php:434
-#: inc/todo/list.php:512 inc/todo/list.php:610
+#: inc/todo/list.php:307 inc/todo/list.php:385 inc/todo/list.php:463
+#: inc/todo/list.php:541 inc/todo/list.php:639
 msgid "High"
 msgstr ""
 
 #: inc/class-bptodo-ajax.php:156 inc/todo/add.php:95 inc/todo/edit.php:113
-#: inc/todo/list.php:281 inc/todo/list.php:359 inc/todo/list.php:437
-#: inc/todo/list.php:515 inc/todo/list.php:613
+#: inc/todo/list.php:310 inc/todo/list.php:388 inc/todo/list.php:466
+#: inc/todo/list.php:544 inc/todo/list.php:642
 msgid "Normal"
 msgstr ""
 
-#: inc/class-bptodo-ajax.php:165 inc/todo/bptodo-by-category-template.php:131
-#: inc/todo/bptodo-by-category-template.php:226
-#: inc/todo/bptodo-by-category-template.php:320
-#: inc/todo/bptodo-by-category-template.php:414
+#: inc/class-bptodo-ajax.php:165 inc/todo/bptodo-by-category-template.php:132
+#: inc/todo/bptodo-by-category-template.php:227
+#: inc/todo/bptodo-by-category-template.php:321
+#: inc/todo/bptodo-by-category-template.php:415 inc/todo/list.php:333
+#: inc/todo/list.php:411 inc/todo/list.php:567 inc/todo/list.php:656
 #, php-format
-msgid "Remove: %s "
+msgid "Remove: %s"
 msgstr ""
 
-#: inc/class-bptodo-ajax.php:168 inc/todo/bptodo-by-category-template.php:133
-#: inc/todo/bptodo-by-category-template.php:228
-#: inc/todo/bptodo-by-category-template.php:322
-#: inc/todo/bptodo-by-category-template.php:416
-#, php-format
-msgid "Edit: %s "
-msgstr ""
-
-#: inc/class-bptodo-ajax.php:169 inc/todo/bptodo-by-category-template.php:134
+#: inc/class-bptodo-ajax.php:168 inc/todo/bptodo-by-category-template.php:134
 #: inc/todo/bptodo-by-category-template.php:229
 #: inc/todo/bptodo-by-category-template.php:323
-#: inc/todo/bptodo-by-category-template.php:417
+#: inc/todo/bptodo-by-category-template.php:417 inc/todo/list.php:336
+#: inc/todo/list.php:413 inc/todo/list.php:491 inc/todo/list.php:569
+#: inc/todo/list.php:658
 #, php-format
-msgid "Complete: %s "
+msgid "Edit: %s"
 msgstr ""
 
-#: inc/class-bptodo-ajax.php:171 inc/todo/bptodo-by-category-template.php:136
-#: inc/todo/bptodo-by-category-template.php:231
-#: inc/todo/bptodo-by-category-template.php:325
-#: inc/todo/bptodo-by-category-template.php:419 inc/todo/list.php:310
-#: inc/todo/list.php:387 inc/todo/list.php:465 inc/todo/list.php:543
-#: inc/todo/list.php:632
+#: inc/class-bptodo-ajax.php:169 inc/todo/bptodo-by-category-template.php:135
+#: inc/todo/bptodo-by-category-template.php:230
+#: inc/todo/bptodo-by-category-template.php:324
+#: inc/todo/bptodo-by-category-template.php:418 inc/todo/list.php:337
+#: inc/todo/list.php:414 inc/todo/list.php:492 inc/todo/list.php:570
+#: inc/todo/list.php:659
 #, php-format
-msgid " Undo Complete: %s "
+msgid "Complete: %s"
+msgstr ""
+
+#: inc/class-bptodo-ajax.php:171 inc/todo/bptodo-by-category-template.php:137
+#: inc/todo/bptodo-by-category-template.php:232
+#: inc/todo/bptodo-by-category-template.php:326
+#: inc/todo/bptodo-by-category-template.php:420 inc/todo/list.php:339
+#: inc/todo/list.php:416 inc/todo/list.php:494 inc/todo/list.php:572
+#: inc/todo/list.php:661
+#, php-format
+msgid "Undo Complete: %s"
 msgstr ""
 
 #: inc/class-bptodo-cpt.php:44 inc/class-bptodo-cpt.php:46
@@ -359,6 +358,28 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
+#: inc/class-bptodo-globals.php:113
+msgid "To-Do"
+msgstr ""
+
+#: inc/class-bptodo-globals.php:114
+msgid "To-Dos"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:76
+msgid "BP Task - WordPress"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:77
+#, php-format
+msgid "Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:127
+#, php-format
+msgid "Add %1$s"
+msgstr ""
+
 #: inc/class-bptodo-hooks.php:165
 msgid "List"
 msgstr ""
@@ -368,22 +389,59 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: inc/class-bptodo-profile-menu.php:55
-msgid " <span class=\"count\">"
+#: inc/class-bptodo-hooks.php:191 inc/todo/add.php:79 inc/todo/add.php:82
+#: inc/todo/bptodo-by-category-template.php:70
+#: inc/todo/bptodo-by-category-template.php:165
+#: inc/todo/bptodo-by-category-template.php:259
+#: inc/todo/bptodo-by-category-template.php:353 inc/todo/edit.php:97
+#: inc/todo/edit.php:100 inc/todo/list.php:265
+msgid "Due Date"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:192
+msgid "Status"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:193
+msgid "ID"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:279
+#, php-format
+msgid "%1$s due date arrived for task: %2$s"
+msgstr ""
+
+#: inc/class-bptodo-hooks.php:281
+#, php-format
+msgid "Your %1$s: %2$s is due today. Please complete it as soon as possible."
 msgstr ""
 
 #: inc/class-bptodo-profile-menu.php:118
 #, php-format
-msgid " Edit %1s : %2s "
+msgid "Edit %1$s : %2$s"
 msgstr ""
 
 #: inc/class-bptodo-profile-menu.php:120
 #, php-format
-msgid " Add a new %s in your list "
+msgid "Add a new %1$s in your list"
 msgstr ""
 
-#: inc/class-bptodo-profile-menu.php:164
-msgid " List"
+#: inc/class-bptodo-profile-menu.php:163
+#, php-format
+msgid "%1$s List"
+msgstr ""
+
+#: inc/class-bptodo-scripts.php:68
+#, php-format
+msgid "My %1$s"
+msgstr ""
+
+#: inc/class-bptodo-scripts.php:69
+msgid "Category name is required."
+msgstr ""
+
+#: inc/class-bptodo-scripts.php:70
+msgid "Undo Complete"
 msgstr ""
 
 #: inc/todo/add.php:26 inc/todo/edit.php:37
@@ -395,6 +453,11 @@ msgstr ""
 msgid "--Select--"
 msgstr ""
 
+#: inc/todo/add.php:44 inc/todo/edit.php:62
+#, php-format
+msgid "%1$s category"
+msgstr ""
+
 #: inc/todo/add.php:55 inc/todo/add.php:58 inc/todo/edit.php:73
 #: inc/todo/edit.php:76
 msgid "Title"
@@ -404,76 +467,67 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-#: inc/todo/add.php:79 inc/todo/add.php:82
-#: inc/todo/bptodo-by-category-template.php:69
-#: inc/todo/bptodo-by-category-template.php:164
-#: inc/todo/bptodo-by-category-template.php:258
-#: inc/todo/bptodo-by-category-template.php:352 inc/todo/edit.php:97
-#: inc/todo/edit.php:100 inc/todo/list.php:235
-msgid "Due Date"
-msgstr ""
-
-#: inc/todo/add.php:88 inc/todo/edit.php:106 inc/todo/list.php:233
-#: inc/todo/list.php:568
+#: inc/todo/add.php:88 inc/todo/edit.php:106 inc/todo/list.php:263
+#: inc/todo/list.php:597
 msgid "Priority"
 msgstr ""
 
 #: inc/todo/add.php:104
 #, php-format
-msgid " Submit %s "
+msgid "Submit %s"
 msgstr ""
 
 #: inc/todo/bptodo-by-category-template-loggedout-user.php:13
 msgid "You need to be loggedin to view the todo items."
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:60
+#: inc/todo/bptodo-by-category-template.php:61
 msgid "PAST"
-msgstr ""
-
-#: inc/todo/bptodo-by-category-template.php:67
-#: inc/todo/bptodo-by-category-template.php:162
-#: inc/todo/bptodo-by-category-template.php:256
-#: inc/todo/bptodo-by-category-template.php:350 inc/todo/list.php:234
-#: inc/todo/list.php:569
-msgid "Task"
 msgstr ""
 
 #: inc/todo/bptodo-by-category-template.php:68
 #: inc/todo/bptodo-by-category-template.php:163
 #: inc/todo/bptodo-by-category-template.php:257
-#: inc/todo/bptodo-by-category-template.php:351
+#: inc/todo/bptodo-by-category-template.php:351 inc/todo/list.php:264
+#: inc/todo/list.php:598
+msgid "Task"
+msgstr ""
+
+#: inc/todo/bptodo-by-category-template.php:69
+#: inc/todo/bptodo-by-category-template.php:164
+#: inc/todo/bptodo-by-category-template.php:258
+#: inc/todo/bptodo-by-category-template.php:352
 msgid "Task Description"
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:70
-#: inc/todo/bptodo-by-category-template.php:165
-#: inc/todo/bptodo-by-category-template.php:259
-#: inc/todo/bptodo-by-category-template.php:353
+#: inc/todo/bptodo-by-category-template.php:71
+#: inc/todo/bptodo-by-category-template.php:166
+#: inc/todo/bptodo-by-category-template.php:260
+#: inc/todo/bptodo-by-category-template.php:354
 msgid "Mark Complete"
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:249
+#: inc/todo/bptodo-by-category-template.php:250
 msgid "TOMORROW"
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:343
+#: inc/todo/bptodo-by-category-template.php:344
 msgid "SOMEDAY"
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:349
+#: inc/todo/bptodo-by-category-template.php:350
 msgid "Sr. No."
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:439
+#: inc/todo/bptodo-by-category-template.php:444
 msgid "There are no todos in this category."
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:446
+#: inc/todo/bptodo-by-category-template.php:455
 msgid "Please provide a valid category ID."
 msgstr ""
 
-#: inc/todo/bptodo-by-category-template.php:453
+#: inc/todo/bptodo-by-category-template.php:466
 msgid "Please provide any category ID."
 msgstr ""
 
@@ -482,30 +536,64 @@ msgstr ""
 msgid "Update %s"
 msgstr ""
 
-#: inc/todo/list.php:186
+#: inc/todo/list.php:154
+#, php-format
+msgid "Sorry, no %1$s found."
+msgstr ""
+
+#: inc/todo/list.php:168
+#, php-format
+msgid "%1$s added successfully !"
+msgstr ""
+
+#: inc/todo/list.php:182
+#, php-format
+msgid "%1$s updated successfully !"
+msgstr ""
+
+#: inc/todo/list.php:191
+msgid "Task Progress"
+msgstr ""
+
+#: inc/todo/list.php:197 inc/todo/list.php:253
+msgid "Completed"
+msgstr ""
+
+#: inc/todo/list.php:204
+msgid "Dashboard"
+msgstr ""
+
+#: inc/todo/list.php:208
 msgid "At a Glance"
 msgstr ""
 
-#: inc/todo/list.php:236 inc/todo/list.php:570
+#: inc/todo/list.php:218
+#, php-format
+msgid "Total %1$s"
+msgstr ""
+
+#: inc/todo/list.php:230
+#, php-format
+msgid "%1$s Remaining"
+msgstr ""
+
+#: inc/todo/list.php:241
+#, php-format
+msgid "%1$s Completed"
+msgstr ""
+
+#: inc/todo/list.php:251
+#, php-format
+msgid "All %1$s"
+msgstr ""
+
+#: inc/todo/list.php:266 inc/todo/list.php:599
 msgid "Actions"
 msgstr ""
 
-#: inc/todo/list.php:304 inc/todo/list.php:382 inc/todo/list.php:460
-#: inc/todo/list.php:538 inc/todo/list.php:627
+#: inc/todo/list.php:489
 #, php-format
-msgid " Remove: %s "
-msgstr ""
-
-#: inc/todo/list.php:307 inc/todo/list.php:384 inc/todo/list.php:462
-#: inc/todo/list.php:540 inc/todo/list.php:629
-#, php-format
-msgid " Edit: %s "
-msgstr ""
-
-#: inc/todo/list.php:308 inc/todo/list.php:385 inc/todo/list.php:463
-#: inc/todo/list.php:541 inc/todo/list.php:630
-#, php-format
-msgid " Complete: %s "
+msgid "Remove: %s "
 msgstr ""
 
 #. Plugin Name of the plugin/theme

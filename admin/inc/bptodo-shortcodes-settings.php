@@ -17,19 +17,15 @@ global $bptodo;
 			<td>
 				<p>
 					<?php
-						esc_html_e( 'This shortcode will list all the ', 'wb-todo' );
-						echo esc_html( $bptodo->profile_menu_label_plural, 'wb-todo' );
-						esc_html_e( ' category wise.', 'wb-todo' );
+						echo sprintf( esc_html__( 'This shortcode will list all the %1$s category wise.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
 					?>
 				</p>
 				<p class="description"><?php esc_html_e( 'Arguments accepted:', 'wb-todo' ); ?></p>
 				<ol type="1">
 					<li>
 						<?php
-							esc_html_e( 'category : ', 'wb-todo' );
-							esc_html_e( 'you need to provide the category id of which the ', 'wb-todo' );
-							echo esc_html( $bptodo->profile_menu_label_plural, 'wb-todo' );
-							esc_html_e( ' you want to show.', 'wb-todo' );
+							echo esc_html( 'category : ' );
+							echo sprintf( esc_html__( 'You need to provide the category id of which the %1$s you want to show.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
 						?>
 					</li>
 				</ol>

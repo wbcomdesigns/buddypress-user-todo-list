@@ -52,7 +52,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 				$name     = bp_get_displayed_user_username();
 				$tab_args = array(
-					'name'                    => __( $profile_menu_label . ' <span class="count">' . $my_todo_items . '</span>', 'wb-todo' ),
+					'name'                    => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 					'slug'                    => $profile_menu_slug,
 					'screen_function'         => array( $this, 'todo_tab_function_to_show_screen' ),
 					'position'                => 75,
@@ -64,7 +64,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 				/** Add subnav add new todo item. */
 				bp_core_new_subnav_item(
 					array(
-						'name'            => __( 'Add', 'wb-todo' ),
+						'name'            => esc_html__( 'Add', 'wb-todo' ),
 						'slug'            => 'add',
 						'parent_url'      => $todo_menu_link . '/',
 						'parent_slug'     => $parent_slug,
@@ -77,11 +77,11 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 				/** Add subnav todo list items. */
 				bp_core_new_subnav_item(
 					array(
-						'name'            => __( $profile_menu_label_plural, 'wb-todo' ),
+						'name'            => $profile_menu_label_plural,
 						'slug'            => 'list',
 						'parent_url'      => $todo_menu_link . '/',
 						'parent_slug'     => $parent_slug,
-						'screen_function' => array( $this, 'bpchk_todo_list_show_screen' ),
+						'screen_function' => array( $this, 'wbbp_todo_list_show_screen' ),
 						'position'        => 100,
 						'link'            => $todo_menu_link . '/list',
 					)
@@ -115,9 +115,9 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			if ( isset( $_GET['args'] ) ) {
 				$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
 				$todo    = get_post( $todo_id );
-				printf( esc_html__( ' Edit %1s : %2s ', 'wb-todo' ), $profile_menu_slug, $todo->post_title );
+				echo sprintf( esc_html__( 'Edit %1$s : %2$s', 'wb-todo' ), esc_html( $profile_menu_slug ), esc_html( $todo->post_title ) );
 			} else {
-				printf( esc_html__( ' Add a new %s in your list ', 'wb-todo' ), $profile_menu_slug );
+				echo sprintf( esc_html__( 'Add a new %1$s in your list', 'wb-todo' ), esc_html( $profile_menu_slug ) );
 			}
 		}
 
@@ -143,7 +143,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		 * @since   1.0.0
 		 * @access  public
 		 */
-		public function bpchk_todo_list_show_screen() {
+		public function wbbp_todo_list_show_screen() {
 			add_action( 'bp_template_title', array( $this, 'list_todo_tab_function_to_show_title' ) );
 			add_action( 'bp_template_content', array( $this, 'list_todo_tab_function_to_show_content' ) );
 			bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
@@ -160,8 +160,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			global $bptodo;
 			$profile_menu_label = $bptodo->profile_menu_label;
 			echo '<h4>';
-			esc_html_e( $profile_menu_label, 'wb-todo' );
-			esc_html_e( ' List', 'wp-todo' );
+			echo sprintf( esc_html__( '%1$s List', 'wb-todo' ), esc_html( $profile_menu_label ) );
 			$args  = array(
 				'post_type'      => 'bp-todo',
 				'author'         => bp_displayed_user_id(),

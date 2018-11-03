@@ -60,10 +60,14 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 				}
 
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION );
+	
 				wp_localize_script(
 					'bptodo-js-front', 'todo_ajax_object', array(
-						'ajax_url'   => admin_url( 'admin-ajax.php' ),
-						'ajax_nonce' => wp_create_nonce( 'bptodo-todo-nonce' )
+						'ajax_url'            => admin_url( 'admin-ajax.php' ),
+						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
+						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
+						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' )
 					)
 				);
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );

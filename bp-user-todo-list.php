@@ -3,7 +3,7 @@
  * Plugin Name: BuddyPress User To-Do List
  * Plugin URI: https://wbcomdesigns.com/contact/
  * Description: This plugin allows users to create to do items in their profile section and simple interface to schedule your task.
- * Version: 1.0.5
+ * Version: 1.0.6
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -42,7 +42,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-	define( 'BPTODO_VERSION', '1.0.5' );
+	define( 'BPTODO_VERSION', '1.0.6' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -90,8 +90,8 @@ function run_wp_bptodo_list() {
  */
 function bptodo_admin_page_link( $links ) {
 	$bptodo_links = array(
-		'<a href="' . admin_url( 'edit.php?post_type=bp-todo&page=user-todo-list-settings' ) . '">' . __( 'Settings', 'wb-todo' ) . '</a>',
-		'<a href="https://wbcomdesigns.com/contact/" target="_blank">' . __( 'Support', 'wb-todo' ) . '</a>',
+		'<a href="' . admin_url( 'edit.php?post_type=bp-todo&page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
+		'<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'wb-todo' ) . '</a>',
 	);
 	return array_merge( $links, $bptodo_links );
 }
@@ -137,10 +137,10 @@ function bptodo_plugin_init() {
  * @since   1.0.0
  */
 function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = __( 'BuddyPress Member To-Do List', 'wb-todo' );
-	$bp_plugin     = __( 'BuddyPress', 'wb-todo' );
+	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
 
-	echo '<div class="error"><p>' . sprintf( esc_html( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 	if ( isset( $_GET['activate'] ) ) {
 		unset( $_GET['activate'] );
 	}
@@ -153,10 +153,10 @@ function bptodo_plugin_admin_notice() {
  * @since   1.0.0
  */
 function bptodo_network_plugin_admin_notice() {
-	$bptodo_plugin = __( 'BuddyPress Member To-Do List', 'wb-todo' );
-	$bp_plugin     = __( 'BuddyPress', 'wb-todo' );
+	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
 
-	echo '<div class="error"><p>' . sprintf( esc_html( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
+	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 	if ( isset( $_GET['activate'] ) ) {
 		unset( $_GET['activate'] );
 	}
