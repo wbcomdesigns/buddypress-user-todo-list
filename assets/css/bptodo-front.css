@@ -285,8 +285,9 @@ a:focus, button:focus{
 
 .bptodo-progress-section .task-progress-task-count-wrap {
     position: absolute;
-    top: 38px;
+    top: 36px;
     min-width: 100px;
+    z-index: 1;
 }
 
 .bp-nouveau .bptodo-progress-section .task-progress-task-count-wrap {
