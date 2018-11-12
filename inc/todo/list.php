@@ -184,7 +184,7 @@ if ( empty( $todos ) ) {
 				</div>
 	<?php } ?>
 
-	<div class="bptodo-adming-setting">
+	<section class="bptodo-adming-setting">
 		<div class="bptodo-admin-settings-block">
 
 			<div class="bptodo-progress-section">
@@ -675,6 +675,6 @@ if ( empty( $todos ) ) {
 							</div>
 						</div>
 					</div>
-				</div>
+				</section>
 				<?php
 } ?>
