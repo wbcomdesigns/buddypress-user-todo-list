@@ -1,13 +1,17 @@
 .todo-completed {
     text-decoration: line-through;
 }
-.add-todo-cat-row{
+
+.add-todo-cat-row {
     display: none;
     margin-top: 15px;
 }
-.bptodo-expires-today, .bptodo-expired {
+
+.bptodo-expires-today,
+.bptodo-expired {
     color: red;
 }
+
 .bptodo-add-todo-success {
     border: 1px solid #EEEEEE;
     padding: 10px;
@@ -16,23 +20,27 @@
     margin-bottom: 5px;
     vertical-align: middle;
 }
+
 .bptodo-add-todo-success p {
     color: #0F9200;
 }
 
 /** TODO LIST CSS **/
-.bptodo-adming-setting{
+.bptodo-adming-setting {
     /*	float: left;*/
     width: 100%;
 }
-#export_my_tasks{
+
+#export_my_tasks {
     color: #000 !important;
     margin-left: 15px;
 }
+
 button.bptodo-item:focus {
     background-color: #eee;
     outline: none;
 }
+
 button.bptodo-item {
     background-color: #EEE;
     border: medium none;
@@ -47,9 +55,11 @@ button.bptodo-item {
     width:100%;
     font-weight: bold;
 }
+
 button.bptodo-item:hover {
     background-color: #C1C1C1 !important;
 }
+
 div.panel {
     padding: 0 0px;
     background-color: white;
@@ -58,6 +68,7 @@ div.panel {
     transition: max-height 0.2s ease-out;
     margin:0px 5%;
 }
+
 button.bptodo-item::after {
     color: hsl(0, 0%, 47%);
     content: "+";
@@ -66,44 +77,50 @@ button.bptodo-item::after {
     font-weight: bolder;
     margin-left: 5px;
 }
+
 button.bptodo-item::after:hover {
     color: #fff;
 }
+
 button.bptodo-item.active::after {
     content: "−";
     color: #000;
 }
-.bptodo-admin-row{
+
+.bptodo-admin-row {
     clear: both;
     overflow: hidden;
     padding-bottom: 5px;
 }
-.bptodo-item-accord{
+
+.bptodo-item-accord {
     margin-left: 0px;
 }
+
 .bptodo-admin-row div.panel {
     margin: 0px;
 }
-table.bp-todo-reminder
-th {
+
+table.bp-todo-reminder th {
     background: #f9f9f9;
     border: none;
     text-align: center;
 }
+
 table.bp-todo-reminder {
+    width: 100%;
     border: none;
 }
 
 table.bp-todo-reminder tbody
 td.bp-to-do-actions ul li {
     display: inline-block;
-    margin: 0px 6px;
+    margin: 4px;
 
 }
 
 table.bp-todo-reminder tbody
 td.bp-to-do-actions ul li a {
-
     background: #dedede;
     border-radius: 50px;
     height: 25px;
@@ -120,21 +137,25 @@ td.bp-to-do-actions ul li a:hover {
     color: #fff;
     background: #2094f4;
 }
-table.bp-todo-reminder tbody
-td {
+table.bp-todo-reminder tbody td {
     text-align: center;
+    padding: 10px 0;
 }
 
 td.bp-to-do-actions ul {
-    margin: 0px;
+    margin: 0;
+    padding: 0;
 }
+
 .add-todo-category i {
     margin-left: 10px;
     font-size: 22px;
 }
+
 .buddyboss-select {
     width: 50%;
 }
+
 .add-todo-cat-row input {
     width: 50%;
 }
@@ -142,35 +163,48 @@ td.bp-to-do-actions ul {
 .bptodo-add-cat-empty::-webkit-input-placeholder {
     color: red;
 }
-.bptodo-add-todo-tbl, .bptodo-add-todo-tbl th, .bptodo-add-todo-tbl td {
+
+.bptodo-add-todo-tbl,
+.bptodo-add-todo-tbl th,
+.bptodo-add-todo-tbl td {
     border: none;
     /*vertical-align: top!important;*/
 }
-.bptodo-add-todo-tbl{
+
+.bptodo-add-todo-tbl {
     width: 100%;
 }
+
+table.bptodo-add-todo-tbl tbody tr td {
+    padding: 10px 0;
+}
+
 #bptodo-calender .buddyboss-select-inner select {
     width: 100%!important;
 }
+
 .bp-user #buddypress table a {
     color: #000 !important;
 }
-a:focus, button:focus{
+
+a:focus,
+button:focus {
     outline: none !important;
 }
-.bptodo-form-add input[type="text"], textarea{
+
+.bptodo-form-add input[type="text"], textarea {
     width:100%!important;
 }
-#todo-category-name{
+
+#todo-category-name {
     width: 70% !important;
 }
-#add-todo-cat{
+
+#add-todo-cat {
     width:25% !important;
     margin: 0px 0px 0px 5px;
     padding: 10px !important;
 }
-
-
 
 /*** 26/12/2017 ***/
 
@@ -184,15 +218,17 @@ a:focus, button:focus{
 #bptodo-dashboard ul {
     margin: 0!important;
     padding: 0!important;
+    list-style: none;
 }
 
 #bptodo-dashboard ul li {
-    width: 32.8%;
+    width: 100%;
     font-size: 14px;
     text-align: center;
     border: 1px solid #ddd;
     background: #f9f9f9;
     display: inline-block;
+    margin: 5px;
     padding: 10px;
     border-radius: 5px;
 }
@@ -205,8 +241,8 @@ a:focus, button:focus{
     box-sizing: border-box!important;
 }
 
-#bptodo-dashboard-box{
-    display: block!important;
+#bptodo-dashboard-box {
+    display: flex;
     position: relative!important;
     overflow: hidden!important;
 }
@@ -245,9 +281,11 @@ a:focus, button:focus{
     margin-bottom: -1px;
 }
 
-#bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a, #bptodo-tabs.ui-tabs .ui-tabs-nav li a {
+#bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
+#bptodo-tabs.ui-tabs .ui-tabs-nav li a {
     font-size: 14px;
     color: #399dff;
+    border: 0;
 }
 
 .bp-todo-dashboard-at-a-glance-box h4 {
@@ -258,7 +296,6 @@ a:focus, button:focus{
 .bptodo-light-grey {
     background-color: #ccc;
     position: relative;
-    margin-top: 5%;
 }
 
 .bptodo-color {
@@ -285,17 +322,13 @@ a:focus, button:focus{
 
 .bptodo-progress-section .task-progress-task-count-wrap {
     position: relative;
-    /*    top: 36px;*/
+    top: -5px;
     min-width: 100px;
     z-index: 1;
 }
 
-.bp-nouveau .bptodo-progress-section .task-progress-task-count-wrap {
-    top: 55px;
-}
-
 .bptodo-progress-section h5 {
-    margin: 0 0 3rem;
+    margin: 0 0 2rem;
 }
 
 .bptodo-progress-section .task-progress-task-count {
@@ -307,8 +340,6 @@ a:focus, button:focus{
 .bptodo-progress-section .task-progress-task-count {
     display: inline-block;
     text-align: center;
-    position: absolute;
-    top: -40px;
     font-size: 10px;
     background: #616161;
     color: #fff;
@@ -332,8 +363,13 @@ a:focus, button:focus{
     background: 0;
 }
 
-#bptodo-task-tabs.ui-tabs .ui-tabs-panel {
-    border: 0 !important;
+.ui-tabs #bptodo-dashboard.ui-tabs-panel,
+.ui-tabs #bptodo-todos.ui-tabs-panel {
+    border-width: 1px;
+}
+
+#bptodo-tabs .ui-tabs-panel > h2 {
+    padding: 0 5px;
 }
 
 #bptodo-task-tabs .ui-widget-header {
@@ -346,10 +382,12 @@ a:focus, button:focus{
     border-radius: 5px;
     background: #fff;
     font-weight: normal;
+    margin-right: 10px;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
     color: #000;
+    border: 0;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
@@ -363,7 +401,9 @@ a:focus, button:focus{
     color: #3a9dfb;
 }
 
-.bp_all_todo_count, .bp_completed_todo_count {
+.bp_all_todo_count,
+.bp_completed_todo_count,
+#bptodo-task-tabs .ui-tabs-nav li a span {
     display: inline-block;
     background-color: #d54e21;
     color: #fff;
@@ -377,38 +417,67 @@ a:focus, button:focus{
     font-size: 11px;
 }
 
+#bptodo-task-tabs .ui-tabs-nav li a span {
+    position: relative;
+    width: auto;
+    height: auto;
+    top: 0;
+    bottom: 0;
+}
+
 /*** To-do Priority css ***/
-.bptodo-priority .bptodo-priority-critical {
-    width: 55px;
+table.bp-todo-reminder tbody td.bptodo-priority {
+    width: 140px;
+}
+
+.bptodo-priority .bptodo-priority-critical,
+.bptodo-priority .bptodo-priority-high,
+.bptodo-priority .bptodo-priority-normal {
+    display: inline-block;
+    width: 100%;
+    max-width: 100px;
     margin: 0 auto;
+    padding: 2px 5px;
+    font-size: 14px;
     color: #fff;
     background: #f44336;
-    width: 80%;
-    display: block;
 }
 
 .bptodo-priority .bptodo-priority-high {
-    width: 55px;
-    margin: 0 auto;
-    color: #fff;
     background: #FB8C00;
-    width: 80%;
-    display: block;
 }
 
 .bptodo-priority .bptodo-priority-normal {
-    width: 55px;
-    margin: 0 auto;
-    color: #fff;
     background: #4CAF50;
-    width: 80%;
-    display: block;
+}
+
+/* BuddyPress Nouveau Fixes */
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h1,
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h2,
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h3,
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h4,
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h5,
+body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
+    margin: 0 0 15px;
+}
+
+.bp-nouveau.buddypress .buddypress-wrap #insert-media-button {
+    padding: 0 10px 1px;
 }
 
 /* Media Query */
 @media only screen and (max-width: 543px) {
+    .todo-detail {
+        overflow-x: auto;
+    }
+
+    #bptodo-dashboard-box {
+        display: block;
+    }
+
     #bptodo-dashboard ul li {
         width: 100%;
+        margin: 0;
         margin-bottom: 10px;
     }
 
@@ -419,9 +488,5 @@ a:focus, button:focus{
     #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
     #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
         margin-bottom: 10px;
-    }
-
-    table.bp-todo-reminder tbody td.bp-to-do-actions ul li a {
-        margin: 3px 0;
     }
 }
