@@ -45,8 +45,9 @@ The screenshots are present in the root of the plugin folder.
 
 == Changelog ==
 
-= 1.0.7 =
+= 2.0.0 =
 * Fix - Compatibility with BuddyPress 4.1.0 #41
+* Enhancement- Improve Backend UI where you can manage all wbcom plugin's settings at one place. #43
 
 = 1.0.6 =
 * Fix - Fixed Translation issues.

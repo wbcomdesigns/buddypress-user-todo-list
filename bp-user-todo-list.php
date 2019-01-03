@@ -91,7 +91,7 @@ function run_wp_bptodo_list() {
  */
 function bptodo_admin_page_link( $links ) {
 	$bptodo_links = array(
-		'<a href="' . admin_url( 'edit.php?post_type=bp-todo&page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
+		'<a href="' . admin_url("admin.php?page=user-todo-list-settings") . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
 		'<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'wb-todo' ) . '</a>',
 	);
 	return array_merge( $links, $bptodo_links );
