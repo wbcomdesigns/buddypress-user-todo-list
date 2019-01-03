@@ -45,7 +45,9 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 			if ( ( strpos( $_SERVER['REQUEST_URI'], $profile_menu_slug ) !== false ) || isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) ) {
 				/** JQuery UI Datepicker CSS. */
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
-				wp_enqueue_style( 'bptodo-css-fa', BPTODO_PLUGIN_URL . 'assets/css/font-awesome.min.css', array(), BPTODO_VERSION );
+				if ( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
+					wp_enqueue_style( 'font-awesome', '//use.fontawesome.com/releases/v5.5.0/css/all.css' );
+				}
 
 				if ( ! wp_script_is( 'jquery' ) ) {
 					wp_enqueue_script( 'jquery' );
@@ -83,10 +85,9 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_admin_variables() {
-			if ( strpos( $_SERVER['REQUEST_URI'], 'bp-todo' ) !== false ) {
-				wp_enqueue_style( 'bptodo-css-fa', BPTODO_PLUGIN_URL . 'admin/assets/css/font-awesome.min.css', array(), BPTODO_VERSION );
-				wp_enqueue_style( 'bptodo-css-admin', BPTODO_PLUGIN_URL . 'admin/assets/css/bptodo-admin.css', array(), BPTODO_VERSION );
-				wp_enqueue_script( 'bptodo-js-admin', BPTODO_PLUGIN_URL . 'admin/assets/js/bptodo-admin.js', array( 'jquery' ), BPTODO_VERSION );
+			$screen = get_current_screen();
+			if ( 'wb-plugins_page_user-todo-list-settings' === $screen->base ) {	
+				wp_enqueue_style( 'bptodo-css-admin', BPTODO_PLUGIN_URL . 'admin/assets/css/bptodo-admin.css', array() );
 			}
 		}
 	}

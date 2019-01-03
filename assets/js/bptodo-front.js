@@ -60,9 +60,9 @@ jQuery( document ).ready( function () {
         jQuery( '.add-todo-cat-row' ).slideToggle( 'slow' );
         var element_height = jQuery('.add-todo-cat-row').css('height').match(/\d+/);
         if( element_height[0] > 5 ) {
-            jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
+            jQuery('.add-todo-category i').attr('class', 'fas fa-plus');
         } else {
-            jQuery('.add-todo-category i').attr('class', 'fa fa-minus');
+            jQuery('.add-todo-category i').attr('class', 'fas fa-minus');
         }
 
     });
@@ -90,7 +90,7 @@ jQuery( document ).ready( function () {
                         jQuery( '.add-todo-cat-row' ).hide();
                         jQuery( '#add-todo-cat' ).html( btn_text );
                         jQuery( '#todo-category-name' ).val('');
-                        jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
+                        jQuery('.add-todo-category i').attr('class', 'fas fa-plus');
                     }
                 }
             );

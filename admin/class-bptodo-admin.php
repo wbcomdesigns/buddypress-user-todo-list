@@ -60,7 +60,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			add_action( 'admin_menu', array( $this, 'bptodo_add_menu_page' ) );
 			add_action( 'admin_init', array( $this, 'bptodo_register_general_settings' ) );
 			add_action( 'admin_init', array( $this, 'bptodo_register_shortcode_settings' ) );
-			add_action( 'admin_init', array( $this, 'bptodo_register_support_settings' ) );
 			$this->bptodo_save_general_settings();
 		}
 
@@ -72,7 +71,11 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_add_menu_page() {
-			add_submenu_page( 'edit.php?post_type=bp-todo', esc_html__( 'BuddyPress Member To-Do List Settings', 'wb-todo' ), esc_html__( 'Settings', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
+			if ( empty ( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) ) {
+				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
+			 	add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
+			}
+			add_submenu_page( 'wbcomplugins', esc_html__( 'BP User To-Do List', 'wb-todo' ), esc_html__( 'BP User To-Do List', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
 		}
 
 		/**
@@ -87,16 +90,16 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			?>
 			<div class="wrap">
 				<div class="bptodo-header">
-					<h1 class="bptodo-plugin-heading"><?php esc_html_e( 'BuddyPress Member To-Do List Settings', 'wb-todo' ); ?></h1>
-					<?php $this->bptodo_show_notice(); ?>
-					<div class="bptodo-extra-actions">
-						<button type="button" class="button button-secondary" onclick="window.open('https://wbcomdesigns.com/contact/', '_blank');"><i class="fa fa-envelope" aria-hidden="true"></i> <?php esc_html_e( 'Email Support', 'wb-todo' ); ?></button>
-						<button type="button" class="button button-secondary" onclick="window.open('https://wbcomdesigns.com/helpdesk/article-categories/bp-user-to-do-list/', '_blank');"><i class="fa fa-file" aria-hidden="true"></i> <?php esc_html_e( 'User Manual', 'wb-todo' ); ?></button>
-						<button type="button" class="button button-secondary" onclick="window.open('https://wordpress.org/support/plugin/bp-user-to-do-list/reviews/', '_blank');"><i class="fa fa-star" aria-hidden="true"></i> <?php esc_html_e( 'Rate Us on WordPress.org', 'wb-todo' ); ?></button>
-					</div>
+					<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
+					<h1 class="wbcom-plugin-heading">
+						<?php esc_html_e( 'BuddyPress User To-Do List Settings', 'wb-todo' ); ?>
+					</h1>					
 				</div>
-				<?php $this->bptodo_plugin_settings_tabs(); ?>
-				<?php do_settings_sections( $tab ); ?>
+				<?php $this->bptodo_show_notice(); ?>
+				<div class="wbcom-admin-settings-page">					
+					<?php $this->bptodo_plugin_settings_tabs(); ?>
+					<?php do_settings_sections( $tab ); ?>
+				</div>
 			</div>
 			<?php
 		}
@@ -110,12 +113,12 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 */
 		public function bptodo_plugin_settings_tabs() {
 			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
-			echo '<h2 class="nav-tab-wrapper">';
+			echo '<div class="wbcom-tabs-section"><h2 class="nav-tab-wrapper">';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
 				$active = $current_tab == $tab_key ? 'nav-tab-active' : '';
-				echo '<a class="nav-tab ' . esc_attr( $active ) . '" href="?post_type=' . esc_attr( $this->post_type ) . '&page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a>';
+				echo '<a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a>';
 			}
-			echo '</h2>';
+			echo '</h2></div>';
 		}
 
 		/**
@@ -142,19 +145,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-general-settings.php' ) ) {
 				require_once dirname( __FILE__ ) . '/inc/bptodo-general-settings.php';
 			}
-		}
-
-		/**
-		 * Display plugin general setting's tab.
-		 *
-		 * @author  wbcomdesigns
-		 * @since   1.0.0
-		 * @access  public
-		 */
-		public function bptodo_register_support_settings() {
-			$this->plugin_settings_tabs['bptodo-support'] = esc_html__( 'Support', 'wb-todo' );
-			register_setting( 'bptodo-support', 'bptodo-support' );
-			add_settings_section( 'section_support', ' ', array( &$this, 'bptodo_support_settings_content' ), 'bptodo-support' );
 		}
 
 		/**

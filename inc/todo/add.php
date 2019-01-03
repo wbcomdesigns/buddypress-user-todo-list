@@ -36,7 +36,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 						<?php } ?>
 					</select>
 					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
-					<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
+					<a href="javascript:void(0);" class="add-todo-category"><i class="fas fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
 				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>

@@ -67,6 +67,7 @@ function run_wp_bptodo_list() {
 		'inc/class-bptodo-cpt.php',
 		'inc/class-bptodo-globals.php',
 		'inc/class-bptodo-hooks.php',
+		'admin/wbcom/wbcom-admin-settings.php',
 		'admin/class-bptodo-admin.php',
 	);
 	foreach ( $include_files  as $include_file ) {

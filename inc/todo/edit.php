@@ -54,7 +54,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 						<?php } ?>
 					</select>
 					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
-					<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
+					<a href="javascript:void(0);" class="add-todo-category"><i class="fas fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
 				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
