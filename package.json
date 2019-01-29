@@ -1,0 +1,29 @@
+{
+  "name": "wb-todo",
+  "version": "0.1.0",
+  "url": "https://github.com/wbcomdesigns/buddypress-user-todo-list/",
+  "license": "GPL-2.0+",
+  "description": "Group review plugin for BuddyPress",
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-plugin-wordpress": "^0.1.0",
+    "grunt": "~1.0.1",
+    "grunt-check-dependencies": "~1.0.0",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-jsvalidate": "~0.2.2",
+    "grunt-stylelint": "^0.8.0",
+    "grunt-wp-i18n": "^1.0.1",
+    "stylelint": "~7.10.1",
+    "stylelint-config-wordpress": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wbcomdesigns/buddypress-user-todo-list/"
+  },
+  "dependencies": {
+    "load-grunt-tasks": "^3.5.2"
+  }
+}
