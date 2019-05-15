@@ -47,6 +47,7 @@ The screenshots are present in the root of the plugin folder.
 
 = 2.0.1 =
 * Fix - Compatibility with BuddyPress 4.3.0. #45
+* Fix - Changed font-awesome version. #46
 
 = 2.0.0 =
 * Fix - Compatibility with BuddyPress 4.1.0 #41

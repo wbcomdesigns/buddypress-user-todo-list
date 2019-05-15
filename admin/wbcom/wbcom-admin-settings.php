@@ -181,7 +181,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'It also allows you to upload your own custom font to your site and use them using custom css.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'custom-font-uploader' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/custom-font-uploader/',
-					'icon'			 => 'fas fa-2x fa-upload'
+					'icon'			 => 'fa fa-upload'
 				),
 				'1'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Activity Filter', 'wb-todo' ),
@@ -189,7 +189,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'Admin can set default and customised activities to be listed on front-end.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-activity-filter' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-activity-filter/',
-					'icon'			 => 'fas fa-2x fa-filter'
+					'icon'			 => 'fa fa-filter'
 				),
 				'2'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Activity Social Share', 'wb-todo' ),
@@ -197,7 +197,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows anyone easily share BuddyPress Activites on major social media (Facebook, Twitter, Google+, Linkedin ).', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-activity-social-share' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-activity-social-share/',
-					'icon'			 => 'fas fa-2x fa-share-alt'
+					'icon'			 => 'fa fa-share-alt'
 				),
 				'3'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Create Group Type', 'wb-todo' ),
@@ -205,7 +205,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'It will help to create group type for BuddyPress Groups.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-create-group-type' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-create-group-type/',
-					'icon'			 => 'fas fa-2x fa-sitemap'
+					'icon'			 => 'fa fa-sitemap'
 				),
 				'4'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Member Reviews', 'wb-todo' ),
@@ -213,7 +213,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows only site members to add reviews to the buddypress members on the site and even rate the member’s profile out of 5 points with multiple review criteria.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-user-profile-reviews' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-user-profile-reviews/',
-					'icon'			 => 'fas fa-2x fa-user'
+					'icon'			 => 'fa fa-user'
 				),
 				'5'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Group Reviews', 'wb-todo' ),
@@ -221,7 +221,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows the BuddyPress Members to give reviews to the BuddyPress groups on the site. The review form allows the users to give text review, even rate the group on the basis of multiple criterias.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'review-buddypress-groups' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/review-buddypress-groups/',
-					'icon'			 => 'fas fa-2x fa-users'
+					'icon'			 => 'fa fa-2x fa-users'
 				),
 				'6'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Favorite Notification', 'wb-todo' ),
@@ -229,7 +229,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'BuddyPress Favorite Notification adds a notification for BuddyPress activity.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-favorite-notification' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-favorite-notification/',
-					'icon'			 => 'fas fa-2x fa-bell'
+					'icon'			 => 'fa fa-2x fa-bell'
 				),
 				'7'	 => array(
 					'name'			 => esc_html__( 'Custom Email Options', 'wb-todo' ),
@@ -237,7 +237,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'Override default email options of Worpdress.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'custom-email-options' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/custom-email-options/',
-					'icon'			 => 'fas fa-2x fa-at'
+					'icon'			 => 'fa fa-2x fa-at'
 				),
 				'8'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Checkins', 'wb-todo' ),
@@ -245,7 +245,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows BuddyPress members to share their location when they are posting activities, you can add places where you visited, nearby locations based on google places.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-check-in' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-check-in/',
-					'icon'			 => 'fas fa-2x fa-map-marker-alt'
+					'icon'			 => 'fa fa-2x fa fa-map-marker'
 				),
 				'9'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Job Manager', 'wb-todo' ),
@@ -253,7 +253,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'Incorporates BuddyPress with the WP Job Manager plugin by creating specific tabs in employer’s and candidate’s profiles.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-job-manager' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-job-manager/',
-					'icon'			 => 'fas fa-2x fa-briefcase'
+					'icon'			 => 'fa fa-2x fa-briefcase'
 				),
 				'10' => array(
 					'name'			 => esc_html__( 'BuddyPress user ToDo List', 'wb-todo' ),
@@ -261,7 +261,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows you to create your personal task list with timestamp. You can mark them complete when you are done with them. It will also send reminder when you have any overdue task.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-user-to-do-list' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-user-to-do-list/',
-					'icon'			 => 'fas fa-2x fa-list-ol'
+					'icon'			 => 'fa fa-2x fa-list-ol'
 				),
 				'11' => array(
 					'name'			 => esc_html__( 'Shortcodes for BuddyPress', 'wb-todo' ),
@@ -269,7 +269,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin will add an extended feature to the big name “BuddyPress” that will generate Shortcode for Listing Activity Streams , Members and Groups on any post/page in website.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'shortcodes-for-buddypress' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/shortcodes-for-buddypress/',
-					'icon'			 => 'fas fa-2x fa-code'
+					'icon'			 => 'fa fa-2x fa-code'
 				),
 				'12' => array(
 					'name'			 => esc_html__( 'Woo Open Graph', 'wb-todo' ),
@@ -277,7 +277,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin will add an extended feature to the big name “WooCommerce” that will adds well executed and accurate Open Graph Meta Tags to your site with title,description and WooCommerce featured image.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'woo-open-graph' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/woo-open-graph/',
-					'icon'			 => 'fas fa-2x fa-chart-bar'
+					'icon'			 => 'fa fa-bar-chart'
 				),
 				'13' => array(
 					'name'			 => esc_html__( 'BuddyPress Lock', 'wb-todo' ),
@@ -285,7 +285,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin allows the administrator to lock the certain parts of their site. It help to create private BuddyPress community by locking certain BuddyPress Components, WordPress Pages, Custom Post Types for public view without using any membership plugin.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'lock-my-bp' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/lock-my-bp/',
-					'icon'			 => 'fas fa-2x fa-lock'
+					'icon'			 => 'fa fa-2x fa-lock'
 				),
 				'14' => array(
 					'name'			 => esc_html__( 'Woo Audio Preview', 'wb-todo' ),
@@ -293,7 +293,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin Allows playing the audio files in sample mode to prevent unauthorized downloading of the audio files. It helps to display sample files at single product page.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'woo-audio-preview' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/woo-audio-preview/',
-					'icon'			 => 'fas fa-2x fa-volume-up'
+					'icon'			 => 'fa fa-2x fa-volume-up'
 				),
 				'15' => array(
 					'name'			 => esc_html__( 'WordPress System Log', 'wb-todo' ),
@@ -301,7 +301,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin helps administrators of the site see their environment on which the site is currently running that includes WordPress environment, tha database it requires, Server Environment and the plugins installed and activated on the site.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'wp-system-log' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/wp-system-log/',
-					'icon'			 => 'fas fa-2x fa-file-alt'
+					'icon'			 => 'fa fa-file-text'
 				),
 				'16' => array(
 					'name'			 => esc_html__( 'BP Post From Anywhere', 'wb-todo' ),
@@ -309,7 +309,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin will generate shortcode and widgets for post updates section for activities so you can post update from anywhere, it might be sidebar, some page or any template file.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'bp-post-from-anywhere' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/bp-post-from-anywhere/',
-					'icon'			 => 'fas fa-2x fa-edit'
+					'icon'			 => 'fa fa-2x fa-edit'
 				),
 				'17' => array(
 					'name'			 => esc_html__( 'Woo Document Preview', 'wb-todo' ),
@@ -317,7 +317,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This will allow you to add document preview at single product page. Which helps to offer more better idea when you are selling ebooks, pdf or some documents.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'woo-document-preview' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/woo-document-preview/',
-					'icon'			 => 'fas fa-2x fa-file'
+					'icon'			 => 'fa fa-2x fa-file'
 				),
 				'18' => array(
 					'name'			 => esc_html__( 'WordPress Media Category', 'wb-todo' ),
@@ -325,7 +325,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin helps administrators of the site categorize their wordpress media.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'media-category' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/media-category/',
-					'icon'			 => 'fas fa-2x fa-images'
+					'icon'			 => 'fa fa-picture-o'
 				),
 				'19' => array(
 					'name'			 => esc_html__( 'Woo Price Quotes', 'wb-todo' ),
@@ -333,7 +333,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin helps in quoting the products that admin wishes to hide its purchasing details.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'woo-price-quote-inquiry' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/woo-price-quote-inquiry/',
-					'icon'			 => 'fas fa-2x fa-dollar-sign'
+					'icon'			 => 'fa fa-usd'
 				),
 				'20' => array(
 					'name'			 => esc_html__( 'EDD Service Extended', 'wb-todo' ),
@@ -341,7 +341,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin helps administrators of the site categorize their wordpress media.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'edd-service-extended' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/edd-service-extended/',
-					'icon'			 => 'fab fa-2x fa-product-hunt'
+					'icon'			 => 'fa fa-2x fa-product-hunt'
 				),
 				'21' => array(
 					'name'			 => esc_html__( 'WB Ads Rotator with Split Test', 'wb-todo' ),
@@ -349,7 +349,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'description'	 => esc_html__( 'This plugin is designed for the SPLIT TESTING, you can check performance of your ads layout and on the basis of them you can select one of them for your regular use.', 'wb-todo' ),
 					'status'		 => $this->wbcom_plugin_status( 'wb-ads-rotator-with-split-test' ),
 					'wp_url'		 => 'https://wordpress.org/plugins/wb-ads-rotator-with-split-test/',
-					'icon'			 => 'fas fa-2x fa-ad'
+					'icon'			 => 'fa fa-adn'
 				)
 			);
 			return $free_plugins;
@@ -367,37 +367,37 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					'name'			 => esc_html__( 'BuddyPress Moderation Pro', 'wb-todo' ),
 					'description'	 => esc_html__( 'BuddyPress Community Moderation offers a solution for site owners to keep their communities straight. With community policing strategy, members of the community have an option for moderation sitewide by attaching flags to content created within the various components.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-moderation-pro/',
-					'icon'			 => 'fas fa-2x fa-exclamation-triangle'
+					'icon'			 => 'fa fa-exclamation-triangle'
 				),
 				'1'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Polls', 'wb-todo' ),
 					'description'	 => esc_html__( 'Use BuddyPress Polls plugin to create polls inside the activity, let your user response to your polls. Members can create pools like activities, easily votes on them.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-polls/',
-					'icon'			 => 'fas fa-2x fa-poll'
+					'icon'			 => 'fa fa-bar-chart'
 				),
 				'2'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Resume Manager', 'wb-todo' ),
 					'description'	 => esc_html__( 'BuddyPress Resume Manager adds a separate BuddyPress Resume menu at a user’s BuddyPress Profile Page to display individual member resume. We have added predefined fields for the resumes and site admin and enable and disable them.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-resume-manager/',
-					'icon'			 => 'fas fa-2x fa-file'
+					'icon'			 => 'fa fa-file'
 				),
 				'3'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Profanity', 'wb-todo' ),
 					'description'	 => esc_html__( 'Use BuddyPress Profanity plugin to censor content in your community! Easily Censor all the unwanted words in activities, private messages contents by specifying a list of keywords to be filtered.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-profanity/',
-					'icon'			 => 'fab fa-2x fa-galactic-republic'
+					'icon'			 => 'fa fa-hand-peace-o'
 				),
 				'4'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Private Community Pro', 'wb-todo' ),
 					'description'	 => esc_html__( 'This plugin offers a lockdown for BuddyPress Component and will ask users to log in go further to check profile or any other protected details.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-private-community-pro/',
-					'icon'			 => 'fas fa-2x fa-user-lock'
+					'icon'			 => 'fa fa-user-times'
 				),
 				'5'	 => array(
 					'name'			 => esc_html__( 'BuddyPress Profile Pro', 'wb-todo' ),
 					'description'	 => esc_html__( 'This plugin gives you the power to extend BuddyPress Profiles with repeater fields and groups. You can easily add multiple field groups and display them at member’s profile.', 'wb-todo' ),
 					'download_url'	 => 'https://wbcomdesigns.com/downloads/buddypress-profile-pro/',
-					'icon'			 => 'far fa-2x fa-user-circle'
+					'icon'			 => 'fa fa-user-circle-o'
 				),
 			);
 			return $paid_plugins;
@@ -475,7 +475,7 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 		 */
 		public function wbcom_enqueue_admin_scripts() {
 			if ( !wp_style_is( 'font-awesome', 'enqueued' ) ) {
-				wp_enqueue_style( 'font-awesome', '//use.fontawesome.com/releases/v5.5.0/css/all.css' );
+				wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
 			}
 			if ( !wp_script_is( 'wbcom_admin_setting_js', 'enqueued' ) ) {
 
@@ -585,25 +585,25 @@ if ( !class_exists( 'Wbcom_Admin_Settings' ) ) {
 					<ul>
 						<li class="wb_admin_nav_item <?php echo esc_attr( $settings_active ); ?>">
 							<a href="<?php echo get_admin_url() . 'admin.php?page=wbcomplugins'; ?>" id="wb_admin_nav_trigger_settings">
-								<i class="fas fa-sliders-h"></i>
+								<i class="fa fa-sliders" aria-hidden="true"></i>
 								<h4><?php esc_html_e( 'Settings', 'wb-todo' ); ?></h4>
 							</a>
 						</li>
 						<li class="wb_admin_nav_item <?php echo esc_attr( $plugin_active ); ?>">
 							<a href="<?php echo get_admin_url() . 'admin.php?page=wbcom-plugins-page'; ?>" id="wb_admin_nav_trigger_extensions">
-								<i class="fas fa-th"></i>
+								<i class="fa fa-th" aria-hidden="true"></i>
 								<h4><?php esc_html_e( 'Components', 'wb-todo' ); ?></h4>
 							</a>
 						</li>
 						<li class="wb_admin_nav_item <?php echo esc_attr( $theme_active ); ?>">
 							<a href="<?php echo get_admin_url() . 'admin.php?page=wbcom-themes-page'; ?>" id="wb_admin_nav_trigger_themes">
-								<i class="fas fa-magic"></i>
+								<i class="fa fa-magic" aria-hidden="true"></i>
 								<h4><?php esc_html_e( 'Themes', 'wb-todo' ); ?></h4>
 							</a>
 						</li>
 						<li class="wb_admin_nav_item <?php echo esc_attr( $support_active ); ?>">
 							<a href="<?php echo get_admin_url() . 'admin.php?page=wbcom-support-page'; ?>" id="wb_admin_nav_trigger_support">
-								<i class="fas fa-question-circle"></i>
+								<i class="fa fa-question-circle" aria-hidden="true"></i>
 								<h4><?php esc_html_e( 'Support', 'wb-todo' ); ?></h4>
 							</a>
 						</li>

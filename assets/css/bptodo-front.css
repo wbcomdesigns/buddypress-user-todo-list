@@ -130,6 +130,9 @@ td.bp-to-do-actions ul li a {
     text-align: center;
     color: #313131;
     transition: all .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 table.bp-todo-reminder tbody

@@ -12,15 +12,15 @@
 			foreach ( $free_plugins as $key => $plugin_details ) {
 				if ( 'not_installed' == $plugin_details[ 'status' ] ) {
 					$plugin_btn_text = esc_html__( 'Install', 'wb-todo' );
-					$toggle_class	 = 'fas fa-toggle-off';
+					$toggle_class	 = 'fa fa-toggle-off';
 					$plugin_action	 = 'install_plugin';
 				} else if ( 'installed' == $plugin_details[ 'status' ] ) {
 					$plugin_btn_text = esc_html__( 'Activate', 'wb-todo' );
-					$toggle_class	 = 'fas fa-toggle-off';
+					$toggle_class	 = 'fa fa-toggle-off';
 					$plugin_action	 = 'activate_plugin';
 				} else {
 					$plugin_btn_text = esc_html__( 'Deactivate', 'wb-todo' );
-					$toggle_class	 = 'fas fa-toggle-on';
+					$toggle_class	 = 'fa fa-toggle-on';
 					$plugin_action	 = 'deactivate_plugin';
 				}
 				?>
@@ -39,7 +39,7 @@
 							<a href="" class="wbcom-plugin-action-button wb_btn wb_btn_default" >
 								<i class="<?php echo $toggle_class; ?>"></i>
 								<?php echo $plugin_btn_text; ?>
-								<i class="fas fa-spinner fa-pulse" style="display:none"></i>
+								<i class="fa fa-spinner fa-spin" style="display:none"></i>
 							</a>
 						</div>
 					</div>
@@ -63,7 +63,7 @@
 						<p class="plugin-description"><?php echo esc_html( $plugin_details[ 'description' ] ); ?></p>
 						<div class="activation_button_wrap">
 							<a href="<?php echo esc_url( $plugin_details[ 'download_url' ] ); ?>" class="wb_btn wb_btn_default" target="_blank" >
-								<i class="far fa-eye"></i>
+								<i class="fa fa-eye"></i>
 								<?php esc_html_e( 'View', 'wb-todo' ); ?>
 							</a>
 						</div>

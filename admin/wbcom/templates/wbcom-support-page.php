@@ -11,7 +11,7 @@
             <li class="wbcom_single_box wp-clearfix">
                 <div class="wbcom_single_left">
                     <div class="wbcom_single_icon_wrapper">
-                        <i class="fas fa-2x fa-tags"></i>
+                        <i class="fa fa-tags"></i>
                     </div>
                 </div>
                 <div class="wbcom_single_right">
@@ -20,7 +20,7 @@
                         <p><?php esc_html_e( 'Open a ticket on our helpdesk, we don\'t guarantee a fast response but within a week. Except if you\'ve purchased one of our product we\'ll reply within 24 hours.', 'wb-todo' ); ?></p>
                         <div class="text-right">
                             <a href="https://support.wbcomdesigns.com/portal/newticket" class="wb_btn wb_btn_default" target="_blank">
-                                <i class="fas fa-ticket-alt"></i>
+                                <i class="fa fa-ticket"></i>
 								<?php esc_html_e( 'Open a ticket', 'wb-todo' ); ?>
                             </a>
                         </div>
@@ -31,7 +31,7 @@
             <li class="wbcom_single_box wp-clearfix">
                 <div class="wbcom_single_left">
                     <div class="wbcom_single_icon_wrapper">
-                        <i class="fas fa-2x fa-comments"></i>
+                        <i class="fa fa-comments"></i>
                     </div>
                 </div>
                 <div class="wbcom_single_right">
@@ -40,7 +40,7 @@
                         <p><?php esc_html_e( 'Create a new thread on our plugin page, participation is open to anyone from all around the world. We\'ll be there to help as well but can\'t guarantee any delay.', 'wb-todo' ); ?></p>
                         <div class="text-right">
                             <a href="https://wbcomdesigns.com/contact/" class="wb_btn wb_btn_default" target="_blank">
-                                <i class="fas fa-phone-square"></i>
+                                <i class="fa fa-phone-square"></i>
 								<?php esc_html_e( 'Contact Us', 'wb-todo' ); ?>
                             </a>
                         </div>
