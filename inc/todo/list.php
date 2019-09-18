@@ -291,7 +291,13 @@ if ( empty( $todos ) ) {
 															$due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!','wb-todo');
 															$due_date_td_class = 'bptodo-expires-today';
 														} else {
-															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
+															if( $diff_days == 1){
+																$day_string = __('day','wb-todo');
+															}else{
+																$day_string = __('days','wb-todo');
+															}
+															$due_date_str = sprintf( esc_html__( '%d %s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+															//$all_remaining_todo++;
 														}
 														if ( 'complete' == $todo_status ) {
 															$due_date_str      = esc_html__('Completed!','wb-todo');
@@ -368,7 +374,12 @@ if ( empty( $todos ) ) {
 															$due_date_td_class = 'bptodo-expires-today';
 															$all_remaining_todo++;
 														} else {
-															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
+															if( $diff_days == 1){
+																$day_string = __('day','wb-todo');
+															}else{
+																$day_string = __('days','wb-todo');
+															}
+															$due_date_str = sprintf( esc_html__( '%d %s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
 															$all_remaining_todo++;
 														}
 														if ( 'complete' == $todo_status ) {
@@ -446,7 +457,12 @@ if ( empty( $todos ) ) {
 															$due_date_td_class = 'bptodo-expires-today';
 															$all_remaining_todo++;
 														} else {
-															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
+															if( $diff_days == 1){
+																$day_string = __('day','wb-todo');
+															}else{
+																$day_string = __('days','wb-todo');
+															}
+															$due_date_str = sprintf( esc_html__( '%d %s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
 															$all_remaining_todo++;
 														}
 														if ( 'complete' == $todo_status ) {
@@ -524,7 +540,12 @@ if ( empty( $todos ) ) {
 															$due_date_td_class = 'bptodo-expires-today';
 															$all_remaining_todo++;
 														} else {
-															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
+															if( $diff_days == 1){
+																$day_string = __('day','wb-todo');
+															}else{
+																$day_string = __('days','wb-todo');
+															}
+															$due_date_str = sprintf( esc_html__( '%d %s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
 															$all_remaining_todo++;
 														}
 														if ( 'complete' == $todo_status ) {
@@ -622,8 +643,13 @@ if ( empty( $todos ) ) {
 																$due_date_td_class = 'bptodo-expires-today';
 																$all_remaining_todo++;
 															} else {
-																$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
-																$all_remaining_todo++;
+																if( $diff_days == 1){
+																$day_string = __('day','wb-todo');
+															}else{
+																$day_string = __('days','wb-todo');
+															}
+															$due_date_str = sprintf( esc_html__( '%d %s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+															$all_remaining_todo++;
 															}
 															if ( 'complete' == $todo_status ) {
 																$due_date_str      = esc_html__('Completed!','wb-todo');
