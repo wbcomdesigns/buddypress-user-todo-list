@@ -69,7 +69,8 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
 						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
-						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' )
+						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
+						'remove_todo_text'     => esc_html__( 'Are you sure?', 'wb-todo' )
 					)
 				);
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );

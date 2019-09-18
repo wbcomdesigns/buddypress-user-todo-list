@@ -99,7 +99,7 @@ jQuery( document ).ready( function () {
 
     //Remove a todo
     jQuery( document ).on( 'click', '.bptodo-remove-todo', function () {
-        if ( confirm( 'Are you sure?' ) ) {
+        if ( confirm( todo_ajax_object.remove_todo_text ) ) {
             var tid = jQuery( this ).data( 'tid' );
             var row = jQuery(this).closest('tr');
             jQuery( this ).html( '<i class="fa fa-refresh fa-spin"></i>' );
