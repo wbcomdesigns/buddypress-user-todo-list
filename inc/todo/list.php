@@ -191,7 +191,15 @@ if ( empty( $todos ) ) {
 				<h5><?php esc_html_e( 'Task Progress', 'wb-todo' ); ?></h5>
 				<div class="task-progress-task-count-wrap">
 					<div class="task-progress-task-count">
-						<span class="task_breaker-total-tasks"><?php echo esc_html( $all_todo_count ); ?></span><?php echo ' ' . esc_html( $profile_menu_label ); ?></div>
+						<span class="task_breaker-total-tasks"><?php echo esc_html( $all_todo_count ); ?></span>
+							<?php 
+								if( $all_todo_count<=1 ){
+									echo esc_html( $profile_menu_label );
+								}else{
+									echo esc_html( $profile_menu_label_plural );
+								}
+							?>
+					</div>
 					</div>
 					<div class="bptodo-light-grey">
 						<span><b><?php echo esc_html( round( $avg_rating, 2 ) ).'% '; ?></b><?php esc_html_e( 'Completed', 'wb-todo' ); ?></span>
@@ -202,7 +210,7 @@ if ( empty( $todos ) ) {
 				<div id="bptodo-tabs">
 					<ul>
 						<li><a href="#bptodo-dashboard"><?php esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li>
-						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label ); ?></a></li>
+						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label_plural ); ?></a></li>
 					</ul>
 					<div id="bptodo-dashboard">
 						<h2><?php esc_html_e( 'At a Glance', 'wb-todo' ); ?></h2>
@@ -227,7 +235,11 @@ if ( empty( $todos ) ) {
 									</span>
 								</h4>
 								<p>
-									<?php echo sprintf( esc_html__( '%1$s Remaining', 'wb-todo' ), esc_html( $profile_menu_label_plural ) ); ?>
+									<?php if( $all_remaining_todo <= 1 ){
+										echo sprintf( esc_html__( '%1$s Remaining', 'wb-todo' ), esc_html( $profile_menu_label ) );
+										}else{
+											echo sprintf( esc_html__( '%1$s Remaining', 'wb-todo' ), esc_html( $profile_menu_label_plural ) );
+										} ?>
 								</p>
 							</li>
 
