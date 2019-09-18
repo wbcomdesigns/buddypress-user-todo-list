@@ -112,8 +112,13 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 			register_taxonomy( 'todo_category', array( 'bp-todo' ), $tax_args );
 
+			$numTerms = wp_count_terms( 'todo_category', array(
+				'hide_empty'=> false,
+				'parent'    => 0
+			) );
+
 			$term = term_exists( 'Uncategorized', 'todo_category' );
-			if ( empty( $term ) ) {
+			if ( empty( $term ) && $numTerms=='0') {
 				wp_insert_term(
 					'Uncategorized',
 					'todo_category'
