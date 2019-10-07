@@ -98,13 +98,18 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 			</td>
 		</tr>
 
-		<tr>
-			<td width="20%"></td>
-			<td width="80%">
-				<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
-				<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label );?>" >
-			</td>
-		</tr>
+		<?php $change_submit_btn = apply_filters('bptodo_change_submit_button', $change = false ); ?>
+		<?php if(!$change_submit_btn){ ?>
+			<tr>
+				<td width="20%"></td>
+				<td width="80%">
+					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
+					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label );?>" >
+				</td>
+			</tr>
+		<?php }else{
+			do_action( 'bptodo_change_submit_button_action', $profile_menu_label );
+		} ?>
 		<?php do_action('bptodo_add_field_after_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
