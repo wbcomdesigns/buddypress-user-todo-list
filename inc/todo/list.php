@@ -214,7 +214,7 @@ if ( empty( $todos ) ) {
 						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label_plural ); ?></a></li>
 						<?php do_action('bptodo_add_etxra_tab_after_defaults', $profile_menu_label_plural ); ?>
 					</ul>
-					<?php do_action('bptodo_add_extra_tab_content_before_defaults'); ?>
+					<?php do_action('bptodo_add_extra_tab_content_before_defaults', $profile_menu_label); ?>
 					<div id="bptodo-dashboard">
 						<h2><?php esc_html_e( 'At a Glance', 'wb-todo' ); ?></h2>
 						<ul id="bptodo-dashboard-box">
@@ -715,7 +715,7 @@ if ( empty( $todos ) ) {
 								</div>
 							</div>
 						</div>
-						<?php do_action('bptodo_add_extra_tab_content_after_defaults'); ?>
+						<?php do_action('bptodo_add_extra_tab_content_after_defaults', $profile_menu_label); ?>
 					</div>
 				</section>
 				<?php
