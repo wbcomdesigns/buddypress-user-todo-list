@@ -32,6 +32,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 ?>
 <form action="<?php echo esc_attr( $form_post_link ); ?>" method="post">
 	<table class="bptodo-add-todo-tbl">
+		<?php do_action('bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
 			<td width="20%">
 				<?php esc_html_e( 'Category', 'wb-todo' ); ?>
@@ -114,14 +115,19 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 				</select>
 			</td>
 		</tr>
-
-		<tr>
-			<td width="20%"></td>
-			<td width="80%">
-				<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
-				<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
-				<input type="submit" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), $profile_menu_label ); ?>">
-			</td>
-		</tr>
+		<?php $change_edit_btn = apply_filters('bptodo_change_todo_edit_button', $change = false ); ?>
+		<?php if(!$change_edit_btn){ ?>
+			<tr>
+				<td width="20%"></td>
+				<td width="80%">
+					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
+					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
+					<input type="submit" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), $profile_menu_label ); ?>">
+				</td>
+			</tr>
+		<?php }else{
+			do_action( 'bptodo_change_todo_edit_button_action', $profile_menu_label );
+		} ?>
+		<?php do_action('bptodo_add_field_after_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
