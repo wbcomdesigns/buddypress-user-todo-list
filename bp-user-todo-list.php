@@ -171,4 +171,5 @@ function bptodo_network_plugin_admin_notice() {
  */
 function bptodo_create_profile_menu() {
 	include 'inc/class-bptodo-profile-menu.php';
+	include 'inc/class-bptodo-groups-extension-tab.php';
 }
