@@ -92,6 +92,13 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
+				$primary_todo_id =  get_post_meta( $tid, 'todo_primary_id', true );
+				if( $primary_todo_id ) {
+					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
+					foreach ( (array)$associated_todo as $key => $_todo_id ) {
+						wp_delete_post( $_todo_id, true );
+					}
+				}
 				wp_delete_post( $tid, true );
 				echo 'todo-removed';
 				die;

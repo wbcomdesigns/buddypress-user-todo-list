@@ -173,3 +173,11 @@ function bptodo_create_profile_menu() {
 	include 'inc/class-bptodo-profile-menu.php';
 	include 'inc/class-bptodo-groups-extension-tab.php';
 }
+
+function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
+	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+
+	$can_modify = ( isset( $group_todo_list_settings['mod_enable'] ) )?true:false;
+
+	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
+}

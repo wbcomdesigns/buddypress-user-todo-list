@@ -130,8 +130,12 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 */
 		public function bptodo_register_general_settings() {
 			$this->plugin_settings_tabs['user-todo-list-settings'] = esc_html__( 'General', 'wb-todo' );
+			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group To-Do', 'wb-todo' );
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_general', ' ', array( &$this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
+
+			register_setting( 'group-todo-list-settings', 'group-todo-list-settings' );
+			add_settings_section( 'section_group', ' ', array( &$this, 'bptodo_group_settings_content'), 'group-todo-list-settings' );
 		}
 
 		/**
@@ -145,6 +149,19 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-general-settings.php' ) ) {
 				require_once dirname( __FILE__ ) . '/inc/bptodo-general-settings.php';
 			}
+		}
+
+		/**
+		 * Display plugin group settings tab content.
+		 *
+		 * @author  wbcomdesigns
+		 * @since   1.0.0
+		 * @access  public
+		 */
+		public function bptodo_group_settings_content() {
+			//if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {
+				require_once dirname( __FILE__ ) . '/inc/bptodo-group-settings.php';
+			//}
 		}
 
 		/**

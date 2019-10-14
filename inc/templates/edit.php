@@ -10,6 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bp,$bptodo;
+
+$group_members = groups_get_group_members( array( 'group_id' => $bp->groups->current_group->id, 'exclude_admins_mods' => false ) );
+if( isset( $group_members['members'] ) ){
+	foreach ( $group_members['members'] as $member ) {
+		$group_members_ids[] = $member->ID;
+	}
+}
+
 $group_id = ( $bp->groups->current_group->id )?$bp->groups->current_group->id:0;
 
 $profile_menu_label = $bptodo->profile_menu_label;
@@ -24,7 +32,6 @@ if ( isset( $_GET['args'] ) ) {
 	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
 }
 
-
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 $todo      = get_post( $todo_id );
 
@@ -37,6 +44,8 @@ $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
 $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 
 $todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
+
+$primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 
 ?>
 <form action="<?php echo esc_attr( $form_post_link ); ?>" method="post">
@@ -138,6 +147,7 @@ $todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_group_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
+					<input type="hidden" name="primary_todo_id" value="<?php echo esc_attr( $primary_todo_id ); ?>">
 					<input type="submit" id="group_todo_update" name="group_todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), $profile_menu_label ); ?>">
 				</td>
 			</tr>

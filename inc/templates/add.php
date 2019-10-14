@@ -10,6 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bp;
+
+$group_members = groups_get_group_members( array( 'group_id' => $bp->groups->current_group->id, 'exclude_admins_mods' => false ) );
+if( isset( $group_members['members'] ) ){
+	foreach ( $group_members['members'] as $member ) {
+		$group_members_ids[] = $member->ID;
+	}
+}
+
 $group_id = ( $bp->groups->current_group->id )?$bp->groups->current_group->id:0;
 
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
@@ -21,6 +29,11 @@ $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = bp_displayed_user_id();
 $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
+
+
+$current_user = get_current_user_id();
+$cu_index = array_search( $current_user, $group_members_ids );
+unset( $group_members_ids[$cu_index] );
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
@@ -51,25 +64,69 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	}
 
 	$taxonomy = 'todo_category';
+
+	/*============================================
+	=            Insert primary To-Do            =
+	============================================*/
+	
 	$args     = array(
 		'post_type'    => 'bp-todo',
 		'post_status'  => 'publish',
 		'post_title'   => $title,
 		'post_content' => $summary,
-		'post_author'  => get_current_user_id(),
+		'post_author'  => $current_user,
 	);
-	$post_id  = wp_insert_post( $args );
+	$primary_todo_id  = wp_insert_post( $args );
 
-	update_post_meta( $post_id, 'todo_status', 'incomplete' );
-	update_post_meta( $post_id, 'todo_due_date', $due_date );
-	update_post_meta( $post_id, 'todo_priority', $priority );
-	update_post_meta( $post_id, 'todo_last_day_mail_sent', 'no' );
-	update_post_meta( $post_id, 'todo_last_day_notification_sent', 'no' );
+	update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
+	update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
+	update_post_meta( $primary_todo_id, 'todo_priority', $priority );
+	update_post_meta( $primary_todo_id, 'todo_last_day_mail_sent', 'no' );
+	update_post_meta( $primary_todo_id, 'todo_last_day_notification_sent', 'no' );
 
 	if( !empty( $todo_group_id ) ) {
-		update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
+		update_post_meta( $primary_todo_id, 'todo_group_id', $todo_group_id );
 	}
-	wp_set_object_terms( $post_id, $cat, $taxonomy );
+	wp_set_object_terms( $primary_todo_id, $cat, $taxonomy );
+
+	update_post_meta( $primary_todo_id, 'todo_primary_id', $primary_todo_id );
+
+	//update post meta for to do creator
+	update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
+	
+	/*=====  End of Insert primary To-Do  ======*/
+	
+	foreach ( (array)$group_members_ids as $key => $member_id ) {
+		$args     = array(
+						'post_type'    => 'bp-todo',
+						'post_status'  => 'publish',
+						'post_title'   => $title,
+						'post_content' => $summary,
+						'post_author'  => $member_id,
+					);
+		$post_id  = wp_insert_post( $args );
+
+		$associated_todos[] = $post_id;
+
+		update_post_meta( $post_id, 'todo_status', 'incomplete' );
+		update_post_meta( $post_id, 'todo_due_date', $due_date );
+		update_post_meta( $post_id, 'todo_priority', $priority );
+		update_post_meta( $post_id, 'todo_last_day_mail_sent', 'no' );
+		update_post_meta( $post_id, 'todo_last_day_notification_sent', 'no' );
+
+		if( !empty( $todo_group_id ) ) {
+			update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
+		}
+		wp_set_object_terms( $post_id, $cat, $taxonomy );
+
+		//update post meta for to do creator
+		update_post_meta( $post_id, 'todo_creator_id', get_current_user_id() );
+
+		update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
+	}
+
+	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
+	
 }
 ?>
 <form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
