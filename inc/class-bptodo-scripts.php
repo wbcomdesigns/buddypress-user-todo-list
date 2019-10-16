@@ -42,7 +42,7 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 		public function bptodo_custom_variables() {
 			global $bptodo, $post;
 			$profile_menu_slug = $bptodo->profile_menu_slug;
-			if ( ( strpos( $_SERVER['REQUEST_URI'], $profile_menu_slug ) !== false ) || isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) ) {
+			if ( ( strpos( $_SERVER['REQUEST_URI'], $profile_menu_slug ) !== false ) || isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) || has_shortcode( $post->post_content, 'ld_dashboard' ) ) {
 				/** JQuery UI Datepicker CSS. */
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
 				if ( !wp_style_is( 'wb-font-awesome', 'enqueued' ) ) {

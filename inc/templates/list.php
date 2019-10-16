@@ -171,7 +171,7 @@ $completed_todos     = get_posts( $completed_todo_args );
 $bp_template_option  = bp_get_option('_bp_theme_package_id');
 if ( empty( $todos ) ) {
 		if( 'nouveau' == $bp_template_option ) { ?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+				<div id="message" class="bptodo-notice info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>
 				<div id="message" class="info">
@@ -185,7 +185,7 @@ if ( empty( $todos ) ) {
 	<!-- Show the successful message when todo is added -->
 	<?php if ( isset( $_POST['todo_create'] ) ) {
 		if( 'nouveau' == $bp_template_option ) { ?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+				<div id="message" class="bptodo-notice info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>
 				<div id="message" class="info">
@@ -199,7 +199,7 @@ if ( empty( $todos ) ) {
 	<!-- Show the successful message when todo is updated -->
 	<?php if ( isset( $_POST['todo_update'] ) ) {
 			if( 'nouveau' == $bp_template_option ) { ?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+				<div id="message" class="bptodo-notice info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>
 				<div id="message" class="info">
@@ -380,9 +380,7 @@ if ( empty( $todos ) ) {
 													<?php } ?>
 													<?php if ( 'complete' !== $todo_status ) { ?>
 													<?php if( $can_modify){ ?>
-													<?php if( $can_modify){ ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-edit"></i></a></li>
-													<?php } ?>
 													<?php } ?>
 													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 													<?php } else { ?>

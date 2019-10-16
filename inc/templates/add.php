@@ -33,7 +33,9 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 
 $current_user = get_current_user_id();
 $cu_index = array_search( $current_user, $group_members_ids );
-unset( $group_members_ids[$cu_index] );
+if( $cu_index ) {
+	unset( $group_members_ids[$cu_index] );
+}
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
@@ -95,7 +97,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
 	
 	/*=====  End of Insert primary To-Do  ======*/
-	
+	$associated_todos = array();
 	foreach ( (array)$group_members_ids as $key => $member_id ) {
 		$args     = array(
 						'post_type'    => 'bp-todo',
