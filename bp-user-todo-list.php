@@ -181,3 +181,38 @@ function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
+
+/**
+ *  Check if buddypress activate.
+ */
+function bptodo_requires_buddypress()
+{
+
+    if ( !class_exists( 'Buddypress' ) ) {
+        deactivate_plugins( plugin_basename( __FILE__ ) );
+        //deactivate_plugins('buddypress-polls/buddypress-polls.php');
+        add_action( 'admin_notices', 'bptodo_required_plugin_admin_notice' );
+        unset($_GET['activate']);
+    }
+}
+
+add_action( 'admin_init', 'bptodo_requires_buddypress' );
+
+/**
+ * Throw an Alert to tell the Admin why it didn't activate.
+ *
+ * @author wbcomdesigns
+ * @since  2.0.2
+ */
+function bptodo_required_plugin_admin_notice()
+{
+
+    $plugin          = esc_html__('BuddyPress User To-Do List', 'wb-todo');
+    $bp_plugin                = esc_html__('BuddyPress', 'wb-todo');
+    echo '<div class="error"><p>';
+    echo sprintf(esc_html__('%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo'), '<strong>' . esc_html($plugin) . '</strong>', '<strong>' . esc_html($bp_plugin) . '</strong>');
+    echo '</p></div>';
+    if (isset($_GET['activate']) ) {
+        unset($_GET['activate']);
+    }
+}
