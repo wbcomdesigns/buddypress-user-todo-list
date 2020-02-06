@@ -45,6 +45,15 @@ The screenshots are present in the root of the plugin folder.
 
 == Changelog ==
 
+= 2.1.0 =
+* Enhancement: Added support for BuddyPress Groups
+* Fix: Added condition to deactivate plugin is BuddyPress class does not exist.
+* Fix: (#57) Manage calendar UI
+* Fix: Added Support for Learndash Dashboard plugin
+* Fix: (#47) - Uncategorized” category slug does not change.
+* Fix: (#48) - Could not translate some strings.
+* Fix: (#54) - Add actions/filters in buddypress todo edit form.
+
 = 2.0.1 =
 * Fix - Compatibility with BuddyPress 4.3.0. #45
 * Fix - Changed font-awesome version. #46
