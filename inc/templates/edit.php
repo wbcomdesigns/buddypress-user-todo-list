@@ -137,7 +137,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 			<td width="20%">
 			</td>
 			<td>
-				<input type="hidden" name="todo_group_id" value="<?php esc_attr_e($todo_group_id); ?>">
+				<input type="hidden" name="todo_group_id" value="<?php esc_attr($todo_group_id); ?>">
 			</td>
 		</tr>
 		<?php $change_edit_btn = apply_filters('bp_group_todo_change_todo_edit_button', $change = false ); ?>

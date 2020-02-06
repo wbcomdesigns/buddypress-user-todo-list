@@ -39,7 +39,7 @@ if( $cu_index ) {
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
-	
+
 	if ( isset( $_POST['todo_cat'] ) ) {
 		$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
 	}
@@ -70,7 +70,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	/*============================================
 	=            Insert primary To-Do            =
 	============================================*/
-	
+
 	$args     = array(
 		'post_type'    => 'bp-todo',
 		'post_status'  => 'publish',
@@ -95,7 +95,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	//update post meta for to do creator
 	update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
-	
+
 	/*=====  End of Insert primary To-Do  ======*/
 	$associated_todos = array();
 	foreach ( (array)$group_members_ids as $key => $member_id ) {
@@ -128,7 +128,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	}
 
 	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
-	
+
 }
 ?>
 <form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
@@ -214,7 +214,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 			<td width="20%">
 			</td>
 			<td>
-				<input type="hidden" name="todo_group_id" value="<?php esc_attr_e($group_id); ?>">
+				<input type="hidden" name="todo_group_id" value="<?php esc_attr($group_id); ?>">
 			</td>
 		</tr>
 
