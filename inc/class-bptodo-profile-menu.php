@@ -103,11 +103,11 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			echo '<h3>Group Events</h3>';
 
 			$groups_link = bp_get_group_permalink($bp->groups->current_group).'add-events/';
-			$create_event_text = __('Create Event', Eab_EventsHub::TEXT_DOMAIN);
+			$create_event_text = __('Create Event', 'wb-todo');
 			echo '<div class="wb-group-archive-add-event"><a href="'.$groups_link.'">'.$create_event_text.'</a></div>';
 
 			echo do_shortcode ('[eab_group_archives groups="'.bp_get_current_group_id().'" lookahead="yes"]');
-			
+
 			do_action('eab-buddypress-group_events-after_head');
 			// echo $this->_get_navigation($timestamp);
 			// echo $renderer->get_month_calendar($timestamp);
