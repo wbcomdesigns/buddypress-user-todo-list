@@ -69,6 +69,9 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	if ( isset( $_POST['todo_group_id'] ) ) {
 		$todo_group_id = sanitize_text_field( wp_unslash( $_POST['todo_group_id'] ) );
 	}
+	if ( empty( $todo_group_id ) ) {
+		$todo_group_id = $group_id;
+	}
 
 	$taxonomy = 'todo_category';
 
@@ -125,6 +128,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		if ( ! empty( $todo_group_id ) ) {
 			update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
 		}
+
 		wp_set_object_terms( $post_id, $cat, $taxonomy );
 
 		// update post meta for to do creator
