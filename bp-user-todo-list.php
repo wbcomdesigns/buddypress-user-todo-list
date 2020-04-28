@@ -62,6 +62,8 @@ global $bptodo;
  */
 function run_wp_bptodo_list() {
 	$include_files = array(
+		'inc/class-bptodo-profile-menu.php',
+		'inc/class-bptodo-groups-extension-tab.php',
 		'inc/class-bptodo-scripts.php',
 		'inc/class-bptodo-ajax.php',
 		'inc/class-bptodo-cpt.php',
@@ -91,7 +93,7 @@ function run_wp_bptodo_list() {
  */
 function bptodo_admin_page_link( $links ) {
 	$bptodo_links = array(
-		'<a href="' . admin_url("admin.php?page=user-todo-list-settings") . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
+		'<a href="' . admin_url( 'admin.php?page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
 		'<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'wb-todo' ) . '</a>',
 	);
 	return array_merge( $links, $bptodo_links );
@@ -117,16 +119,16 @@ function bptodo_plugin_init() {
 		} else {
 			run_wp_bptodo_list();
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
-			add_action( 'bp_include', 'bptodo_create_profile_menu' );
+			// add_action( 'bp_include', 'bptodo_create_profile_menu' );
 		}
 	} else {
-		$bp_active = in_array( 'buddypress/bp-loader.php', get_option( 'active_plugins' ) );
-		if ( current_user_can( 'activate_plugins' ) && true != $bp_active ) {
+		// $bp_active = in_array( 'buddypress/bp-loader.php', get_option( 'active_plugins' ) );
+		if ( ! class_exists( 'BuddyPress' ) ) {
 			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
 		} else {
-			run_wp_bptodo_list();
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
-			add_action( 'bp_include', 'bptodo_create_profile_menu' );
+			// add_action( 'bp_include', 'bptodo_create_profile_menu' );
+			run_wp_bptodo_list();
 		}
 	}
 }
@@ -169,15 +171,15 @@ function bptodo_network_plugin_admin_notice() {
  * @author  wbcomdesigns
  * @since   1.0.0
  */
-function bptodo_create_profile_menu() {
-	include 'inc/class-bptodo-profile-menu.php';
-	include 'inc/class-bptodo-groups-extension-tab.php';
-}
+// function bptodo_create_profile_menu() {
+// include 'inc/class-bptodo-profile-menu.php';
+// include 'inc/class-bptodo-groups-extension-tab.php';
+// }
 
 function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	$can_modify = ( isset( $group_todo_list_settings['mod_enable'] ) )?true:false;
+	$can_modify = ( isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
@@ -185,15 +187,13 @@ function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 /**
  *  Check if buddypress activate.
  */
-function bptodo_requires_buddypress()
-{
-
-    if ( !class_exists( 'Buddypress' ) ) {
-        deactivate_plugins( plugin_basename( __FILE__ ) );
-        //deactivate_plugins('buddypress-polls/buddypress-polls.php');
-        add_action( 'admin_notices', 'bptodo_required_plugin_admin_notice' );
-        unset($_GET['activate']);
-    }
+function bptodo_requires_buddypress() {
+	if ( ! class_exists( 'Buddypress' ) ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+		// deactivate_plugins('buddypress-polls/buddypress-polls.php');
+		add_action( 'admin_notices', 'bptodo_required_plugin_admin_notice' );
+		unset( $_GET['activate'] );
+	}
 }
 
 add_action( 'admin_init', 'bptodo_requires_buddypress' );
@@ -204,15 +204,13 @@ add_action( 'admin_init', 'bptodo_requires_buddypress' );
  * @author wbcomdesigns
  * @since  2.0.2
  */
-function bptodo_required_plugin_admin_notice()
-{
-
-    $plugin          = esc_html__('BuddyPress User To-Do List', 'wb-todo');
-    $bp_plugin                = esc_html__('BuddyPress', 'wb-todo');
-    echo '<div class="error"><p>';
-    echo sprintf(esc_html__('%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo'), '<strong>' . esc_html($plugin) . '</strong>', '<strong>' . esc_html($bp_plugin) . '</strong>');
-    echo '</p></div>';
-    if (isset($_GET['activate']) ) {
-        unset($_GET['activate']);
-    }
+function bptodo_required_plugin_admin_notice() {
+	$plugin    = esc_html__( 'BuddyPress User To-Do List', 'wb-todo' );
+	$bp_plugin = esc_html__( 'BuddyPress', 'wb-todo' );
+	echo '<div class="error"><p>';
+	echo sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' );
+	echo '</p></div>';
+	if ( isset( $_GET['activate'] ) ) {
+		unset( $_GET['activate'] );
+	}
 }
