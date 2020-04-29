@@ -90,6 +90,16 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		public $my_todo_items;
 
 		/**
+		 * Variable contains hide btton settings.
+		 *
+		 * @since    2.2.1
+		 * @author   Wbcom Designs
+		 * @access   public
+		 * @var      string $hide_button contains values.
+		 */
+		public $hide_button;
+
+		/**
 		 * Constructor.
 		 *
 		 * @since    1.0.0
@@ -121,7 +131,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			}
 
 			$this->profile_menu_slug = apply_filters( 'wbbptodo_slug', 'to-do' );
-			//$this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
+			// $this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
 
 			/** Allow User To Add Todo Category. */
 			$this->allow_user_add_category = 'no';
@@ -139,6 +149,12 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$this->send_mail = 'no';
 			if ( ! empty( $settings['send_mail'] ) ) {
 				$this->send_mail = 'yes';
+			}
+
+			/** Send Mail. */
+			$this->hide_button = 'no';
+			if ( ! empty( $settings['hide_button'] ) ) {
+				$this->hide_button = 'yes';
 			}
 
 			/** Count my todo items. */

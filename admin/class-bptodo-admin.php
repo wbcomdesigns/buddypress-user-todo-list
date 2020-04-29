@@ -71,9 +71,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_add_menu_page() {
-			if ( empty ( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) ) {
+			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) ) {
 				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
-			 	add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
+				add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
 			}
 			add_submenu_page( 'wbcomplugins', esc_html__( 'BP User To-Do List', 'wb-todo' ), esc_html__( 'BP User To-Do List', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
 		}
@@ -93,10 +93,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 					<h1 class="wbcom-plugin-heading">
 						<?php esc_html_e( 'BuddyPress User To-Do List Settings', 'wb-todo' ); ?>
-					</h1>					
+					</h1>
 				</div>
 				<?php $this->bptodo_show_notice(); ?>
-				<div class="wbcom-admin-settings-page">					
+				<div class="wbcom-admin-settings-page">
 					<?php $this->bptodo_plugin_settings_tabs(); ?>
 					<?php do_settings_sections( $tab ); ?>
 				</div>
@@ -129,13 +129,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_general_settings() {
-			$this->plugin_settings_tabs['user-todo-list-settings'] = esc_html__( 'General', 'wb-todo' );
+			$this->plugin_settings_tabs['user-todo-list-settings']  = esc_html__( 'General', 'wb-todo' );
 			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group To-Do', 'wb-todo' );
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_general', ' ', array( &$this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
 
 			register_setting( 'group-todo-list-settings', 'group-todo-list-settings' );
-			add_settings_section( 'section_group', ' ', array( &$this, 'bptodo_group_settings_content'), 'group-todo-list-settings' );
+			add_settings_section( 'section_group', ' ', array( &$this, 'bptodo_group_settings_content' ), 'group-todo-list-settings' );
 		}
 
 		/**
@@ -159,9 +159,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_group_settings_content() {
-			//if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {
+			// if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {
 				require_once dirname( __FILE__ ) . '/inc/bptodo-group-settings.php';
-			//}
+			// }
 		}
 
 		/**
@@ -214,6 +214,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			if ( isset( $_POST['bptodo-save-settings'] ) && wp_verify_nonce( $_POST['bptodo-general-settings-nonce'], 'bptodo' ) ) {
 				if ( isset( $_POST['bptodo_profile_menu_label'] ) ) {
 					$settings['profile_menu_label'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label'] ) );
+				}
+				if ( isset( $_POST['bptodo_hide_button'] ) ) {
+					$settings['hide_button'] = sanitize_text_field( wp_unslash( $_POST['bptodo_hide_button'] ) );
 				}
 				if ( isset( $_POST['bptodo_profile_menu_label_plural'] ) ) {
 					$settings['profile_menu_label_plural'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label_plural'] ) );

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $bptodo;
+
+
 ?>
 <div class="wbcom-tab-content">
 	<form action="" method="POST" id="bptodo-general-settings-form">
@@ -27,6 +29,19 @@ global $bptodo;
 					<th scope="row"><label for="bptodo-profile-menu-label"><?php esc_html_e( 'To-dos Label (Plural)', 'wb-todo' ); ?></label></th>
 					<td>
 						<input type="text" placeholder="<?php esc_html_e( 'To-dos', 'wb-todo' ); ?>" name="bptodo_profile_menu_label_plural" value="<?php echo esc_html( $bptodo->profile_menu_label_plural, 'wb-todo' ); ?>" class="regular-text" required>
+					</td>
+				</tr>
+
+				<!-- ALLOW USER TO HIDE BUTTON ON PROFILE HEADR -->
+				<tr>
+					<th scope="row"><label for="bptodo-hide-button"><?php esc_html_e( 'Hide Button', 'wb-todo' ); ?></label></th>
+					<td>
+						<label class="switch">
+							<input type="checkbox" name="bptodo_hide_button" id="bptodo-hide-button" <?php echo ( 'yes' == $bptodo->hide_button ) ? 'checked' : 'unchecked'; ?>>
+							<span class="slider round"></span>
+						</label>
+						<label for="bptodo-hide-button"><?php esc_html_e( 'Allow user to hide button on member profile header.', 'wb-todo' ); ?></label>
+						<p class="description"><?php esc_html_e( 'Check this option if you want to hide button on member profile.', 'wb-todo' ); ?></p>
 					</td>
 				</tr>
 
