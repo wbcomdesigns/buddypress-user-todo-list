@@ -33,58 +33,68 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		}
 
 		public function bptodo_register_templates_pack() {
-			if( function_exists( 'bp_register_template_stack' ) ){
-				bp_register_template_stack(array($this,'bptodo_register_template_location') );
+			if ( function_exists( 'bp_register_template_stack' ) ) {
+				bp_register_template_stack( array( $this, 'bptodo_register_template_location' ) );
 			}
 		}
 
 		public function bptodo_add_todo_tabs_in_groups() {
 			global $bp, $current_user;
-			if (!function_exists('groups_get_groups')) return false;
-			if (!$bp->is_single_item) return false;
+			if ( ! function_exists( 'groups_get_groups' ) ) {
+				return false;
+			}
+			if ( ! $bp->is_single_item ) {
+				return false;
+			}
 
 			global $bptodo;
 
-	    	$profile_menu_label	= $bptodo->profile_menu_label;
-	    	$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-	    	$profile_menu_slug = $bptodo->profile_menu_slug;
-	    	$my_todo_items = $bptodo->my_todo_items;
+			$profile_menu_label        = $bptodo->profile_menu_label;
+			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+			$profile_menu_slug         = $bptodo->profile_menu_slug;
+			$my_todo_items             = $bptodo->my_todo_items;
 
-			$name = $profile_menu_slug;
-			$groups_link = bp_get_group_permalink($bp->groups->current_group);
-			$admin_link = trailingslashit( $groups_link . $profile_menu_slug );
+			$name        = $profile_menu_slug;
+			$groups_link = bp_get_group_permalink( $bp->groups->current_group );
+			$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 			// Common params to all nav items.
 			$default_params = array(
 				'parent_url'        => $admin_link,
-				'parent_slug'       => $bp->groups->current_group->slug . '_'.$profile_menu_slug,
+				'parent_slug'       => $bp->groups->current_group->slug . '_' . $profile_menu_slug,
 				'show_in_admin_bar' => true,
 			);
 
-			$sub_nav[] = array_merge( array(
-				'name'            => $profile_menu_label_plural,
-				'slug'            => 'list',
-				'screen_function' => array($this, 'bind_bp_groups_page'),
-				'position' => 0,
-			), $default_params );
+			$sub_nav[] = array_merge(
+				array(
+					'name'            => $profile_menu_label_plural,
+					'slug'            => 'list',
+					'screen_function' => array( $this, 'bind_bp_groups_page' ),
+					'position'        => 0,
+				),
+				$default_params
+			);
 
-			$is_admin = bp_group_is_admin();
+			$is_admin   = bp_group_is_admin();
 			$can_modify = false;
-			if( bp_group_is_mod() ) {
-				$group_id = $bp->groups->current_group->id;
+			if ( bp_group_is_mod() ) {
+				$group_id       = $bp->groups->current_group->id;
 				$mod_can_modify = bptodo_if_moderator_modification_enabled( $group_id, get_current_user_id() );
-				if( $mod_can_modify ) {
+				if ( $mod_can_modify ) {
 					$can_modify = true;
 				}
 			}
 
-			if( $is_admin || $can_modify ) {
-				$sub_nav[] = array_merge( array(
-					'name'            => esc_html__( 'Add', 'wb-todo' ),
-					'slug'            => 'add',
-					'screen_function'   => array($this, 'bind_bp_groups_page'),
-					'position' => 0,
-				), $default_params );
+			if ( $is_admin || $can_modify ) {
+				$sub_nav[] = array_merge(
+					array(
+						'name'            => esc_html__( 'Add', 'wb-todo' ),
+						'slug'            => 'add',
+						'screen_function' => array( $this, 'bind_bp_groups_page' ),
+						'position'        => 0,
+					),
+					$default_params
+				);
 			}
 
 			foreach ( $sub_nav as $nav ) {
@@ -92,27 +102,27 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			}
 		}
 
-		function bind_bp_groups_page () {
-			add_action('bp_template_content', array($this, 'show_group_events_profile_body'));
-			bp_core_load_template(apply_filters('bp_core_template_plugin', 'groups/single/plugins'));
+		function bind_bp_groups_page() {
+			add_action( 'bp_template_content', array( $this, 'show_group_events_profile_body' ) );
+			bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'groups/single/plugins' ) );
 		}
 
 		function show_group_events_profile_body() {
-			do_action('eab-buddypress-group_events-before_events');
+			do_action( 'eab-buddypress-group_events-before_events' );
 
 			echo '<h3>Group Events</h3>';
 
-			$groups_link = bp_get_group_permalink($bp->groups->current_group).'add-events/';
-			$create_event_text = __('Create Event', 'wb-todo');
-			echo '<div class="wb-group-archive-add-event"><a href="'.$groups_link.'">'.$create_event_text.'</a></div>';
+			$groups_link       = bp_get_group_permalink( $bp->groups->current_group ) . 'add-events/';
+			$create_event_text = __( 'Create Event', 'wb-todo' );
+			echo '<div class="wb-group-archive-add-event"><a href="' . $groups_link . '">' . $create_event_text . '</a></div>';
 
-			echo do_shortcode ('[eab_group_archives groups="'.bp_get_current_group_id().'" lookahead="yes"]');
+			echo do_shortcode( '[eab_group_archives groups="' . bp_get_current_group_id() . '" lookahead="yes"]' );
 
-			do_action('eab-buddypress-group_events-after_head');
+			do_action( 'eab-buddypress-group_events-after_head' );
 			// echo $this->_get_navigation($timestamp);
 			// echo $renderer->get_month_calendar($timestamp);
 			// echo $this->_get_navigation($timestamp);
-			do_action('eab-buddypress-group_events-after_events');
+			do_action( 'eab-buddypress-group_events-after_events' );
 		}
 
 		public function bptodo_register_template_location() {
@@ -132,7 +142,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 				$profile_menu_label        = $bptodo->profile_menu_label;
 				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-				$profile_menu_slug         = $bptodo->profile_menu_slug;
+				$profile_menu_slug         = strtolower( $bptodo->profile_menu_label );
 				$my_todo_items             = $bptodo->my_todo_items;
 
 				$displayed_uid  = bp_displayed_user_id();
