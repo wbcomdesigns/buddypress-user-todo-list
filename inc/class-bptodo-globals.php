@@ -97,7 +97,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @access   public
 		 * @var      string $hide_button contains values.
 		 */
-		public $hide_button;
+		// public $hide_button;
 
 		/**
 		 * Constructor.
@@ -152,10 +152,10 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			}
 
 			/** Send Mail. */
-			$this->hide_button = 'no';
-			if ( ! empty( $settings['hide_button'] ) ) {
-				$this->hide_button = 'yes';
-			}
+			// $this->hide_button = 'no';
+			// if ( ! empty( $settings['hide_button'] ) ) {
+			// $this->hide_button = 'yes';
+			// }
 
 			/** Count my todo items. */
 			$this->my_todo_items = $this->bptodo_count_my_todo_items();

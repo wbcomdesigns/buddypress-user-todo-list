@@ -33,17 +33,17 @@ global $bptodo;
 				</tr>
 
 				<!-- ALLOW USER TO HIDE BUTTON ON PROFILE HEADR -->
-				<tr>
-					<th scope="row"><label for="bptodo-hide-button"><?php esc_html_e( 'Hide Button', 'wb-todo' ); ?></label></th>
+				<!-- <tr>
+					<th scope="row"><label for="bptodo-hide-button"><?php // esc_html_e( 'Hide Button', 'wb-todo' ); ?></label></th>
 					<td>
 						<label class="switch">
-							<input type="checkbox" name="bptodo_hide_button" id="bptodo-hide-button" <?php echo ( 'yes' == $bptodo->hide_button ) ? 'checked' : 'unchecked'; ?>>
+							<input type="checkbox" name="bptodo_hide_button" id="bptodo-hide-button" <?php // echo ( 'yes' == $bptodo->hide_button ) ? 'checked' : 'unchecked'; ?>>
 							<span class="slider round"></span>
 						</label>
-						<label for="bptodo-hide-button"><?php esc_html_e( 'Allow user to hide button on member profile header.', 'wb-todo' ); ?></label>
-						<p class="description"><?php esc_html_e( 'Check this option if you want to hide button on member profile.', 'wb-todo' ); ?></p>
+						<label for="bptodo-hide-button"><?php // esc_html_e( 'Allow user to hide button on member profile header.', 'wb-todo' ); ?></label>
+						<p class="description"><?php // esc_html_e( 'Check this option if you want to hide button on member profile.', 'wb-todo' ); ?></p>
 					</td>
-				</tr>
+				</tr> -->
 
 				<!-- ALLOW USER TO ADD CATEGORY OF TODO -->
 				<tr>

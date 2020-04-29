@@ -28,7 +28,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'init', array( $this, 'bptodo_manage_todo_due_date' ) );
-			add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );
+			// add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );
 			add_action( 'bp_setup_admin_bar', array( $this, 'bptodo_setup_admin_bar' ), 80 );
 			add_filter( 'manage_bp-todo_posts_columns', array( $this, 'bptodo_due_date_column_heading' ), 10 );
 			add_action( 'manage_bp-todo_posts_custom_column', array( $this, 'bptodo_due_date_column_content' ), 10, 2 );
@@ -116,8 +116,16 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 * @access   public
 		 * @author   Wbcom Designs
 		 */
+		/*
 		public function bptodo_add_todo_button_on_member_header() {
+
 			global $bptodo;
+
+			// echo $bptodo->hide_button;
+			if ( 'yes' != $bptodo->hide_button ) {
+				return;
+			}
+
 			$profile_menu_label = $bptodo->profile_menu_label;
 			$profile_menu_slug  = $bptodo->profile_menu_slug;
 			if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
@@ -129,6 +137,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 				<?php
 			}
 		}
+		*/
 
 		/**
 		 * Contain admin nav item.
