@@ -74,6 +74,7 @@ function run_wp_bptodo_list() {
 		'admin/wbcom/wbcom-admin-settings.php',
 		'admin/class-bptodo-admin.php',
 		'admin/class-bptodo-feedback.php',
+		'inc/widget/class-user-todo.php',
 	);
 	foreach ( $include_files  as $include_file ) {
 		include $include_file;
