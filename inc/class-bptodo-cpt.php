@@ -54,27 +54,28 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 
 			$args = array(
-				'labels'             => $labels,
-				'public'             => true,
-				'menu_icon'          => 'dashicons-edit',
-				'publicly_queryable' => true,
-				'show_ui'            => true,
-				'show_in_menu'       => true,
-				'query_var'          => true,
-				'rewrite'            => array(
+				'labels'              => $labels,
+				'public'              => true,
+				'menu_icon'           => 'dashicons-edit',
+				'publicly_queryable'  => true,
+				'exclude_from_search' => false,
+				'show_ui'             => true,
+				'show_in_menu'        => true,
+				'query_var'           => true,
+				'rewrite'             => array(
 					'slug'       => 'todo',
 					'with_front' => false,
 				),
-				'capability_type'    => 'post',
-				'capabilities'       => array(
+				'capability_type'     => 'post',
+				'capabilities'        => array(
 					'create_posts' => false,
 					'delete_posts' => false,
 					'edit_post'    => false,
 				),
-				'has_archive'        => true,
-				'hierarchical'       => false,
-				'menu_position'      => null,
-				'supports'           => array( 'title', 'editor', 'author', 'thumbnail' ),
+				'has_archive'         => true,
+				'hierarchical'        => false,
+				'menu_position'       => null,
+				'supports'            => array( 'title', 'editor', 'author', 'thumbnail' ),
 			);
 			register_post_type( 'bp-todo', $args );
 			flush_rewrite_rules( false );
@@ -112,13 +113,16 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 			register_taxonomy( 'todo_category', array( 'bp-todo' ), $tax_args );
 
-			$numTerms = wp_count_terms( 'todo_category', array(
-				'hide_empty'=> false,
-				'parent'    => 0
-			) );
+			$numTerms = wp_count_terms(
+				'todo_category',
+				array(
+					'hide_empty' => false,
+					'parent'     => 0,
+				)
+			);
 
 			$term = term_exists( 'Uncategorized', 'todo_category' );
-			if ( empty( $term ) && $numTerms=='0') {
+			if ( empty( $term ) && $numTerms == '0' ) {
 				wp_insert_term(
 					'Uncategorized',
 					'todo_category'
