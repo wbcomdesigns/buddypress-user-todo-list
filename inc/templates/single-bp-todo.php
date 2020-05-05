@@ -6,12 +6,12 @@
  * Please note that this is the WordPress construct of pages and that
  * other "pages" on your WordPress site will use a different template.
  *
- * @package WordPress
- * @subpackage Twenty_Fifteen
- * @since Twenty Fifteen 1.0
+ * @package bp-user-todo-list
+ * @since 2.2.1
  */
 
 get_header(); ?>
+<?php get_sidebar( 'left' ); ?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
@@ -41,17 +41,10 @@ get_header(); ?>
 				?>
 		 </div><!-- .entry-content -->
 	</article>
-			<?php
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-			// End the loop.
-		endwhile;
-		?>
+			<?php endwhile; ?>
+			<?php bptodo_todo_ueer_report(); ?>
 
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
-
+<?php get_sidebar( 'right' ); ?>
 <?php get_footer(); ?>

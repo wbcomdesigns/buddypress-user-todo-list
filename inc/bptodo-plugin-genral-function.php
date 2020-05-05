@@ -79,20 +79,250 @@ if ( ! function_exists( 'bp_todo_post_type_archive' ) ) {
 	add_action( 'pre_get_posts', 'wpc_order_post_type_archive' );
 }
 
-/* Filter the single_template with our custom function*/
-add_filter( 'single_template', 'my_custom_template' );
+if ( ! function_exists( 'bptodo_template_loader' ) ) {
+	add_filter( 'template_include', 'bptodo_template_loader' );
+	function bptodo_template_loader( $template ) {
 
-function my_custom_template( $single ) {
+		$default_file = bptodo_get_template_loader_default_file();
+		if ( $default_file ) {
+			$search_files = bptodo_get_template_loader_files( $default_file );
+			$template     = locate_template( $search_files );
 
-	global $post;
-
-	/* Checks for single template by post type */
-	if ( $post->post_type == 'bp-todo' ) {
-		if ( file_exists( BPTODO_PLUGIN_PATH . '/inc/todo/single-bp-todo.php' ) ) {
-			return BPTODO_PLUGIN_PATH . '/inc/todo/single-bp-todo.php';
+			if ( ! $template ) {
+				$template = BPTODO_TEMPLATE_PATH . $default_file;
+			}
 		}
+		return $template;
 	}
+}
 
-	return $single;
+if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
+	function bptodo_get_template_loader_default_file() {
+		if ( is_singular( 'bp-todo' ) ) {
+			$default_file = 'single-bp-todo.php';
+		} elseif ( is_tax( get_object_taxonomies( 'bp-todo' ) ) ) {
+			$object = get_queried_object();
 
+			if ( is_tax( 'todo_category' ) ) {
+				$default_file = 'taxonomy-' . $object->taxonomy . '.php';
+				echo $default_file;
+			} else {
+				$default_file = 'archive-bp-todo.php';
+			}
+		} elseif ( is_post_type_archive( 'bp-todo' ) ) {
+			$default_file = 'archive-bp-todo.php';
+		} else {
+			$default_file = '';
+		}
+		return $default_file;
+	}
+}
+
+if ( ! function_exists( 'bptodo_get_template_loader_files' ) ) {
+	function bptodo_get_template_loader_files( $default_file ) {
+		$templates = array();
+
+		if ( is_page_template() ) {
+			$templates[] = get_page_template_slug();
+		}
+
+		if ( is_singular( 'bp-todo' ) ) {
+			$object       = get_queried_object();
+			$name_decoded = urldecode( $object->post_name );
+			if ( $name_decoded !== $object->post_name ) {
+				$templates[] = "single-bp-todo-{$name_decoded}.php";
+			}
+			$templates[] = "single-bp-todo-{$object->post_name}.php";
+		}
+
+		if ( is_tax( get_object_taxonomies( 'bo-todo' ) ) ) {
+			$object      = get_queried_object();
+			$templates[] = 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
+			$templates[] = BPTODO_TEMPLATE_PATH . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
+			$templates[] = 'taxonomy-' . $object->taxonomy . '.php';
+			$templates[] = BPTODO_TEMPLATE_PATH . 'taxonomy-' . $object->taxonomy . '.php';
+		}
+
+		$templates[] = $default_file;
+		$templates[] = BPTODO_TEMPLATE_PATH . $default_file;
+
+		return array_unique( $templates );
+	}
+}
+
+
+if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
+	/**
+	 * Display average todo percentage of each member
+	 *
+	 * @param  [int] $todoID  The id of post(TO DO)
+	 * @return [float]         Average percentage of todo
+	 */
+	function bptodo_get_user_average_todos( $todoID ) {
+		global $bp, $post;
+		$group_id        = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
+		$todo_primary_id = get_post_meta( $todoID, 'todo_primary_id', true );
+
+		$total_args = array(
+			'post_type'      => 'bp-todo',
+			'posts_per_page' => -1,
+			'meta_query'     => array(
+				'relation' => 'AND',
+				array(
+					'key'     => 'todo_group_id',
+					'value'   => $group_id,
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'todo_primary_id',
+					'value'   => $todo_primary_id,
+					'compare' => '=',
+				),
+			),
+		);
+
+		$todos = get_posts( $total_args );
+		// print_r( count( $todos ) );
+		$total_count = 0;
+		if ( ! empty( $todos ) ) {
+			$total_count = count( $todos );
+		}
+
+		$args = array(
+			'group_id'            => $group_id,
+			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+		);
+
+		$group_members_result = groups_get_group_members( $args );
+		$group_members_ids    = array();
+
+		foreach ( $group_members_result['members'] as $member ) {
+			$group_members_ids[] = $member->ID;
+		}
+		$member_count = count( $group_members_ids );
+
+		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
+
+		$avg_rating = ( $completed_count * 100 ) / $member_count;
+		$avg_rating = round( $avg_rating, 2 ) . '% ';
+		return $avg_rating;
+
+		wp_reset_postdata();
+
+	}
+}
+
+if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
+	/**
+	 * Get the completed to do count
+	 *
+	 * @param  [int] $group_id        Accosiated group id
+	 * @param  [int] $todo_primary_id Primary to-do id
+	 * @return [float]                Count of completed to-dos
+	 */
+	function bpto_completed_todo_count( $group_id, $todo_primary_id ) {
+		$associated_todo = get_post_meta( $todo_primary_id, 'botodo_associated_todo', true );
+
+		$completed_args  = array(
+			'post_type'      => 'bp-todo',
+			'posts_per_page' => -1,
+			'meta_query'     => array(
+				array(
+					'key'     => 'todo_status',
+					'value'   => 'complete',
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'todo_group_id',
+					'value'   => $group_id,
+					'compare' => '=',
+				),
+				array(
+					'key'     => 'todo_primary_id',
+					'value'   => $todo_primary_id,
+					'compare' => '=',
+				),
+			),
+		);
+		$completed_todos = get_posts( $completed_args );
+		$completed_count = 0;
+		if ( ! empty( $completed_todos ) ) {
+			$completed_count = count( $completed_todos );
+		}
+		return $completed_count;
+		wp_reset_postdata();
+	}
+}
+
+if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
+	/**
+	 * Create a repot table on single todo page.
+	 *
+	 * @return [strng]
+	 */
+	function bptodo_todo_ueer_report() {
+		global $bp, $post;
+
+		$group_id = get_post_meta( $post->ID, 'todo_group_id', true );
+
+		if ( ! empty( $group_id ) ) {
+			$args = array(
+				'group_id'            => $group_id,
+				'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+			);
+
+			$group_members     = groups_get_group_members( $args );
+			$group_members_ids = array();
+
+			foreach ( $group_members['members'] as $member ) {
+				$group_members_ids[] = $member->ID;
+			}
+		}
+		$users = get_users();
+		?>
+			<table>
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'User', 'wb-todo' ); ?></th>
+						<th><?php esc_html_e( 'Status', 'wb-todo' ); ?></th>
+						<th><?php esc_html_e( 'Time', 'wb-todo' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<?php
+					foreach ( $users as $user ) {
+						if ( in_array( $user->ID, $group_members_ids ) ) {
+							$member_todo_args = array(
+								'post_type'      => 'bp-todo',
+								'post_status'    => 'publish',
+								'author'         => $user->ID,
+								'posts_per_page' => -1,
+							);
+							$member_todos     = get_posts( $member_todo_args );
+							foreach ( $member_todos as $member_todo ) {
+								$member_todo_status         = get_post_meta( $member_todo->ID, 'todo_status', true );
+								$get_member_todo_completion = get_post_meta( $member_todo->ID, 'todo_complete_time', true );
+
+								if ( ! empty( $get_member_todo_completion ) ) {
+									$member_todo_complition = human_time_diff( current_time( 'timestamp' ), $get_member_todo_completion ) . ' ago';
+
+								}
+							}
+							?>
+							<tr>
+								<td><?php echo esc_html( ucfirst( $user->user_nicename ) ); ?></td>
+							  <td><?php echo esc_html( $member_todo_status ); ?></td>
+							  <td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
+							 </tr>
+							<?php
+						}
+					}
+					?>
+
+			</tbody>
+		</table>
+		<?php
+		wp_reset_postdata();
+	}
 }

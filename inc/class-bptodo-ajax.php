@@ -92,10 +92,10 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
-				$primary_todo_id =  get_post_meta( $tid, 'todo_primary_id', true );
-				if( $primary_todo_id ) {
+				$primary_todo_id = get_post_meta( $tid, 'todo_primary_id', true );
+				if ( $primary_todo_id ) {
 					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-					foreach ( (array)$associated_todo as $key => $_todo_id ) {
+					foreach ( (array) $associated_todo as $key => $_todo_id ) {
 						wp_delete_post( $_todo_id, true );
 					}
 				}
@@ -117,8 +117,11 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 			if ( isset( $_POST['action'] ) && 'bptodo_complete_todo' == $_POST['action'] ) {
 				$due_date_str      = '';
 				$due_date_td_class = '';
-				$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
+				$tid               = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
+				$user_id           = sanitize_text_field( wp_unslash( $_POST['uid'] ) );
 				update_post_meta( $tid, 'todo_status', 'complete' );
+				update_post_meta( $tid, 'todo_user_id', $user_id );
+				update_post_meta( $tid, 'todo_complete_time', time() );
 				$completed_todos = sanitize_text_field( wp_unslash( $_POST['completed'] ) );
 				$all_todo        = sanitize_text_field( wp_unslash( $_POST['all_todo'] ) );
 				(int) $completed_todos ++;
@@ -128,6 +131,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				$todo          = get_post( $tid );
 				$todo_title    = $todo->post_title;
 				$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
+				$todo_view_url = get_permalink( $tid );
 
 				$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
 				$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
@@ -139,7 +143,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 					$due_date_td_class = 'bptodo-expired';
 				} elseif ( 0 == $diff_days ) {
-					$due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!','wb-todo');
+					$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 					$due_date_td_class = 'bptodo-expires-today';
 					$all_remaining_todo++;
 				} else {
@@ -147,20 +151,20 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$all_remaining_todo++;
 				}
 				if ( 'complete' == $todo_status ) {
-					$due_date_str      = esc_html__('Completed!','wb-todo');
+					$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 					$due_date_td_class = '';
 					$all_completed_todo++;
 				}
 				if ( ! empty( $todo_priority ) ) {
 					if ( 'critical' == $todo_priority ) {
 						$priority_class = 'bptodo-priority-critical';
-						$priority_text = esc_html__('Critical','wb-todo');
+						$priority_text  = esc_html__( 'Critical', 'wb-todo' );
 					} elseif ( 'high' == $todo_priority ) {
 						$priority_class = 'bptodo-priority-high';
-						$priority_text = esc_html__('High','wb-todo');
+						$priority_text  = esc_html__( 'High', 'wb-todo' );
 					} else {
 						$priority_class = 'bptodo-priority-normal';
-						$priority_text = esc_html__('Normal','wb-todo');
+						$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 					}
 				}
 				$completed_html  = '';
@@ -177,7 +181,8 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				} else {
 					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
 				}
-				$completed_html .= '</ul></td></tr>';
+					$completed_html .= '<li><a href="' . esc_attr( $todo_view_url ) . '" title="' . sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ) . '" target="_blank"><i class="fa fa-eye"></i></a></li>';
+				$completed_html     .= '</ul></td></tr>';
 				/** End of html of completed todo. */
 				$response = array(
 					'result'         => 'todo-completed',

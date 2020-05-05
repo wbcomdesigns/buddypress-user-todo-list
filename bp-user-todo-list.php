@@ -52,6 +52,11 @@ if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 if ( ! defined( 'BP_ROOT_BLOG' ) ) {
 	define( 'BP_ROOT_BLOG', 1 );
 }
+
+if ( ! defined( 'BPTODO_TEMPLATE_PATH' ) ) {
+	define( 'BPTODO_TEMPLATE_PATH', BPTODO_PLUGIN_PATH . '/inc/templates/' );
+}
+
 global $bptodo;
 
 /**

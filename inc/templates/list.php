@@ -368,6 +368,7 @@ if ( empty( $todos ) ) {
 														$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 													}
 												}
+
 												?>
 										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo $priority_text; ?></span></td>
@@ -382,12 +383,19 @@ if ( empty( $todos ) ) {
 													<?php if ( 'complete' !== $todo_status ) { ?>
 														<?php if ( $can_modify ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-edit"></i></a></li>
-													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 													<?php } ?>
-													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
+													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" data-uid="<?php echo esc_attr( $current_user ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 													<?php } else { ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
-													<?php } ?>
+														<?php
+													}
+													if ( $can_modify ) {
+														?>
+														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
+														<?php
+													}
+													?>
 												</ul>
 											</td>
 										</tr>
@@ -458,12 +466,19 @@ if ( empty( $todos ) ) {
 													<?php if ( 'complete' !== $todo_status ) { ?>
 														<?php if ( $can_modify ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-edit"></i></a></li>
-													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 													<?php } ?>
-													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
+													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" data-uid="<?php echo esc_attr( $current_user ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 													<?php } else { ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 													<?php } ?>
+													<?php
+													if ( $can_modify ) {
+														?>
+														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
+														<?php
+													}
+													?>
 												</ul>
 											</td>
 										</tr>
@@ -547,12 +562,19 @@ if ( empty( $todos ) ) {
 													<?php if ( 'complete' !== $todo_status ) { ?>
 														<?php if ( $can_modify ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-edit"></i></a></li>
-													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 													<?php } ?>
-													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
+													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" data-uid="<?php echo esc_attr( $current_user ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 													<?php } else { ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
-													<?php } ?>
+														<?php
+													}
+													if ( $can_modify ) {
+														?>
+														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
+														<?php
+													}
+													?>
 												</ul>
 											</td>
 										</tr>
@@ -636,12 +658,19 @@ if ( empty( $todos ) ) {
 													<?php if ( 'complete' != $todo_status ) { ?>
 														<?php if ( $can_modify ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-edit"></i></a></li>
-													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 													<?php } ?>
-													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
+													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+													<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" data-uid="<?php echo esc_attr( $current_user ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 													<?php } else { ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
-													<?php } ?>
+														<?php
+													}
+													if ( $can_modify ) {
+														?>
+														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
+														<?php
+													}
+													?>
 												</ul>
 											</td>
 										</tr>
@@ -718,6 +747,7 @@ if ( empty( $todos ) ) {
 																			$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																		}
 																	}
+
 																	?>
 																<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
 																	<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo $priority_text; ?></span></td>
@@ -741,7 +771,7 @@ if ( empty( $todos ) ) {
 																			<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-check"></i></a></li>
 																			<?php } else { ?>
 																			<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
-																			<?php } ?>
+																			<?php	} ?>
 																		</ul>
 																	</td>
 																</tr>

@@ -360,6 +360,13 @@ if ( empty( $todos ) ) {
 																	<?php } else { ?>
 																	<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
+																	<?php
+																	if ( $can_modify ) {
+																		?>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<?php
+																	}
+																	?>
 																</ul>
 															</td>
 														</tr>
@@ -430,6 +437,13 @@ if ( empty( $todos ) ) {
 																	<?php } else { ?>
 																	<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
+																	<?php
+																	if ( $can_modify ) {
+																		?>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<?php
+																	}
+																	?>
 																</ul>
 															</td>
 														</tr>
@@ -507,6 +521,13 @@ if ( empty( $todos ) ) {
 																	<?php } else { ?>
 																	<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
+																	<?php
+																	if ( $can_modify ) {
+																		?>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<?php
+																	}
+																	?>
 																</ul>
 															</td>
 														</tr>
@@ -578,6 +599,13 @@ if ( empty( $todos ) ) {
 																	<?php } else { ?>
 																	<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
+																	<?php
+																	if ( $can_modify ) {
+																		?>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<?php
+																	}
+																	?>
 																</ul>
 															</td>
 														</tr>
@@ -668,6 +696,13 @@ if ( empty( $todos ) ) {
 																		<?php } else { ?>
 																		<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ); ?>"><i class="fa fa-undo"></i></a></li>
 																		<?php } ?>
+																		<?php
+																		if ( $can_modify ) {
+																			?>
+																			<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																			<?php
+																		}
+																		?>
 																	</ul>
 																</td>
 															</tr>
