@@ -187,3 +187,19 @@ function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
+
+
+if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
+	/**
+	 *  Add or exclude group modtaros in average percentage calculation.
+	 *
+	 * @var [bool]
+	 */
+	add_filter( 'bptodo_exclude_modrator_view', 'bptodo_list_group_modrator' );
+	function bptodo_list_group_modrator() {
+		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+
+		$can_list = ( isset( $group_todo_list_settings['list_enable'] ) ) ? true : false;
+		return $can_list;
+	}
+}

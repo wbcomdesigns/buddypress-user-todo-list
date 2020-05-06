@@ -254,20 +254,26 @@ if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
 	}
 }
 
-if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
+if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 	/**
 	 * Create a repot table on single todo page.
 	 *
 	 * @return [strng]
 	 */
-	function bptodo_todo_ueer_report() {
+	function bptodo_todo_user_report() {
 		global $bp, $post;
 
 		if ( bp_is_active( 'groups' ) ) {
-
-			$group_id = get_post_meta( $post->ID, 'todo_group_id', true );
+			$group_id     = get_post_meta( $post->ID, 'todo_group_id', true );
+			$current_user = get_current_user_id();
 
 			if ( ! empty( $group_id ) ) {
+
+				$can_view = bptodo_enable_repot_view( $current_user, $group_id );
+
+				if ( true != $can_view ) {
+					return; // Bail of is moderator view is not enable.
+				}
 
 				$args = array(
 					'group_id'            => $group_id,
@@ -331,6 +337,30 @@ if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
 			<?php
 			wp_reset_postdata();
 		}
+
+	}
+}
+
+
+if ( ! function_exists( 'bptodo_enable_repot_view' ) ) {
+	function bptodo_enable_repot_view( $current_user, $group_id ) {
+
+		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+		$can_view                 = false;
+
+		if ( (bool) groups_is_user_admin( $current_user, $group_id ) ) {
+			$can_view = true;
+		}
+
+		if ( (bool) groups_is_user_mod( $current_user, $group_id ) ) {
+			$mod_can_view = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+
+			if ( $mod_can_view ) {
+				$can_view = true;
+			}
+		}
+
+		return apply_filters( 'bptodo_enable_repot_view', $can_view, $current_user, $group_id );
 
 	}
 }
