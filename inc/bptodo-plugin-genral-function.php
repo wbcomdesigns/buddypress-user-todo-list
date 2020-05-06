@@ -104,8 +104,8 @@ if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
 			$object = get_queried_object();
 
 			if ( is_tax( 'todo_category' ) ) {
-				$default_file = 'taxonomy-' . $object->taxonomy . '.php';
-				echo $default_file;
+				$default_file = 'archive-bp-todo.php';
+
 			} else {
 				$default_file = 'archive-bp-todo.php';
 			}
@@ -263,23 +263,27 @@ if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
 	function bptodo_todo_ueer_report() {
 		global $bp, $post;
 
-		$group_id = get_post_meta( $post->ID, 'todo_group_id', true );
+		if ( bp_is_active( 'groups' ) ) {
 
-		if ( ! empty( $group_id ) ) {
-			$args = array(
-				'group_id'            => $group_id,
-				'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
-			);
+			$group_id = get_post_meta( $post->ID, 'todo_group_id', true );
 
-			$group_members     = groups_get_group_members( $args );
-			$group_members_ids = array();
+			if ( ! empty( $group_id ) ) {
 
-			foreach ( $group_members['members'] as $member ) {
-				$group_members_ids[] = $member->ID;
+				$args = array(
+					'group_id'            => $group_id,
+					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+				);
+
+				$group_members     = groups_get_group_members( $args );
+				$group_members_ids = array();
+
+				foreach ( $group_members['members'] as $member ) {
+					$group_members_ids[] = $member->ID;
+				}
 			}
-		}
-		$users = get_users();
-		?>
+			if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
+				$users = get_users();
+				?>
 			<table>
 				<thead>
 					<tr>
@@ -291,6 +295,7 @@ if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
 				<tbody>
 
 					<?php
+
 					foreach ( $users as $user ) {
 						if ( in_array( $user->ID, $group_members_ids ) ) {
 							$member_todo_args = array(
@@ -310,19 +315,22 @@ if ( ! function_exists( 'bptodo_todo_ueer_report' ) ) {
 								}
 							}
 							?>
-							<tr>
-								<td><?php echo esc_html( ucfirst( $user->user_nicename ) ); ?></td>
-							  <td><?php echo esc_html( $member_todo_status ); ?></td>
-							  <td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
-							 </tr>
-							<?php
+								<tr>
+									<td><?php echo esc_html( ucfirst( $user->user_nicename ) ); ?></td>
+									<td><?php echo esc_html( $member_todo_status ); ?></td>
+									<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
+								</tr>
+								<?php
 						}
 					}
-					?>
+			}
+			?>
 
-			</tbody>
-		</table>
-		<?php
-		wp_reset_postdata();
+				</tbody>
+			</table>
+			<?php
+			wp_reset_postdata();
+		}
+
 	}
 }
