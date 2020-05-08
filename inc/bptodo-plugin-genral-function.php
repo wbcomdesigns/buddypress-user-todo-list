@@ -13,30 +13,33 @@
  * @param   string $default_path           Default path to template files.
  * @return  string                          Path to the template file.
  */
-function bp_todo_locate_template( $template_name, $template_path = '', $default_path = '' ) {
+if ( ! function_exists( 'bp_todo_locate_template' ) ) {
 
-	// Set variable to search in woocommerce-plugin-templates folder of theme.
-	if ( ! $template_path ) :
-		 $template_path = 'todo/';
-  endif;
-	// Set default plugin templates path.
-	if ( ! $default_path ) :
-		 $default_path = BPTODO_PLUGIN_PATH . '/inc/todo/';
-		// Path to the template folder
-  endif;
-	// Search template file in theme folder.
-	$template = locate_template(
-		array(
-			$template_path . $template_name,
-			$template_name,
-		)
-	);
-	// Get plugins template file.
-	if ( ! $template ) :
-		 $template = $default_path . $template_name;
-	endif;
+	function bp_todo_locate_template( $template_name, $template_path = '', $default_path = '' ) {
 
-	return apply_filters( 'bp_todo_locate_template', $template, $template_name, $template_path, $default_path );
+		// Set variable to search in woocommerce-plugin-templates folder of theme.
+		if ( ! $template_path ) :
+			$template_path = 'todo/';
+		endif;
+		// Set default plugin templates path.
+		if ( ! $default_path ) :
+			$default_path = BPTODO_PLUGIN_PATH . '/inc/todo/';
+			// Path to the template folder
+		endif;
+		// Search template file in theme folder.
+		$template = locate_template(
+			array(
+				$template_path . $template_name,
+				$template_name,
+			)
+		);
+		// Get plugins template file.
+		if ( ! $template ) :
+			$template = $default_path . $template_name;
+		endif;
+
+		return apply_filters( 'bp_todo_locate_template', $template, $template_name, $template_path, $default_path );
+	}
 }
 
 /**
@@ -53,30 +56,34 @@ function bp_todo_locate_template( $template_name, $template_path = '', $default_
  * @param string $string $template_path  Path to templates.
  * @param string $default_path           Default path to template files.
  */
-function bp_todo_get_template( $template_name, $args = array(), $tempate_path = '', $default_path = '' ) {
+if ( ! function_exists( 'bp_todo_get_template' ) ) {
 
-	if ( is_array( $args ) && isset( $args ) ) :
-		extract( $args );
-  endif;
-	$template_file = bp_todo_locate_template( $template_name, $tempate_path, $default_path );
-	if ( ! file_exists( $template_file ) ) :
-		 _doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $template_file ), '1.0.0' );
-		return;
-	endif;
+	function bp_todo_get_template( $template_name, $args = array(), $tempate_path = '', $default_path = '' ) {
 
-	include $template_file;
+		if ( is_array( $args ) && isset( $args ) ) :
+			extract( $args );
+		endif;
+		$template_file = bp_todo_locate_template( $template_name, $tempate_path, $default_path );
+		if ( ! file_exists( $template_file ) ) :
+			_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $template_file ), '1.0.0' );
+			return;
+		endif;
+
+		include $template_file;
+	}
 }
 
 
 if ( ! function_exists( 'bp_todo_post_type_archive' ) ) {
-	function wpc_order_post_type_archive( $query ) {
+
+	function bp_todo_post_type_archive( $query ) {
 		if ( $query->is_main_query() && is_post_type_archive( 'bp-todo' ) ) {
 			$user_id = get_current_user_id();
 			// order post_type and remove pagination
 			$query->set( 'author', $user_id );
 		}
 	}
-	add_action( 'pre_get_posts', 'wpc_order_post_type_archive' );
+	add_action( 'pre_get_posts', 'bp_todo_post_type_archive' );
 }
 
 if ( ! function_exists( 'bptodo_template_loader' ) ) {
@@ -97,6 +104,7 @@ if ( ! function_exists( 'bptodo_template_loader' ) ) {
 }
 
 if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
+
 	function bptodo_get_template_loader_default_file() {
 		if ( is_singular( 'bp-todo' ) ) {
 			$default_file = 'single-bp-todo.php';
@@ -119,6 +127,7 @@ if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
 }
 
 if ( ! function_exists( 'bptodo_get_template_loader_files' ) ) {
+
 	function bptodo_get_template_loader_files( $default_file ) {
 		$templates = array();
 
@@ -137,10 +146,10 @@ if ( ! function_exists( 'bptodo_get_template_loader_files' ) ) {
 
 		if ( is_tax( get_object_taxonomies( 'bo-todo' ) ) ) {
 			$object      = get_queried_object();
-			$templates[] = 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
-			$templates[] = BPTODO_TEMPLATE_PATH . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
-			$templates[] = 'taxonomy-' . $object->taxonomy . '.php';
-			$templates[] = BPTODO_TEMPLATE_PATH . 'taxonomy-' . $object->taxonomy . '.php';
+			$templates[] = 'archive-' . $object->taxonomy . '-' . $object->slug . '.php';
+			$templates[] = BPTODO_TEMPLATE_PATH . 'archive-' . $object->taxonomy . '-' . $object->slug . '.php';
+			$templates[] = 'archive-' . $object->taxonomy . '.php';
+			$templates[] = BPTODO_TEMPLATE_PATH . 'archive-' . $object->taxonomy . '.php';
 		}
 
 		$templates[] = $default_file;
