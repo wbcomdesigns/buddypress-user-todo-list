@@ -36,6 +36,20 @@ if ( isset( $_POST['todo_create'] ) && wp_verify_nonce( $_POST['save_new_todo_da
 		$priority = sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) );
 	}
 
+	$can_modify = false;
+
+	if ( bp_group_is_admin() ) {
+		$can_modify = true;
+	}
+
+
+	if ( bp_group_is_mod() ) {
+		$mod_can_modify = bptodo_if_moderator_modification_enabled( $group_id, $current_user );
+		if ( $mod_can_modify ) {
+			$can_modify = true;
+		}
+	}
+
 	$taxonomy = 'todo_category';
 	$args     = array(
 		'post_type'    => 'bp-todo',

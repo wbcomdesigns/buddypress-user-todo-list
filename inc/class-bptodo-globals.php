@@ -119,7 +119,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 */
 		public function setup_globals() {
 			global $bptodo;
-			$settings                        = get_option( 'user_todo_list_settings' );
+			$settings = get_option( 'user_todo_list_settings' );
+
 			$this->profile_menu_label        = esc_html__( 'To-Do', 'wb-todo' );
 			$this->profile_menu_label_plural = esc_html__( 'To-Dos', 'wb-todo' );
 			if ( isset( $settings['profile_menu_label'] ) ) {
@@ -130,7 +131,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 				$this->profile_menu_label_plural = $settings['profile_menu_label_plural'];
 			}
 
-			$this->profile_menu_slug = apply_filters( 'wbbptodo_slug', 'to-do' );
+			$this->profile_menu_slug = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
+
 			// $this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
 
 			/** Allow User To Add Todo Category. */
