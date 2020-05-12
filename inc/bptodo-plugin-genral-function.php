@@ -303,7 +303,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 			if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
 				$users = get_users();
 				?>
-			<table>
+			<table claas="bp-todo-report">
 				<thead>
 					<tr>
 						<th><?php esc_html_e( 'User', 'wb-todo' ); ?></th>

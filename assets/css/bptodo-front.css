@@ -465,83 +465,20 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
   padding: 0 10px 1px;
 }
 
-body:not(.woocommerce-page):not(.page-template-page-search-results) table {
-  font-size: .75rem;
+/******** Report Table *************/
+.single-to-report table {
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
   margin: 0 0 1rem;
-  table-layout: fixed
+  border: 1px solid #ddd;
 }
 
-body:not(.woocommerce-page):not(.page-template-page-search-results) table thead th {
-  border: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table thead tr:first-child th:first-child {
-  border-top-left-radius: 8px
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table thead tr:first-child th:last-child {
-  border-top-right-radius: 8px
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table td,
-body:not(.woocommerce-page):not(.page-template-page-search-results) table th {
-  padding: 1rem
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table th {
-  text-align: left;
-  background: #333334;
-  color: #fff
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:nth-child(odd) {
-  background: #fff
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:nth-child(2n) {
-  background: #f5f5f5
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:first-child th {
-  border-top: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:last-child td {
-  border-bottom: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr td:first-child,
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr th:first-child {
-  border-left: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr td:last-child,
-body:not(.woocommerce-page):not(.page-template-page-search-results) table tr th:last-child {
-  border-right: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results).overflow-table body:not(.woocommerce-page):not(.page-template-page-search-results).overflow-table td {
-  white-space: nowrap !important
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap {
-  overflow-x: scroll
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table {
-  width: auto !important;
-  min-width: 100%;
-  table-layout: auto !important;
-  margin: 0
-}
-
-body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table table {
-  table-layout: auto !important;
-  width: 100% !important;
-  margin: 0
+.single-to-report table th,
+.single-to-report table td {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
 }
 
 /* Media Query */

@@ -42,7 +42,9 @@ get_header(); ?>
 		 </div><!-- .entry-content -->
 	</article>
 			<?php endwhile; ?>
-			<?php bptodo_todo_user_report(); ?>
+			<div class="single-to-report">
+				<?php bptodo_todo_user_report(); ?>
+			</div>
 
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
