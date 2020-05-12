@@ -1,457 +1,454 @@
 .todo-completed {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .add-todo-cat-row {
-    display: none;
-    margin-top: 15px;
+  display: none;
+  margin-top: 15px;
 }
 
 .bptodo-expires-today,
 .bptodo-expired {
-    color: red;
+  color: red;
 }
 
 .bptodo-add-todo-success {
-    border: 1px solid #EEEEEE;
-    padding: 10px;
-    padding-bottom: 0;
-    background-color: #DDFFD9;
-    margin-bottom: 5px;
-    vertical-align: middle;
+  border: 1px solid #EEEEEE;
+  padding: 10px;
+  padding-bottom: 0;
+  background-color: #DDFFD9;
+  margin-bottom: 5px;
+  vertical-align: middle;
 }
 
 .bptodo-add-todo-success p {
-    color: #0F9200;
+  color: #0F9200;
 }
 
 /** TODO LIST CSS **/
 .bptodo-adming-setting {
-    /*	float: left;*/
-    width: 100%;
+  /*	float: left;*/
+  width: 100%;
 }
 
 #export_my_tasks {
-    color: #000 !important;
-    margin-left: 15px;
+  color: #000 !important;
+  margin-left: 15px;
 }
 
 button.bptodo-item:focus {
-    background-color: #eee;
-    outline: none;
+  background-color: #eee;
+  outline: none;
 }
 
 button.bptodo-item {
-    background-color: #EEE;
-    border: medium none;
-    color: hsl(0, 0%, 27%);
-    cursor: pointer;
-    font-size: 15px;
-    margin-bottom: 15px;
-    outline: medium none;
-    padding: 15px 20px;
-    text-align: left;
-    transition: all 0.4s ease 0s;
-    width:100%;
-    font-weight: bold;
+  background-color: #EEE;
+  border: medium none;
+  color: hsl(0, 0%, 27%);
+  cursor: pointer;
+  font-size: 15px;
+  margin-bottom: 15px;
+  outline: medium none;
+  padding: 15px 20px;
+  text-align: left;
+  transition: all 0.4s ease 0s;
+  width: 100%;
+  font-weight: bold;
 }
 
 button.bptodo-item:hover {
-    background-color: #C1C1C1 !important;
+  background-color: #C1C1C1 !important;
 }
 
 div.panel {
-    padding: 0 0px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    margin:0px 5%;
+  padding: 0 0px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  margin: 0px 5%;
 }
 
 button.bptodo-item::after {
-    color: hsl(0, 0%, 47%);
-    content: "+";
-    float: right;
-    font-size: 13px;
-    font-weight: bolder;
-    margin-left: 5px;
+  color: hsl(0, 0%, 47%);
+  content: "+";
+  float: right;
+  font-size: 13px;
+  font-weight: bolder;
+  margin-left: 5px;
 }
 
 button.bptodo-item::after:hover {
-    color: #fff;
+  color: #fff;
 }
 
 button.bptodo-item.active::after {
-    content: "−";
-    color: #000;
+  content: "−";
+  color: #000;
 }
 
 .bptodo-admin-row {
-    clear: both;
-    overflow: hidden;
-    padding-bottom: 5px;
+  clear: both;
+  overflow: hidden;
+  padding-bottom: 5px;
 }
 
 .bptodo-item-accord {
-    margin-left: 0px;
+  margin-left: 0px;
 }
 
 .bptodo-admin-row div.panel {
-    margin: 0px;
+  margin: 0px;
 }
 
 table.bp-todo-reminder th {
-    background: #f9f9f9;
-    border: none;
-    text-align: center;
+  background: #f9f9f9;
+  border: none;
+  text-align: center;
 }
 
 table.bp-todo-reminder {
-    width: 100%;
-    border: none;
+  width: 100%;
+  border: none;
 }
 
-table.bp-todo-reminder tbody
-td.bp-to-do-actions ul li {
-    display: inline-block;
-    margin: 4px;
-
+table.bp-todo-reminder tbody td.bp-to-do-actions ul li {
+  display: inline-block;
+  margin: 4px;
 }
 
-table.bp-todo-reminder tbody
-td.bp-to-do-actions ul li a {
-    background: #dedede;
-    border-radius: 50px;
-    height: 25px;
-    width: 25px;
-    line-height: 25px;
-    display: block;
-    text-align: center;
-    color: #313131;
-    transition: all .3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+table.bp-todo-reminder tbody td.bp-to-do-actions ul li a {
+  background: #dedede;
+  border-radius: 50px;
+  height: 25px;
+  width: 25px;
+  line-height: 25px;
+  display: block;
+  text-align: center;
+  color: #313131;
+  transition: all .3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-table.bp-todo-reminder tbody
-td.bp-to-do-actions ul li a:hover {
-    color: #fff;
-    background: #2094f4;
+table.bp-todo-reminder tbody td.bp-to-do-actions ul li a:hover {
+  color: #fff;
+  background: #2094f4;
 }
+
 table.bp-todo-reminder tbody td {
-    text-align: center;
-    padding: 10px 0;
+  text-align: center;
+  padding: 10px 0;
 }
 
 td.bp-to-do-actions ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .add-todo-category i {
-    margin-left: 10px;
-    font-size: 22px;
+  margin-left: 10px;
+  font-size: 22px;
 }
 
 .buddyboss-select {
-    width: 50%;
+  width: 50%;
 }
 
 .add-todo-cat-row input {
-    width: 50%;
+  width: 50%;
 }
 
 .bptodo-add-cat-empty::-webkit-input-placeholder {
-    color: red;
+  color: red;
 }
 
 .bptodo-add-todo-tbl,
 .bptodo-add-todo-tbl th,
 .bptodo-add-todo-tbl td {
-    border: none;
-    /*vertical-align: top!important;*/
+  border: none;
+  /*vertical-align: top!important;*/
 }
 
 .bptodo-add-todo-tbl {
-    width: 100%;
+  width: 100%;
 }
 
 table.bptodo-add-todo-tbl tbody tr td {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 #bptodo-calender .buddyboss-select-inner select {
-    width: 100%!important;
+  width: 100% !important;
 }
 
 .bp-user #buddypress table a {
-    color: #000 !important;
+  color: #000 !important;
 }
 
 a:focus,
 button:focus {
-    outline: none !important;
+  outline: none !important;
 }
 
 .bptodo-form-add input[type="text"], textarea {
-    width:100%!important;
+  width: 100% !important;
 }
 
 #todo-category-name {
-    width: 70% !important;
+  width: 70% !important;
 }
 
 #add-todo-cat {
-    width:25% !important;
-    margin: 0px 0px 0px 5px;
-    padding: 10px !important;
+  width: 25% !important;
+  margin: 0px 0px 0px 5px;
+  padding: 10px !important;
 }
 
 /*** 26/12/2017 ***/
-
 #bptodo-tabs {
-    background: #fff;
-    margin-top: 20px;
-    border-radius: 0!important;
-    border: 0;
+  background: #fff;
+  margin-top: 20px;
+  border-radius: 0 !important;
+  border: 0;
 }
 
 #bptodo-dashboard ul {
-    margin: 0!important;
-    padding: 0!important;
-    list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none;
 }
 
 #bptodo-dashboard ul li {
-    width: 100%;
-    font-size: 14px;
-    text-align: center;
-    border: 1px solid #ddd;
-    background: #f9f9f9;
-    display: inline-block;
-    margin: 5px;
-    padding: 10px;
-    border-radius: 5px;
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 #bptodo-dashboard ul li p {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 #bptodo-dashboard * {
-    box-sizing: border-box!important;
+  box-sizing: border-box !important;
 }
 
 #bptodo-dashboard-box {
-    display: flex;
-    position: relative!important;
-    overflow: hidden!important;
+  display: flex;
+  position: relative !important;
+  overflow: hidden !important;
 }
 
 /**** 05-01-2018 ***/
 #bptodo-settings-tbl .ui-widget-content {
-    background: #fff;
+  background: #fff;
 }
 
 #bptodo-tabs .ui-widget-header {
-    background: #fff;
-    border: 0;
-    border-radius: 0;
-    border-bottom: 1px solid #ccc;
-    margin: 0;
-    padding: 0;
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #ccc;
+  margin: 0;
+  padding: 0;
 }
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li {
-    border-radius: 0;
-    font-weight: normal;
+  border-radius: 0;
+  font-weight: normal;
 }
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-state-hover {
-    background: #f9f9f9;
+  background: #f9f9f9;
 }
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
-    margin-bottom: 0;
-    border: 1px solid #ddd;
-    border-radius: 0;
-    border-top: 2px solid #399dff;
-    font-weight: normal;
-    background: #fff;
-    border-bottom: 0;
-    margin-bottom: -1px;
+  margin-bottom: 0;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  border-top: 2px solid #399dff;
+  font-weight: normal;
+  background: #fff;
+  border-bottom: 0;
+  margin-bottom: -1px;
 }
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
 #bptodo-tabs.ui-tabs .ui-tabs-nav li a {
-    font-size: 14px;
-    color: #399dff;
-    border: 0;
+  font-size: 14px;
+  color: #399dff;
+  border: 0;
 }
 
 .bp-todo-dashboard-at-a-glance-box h4 {
-    font-size: 30px;
-    margin-bottom: 10px;
+  font-size: 30px;
+  margin-bottom: 10px;
 }
 
 .bptodo-light-grey {
-    background-color: #ccc;
-    position: relative;
+  background-color: #ccc;
+  position: relative;
 }
 
 .bptodo-color {
-    height: 24px;
-    width: 25%;
-    background-color: #399dff;
+  height: 24px;
+  width: 25%;
+  background-color: #399dff;
 }
 
 .bptodo-progress-section {
-    padding: 10px 0;
-    position: relative;
+  padding: 10px 0;
+  position: relative;
 }
 
-.bptodo-light-grey > span {
-    color: #fff;
-    min-width: 80px;
-    display: block;
-    padding-left: 10px;
-    font-size: 12px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+.bptodo-light-grey>span {
+  color: #fff;
+  min-width: 80px;
+  display: block;
+  padding-left: 10px;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .bptodo-progress-section .task-progress-task-count-wrap {
-    position: relative;
-    top: -5px;
-    min-width: 100px;
-    z-index: 1;
+  position: relative;
+  top: -5px;
+  min-width: 100px;
+  z-index: 1;
 }
 
 .bptodo-progress-section h5 {
-    margin: 0 0 2rem;
+  margin: 0 0 2rem;
 }
 
 .bptodo-progress-section .task-progress-task-count {
-    position: relative;
-    background: #616161;
-    border: 1px solid #616161;
+  position: relative;
+  background: #616161;
+  border: 1px solid #616161;
 }
 
 .bptodo-progress-section .task-progress-task-count {
-    display: inline-block;
-    text-align: center;
-    font-size: 10px;
-    background: #616161;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
+  display: inline-block;
+  text-align: center;
+  font-size: 10px;
+  background: #616161;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 .bptodo-progress-section .task-progress-task-count::after {
-    content: " ";
-    position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #616161 transparent transparent transparent;
+  content: " ";
+  position: absolute;
+  top: 100%;
+  /* At the bottom of the tooltip */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #616161 transparent transparent transparent;
 }
 
 #bptodo-task-tabs.ui-tabs {
-    border: 0;
-    background: 0;
+  border: 0;
+  background: 0;
 }
 
 .ui-tabs #bptodo-dashboard.ui-tabs-panel,
 .ui-tabs #bptodo-todos.ui-tabs-panel {
-    border-width: 1px;
+  border-width: 1px;
 }
 
-#bptodo-tabs .ui-tabs-panel > h2 {
-    padding: 0 5px;
+#bptodo-tabs .ui-tabs-panel>h2 {
+  padding: 0 5px;
 }
 
 #bptodo-task-tabs .ui-widget-header {
-    border-bottom: 0;
+  border-bottom: 0;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-    font-size: 14px;
-    border: 1px solid #3a9dfb;
-    border-radius: 5px;
-    background: #fff;
-    font-weight: normal;
-    margin-right: 10px;
+  font-size: 14px;
+  border: 1px solid #3a9dfb;
+  border-radius: 5px;
+  background: #fff;
+  font-weight: normal;
+  margin-right: 10px;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
-    color: #000;
-    border: 0;
+  color: #000;
+  border: 0;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
-    border: 1px solid #3a9dfb;
-    border-radius: 5px;
-    background: #fff;
-    font-weight: normal;
+  border: 1px solid #3a9dfb;
+  border-radius: 5px;
+  background: #fff;
+  font-weight: normal;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a {
-    color: #3a9dfb;
+  color: #3a9dfb;
 }
 
 .bp_all_todo_count,
 .bp_completed_todo_count,
 #bptodo-task-tabs .ui-tabs-nav li a span {
-    display: inline-block;
-    background-color: #d54e21;
-    color: #fff;
-    line-height: 17px;
-    font-weight: 500;
-    margin: 1px 0 0 5px;
-    padding: 0 5px;
-    vertical-align: top;
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    font-size: 11px;
+  display: inline-block;
+  background-color: #d54e21;
+  color: #fff;
+  line-height: 17px;
+  font-weight: 500;
+  margin: 1px 0 0 5px;
+  padding: 0 5px;
+  vertical-align: top;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  font-size: 11px;
 }
 
 #bptodo-task-tabs .ui-tabs-nav li a span {
-    position: relative;
-    width: auto;
-    height: auto;
-    top: 0;
-    bottom: 0;
+  position: relative;
+  width: auto;
+  height: auto;
+  top: 0;
+  bottom: 0;
 }
 
 /*** To-do Priority css ***/
 table.bp-todo-reminder tbody td.bptodo-priority {
-    width: 140px;
+  width: 140px;
 }
 
 .bptodo-priority .bptodo-priority-critical,
 .bptodo-priority .bptodo-priority-high,
 .bptodo-priority .bptodo-priority-normal {
-    display: inline-block;
-    width: 100%;
-    max-width: 100px;
-    margin: 0 auto;
-    padding: 2px 5px;
-    font-size: 14px;
-    color: #fff;
-    background: #f44336;
+  display: inline-block;
+  width: 100%;
+  max-width: 100px;
+  margin: 0 auto;
+  padding: 2px 5px;
+  font-size: 14px;
+  color: #fff;
+  background: #f44336;
 }
 
 .bptodo-priority .bptodo-priority-high {
-    background: #FB8C00;
+  background: #FB8C00;
 }
 
 .bptodo-priority .bptodo-priority-normal {
-    background: #4CAF50;
+  background: #4CAF50;
 }
 
 /* BuddyPress Nouveau Fixes */
@@ -461,35 +458,122 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h3,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h4,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h5,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
-    margin: 0 0 15px;
+  margin: 0 0 15px;
 }
 
 .bp-nouveau.buddypress .buddypress-wrap #insert-media-button {
-    padding: 0 10px 1px;
+  padding: 0 10px 1px;
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table {
+  font-size: .75rem;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  margin: 0 0 1rem;
+  table-layout: fixed
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table thead th {
+  border: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table thead tr:first-child th:first-child {
+  border-top-left-radius: 8px
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table thead tr:first-child th:last-child {
+  border-top-right-radius: 8px
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table td,
+body:not(.woocommerce-page):not(.page-template-page-search-results) table th {
+  padding: 1rem
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table th {
+  text-align: left;
+  background: #333334;
+  color: #fff
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:nth-child(odd) {
+  background: #fff
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:nth-child(2n) {
+  background: #f5f5f5
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:first-child th {
+  border-top: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr:last-child td {
+  border-bottom: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr td:first-child,
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr th:first-child {
+  border-left: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr td:last-child,
+body:not(.woocommerce-page):not(.page-template-page-search-results) table tr th:last-child {
+  border-right: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results).overflow-table body:not(.woocommerce-page):not(.page-template-page-search-results).overflow-table td {
+  white-space: nowrap !important
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap {
+  overflow-x: scroll
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table:not(.gsc-table-result):not(.gcsc-branding):not(.gsc-resultsHeader) {
+  width: auto !important;
+  min-width: 100%;
+  table-layout: auto !important;
+  margin: 0
+}
+
+body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table:not(.gsc-table-result):not(.gcsc-branding):not(.gsc-resultsHeader) table {
+  table-layout: auto !important;
+  width: 100% !important;
+  margin: 0
+}
+
+table.leave-alone {
+  table-layout: auto !important
+}
+
+table.leave-alone tr {
+  background: 0 0 !important
 }
 
 /* Media Query */
 @media only screen and (max-width: 543px) {
-    .todo-detail {
-        overflow-x: auto;
-    }
+  .todo-detail {
+    overflow-x: auto;
+  }
 
-    #bptodo-dashboard-box {
-        display: block;
-    }
+  #bptodo-dashboard-box {
+    display: block;
+  }
 
-    #bptodo-dashboard ul li {
-        width: 100%;
-        margin: 0;
-        margin-bottom: 10px;
-    }
+  #bptodo-dashboard ul li {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
 
-    #bptodo-dashboard ul li:last-child {
-        margin-bottom: 0;
-    }
+  #bptodo-dashboard ul li:last-child {
+    margin-bottom: 0;
+  }
 
-    #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
-    #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-        margin-bottom: 10px;
-    }
+  #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
+  #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
+    margin-bottom: 10px;
+  }
 }
