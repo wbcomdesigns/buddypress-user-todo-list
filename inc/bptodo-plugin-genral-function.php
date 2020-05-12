@@ -73,19 +73,6 @@ if ( ! function_exists( 'bp_todo_get_template' ) ) {
 	}
 }
 
-
-if ( ! function_exists( 'bp_todo_post_type_archive' ) ) {
-
-	function bp_todo_post_type_archive( $query ) {
-		if ( $query->is_main_query() && is_post_type_archive( 'bp-todo' ) ) {
-			$user_id = get_current_user_id();
-			// order post_type and remove pagination
-			$query->set( 'author', $user_id );
-		}
-	}
-	add_action( 'pre_get_posts', 'bp_todo_post_type_archive' );
-}
-
 if ( ! function_exists( 'bptodo_template_loader' ) ) {
 	add_filter( 'template_include', 'bptodo_template_loader' );
 	function bptodo_template_loader( $template ) {
