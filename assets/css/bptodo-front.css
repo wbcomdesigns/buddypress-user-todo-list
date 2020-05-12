@@ -531,25 +531,17 @@ body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-ta
   overflow-x: scroll
 }
 
-body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table:not(.gsc-table-result):not(.gcsc-branding):not(.gsc-resultsHeader) {
+body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table {
   width: auto !important;
   min-width: 100%;
   table-layout: auto !important;
   margin: 0
 }
 
-body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table:not(.gsc-table-result):not(.gcsc-branding):not(.gsc-resultsHeader) table {
+body:not(.woocommerce-page):not(.page-template-page-search-results) .overflow-table-wrap>table.overflow-table table {
   table-layout: auto !important;
   width: 100% !important;
   margin: 0
-}
-
-table.leave-alone {
-  table-layout: auto !important
-}
-
-table.leave-alone tr {
-  background: 0 0 !important
 }
 
 /* Media Query */
