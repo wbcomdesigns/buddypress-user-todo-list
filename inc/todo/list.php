@@ -7,6 +7,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 global $bptodo;
 global $bp;
 $profile_menu_slug         = $bptodo->profile_menu_slug;
@@ -377,7 +378,7 @@ if ( empty( $todos ) ) {
 																	<?php
 																	if ( $can_modify ) {
 																		?>
-																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
 																		<?php
 																	}
 																	?>
@@ -454,7 +455,7 @@ if ( empty( $todos ) ) {
 																	<?php
 																	if ( $can_modify ) {
 																		?>
-																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
 																		<?php
 																	}
 																	?>
@@ -538,7 +539,7 @@ if ( empty( $todos ) ) {
 																	<?php
 																	if ( $can_modify ) {
 																		?>
-																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
 																		<?php
 																	}
 																	?>
@@ -616,7 +617,7 @@ if ( empty( $todos ) ) {
 																	<?php
 																	if ( $can_modify ) {
 																		?>
-																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																		<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
 																		<?php
 																	}
 																	?>
@@ -713,7 +714,7 @@ if ( empty( $todos ) ) {
 																		<?php
 																		if ( $can_modify ) {
 																			?>
-																			<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo get_user_average_todos( $tid ); ?></li>
+																			<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo bptodo_get_user_average_todos( $tid ); ?></li>
 																			<?php
 																		}
 																		?>
