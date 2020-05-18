@@ -14,7 +14,7 @@ global $bp;
 $group_members = groups_get_group_members(
 	array(
 		'group_id'            => $bp->groups->current_group->id,
-		'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+		'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', false ),
 	)
 );
 
