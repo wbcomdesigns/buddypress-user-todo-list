@@ -292,7 +292,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 				if ( true !== $can_view ) {
 					return; // Bail of is moderator view is not enable.
 				}
-				echo 'string';
+
 				$args = array(
 					'group_id'            => $group_id,
 					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
