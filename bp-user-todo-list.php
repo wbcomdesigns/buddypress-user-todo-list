@@ -199,7 +199,8 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	function bptodo_list_group_modrator() {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-		$can_list = ( isset( $group_todo_list_settings['list_enable'] ) ) ? true : false;
+		$can_list = ( ! isset( $group_todo_list_settings['list_enable'] ) ) ? true : false;
+
 		return $can_list;
 	}
 }

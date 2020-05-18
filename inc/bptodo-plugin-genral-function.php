@@ -203,7 +203,7 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 
 		$args = array(
 			'group_id'            => $group_id,
-			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', false ),
+			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 		);
 
 		$group_members_result = groups_get_group_members( $args );
@@ -212,6 +212,7 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 		foreach ( $group_members_result['members'] as $member ) {
 			$group_members_ids[] = $member->ID;
 		}
+
 		$member_count = count( $group_members_ids );
 
 		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
@@ -288,13 +289,13 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 
 				$can_view = bptodo_enable_repot_view( $current_user, $group_id );
 
-				if ( true != $can_view ) {
+				if ( true !== $can_view ) {
 					return; // Bail of is moderator view is not enable.
 				}
-
+				echo 'string';
 				$args = array(
 					'group_id'            => $group_id,
-					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', false ),
+					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 				);
 
 				$group_members     = groups_get_group_members( $args );
@@ -304,6 +305,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 					$group_members_ids[] = $member->ID;
 				}
 			}
+
 			if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
 				?>
 			<table claas="bp-todo-report">
@@ -320,27 +322,31 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 					$parent_todo = get_post_meta( $post->ID, 'todo_primary_id', true );
 					if ( ! empty( $parent_todo ) ) {
 						$assoc_todos = get_post_meta( $parent_todo, 'botodo_associated_todo', true );
-						foreach ( $assoc_todos as $assoc_todo ) {
 
-							$member_todo_status         = get_post_meta( $assoc_todo, 'todo_status', true );
-							$get_member_todo_completion = get_post_meta( $assoc_todo, 'todo_complete_time', true );
-							$todo_author_id             = get_post_field( 'post_author', $assoc_todo );
+						if ( ! empty( $assoc_todos ) ) {
 
-							if ( ! empty( $get_member_todo_completion ) ) {
-								$member_todo_complition = human_time_diff( current_time( 'timestamp' ), $get_member_todo_completion ) . ' ago';
+							foreach ( $assoc_todos as $assoc_todo ) {
 
-							}
+								$member_todo_status         = get_post_meta( $assoc_todo, 'todo_status', true );
+								$get_member_todo_completion = get_post_meta( $assoc_todo, 'todo_complete_time', true );
+								$todo_author_id             = get_post_field( 'post_author', $assoc_todo );
 
-							if ( in_array( $todo_author_id, $group_members_ids ) ) {
-								$author_name = get_the_author_meta( 'display_name', $todo_author_id );
+								if ( ! empty( $get_member_todo_completion ) ) {
+									$member_todo_complition = human_time_diff( current_time( 'timestamp' ), $get_member_todo_completion ) . ' ago';
 
-								?>
-								<tr>
-									<td><?php echo esc_html( ucfirst( $author_name ) ); ?></td>
-									<td><?php echo esc_html( $member_todo_status ); ?></td>
-									<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
-								</tr>
-								<?php
+								}
+
+								if ( in_array( $todo_author_id, $group_members_ids ) ) {
+									$author_name = get_the_author_meta( 'display_name', $todo_author_id );
+
+									?>
+									<tr>
+										<td><?php echo esc_html( ucfirst( $author_name ) ); ?></td>
+										<td><?php echo esc_html( $member_todo_status ); ?></td>
+										<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
+									</tr>
+									<?php
+								}
 							}
 						}
 					}
@@ -363,14 +369,12 @@ if ( ! function_exists( 'bptodo_enable_repot_view' ) ) {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 		$can_view                 = false;
 
-		if ( (bool) groups_is_user_admin( $current_user, $group_id ) ) {
-			$can_view = true;
-		}
+		if ( (bool) groups_is_user_mod( $current_user, $group_id ) || (bool) groups_is_user_admin( $current_user, $group_id ) ) {
 
-		if ( (bool) groups_is_user_mod( $current_user, $group_id ) ) {
 			$mod_can_view = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
 
 			if ( $mod_can_view ) {
+
 				$can_view = true;
 			}
 		}
