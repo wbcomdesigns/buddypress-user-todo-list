@@ -216,8 +216,12 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 
 		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
 
-		$avg_rating = ( $completed_count * 100 ) / $member_count;
-		$avg_rating = round( $avg_rating, 2 ) . '% ';
+		$avg_rating = 0;
+
+		if ( ! empty( $member_count ) ) {
+			$avg_rating = ( $completed_count * 100 ) / $member_count;
+			$avg_rating = round( $avg_rating, 2 ) . '% ';
+		}
 		return $avg_rating;
 
 		wp_reset_postdata();
