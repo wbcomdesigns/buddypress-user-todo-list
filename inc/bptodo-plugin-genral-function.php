@@ -169,7 +169,7 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 	 * Display average todo percentage of each member
 	 *
 	 * @param  [int] $todoID  The id of post(TO DO)
-	 * @return [float]         Average percentage of todo
+	 * @return float         Average percentage of todo
 	 */
 	function bptodo_get_user_average_todos( $todoID ) {
 		global $bp, $post;
