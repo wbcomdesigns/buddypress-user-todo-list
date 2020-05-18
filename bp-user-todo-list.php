@@ -193,7 +193,7 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	/**
 	 *  Add or exclude group modtaros in average percentage calculation.
 	 *
-	 * @var [bool]
+	 * @return boolean
 	 */
 	add_filter( 'bptodo_exclude_modrator_view', 'bptodo_list_group_modrator' );
 	function bptodo_list_group_modrator() {

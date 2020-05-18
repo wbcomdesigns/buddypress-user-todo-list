@@ -46,7 +46,7 @@ $group_todo_list_settings = get_option( 'group-todo-list-settings' );
 							>
 							<span class="slider round"></span>
 						</label>
-						<p class="description"><?php esc_html_e( 'Check this option if you don\'t want to permit group moderators to add in To Do average list.', 'wb-todo' ); ?></p>
+						<p class="description"><?php esc_html_e( 'Check this option if you want to permit group moderators to add in To Do average list.', 'wb-todo' ); ?></p>
 					</td>
 				</tr>
 				<tr>

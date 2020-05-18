@@ -203,7 +203,7 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 
 		$args = array(
 			'group_id'            => $group_id,
-			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', false ),
+			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 		);
 
 		$group_members_result = groups_get_group_members( $args );
@@ -290,7 +290,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 
 				$args = array(
 					'group_id'            => $group_id,
-					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', false ),
+					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 				);
 
 				$group_members     = groups_get_group_members( $args );
