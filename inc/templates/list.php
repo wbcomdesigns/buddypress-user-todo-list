@@ -372,7 +372,7 @@ if ( empty( $todos ) ) {
 												?>
 										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo $priority_text; ?></span></td>
-											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href=<?php echo esc_url( $todo_view_url ); ?> target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
+											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
 											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : $due_date_td_class; ?>"><?php echo esc_html( $due_date_str ); ?></td>
 											<td class="bp-to-do-actions">
 												<ul>
@@ -457,7 +457,7 @@ if ( empty( $todos ) ) {
 												?>
 										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo $priority_text; ?></span></td>
-											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href=<?php echo esc_url( $todo_view_url ); ?> target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
+											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
 											<td class="<?php echo ( 'complete' == $todo_status ) ? esc_attr( $class ) : esc_attr( $due_date_td_class ); ?>"><?php echo $due_date_str; ?></td>
 
 											<td class="bp-to-do-actions">
@@ -550,7 +550,7 @@ if ( empty( $todos ) ) {
 													echo esc_attr( $class );
 												}
 												?>
-												"><a href=<?php echo esc_url( $todo_view_url ); ?> target = "_blank"><?php echo esc_html( $todo_title ); ?></a>
+												"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a>
 											</td>
 											<td class="
 												<?php
@@ -650,7 +650,7 @@ if ( empty( $todos ) ) {
 													echo esc_attr( $class );
 												}
 												?>
-												"><a href=<?php echo esc_url( $todo_view_url ); ?> target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
+												"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
 											<td class="
 												<?php
 												echo esc_attr( $due_date_td_class );
@@ -767,7 +767,7 @@ if ( empty( $todos ) ) {
 																	if ( 'complete' == $todo_status ) {
 																		echo esc_attr( $class );}
 																	?>
-																		"><a href=<?php echo esc_url( $todo_view_url ); ?> target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
+																		"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
 																	<td class="bp-to-do-actions">
 																		<ul>
 																				<?php if ( $can_modify ) { ?>

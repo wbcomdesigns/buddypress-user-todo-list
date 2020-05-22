@@ -137,9 +137,9 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$title      = strip_tags( $instance['title'] );
+		$title      = isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
 		$number     = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
-		$link_title = (bool) $settings['link_title'];
+		$link_title = isset( $instance['link_title'] ) ? (bool)$instance['link_title'] : '' ;
 		?>
 
 		 <p>
