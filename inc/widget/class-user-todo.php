@@ -89,7 +89,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		<?php foreach ( $r->posts as $recent_todo ) : ?>
 			<?php
 			$post_title   = get_the_title( $recent_todo->ID );
-			$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)' );
+			$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
 			$aria_current = '';
 
 			if ( get_queried_object_id() === $recent_todo->ID ) {

@@ -56,7 +56,7 @@ get_header(); ?>
 					the_excerpt(
 						sprintf(
 							/* translators: %s: Post title. */
-							__( 'Continue reading %s', ' wb-todo' ),
+							__( 'Continue reading %s', 'wb-todo' ),
 							the_title( '<span class="screen-reader-text">', '</span>', false )
 						)
 					);
@@ -72,7 +72,7 @@ get_header(); ?>
                 );
 					?>
 				<p class="no-margin">
-				  <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'wb-todo' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="read-more button"><?php _e( 'Read More', 'reign' ); ?></a>
+				  <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'wb-todo' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="read-more button"><?php _e( 'Read More', 'wb-todo' ); ?></a>
 				</p>
 			  </div><!-- .entry-content -->
 			</article>
@@ -81,16 +81,16 @@ get_header(); ?>
 			// Previous/next page navigation.
 			the_posts_pagination(
 				array(
-					'prev_text'          => __( 'Previous page', ' wb-todo' ),
-					'next_text'          => __( 'Next page', ' wb-todo' ),
-					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', ' wb-todo' ) . ' </span>',
+					'prev_text'          => __( 'Previous page', 'wb-todo' ),
+					'next_text'          => __( 'Next page', 'wb-todo' ),
+					'before_page_number' => '<span class="meta-nav screen-reader-text">' . __( 'Page', 'wb-todo' ) . ' </span>',
 				)
 			);
 			else :
 				?>
 			  <section class="no-results not-found">
 				<header class="page-header">
-				  <h1 class="page-title"><?php _e( 'Nothing Found', 'twentyfifteen' ); ?></h1>
+				  <h1 class="page-title"><?php _e( 'Nothing Found', 'wb-todo' ); ?></h1>
 				</header><!-- .page-header -->
 				<div class="page-content">
 				  <p></p>
