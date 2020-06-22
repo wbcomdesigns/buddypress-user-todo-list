@@ -3,8 +3,8 @@ Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 5.3.2
-Stable tag: 2.2.0
+Tested up to: 5.4.2
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,11 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+
+= 2.3.0 =
+* Fix: BB support
+* Enhancement: Added Group Support
+* Enhancement: Reports for Group Admin and Moderators
 
 = 2.2.0 =
 * Fix: Fixed Group id meta values with each task for groups
