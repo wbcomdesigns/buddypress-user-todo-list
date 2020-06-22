@@ -311,7 +311,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 			<table claas="bp-todo-report">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'User', 'wb-todo' ); ?></th>
+						<th><?php esc_html_e( 'Members', 'wb-todo' ); ?></th>
 						<th><?php esc_html_e( 'Status', 'wb-todo' ); ?></th>
 						<th><?php esc_html_e( 'Time', 'wb-todo' ); ?></th>
 					</tr>
