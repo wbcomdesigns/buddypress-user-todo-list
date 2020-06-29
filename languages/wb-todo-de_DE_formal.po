@@ -1,0 +1,1547 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress User To-Do List\n"
+"POT-Creation-Date: 2020-06-22 17:32+0200\n"
+"PO-Revision-Date: 2020-06-22 17:39+0200\n"
+"Last-Translator: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
+"Language-Team: Thorsten Wollenhöfer <thorsten.wollenhoefer@gmail.com>\n"
+"Language: de_DE@formal\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3.1\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: bp-user-todo-list.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: admin/class-bptodo-admin.php:75
+msgid "WB Plugins"
+msgstr "WB Plugins"
+
+#: admin/class-bptodo-admin.php:76 admin/class-bptodo-admin.php:132
+msgid "General"
+msgstr "Allgemein"
+
+#: admin/class-bptodo-admin.php:78
+msgid "BP User To-Do List"
+msgstr "BP User To-Do List"
+
+#: admin/class-bptodo-admin.php:95
+msgid "BuddyPress User To-Do List Settings"
+msgstr "BuddyPress User To-Do List Einstellungen"
+
+#: admin/class-bptodo-admin.php:133
+msgid "Group To-Do"
+msgstr "Gruppenarbeit"
+
+#: admin/class-bptodo-admin.php:188
+msgid "Shortcodes"
+msgstr "Shortcodes"
+
+#. translators: Number of years
+#: admin/class-bptodo-feedback.php:88
+#, php-format
+msgid "%s years"
+msgstr "%s Jahren"
+
+#: admin/class-bptodo-feedback.php:90
+msgid "a year"
+msgstr "ein Jahr"
+
+#. translators: Number of weeks
+#: admin/class-bptodo-feedback.php:97
+#, php-format
+msgid "%s weeks"
+msgstr "%s Wochen"
+
+#: admin/class-bptodo-feedback.php:99
+msgid "a week"
+msgstr "einer Woche"
+
+#. translators: Number of days
+#: admin/class-bptodo-feedback.php:106
+#, php-format
+msgid "%s days"
+msgstr "%s Tagen"
+
+#: admin/class-bptodo-feedback.php:108
+msgid "a day"
+msgstr "einem Tag"
+
+#. translators: Number of hours
+#: admin/class-bptodo-feedback.php:115
+#, php-format
+msgid "%s hours"
+msgstr "%s Stunden"
+
+#: admin/class-bptodo-feedback.php:117
+msgid "an hour"
+msgstr "einer Stunde"
+
+#. translators: Number of minutes
+#: admin/class-bptodo-feedback.php:124
+#, php-format
+msgid "%s minutes"
+msgstr "%s Minuten"
+
+#: admin/class-bptodo-feedback.php:126
+msgid "a minute"
+msgstr "einer Minute"
+
+#. translators: Number of seconds
+#: admin/class-bptodo-feedback.php:133
+#, php-format
+msgid "%s seconds"
+msgstr "%s Sekunden"
+
+#: admin/class-bptodo-feedback.php:135
+msgid "a second"
+msgstr "einer Sekunde"
+
+#. Plugin Name of the plugin/theme
+#: admin/class-bptodo-feedback.php:271 admin/class-bptodo-feedback.php:311
+msgid "BuddyPress User To-Do List"
+msgstr "BuddyPress User To-Do List"
+
+#: admin/class-bptodo-feedback.php:274
+msgid "Are you enjoying BuddyPress User To-Do List?"
+msgstr "Gefällt Ihnen die BuddyPress User To-Do-Liste?"
+
+#. translators: 1. Name
+#: admin/class-bptodo-feedback.php:277
+#, php-format
+msgid ""
+"We hope you're enjoying %1$s! Could you please do us a BIG favor and give it "
+"a 5-star rating on WordPress to help us spread the word and boost our "
+"motivation?"
+msgstr ""
+"We hope you're enjoying %1$s! Could you please do us a BIG favor and give it "
+"a 5-star rating on WordPress to help us spread the word and boost our "
+"motivation?"
+
+#: admin/class-bptodo-feedback.php:281
+msgid "Leave a Review"
+msgstr "Hinterlassen Sie eine Bewertung"
+
+#: admin/class-bptodo-feedback.php:282
+msgid "No thanks / I already have"
+msgstr "Nein, danke / Ich habe das bereits getan"
+
+#: admin/inc/bptodo-general-settings.php:21
+msgid "To-do Label (Singular)"
+msgstr "Aufgabe Label (Singular)"
+
+#: admin/inc/bptodo-general-settings.php:23
+msgid "Label"
+msgstr "Beschriftung"
+
+#: admin/inc/bptodo-general-settings.php:29
+msgid "To-dos Label (Plural)"
+msgstr "Aufgaben Label (Plural)"
+
+#: admin/inc/bptodo-general-settings.php:31
+msgid "To-dos"
+msgstr "Aufgaben"
+
+#: admin/inc/bptodo-general-settings.php:50
+msgid "Allow User To Add Category"
+msgstr "Benutzern erlauben eine Kategorie hinzuzufügen"
+
+#: admin/inc/bptodo-general-settings.php:56
+msgid "Allow the loggedin user to create To-Do category."
+msgstr ""
+"Erlauben Sie dem angemeldeten Benutzer, eine Aufgabenkategorie zu erstellen."
+
+#: admin/inc/bptodo-general-settings.php:57
+msgid ""
+"Check this option if you want to allow normal users of the site to have the "
+"ability to create the To-Do category."
+msgstr ""
+"Aktivieren Sie diese Option, wenn Sie normalen Benutzern der Website "
+"erlauben wollen eine Aufgabenkategorie zu erstellen."
+
+#: admin/inc/bptodo-general-settings.php:63
+msgid "Send Notification"
+msgstr "Benachrichtigung verschicken"
+
+#: admin/inc/bptodo-general-settings.php:69
+msgid "Send a BP notification to the user whose To-Do due date has arrived."
+msgstr ""
+"Senden Sie eine BP-Benachrichtigung an den Benutzer, dessen Aufgaben-"
+"Fälligkeitsdatum erreicht wurde."
+
+#: admin/inc/bptodo-general-settings.php:70
+msgid ""
+"Check this option if you want to send notification to the member as a "
+"reminder for his/her task due date."
+msgstr ""
+"Aktivieren Sie diese Option, wenn Sie eine Benachrichtigung an das Mitglied "
+"als Erinnerung für das Fälligkeitsdatum seiner Aufgabe senden möchten."
+
+#: admin/inc/bptodo-general-settings.php:76
+msgid "Send Mail"
+msgstr "Nachricht senden"
+
+#: admin/inc/bptodo-general-settings.php:82
+msgid "Send a mail to the user whose To-Do due date has arrived."
+msgstr ""
+"Senden Sie eine E-Mail an den Benutzer, dessen Aufgaben-Fälligkeitsdatum "
+"erreicht wurde."
+
+#: admin/inc/bptodo-general-settings.php:83
+msgid ""
+"Check this option if you want to send mail to the member as a reminder for "
+"his/her task due date."
+msgstr ""
+"Aktivieren Sie diese Option, wenn Sie eine E-Mail an das Mitglied als "
+"Erinnerung für das Fälligkeitsdatum seiner Aufgabe senden möchten."
+
+#: admin/inc/bptodo-group-settings.php:23
+msgid "Allow group moderators to modify To Do list"
+msgstr "Erlauben Sie den Gruppenmoderatoren, die Aufgabenliste zu ändern"
+
+#: admin/inc/bptodo-group-settings.php:34
+msgid ""
+"Check this option if you want to permit group moderators to modify To Do "
+"list."
+msgstr ""
+"Markieren Sie diese Option, wenn Sie den Gruppenmoderatoren erlauben "
+"möchten, die Aufgabenliste zu ändern."
+
+#: admin/inc/bptodo-group-settings.php:38
+msgid "Allow group moderators to add in To Do list"
+msgstr "Erlauben Sie Gruppenmoderatoren das Hinzufügen in die Aufgabenliste"
+
+#: admin/inc/bptodo-group-settings.php:49
+msgid ""
+"Check this option if you want to permit group moderators to add in To Do "
+"average list."
+msgstr ""
+"Aktivieren Sie diese Option, wenn Sie Gruppenmoderatoren erlauben möchten, "
+"in die To-Do-Durchschnittsliste einzutragen."
+
+#: admin/inc/bptodo-group-settings.php:53
+msgid "Allow group moderators to view To Do list report"
+msgstr ""
+"Erlauben Sie Gruppenmoderatoren, den Bericht der Aufgabenliste anzuzeigen"
+
+#: admin/inc/bptodo-group-settings.php:64
+msgid ""
+"Check this option if you want to permit group moderators to view report on "
+"single todo page."
+msgstr ""
+"Markieren Sie diese Option, wenn Sie Gruppenmoderatoren erlauben möchten, "
+"den Bericht auf einer einzelnen ToDo-Seite anzuzeigen."
+
+#: admin/inc/bptodo-shortcodes-settings.php:21
+#, php-format
+msgid "This shortcode will list all the %1$s category wise."
+msgstr "Dieser Shortcode listet alle Kategorien von %1$s auf."
+
+#: admin/inc/bptodo-shortcodes-settings.php:24
+msgid "Arguments accepted:"
+msgstr "Argumente akzeptiert:"
+
+#: admin/inc/bptodo-shortcodes-settings.php:29
+#, php-format
+msgid "You need to provide the category id of which the %1$s you want to show."
+msgstr "Sie müssen die Kategorie-ID angeben, deren %1$s Sie anzeigen möchten."
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:8
+msgid "Free Addons"
+msgstr "Kostenlose Addons"
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:14
+msgid "Install"
+msgstr "Installieren"
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:18
+#: admin/wbcom/wbcom-admin-settings.php:488
+msgid "Activate"
+msgstr "Aktivieren"
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:22
+#: admin/wbcom/wbcom-admin-settings.php:489
+msgid "Deactivate"
+msgstr "Deaktivieren"
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:50
+msgid "Paid Addons"
+msgstr "Bezahlte Addons"
+
+#: admin/wbcom/templates/wbcom-plugins-page.php:67
+msgid "View"
+msgstr "Anzeigen"
+
+#: admin/wbcom/templates/wbcom-support-page.php:3
+#: admin/wbcom/wbcom-admin-settings.php:522
+#: admin/wbcom/wbcom-admin-settings.php:607 bp-user-todo-list.php:106
+msgid "Support"
+msgstr "Unterstützung"
+
+#: admin/wbcom/templates/wbcom-support-page.php:5
+msgid "Having any question or issue ?"
+msgstr "Haben Sie eine Frage oder ein Problem?"
+
+#: admin/wbcom/templates/wbcom-support-page.php:7
+msgid ""
+"Our team is here to help you out at anytime. If you have any idea about how "
+"we could improve. You can share access to your site on our helpdesk if it "
+"can help getting faster. There are two ways to in touch with us :"
+msgstr ""
+"Unser Team steht Ihnen jederzeit zur Verfügung, wenn Sie eine Idee haben, "
+"wie wir uns verbessern können. Sie können den Zugriff auf Ihre Website über "
+"unser Helpdesk freigeben, wenn dies dazu beitragen kann, schneller zu "
+"werden. Es gibt zwei Möglichkeiten, mit uns in Kontakt zu treten:"
+
+#: admin/wbcom/templates/wbcom-support-page.php:19
+msgid "Tickets Support"
+msgstr "Support Tickets"
+
+#: admin/wbcom/templates/wbcom-support-page.php:20
+msgid ""
+"Open a ticket on our helpdesk, we don't guarantee a fast response but within "
+"a week. Except if you've purchased one of our product we'll reply within 24 "
+"hours."
+msgstr ""
+"Öffnen Sie ein Ticket in unserem Helpdesk und wir garantieren eine  Antwort "
+"innerhalb einer Woche. Haben Sie Produkte von uns gekauft, dann antworten "
+"wir Ihnen innerhalb von 24 Stunden."
+
+#: admin/wbcom/templates/wbcom-support-page.php:24
+msgid "Open a ticket"
+msgstr "Ein Ticket öffnen"
+
+#: admin/wbcom/templates/wbcom-support-page.php:39
+#: admin/wbcom/templates/wbcom-support-page.php:44
+msgid "Contact Us"
+msgstr "Kontaktieren Sie uns"
+
+#: admin/wbcom/templates/wbcom-support-page.php:40
+msgid ""
+"Create a new thread on our plugin page, participation is open to anyone from "
+"all around the world. We'll be there to help as well but can't guarantee any "
+"delay."
+msgstr ""
+"Erstellen Sie einen neuen Thread auf unserer Plugin-Seite. Die Teilnahme "
+"steht jedem auf der ganzen Welt offen. Wir werden da sein, um zu helfen, "
+"zeichnen uns aber für Verzögerungen nicht verantwortlich."
+
+#: admin/wbcom/templates/wbcom-themes-page.php:4
+msgid "Reign BuddyPress"
+msgstr "Reign BuddyPress"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:12
+msgid "REIGN Community"
+msgstr "REIGN Community"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:14
+msgid "Multiple Member Directory Layout"
+msgstr "Layout für mehrere Mitgliederverzeichnisse"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:15
+msgid "Multiple Member Header Layout"
+msgstr "Header-Layout für mehrere Mitglieder"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:16
+msgid "Multiple Group Directory Layout"
+msgstr "Layout für mehrere Gruppenverzeichnisse"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:17
+msgid "Multiple Group Header Layout"
+msgstr "Header-Layout für mehrere Gruppen"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:18
+msgid "BuddyPress Customization Options"
+msgstr "BuddyPress-Anpassungsoptionen"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:19
+msgid "BuddyPress Extra Widgets"
+msgstr "BuddyPress Extra Widgets"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:20
+msgid "Inbuilt Social Profile Module"
+msgstr "Integriertes Social-Profile-Modul"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:23
+#: admin/wbcom/templates/wbcom-themes-page.php:49
+#: admin/wbcom/templates/wbcom-themes-page.php:73
+#: admin/wbcom/templates/wbcom-themes-page.php:96
+msgid "Purchase"
+msgstr "Kaufen"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:24
+#: admin/wbcom/templates/wbcom-themes-page.php:50
+#: admin/wbcom/templates/wbcom-themes-page.php:74
+#: admin/wbcom/templates/wbcom-themes-page.php:97
+msgid "Preview"
+msgstr "Vorschau"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:30
+msgid "LearnMate"
+msgstr "LearnMate"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:38
+msgid "Learnmate"
+msgstr "Learnmate"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:40
+msgid "Add Review to your course"
+msgstr "Fügen Sie Ihrem Kurs eine Rezension hinzu"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:41
+msgid "Course Coming Soon"
+msgstr "Kurs bald verfügbar"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:42
+#: admin/wbcom/templates/wbcom-themes-page.php:69
+msgid "Grid And List Layout"
+msgstr "Raster- und Listenlayout"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:43
+msgid "Learndash/LifterLMS Extra Widgets"
+msgstr "Learndash / LifterLMS Extra Widgets"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:44
+msgid "Unparalleled Course Layout"
+msgstr "Unvergleichliches Kurslayout"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:45
+msgid "Awesome Learndash/LifterLMS Pages"
+msgstr "Tolle Learndash / LifterLMS Seiten"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:46
+msgid "Distraction Free Reading"
+msgstr "Ablenkung beim Lesen"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:56
+msgid "StoreMate"
+msgstr "StoreMate"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:64
+msgid "ShopMate Dokan"
+msgstr "ShopMate Dokan"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:66
+msgid "Dokan Extra Widgets"
+msgstr "Dokan Extra Widgets"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:67
+msgid "Unique Single Product Page Customization"
+msgstr "Einzigartige Anpassung der einzelnen Produktseiten"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:68
+msgid "Awesome WooCommerce Pages"
+msgstr "Tolle WooCommerce-Seiten"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:70
+msgid "Automated Mega Menu Support"
+msgstr "Automatisierte Mega-Menüunterstützung"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:80
+msgid "Jobmate"
+msgstr "Jobmate"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:88
+msgid "Jobmate Theme"
+msgstr "Jobmate Theme"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:90
+msgid "Simple live searching and filtering"
+msgstr "Einfache Live-Suche und Filterung"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:91
+msgid "Unique Job listing Page"
+msgstr "Eindeutige Joblisten-Seite"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:92
+msgid "Awesome Resume list Page"
+msgstr "Tolle Bewerberlisten-Seite"
+
+#: admin/wbcom/templates/wbcom-themes-page.php:93
+msgid "Outstanding all job maanger pagesLayout"
+msgstr "Herausragendes Layout aller Jobmanager-Seiten"
+
+#: admin/wbcom/wbcom-admin-settings.php:179
+msgid "Custom Font Uploader"
+msgstr "Benutzerdefinierter Font-Uploader"
+
+#: admin/wbcom/wbcom-admin-settings.php:181
+msgid ""
+"It also allows you to upload your own custom font to your site and use them "
+"using custom css."
+msgstr ""
+"Außerdem können Sie Ihre eigene benutzerdefinierte Schriftart auf Ihre Site "
+"hochladen und diese mit benutzerdefinierten CSS-Dateien verwenden."
+
+#: admin/wbcom/wbcom-admin-settings.php:187
+msgid "BuddyPress Activity Filter"
+msgstr "BuddyPress-Aktivitätsfilter"
+
+#: admin/wbcom/wbcom-admin-settings.php:189
+msgid ""
+"Admin can set default and customised activities to be listed on front-end."
+msgstr ""
+"Der Administrator kann festlegen, dass Standardaktivitäten und "
+"benutzerdefinierte Aktivitäten im Frontend aufgelistet werden."
+
+#: admin/wbcom/wbcom-admin-settings.php:195
+msgid "BuddyPress Activity Social Share"
+msgstr "BuddyPress Social-Share-Aktivität"
+
+#: admin/wbcom/wbcom-admin-settings.php:197
+msgid ""
+"This plugin allows anyone easily share BuddyPress Activites on major social "
+"media (Facebook, Twitter, Google+, Linkedin )."
+msgstr ""
+"Mit diesem Plugin kann jeder BuddyPress-Aktivitäten problemlos in wichtigen "
+"sozialen Medien (Facebook, Twitter, Google+, Linkedin) teilen."
+
+#: admin/wbcom/wbcom-admin-settings.php:203
+msgid "BuddyPress Create Group Type"
+msgstr "BuddyPress Gruppentyp erstellen"
+
+#: admin/wbcom/wbcom-admin-settings.php:205
+msgid "It will help to create group type for BuddyPress Groups."
+msgstr ""
+"Es wird hilfreich sein, einen Gruppentyp für BuddyPress-Gruppen zu erstellen."
+
+#: admin/wbcom/wbcom-admin-settings.php:211
+msgid "BuddyPress Member Reviews"
+msgstr "BuddyPress Member Reviews"
+
+#: admin/wbcom/wbcom-admin-settings.php:213
+msgid ""
+"This plugin allows only site members to add reviews to the buddypress "
+"members on the site and even rate the member’s profile out of 5 points with "
+"multiple review criteria."
+msgstr ""
+"Mit diesem Plugin können nur Website-Mitglieder den BuddyPress-Mitgliedern "
+"auf der Website Bewertungen hinzufügen und sogar das Profil des Mitglieds "
+"mit fünf Bewertungskriterien aus fünf Punkten bewerten."
+
+#: admin/wbcom/wbcom-admin-settings.php:219
+msgid "BuddyPress Group Reviews"
+msgstr "BuddyPress Group Reviews"
+
+#: admin/wbcom/wbcom-admin-settings.php:221
+msgid ""
+"This plugin allows the BuddyPress Members to give reviews to the BuddyPress "
+"groups on the site. The review form allows the users to give text review, "
+"even rate the group on the basis of multiple criterias."
+msgstr ""
+"Dieses Plugin ermöglicht es den BuddyPress-Mitgliedern, den BuddyPress-"
+"Gruppen auf der Website Bewertungen zu geben. Das Überprüfungsformular "
+"ermöglicht es den Benutzern, Textüberprüfungen zu hinterlassen und sogar die "
+"Gruppe anhand mehrerer Kriterien zu bewerten."
+
+#: admin/wbcom/wbcom-admin-settings.php:227
+msgid "BuddyPress Favorite Notification"
+msgstr "BuddyPress-Favoritenbenachrichtigung"
+
+#: admin/wbcom/wbcom-admin-settings.php:229
+msgid ""
+"BuddyPress Favorite Notification adds a notification for BuddyPress activity."
+msgstr ""
+"BuddyPress-Favoritenbenachrichtigung fügt eine Benachrichtigung für "
+"BuddyPress-Aktivitäten hinzu."
+
+#: admin/wbcom/wbcom-admin-settings.php:235
+msgid "Custom Email Options"
+msgstr "Benutzerdefinierte E-Mail-Optionen"
+
+#: admin/wbcom/wbcom-admin-settings.php:237
+msgid "Override default email options of Worpdress."
+msgstr "Überschreiben Sie die Standard-E-Mail-Optionen in WordPress."
+
+#: admin/wbcom/wbcom-admin-settings.php:243
+msgid "BuddyPress Checkins"
+msgstr "BuddyPress Checkins"
+
+#: admin/wbcom/wbcom-admin-settings.php:245
+msgid ""
+"This plugin allows BuddyPress members to share their location when they are "
+"posting activities, you can add places where you visited, nearby locations "
+"based on google places."
+msgstr ""
+"Mit diesem Plugin können BuddyPress-Mitglieder ihren Standort freigeben, "
+"wenn sie Aktivitäten veröffentlichen. Sie können Orte hinzufügen, die Sie "
+"besucht haben, Orte in der Nähe, die auf Google-Standorten basieren."
+
+#: admin/wbcom/wbcom-admin-settings.php:251
+msgid "BuddyPress Job Manager"
+msgstr "BuddyPress Job Manager"
+
+#: admin/wbcom/wbcom-admin-settings.php:253
+msgid ""
+"Incorporates BuddyPress with the WP Job Manager plugin by creating specific "
+"tabs in employer’s and candidate’s profiles."
+msgstr ""
+"Integriert BuddyPress mit dem WP Job Manager-Plugin durch Erstellen "
+"bestimmter Registerkarten in den Profilen von Arbeitgebern und Kandidaten."
+
+#: admin/wbcom/wbcom-admin-settings.php:259
+msgid "BuddyPress user ToDo List"
+msgstr "BuddyPress User To-Do List"
+
+#: admin/wbcom/wbcom-admin-settings.php:261
+msgid ""
+"This plugin allows you to create your personal task list with timestamp. You "
+"can mark them complete when you are done with them. It will also send "
+"reminder when you have any overdue task."
+msgstr ""
+"Mit diesem Plugin können Sie Ihre persönliche Aufgabenliste mit Zeitstempel "
+"erstellen. Sie können sie als abgeschlossen markieren, wenn Sie mit ihr "
+"fertig sind. Es wird auch eine Erinnerung gesendet, wenn Sie überfällige "
+"Aufgaben haben."
+
+#: admin/wbcom/wbcom-admin-settings.php:267
+msgid "Shortcodes for BuddyPress"
+msgstr "Shortcodes für BuddyPress"
+
+#: admin/wbcom/wbcom-admin-settings.php:269
+msgid ""
+"This plugin will add an extended feature to the big name “BuddyPress” that "
+"will generate Shortcode for Listing Activity Streams , Members and Groups on "
+"any post/page in website."
+msgstr ""
+"Dieses Plugin fügt dem großen Namen „BuddyPress“ eine erweiterte Funktion "
+"hinzu, die Kurzcodes für das Auflisten von Aktivitätsströmen, Mitgliedern "
+"und Gruppen in einem beliebigen Post / einer Seite der Website generiert."
+
+#: admin/wbcom/wbcom-admin-settings.php:275
+msgid "Woo Open Graph"
+msgstr "Woo Open Graph"
+
+#: admin/wbcom/wbcom-admin-settings.php:277
+msgid ""
+"This plugin will add an extended feature to the big name “WooCommerce” that "
+"will adds well executed and accurate Open Graph Meta Tags to your site with "
+"title,description and WooCommerce featured image."
+msgstr ""
+"Dieses Plugin fügt dem großen Namen „BuddyPress“ eine erweiterte Funktion "
+"hinzu, die Kurzcodes für das Auflisten von Aktivitätsströmen, Mitgliedern "
+"und Gruppen in einem beliebigen Post / einer Seite der Website generiert."
+
+#: admin/wbcom/wbcom-admin-settings.php:283
+msgid "BuddyPress Lock"
+msgstr "BuddyPress Lock"
+
+#: admin/wbcom/wbcom-admin-settings.php:285
+msgid ""
+"This plugin allows the administrator to lock the certain parts of their "
+"site. It help to create private BuddyPress community by locking certain "
+"BuddyPress Components, WordPress Pages, Custom Post Types for public view "
+"without using any membership plugin."
+msgstr ""
+"Dieses Plugin ermöglicht dem Administrator das Sperren bestimmter Teile "
+"seiner Site. Es hilft dabei, eine private BuddyPress-Community zu erstellen, "
+"indem bestimmte BuddyPress-Komponenten, WordPress-Seiten und "
+"benutzerdefinierte Beitragstypen für die öffentliche Ansicht gesperrt "
+"werden, ohne dass ein Mitgliedschafts-Plugin verwendet wird."
+
+#: admin/wbcom/wbcom-admin-settings.php:291
+msgid "Woo Audio Preview"
+msgstr "Woo Audio Vorschau"
+
+#: admin/wbcom/wbcom-admin-settings.php:293
+msgid ""
+"This plugin Allows playing the audio files in sample mode to prevent "
+"unauthorized downloading of the audio files. It helps to display sample "
+"files at single product page."
+msgstr ""
+"Dieses Plugin Ermöglicht das Abspielen der Audiodateien im Sample-Modus, um "
+"das unbefugte Herunterladen der Audiodateien zu verhindern. Es hilft dabei, "
+"Beispieldateien auf einer Produktseite anzuzeigen."
+
+#: admin/wbcom/wbcom-admin-settings.php:299
+msgid "WordPress System Log"
+msgstr "WordPress-Systemprotokoll"
+
+#: admin/wbcom/wbcom-admin-settings.php:301
+msgid ""
+"This plugin helps administrators of the site see their environment on which "
+"the site is currently running that includes WordPress environment, tha "
+"database it requires, Server Environment and the plugins installed and "
+"activated on the site."
+msgstr ""
+"Dieses Plugin hilft Administratoren ihrer Site, die Umgebung zu sehen, in "
+"der die Site derzeit ausgeführt wird, einschließlich der WordPress-Umgebung, "
+"der erforderlichen Datenbank, der Serverumgebung und der auf der Site "
+"installierten und aktivierten Plugins."
+
+#: admin/wbcom/wbcom-admin-settings.php:307
+msgid "BP Post From Anywhere"
+msgstr "BP Post von überall aus"
+
+#: admin/wbcom/wbcom-admin-settings.php:309
+msgid ""
+"This plugin will generate shortcode and widgets for post updates section for "
+"activities so you can post update from anywhere, it might be sidebar, some "
+"page or any template file."
+msgstr ""
+"Dieses Plugin generiert Shortcodes und Widgets für den Abschnitt "
+"„Beitragsaktualisierungen“ für Aktivitäten, sodass Sie Updates von überall "
+"aus einstellen können. Es kann sich um eine Seitenleiste, eine Seite oder "
+"eine Vorlagendatei handeln."
+
+#: admin/wbcom/wbcom-admin-settings.php:315
+msgid "Woo Document Preview"
+msgstr "Woo Dokumentvorschau"
+
+#: admin/wbcom/wbcom-admin-settings.php:317
+msgid ""
+"This will allow you to add document preview at single product page. Which "
+"helps to offer more better idea when you are selling ebooks, pdf or some "
+"documents."
+msgstr ""
+"Auf diese Weise können Sie die Dokumentenvorschau auf der einzelnen "
+"Produktseite hinzufügen. Was hilft, bessere Ideen zu realisieren, wenn Sie E-"
+"Books, PDFs oder einige Dokumente verkaufen."
+
+#: admin/wbcom/wbcom-admin-settings.php:323
+msgid "WordPress Media Category"
+msgstr "WordPress-Medienkategorie"
+
+#: admin/wbcom/wbcom-admin-settings.php:325
+#: admin/wbcom/wbcom-admin-settings.php:341
+msgid ""
+"This plugin helps administrators of the site categorize their wordpress "
+"media."
+msgstr ""
+"Dieses Plugin hilft Administratoren ihrer Site, ihre Wordpress-Medien zu "
+"kategorisieren."
+
+#: admin/wbcom/wbcom-admin-settings.php:331
+msgid "Woo Price Quotes"
+msgstr "Woo Preisangebote"
+
+#: admin/wbcom/wbcom-admin-settings.php:333
+msgid ""
+"This plugin helps in quoting the products that admin wishes to hide its "
+"purchasing details."
+msgstr ""
+"Dieses Plugin hilft bei der Preisangabe der Produkte, die der Admin in "
+"seinen Kaufdetails verbergen möchte."
+
+#: admin/wbcom/wbcom-admin-settings.php:339
+msgid "EDD Service Extended"
+msgstr "EDD Service erweitert"
+
+#: admin/wbcom/wbcom-admin-settings.php:347
+msgid "WB Ads Rotator with Split Test"
+msgstr "WB Ads Rotator mit Split-Test"
+
+#: admin/wbcom/wbcom-admin-settings.php:349
+msgid ""
+"This plugin is designed for the SPLIT TESTING, you can check performance of "
+"your ads layout and on the basis of them you can select one of them for your "
+"regular use."
+msgstr ""
+"Dieses Plugin wurde für das SPLIT-TESTING entwickelt. Sie können die "
+"Leistung Ihres Anzeigenlayouts überprüfen. Auf dieser Grundlage können Sie "
+"eines davon für den normalen Gebrauch auswählen."
+
+#: admin/wbcom/wbcom-admin-settings.php:367
+msgid "BuddyPress Moderation Pro"
+msgstr "BuddyPress Moderation Pro"
+
+#: admin/wbcom/wbcom-admin-settings.php:368
+msgid ""
+"BuddyPress Community Moderation offers a solution for site owners to keep "
+"their communities straight. With community policing strategy, members of the "
+"community have an option for moderation sitewide by attaching flags to "
+"content created within the various components."
+msgstr ""
+"Die BuddyPress Community Moderation bietet eine Lösung für Websitebesitzer, "
+"um ihre Communities auf dem Laufenden zu halten. Mit der Community-Polizei-"
+"Strategie haben Mitglieder der Community die Möglichkeit, die gesamte "
+"Moderation zu moderieren, indem sie den in den verschiedenen Komponenten "
+"erstellten Inhalten Flags hinzufügen."
+
+#: admin/wbcom/wbcom-admin-settings.php:373
+msgid "BuddyPress Polls"
+msgstr "BuddyPress Polls"
+
+#: admin/wbcom/wbcom-admin-settings.php:374
+msgid ""
+"Use BuddyPress Polls plugin to create polls inside the activity, let your "
+"user response to your polls. Members can create pools like activities, "
+"easily votes on them."
+msgstr ""
+"Verwenden Sie das Plugin BuddyPress Polls, um innerhalb der Aktivität "
+"Umfragen zu erstellen, und lassen Sie Ihre Benutzer auf Ihre Umfragen "
+"reagieren. Mitglieder können Umfragen wie Aktivitäten erstellen und mit "
+"ihnen einfach abstimmen."
+
+#: admin/wbcom/wbcom-admin-settings.php:379
+msgid "BuddyPress Resume Manager"
+msgstr "BuddyPress Resume Manager"
+
+#: admin/wbcom/wbcom-admin-settings.php:380
+msgid ""
+"BuddyPress Resume Manager adds a separate BuddyPress Resume menu at a user’s "
+"BuddyPress Profile Page to display individual member resume. We have added "
+"predefined fields for the resumes and site admin and enable and disable them."
+msgstr ""
+"BuddyPress Resume Manager fügt auf der BuddyPress-Profilseite eines "
+"Benutzers ein separates BuddyPress Resume-Menü hinzu, um den Lebenslauf "
+"einzelner Mitglieder anzuzeigen. Wir haben vordefinierte Felder für die "
+"Lebensläufe dem Site-Administrator zum aktivieren und deaktivieren "
+"hinzugefügt."
+
+#: admin/wbcom/wbcom-admin-settings.php:385
+msgid "BuddyPress Profanity"
+msgstr "BuddyPress Profanity"
+
+#: admin/wbcom/wbcom-admin-settings.php:386
+msgid ""
+"Use BuddyPress Profanity plugin to censor content in your community! Easily "
+"Censor all the unwanted words in activities, private messages contents by "
+"specifying a list of keywords to be filtered."
+msgstr ""
+"Verwenden Sie das BuddyPress Profanity-Plugin, um Inhalte in Ihrer Community "
+"zu zensieren! Zensieren Sie einfach alle unerwünschten Wörter in Aktivitäten "
+"und privaten Nachrichten, indem Sie eine Liste der zu filternden "
+"Schlüsselwörter angeben."
+
+#: admin/wbcom/wbcom-admin-settings.php:391
+msgid "BuddyPress Private Community Pro"
+msgstr "BuddyPress Private Community Pro"
+
+#: admin/wbcom/wbcom-admin-settings.php:392
+msgid ""
+"This plugin offers a lockdown for BuddyPress Component and will ask users to "
+"log in go further to check profile or any other protected details."
+msgstr ""
+"Dieses Plugin bietet eine Sperrung für BuddyPress Component und fordert die "
+"Benutzer auf, sich anzumelden, um das Profil oder andere geschützte Details "
+"zu überprüfen."
+
+#: admin/wbcom/wbcom-admin-settings.php:397
+msgid "BuddyPress Profile Pro"
+msgstr "BuddyPress Profile Pro"
+
+#: admin/wbcom/wbcom-admin-settings.php:398
+msgid ""
+"This plugin gives you the power to extend BuddyPress Profiles with repeater "
+"fields and groups. You can easily add multiple field groups and display them "
+"at member’s profile."
+msgstr ""
+"Mit diesem Plugin können Sie BuddyPress-Profile um Repeater-Felder und -"
+"Gruppen erweitern. Sie können problemlos mehrere Feldgruppen hinzufügen und "
+"im Profil des Mitglieds anzeigen."
+
+#: admin/wbcom/wbcom-admin-settings.php:516
+#: admin/wbcom/wbcom-admin-settings.php:595
+msgid "Components"
+msgstr "Komponenten"
+
+#: admin/wbcom/wbcom-admin-settings.php:519
+#: admin/wbcom/wbcom-admin-settings.php:601
+msgid "Themes"
+msgstr "Themes"
+
+#: admin/wbcom/wbcom-admin-settings.php:589 bp-user-todo-list.php:105
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: bp-user-todo-list.php:152 bp-user-todo-list.php:168
+msgid "BuddyPress Member To-Do List"
+msgstr "BuddyPress Member To-Do Liste"
+
+#: bp-user-todo-list.php:153 bp-user-todo-list.php:169
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: bp-user-todo-list.php:155 bp-user-todo-list.php:171
+#, php-format
+msgid "%1$s is ineffective now as it requires %2$s to be installed and active."
+msgstr ""
+"%1$s ist nun unwirksam, da es erfordert %2$s installiert und aktiviert zu "
+"werden."
+
+#: inc/bptodo-plugin-genral-function.php:314
+msgid "Members"
+msgstr "Mitglieder"
+
+#: inc/bptodo-plugin-genral-function.php:315 inc/class-bptodo-hooks.php:201
+msgid "Status"
+msgstr "Status"
+
+#: inc/bptodo-plugin-genral-function.php:316
+msgid "Time"
+msgstr "Uhrzeit"
+
+#: inc/class-bptodo-ajax.php:143 inc/class-bptodo-hooks.php:231
+#: inc/templates/list.php:340 inc/templates/list.php:425
+#: inc/templates/list.php:512 inc/templates/list.php:612
+#: inc/templates/list.php:729 inc/todo/bptodo-by-category-template.php:90
+#: inc/todo/bptodo-by-category-template.php:185
+#: inc/todo/bptodo-by-category-template.php:279
+#: inc/todo/bptodo-by-category-template.php:373 inc/todo/list.php:317
+#: inc/todo/list.php:387 inc/todo/list.php:460 inc/todo/list.php:535
+#: inc/todo/list.php:626
+#, php-format
+msgid "Expired %d days ago!"
+msgstr "Abgelaufen vor %d Tagen!"
+
+#: inc/class-bptodo-ajax.php:146 inc/class-bptodo-hooks.php:233
+#: inc/templates/list.php:343 inc/templates/list.php:428
+#: inc/templates/list.php:515 inc/templates/list.php:615
+#: inc/templates/list.php:732 inc/todo/bptodo-by-category-template.php:93
+#: inc/todo/bptodo-by-category-template.php:188
+#: inc/todo/bptodo-by-category-template.php:282
+#: inc/todo/bptodo-by-category-template.php:376 inc/todo/list.php:320
+#: inc/todo/list.php:390 inc/todo/list.php:463 inc/todo/list.php:538
+#: inc/todo/list.php:629
+msgid "Today is the last day to complete. Hurry Up!"
+msgstr ""
+"Heute ist der letzte Tag, um die Aufgabe zu erledigen. Beeilen Sie sich!"
+
+#: inc/class-bptodo-ajax.php:150 inc/class-bptodo-hooks.php:235
+#: inc/todo/bptodo-by-category-template.php:96
+#: inc/todo/bptodo-by-category-template.php:191
+#: inc/todo/bptodo-by-category-template.php:285
+#: inc/todo/bptodo-by-category-template.php:379
+#, php-format
+msgid "%d days left to complete the task!"
+msgstr "%d Tage sind noch übrig, um die Aufgabe zu erledigen!"
+
+#: inc/class-bptodo-ajax.php:154 inc/class-bptodo-hooks.php:239
+#: inc/templates/list.php:355 inc/templates/list.php:441
+#: inc/templates/list.php:528 inc/templates/list.php:628
+#: inc/templates/list.php:745 inc/todo/bptodo-by-category-template.php:99
+#: inc/todo/bptodo-by-category-template.php:194
+#: inc/todo/bptodo-by-category-template.php:288
+#: inc/todo/bptodo-by-category-template.php:382 inc/todo/list.php:332
+#: inc/todo/list.php:403 inc/todo/list.php:477 inc/todo/list.php:551
+#: inc/todo/list.php:642
+msgid "Completed!"
+msgstr "Erledigt!"
+
+#: inc/class-bptodo-ajax.php:161 inc/templates/add.php:217
+#: inc/templates/edit.php:130 inc/templates/list.php:362
+#: inc/templates/list.php:448 inc/templates/list.php:535
+#: inc/templates/list.php:635 inc/templates/list.php:752 inc/todo/add.php:94
+#: inc/todo/edit.php:112 inc/todo/list.php:339 inc/todo/list.php:410
+#: inc/todo/list.php:485 inc/todo/list.php:558 inc/todo/list.php:649
+msgid "Critical"
+msgstr "Zeitkritisch"
+
+#: inc/class-bptodo-ajax.php:164 inc/templates/add.php:218
+#: inc/templates/edit.php:131 inc/templates/list.php:365
+#: inc/templates/list.php:451 inc/templates/list.php:538
+#: inc/templates/list.php:638 inc/templates/list.php:755 inc/todo/add.php:95
+#: inc/todo/edit.php:113 inc/todo/list.php:342 inc/todo/list.php:413
+#: inc/todo/list.php:488 inc/todo/list.php:561 inc/todo/list.php:652
+msgid "High"
+msgstr "Wichtig"
+
+#: inc/class-bptodo-ajax.php:167 inc/templates/add.php:219
+#: inc/templates/edit.php:132 inc/templates/list.php:368
+#: inc/templates/list.php:454 inc/templates/list.php:541
+#: inc/templates/list.php:641 inc/templates/list.php:758 inc/todo/add.php:96
+#: inc/todo/edit.php:114 inc/todo/list.php:345 inc/todo/list.php:416
+#: inc/todo/list.php:491 inc/todo/list.php:564 inc/todo/list.php:655
+msgid "Normal"
+msgstr "Normal"
+
+#: inc/class-bptodo-ajax.php:176 inc/templates/list.php:380
+#: inc/templates/list.php:466 inc/templates/list.php:665
+#: inc/templates/list.php:774 inc/todo/bptodo-by-category-template.php:132
+#: inc/todo/bptodo-by-category-template.php:227
+#: inc/todo/bptodo-by-category-template.php:321
+#: inc/todo/bptodo-by-category-template.php:415 inc/todo/list.php:355
+#: inc/todo/list.php:426 inc/todo/list.php:574 inc/todo/list.php:664
+#, php-format
+msgid "Remove: %s"
+msgstr "Entfernen: %s"
+
+#: inc/class-bptodo-ajax.php:179 inc/templates/list.php:385
+#: inc/templates/list.php:470 inc/templates/list.php:571
+#: inc/templates/list.php:669 inc/templates/list.php:779
+#: inc/todo/bptodo-by-category-template.php:134
+#: inc/todo/bptodo-by-category-template.php:229
+#: inc/todo/bptodo-by-category-template.php:323
+#: inc/todo/bptodo-by-category-template.php:417 inc/todo/list.php:358
+#: inc/todo/list.php:428 inc/todo/list.php:505 inc/todo/list.php:576
+#: inc/todo/list.php:666
+#, php-format
+msgid "Edit: %s"
+msgstr "Bearbeiten: %s"
+
+#: inc/class-bptodo-ajax.php:180 inc/templates/list.php:389
+#: inc/templates/list.php:474 inc/templates/list.php:575
+#: inc/templates/list.php:673 inc/templates/list.php:782
+#: inc/todo/bptodo-by-category-template.php:135
+#: inc/todo/bptodo-by-category-template.php:230
+#: inc/todo/bptodo-by-category-template.php:324
+#: inc/todo/bptodo-by-category-template.php:418 inc/todo/list.php:360
+#: inc/todo/list.php:430 inc/todo/list.php:507 inc/todo/list.php:578
+#: inc/todo/list.php:668
+#, php-format
+msgid "Complete: %s"
+msgstr "Erledigt: %s"
+
+#: inc/class-bptodo-ajax.php:182 inc/templates/list.php:392
+#: inc/templates/list.php:478 inc/templates/list.php:578
+#: inc/templates/list.php:676 inc/templates/list.php:784
+#: inc/todo/bptodo-by-category-template.php:137
+#: inc/todo/bptodo-by-category-template.php:232
+#: inc/todo/bptodo-by-category-template.php:326
+#: inc/todo/bptodo-by-category-template.php:420 inc/todo/list.php:362
+#: inc/todo/list.php:432 inc/todo/list.php:509 inc/todo/list.php:580
+#: inc/todo/list.php:670
+#, php-format
+msgid "Undo Complete: %s"
+msgstr "Erledigen rückgängig machen: %s"
+
+#: inc/class-bptodo-ajax.php:184 inc/templates/list.php:387
+#: inc/templates/list.php:472 inc/templates/list.php:573
+#: inc/templates/list.php:671 inc/templates/list.php:780 inc/todo/list.php:359
+#: inc/todo/list.php:429 inc/todo/list.php:506 inc/todo/list.php:577
+#: inc/todo/list.php:667
+#, php-format
+msgid "View: %s"
+msgstr "Ansicht: %s"
+
+#: inc/class-bptodo-cpt.php:44 inc/class-bptodo-cpt.php:46
+#: inc/class-bptodo-cpt.php:47
+msgid "To-Do Items"
+msgstr "Zu erledigende Aufgaben"
+
+#: inc/class-bptodo-cpt.php:45
+msgid "To-Do Item"
+msgstr "Zu erledigende Aufgabe"
+
+#: inc/class-bptodo-cpt.php:48
+msgid "View To-Do Item"
+msgstr "Aufgabe ansehen"
+
+#: inc/class-bptodo-cpt.php:49
+msgid "All To-Do Items"
+msgstr "Alle Aufgaben"
+
+#: inc/class-bptodo-cpt.php:50
+msgid "Search To-Do Item"
+msgstr "Aufgabe suchen"
+
+#: inc/class-bptodo-cpt.php:51
+msgid "Parent To-Do Item:"
+msgstr "Übergeordnete Aufgabe:"
+
+#: inc/class-bptodo-cpt.php:52
+msgid "No To-Do Item Found"
+msgstr "Keine Aufgaben gefunden"
+
+#: inc/class-bptodo-cpt.php:53
+msgid "No To-Do Item Found In Trash"
+msgstr "Keine Aufgaben im Papierkorb gefunden"
+
+#: inc/class-bptodo-cpt.php:93 inc/class-bptodo-cpt.php:94
+msgid "To-Do Category"
+msgstr "Aufgabenkategorie"
+
+#: inc/class-bptodo-cpt.php:95
+msgid "Search To-Do Items Categories"
+msgstr "Aufgabenkategorien suchen"
+
+#: inc/class-bptodo-cpt.php:96
+msgid "All To-Do Items Categories"
+msgstr "Alle Aufgabenartikelkategorien"
+
+#: inc/class-bptodo-cpt.php:97
+msgid "Parent To-Do Item Category"
+msgstr "Übergeordnete Aufgabenkategorie"
+
+#: inc/class-bptodo-cpt.php:98
+msgid "Parent To-Do Item Category:"
+msgstr "Übergeordnete Aufgabenkategorie:"
+
+#: inc/class-bptodo-cpt.php:99
+msgid "Edit Category"
+msgstr "Kategorie bearbeiten"
+
+#: inc/class-bptodo-cpt.php:100
+msgid "Update Category"
+msgstr "Kategorie aktualisieren"
+
+#: inc/class-bptodo-cpt.php:101
+msgid "Add To-Do Item Category"
+msgstr "Aufgabenkategorie hinzufügen"
+
+#: inc/class-bptodo-cpt.php:102
+msgid "No To-Do Item Categories Found"
+msgstr "Aufgabenkategorien gefunden"
+
+#: inc/class-bptodo-cpt.php:103
+msgid "Categories"
+msgstr "Kategorien"
+
+#: inc/class-bptodo-globals.php:124
+msgid "To-Do"
+msgstr "Zu erledigen"
+
+#: inc/class-bptodo-globals.php:125
+msgid "To-Dos"
+msgstr "Zu erledigende Aufgaben"
+
+#: inc/class-bptodo-hooks.php:76
+msgid "BP Task - WordPress"
+msgstr "BP Task - WordPress"
+
+#: inc/class-bptodo-hooks.php:77
+#, php-format
+msgid "Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!"
+msgstr ""
+"Ihre Aufgabe: %1$s läuft heute ab. Bitte erledigen Sie sie! Vielen Dank!"
+
+#: inc/class-bptodo-hooks.php:174
+msgid "List"
+msgstr "Liste"
+
+#: inc/class-bptodo-hooks.php:184 inc/class-bptodo-profile-menu.php:91
+#: inc/class-bptodo-profile-menu.php:166 inc/templates/add.php:171
+#: inc/templates/edit.php:84 inc/todo/add.php:48 inc/todo/edit.php:66
+msgid "Add"
+msgstr "Hinzufügen"
+
+#: inc/class-bptodo-hooks.php:200 inc/templates/add.php:203
+#: inc/templates/add.php:206 inc/templates/edit.php:116
+#: inc/templates/edit.php:119 inc/templates/list.php:314 inc/todo/add.php:80
+#: inc/todo/add.php:83 inc/todo/bptodo-by-category-template.php:70
+#: inc/todo/bptodo-by-category-template.php:165
+#: inc/todo/bptodo-by-category-template.php:259
+#: inc/todo/bptodo-by-category-template.php:353 inc/todo/edit.php:98
+#: inc/todo/edit.php:101 inc/todo/list.php:291
+msgid "Due Date"
+msgstr "Fälligkeitsdatum"
+
+#: inc/class-bptodo-hooks.php:202
+msgid "ID"
+msgstr "ID"
+
+#: inc/class-bptodo-hooks.php:288
+#, php-format
+msgid "%1$s due date arrived for task: %2$s"
+msgstr "%1$s Fälligkeitsdatum für Aufgabe erreicht: %2$s"
+
+#: inc/class-bptodo-hooks.php:290
+#, php-format
+msgid "Your %1$s: %2$s is due today. Please complete it as soon as possible."
+msgstr ""
+"Ihre benannte %1$s „%2$s“ ist heute fällig. Bitte erledigen Sie diese "
+"alsbald."
+
+#: inc/class-bptodo-profile-menu.php:116
+msgid "Create Event"
+msgstr "Eregnis erstellen"
+
+#: inc/class-bptodo-profile-menu.php:217
+#, php-format
+msgid "Edit %1$s : %2$s"
+msgstr "Bearbeiten Sie %1$s : %2$s"
+
+#: inc/class-bptodo-profile-menu.php:219
+#, php-format
+msgid "Add a new %1$s in your list"
+msgstr "Fügen Sie eine neue Aufgabe (%1$s) in Ihre Liste ein"
+
+#: inc/class-bptodo-profile-menu.php:262
+#, php-format
+msgid "%1$s List"
+msgstr "%1$snliste"
+
+#: inc/class-bptodo-scripts.php:73
+#, php-format
+msgid "My %1$s"
+msgstr "Meine %1$s"
+
+#: inc/class-bptodo-scripts.php:74
+msgid "Category name is required."
+msgstr "Kategoriename erforderlich."
+
+#: inc/class-bptodo-scripts.php:75
+msgid "Undo Complete"
+msgstr "Erledigen rückgängig machen"
+
+#: inc/class-bptodo-scripts.php:76
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+#: inc/templates/add.php:150 inc/templates/edit.php:56 inc/todo/add.php:27
+#: inc/todo/edit.php:38
+msgid "Category"
+msgstr "Kategorie"
+
+#: inc/templates/add.php:155 inc/templates/add.php:216
+#: inc/templates/edit.php:61 inc/templates/edit.php:129 inc/todo/add.php:32
+#: inc/todo/add.php:93 inc/todo/edit.php:43 inc/todo/edit.php:111
+msgid "--Select--"
+msgstr "-- Auswählen --"
+
+#: inc/templates/add.php:168 inc/templates/edit.php:81 inc/todo/add.php:45
+#: inc/todo/edit.php:63
+#, php-format
+msgid "%1$s category"
+msgstr "%1$snkategorie"
+
+#: inc/templates/add.php:179 inc/templates/add.php:182
+#: inc/templates/edit.php:92 inc/templates/edit.php:95 inc/todo/add.php:56
+#: inc/todo/add.php:59 inc/todo/edit.php:74 inc/todo/edit.php:77
+msgid "Title"
+msgstr "Titel"
+
+#: inc/templates/add.php:188 inc/templates/edit.php:101 inc/todo/add.php:65
+#: inc/todo/edit.php:83
+msgid "Summary"
+msgstr "Zusammenfassung"
+
+#: inc/templates/add.php:212 inc/templates/edit.php:125
+#: inc/templates/list.php:312 inc/templates/list.php:707 inc/todo/add.php:89
+#: inc/todo/edit.php:107 inc/todo/list.php:289 inc/todo/list.php:605
+msgid "Priority"
+msgstr "Priorität"
+
+#: inc/templates/add.php:238 inc/todo/add.php:107
+#, php-format
+msgid "Submit %s"
+msgstr "%s absenden"
+
+#: inc/templates/archive-bp-todo.php:50
+#, php-format
+msgctxt "post author"
+msgid "%s"
+msgstr "%s"
+
+#. translators: %s: Post title.
+#: inc/templates/archive-bp-todo.php:59
+#, php-format
+msgid "Continue reading %s"
+msgstr "Weiterlesen: %s"
+
+#: inc/templates/archive-bp-todo.php:65 inc/templates/single-bp-todo.php:33
+msgid "Pages:"
+msgstr "Seiten:"
+
+#: inc/templates/archive-bp-todo.php:69 inc/templates/archive-bp-todo.php:86
+#: inc/templates/single-bp-todo.php:37
+msgid "Page"
+msgstr "Seite"
+
+#: inc/templates/archive-bp-todo.php:75
+#, php-format
+msgid "Permalink to %s"
+msgstr "Permalink zu %s"
+
+#: inc/templates/archive-bp-todo.php:75
+msgid "Read More"
+msgstr "Weiterlesen"
+
+#: inc/templates/archive-bp-todo.php:84
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+#: inc/templates/archive-bp-todo.php:85
+msgid "Next page"
+msgstr "Nächste Seite"
+
+#: inc/templates/archive-bp-todo.php:93
+msgid "Nothing Found"
+msgstr "Nichts gefunden"
+
+#: inc/templates/edit.php:151 inc/todo/edit.php:125
+#, php-format
+msgid "Update %s"
+msgstr "%s aktualisieren"
+
+#: inc/templates/list.php:183 inc/todo/list.php:155
+#, php-format
+msgid "Sorry, no %1$s found."
+msgstr "Leider wurden keine %1$s gefunden."
+
+#: inc/templates/list.php:199 inc/todo/list.php:171
+#, php-format
+msgid "%1$s added successfully !"
+msgstr "%1$s erfolgreich hinzugefügt !"
+
+#: inc/templates/list.php:215 inc/todo/list.php:187
+#, php-format
+msgid "%1$s updated successfully !"
+msgstr "%1$s erfolgreich aktualisiert !"
+
+#: inc/templates/list.php:223 inc/todo/list.php:196
+msgid "Task Progress"
+msgstr "Aufgabenfortschritt"
+
+#: inc/templates/list.php:237 inc/templates/list.php:302 inc/todo/list.php:210
+#: inc/todo/list.php:278
+msgid "Completed"
+msgstr "Erledigt"
+
+#: inc/templates/list.php:245 inc/todo/list.php:218
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: inc/templates/list.php:251 inc/todo/list.php:224
+msgid "At a Glance"
+msgstr "Auf einen Blick"
+
+#: inc/templates/list.php:261 inc/todo/list.php:234
+#, php-format
+msgid "Total %1$s"
+msgstr "%1$sn in der Summe"
+
+#: inc/templates/list.php:275 inc/templates/list.php:277 inc/todo/list.php:248
+#: inc/todo/list.php:250
+#, php-format
+msgid "%1$s Remaining"
+msgstr "%1$s verbleiben"
+
+#: inc/templates/list.php:290 inc/todo/list.php:263
+#, php-format
+msgid "%1$s Completed"
+msgstr "%1$s erledigt"
+
+#: inc/templates/list.php:300 inc/todo/list.php:274
+#, php-format
+msgid "All %1$s"
+msgstr "Alle %1$s"
+
+#: inc/templates/list.php:313 inc/templates/list.php:708
+#: inc/todo/bptodo-by-category-template.php:68
+#: inc/todo/bptodo-by-category-template.php:163
+#: inc/todo/bptodo-by-category-template.php:257
+#: inc/todo/bptodo-by-category-template.php:351 inc/todo/list.php:290
+#: inc/todo/list.php:606
+msgid "Task"
+msgstr "Aufgabe"
+
+#: inc/templates/list.php:315 inc/templates/list.php:709 inc/todo/list.php:292
+#: inc/todo/list.php:607
+msgid "Actions"
+msgstr "Aktionen"
+
+#: inc/templates/list.php:347 inc/templates/list.php:433
+#: inc/templates/list.php:520 inc/templates/list.php:620
+#: inc/templates/list.php:737 inc/todo/list.php:324 inc/todo/list.php:395
+#: inc/todo/list.php:468 inc/todo/list.php:543 inc/todo/list.php:634
+msgid "day"
+msgstr "Tag"
+
+#: inc/templates/list.php:349 inc/templates/list.php:435
+#: inc/templates/list.php:522 inc/templates/list.php:622
+#: inc/templates/list.php:739 inc/todo/list.php:326 inc/todo/list.php:397
+#: inc/todo/list.php:470 inc/todo/list.php:545 inc/todo/list.php:636
+msgid "days"
+msgstr "Tage"
+
+#: inc/templates/list.php:351 inc/templates/list.php:437
+#: inc/templates/list.php:524 inc/templates/list.php:624
+#: inc/templates/list.php:741 inc/todo/list.php:328 inc/todo/list.php:399
+#: inc/todo/list.php:472 inc/todo/list.php:547 inc/todo/list.php:638
+#, php-format
+msgid "%1$d %2$s left to complete the task!"
+msgstr "%1$d %2$s übrig, um die Aufgabe zu erledigen!"
+
+#: inc/templates/list.php:567 inc/todo/list.php:503
+#, php-format
+msgid "Remove: %s "
+msgstr "Entfernen: %s "
+
+#: inc/todo/bptodo-by-category-template-loggedout-user.php:13
+msgid "You need to be loggedin to view the todo items."
+msgstr "Sie müssen angemeldet sein, um die Aufgaben sehen zu können."
+
+#: inc/todo/bptodo-by-category-template.php:61
+msgid "PAST"
+msgstr "VERGANGENHEIT"
+
+#: inc/todo/bptodo-by-category-template.php:69
+#: inc/todo/bptodo-by-category-template.php:164
+#: inc/todo/bptodo-by-category-template.php:258
+#: inc/todo/bptodo-by-category-template.php:352
+msgid "Task Description"
+msgstr "Aufgabenbeschreibung"
+
+#: inc/todo/bptodo-by-category-template.php:71
+#: inc/todo/bptodo-by-category-template.php:166
+#: inc/todo/bptodo-by-category-template.php:260
+#: inc/todo/bptodo-by-category-template.php:354
+msgid "Mark Complete"
+msgstr "Als erledigt markieren"
+
+#: inc/todo/bptodo-by-category-template.php:250
+msgid "TOMORROW"
+msgstr "MORGEN"
+
+#: inc/todo/bptodo-by-category-template.php:344
+msgid "SOMEDAY"
+msgstr "IRGENDWANN MAL"
+
+#: inc/todo/bptodo-by-category-template.php:350
+msgid "Sr. No."
+msgstr "Sr. Nr."
+
+#: inc/todo/bptodo-by-category-template.php:444
+msgid "There are no todos in this category."
+msgstr "Es gibt keine Aufgaben in dieser Kategorie."
+
+#: inc/todo/bptodo-by-category-template.php:455
+msgid "Please provide a valid category ID."
+msgstr "Bitte geben Sie eine gültige Kategorie-ID an."
+
+#: inc/todo/bptodo-by-category-template.php:466
+msgid "Please provide any category ID."
+msgstr "Bitte geben Sie eine Kategorie-ID an."
+
+#: inc/widget/class-user-todo.php:29
+msgctxt "widget name"
+msgid "Member To-Do"
+msgstr "Aufgabenbereich der Mitglieder"
+
+#: inc/widget/class-user-todo.php:30
+msgid "A dynamic list of ToDos of displayed member."
+msgstr "Eine dynamische Liste der ToDos des angezeigten Mitglieds."
+
+#: inc/widget/class-user-todo.php:92
+msgid "(no title)"
+msgstr "(ohne Titel)"
+
+#: inc/widget/class-user-todo.php:147
+msgid "Title:"
+msgstr "Titel:"
+
+#: inc/widget/class-user-todo.php:155
+msgid "Link widget title to archive page of To-Do"
+msgstr "Widget-Titel mit Archivseite von To-Do verknüpfen"
+
+#: inc/widget/class-user-todo.php:161
+msgid "Max members to show:"
+msgstr "Max. Mitglieder zum Anzeigen:"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wbcomdesigns.com/contact/"
+msgstr "https://wbcomdesigns.com/contact/"
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin allows users to create to do items in their profile section and "
+"simple interface to schedule your task."
+msgstr ""
+"Dieses Plugin ermöglicht es Benutzern, Elemente in ihrem Profilabschnitt zu "
+"erstellen und eine einfache Schnittstelle zu benutzen, um ihre Aufgabe zu "
+"planen."
+
+#. Author of the plugin/theme
+msgid "Wbcom Designs"
+msgstr "Wbcom Designs"
+
+#. Author URI of the plugin/theme
+msgid "http://wbcomdesigns.com"
+msgstr "https://wbcomdesigns.com"
+
+#, php-format
+#~ msgid "Add %1$s"
+#~ msgstr "%1$s hinzufügen"
+
+#~ msgid "User Manual"
+#~ msgstr "Benutzerhandbuch"
+
+#~ msgid "Rate Us on WordPress.org"
+#~ msgstr "Bewerten Sie uns auf WordPress.org"
+
+#~ msgid "FAQ(s)"
+#~ msgstr "FAQ(s)"
+
+#~ msgid "Does this plugin require any other plugin to work?"
+#~ msgstr "Benötigt dieses Plugin ein anderes Plugin, damit es funktioniert?"
+
+#~ msgid ""
+#~ "As the name of the plugin justifies, this plugin helps manage To-Do List "
+#~ "for BuddyPress Members, this plugin requires BuddyPress plugin to be "
+#~ "installed and active."
+#~ msgstr ""
+#~ "Wie der Name des Plugins besagt, hilft dieses Plugin Aufgabebenlisten für "
+#~ "BuddyPress-Mitglieder zu verwalten. Dieses Plugin benötigt das BuddyPress-"
+#~ "Plugin installiert und aktiviert."
+
+#~ msgid ""
+#~ "You'll also get an admin notice and the plugin will become ineffective if "
+#~ "the required plugin is not there."
+#~ msgstr ""
+#~ "Sie erhalten auch einen Admin-Hinweis und das Plugin wird unwirksam, wenn "
+#~ "das erforderliche Plugin nicht da ist."
+
+#~ msgid "Plugin Working?"
+#~ msgstr "Wie funktioniert das Plugin?"
+
+#~ msgid ""
+#~ "This plugin creates a menu To-Do in the user profile. User can add a set "
+#~ "of tasks and can manage them accordingly."
+#~ msgstr ""
+#~ "Dieses Plugin erstellt ein Aufgaben-Menü im Benutzerprofil. Der Benutzer "
+#~ "kann eine Reihe von Aufgaben hinzufügen und diese entsprechend verwalten."
+
+#~ msgid "A user can even Export his/her list."
+#~ msgstr "Ein Benutzer kann auch seine Liste exportieren."
+
+#~ msgid "How to go for any custom development?"
+#~ msgstr ""
+#~ "Wie vorgehen, wenn man Hilfe zu einer benutzerdefinierter Entwicklung "
+#~ "braucht?"
+
+#~ msgid "If you need additional help you can contact us for %1$s."
+#~ msgstr ""
+#~ "Wenn Sie zusätzliche Hilfe benötigen, können Sie uns zu %1$s kontaktieren."
+
+#~ msgid "Custom Development"
+#~ msgstr "Kundenspezifische Entwicklung"
+
+#~ msgid " category wise."
+#~ msgstr " kategorieweise."
+
+#~ msgid " you want to show."
+#~ msgstr " Sie zeigen wollen."
+
+#~ msgid "todo-removed"
+#~ msgstr "Aufgabe entfernt"
+
+#~ msgid " <span class=\"count\">"
+#~ msgstr " <span class=\"count\">"
+
+#~ msgid " Remove: %s "
+#~ msgstr " Entfernen: %s "
+
+#~ msgid " Edit: %s "
+#~ msgstr " Bearbeiten: %s "
+
+#~ msgid " Complete: %s "
+#~ msgstr " Abgeschlossen: %s "
+
+#~ msgid "Profile Menu Label"
+#~ msgstr "Profil-Menü Label"
+
+#~ msgid ""
+#~ "This label will be seen in the profile menu(Please make sure you enter "
+#~ "\"singular\" text)."
+#~ msgstr ""
+#~ "Dieses Label wird im Menü \"Profil\" zu sehen sein (Es ist zu empfehlen, "
+#~ "dass Sie einen leicht zu merkenden Text wählen)."
+
+#~ msgid "Edit "
+#~ msgstr "Bearbeiten "
+
+#~ msgid "Add a new "
+#~ msgstr "Eine neue hinzufügen "
+
+#~ msgid "TODAY"
+#~ msgstr "HEUTE"
