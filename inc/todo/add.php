@@ -17,11 +17,14 @@ $profile_menu_slug  = $bptodo->profile_menu_slug;
 $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = bp_displayed_user_id();
-$form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
+$form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
+
+bp_nouveau_template_notices();
+
 ?>
 <form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
 	<table class="bptodo-add-todo-tbl">
-		<?php do_action('bptodo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
+		<?php do_action( 'bptodo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
 			<td width="20%">
 				<?php esc_html_e( 'Category', 'wb-todo' ); ?>
@@ -31,7 +34,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) ) { ?>
-						<?php foreach ( $todo_cats as $todo_cat ) { ?>
+							<?php foreach ( $todo_cats as $todo_cat ) { ?>
 						<option value="<?php echo esc_html( $todo_cat->name ); ?>"><?php echo esc_html( $todo_cat->name ); ?></option>
 						<?php } ?>
 						<?php } ?>
@@ -98,18 +101,21 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 			</td>
 		</tr>
 
-		<?php $change_submit_btn = apply_filters('bptodo_change_submit_button', $change = false ); ?>
-		<?php if(!$change_submit_btn){ ?>
+		<?php $change_submit_btn = apply_filters( 'bptodo_change_submit_button', $change = false ); ?>
+		<?php if ( ! $change_submit_btn ) { ?>
 			<tr>
 				<td width="20%"></td>
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
-					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label );?>" >
+					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label ); ?>" >
 				</td>
 			</tr>
-		<?php }else{
+			<?php
+		} else {
 			do_action( 'bptodo_change_submit_button_action', $profile_menu_label );
-		} ?>
-		<?php do_action('bptodo_add_field_after_default_listing', $displayed_uid, $form_post_link ); ?>
+		}
+		?>
+		<?php do_action( 'bptodo_add_field_after_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
+

@@ -30,9 +30,9 @@ if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
 $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 ?>
-<form action="<?php echo esc_attr( $form_post_link ); ?>" method="post">
+<form action="" method="post">
 	<table class="bptodo-add-todo-tbl">
-		<?php do_action('bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
+		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
 			<td width="20%">
 				<?php esc_html_e( 'Category', 'wb-todo' ); ?>
@@ -42,14 +42,14 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) ) { ?>
-						<?php foreach ( $todo_cats as $todo_cat ) { ?>
+							<?php foreach ( $todo_cats as $todo_cat ) { ?>
 						<option
-						<?php
-						if ( $todo_cat_id == $todo_cat->term_id ) {
-							echo 'selected="selected"';}
-?>
+								<?php
+								if ( $todo_cat_id == $todo_cat->term_id ) {
+									echo 'selected="selected"';}
+								?>
  value="<?php echo esc_html( $todo_cat->name ); ?>">
-							<?php echo esc_html( $todo_cat->name ); ?>
+								<?php echo esc_html( $todo_cat->name ); ?>
 						</option>
 						<?php } ?>
 						<?php } ?>
@@ -115,8 +115,8 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 				</select>
 			</td>
 		</tr>
-		<?php $change_edit_btn = apply_filters('bptodo_change_todo_edit_button', $change = false ); ?>
-		<?php if(!$change_edit_btn){ ?>
+		<?php $change_edit_btn = apply_filters( 'bptodo_change_todo_edit_button', $change = false ); ?>
+		<?php if ( ! $change_edit_btn ) { ?>
 			<tr>
 				<td width="20%"></td>
 				<td width="80%">
@@ -125,9 +125,31 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 					<input type="submit" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), $profile_menu_label ); ?>">
 				</td>
 			</tr>
-		<?php }else{
+			<?php
+		} else {
 			do_action( 'bptodo_change_todo_edit_button_action', $profile_menu_label );
-		} ?>
-		<?php do_action('bptodo_add_field_after_edit_default_listing', $displayed_uid, $form_post_link ); ?>
+		}
+		?>
+		<?php do_action( 'bptodo_add_field_after_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
+
+<?php
+
+
+/*
+	// Show the successful message when todo is updated
+	if ( isset( $_POST['todo_update'] ) ) {
+		if ( 'nouveau' == $bp_template_option ) {
+			?>
+				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+				<span class="bp-icon" aria-hidden="true"></span>
+		<?php } else { ?>
+				<div id="message" class="info">
+		<?php } ?>
+					<p>
+						<?php echo sprintf( esc_html__( '%1$s updated successfully !', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+					</p>
+				</div>
+	<?php } ?>
+*/

@@ -228,10 +228,120 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		 * @access  public
 		 */
 		public function add_todo_tab_function_to_show_content() {
+			global $bptodo;
+			$profile_menu_label = $bptodo->profile_menu_label;
 			if ( isset( $_GET['args'] ) ) {
+
+				// Update todo items.
+				if ( isset( $_POST['todo_update'] ) && wp_verify_nonce( $_POST['save_update_todo_data_nonce'], 'wp-bp-todo' ) ) {
+
+					$cat      = sanitize_text_field( $_POST['todo_cat'] );
+					$title    = sanitize_text_field( $_POST['todo_title'] );
+					$summary  = wp_kses_post( $_POST['bptodo-summary-input'] );
+					$due_date = sanitize_text_field( $_POST['todo_due_date'] );
+					$priority = sanitize_text_field( $_POST['todo_priority'] );
+					$todo_id  = sanitize_text_field( $_POST['hidden_todo_id'] );
+
+					$taxonomy     = 'todo_category';
+					$args         = array(
+						'ID'           => $todo_id,
+						'post_type'    => 'bp-todo',
+						'post_status'  => 'publish',
+						'post_title'   => $title,
+						'post_content' => $summary,
+						'post_author'  => get_current_user_id(),
+					);
+					$todo_post_id = wp_update_post( $args );
+
+					update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
+					update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
+					update_post_meta( $todo_post_id, 'todo_priority', $priority );
+
+					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
+
+					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . '/to-do/add?args=' . $todo_post_id;
+
+					if ( ! is_wp_error( $todo_post_id ) ) {
+						bp_core_add_message(
+							sprintf(
+								esc_html__( '%1$s added successfully !', 'wb-todo' ),
+								esc_html( $profile_menu_label )
+							)
+						);
+					} else {
+						bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ), 'error' );
+					}
+
+					?>
+						<script>
+							window.location.replace('<?php echo esc_url( $todo_edit_url ); ?>');
+						</script>
+					<?php
+				}
+
 				include 'todo/edit.php';
 			} else {
-				include 'todo/add.php';
+				// Save todo items.
+				if ( isset( $_POST['todo_create'] ) && wp_verify_nonce( $_POST['save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
+
+					if ( isset( $_POST['todo_cat'] ) ) {
+						$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
+					}
+
+					if ( isset( $_POST['todo_title'] ) ) {
+						$title = sanitize_text_field( wp_unslash( $_POST['todo_title'] ) );
+					}
+
+					if ( isset( $_POST['todo_due_date'] ) ) {
+						$due_date = sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) );
+					}
+
+					if ( isset( $_POST['bptodo-summary-input'] ) ) {
+						$summary = sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) );
+					}
+
+					if ( isset( $_POST['todo_priority'] ) ) {
+						$priority = sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) );
+					}
+
+					$taxonomy = 'todo_category';
+					$args     = array(
+						'post_type'    => 'bp-todo',
+						'post_status'  => 'publish',
+						'post_title'   => $title,
+						'post_content' => $summary,
+						'post_author'  => get_current_user_id(),
+					);
+
+					$to_do_id = wp_insert_post( $args );
+
+					update_post_meta( $to_do_id, 'todo_status', 'incomplete' );
+					update_post_meta( $to_do_id, 'todo_due_date', $due_date );
+					update_post_meta( $to_do_id, 'todo_priority', $priority );
+					update_post_meta( $to_do_id, 'todo_last_day_mail_sent', 'no' );
+					update_post_meta( $to_do_id, 'todo_last_day_notification_sent', 'no' );
+
+					wp_set_object_terms( $to_do_id, $cat, $taxonomy );
+					$url = trailingslashit( bp_displayed_user_domain() . 'to-do/add' );
+
+					if ( ! is_wp_error( $to_do_id ) ) {
+						bp_core_add_message(
+							sprintf(
+								esc_html__( '%1$s added successfully !', 'wb-todo' ),
+								esc_html( $profile_menu_label )
+							)
+						);
+					} else {
+						bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ), 'error' );
+					}
+
+					?>
+						<script>
+							window.location.replace('<?php echo esc_url( $url ); ?>');							
+						</script>
+					<?php
+				}
+				require 'todo/add.php';
 			}
 		}
 
@@ -269,9 +379,9 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			$todos = get_posts( $args );
 			if ( 0 !== count( $todos ) ) {
 				?>
-				<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
-				<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-				<a href="javascript:void(0);" id="export_my_tasks"><i class="fa fa-download" aria-hidden="true"></i></a>
+					<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
+					<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
+					<a href="javascript:void(0);" id="export_my_tasks"><i class="fa fa-download" aria-hidden="true"></i></a>
 				<?php
 			}
 			echo '</h4>';

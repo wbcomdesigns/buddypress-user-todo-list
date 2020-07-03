@@ -13,76 +13,7 @@ global $bp;
 $profile_menu_slug         = $bptodo->profile_menu_slug;
 $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-
-// Save todo items.
-if ( isset( $_POST['todo_create'] ) && wp_verify_nonce( $_POST['save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
-
-	if ( isset( $_POST['todo_cat'] ) ) {
-		$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
-	}
-
-	if ( isset( $_POST['todo_title'] ) ) {
-		$title = sanitize_text_field( wp_unslash( $_POST['todo_title'] ) );
-	}
-
-	if ( isset( $_POST['todo_due_date'] ) ) {
-		$due_date = sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) );
-	}
-
-	if ( isset( $_POST['bptodo-summary-input'] ) ) {
-		$summary = sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) );
-	}
-
-	if ( isset( $_POST['todo_priority'] ) ) {
-		$priority = sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) );
-	}
-
-	$taxonomy = 'todo_category';
-	$args     = array(
-		'post_type'    => 'bp-todo',
-		'post_status'  => 'publish',
-		'post_title'   => $title,
-		'post_content' => $summary,
-		'post_author'  => get_current_user_id(),
-	);
-	$post_id  = wp_insert_post( $args );
-
-	update_post_meta( $post_id, 'todo_status', 'incomplete' );
-	update_post_meta( $post_id, 'todo_due_date', $due_date );
-	update_post_meta( $post_id, 'todo_priority', $priority );
-	update_post_meta( $post_id, 'todo_last_day_mail_sent', 'no' );
-	update_post_meta( $post_id, 'todo_last_day_notification_sent', 'no' );
-
-	wp_set_object_terms( $post_id, $cat, $taxonomy );
-}
-// Update todo items.
-if ( isset( $_POST['todo_update'] ) && wp_verify_nonce( $_POST['save_update_todo_data_nonce'], 'wp-bp-todo' ) ) {
-	$cat = sanitize_text_field( $_POST['todo_cat'] );
-
-	$title    = sanitize_text_field( $_POST['todo_title'] );
-	$summary  = wp_kses_post( $_POST['bptodo-summary-input'] );
-	$due_date = sanitize_text_field( $_POST['todo_due_date'] );
-	$priority = sanitize_text_field( $_POST['todo_priority'] );
-	$todo_id  = sanitize_text_field( $_POST['hidden_todo_id'] );
-
-	$taxonomy = 'todo_category';
-	$args     = array(
-		'ID'           => $todo_id,
-		'post_type'    => 'bp-todo',
-		'post_status'  => 'publish',
-		'post_title'   => $title,
-		'post_content' => $summary,
-		'post_author'  => get_current_user_id(),
-	);
-	$post_id  = wp_update_post( $args );
-
-	update_post_meta( $post_id, 'todo_status', 'incomplete' );
-	update_post_meta( $post_id, 'todo_due_date', $due_date );
-	update_post_meta( $post_id, 'todo_priority', $priority );
-
-	wp_set_object_terms( $post_id, $cat, $taxonomy );
-}
-$class = 'todo-completed';
+$class                     = 'todo-completed';
 
 // List of Todo Items.
 $args  = array(
@@ -146,52 +77,19 @@ $completed_todos     = get_posts( $completed_todo_args );
 $bp_template_option  = bp_get_option( '_bp_theme_package_id' );
 if ( empty( $todos ) ) {
 	if ( 'nouveau' == $bp_template_option ) { ?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
-				<span class="bp-icon" aria-hidden="true"></span>
+		<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+			<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>
-				<div id="message" class="info">
-		<?php } ?>
-		<p>
-			<?php echo sprintf( esc_html__( 'Sorry, no %1$s found.', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-		</p>
-	</div>
+			<div id="message" class="info">
+			<?php } ?>
+				<p>
+					<?php echo sprintf( esc_html__( 'Sorry, no %1$s found.', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+				</p>
+			</div>
+		</div>
 	<?php } else { ?>
-
-	<!-- Show the successful message when todo is added -->
-	<?php
-	if ( isset( $_POST['todo_create'] ) ) {
-		if ( 'nouveau' == $bp_template_option ) {
-			?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
-				<span class="bp-icon" aria-hidden="true"></span>
-		<?php } else { ?>
-				<div id="message" class="info">
-		<?php } ?>
-		<p>
-			<?php echo sprintf( esc_html__( '%1$s added successfully !', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-		</p>
-	</div>
-	<?php } ?>
-
-	<!-- Show the successful message when todo is updated -->
-	<?php
-	if ( isset( $_POST['todo_update'] ) ) {
-		if ( 'nouveau' == $bp_template_option ) {
-			?>
-				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
-				<span class="bp-icon" aria-hidden="true"></span>
-		<?php } else { ?>
-				<div id="message" class="info">
-		<?php } ?>
-					<p>
-						<?php echo sprintf( esc_html__( '%1$s updated successfully !', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-					</p>
-				</div>
-	<?php } ?>
-
 	<section class="bptodo-adming-setting">
 		<div class="bptodo-admin-settings-block">
-
 			<div class="bptodo-progress-section">
 				<h5><?php esc_html_e( 'Task Progress', 'wb-todo' ); ?></h5>
 				<div class="task-progress-task-count-wrap">
@@ -215,11 +113,13 @@ if ( empty( $todos ) ) {
 				<div id="bptodo-tabs">
 					<ul>
 						<?php do_action( 'bptodo_add_etxra_tab_before_defaults', $profile_menu_label_plural ); ?>
-						<li><a href="#bptodo-dashboard"><?php esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li>
+						<!-- <li><a href="#bptodo-dashboard"><?php //esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li> -->
 						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label_plural ); ?></a></li>
 						<?php do_action( 'bptodo_add_etxra_tab_after_defaults', $profile_menu_label_plural ); ?>
 					</ul>
 					<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
+
+					<?php /*
 					<div id="bptodo-dashboard">
 						<h2><?php esc_html_e( 'At a Glance', 'wb-todo' ); ?></h2>
 						<ul id="bptodo-dashboard-box">
@@ -266,6 +166,8 @@ if ( empty( $todos ) ) {
 
 						</ul>
 					</div>
+					*/?>
+					
 					<div id="bptodo-todos">
 						<div id="bptodo-task-tabs">
 							<ul>
