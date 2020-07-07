@@ -34,14 +34,10 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $name               = bp_get_displayed_user_username();
 
-$displayed_uid  = bp_displayed_user_id();
-$form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
 
-if ( ! empty( $group_members_ids ) ) {
-	$current_user = get_current_user_id();
-	$cu_index     = array_search( $current_user, $group_members_ids );
-	unset( $group_members_ids[ $cu_index ] );
-}
+$displayed_uid  = get_current_user_id();
+$form_post_link = bp_get_group_permalink() . 'to-do/add';
+
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
@@ -140,9 +136,21 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
 
+	?>
+		<script>
+			window.location.replace('<?php echo esc_url( $form_post_link ); ?>');
+		</script>
+	<?php
+
+}
+
+if ( ! empty( $group_members_ids ) ) {
+	$current_user = get_current_user_id();
+	$cu_index     = array_search( $current_user, $group_members_ids );
+	unset( $group_members_ids[ $cu_index ] );
 }
 ?>
-<form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
+<form class="bptodo-form-add" action="" method="post" id="myForm">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bp_group_todo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>

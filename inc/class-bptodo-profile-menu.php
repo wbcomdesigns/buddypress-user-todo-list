@@ -269,7 +269,10 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 							)
 						);
 					} else {
-						bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ), 'error' );
+						bp_core_add_message(
+							__( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ),
+							'error'
+						);
 					}
 
 					?>

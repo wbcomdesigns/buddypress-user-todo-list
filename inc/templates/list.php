@@ -48,68 +48,6 @@ if ( bp_group_is_mod() ) {
 	}
 }
 
-if ( isset( $_POST['group_todo_update'] ) && wp_verify_nonce( $_POST['save_update_group_todo_data_nonce'], 'wp-bp-todo' ) ) {
-	$cat = sanitize_text_field( $_POST['todo_cat'] );
-
-	$title           = sanitize_text_field( $_POST['todo_title'] );
-	$summary         = wp_kses_post( $_POST['bptodo-summary-input'] );
-	$due_date        = sanitize_text_field( $_POST['todo_due_date'] );
-	$priority        = sanitize_text_field( $_POST['todo_priority'] );
-	$todo_id         = sanitize_text_field( $_POST['hidden_todo_id'] );
-	$primary_todo_id = sanitize_text_field( $_POST['primary_todo_id'] );
-
-	$todo_group_id = '';
-	if ( isset( $_POST['todo_group_id'] ) ) {
-		$todo_group_id = sanitize_text_field( wp_unslash( $_POST['todo_group_id'] ) );
-	}
-
-	$taxonomy = 'todo_category';
-	$args     = array(
-		'ID'           => $todo_id,
-		'post_type'    => 'bp-todo',
-		'post_status'  => 'publish',
-		'post_title'   => $title,
-		'post_content' => $summary,
-		'post_author'  => get_current_user_id(),
-	);
-	$post_id  = wp_update_post( $args );
-
-	update_post_meta( $post_id, 'todo_status', 'incomplete' );
-	update_post_meta( $post_id, 'todo_due_date', $due_date );
-	update_post_meta( $post_id, 'todo_priority', $priority );
-
-	if ( ! empty( $todo_group_id ) ) {
-		update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
-	}
-
-	wp_set_object_terms( $post_id, $cat, $taxonomy );
-
-	$associated_todo = array();
-	$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-	array_push( $associated_todo, $primary_todo_id );
-	foreach ( (array) $associated_todo as $key => $_todo_id ) {
-		$args    = array(
-			'ID'           => $_todo_id,
-			'post_type'    => 'bp-todo',
-			'post_status'  => 'publish',
-			'post_title'   => $title,
-			'post_content' => $summary,
-		);
-		$post_id = wp_update_post( $args );
-		// var_dump( $post_id );die;
-
-		update_post_meta( $post_id, 'todo_status', 'incomplete' );
-		update_post_meta( $post_id, 'todo_due_date', $due_date );
-		update_post_meta( $post_id, 'todo_priority', $priority );
-
-		if ( ! empty( $todo_group_id ) ) {
-			update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
-		}
-
-		wp_set_object_terms( $post_id, $cat, $taxonomy );
-	}
-}
-
 // List of Todo Items.
 $args  = array(
 	'post_type'      => 'bp-todo',
@@ -242,11 +180,12 @@ if ( empty( $todos ) ) {
 				<div id="bptodo-tabs">
 					<ul>
 						<?php do_action( 'bptodo_add_etxra_tab_before_defaults', $profile_menu_label_plural ); ?>
-						<li><a href="#bptodo-dashboard"><?php esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li>
+						<!-- <li><a href="#bptodo-dashboard"><?php //esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li> -->
 						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label_plural ); ?></a></li>
 						<?php do_action( 'bptodo_add_etxra_tab_after_defaults', $profile_menu_label_plural ); ?>
 					</ul>
 					<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
+					<?php /*
 					<div id="bptodo-dashboard">
 						<h2><?php esc_html_e( 'At a Glance', 'wb-todo' ); ?></h2>
 						<ul id="bptodo-dashboard-box">
@@ -293,6 +232,7 @@ if ( empty( $todos ) ) {
 
 						</ul>
 					</div>
+					*/ ?>
 					<div id="bptodo-todos">
 						<div id="bptodo-task-tabs">
 							<ul>
