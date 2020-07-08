@@ -28,7 +28,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'bp_init', array( $this, 'bptodo_register_templates_pack' ), 5 );
-			add_action( 'bp_init', array( $this, 'bptodo_add_todo_tabs_in_groups' ), 5 );
+			add_action( 'bp_setup_nav', array( $this, 'bptodo_add_todo_tabs_in_groups' ), 5 );
 			add_action( 'bp_setup_nav', array( $this, 'bptodo_member_profile_todo_tab' ) );
 		}
 
@@ -40,6 +40,11 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 		public function bptodo_add_todo_tabs_in_groups() {
 			global $bp, $current_user;
+
+			if ( ! bp_is_group() ) {
+				return;
+			}
+
 			if ( ! function_exists( 'groups_get_groups' ) ) {
 				return false;
 			}
