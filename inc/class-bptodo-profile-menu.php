@@ -300,7 +300,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 					}
 
 					if ( isset( $_POST['bptodo-summary-input'] ) ) {
-						$summary = sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) );
+						$summary = wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) );
 					}
 
 					if ( isset( $_POST['todo_priority'] ) ) {

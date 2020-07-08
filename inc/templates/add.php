@@ -55,7 +55,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	}
 
 	if ( isset( $_POST['bptodo-summary-input'] ) ) {
-		$summary = sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) );
+		$summary = wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) );
 	}
 
 	if ( isset( $_POST['todo_priority'] ) ) {
