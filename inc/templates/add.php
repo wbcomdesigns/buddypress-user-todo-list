@@ -82,7 +82,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		'post_status'  => 'publish',
 		'post_title'   => $title,
 		'post_content' => $summary,
-		'post_author'  => $current_user,
+		'post_author'  => $displayed_uid,
 	);
 	$primary_todo_id = wp_insert_post( $args );
 

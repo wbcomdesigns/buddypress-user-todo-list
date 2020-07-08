@@ -11,9 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $bp,$bptodo;
 
-$groups_link = bp_get_group_permalink( $bp->groups->current_group );
-$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
-$group_id    = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
+
+$group_id           = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
+$profile_menu_label = $bptodo->profile_menu_label;
+$profile_menu_slug  = $bptodo->profile_menu_slug;
+$groups_link        = bp_get_group_permalink( $bp->groups->current_group );
+$admin_link         = trailingslashit( $groups_link . $profile_menu_slug );
+
+$displayed_uid = bp_displayed_user_id();
 
 // List of Todo Items.
 $args  = array(
@@ -29,18 +34,18 @@ $todos = get_posts( $args );
 $form_post_link = add_query_arg(
 	'args',
 	$todos[0]->ID,
-	$admin_link . 'to-do/add/'
+	$admin_link . 'add/'
 );
 
 if ( isset( $_POST['group_todo_update'] ) && wp_verify_nonce( $_POST['save_update_group_todo_data_nonce'], 'wp-bp-todo' ) ) {
 	$cat = sanitize_text_field( $_POST['todo_cat'] );
 
-	$title           = sanitize_text_field( $_POST['todo_title'] );
-	$summary         = wp_kses_post( $_POST['bptodo-summary-input'] );
-	$due_date        = sanitize_text_field( $_POST['todo_due_date'] );
-	$priority        = sanitize_text_field( $_POST['todo_priority'] );
-	$todo_id         = sanitize_text_field( $_POST['hidden_todo_id'] );
-	$primary_todo_id = sanitize_text_field( $_POST['primary_todo_id'] );
+	$title           = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
+	$summary         = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
+	$due_date        = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
+	$priority        = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
+	$todo_id         = isset( $_POST['hidden_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_todo_id'] ) ) : '';
+	$primary_todo_id = isset( $_POST['primary_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['primary_todo_id'] ) ) : '';
 
 	$todo_group_id = '';
 	if ( isset( $_POST['todo_group_id'] ) ) {
@@ -111,13 +116,6 @@ if ( isset( $group_members['members'] ) ) {
 		$group_members_ids[] = $member->ID;
 	}
 }
-
-$group_id = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
-
-$profile_menu_label = $bptodo->profile_menu_label;
-$profile_menu_slug  = $bptodo->profile_menu_slug;
-$displayed_uid      = bp_displayed_user_id();
-
 
 if ( isset( $_GET['args'] ) ) {
 	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );

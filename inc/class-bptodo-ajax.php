@@ -113,32 +113,34 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_complete_todo() {
+			global $bptodo;
 			check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
 			if ( isset( $_POST['action'] ) && 'bptodo_complete_todo' == $_POST['action'] ) {
 				$due_date_str      = '';
 				$due_date_td_class = '';
-				$tid               = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
-				$user_id           = sanitize_text_field( wp_unslash( $_POST['uid'] ) );
+				$tid               = isset( $_POST['tid'] ) ? sanitize_text_field( wp_unslash( $_POST['tid'] ) ) : '';
+				$user_id           = isset( $_POST['uid'] ) ? sanitize_text_field( wp_unslash( $_POST['uid'] ) ) : '';
 				update_post_meta( $tid, 'todo_status', 'complete' );
 				update_post_meta( $tid, 'todo_user_id', $user_id );
 				update_post_meta( $tid, 'todo_complete_time', time() );
-				$completed_todos = sanitize_text_field( wp_unslash( $_POST['completed'] ) );
-				$all_todo        = sanitize_text_field( wp_unslash( $_POST['all_todo'] ) );
+				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
+				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
 				(int) $completed_todos ++;
-				$avg_percentage = ( $completed_todos * 100 ) / $all_todo;
-
+				$avg_percentage    = ( $completed_todos * 100 ) / $all_todo;
+				$profile_menu_slug = $bptodo->profile_menu_slug;
 				/** Add html of completed todo. */
-				$todo          = get_post( $tid );
-				$todo_title    = $todo->post_title;
-				$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-				$todo_view_url = get_permalink( $tid );
+				$todo               = get_post( $tid );
+				$todo_title         = $todo->post_title;
+				$todo_edit_url      = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
+				$todo_view_url      = get_permalink( $tid );
+				$todo_status        = get_post_meta( $todo->ID, 'todo_status', true );
+				$todo_priority      = get_post_meta( $todo->ID, 'todo_priority', true );
+				$curr_date          = date_create( date( 'Y-m-d' ) );
+				$due_date           = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
+				$diff               = date_diff( $curr_date, $due_date );
+				$diff_days          = $diff->format( '%R%a' );
+				$all_remaining_todo = 0;
 
-				$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
-				$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
-				$curr_date     = date_create( date( 'Y-m-d' ) );
-				$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-				$diff          = date_diff( $curr_date, $due_date );
-				$diff_days     = $diff->format( '%R%a' );
 				if ( $diff_days < 0 ) {
 					$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 					$due_date_td_class = 'bptodo-expired';
@@ -150,11 +152,12 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 					$all_remaining_todo++;
 				}
+
 				if ( 'complete' == $todo_status ) {
 					$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 					$due_date_td_class = '';
-					$all_completed_todo++;
 				}
+
 				if ( ! empty( $todo_priority ) ) {
 					if ( 'critical' == $todo_priority ) {
 						$priority_class = 'bptodo-priority-critical';
@@ -167,6 +170,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 						$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 					}
 				}
+
 				$completed_html  = '';
 				$completed_html .= '<tr id="bptodo-row-' . $tid . '">
 				<td class="bptodo-priority"><span class="' . $priority_class . '">' . $priority_text . '</span></td>
