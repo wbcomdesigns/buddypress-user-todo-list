@@ -7,7 +7,7 @@ module.exports = function ( grunt ) {
 	grunt.initConfig(
 		{
 
-				// Check text domain
+			// Check text domain
 			checktextdomain: {
 				options: {
 					text_domain: [ 'wb-todo', 'buddypress' ], // Specify allowed domain(s)
@@ -41,7 +41,7 @@ module.exports = function ( grunt ) {
 					} ]
 				}
 			},
-				// make po files
+			// make po files
 			makepot: {
 				target: {
 					options: {
