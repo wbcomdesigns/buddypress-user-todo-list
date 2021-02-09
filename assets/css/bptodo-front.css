@@ -484,25 +484,25 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 /* Media Query */
 @media only screen and (max-width: 543px) {
   .todo-detail {
-    overflow-x: auto;
+	overflow-x: auto;
   }
 
   #bptodo-dashboard-box {
-    display: block;
+	display: block;
   }
 
   #bptodo-dashboard ul li {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 10px;
+	width: 100%;
+	margin: 0;
+	margin-bottom: 10px;
   }
 
   #bptodo-dashboard ul li:last-child {
-    margin-bottom: 0;
+	margin-bottom: 0;
   }
 
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
   }
 }
