@@ -12,7 +12,7 @@ global $bptodo;
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $class              = 'todo-completed';
-$bp_template_option = bp_get_option('_bp_theme_package_id');
+$bp_template_option = bp_get_option( '_bp_theme_package_id' );
 
 if ( ! empty( $atts['category'] ) ) {
 	$term = get_term_by( 'id', $atts['category'], 'todo_category' );
@@ -20,7 +20,7 @@ if ( ! empty( $atts['category'] ) ) {
 		$args  = array(
 			'post_type'   => 'bp-todo',
 			'numberposts' => -1,
-			'author'  => get_current_user_id(),
+			'author'      => get_current_user_id(),
 			'tax_query'   => array(
 				array(
 					'taxonomy'         => 'todo_category',
@@ -87,10 +87,10 @@ if ( ! empty( $atts['category'] ) ) {
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
 														if ( $diff_days < 0 ) {
-															$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+															$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 															$due_date_td_class = 'bptodo-expired';
 														} elseif ( 0 == $diff_days ) {
-															$due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!','wb-todo');
+															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 															$due_date_td_class = 'bptodo-expires-today';
 														} else {
 															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
@@ -105,19 +105,19 @@ if ( ! empty( $atts['category'] ) ) {
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $count++ ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo_title ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo->post_content ); ?></td>
 															<td class="
 															<?php
@@ -182,16 +182,16 @@ if ( ! empty( $atts['category'] ) ) {
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
 														if ( $diff_days < 0 ) {
-															$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+															$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 															$due_date_td_class = 'bptodo-expired';
 														} elseif ( 0 == $diff_days ) {
-															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!','wb-todo');
+															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 															$due_date_td_class = 'bptodo-expires-today';
 														} else {
 															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 														}
 														if ( 'complete' == $todo_status ) {
-															$due_date_str      = esc_html__('Completed!','wb-todo');
+															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
 														?>
@@ -200,19 +200,19 @@ if ( ! empty( $atts['category'] ) ) {
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $count++ ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo_title ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo->post_content ); ?></td>
 															<td class="
 															<?php
@@ -276,16 +276,16 @@ if ( ! empty( $atts['category'] ) ) {
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
 														if ( $diff_days < 0 ) {
-															$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+															$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 															$due_date_td_class = 'bptodo-expired';
 														} elseif ( 0 == $diff_days ) {
-															$due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!','wb-todo');
+															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 															$due_date_td_class = 'bptodo-expires-today';
 														} else {
 															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 														}
-														if ( 'complete' == $todo_status) {
-															$due_date_str      = esc_html__('Completed!','wb-todo');
+														if ( 'complete' == $todo_status ) {
+															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
 														?>
@@ -294,19 +294,19 @@ if ( ! empty( $atts['category'] ) ) {
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $count++ ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo_title ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo->post_content ); ?></td>
 															<td class="
 															<?php
@@ -370,16 +370,16 @@ if ( ! empty( $atts['category'] ) ) {
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
 														if ( $diff_days < 0 ) {
-															$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+															$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 															$due_date_td_class = 'bptodo-expired';
 														} elseif ( 0 == $diff_days ) {
-															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!','wb-todo');
+															$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 															$due_date_td_class = 'bptodo-expires-today';
 														} else {
 															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 														}
 														if ( 'complete' == $todo_status ) {
-															$due_date_str      = esc_html__('Completed!','wb-todo');
+															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
 														?>
@@ -388,19 +388,19 @@ if ( ! empty( $atts['category'] ) ) {
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $count++ ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo_title ); ?></td>
 															<td class="
 															<?php
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
-?>
+															?>
 "><?php echo esc_html( $todo->post_content ); ?></td>
 															<td class="
 															<?php
@@ -435,7 +435,8 @@ if ( ! empty( $atts['category'] ) ) {
 			</div>
 			<?php
 		} else {
-			if( 'nouveau' == $bp_template_option ) { ?>
+			if ( 'nouveau' == $bp_template_option ) {
+				?>
 				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 			<?php } else { ?>	
@@ -446,7 +447,8 @@ if ( ! empty( $atts['category'] ) ) {
 			<?php
 		}
 	} else {
-			if( 'nouveau' == $bp_template_option ) { ?>
+		if ( 'nouveau' == $bp_template_option ) {
+			?>
 				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>
@@ -457,7 +459,8 @@ if ( ! empty( $atts['category'] ) ) {
 		<?php
 	}
 } else {
-			if( 'nouveau' == $bp_template_option ) { ?>
+	if ( 'nouveau' == $bp_template_option ) {
+		?>
 				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
 				<span class="bp-icon" aria-hidden="true"></span>
 		<?php } else { ?>

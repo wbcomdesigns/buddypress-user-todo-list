@@ -113,13 +113,14 @@ if ( empty( $todos ) ) {
 				<div id="bptodo-tabs">
 					<ul>
 						<?php do_action( 'bptodo_add_etxra_tab_before_defaults', $profile_menu_label_plural ); ?>
-						<!-- <li><a href="#bptodo-dashboard"><?php //esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li> -->
+						<!-- <li><a href="#bptodo-dashboard"><?php // esc_html_e( 'Dashboard', 'wb-todo' ); ?></a></li> -->
 						<li><a href="#bptodo-todos"><?php echo esc_html( $profile_menu_label_plural ); ?></a></li>
 						<?php do_action( 'bptodo_add_etxra_tab_after_defaults', $profile_menu_label_plural ); ?>
 					</ul>
 					<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
 
-					<?php /*
+					<?php
+					/*
 					<div id="bptodo-dashboard">
 						<h2><?php esc_html_e( 'At a Glance', 'wb-todo' ); ?></h2>
 						<ul id="bptodo-dashboard-box">
@@ -166,7 +167,8 @@ if ( empty( $todos ) ) {
 
 						</ul>
 					</div>
-					*/?>
+					*/
+					?>
 					
 					<div id="bptodo-todos">
 						<div id="bptodo-task-tabs">
