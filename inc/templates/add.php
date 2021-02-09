@@ -243,7 +243,7 @@ if ( ! empty( $group_members_ids ) ) {
 				<td width="20%"></td>
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'group_save_new_todo_data_nonce' ); ?>
-					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label ); ?>" >
+					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>" >
 				</td>
 			</tr>
 			<?php

@@ -65,7 +65,7 @@ if ( ! function_exists( 'bp_todo_get_template' ) ) {
 		endif;
 		$template_file = bp_todo_locate_template( $template_name, $tempate_path, $default_path );
 		if ( ! file_exists( $template_file ) ) :
-			_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $template_file ), '1.0.0' );
+			_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $template_file ), '1.0.0' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		endif;
 
@@ -343,7 +343,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 									<tr>
 										<td><?php echo esc_html( ucfirst( $author_name ) ); ?></td>
 										<td><?php echo esc_html( $member_todo_status ); ?></td>
-										<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); ?></td>
+										<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 									</tr>
 									<?php
 								}

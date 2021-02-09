@@ -119,7 +119,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 			$groups_link       = bp_get_group_permalink( $bp->groups->current_group ) . 'add-events/';
 			$create_event_text = __( 'Create Event', 'wb-todo' );
-			echo '<div class="wb-group-archive-add-event"><a href="' . $groups_link . '">' . $create_event_text . '</a></div>';
+			echo '<div class="wb-group-archive-add-event"><a href="' . esc_url( $groups_link ) . '">' . esc_html( $create_event_text ) . '</a></div>';
 
 			echo do_shortcode( '[eab_group_archives groups="' . bp_get_current_group_id() . '" lookahead="yes"]' );
 
