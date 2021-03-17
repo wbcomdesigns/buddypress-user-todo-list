@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Locate template.
  *
@@ -7,12 +6,13 @@
  * Search Order:
  *
  * @since 2.2.1
- *
+ * @package bp-user-todo-list
  * @param   string $template_name          Template to load.
  * @param   string $string $template_path  Path to templates.
  * @param   string $default_path           Default path to template files.
  * @return  string                          Path to the template file.
  */
+
 if ( ! function_exists( 'bp_todo_locate_template' ) ) {
 
 	function bp_todo_locate_template( $template_name, $template_path = '', $default_path = '' ) {
@@ -24,7 +24,7 @@ if ( ! function_exists( 'bp_todo_locate_template' ) ) {
 		// Set default plugin templates path.
 		if ( ! $default_path ) :
 			$default_path = BPTODO_PLUGIN_PATH . '/inc/todo/';
-			// Path to the template folder
+			// Path to the template folder.
 		endif;
 		// Search template file in theme folder.
 		$template = locate_template(
@@ -76,13 +76,16 @@ if ( ! function_exists( 'bp_todo_get_template' ) ) {
 
 if ( ! function_exists( 'bp_todo_post_type_archive' ) ) {
 
+	/**
+	 * Get a archive todo post.
+	 */
 	function bp_todo_post_type_archive( $query ) {
 		if ( is_admin() ) {
 			return;
 		}
 		if ( $query->is_main_query() && is_post_type_archive( 'bp-todo' ) ) {
 			$user_id = get_current_user_id();
-			// order post_type and remove pagination
+			// order post_type and remove pagination.
 			$query->set( 'author', $user_id );
 		}
 	}
@@ -92,6 +95,11 @@ if ( ! function_exists( 'bp_todo_post_type_archive' ) ) {
 
 if ( ! function_exists( 'bptodo_template_loader' ) ) {
 	add_filter( 'template_include', 'bptodo_template_loader' );
+	/**
+	 * Function for search default template file.
+	 *
+	 * @param string $template get a location of template.
+	 */
 	function bptodo_template_loader( $template ) {
 
 		$default_file = bptodo_get_template_loader_default_file();
@@ -108,7 +116,9 @@ if ( ! function_exists( 'bptodo_template_loader' ) ) {
 }
 
 if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
-
+	/**
+	 * Function for load default template file.
+	 */
 	function bptodo_get_template_loader_default_file() {
 		if ( is_singular( 'bp-todo' ) ) {
 			$default_file = 'single-bp-todo.php';
@@ -131,7 +141,11 @@ if ( ! function_exists( 'bptodo_get_template_loader_default_file' ) ) {
 }
 
 if ( ! function_exists( 'bptodo_get_template_loader_files' ) ) {
-
+	/**
+	 * Function for load template file.
+	 *
+	 * @param string $default_file get a default file.
+	 */
 	function bptodo_get_template_loader_files( $default_file ) {
 		$templates = array();
 
@@ -168,8 +182,8 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 	/**
 	 * Display average todo percentage of each member
 	 *
-	 * @param  [int] $todoID  The id of post(TO DO)
-	 * @return float         Average percentage of todo
+	 * @param  [int] $todoID  The id of post(TO DO).
+	 * @return float         Average percentage of todo.
 	 */
 	function bptodo_get_user_average_todos( $todoID ) {
 		global $bp, $post;
@@ -234,9 +248,9 @@ if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
 	/**
 	 * Get the completed to do count
 	 *
-	 * @param  [int] $group_id        Accosiated group id
-	 * @param  [int] $todo_primary_id Primary to-do id
-	 * @return [float]                Count of completed to-dos
+	 * @param  [int] $group_id        Accosiated group id.
+	 * @param  [int] $todo_primary_id Primary to-do id.
+	 * @return [float]                Count of completed to-dos.
 	 */
 	function bpto_completed_todo_count( $group_id, $todo_primary_id ) {
 		$associated_todo = get_post_meta( $todo_primary_id, 'botodo_associated_todo', true );
@@ -343,7 +357,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 									<tr>
 										<td><?php echo esc_html( ucfirst( $author_name ) ); ?></td>
 										<td><?php echo esc_html( $member_todo_status ); ?></td>
-										<td><?php echo ( 'incomplete' == $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
+										<td><?php echo ( 'incomplete' === $member_todo_status ) ? '-' : esc_html( $member_todo_complition ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></td>
 									</tr>
 									<?php
 								}
@@ -364,6 +378,12 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 
 
 if ( ! function_exists( 'bptodo_enable_repot_view' ) ) {
+	/**
+	 * Function performed for view action.
+	 *
+	 * @param  mixed $current_user Get current user.
+	 * @param  mixed $group_id Get a group id.
+	 */
 	function bptodo_enable_repot_view( $current_user, $group_id ) {
 
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );

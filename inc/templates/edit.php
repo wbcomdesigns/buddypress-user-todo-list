@@ -153,21 +153,22 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 							<?php foreach ( $todo_cats as $todo_cat ) { ?>
 						<option
 								<?php
-								if ( $todo_cat_id == $todo_cat->term_id ) {
+								if ( $todo_cat_id === $todo_cat->term_id ) {
 									echo 'selected="selected"';}
 								?>
- value="<?php echo esc_html( $todo_cat->name ); ?>">
+value="<?php echo esc_html( $todo_cat->name ); ?>">
 								<?php echo esc_html( $todo_cat->name ); ?>
 						</option>
 						<?php } ?>
 						<?php } ?>
 					</select>
-					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<a href="javascript:void(0);" class="add-todo-category"><i class="fas fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
-				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
+					<?php /* Translators: Display the plural label name */ ?>
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( $add_cat_nonce ); ?>">
@@ -238,6 +239,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_group_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<input type="hidden" name="primary_todo_id" value="<?php echo esc_attr( $primary_todo_id ); ?>">
+					<?php /* Translators: Display the plural label name */ ?>
 					<input type="submit" id="group_todo_update" name="group_todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>">
 				</td>
 			</tr>

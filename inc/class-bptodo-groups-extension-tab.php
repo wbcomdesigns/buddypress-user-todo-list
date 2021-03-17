@@ -1,16 +1,18 @@
 <?php
-
 /**
  * The bp_is_active( 'groups' ) check is recommended, to prevent problems
  * during upgrade or when the Groups component is disabled
+ *
+ * @package bp-user-todo-list
  */
+
 if ( bp_is_active( 'groups' ) ) :
 	class Group_Extension_Todo extends BP_Group_Extension {
 		/**
 		 * Your __construct() method will contain configuration options for
 		 * your extension, and will pass them to parent::init()
 		 */
-		function __construct() {
+		public function __construct() {
 
 			global $bp, $bptodo;
 
@@ -30,7 +32,7 @@ if ( bp_is_active( 'groups' ) ) :
 		 * display() contains the markup that will be displayed on the main
 		 * plugin tab
 		 */
-		function display( $group_id = null ) {
+		public function display( $group_id = null ) {
 			global $bptodo;
 			?>
 		<nav class="bp-navs bp-subnavs no-ajax group-subnav" id="subnav" role="navigation" aria-label="Group administration menu">
@@ -58,7 +60,7 @@ if ( bp_is_active( 'groups' ) ) :
 				bp_get_template_part( 'list' );
 			}
 
-			if ( bp_action_variable() == 'add' ) {
+			if ( bp_action_variable() === 'add' ) {
 				if ( isset( $_GET['args'] ) ) {
 					bp_get_template_part( 'edit' );
 				} else {
@@ -71,4 +73,4 @@ if ( bp_is_active( 'groups' ) ) :
 	}
 	bp_register_group_extension( 'Group_Extension_Todo' );
 
-endif; // if ( bp_is_active( 'groups' ) )
+endif; // if ( bp_is_active( 'groups' ) ).

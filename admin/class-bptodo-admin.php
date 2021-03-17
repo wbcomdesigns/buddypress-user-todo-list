@@ -115,7 +115,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
 			echo '<div class="wbcom-tabs-section"><h2 class="nav-tab-wrapper">';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
-				$active = $current_tab == $tab_key ? 'nav-tab-active' : '';
+				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
 				echo '<a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a>';
 			}
 			echo '</h2></div>';
@@ -159,7 +159,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_group_settings_content() {
-			// if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {
+			// if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {.
 				require_once dirname( __FILE__ ) . '/inc/bptodo-group-settings.php';
 			// }
 		}

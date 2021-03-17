@@ -28,7 +28,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 */
 		public function __construct() {
 			add_action( 'init', array( $this, 'bptodo_manage_todo_due_date' ) );
-			// add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );
+			// add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );.
 			add_action( 'bp_setup_admin_bar', array( $this, 'bptodo_setup_admin_bar' ), 80 );
 			add_filter( 'manage_bp-todo_posts_columns', array( $this, 'bptodo_due_date_column_heading' ), 10 );
 			add_action( 'manage_bp-todo_posts_custom_column', array( $this, 'bptodo_due_date_column_content' ), 10, 2 );
@@ -57,7 +57,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 			if ( ! empty( $todo_items ) ) {
 				foreach ( $todo_items as $key => $todo ) {
 					$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
-					if ( 'complete' != $todo_status ) {
+					if ( 'complete' !== $todo_status ) {
 						$author_id = $todo->post_author;
 						$curr_date = date_create( date( 'Y-m-d' ) );
 						$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
@@ -65,16 +65,17 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 						$diff_days = $diff->format( '%R%a' );
 
 						/** Check if mail sending is allowed. */
-						if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
+						if ( ! empty( $bptodo->send_mail ) && 'yes' === $bptodo->send_mail ) {
 							/** If today is the due date. */
-							if ( 0 == $diff_days ) {
+							if ( 0 === $diff_days ) {
 								/** If the mail is not sent already. */
 								$due_date_mail_sent = get_post_meta( $todo->ID, 'todo_last_day_mail_sent', true );
-								if ( 'no' == $due_date_mail_sent ) {
+								if ( 'no' === $due_date_mail_sent ) {
 									$author       = get_userdata( $author_id );
 									$author_email = $author->data->user_email;
 									$subject      = esc_html__( 'BP Task - WordPress', 'wb-todo' );
-									$messsage     = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
+									/* Translators: Get a To do title name */
+									$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
 									wp_mail( $author_email, $subject, $messsage );
 									update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
 								}
@@ -82,12 +83,12 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 						}
 
 						/** Check if notification sending is allowed. */
-						if ( ! empty( $bptodo->send_notification ) && $bptodo->send_notification == 'yes' ) {
+						if ( ! empty( $bptodo->send_notification ) && 'yes' === $bptodo->send_notification ) {
 							/** If today is the due date. */
-							if ( 0 == $diff_days ) {
+							if ( 0 === $diff_days ) {
 								/** If the mail is not sent already. */
 								$due_date_notification_sent = get_post_meta( $todo->ID, 'todo_last_day_notification_sent', true );
-								if ( 'no' == $due_date_notification_sent ) {
+								if ( 'no' === $due_date_notification_sent ) {
 									/** Send notification for appectance. */
 									bp_notifications_add_notification(
 										array(
@@ -216,33 +217,35 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 			$due_date_str      = '';
 			$due_date_td_class = '';
 
-			if ( 'due_date' == $column_name ) {
+			if ( 'due_date' === $column_name ) {
 				$due_date = get_post_meta( $post_id, 'todo_due_date', true );
 				echo esc_html( date( 'F jS, Y', strtotime( $due_date ) ) );
 			}
 
-			if ( 'status' == $column_name ) {
+			if ( 'status' === $column_name ) {
 				$todo_status = get_post_meta( $post_id, 'todo_status', true );
 				$curr_date   = date_create( date( 'Y-m-d' ) );
 				$due_date    = date_create( get_post_meta( $post_id, 'todo_due_date', true ) );
 				$diff        = date_diff( $curr_date, $due_date );
 				$diff_days   = $diff->format( '%R%a' );
 				if ( $diff_days < 0 ) {
+					/* Translators: Display Expiry Days */
 					$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
-				} elseif ( 0 == $diff_days ) {
+				} elseif ( 0 === $diff_days ) {
 					$due_date_str = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 				} else {
+					/* Translators: Dislpay the left days  */
 					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 				}
 
-				if ( 'complete' == $todo_status ) {
+				if ( 'complete' === $todo_status ) {
 					$due_date_str = esc_html__( 'Completed!', 'wb-todo' );
 				}
 
 				echo esc_html( $due_date_str );
 			}
 
-			if ( 'todo_id' == $column_name ) {
+			if ( 'todo_id' === $column_name ) {
 				echo esc_html( $post_id );
 			}
 		}
@@ -284,10 +287,11 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 				if ( ! empty( $todo ) ) {
 					$todo_title = $todo->post_title;
 					$todo_link  = get_permalink( $item_id );
-
+					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
 					$custom_title = sprintf( esc_html__( '%1$s due date arrived for task: %2$s', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 					$custom_link  = $todo_link;
-					$custom_text  = sprintf( esc_html__( 'Your %1$s: %2$s is due today. Please complete it as soon as possible.', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
+					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
+					$custom_text = sprintf( esc_html__( 'Your %1$s: %2$s is due today. Please complete it as soon as possible.', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 
 					/** WP Toolbar. */
 					if ( 'string' === $format ) {

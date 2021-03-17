@@ -99,7 +99,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	update_post_meta( $primary_todo_id, 'todo_primary_id', $primary_todo_id );
 
-	// update post meta for to do creator
+	// update post meta for to do creator.
 	update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
 
 	/*=====  End of Insert primary To-Do  ======*/
@@ -128,7 +128,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 		wp_set_object_terms( $post_id, $cat, $taxonomy );
 
-		// update post meta for to do creator
+		// update post meta for to do creator.
 		update_post_meta( $post_id, 'todo_creator_id', get_current_user_id() );
 
 		update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
@@ -167,12 +167,13 @@ if ( ! empty( $group_members_ids ) ) {
 						<?php } ?>
 						<?php } ?>
 					</select>
-					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
-				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
+					<?php /* Translators: Display the plural label name */ ?>
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_html( $add_cat_nonce ); ?>">
@@ -243,6 +244,7 @@ if ( ! empty( $group_members_ids ) ) {
 				<td width="20%"></td>
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'group_save_new_todo_data_nonce' ); ?>
+					<?php /* Translators: Display the plural label name */ ?>
 					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>" >
 				</td>
 			</tr>

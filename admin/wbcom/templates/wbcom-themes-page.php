@@ -1,3 +1,11 @@
+<?php
+/**
+ * Display wbcom theme page template.
+ *
+ *  @package bp-user-todo-list
+ */
+
+?>
 <div class="wrap">
 	<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 	<div class="reign-demos-wrapper">

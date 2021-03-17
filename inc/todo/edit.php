@@ -45,21 +45,22 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 							<?php foreach ( $todo_cats as $todo_cat ) { ?>
 						<option
 								<?php
-								if ( $todo_cat_id == $todo_cat->term_id ) {
+								if ( $todo_cat_id === $todo_cat->term_id ) {
 									echo 'selected="selected"';}
 								?>
- value="<?php echo esc_html( $todo_cat->name ); ?>">
+value="<?php echo esc_html( $todo_cat->name ); ?>">
 								<?php echo esc_html( $todo_cat->name ); ?>
 						</option>
 						<?php } ?>
 						<?php } ?>
 					</select>
-					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<a href="javascript:void(0);" class="add-todo-category"><i class="fas fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
-				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
+					<?php /* Translators: Display plural label name  */ ?>
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( $add_cat_nonce ); ?>">
@@ -122,6 +123,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
+					<?php /* Translators: Display plural label name  */ ?>
 					<input type="submit" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>">
 				</td>
 			</tr>
@@ -135,8 +137,6 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 </form>
 
 <?php
-
-
 /*
 	// Show the successful message when todo is updated
 	if ( isset( $_POST['todo_update'] ) ) {

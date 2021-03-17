@@ -32,12 +32,18 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			add_action( 'bp_setup_nav', array( $this, 'bptodo_member_profile_todo_tab' ) );
 		}
 
+		/**
+		 * Function to register template location.
+		 */
 		public function bptodo_register_templates_pack() {
 			if ( function_exists( 'bp_register_template_stack' ) ) {
 				bp_register_template_stack( array( $this, 'bptodo_register_template_location' ) );
 			}
 		}
 
+		/**
+		 * Action performed for add todo tabs in groups menu.
+		 */
 		public function bptodo_add_todo_tabs_in_groups() {
 			global $bp, $current_user;
 
@@ -107,12 +113,18 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			}
 		}
 
-		function bind_bp_groups_page() {
+		/**
+		 * Action performed for load group page template.
+		 */
+		public function bind_bp_groups_page() {
 			add_action( 'bp_template_content', array( $this, 'show_group_events_profile_body' ) );
 			bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'groups/single/plugins' ) );
 		}
 
-		function show_group_events_profile_body() {
+		/**
+		 * Display group events.
+		 */
+		public function show_group_events_profile_body() {
 			do_action( 'eab-buddypress-group_events-before_events' );
 
 			echo '<h3>Group Events</h3>';
@@ -124,12 +136,15 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			echo do_shortcode( '[eab_group_archives groups="' . bp_get_current_group_id() . '" lookahead="yes"]' );
 
 			do_action( 'eab-buddypress-group_events-after_head' );
-			// echo $this->_get_navigation($timestamp);
-			// echo $renderer->get_month_calendar($timestamp);
-			// echo $this->_get_navigation($timestamp);
+			// echo $this->_get_navigation($timestamp);.
+			// echo $renderer->get_month_calendar($timestamp);.
+			// echo $this->_get_navigation($timestamp);.
 			do_action( 'eab-buddypress-group_events-after_events' );
 		}
 
+		/**
+		 * Action performed for regiter templates location.
+		 */
 		public function bptodo_register_template_location() {
 			return BPTODO_PLUGIN_PATH . '/inc/templates/';
 		}
@@ -219,8 +234,10 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			if ( isset( $_GET['args'] ) ) {
 				$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
 				$todo    = get_post( $todo_id );
+				/* Translators: 1) Get a Plural Label Name 2) Get a to to title */
 				echo sprintf( esc_html__( 'Edit %1$s : %2$s', 'wb-todo' ), esc_html( $profile_menu_slug ), esc_html( $todo->post_title ) );
 			} else {
+				/* Translators: Get a Singular Label Name */
 				echo sprintf( esc_html__( 'Add a new %1$s in your list', 'wb-todo' ), esc_html( $profile_menu_slug ) );
 			}
 		}
@@ -335,6 +352,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 					if ( ! is_wp_error( $to_do_id ) ) {
 						bp_core_add_message(
 							sprintf(
+								/* Translators: Display plural label name */
 								esc_html__( '%1$s added successfully !', 'wb-todo' ),
 								esc_html( $profile_menu_label )
 							)
@@ -377,6 +395,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			global $bptodo;
 			$profile_menu_label = $bptodo->profile_menu_label;
 			echo '<h4>';
+			/* Translators: Display plural label name */
 			echo sprintf( esc_html__( '%1$s List', 'wb-todo' ), esc_html( $profile_menu_label ) );
 			$args  = array(
 				'post_type'      => 'bp-todo',

@@ -18,6 +18,7 @@ global $bptodo;
 				<td>
 					<p>
 						<?php
+						/* Translators: Get a Plural Label Name */
 							echo sprintf( esc_html__( 'This shortcode will list all the %1$s category wise.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
 						?>
 					</p>
@@ -26,6 +27,7 @@ global $bptodo;
 						<li>
 							<?php
 								echo esc_html( 'category : ' );
+								/* Translators: Get a Plural Label Name */
 								echo sprintf( esc_html__( 'You need to provide the category id of which the %1$s you want to show.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
 							?>
 						</li>

@@ -53,7 +53,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 		 */
 		public function bptodo_export_my_tasks() {
 			check_ajax_referer( 'bptodo-export-todo', 'security_nonce' );
-			if ( isset( $_POST['action'] ) && 'bptodo_export_my_tasks' == $_POST['action'] ) {
+			if ( isset( $_POST['action'] ) && 'bptodo_export_my_tasks' === $_POST['action'] ) {
 				$args   = array(
 					'post_type'      => 'bp-todo',
 					'post_status'    => 'publish',
@@ -88,7 +88,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 		 */
 		public function bptodo_remove_todo() {
 			check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
-			if ( isset( $_POST['action'] ) && 'bptodo_remove_todo' == $_POST['action'] ) {
+			if ( isset( $_POST['action'] ) && 'bptodo_remove_todo' === $_POST['action'] ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
@@ -115,7 +115,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 		public function bptodo_complete_todo() {
 			global $bptodo;
 			check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
-			if ( isset( $_POST['action'] ) && 'bptodo_complete_todo' == $_POST['action'] ) {
+			if ( isset( $_POST['action'] ) && 'bptodo_complete_todo' === $_POST['action'] ) {
 				$due_date_str      = '';
 				$due_date_td_class = '';
 				$tid               = isset( $_POST['tid'] ) ? sanitize_text_field( wp_unslash( $_POST['tid'] ) ) : '';
@@ -142,27 +142,29 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				$all_remaining_todo = 0;
 
 				if ( $diff_days < 0 ) {
+					/* translators: Number of expiry days */
 					$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 					$due_date_td_class = 'bptodo-expired';
-				} elseif ( 0 == $diff_days ) {
+				} elseif ( 0 === $diff_days ) {
 					$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 					$due_date_td_class = 'bptodo-expires-today';
 					$all_remaining_todo++;
 				} else {
+					/* translators: Number of left days */
 					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 					$all_remaining_todo++;
 				}
 
-				if ( 'complete' == $todo_status ) {
+				if ( 'complete' === $todo_status ) {
 					$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 					$due_date_td_class = '';
 				}
 
 				if ( ! empty( $todo_priority ) ) {
-					if ( 'critical' == $todo_priority ) {
+					if ( 'critical' === $todo_priority ) {
 						$priority_class = 'bptodo-priority-critical';
 						$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-					} elseif ( 'high' == $todo_priority ) {
+					} elseif ( 'high' === $todo_priority ) {
 						$priority_class = 'bptodo-priority-high';
 						$priority_text  = esc_html__( 'High', 'wb-todo' );
 					} else {
@@ -211,7 +213,7 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 			check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
 			if ( isset( $_POST['action'] ) && 'bptodo_undo_complete_todo' === $_POST['action'] ) {
 				if ( isset( $_POST['tid'] ) ) {
-					$tid = sanitize_text_field( $_POST['tid'] );
+					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
 				update_post_meta( $tid, 'todo_status', 'incomplete' );
 				echo 'todo-undo-completed';

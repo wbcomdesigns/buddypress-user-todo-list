@@ -1,3 +1,11 @@
+<?php
+/**
+ * Display wbcom plugins page template.
+ *
+ *  @package bp-user-todo-list
+ */
+
+?>
 <div class="wrap">
 	<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 	<?php
@@ -10,11 +18,11 @@
 		<div class="reign-demos-inner-wrapper">
 			<?php
 			foreach ( $free_plugins as $key => $plugin_details ) {
-				if ( 'not_installed' == $plugin_details['status'] ) {
+				if ( 'not_installed' === $plugin_details['status'] ) {
 					$plugin_btn_text = esc_html__( 'Install', 'wb-todo' );
 					$toggle_class    = 'fa fa-toggle-off';
 					$plugin_action   = 'install_plugin';
-				} elseif ( 'installed' == $plugin_details['status'] ) {
+				} elseif ( 'installed' === $plugin_details['status'] ) {
 					$plugin_btn_text = esc_html__( 'Activate', 'wb-todo' );
 					$toggle_class    = 'fa fa-toggle-off';
 					$plugin_action   = 'activate_plugin';

@@ -1,3 +1,11 @@
+<?php
+/**
+ * Display wbcom support page template.
+ *
+ *  @package bp-user-todo-list
+ */
+
+?>
 <div class="wrap">
 	<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 	<h4 class="wbcom-plugin-heading"><?php esc_html_e( 'Support', 'wb-todo' ); ?></h4>

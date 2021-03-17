@@ -5,6 +5,7 @@
  * @author   Wbcom Designs
  * @package  Bp_Add_Group_Types
  */
+
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
@@ -41,9 +42,9 @@ if ( ! class_exists( 'Wbcom_Admin_Settings' ) ) {
 			$action = ! empty( $_POST['plugin_action'] ) ? $_POST['plugin_action'] : false;
 			$slug   = ! empty( $_POST['plugin_slug'] ) ? $_POST['plugin_slug'] : false;
 
-			if ( 'install_plugin' == $action ) {
+			if ( 'install_plugin' === $action ) {
 				$this->wbcom_do_plugin_install( $slug );
-			} elseif ( 'activate_plugin' == $action ) {
+			} elseif ( 'activate_plugin' === $action ) {
 				$this->wbcom_do_plugin_activate( $slug );
 			} else {
 				$this->wbcom_do_plugin_deactivate( $slug );

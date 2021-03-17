@@ -122,7 +122,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 
 			$term = term_exists( 'Uncategorized', 'todo_category' );
-			if ( empty( $term ) && $numTerms == '0' ) {
+			if ( empty( $term ) && '0' === $numTerms ) {
 				wp_insert_term(
 					'Uncategorized',
 					'todo_category'
