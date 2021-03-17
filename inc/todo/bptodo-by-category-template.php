@@ -401,7 +401,7 @@ if ( ! empty( $atts['category'] ) ) {
 															if ( 'complete' == $todo_status ) {
 																echo esc_attr( $class );}
 															?>
-"><?php echo esc_html( $todo->post_content ); ?></td>
+"><?php echo __( $todo->post_content ); ?></td>
 															<td class="
 															<?php
 															echo esc_attr( $due_date_td_class );
