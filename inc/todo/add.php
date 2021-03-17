@@ -18,7 +18,6 @@ $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = bp_displayed_user_id();
 $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
-
 bp_nouveau_template_notices();
 
 ?>
@@ -39,12 +38,13 @@ bp_nouveau_template_notices();
 						<?php } ?>
 						<?php } ?>
 					</select>
-					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
-				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
+					<?php /* translators: Display plural label name */ ?>
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_html( $add_cat_nonce ); ?>">
@@ -107,6 +107,7 @@ bp_nouveau_template_notices();
 				<td width="20%"></td>
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
+					<?php /* translators: Display plural label name */ ?>
 					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>" >
 				</td>
 			</tr>

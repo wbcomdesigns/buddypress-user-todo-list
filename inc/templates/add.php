@@ -37,7 +37,11 @@ $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = get_current_user_id();
 $form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/add';
-
+if ( ! empty( $group_members_ids ) ) {
+	$current_user = get_current_user_id();
+	$cu_index     = array_search( $current_user, $group_members_ids );
+	unset( $group_members_ids[ $cu_index ] );
+}
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
@@ -85,7 +89,6 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		'post_author'  => $displayed_uid,
 	);
 	$primary_todo_id = wp_insert_post( $args );
-
 	update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
 	update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
 	update_post_meta( $primary_todo_id, 'todo_priority', $priority );
