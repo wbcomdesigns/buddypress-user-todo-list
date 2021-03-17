@@ -36,7 +36,7 @@ $name               = bp_get_displayed_user_username();
 
 
 $displayed_uid  = get_current_user_id();
-$form_post_link = bp_get_group_permalink() . 'to-do/add';
+$form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/add';
 
 
 // Save todo items.
