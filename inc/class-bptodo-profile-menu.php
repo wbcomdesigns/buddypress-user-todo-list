@@ -252,6 +252,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		public function add_todo_tab_function_to_show_content() {
 			global $bptodo;
 			$profile_menu_label = $bptodo->profile_menu_label;
+			$profile_menu_slug  = $bptodo->profile_menu_slug;
 			if ( isset( $_GET['args'] ) ) {
 
 				// Update todo items.
@@ -281,7 +282,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
 
-					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . '/to-do/add?args=' . $todo_post_id;
+					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $todo_post_id;
 
 					if ( ! is_wp_error( $todo_post_id ) ) {
 						bp_core_add_message(
