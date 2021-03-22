@@ -83,9 +83,9 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 						}
 
 						/** Check if notification sending is allowed. */
-						if ( ! empty( $bptodo->send_notification ) && 'yes' === $bptodo->send_notification ) {
+						if ( ! empty( $bptodo->send_notification ) && 'yes' == $bptodo->send_notification ) {
 							/** If today is the due date. */
-							if ( 0 === $diff_days ) {
+							if ( 0 == $diff_days ) {
 								/** If the mail is not sent already. */
 								$due_date_notification_sent = get_post_meta( $todo->ID, 'todo_last_day_notification_sent', true );
 								if ( 'no' === $due_date_notification_sent ) {
