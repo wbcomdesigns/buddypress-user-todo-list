@@ -186,7 +186,7 @@ function bptodo_network_plugin_admin_notice() {
 function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	$can_modify = ( isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
+	$can_modify = ( ! isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }

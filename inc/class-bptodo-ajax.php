@@ -125,8 +125,11 @@ if ( ! class_exists( 'Bptodo_Ajax' ) ) {
 				update_post_meta( $tid, 'todo_complete_time', time() );
 				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
 				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
-				(int) $completed_todos ++;
-				$avg_percentage    = ( $completed_todos * 100 ) / $all_todo;
+				(int) $completed_todos++;
+				if ( $all_todo > 0 ) {
+					$avg_percentage = ( $completed_todos * 100 ) / $all_todo;
+				}
+
 				$profile_menu_slug = $bptodo->profile_menu_slug;
 				/** Add html of completed todo. */
 				$todo               = get_post( $tid );

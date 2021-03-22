@@ -29,8 +29,7 @@ if ( bp_is_active( 'groups' ) ) :
 		}
 
 		/**
-		 * display() contains the markup that will be displayed on the main
-		 * plugin tab
+		 * Display() contains the markup that will be displayed on the main plugin tab.
 		 */
 		public function display( $group_id = null ) {
 			global $bptodo;

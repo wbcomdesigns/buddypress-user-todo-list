@@ -144,7 +144,7 @@ jQuery(document).ready(function() {
       },
       function(response) {
         var response = JSON.parse(response);
-        if (response.result == 'todo-completed') {
+        if (response.result === 'todo-completed') {
           clicked_tid.closest('tr').find("td").addClass('todo-completed');
           clicked_tid.closest('td').prev('td').text(response.due_date_str);
           jQuery('.bp_completed_todo_count').text(response.completed_todo);
@@ -152,6 +152,7 @@ jQuery(document).ready(function() {
           jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
           jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
           clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
+         
         }
       }
     );

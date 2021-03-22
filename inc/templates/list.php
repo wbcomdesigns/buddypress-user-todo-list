@@ -559,7 +559,7 @@ if ( empty( $todos ) ) {
 
 										<?php } ?>
 
-										<!-- TASKS FOR SOMEDAY. -->
+										<!-- TASKS FOR SAMEDAY. -->
 										<?php if ( ! empty( $todo_list['future'] ) ) { ?>
 											<?php $count = 1; ?>
 											<?php foreach ( $todo_list['future'] as $tid ) { ?>
@@ -631,8 +631,8 @@ if ( empty( $todos ) ) {
 											"><?php echo esc_html( $due_date_str ); ?></td>
 											<td class="bp-to-do-actions">
 												<ul>
-													<?php if ( $can_modify ) { ?>
-														<?php /* Translators: Display todo title name  */ ?>
+												<?php if ( $can_modify ) { ?>
+													<?php /* Translators: Display todo title name  */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
 													<?php } ?>
 													<?php if ( 'complete' !== $todo_status ) { ?>

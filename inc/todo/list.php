@@ -66,30 +66,35 @@ foreach ( $todos as $todo ) {
 if ( $all_todo_count > 0 ) {
 	$avg_rating = ( $all_completed_todo * 100 ) / $all_todo_count;
 }
-
-$completed_todo_args = array(
+if ( groups_is_user_mod( $user_id, $group_id ) ) {
+	$mod_can_modify = bptodo_if_moderator_modification_enabled( $group_id, $current_user );
+	if ( $mod_can_modify ) {
+		$can_modify = true;
+	}
+}
+$completed_todo_args    = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
 	'include'        => $completed_todo_ids,
 	'posts_per_page' => -1,
 );
-$completed_todos     = get_posts( $completed_todo_args );
-$bp_template_option  = bp_get_option( '_bp_theme_package_id' );
+	$completed_todos    = get_posts( $completed_todo_args );
+	$bp_template_option = bp_get_option( '_bp_theme_package_id' );
 if ( empty( $todos ) ) {
 	if ( 'nouveau' === $bp_template_option ) { ?>
 		<div id="message" class="info bp-feedback bp-messages bp-template-notice">
 			<span class="bp-icon" aria-hidden="true"></span>
-		<?php } else { ?>
+			<?php } else { ?>
 			<div id="message" class="info">
 			<?php } ?>
 				<p>
-				<?php /* Translators: Display plural label name  */ ?>
-					<?php echo sprintf( esc_html__( 'Sorry, no %1$s found.', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+					<?php /* Translators: Display plural label name  */ ?>
+						<?php echo sprintf( esc_html__( 'Sorry, no %1$s found.', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
 				</p>
 			</div>
 		</div>
-	<?php } else { ?>
+		<?php } else { ?>
 	<section class="bptodo-adming-setting">
 		<div class="bptodo-admin-settings-block">
 			<div class="bptodo-progress-section">
@@ -442,7 +447,7 @@ if ( empty( $todos ) ) {
 
 														<?php } ?>
 
-														<!-- TASKS FOR SOMEDAY. -->
+														<!-- TASKS FOR SAMEDAY. -->
 														<?php if ( ! empty( $todo_list['future'] ) ) { ?>
 															<?php $count = 1; ?>
 															<?php foreach ( $todo_list['future'] as $tid ) { ?>
@@ -504,8 +509,11 @@ if ( empty( $todos ) ) {
 																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
 																	<?php if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
-																		<?php /* Translators: Display todo title name  */ ?>
+																		<?php if ( $can_modify ) { ?>
+																			<?php /* Translators: Display todo title name  */ ?>
+																			<?php echo 'hello'; ?>
+																		<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
+																		<?php } ?>																		<?php /* Translators: Display todo title name  */ ?>
 																	<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye" aria-hidden="true" target="_blank"></i></a></li>
 																		<?php /* Translators: Display todo title name  */ ?>
 																	<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-check"></i></a></li>
@@ -628,4 +636,4 @@ if ( empty( $todos ) ) {
 					</div>
 				</section>
 				<?php
-	} ?>
+		} ?>
