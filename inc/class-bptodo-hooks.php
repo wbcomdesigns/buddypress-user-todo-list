@@ -27,14 +27,18 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function __construct() {
-			add_action( 'init', array( $this, 'bptodo_manage_todo_due_date' ) );
+			add_action( 'bptodo_todo_notification', array( $this, 'bptodo_manage_todo_due_date' ) );
 			// add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );.
 			add_action( 'bp_setup_admin_bar', array( $this, 'bptodo_setup_admin_bar' ), 80 );
 			add_filter( 'manage_bp-todo_posts_columns', array( $this, 'bptodo_due_date_column_heading' ), 10 );
 			add_action( 'manage_bp-todo_posts_custom_column', array( $this, 'bptodo_due_date_column_content' ), 10, 2 );
 			add_filter( 'bp_notifications_get_registered_components', array( $this, 'bptodo_due_date_notifications_component' ) );
-			add_filter( 'bp_notifications_get_notifications_for_user', array( $this, 'bptodo_format_due_date_notifications' ), 10, 5 );
+			add_filter( 'bp_notifications_get_notifications_for_user', array( $this, 'bptodo_format_due_date_notifications' ), 10, 8 );
+			add_filter( 'cron_schedules', array( $this, 'bptodo_notification_cron_schedule' ) );
 			add_shortcode( 'bptodo_by_category', array( $this, 'bptodo_by_categpry_template' ) );
+			if ( ! wp_next_scheduled( 'bptodo_todo_notification' ) ) {
+				wp_schedule_event( time(), 'every_six_hours', 'bptodo_todo_notification' );
+			}
 		}
 
 		/**
@@ -63,20 +67,21 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 						$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 						$diff      = date_diff( $curr_date, $due_date );
 						$diff_days = $diff->format( '%R%a' );
-
 						/** Check if mail sending is allowed. */
-						if ( ! empty( $bptodo->send_mail ) && 'yes' === $bptodo->send_mail ) {
+						if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
+
 							/** If today is the due date. */
-							if ( 0 === $diff_days ) {
+							if ( 0 == $diff_days ) {
 								/** If the mail is not sent already. */
 								$due_date_mail_sent = get_post_meta( $todo->ID, 'todo_last_day_mail_sent', true );
-								if ( 'no' === $due_date_mail_sent ) {
+								if ( 'no' == $due_date_mail_sent ) {
 									$author       = get_userdata( $author_id );
 									$author_email = $author->data->user_email;
-									$subject      = esc_html__( 'BP Task - WordPress', 'wb-todo' );
+									$subject      = esc_html__( 'BPTODO Task - WordPress', 'wb-todo' );
 									/* Translators: Get a To do title name */
 									$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
-									wp_mail( $author_email, $subject, $messsage );
+									$headers  = 'From:' . 'testing@gmail.com';
+									wp_mail( $author_email, $subject, $messsage, $headers );
 									update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
 								}
 							}
@@ -88,7 +93,7 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 							if ( 0 == $diff_days ) {
 								/** If the mail is not sent already. */
 								$due_date_notification_sent = get_post_meta( $todo->ID, 'todo_last_day_notification_sent', true );
-								if ( 'no' === $due_date_notification_sent ) {
+								if ( 'no' == $due_date_notification_sent ) {
 									/** Send notification for appectance. */
 									bp_notifications_add_notification(
 										array(
@@ -265,6 +270,20 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 			array_push( $component_names, 'bptodo_due_date' );
 			return $component_names;
 		}
+		
+		/**
+		 * Function for check todo notification after every 6 hours.
+		 *
+		 * @param  mixed $schedules
+		 * @return void
+		 */
+		public function bptodo_notification_cron_schedule( $schedules ) {
+			$schedules['every_six_hours'] = array(
+				'interval' => apply_filters( 'bptodo_notification_cron_schedule_interval', 21600 ), // Every 6 hours
+				'display'  => __( 'Every 6 hours' ),
+			);
+			return $schedules;
+		}
 
 		/**
 		 * Actions performed for formatting the notifications of bptodo due date.
@@ -278,13 +297,13 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 		 * @param    string $total_items total items.
 		 * @param    string $format contain format.
 		 */
-		public function bptodo_format_due_date_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-
+		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name, $component_name, $id ) {
 			global $bptodo;
 			$profile_menu_label = $bptodo->profile_menu_label;
-			if ( 'bptodo_due_date_action' === $action ) {
+			if ( 'bptodo_due_date_action' === $component_action_name ) {
 				$todo = get_post( $item_id );
 				if ( ! empty( $todo ) ) {
+
 					$todo_title = $todo->post_title;
 					$todo_link  = get_permalink( $item_id );
 					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
