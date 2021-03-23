@@ -56,7 +56,7 @@ if ( bp_is_active( 'groups' ) ) :
 			<?php
 
 			if ( ! bp_action_variable() ) {
-				bp_get_template_part( 'list' );
+				//bp_get_template_part( 'list' );
 			}
 
 			if ( bp_action_variable() === 'add' ) {
