@@ -282,7 +282,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 
 					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
 
-					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $todo_post_id;
+					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/list';
 
 					if ( ! is_wp_error( $todo_post_id ) ) {
 						bp_core_add_message(
