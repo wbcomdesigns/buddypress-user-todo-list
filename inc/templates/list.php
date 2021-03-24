@@ -35,9 +35,10 @@ unset( $group_members_ids[ $cu_index ] );
 $class      = 'todo-completed';
 $group_id   = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
 $can_modify = false;
-
+$can_view   = false;
 if ( bp_group_is_admin() ) {
 	$can_modify = true;
+	$can_view   = true;
 }
 
 
@@ -47,14 +48,13 @@ if ( bp_group_is_mod() ) {
 		$can_modify = true;
 	}
 }
-
-if ( bp_group_is_mod() ) {
-	$mod_can_view = bptodo_enable_repot_view( $group_id, $current_user );
+if ( bp_group_is_mod( $group_id, $current_user ) ) {
+	$mod_can_view = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	print_r( $mod_can_view );
 	if ( false === $mod_can_view ) {
 		$can_view = true;
 	}
 }
-
 // List of Todo Items.
 $args  = array(
 	'post_type'      => 'bp-todo',
@@ -325,7 +325,7 @@ if ( empty( $todos ) ) {
 												}
 
 												?>
-										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
+										<tr id="as bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></td>
 											<td class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></td>
 											<td class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : esc_attr( $due_date_td_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_html( $due_date_str ); ?></td>
@@ -336,13 +336,15 @@ if ( empty( $todos ) ) {
 													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>"    title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"
 														><i class="fa fa-times"></i></a></li>
 													<?php } ?>
-													<?php if ( 'complete' !== $todo_status ) { ?>
+													<?php if ( 'complete' != $todo_status ) { ?>
 														<?php if ( $can_modify ) { ?>
 															<?php /* Translators: Display the todo title name */ ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
 													<?php } ?>
 														<?php /* Translators: Display the todo title name */ ?>
+														<?php if ( $can_view ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+														<?php } ?>
 														<?php	if ( ! bp_group_is_admin() ) { ?>
 															<?php /* Translators: Display the todo title name */ ?>
 															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" data-uid="<?php echo esc_attr( $current_user ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-check"></i></a></li>

@@ -87,16 +87,16 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			);
 
 			$is_admin   = bp_group_is_admin();
-			$can_modify = false;
+				$can_list = false;
 			if ( bp_group_is_mod() ) {
 				$group_id       = $bp->groups->current_group->id;
-				$mod_can_modify = bptodo_if_moderator_modification_enabled( $group_id, get_current_user_id() );
-				if ( $mod_can_modify ) {
-					$can_modify = true;
+				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
+				if ( $mod_can_add ) {
+					$can_list = true;
 				}
 			}
 
-			if ( $is_admin || $can_modify ) {
+			if ( $is_admin || $can_list ) {
 				$sub_nav[] = array_merge(
 					array(
 						'name'            => esc_html__( 'Add', 'wb-todo' ),
