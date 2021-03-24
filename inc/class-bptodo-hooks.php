@@ -270,7 +270,6 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 			array_push( $component_names, 'bptodo_due_date' );
 			return $component_names;
 		}
-		
 		/**
 		 * Function for check todo notification after every 6 hours.
 		 *

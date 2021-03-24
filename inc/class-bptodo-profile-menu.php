@@ -348,7 +348,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 					update_post_meta( $to_do_id, 'todo_last_day_notification_sent', 'no' );
 
 					wp_set_object_terms( $to_do_id, $cat, $taxonomy );
-					$url = trailingslashit( bp_displayed_user_domain() . strtolower( $profile_menu_label ) . '/add' );
+					$url = trailingslashit( bp_displayed_user_domain() . strtolower( $profile_menu_label ) . '/list' );
 
 					if ( ! is_wp_error( $to_do_id ) ) {
 						bp_core_add_message(

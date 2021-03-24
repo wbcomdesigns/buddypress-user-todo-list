@@ -21,7 +21,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 bp_nouveau_template_notices();
 
 ?>
-<form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
+<form class="bptodo-form-add" action="" method="post" id="myForm">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>

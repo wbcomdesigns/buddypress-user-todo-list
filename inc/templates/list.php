@@ -49,7 +49,7 @@ if ( bp_group_is_mod() ) {
 }
 
 if ( bp_group_is_mod() ) {
-	$mod_can_view = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	$mod_can_view = bptodo_enable_repot_view( $group_id, $current_user );
 	if ( false === $mod_can_view ) {
 		$can_view = true;
 	}
@@ -618,7 +618,7 @@ if ( empty( $todos ) ) {
 													}
 												}
 												?>
-										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
+										<tr id="schedule bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></td>
 											<td class="
 												<?php
@@ -648,7 +648,7 @@ if ( empty( $todos ) ) {
 													<?php } ?>
 														<?php /* Translators: Display todo title name  */ ?>
 														<?php if ( $can_view ) { ?>
-													<li csd><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
+													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 														<?php } ?>
 														<?php	if ( ! bp_group_is_admin() ) { ?>
 															<?php /* Translators: Display todo title name  */ ?>
