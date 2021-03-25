@@ -35,10 +35,10 @@ unset( $group_members_ids[ $cu_index ] );
 $class      = 'todo-completed';
 $group_id   = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
 $can_modify = false;
-$can_view   = false;
+$can_views   = false;
 if ( bp_group_is_admin() ) {
 	$can_modify = true;
-	$can_view   = true;
+	$can_views  = true;
 }
 
 
@@ -47,14 +47,13 @@ if ( bp_group_is_mod() ) {
 	if ( false === $mod_can_modify ) {
 		$can_modify = true;
 	}
-}
-if ( bp_group_is_mod( $group_id, $current_user ) ) {
-	$mod_can_view = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	$mod_can_view_report = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
 	print_r( $mod_can_view );
-	if ( false === $mod_can_view ) {
-		$can_view = true;
+	if ( false === $mod_can_view_report ) {
+		$can_views = true;
 	}
 }
+
 // List of Todo Items.
 $args  = array(
 	'post_type'      => 'bp-todo',
@@ -342,7 +341,7 @@ if ( empty( $todos ) ) {
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
 													<?php } ?>
 														<?php /* Translators: Display the todo title name */ ?>
-														<?php if ( $can_view ) { ?>
+														<?php if ( $can_views ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 														<?php } ?>
 														<?php	if ( ! bp_group_is_admin() ) { ?>
@@ -649,7 +648,7 @@ if ( empty( $todos ) ) {
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
 													<?php } ?>
 														<?php /* Translators: Display todo title name  */ ?>
-														<?php if ( $can_view ) { ?>
+														<?php if ( $can_views ) { ?>
 													<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><i class="fa fa-eye"></i></a></li>
 														<?php } ?>
 														<?php	if ( ! bp_group_is_admin() ) { ?>

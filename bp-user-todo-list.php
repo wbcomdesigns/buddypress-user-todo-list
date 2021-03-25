@@ -190,7 +190,19 @@ function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
+/**
+ * Add or exclude group modrators to view todo report.
+ *
+ * @author  wbcomdesigns
+ * @since   1.0.0
+ */
+function bptodo_report_view_enabled( $group_id, $current_user ) {
+	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
+	$can_views = ( ! isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	return $can_views;
+}
+add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );
 
 if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	/**
