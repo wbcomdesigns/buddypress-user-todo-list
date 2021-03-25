@@ -104,7 +104,17 @@ button.bptodo-item.active::after {
 table.bp-todo-reminder th {
   background: #f9f9f9;
   border: none;
-  text-align: center;
+  text-align: left;
+}
+
+table.bp-todo-reminder th:first-child,
+table.bp-todo-reminder td:first-child {
+    padding-left: 10px;
+}
+
+table.bp-todo-reminder th:last-child,
+table.bp-todo-reminder td:last-child {
+    padding-right: 10px;
 }
 
 table.bp-todo-reminder {
@@ -138,8 +148,13 @@ table.bp-todo-reminder tbody td.bp-to-do-actions ul li a:hover {
 }
 
 table.bp-todo-reminder tbody td {
-  text-align: center;
-  padding: 10px 0;
+  text-align: left;
+  padding: 10px;
+}
+
+.bp-todo-reminder tbody td img,
+.type-bp-todo img {
+    display: block;
 }
 
 td.bp-to-do-actions ul {
