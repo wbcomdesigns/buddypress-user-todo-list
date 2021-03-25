@@ -47,8 +47,8 @@ if ( bp_group_is_mod() ) {
 	if ( false === $mod_can_modify ) {
 		$can_modify = true;
 	}
-	$mod_can_view_report = ( isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
-	if ( false === $mod_can_view_report ) {
+	$mod_can_views = bptodo_report_view_enabled( $group_id, $current_user );
+	if ( false === $mod_can_views ) {
 		$can_views = true;
 	}
 }
