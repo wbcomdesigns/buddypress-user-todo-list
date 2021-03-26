@@ -352,7 +352,7 @@ if ( empty( $todos ) ) {
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 														<?php
 													}
-													if ( $can_modify ) {
+													if ( $can_views ) {
 														?>
 														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
 														<?php
@@ -445,7 +445,7 @@ if ( empty( $todos ) ) {
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 													<?php } ?>
 													<?php
-													if ( $can_modify ) {
+													if ( $can_views ) {
 														?>
 														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
 														<?php
@@ -552,7 +552,7 @@ if ( empty( $todos ) ) {
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 														<?php
 													}
-													if ( $can_modify ) {
+													if ( $can_views ) {
 														?>
 														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
 														<?php
@@ -659,7 +659,7 @@ if ( empty( $todos ) ) {
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 														<?php
 													}
-													if ( $can_modify ) {
+													if ( $can_views ) {
 														?>
 														<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
 														<?php
