@@ -61,12 +61,15 @@ if ( ! class_exists( 'Bptodo_Hooks' ) ) {
 			if ( ! empty( $todo_items ) ) {
 				foreach ( $todo_items as $key => $todo ) {
 					$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
+					$diff_days   = '';
 					if ( 'complete' !== $todo_status ) {
 						$author_id = $todo->post_author;
 						$curr_date = date_create( date( 'Y-m-d' ) );
 						$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 						$diff      = date_diff( $curr_date, $due_date );
-						$diff_days = $diff->format( '%R%a' );
+						if ( is_object( $diff ) ) {
+							$diff_days = $diff->format( '%R%a' );
+						}
 						/** Check if mail sending is allowed. */
 						if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
 
