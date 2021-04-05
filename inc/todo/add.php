@@ -18,7 +18,7 @@ $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = bp_displayed_user_id();
 $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
-bp_nouveau_template_notices();
+//bp_nouveau_template_notices();
 
 ?>
 <form class="bptodo-form-add" action="" method="post" id="myForm">
