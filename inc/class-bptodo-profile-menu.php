@@ -91,6 +91,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 			if ( bp_group_is_mod() ) {
 				$group_id       = $bp->groups->current_group->id;
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
+				$can_list = true;
 				if ( $mod_can_add ) {
 					$can_list = true;
 				}
