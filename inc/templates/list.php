@@ -618,7 +618,7 @@ if ( empty( $todos ) ) {
 													}
 												}
 												?>
-										<tr id="schedule bptodo-row-<?php echo esc_attr( $tid ); ?>">
+										<tr id="bptodo-row-<?php echo esc_attr( $tid ); ?>">
 											<td class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></td>
 											<td class="
 												<?php
