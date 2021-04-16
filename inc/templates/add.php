@@ -10,11 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bp;
-
 $group_members = groups_get_group_members(
 	array(
-		'group_id'            => $bp->groups->current_group->id,
-		//'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+		'group_id'   => $bp->groups->current_group->id,
+		'group_role' => array( 'member', 'mod' ),
+		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
 );
 $group_members_ids = array();
@@ -108,7 +108,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	/*=====  End of Insert primary To-Do  ======*/
 	$associated_todos = array();
-	
+
 	foreach ( (array) $group_members_ids as $key => $member_id ) {
 		$args    = array(
 			'post_type'    => 'bp-todo',

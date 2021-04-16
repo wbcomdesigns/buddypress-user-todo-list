@@ -23,6 +23,7 @@ $group_members = groups_get_group_members(
 		'exclude_admins_mods' => false,
 	)
 );
+
 if ( isset( $group_members['members'] ) ) {
 	foreach ( $group_members['members'] as $member ) {
 		$group_members_ids[] = $member->ID;
@@ -35,7 +36,7 @@ unset( $group_members_ids[ $cu_index ] );
 $class      = 'todo-completed';
 $group_id   = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
 $can_modify = false;
-$can_views   = false;
+$can_views  = false;
 if ( bp_group_is_admin() ) {
 	$can_modify = true;
 	$can_views  = true;
@@ -54,7 +55,7 @@ if ( bp_group_is_mod() ) {
 }
 
 // List of Todo Items.
-$args  = array(
+$args               = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
@@ -62,8 +63,7 @@ $args  = array(
 	'meta_key'       => 'todo_group_id',
 	'meta_value'     => $group_id,
 );
-$todos = get_posts( $args );
-
+$todos              = get_posts( $args );
 $todo_list          = array();
 $all_todo_count     = 0;
 $all_completed_todo = 0;
