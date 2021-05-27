@@ -86,7 +86,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_admin_options_page() {
-			$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
+			$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-welcome';
 			?>
 			<div class="wrap">
 				<div class="bptodo-header">
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_plugin_settings_tabs() {
-			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
+			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-welcome';
 			echo '<div class="wbcom-tabs-section"><h2 class="nav-tab-wrapper">';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
 				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
@@ -129,15 +129,25 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_general_settings() {
+			$this->plugin_settings_tabs['user-todo-list-welcome']  = esc_html__( 'Welcome', 'wb-todo' );
 			$this->plugin_settings_tabs['user-todo-list-settings']  = esc_html__( 'General', 'wb-todo' );
 			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group To-Do', 'wb-todo' );
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
+			add_settings_section( 'section_welcome', ' ', array( &$this, 'bptodo_welcome_content' ), 'user-todo-list-welcome' );
+			
+			
 			add_settings_section( 'section_general', ' ', array( &$this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
 
 			register_setting( 'group-todo-list-settings', 'group-todo-list-settings' );
 			add_settings_section( 'section_group', ' ', array( &$this, 'bptodo_group_settings_content' ), 'group-todo-list-settings' );
 		}
-
+		
+		public function bptodo_welcome_content() {
+			if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-welcome-page.php' ) ) {
+				require_once dirname( __FILE__ ) . '/inc/bptodo-welcome-page.php';
+			}
+		}
+		
 		/**
 		 * Display plugin general setting's tab content.
 		 *
