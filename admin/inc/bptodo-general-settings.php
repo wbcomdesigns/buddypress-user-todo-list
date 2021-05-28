@@ -36,9 +36,9 @@ global $bptodo;
 				<!-- <tr>
 					<th scope="row"><label for="bptodo-hide-button"><?php // esc_html_e( 'Hide Button', 'wb-todo' );. ?></label></th>
 					<td>
-						<label class="switch">
+						<label class="wb-switch">
 							<input type="checkbox" name="bptodo_hide_button" id="bptodo-hide-button" <?php // echo ( 'yes' == $bptodo->hide_button ) ? 'checked' : 'unchecked';. ?>>
-							<span class="slider round"></span>
+							<span class="wb-slider wb-round"></span>
 						</label>
 						<label for="bptodo-hide-button"><?php // esc_html_e( 'Allow user to hide button on member profile header.', 'wb-todo' );. ?></label>
 						<p class="description"><?php // esc_html_e( 'Check this option if you want to hide button on member profile.', 'wb-todo' );. ?></p>
@@ -49,9 +49,9 @@ global $bptodo;
 				<tr>
 					<th scope="row"><label for="bptodo-allow-user-add-category"><?php esc_html_e( 'Allow User To Add Category', 'wb-todo' ); ?></label></th>
 					<td>
-						<label class="switch">
+						<label class="wb-switch">
 							<input type="checkbox" name="bptodo_allow_user_add_category" id="bptodo-allow-user-add-todo-category" <?php echo ( 'yes' === $bptodo->allow_user_add_category ) ? 'checked' : 'unchecked'; ?>>
-							<span class="slider round"></span>
+							<span class="wb-slider wb-round"></span>
 						</label>
 						<label for="bptodo-allow-user-add-todo-category"><?php esc_html_e( 'Allow the loggedin user to create To-Do category.', 'wb-todo' ); ?></label>
 						<p class="description"><?php esc_html_e( 'Check this option if you want to allow normal users of the site to have the ability to create the To-Do category.', 'wb-todo' ); ?></p>
@@ -62,9 +62,9 @@ global $bptodo;
 				<tr>
 					<th scope="row"><label for="bptodo-send-notification"><?php esc_html_e( 'Send Notification', 'wb-todo' ); ?></label></th>
 					<td>
-						<label class="switch">
+						<label class="wb-switch">
 							<input type="checkbox" name="bptodo_send_notification" id="bptodo-send-todo-due-date-bp-notification" <?php echo ( 'yes' === $bptodo->send_notification ) ? 'checked' : 'unchecked'; ?>>
-							<span class="slider round"></span>
+							<span class="wb-slider wb-round"></span>
 						</label>
 						<label for="bptodo-send-todo-due-date-bp-notification"><?php esc_html_e( 'Send a BP notification to the user whose To-Do due date has arrived.', 'wb-todo' ); ?></label>
 						<p class="description"><?php esc_html_e( 'Check this option if you want to send notification to the member as a reminder for his/her task due date.', 'wb-todo' ); ?></p>
@@ -75,9 +75,9 @@ global $bptodo;
 				<tr>
 					<th scope="row"><label for="bptodo-send-mail"><?php esc_html_e( 'Send Mail', 'wb-todo' ); ?></label></th>
 					<td>
-						<label class="switch">
+						<label class="wb-switch">
 							<input type="checkbox" name="bptodo_send_mail" id="bptodo-send-todo-due-date-mail" <?php echo ( 'yes' === $bptodo->send_mail ) ? 'checked' : 'unchecked'; ?>>
-							<span class="slider round"></span>
+							<span class="wb-slider wb-round"></span>
 						</label>
 						<label for="bptodo-send-todo-due-date-mail"><?php esc_html_e( 'Send a mail to the user whose To-Do due date has arrived.', 'wb-todo' ); ?></label>
 						<p class="description"><?php esc_html_e( 'Check this option if you want to send mail to the member as a reminder for his/her task due date.', 'wb-todo' ); ?></p>

@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
     <div class="wbcom-welcome-main-wrapper">
         <div class="wbcom-welcome-head">
             <h2 class="wbcom-welcome-title"><?php esc_html_e( 'Wbcom Designs BP Todo List', 'wb-todo' ); ?></h2>
-            <p class="wbcom-welcome-description"><?php esc_html_e( 'Allow the site admin to select global friends for all his members with BuddyPress Auto friends plugin. If you are starting an online community with BuddyPress and want some common friends to be added to the friend list of your members, BuddyPress Auto friends is the perfect option for you.', 'wb-todo' ) ?></p>
+            <p class="wbcom-welcome-description"><?php esc_html_e( 'BuddyPress Todo List plugin allows BuddyPress members to add tasks to their to-do list and allows them to ‘edit’, ‘delete’, ‘mark-complete’ their task. Members can create the category for to-do and add to-do according to category wise.', 'wb-todo' ) ?></p>
         </div><!-- .wbcom-welcome-head -->
 
         <div class="wbcom-welcome-content">
@@ -31,8 +31,8 @@ if (!defined('ABSPATH')) {
 
                     <div class="col">
                         <h3><span class="dashicons dashicons-book"></span><?php esc_html_e( 'Documentation', 'wb-todo' ); ?></h3>
-                        <p><?php esc_html_e( 'We have prepared an extensive guide on BuddyPress Auto Friends to learn all aspects of the plugin. You will find most of your answers here.', 'wb-todo' ); ?></p>
-                        <a href="<?php echo esc_url( 'https://wbcomdesigns.com/docs/buddypress-paid-addons/wb-todo/' ); ?>" class="button button-primary button-welcome-support" target="_blank"><?php esc_html_e( 'Read Documentation', 'wb-todo' ); ?></a>
+                        <p><?php esc_html_e( 'We have prepared an extensive guide on Wbcom Designs BP Todo List to learn all aspects of the plugin. You will find most of your answers here.', 'wb-todo' ); ?></p>
+                        <a href="<?php echo esc_url( 'https://wbcomdesigns.com/docs/buddypress-free-addons/buddypress-user-to-do-list/' ); ?>" class="button button-primary button-welcome-support" target="_blank"><?php esc_html_e( 'Read Documentation', 'wb-todo' ); ?></a>
                     </div>
 
                     <div class="col">
