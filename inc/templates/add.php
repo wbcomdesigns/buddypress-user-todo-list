@@ -13,7 +13,8 @@ global $bp;
 $group_members = groups_get_group_members(
 	array(
 		'group_id'   => $bp->groups->current_group->id,
-		'group_role' => array( 'member', 'mod' ),
+		//'group_role' => array( 'member', 'mod', 'administrator' ),
+		'exclude_admins_mods' => false,
 		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
 );
