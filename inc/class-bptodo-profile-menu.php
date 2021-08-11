@@ -93,7 +93,7 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
 				$can_list = true;
 				if ( $mod_can_add ) {
-					$can_list = true;
+					$can_list = false;
 				}
 			}
 
