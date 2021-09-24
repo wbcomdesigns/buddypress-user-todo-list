@@ -34,7 +34,7 @@ $todos = get_posts( $args );
 $form_post_link = add_query_arg(
 	'args',
 	$todos[0]->ID,
-	$admin_link . 'add/'
+	$admin_link . '/list'
 );
 
 if ( isset( $_POST['group_todo_update'] ) && wp_verify_nonce( $_POST['save_update_group_todo_data_nonce'], 'wp-bp-todo' ) ) {
@@ -138,7 +138,8 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 
 
 ?>
-<form action="<?php echo esc_attr( $form_post_link ); ?>" method="post">
+
+<form action="" method="post">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bp_group_todo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>

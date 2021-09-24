@@ -13,7 +13,8 @@ global $bp;
 $group_members = groups_get_group_members(
 	array(
 		'group_id'   => $bp->groups->current_group->id,
-		'group_role' => array( 'member', 'mod' ),
+		//'group_role' => array( 'member', 'mod', 'administrator' ),
+		'exclude_admins_mods' => false,
 		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
 );
@@ -36,14 +37,14 @@ $name               = bp_get_displayed_user_username();
 
 $displayed_uid  = get_current_user_id();
 $form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
-/*
+
 if ( ! empty( $group_members_ids ) ) {
 	$current_user = get_current_user_id();
 	$cu_index     = array_search( $current_user, $group_members_ids );
 	unset( $group_members_ids[ $cu_index ] );
 
 }
-*/
+
 // Save todo items.
 if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
 
