@@ -160,9 +160,10 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		public function bptodo_member_profile_todo_tab() {
 			if ( bp_is_my_profile() ) {
 				global $bp, $bptodo;
-
+				$settings = get_option( 'user_todo_list_settings' );				
 				$profile_menu_label        = $bptodo->profile_menu_label;
-				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+				//$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+				$profile_menu_label_plural = $settings['profile_menu_label_plural'];
 				$profile_menu_slug         = strtolower( $bptodo->profile_menu_label );
 				$my_todo_items             = $bptodo->my_todo_items;
 
