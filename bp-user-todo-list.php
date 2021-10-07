@@ -228,7 +228,7 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
 function bptodo_activation_redirect_settings( $plugin ){
 
-	if( $plugin == plugin_basename( __FILE__ ) ) {
+	if( $plugin == plugin_basename( __FILE__ ) && class_exists( 'Buddypress' ) ) {
 		wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) ) ;
 		exit;
 	}
