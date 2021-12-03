@@ -96,7 +96,8 @@ var tempust = {
 					object.attr( "data-event", true );
 					object.addClass( "bptodo-day" );
 					object.on(
-						"click", function () {
+						"click",
+						function () {
 							$( "[data-event-date='" + $( this ).attr( "data-date" ) + "']" ).slideToggle();
 						}
 					);
@@ -160,7 +161,8 @@ var tempust = {
 			$( "<select>" )
 				.addClass( "year" )
 		).children( ".year" ).on(
-			"change", function () {
+			"change",
+			function () {
 						self.data().date.setFullYear( $( this ).val() );
 						self.trigger(
 							{
@@ -191,7 +193,8 @@ var tempust = {
 			$( "<select>" )
 				.addClass( "month" )
 		).children( ".month" ).on(
-			"change", function () {
+			"change",
+			function () {
 						self.data().date.setMonth( $( this ).val() );
 						self.trigger(
 							{

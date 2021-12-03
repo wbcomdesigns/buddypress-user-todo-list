@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.1
  */
-
 class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 	/**
@@ -83,9 +82,9 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			return;
 		}
 		// Output before widget HTMl, title (and maybe content before & after it).
-		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
+		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		?>
-	  <ul>
+	<ul>
 		<?php foreach ( $r->posts as $recent_todo ) : ?>
 			<?php
 			$post_title   = get_the_title( $recent_todo->ID );
@@ -96,16 +95,16 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				$aria_current = ' aria-current="page"';
 			}
 			?>
-		  <li>
-			<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo $aria_current; ?>><?php echo $title; ?></a>
+		<li>
+			<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
 				<?php if ( $show_date ) : ?>
-			  <span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
+			<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
 			<?php endif; ?>
-		  </li>
+		</li>
 			<?php endforeach; ?>
-	  </ul>
+	</ul>
 		<?php
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
@@ -139,35 +138,38 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		$title      = isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
 		$number     = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
-		$link_title = isset( $instance['link_title'] ) ? (bool)$instance['link_title'] : '' ;
+		$link_title = isset( $instance['link_title'] ) ? (bool) $instance['link_title'] : '';
 		?>
 
-		 <p>
-			 <label for="<?php echo $this->get_field_id( 'title' ); ?>">
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
 				<?php esc_html_e( 'Title:', 'wb-todo' ); ?>
-				 <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
-			 </label>
-		 </p>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
+			</label>
+		</p>
 
-		 <p>
-			 <label for="<?php echo $this->get_field_id( 'link_title' ); ?>">
-				 <input type="checkbox" name="<?php echo $this->get_field_name( 'link_title' ); ?>" id="<?php echo $this->get_field_id( 'link_title' ); ?>" value="1" <?php checked( $link_title ); ?> />
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>">
+				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'link_title' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>" value="1" <?php checked( $link_title ); ?> />
 				<?php esc_html_e( 'Link widget title to archive page of To-Do', 'wb-todo' ); ?>
-			 </label>
-		 </p>
+			</label>
+		</p>
 
-		 <p>
-			 <label for="<?php echo $this->get_field_id( 'number' ); ?>">
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>">
 				<?php esc_html_e( 'Max members to show:', 'wb-todo' ); ?>
-				 <input class="widefat" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" min="1" value="<?php echo esc_attr( $number ); ?>" style="width: 30%" />
-			 </label>
-		 </p>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" value="<?php echo esc_attr( $number ); ?>" style="width: 30%" />
+			</label>
+		</p>
 		<?php
 	}
 }
 
 add_action( 'widgets_init', 'wpdocs_register_widgets' );
 
+/**
+ * Register todo widget
+ */
 function wpdocs_register_widgets() {
 	register_widget( 'BP_ToDo_Member_ToDo_Widget' );
 }

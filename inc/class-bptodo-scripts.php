@@ -43,7 +43,7 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 			global $bptodo, $post;
 			$profile_menu_slug = $bptodo->profile_menu_slug;
 
-			if ( ( strpos( $_SERVER['REQUEST_URI'], $profile_menu_slug ) !== false ) || ( 'bp-todo' == $post->post_type ) || isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) || has_shortcode( $post->post_content, 'ld_dashboard' ) ) {
+			if ( ( strpos( $_SERVER['REQUEST_URI'], $profile_menu_slug ) !== false ) || isset( ( $post->post_type ) ) || isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) || has_shortcode( $post->post_content, 'ld_dashboard' ) ) {
 				/** JQuery UI Datepicker CSS. */
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
 				if ( ! wp_style_is( 'wb-font-awesome', 'enqueued' ) ) {
@@ -70,6 +70,7 @@ if ( ! class_exists( 'Bptodo_Scripts' ) ) {
 					array(
 						'ajax_url'            => admin_url( 'admin-ajax.php' ),
 						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+						/* Translators: Display plural label name */
 						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),

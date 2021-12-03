@@ -10,14 +10,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bp;
-
 $group_members = groups_get_group_members(
 	array(
-		'group_id'            => $bp->groups->current_group->id,
-		'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
+		'group_id'   => $bp->groups->current_group->id,
+		//'group_role' => array( 'member', 'mod', 'administrator' ),
+		'exclude_admins_mods' => false,
+		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
 );
-
 $group_members_ids = array();
 if ( isset( $group_members['members'] ) ) {
 	foreach ( $group_members['members'] as $member ) {
@@ -34,13 +34,15 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $name               = bp_get_displayed_user_username();
 
-$displayed_uid  = bp_displayed_user_id();
-$form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
+
+$displayed_uid  = get_current_user_id();
+$form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
 
 if ( ! empty( $group_members_ids ) ) {
 	$current_user = get_current_user_id();
 	$cu_index     = array_search( $current_user, $group_members_ids );
 	unset( $group_members_ids[ $cu_index ] );
+
 }
 
 // Save todo items.
@@ -59,7 +61,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	}
 
 	if ( isset( $_POST['bptodo-summary-input'] ) ) {
-		$summary = sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) );
+		$summary = wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) );
 	}
 
 	if ( isset( $_POST['todo_priority'] ) ) {
@@ -86,10 +88,9 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		'post_status'  => 'publish',
 		'post_title'   => $title,
 		'post_content' => $summary,
-		'post_author'  => $current_user,
+		'post_author'  => $displayed_uid,
 	);
 	$primary_todo_id = wp_insert_post( $args );
-
 	update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
 	update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
 	update_post_meta( $primary_todo_id, 'todo_priority', $priority );
@@ -103,11 +104,12 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	update_post_meta( $primary_todo_id, 'todo_primary_id', $primary_todo_id );
 
-	// update post meta for to do creator
+	// update post meta for to do creator.
 	update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
 
 	/*=====  End of Insert primary To-Do  ======*/
 	$associated_todos = array();
+
 	foreach ( (array) $group_members_ids as $key => $member_id ) {
 		$args    = array(
 			'post_type'    => 'bp-todo',
@@ -132,7 +134,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 		wp_set_object_terms( $post_id, $cat, $taxonomy );
 
-		// update post meta for to do creator
+		// update post meta for to do creator.
 		update_post_meta( $post_id, 'todo_creator_id', get_current_user_id() );
 
 		update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
@@ -140,9 +142,16 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 
 	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
 
+	?>
+		<script>
+			window.location.replace('<?php echo esc_url( $form_post_link ); ?>');
+		</script>
+	<?php
+
 }
+
 ?>
-<form class="bptodo-form-add" action="<?php echo esc_attr( $form_post_link ); ?>" method="post" id="myForm">
+<form class="bptodo-form-add" action="" method="post" id="myForm">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bp_group_todo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
@@ -159,12 +168,13 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 						<?php } ?>
 						<?php } ?>
 					</select>
-					<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
 					<?php } ?>
 				</div>
-				<?php if ( 'yes' == $bptodo->allow_user_add_category ) { ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 				<div class="add-todo-cat-row">
+					<?php /* Translators: Display the plural label name */ ?>
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_html( $add_cat_nonce ); ?>">
@@ -235,7 +245,8 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 				<td width="20%"></td>
 				<td width="80%">
 					<?php wp_nonce_field( 'wp-bp-todo', 'group_save_new_todo_data_nonce' ); ?>
-					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label ); ?>" >
+					<?php /* Translators: Display the plural label name */ ?>
+					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>" >
 				</td>
 			</tr>
 			<?php

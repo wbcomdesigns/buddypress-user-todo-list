@@ -25,34 +25,35 @@ get_header(); ?>
 			while ( have_posts() ) :
 				the_post();
 				?>
-		  <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 			<header class="entry-header">
 				<?php
 				if ( is_tax() ) :
 					the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
 					else :
 						the_title( sprintf( '<h2 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h2>' );
-					   endif;
+					endif;
 					?>
 			</header><!-- .entry-header -->
 			<div class="entry-content">
-			  <div class="entry-meta">
-				   <?php
-					if ( function_exists( 'get_avatar' ) ) {
+			<div class="entry-meta">
+				<?php
+				if ( function_exists( 'get_avatar' ) ) {
 
-						echo sprintf(
-						'<a href="%1$s" rel="bookmark">%2$s</a>',
-						esc_url( bp_core_get_user_domain( get_the_author_meta( 'ID' ) )),
-							get_avatar( get_the_author_meta( 'email' ), 55 )
-						);
-					}
 					echo sprintf(
+						'<a href="%1$s" rel="bookmark">%2$s</a>',
+						esc_url( bp_core_get_user_domain( get_the_author_meta( 'ID' ) ) ),
+						get_avatar( get_the_author_meta( 'email' ), 55 )
+					);
+				}
+					echo sprintf(
+						/* translators: Display author name */
 						esc_html_x( '%s', 'post author', 'wb-todo' ),
 						'<span class="author vcard"><a class="url fn n" href="' . esc_url( bp_core_get_user_domain( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 					);
-					?>
-			  </div>
-				 <?php
+				?>
+			</div>
+				<?php
 					the_excerpt(
 						sprintf(
 							/* translators: %s: Post title. */
@@ -60,7 +61,7 @@ get_header(); ?>
 							the_title( '<span class="screen-reader-text">', '</span>', false )
 						)
 					);
-                wp_link_pages(
+				wp_link_pages(
 					array(
 						'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'wb-todo' ) . '</span>',
 						'after'       => '</div>',
@@ -69,15 +70,15 @@ get_header(); ?>
 						'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'wb-todo' ) . ' </span>%',
 						'separator'   => '<span class="screen-reader-text">, </span>',
 					)
-                );
-					?>
+				);
+				?>
 				<p class="no-margin">
-				  <a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'wb-todo' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="read-more button"><?php _e( 'Read More', 'wb-todo' ); ?></a>
+				<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'wb-todo' ), the_title_attribute( 'echo=0' ) ) ); ?>" class="read-more button"><?php esc_html_e( 'Read More', 'wb-todo' ); ?></a>
 				</p>
-			  </div><!-- .entry-content -->
+			</div><!-- .entry-content -->
 			</article>
 				<?php
-		  endwhile;
+		endwhile;
 			// Previous/next page navigation.
 			the_posts_pagination(
 				array(
@@ -88,16 +89,16 @@ get_header(); ?>
 			);
 			else :
 				?>
-			  <section class="no-results not-found">
+			<section class="no-results not-found">
 				<header class="page-header">
-				  <h1 class="page-title"><?php _e( 'Nothing Found', 'wb-todo' ); ?></h1>
+				<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'wb-todo' ); ?></h1>
 				</header><!-- .page-header -->
 				<div class="page-content">
-				  <p></p>
+				<p></p>
 				</div><!-- .page-content -->
-			  </section><!-- .no-results -->
+			</section><!-- .no-results -->
 			<?php endif; ?>
-		  </main><!-- .site-main -->
+		</main><!-- .site-main -->
 		</section><!-- .content-area -->
 
 <?php get_footer(); ?>

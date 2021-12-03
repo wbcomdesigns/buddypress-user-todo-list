@@ -104,7 +104,17 @@ button.bptodo-item.active::after {
 table.bp-todo-reminder th {
   background: #f9f9f9;
   border: none;
-  text-align: center;
+  text-align: left;
+}
+
+table.bp-todo-reminder th:first-child,
+table.bp-todo-reminder td:first-child {
+    padding-left: 10px;
+}
+
+table.bp-todo-reminder th:last-child,
+table.bp-todo-reminder td:last-child {
+    padding-right: 10px;
 }
 
 table.bp-todo-reminder {
@@ -138,8 +148,13 @@ table.bp-todo-reminder tbody td.bp-to-do-actions ul li a:hover {
 }
 
 table.bp-todo-reminder tbody td {
-  text-align: center;
-  padding: 10px 0;
+  text-align: left;
+  padding: 10px;
+}
+
+.bp-todo-reminder tbody td img,
+.type-bp-todo img {
+    display: block;
 }
 
 td.bp-to-do-actions ul {
@@ -484,25 +499,25 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 /* Media Query */
 @media only screen and (max-width: 543px) {
   .todo-detail {
-    overflow-x: auto;
+	overflow-x: auto;
   }
 
   #bptodo-dashboard-box {
-    display: block;
+	display: block;
   }
 
   #bptodo-dashboard ul li {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 10px;
+	width: 100%;
+	margin: 0;
+	margin-bottom: 10px;
   }
 
   #bptodo-dashboard ul li:last-child {
-    margin-bottom: 0;
+	margin-bottom: 0;
   }
 
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
   }
 }

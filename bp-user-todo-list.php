@@ -66,6 +66,9 @@ global $bptodo;
  * @since   1.0.0
  */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
+/**
+ * Function to include files.
+ */
 function run_wp_bptodo_list() {
 	$include_files = array(
 		'inc/class-bptodo-profile-menu.php',
@@ -126,9 +129,9 @@ function bptodo_plugin_init() {
 		if ( is_plugin_active_for_network( 'buddypress/bp-loader.php' ) === false ) {
 			add_action( 'network_admin_notices', 'bptodo_network_plugin_admin_notice' );
 		} else {
-			// run_wp_bptodo_list();
+			// run_wp_bptodo_list();.
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
-			// add_action( 'bp_include', 'bptodo_create_profile_menu' );
+			// add_action( 'bp_include', 'bptodo_create_profile_menu' );.
 		}
 	} else {
 		// $bp_active = in_array( 'buddypress/bp-loader.php', get_option( 'active_plugins' ) );
@@ -137,7 +140,7 @@ function bptodo_plugin_init() {
 		} else {
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
 			// add_action( 'bp_include', 'bptodo_create_profile_menu' );
-			// run_wp_bptodo_list();
+			// run_wp_bptodo_list();.
 		}
 	}
 }
@@ -151,7 +154,7 @@ function bptodo_plugin_init() {
 function bptodo_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
 	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
-
+	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
 	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 	if ( isset( $_GET['activate'] ) ) {
 		unset( $_GET['activate'] );
@@ -167,7 +170,7 @@ function bptodo_plugin_admin_notice() {
 function bptodo_network_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
 	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
-
+	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
 	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 	if ( isset( $_GET['activate'] ) ) {
 		unset( $_GET['activate'] );
@@ -183,11 +186,23 @@ function bptodo_network_plugin_admin_notice() {
 function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	$can_modify = ( isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
+	$can_modify = ( ! isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
+/**
+ * Add or exclude group modrators to view todo report.
+ *
+ * @author  wbcomdesigns
+ * @since   1.0.0
+ */
+function bptodo_report_view_enabled( $group_id, $current_user ) {
+	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
+	$can_views = ( ! isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	return $can_views;
+}
+add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );
 
 if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	/**
@@ -202,5 +217,19 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 		$can_list = ( ! isset( $group_todo_list_settings['list_enable'] ) ) ? true : false;
 
 		return $can_list;
+	}
+}
+
+
+/**
+ * redirect to plugin settings page after activated
+ */
+
+add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
+function bptodo_activation_redirect_settings( $plugin ){
+
+	if( $plugin == plugin_basename( __FILE__ ) && class_exists( 'Buddypress' ) ) {
+		wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) ) ;
+		exit;
 	}
 }

@@ -1,0 +1,8 @@
+<wpml-config>
+    <admin-texts>
+        <key name="user_todo_list_settings">
+            <key name="profile_menu_label_plural" />
+            <key name="profile_menu_label" />            
+        </key>		
+    </admin-texts>
+</wpml-config>

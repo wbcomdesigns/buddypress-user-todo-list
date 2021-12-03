@@ -86,9 +86,11 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_admin_options_page() {
-			$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
+			$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-welcome';
 			?>
 			<div class="wrap">
+                            <hr class="wp-header-end">
+                            <div class="wbcom-wrap">
 				<div class="bptodo-header">
 					<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 					<h1 class="wbcom-plugin-heading">
@@ -100,6 +102,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					<?php $this->bptodo_plugin_settings_tabs(); ?>
 					<?php do_settings_sections( $tab ); ?>
 				</div>
+                            </div>
 			</div>
 			<?php
 		}
@@ -112,13 +115,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_plugin_settings_tabs() {
-			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-settings';
-			echo '<div class="wbcom-tabs-section"><h2 class="nav-tab-wrapper">';
+			$current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'user-todo-list-welcome';
+			echo '<div class="wbcom-tabs-section"><div class="nav-tab-wrapper"><div class="wb-responsive-menu"><span>' . esc_html( 'Menu' ) . '</span><input class="wb-toggle-btn" type="checkbox" id="wb-toggle-btn"><label class="wb-toggle-icon" for="wb-toggle-btn"><span class="wb-icon-bars"></span></label></div><ul>';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
-				$active = $current_tab == $tab_key ? 'nav-tab-active' : '';
-				echo '<a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a>';
+				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
+				echo '<li><a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a></li>';
 			}
-			echo '</h2></div>';
+			echo '</div></ul></div>';
 		}
 
 		/**
@@ -129,15 +132,25 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_register_general_settings() {
+			$this->plugin_settings_tabs['user-todo-list-welcome']  = esc_html__( 'Welcome', 'wb-todo' );
 			$this->plugin_settings_tabs['user-todo-list-settings']  = esc_html__( 'General', 'wb-todo' );
 			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group To-Do', 'wb-todo' );
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
+			add_settings_section( 'section_welcome', ' ', array( &$this, 'bptodo_welcome_content' ), 'user-todo-list-welcome' );
+			
+			
 			add_settings_section( 'section_general', ' ', array( &$this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
 
 			register_setting( 'group-todo-list-settings', 'group-todo-list-settings' );
 			add_settings_section( 'section_group', ' ', array( &$this, 'bptodo_group_settings_content' ), 'group-todo-list-settings' );
 		}
-
+		
+		public function bptodo_welcome_content() {
+			if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-welcome-page.php' ) ) {
+				require_once dirname( __FILE__ ) . '/inc/bptodo-welcome-page.php';
+			}
+		}
+		
 		/**
 		 * Display plugin general setting's tab content.
 		 *
@@ -159,7 +172,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_group_settings_content() {
-			// if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {
+			// if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-group-settings.php' ) ) {.
 				require_once dirname( __FILE__ ) . '/inc/bptodo-group-settings.php';
 			// }
 		}
