@@ -86,12 +86,12 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 				$default_params
 			);
 
-			$is_admin   = bp_group_is_admin();
+			$is_admin     = bp_group_is_admin();
 				$can_list = false;
 			if ( bp_group_is_mod() ) {
-				$group_id       = $bp->groups->current_group->id;
+				$group_id    = $bp->groups->current_group->id;
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
-				$can_list = true;
+				$can_list    = true;
 				if ( $mod_can_add ) {
 					$can_list = false;
 				}
@@ -160,12 +160,12 @@ if ( ! class_exists( 'Bptodo_Profile_Menu' ) ) {
 		public function bptodo_member_profile_todo_tab() {
 			if ( bp_is_my_profile() ) {
 				global $bp, $bptodo;
-				$settings = get_option( 'user_todo_list_settings' );				
+				$settings                  = get_option( 'user_todo_list_settings' );
 				$profile_menu_label        = $bptodo->profile_menu_label;
-				//$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-				$profile_menu_label_plural = $settings['profile_menu_label_plural'];
-				$profile_menu_slug         = strtolower( $bptodo->profile_menu_label );
-				$my_todo_items             = $bptodo->my_todo_items;
+				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
+				$profile_menu_slug = strtolower( $bptodo->profile_menu_label );
+				$my_todo_items     = $bptodo->my_todo_items;
 
 				$displayed_uid  = bp_displayed_user_id();
 				$parent_slug    = $profile_menu_slug;
