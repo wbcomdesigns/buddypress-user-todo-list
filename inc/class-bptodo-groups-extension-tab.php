@@ -25,7 +25,9 @@ if ( bp_is_active( 'groups' ) ) :
 				'slug' => $profile_menu_slug,
 				'name' => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 			);
-			parent::init( $args );
+			if ( is_user_logged_in() ) {
+				parent::init( $args );
+			}
 		}
 
 		/**
