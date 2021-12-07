@@ -496,6 +496,43 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
   text-align: center;
 }
 
+/* Shortcode Form */
+.bptodo-loggedout-user-panel {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 30px !important;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0px 70px #edebeb;
+}
+.bptodo-loggedout-user-panel form#loginform p{
+  margin-bottom: 15px;
+}
+.bptodo-loggedout-user-panel form#loginform input[type="text"],
+.bptodo-loggedout-user-panel form#loginform input[type="email"],
+.bptodo-loggedout-user-panel form#loginform input[type="password"]{
+  width: 100%;
+  margin-top: 5px;
+}
+.bptodo-loggedout-user-panel form#loginform label {
+  display: block;
+}
+
+.theme-buddysocial .bptodo-loggedout-user-panel input#wp-submit,
+.theme-varuna .bptodo-loggedout-user-panel input#wp-submit {
+  background: #333;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px 20px;
+}
+
+
+
+
+
+
 /* Media Query */
 @media only screen and (max-width: 543px) {
   .todo-detail {
