@@ -9,10 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $bptodo;
-$profile_menu_label = $bptodo->profile_menu_label;
-$profile_menu_slug  = $bptodo->profile_menu_slug;
-$class              = 'todo-completed';
-$bp_template_option = bp_get_option( '_bp_theme_package_id' );
+$profile_menu_label        = $bptodo->profile_menu_label;
+$profile_menu_slug         = $bptodo->profile_menu_slug;
+$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+$class                     = 'todo-completed';
+$bp_template_option        = bp_get_option( '_bp_theme_package_id' );
 
 if ( ! empty( $atts['category'] ) ) {
 	$term = get_term_by( 'id', $atts['category'], 'todo_category' );
@@ -49,7 +50,7 @@ if ( ! empty( $atts['category'] ) ) {
 					$todo_list['future'][] = $todo->ID;
 				}
 			}
-		?>
+			?>
 			<div class="bptodo-adming-setting">
 				<div class="bptodo-admin-settings-block">
 					<div id="bptodo-settings-tbl">
@@ -466,7 +467,12 @@ if ( ! empty( $atts['category'] ) ) {
 			<?php } else { ?>	
 				<div id="message" class="info">
 			<?php } ?>
-				<p><?php esc_html_e( 'There are no todos in this category.', 'wb-todo' ); ?></p>
+				<p>
+				<?php
+				/* Translators: 1) Profile Menu Plural Label */
+				echo sprintf( esc_html__( 'There are no %s in this category.', 'wb-todo' ), esc_html( $profile_menu_label_plural ) );
+				?>
+				</p>
 			</div>
 			<?php
 		}
