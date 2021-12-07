@@ -42,10 +42,11 @@ get_header(); ?>
 		</div><!-- .entry-content -->
 	</article>
 			<?php endwhile; ?>
+			<?php if ( ! empty( bptodo_todo_user_report() ) ) : ?>
 			<div class="single-to-report">
 				<?php bptodo_todo_user_report(); ?>
 			</div>
-
+			<?php endif; ?>
 		</main><!-- .site-main -->
 	</div><!-- .content-area -->
 <?php get_sidebar( 'right' ); ?>
