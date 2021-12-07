@@ -136,12 +136,26 @@ function bptodo_plugin_init() {
 	} else {
 		// $bp_active = in_array( 'buddypress/bp-loader.php', get_option( 'active_plugins' ) );
 		if ( ! class_exists( 'BuddyPress' ) ) {
+			add_action( 'admin_init', 'bptodo_existing_bptodo_plugin' );
 			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
 		} else {
 			add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
 			// add_action( 'bp_include', 'bptodo_create_profile_menu' );
 			// run_wp_bptodo_list();.
 		}
+	}
+}
+
+/**
+ * Function to remove bptodo plugin if already exist.
+ *
+ * @since 1.0.0
+ */
+function bptodo_existing_bptodo_plugin() {
+	$bptodo_plugin = plugin_dir_path( __DIR__ ) . 'buddypress-user-todo-list/bp-user-todo-list';
+	// Check to see if plugin is already active.
+	if ( is_plugin_active( plugin_basename( __FILE__ ) ) ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
 }
 
@@ -226,10 +240,10 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
  */
 
 add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
-function bptodo_activation_redirect_settings( $plugin ){
+function bptodo_activation_redirect_settings( $plugin ) {
 
-	if( $plugin == plugin_basename( __FILE__ ) && class_exists( 'Buddypress' ) ) {
-		wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) ) ;
+	if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'Buddypress' ) ) {
+		wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
 		exit;
 	}
 }
