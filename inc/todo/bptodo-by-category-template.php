@@ -60,7 +60,7 @@ if ( ! empty( $atts['category'] ) ) {
 							<div class="bptodo-admin-row">
 								<div>
 									<button class="bptodo-item"><?php esc_html_e( 'PAST', 'wb-todo' ); ?></button>
-									<div class="panel">
+									<div class="bptodo-bptodo-panel">
 										<div class="todo-detail">
 											<table class="bp-todo-reminder">
 												<thead>
@@ -161,7 +161,7 @@ if ( ! empty( $atts['category'] ) ) {
 							<div class="bptodo-admin-row">
 								<div>
 									<button class="bptodo-item"><?php echo esc_html( 'TODAY', 'wb-todo' ); ?></button>
-									<div class="panel">
+									<div class="bptodo-panel">
 										<div class="todo-detail">
 											<table class="bp-todo-reminder">
 												<thead>
@@ -261,7 +261,7 @@ if ( ! empty( $atts['category'] ) ) {
 							<div class="bptodo-admin-row">
 								<div>
 									<button class="bptodo-item"><?php esc_html_e( 'TOMORROW', 'wb-todo' ); ?></button>
-									<div class="panel">
+									<div class="bptodo-panel">
 										<div class="todo-detail">
 											<table class="bp-todo-reminder">
 												<thead>
@@ -361,7 +361,7 @@ if ( ! empty( $atts['category'] ) ) {
 							<div class="bptodo-admin-row">
 								<div>
 									<button class="bptodo-item"><?php esc_html_e( 'SAMEDAY', 'wb-todo' ); ?></button>
-									<div class="panel">
+									<div class="bptodo-panel">
 										<div class="todo-detail">
 											<table class="bp-todo-reminder">
 												<thead>

@@ -13,16 +13,16 @@
 }
 
 .bptodo-add-todo-success {
-  border: 1px solid #EEEEEE;
+  border: 1px solid #eeeeee;
   padding: 10px;
   padding-bottom: 0;
-  background-color: #DDFFD9;
+  background-color: #ddffd9;
   margin-bottom: 5px;
   vertical-align: middle;
 }
 
 .bptodo-add-todo-success p {
-  color: #0F9200;
+  color: #0f9200;
 }
 
 /** TODO LIST CSS **/
@@ -42,7 +42,7 @@ button.bptodo-item:focus {
 }
 
 button.bptodo-item {
-  background-color: #EEE;
+  background-color: #eee;
   border: medium none;
   color: hsl(0, 0%, 27%);
   cursor: pointer;
@@ -57,10 +57,10 @@ button.bptodo-item {
 }
 
 button.bptodo-item:hover {
-  background-color: #C1C1C1 !important;
+  background-color: #c1c1c1 !important;
 }
 
-div.panel {
+div.bptodo-panel {
   padding: 0 0px;
   background-color: white;
   max-height: 0;
@@ -97,7 +97,7 @@ button.bptodo-item.active::after {
   margin-left: 0px;
 }
 
-.bptodo-admin-row div.panel {
+.bptodo-admin-row div.bptodo-panel {
   margin: 0px;
 }
 
@@ -109,12 +109,12 @@ table.bp-todo-reminder th {
 
 table.bp-todo-reminder th:first-child,
 table.bp-todo-reminder td:first-child {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 table.bp-todo-reminder th:last-child,
 table.bp-todo-reminder td:last-child {
-    padding-right: 10px;
+  padding-right: 10px;
 }
 
 table.bp-todo-reminder {
@@ -136,7 +136,7 @@ table.bp-todo-reminder tbody td.bp-to-do-actions ul li a {
   display: block;
   text-align: center;
   color: #313131;
-  transition: all .3s;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,7 +154,7 @@ table.bp-todo-reminder tbody td {
 
 .bp-todo-reminder tbody td img,
 .type-bp-todo img {
-    display: block;
+  display: block;
 }
 
 td.bp-to-do-actions ul {
@@ -207,7 +207,8 @@ button:focus {
   outline: none !important;
 }
 
-.bptodo-form-add input[type="text"], textarea {
+.bptodo-form-add input[type="text"],
+textarea {
   width: 100% !important;
 }
 
@@ -323,7 +324,7 @@ button:focus {
   position: relative;
 }
 
-.bptodo-light-grey>span {
+.bptodo-light-grey > span {
   color: #fff;
   min-width: 80px;
   display: block;
@@ -378,12 +379,12 @@ button:focus {
   background: 0;
 }
 
-.ui-tabs #bptodo-dashboard.ui-tabs-panel,
-.ui-tabs #bptodo-todos.ui-tabs-panel {
+.ui-tabs #bptodo-dashboard.ui-tabs-bptodo-panel,
+.ui-tabs #bptodo-todos.ui-tabs-bptodo-panel {
   border-width: 1px;
 }
 
-#bptodo-tabs .ui-tabs-panel>h2 {
+#bptodo-tabs .ui-tabs-bptodo-panel > h2 {
   padding: 0 5px;
 }
 
@@ -459,11 +460,11 @@ table.bp-todo-reminder tbody td.bptodo-priority {
 }
 
 .bptodo-priority .bptodo-priority-high {
-  background: #FB8C00;
+  background: #fb8c00;
 }
 
 .bptodo-priority .bptodo-priority-normal {
-  background: #4CAF50;
+  background: #4caf50;
 }
 
 /* BuddyPress Nouveau Fixes */
@@ -497,7 +498,7 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 }
 
 /* Shortcode Form */
-.bptodo-loggedout-user-panel {
+.bptodo-loggedout-user-bptodo-panel {
   max-width: 500px;
   margin: 0 auto;
   padding: 30px !important;
@@ -505,21 +506,21 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
   background: #fff;
   box-shadow: 0 0px 70px #edebeb;
 }
-.bptodo-loggedout-user-panel form#loginform p{
+.bptodo-loggedout-user-bptodo-panel form#loginform p {
   margin-bottom: 15px;
 }
-.bptodo-loggedout-user-panel form#loginform input[type="text"],
-.bptodo-loggedout-user-panel form#loginform input[type="email"],
-.bptodo-loggedout-user-panel form#loginform input[type="password"]{
+.bptodo-loggedout-user-bptodo-panel form#loginform input[type="text"],
+.bptodo-loggedout-user-bptodo-panel form#loginform input[type="email"],
+.bptodo-loggedout-user-bptodo-panel form#loginform input[type="password"] {
   width: 100%;
   margin-top: 5px;
 }
-.bptodo-loggedout-user-panel form#loginform label {
+.bptodo-loggedout-user-bptodo-panel form#loginform label {
   display: block;
 }
 
-.theme-buddysocial .bptodo-loggedout-user-panel input#wp-submit,
-.theme-varuna .bptodo-loggedout-user-panel input#wp-submit {
+.theme-buddysocial .bptodo-loggedout-user-bptodo-panel input#wp-submit,
+.theme-varuna .bptodo-loggedout-user-bptodo-panel input#wp-submit {
   background: #333;
   border-radius: 5px;
   border: none;
@@ -528,33 +529,28 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
   padding: 8px 20px;
 }
 
-
-
-
-
-
 /* Media Query */
 @media only screen and (max-width: 543px) {
   .todo-detail {
-	overflow-x: auto;
+    overflow-x: auto;
   }
 
   #bptodo-dashboard-box {
-	display: block;
+    display: block;
   }
 
   #bptodo-dashboard ul li {
-	width: 100%;
-	margin: 0;
-	margin-bottom: 10px;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
   }
 
   #bptodo-dashboard ul li:last-child {
-	margin-bottom: 0;
+    margin-bottom: 0;
   }
 
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 }
