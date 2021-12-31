@@ -1,10 +1,10 @@
-=== Wbcom Designs BP Todo List ===
+=== Wbcom Designs BuddyPress Todo List ===
 Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 5.4.2
-Stable tag: 2.3.0
+Tested up to: 5.8.2
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,17 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+= 2.4.0 =
+* Fix: (#174) Fixed quick view dispaly Issue
+* Fix: (#162) Managed todo-list shortcode login form
+* Fix: (#170) Hide groups todos tab for logout user
+* Fix: (#168) Removed div tag of report is displaying on single todo page
+* Fix: (#163) Fixed shortcode page message string is not changing according 
+* Fix: (#160) Fixed Remove todo option display issue
+* Fix: (#158) Plugin is deactivated if BuddyPress is not activated
+* Fix: (#159) Fixed profile tab title missing after plugin activation issue
+* Fix: (#156) Can't translate tasks/Todo's on front end(user's profile)
+* Enhancement: Add WPML plugin support
 
 = 2.3.0 =
 * Fix: BB support
