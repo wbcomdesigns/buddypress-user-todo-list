@@ -287,13 +287,10 @@ textarea {
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
   margin-bottom: 0;
-  border: 1px solid #ddd;
   border-radius: 0;
-  border-top: 2px solid #399dff;
   font-weight: normal;
   background: #fff;
   border-bottom: 0;
-  margin-bottom: -1px;
 }
 
 #bptodo-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a,
@@ -315,9 +312,13 @@ textarea {
 }
 
 .bptodo-color {
-  height: 18px !important;
+  height: 20px !important;
   width: 25%;
-  background-color: #09c130;
+  background: #00e61b;
+  background: -moz-linear-gradient(top,  #00e61b 0%, #009912 100%);
+  background: -webkit-linear-gradient(top,  #00e61b 0%,#009912 100%); 
+  background: linear-gradient(to bottom,  #00e61b 0%,#009912 100%); 
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e61b', endColorstr='#009912',GradientType=0 ); 
   border-radius: 100px !important;
 }
 
@@ -408,9 +409,10 @@ textarea {
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
   border: 0px solid #3a9dfb;
   border-radius: 100px;
-  background: #0285ff;
+  background: #616161;
   font-weight: normal;
   color: #fff;
+  transition: all 0.3s;
 }
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li i{
@@ -426,6 +428,7 @@ textarea {
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a {
   color: #fff;
+  background: #0285ff;
 }
 
 .bp_all_todo_count,
