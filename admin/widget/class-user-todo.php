@@ -84,28 +84,33 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		// Output before widget HTMl, title (and maybe content before & after it).
 		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		?>
-	<ul>
-		<?php foreach ( $r->posts as $recent_todo ) : ?>
-			<?php
-			$post_title   = get_the_title( $recent_todo->ID );
-			$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
-			$aria_current = '';
+		<div class="widget-bptodo-list-row">
+			<ul>
+			<?php foreach ( $r->posts as $recent_todo ) : ?>
+				<?php
+				$post_title   = get_the_title( $recent_todo->ID );
+				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
+				$aria_current = '';
 
-			if ( get_queried_object_id() === $recent_todo->ID ) {
-				$aria_current = ' aria-current="page"';
-			}
-			?>
-		<li>
-			<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
+				if ( get_queried_object_id() === $recent_todo->ID ) {
+					$aria_current = ' aria-current="page"';
+				}
+				?>
+			<li>
+				<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
 				<?php
 					$show_date = '';
-				if ( $show_date ) :
-					?>
-			<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
-			<?php endif; ?>
-		</li>
-			<?php endforeach; ?>
-	</ul>
+					if ( $show_date ) :
+				?>
+				<?php endif; ?>
+				<div class="widget-bptodo-list-meta">
+					<span class="bptodo-list-priority"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></span>
+					<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
+				</div>
+			</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
 		<?php
 		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}

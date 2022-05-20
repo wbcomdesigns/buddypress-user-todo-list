@@ -705,5 +705,45 @@ New UI
 
 
 /*========================
+widget 
 =========================*/
+.widget-bptodo-list-row ul{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
 
+.widget-bptodo-list-row ul li{
+  border-bottom: 1px #e3e3e3 solid;
+  margin: 0 0 10px;
+  padding:0 0 10px; 
+}
+
+.widget-bptodo-list-row ul li:last-child{
+  margin-bottom: 0;
+  padding-bottom: 0px;
+  border-bottom: 0px;
+}
+
+.widget-bptodo-list-meta{
+  display: flex;
+  align-items: center;
+  margin:5px 0 0;
+  padding:0px;
+}
+
+.widget-bptodo-list-meta span{
+  margin-right: 10px;
+  font-size: 13px;
+}
+.widget-bptodo-list-meta span.bptodo-list-priority{
+    background: #25a715;
+    border-radius: 100px;
+    padding: 3px 10px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #fff;
+} 
+.widget-bptodo-list-meta span.post-date{
+  opacity: 0.8;
+}
