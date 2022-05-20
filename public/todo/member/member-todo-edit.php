@@ -48,7 +48,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 								if ( $todo_cat_id === $todo_cat->term_id ) {
 									echo 'selected="selected"';}
 								?>
-value="<?php echo esc_html( $todo_cat->name ); ?>">
+								value="<?php echo esc_html( $todo_cat->name ); ?>">
 								<?php echo esc_html( $todo_cat->name ); ?>
 						</option>
 						<?php } ?>
