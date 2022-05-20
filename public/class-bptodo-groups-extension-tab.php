@@ -6,7 +6,7 @@
  * @package bp-user-todo-list
  */
 
-if ( bp_is_active( 'groups' ) ) :
+if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 	class Group_Extension_Todo extends BP_Group_Extension {
 		/**
 		 * Your __construct() method will contain configuration options for

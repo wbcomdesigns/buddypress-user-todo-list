@@ -97,7 +97,10 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			?>
 		<li>
 			<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
-				<?php if ( $show_date ) : ?>
+				<?php
+					$show_date = '';
+				if ( $show_date ) :
+					?>
 			<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
 			<?php endif; ?>
 		</li>

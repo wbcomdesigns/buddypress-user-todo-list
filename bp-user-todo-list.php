@@ -71,27 +71,12 @@ add_action( 'bp_loaded', 'run_wp_bptodo_list' );
  */
 function run_wp_bptodo_list() {
 	$include_files = array(
-		'inc/class-bptodo-profile-menu.php',
-		'inc/class-bptodo-groups-extension-tab.php',
-		'inc/class-bptodo-scripts.php',
-		'inc/class-bptodo-ajax.php',
-		'inc/class-bptodo-cpt.php',
-		'inc/class-bptodo-globals.php',
-		'inc/class-bptodo-hooks.php',
-		'inc/bptodo-plugin-genral-function.php',
-		'admin/wbcom/wbcom-admin-settings.php',
-		'admin/class-bptodo-admin.php',
-		'admin/class-bptodo-feedback.php',
-		'inc/widget/class-user-todo.php',
+		'public/class-bptodo-groups-extension-tab.php',
 	);
 	foreach ( $include_files  as $include_file ) {
 		include $include_file;
 	}
 
-	// Initialize admin class.
-	new Bptodo_Admin();
-
-	// Initialize globals class.
 	global $bptodo;
 	$bptodo = new Bptodo_Globals();
 }
@@ -247,3 +232,11 @@ function bptodo_activation_redirect_settings( $plugin ) {
 		exit;
 	}
 }
+
+function bptodo_run() {
+	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo.php';
+	$plugin = new Bptodo_List();
+	$plugin->run();
+
+}
+bptodo_run();

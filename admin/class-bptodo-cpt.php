@@ -28,8 +28,6 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 * @access  public
 		 */
 		public function __construct() {
-			add_action( 'init', array( $this, 'bptodo_create_cpt' ) );
-			add_action( 'init', array( $this, 'bptodo_create_cpt_category' ) );
 		}
 
 		/**

@@ -170,7 +170,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @access   private
 		 * @author   Wbcom Designs
 		 */
-		private function bptodo_count_my_todo_items() {
+		public function bptodo_count_my_todo_items() {
 			$args  = array(
 				'post_type'      => 'bp-todo',
 				'author'         => get_current_user_id(),
