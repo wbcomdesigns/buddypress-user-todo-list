@@ -205,13 +205,13 @@ if ( empty( $todos ) ) {
 									<div class="todo-detail">
 										<div class="bp-todo-reminder">
 											<div class="todo-header">
-												<ul class="todo-header-head">	
-													<li class="to-do-check"><?php esc_html_e( 'Check', 'wb-todo' ); ?></li>
-													<li class="to-do-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
-													<li class="to-do-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
-													<li class="to-do-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-													<li class="to-do-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
-													<li class="to-do-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
+												<ul class="todo-header-head">
+													<li class="bptodo-check"></li>
+													<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+													<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
+													<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
+													<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+													<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
 												</ul>
 											</div>
 											<div class="todo-header-list">
@@ -272,11 +272,16 @@ if ( empty( $todos ) ) {
 
 														?>
 												<ul id="as bptodo-row-<?php echo esc_attr( $tid ); ?>"  class="todo-header-list-row">
+													<li class="bptodo-check">
+														<label>
+															<input type="checkbox" class="option-input checkbox" />
+														</label>
+													</li>	
 													<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 													<li class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
 													<li class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : esc_attr( $due_date_td_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_html( $due_date_str ); ?></li>
 													<li class="bp-to-do-actions">
-														<ul>
+														<ul class="bp-to-do-actions-list">
 															<?php if ( $can_modify ) { ?>
 																<?php /* Translators: Display the todo title name */ ?>
 															<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>"    title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"
@@ -366,12 +371,17 @@ if ( empty( $todos ) ) {
 														}
 														?>
 												<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>"  class="todo-header-list-row">
+													<li class="bptodo-check">
+														<label>
+															<input type="checkbox" class="option-input checkbox" />
+														</label>
+													</li>	
 													<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 													<li class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
 													<li class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : esc_attr( $due_date_td_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_html( $due_date_str ); ?></li>
 
 													<li class="bp-to-do-actions">
-														<ul>
+														<ul class="bp-to-do-actions-list">
 															<?php if ( $can_modify ) { ?>
 																<?php /* Translators: Display todo title name  */ ?>
 															<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
@@ -460,6 +470,11 @@ if ( empty( $todos ) ) {
 														}
 														?>
 												<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>"  class="todo-header-list-row">
+													<li class="bptodo-check">
+														<label>
+															<input type="checkbox" class="option-input checkbox" />
+														</label>
+													</li>	
 													<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 													<li class="<?php
 														if ( 'complete' === $todo_status ) {
@@ -478,7 +493,7 @@ if ( empty( $todos ) ) {
 													"><?php echo esc_html( $due_date_str ); ?>
 													</li>
 													<li class="bp-to-do-actions">
-														<ul>
+														<ul class="bp-to-do-actions-list">
 															<?php if ( $can_modify ) { ?>
 																<?php /* Translators: Display todo title name  */ ?>
 															<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s ', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
@@ -566,24 +581,30 @@ if ( empty( $todos ) ) {
 														}
 														?>
 												<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+													<li class="bptodo-check">
+														<label>
+															<input type="checkbox" class="option-input checkbox" />
+														</label>
+													</li>	
 													<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-													<li class="
+													<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
+													<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
+													<li class="bptodo-task
 														<?php
 														if ( 'complete' === $todo_status ) {
 															echo esc_attr( $class );
 														}
 														?>
 														"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
-													<li class="
-														<?php
-														echo esc_attr( $due_date_td_class );
-														if ( 'complete' === $todo_status ) {
-															echo esc_attr( $class );
-														}
+													<!-- <li class="
+														<?php	echo esc_attr( $due_date_td_class );
+															//if ( 'complete' === $todo_status ) {
+															//echo esc_attr( $class );
+														//	}
 														?>
-													"><?php echo esc_html( $due_date_str ); ?></li>
+													"><?php // echo esc_html( $due_date_str ); ?></li> -->
 													<li class="bp-to-do-actions">
-														<ul>
+														<ul class="bp-to-do-actions-list">
 														<?php if ( $can_modify ) { ?>
 															<?php /* Translators: Display todo title name  */ ?>
 															<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
@@ -632,10 +653,13 @@ if ( empty( $todos ) ) {
 											<div class="todo-detail">
 												<div class="bp-todo-reminder">
 													<div class="todo-header">
-														<ul class="">
-															<li><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
-															<li><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
-															<li><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
+														<ul class="todo-header-head">
+															<li class="bptodo-check"></li>
+															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
+															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
+															<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
 														</ul>
 													</div>
 													<div class="todo-header-list">
@@ -692,15 +716,22 @@ if ( empty( $todos ) ) {
 
 																?>
 															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+																<li class="bptodo-check">
+																	<label>
+																		<input type="checkbox" class="option-input checkbox" />
+																	</label>
+																</li>	
 																<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-																<li class="
+																<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
+																<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
+																<li class="bptodo-task
 																<?php
 																if ( 'complete' === $todo_status ) {
 																	echo esc_attr( $class );}
 																?>
 																	"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
 																<li class="bp-to-do-actions">
-																	<ul>
+																	<ul class="bp-to-do-actions-list">
 																			<?php if ( $can_modify ) { ?>
 																				<?php /* Translators: Display todo title name  */ ?>
 																		<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a>
