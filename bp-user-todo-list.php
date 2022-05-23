@@ -132,6 +132,36 @@ function bptodo_plugin_init() {
 }
 
 /**
+ * Screen function for todo list title.
+ *
+ * @author  wbcomdesigns
+ * @since   1.0.0
+ * @access  public
+ */
+function list_todo_tab_function_to_show_title() {
+	global $bptodo;
+	$profile_menu_label = $bptodo->profile_menu_label;
+	echo '<h4>';
+	/* Translators: Display plural label name */
+	echo sprintf( esc_html__( '%1$s List', 'wb-todo' ), esc_html( $profile_menu_label ) );
+	$args  = array(
+		'post_type'      => 'bp-todo',
+		'author'         => bp_displayed_user_id(),
+		'post_staus'     => 'publish',
+		'posts_per_page' => -1,
+	);
+	$todos = get_posts( $args );
+	if ( 0 !== count( $todos ) ) {
+		?>
+			<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
+			<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
+			<a href="javascript:void(0);" id="export_my_tasks"><i class="fa fa-download" aria-hidden="true"></i></a>
+		<?php
+	}
+	echo '</h4>';
+}
+
+/**
  * Function to remove bptodo plugin if already exist.
  *
  * @since 1.0.0

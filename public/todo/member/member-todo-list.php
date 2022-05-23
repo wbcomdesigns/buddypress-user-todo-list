@@ -128,6 +128,7 @@ if ( empty( $todos ) ) {
 									<a href="#bptodo-completed"><i class="fa fa-check"></i><?php esc_html_e( 'Completed', 'wb-todo' ); ?><span class="bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span></a>
 								</li>
 							</ul>
+							<?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?>
 							<div id="bptodo-all">
 								<div class="bptodo-admin-row">
 									
