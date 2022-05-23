@@ -186,7 +186,7 @@ if ( empty( $todos ) ) {
 																		$day_string = __( 'days', 'wb-todo' );
 																	}
 																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	// $all_remaining_todo++;
 																}
 																if ( 'complete' === $todo_status ) {
@@ -285,7 +285,7 @@ if ( empty( $todos ) ) {
 																		$day_string = __( 'days', 'wb-todo' );
 																	}
 																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
 																if ( 'complete' === $todo_status ) {
@@ -386,7 +386,7 @@ if ( empty( $todos ) ) {
 																		$day_string = __( 'days', 'wb-todo' );
 																	}
 																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
 
@@ -488,7 +488,7 @@ if ( empty( $todos ) ) {
 																		$day_string = __( 'days', 'wb-todo' );
 																	}
 																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
 																if ( 'complete' === $todo_status ) {
@@ -600,7 +600,7 @@ if ( empty( $todos ) ) {
 																		$day_string = __( 'days', 'wb-todo' );
 																	}
 																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left to complete the task!', 'wb-todo' ), abs( $diff_days ), $day_string );
+																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
 																if ( 'complete' === $todo_status ) {
