@@ -89,6 +89,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			<?php foreach ( $r->posts as $recent_todo ) : ?>
 				<?php
 				$post_title   = get_the_title( $recent_todo->ID );
+				$todo_priority = get_post_meta( $recent_todo->ID, 'todo_priority', true );
 				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
 				$aria_current = '';
 
@@ -100,11 +101,11 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
 				<?php
 					$show_date = '';
-					if ( $show_date ) :
-				?>
+				if ( $show_date ) :
+					?>
 				<?php endif; ?>
 				<div class="widget-bptodo-list-meta">
-					<span class="bptodo-list-priority"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></span>
+					<span class="bptodo-list-priority"><?php echo esc_html_e( $todo_priority, 'wb-todo' ); ?></span>
 					<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
 				</div>
 			</li>
