@@ -23,7 +23,12 @@ get_header(); ?>
 			?>
 	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+			<?php
+				the_title( '<h1 class="entry-title">', '</h1>' );
+				$todo_priority = get_post_meta( $post->ID, 'todo_priority', true );
+				echo esc_html( $todo_priority );
+				echo get_the_date( '' ,$post->ID );
+			?>
 	</header><!-- .entry-header -->
 	<div class="entry-content">
 				<?php the_content(); ?>
