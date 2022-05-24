@@ -14,11 +14,9 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
-if ( isset( $_GET['args'] ) ) {
-	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
-}
-
-
+// if ( isset( $_GET['args'] ) ) {
+	// $todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
+// }
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 $todo      = get_post( $todo_id );
 
@@ -30,7 +28,8 @@ if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
 $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 ?>
-<form action="" method="post">
+<input type="button" id="bptodo_close" value="close">
+<form action="" method="post" id="bptodo_edit_form_popup">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
@@ -124,7 +123,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<?php /* Translators: Display plural label name  */ ?>
-					<input type="submit" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>">
+					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" name="todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>">
 				</td>
 			</tr>
 			<?php

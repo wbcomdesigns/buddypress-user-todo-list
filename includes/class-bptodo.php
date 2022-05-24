@@ -240,6 +240,12 @@ class Bptodo_List {
 		// Shortcode name must be the same as in shortcode_atts() third parameter.
 		$this->loader->add_shortcode( $this->get_plugin_prefix() . 'shortcode', $plugin_public, 'pfx_shortcode_func' );
 
+		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );
+
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );
+		
+		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
+
 	}
 
 	/**

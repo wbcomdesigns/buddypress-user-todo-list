@@ -1,5 +1,46 @@
 jQuery(document).ready(function () {
+  jQuery(document).on('click','.fa-edit',function(){
+    var tid=jQuery(this).parent().data('tid');
+    jQuery.ajax({
+      url:ajaxurl,
+      type:'post',
+      data:{
+      action:'bptodo_edit_form_popup',
+      t_id:tid,
+      },
+    success:function(response) {
+      jQuery('.bptodo_edit_form_popup_class').removeClass('modal-closed');
+      jQuery('.bptodo_edit_form_popup_class').addClass('modal-open');
+      jQuery('.bptodo_edit_form_popup_class').html(response);
+      jQuery('#bptodo_close').on('click', function(){
+        jQuery('.bptodo_edit_form_popup_class').addClass('modal-closed');
+        jQuery('.bptodo_edit_form_popup_class').removeClass('modal-open');
+        jQuery('.modal-open').css('display','none');
+      });      
+      }
+    });
+  });
 
+  jQuery('.bptodo_edit_form_popup_class').on('click','#todo_update', function (e){
+    e.preventDefault();
+    jQuery('#bptodo_edit_form_popup').trigger('submit');
+  });
+  jQuery(document).on('submit', '#bptodo_edit_form_popup', function(e){
+    e.preventDefault();
+    let editFormValue = jQuery('#bptodo_edit_form_popup').serializeArray();
+    jQuery.ajax({
+      url:ajaxurl,
+      type:'post',      
+      data:{
+      action:'bptodo_update_form_popup',
+      update_form_data:editFormValue,
+      },
+      success:function(response){
+        location.reload();
+      }
+    });
+  });
+  
   jQuery("#bptodo-tabs").tabs({
     heightStyle: "content"
   });

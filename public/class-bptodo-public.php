@@ -918,6 +918,60 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				die;
 			}
 		}
+
+		/**
+		 * Bptodo_edit_form_popup
+		 *
+		 * @return void
+		 */
+		public function bptodo_edit_form_popup() {
+			$todo_id = isset( $_POST['t_id'] ) ? $_POST['t_id'] : '';
+			ob_start();
+			include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
+			$todo_edit = ob_get_clean();
+			echo $todo_edit;
+			exit();
+		}
+
+		/**
+		 * Bptodo_add_div_edit_form
+		 *
+		 * @return void
+		 */
+		public function bptodo_add_div_edit_form() {
+			echo '<div class="bptodo_edit_form_popup_class modal-closed"></div>';
+		}
+
+		public function bptodo_update_form_popup() {
+			$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data'] : '';
+			if ( is_array( $update_form_data ) ) {
+				$update_data = array();
+				foreach ( $update_form_data as $key => $value ) {
+					$update_data[ $value['name'] ] = $value['value'];
+				}
+				$cat      = sanitize_text_field( $update_data['todo_cat'] );
+				$title    = sanitize_text_field( $update_data['todo_title'] );
+				$summary  = wp_kses_post( $update_data['bptodo-summary-input'] );
+				$due_date = sanitize_text_field( $update_data['todo_due_date'] );
+				$priority = sanitize_text_field( $update_data['todo_priority'] );
+				$todo_id  = sanitize_text_field( $update_data['hidden_todo_id'] );
+				$taxonomy     = 'todo_category';
+					$args         = array(
+						'ID'           => $todo_id,
+						'post_type'    => 'bp-todo',
+						'post_status'  => 'publish',
+						'post_title'   => $title,
+						'post_content' => $summary,
+						'post_author'  => get_current_user_id(),
+					);
+					$todo_post_id = wp_update_post( $args );
+					update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
+					update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
+					update_post_meta( $todo_post_id, 'todo_priority', $priority );
+					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
+			}
+			exit();
+		}
 	}
 	new Bptodo_Public();
 }
