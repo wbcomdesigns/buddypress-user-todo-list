@@ -89,7 +89,7 @@ loadOnReady();
 
   //Export My Tasks
   jQuery(document).on('click', '#export_my_tasks', function () {
-    jQuery('#export_my_tasks').html('<i class="fa fa-refresh fa-spin"></i> Export');
+    jQuery('#export_my_tasks').html('<div class="reload-spin"></div> Export');
     var security_nonce = jQuery('#bptodo-export-todo-nonce').val();
     jQuery.post(
       ajaxurl, {
@@ -97,7 +97,7 @@ loadOnReady();
       'security_nonce': security_nonce
     },
       function (response) {
-        jQuery('#export_my_tasks').html('<i class="fa fa-download" aria-hidden="true"></i> Export');
+        jQuery('#export_my_tasks').html('<div class="export-download"></div> Export');
         tasks = response;
         JSONToCSVConvertor(tasks, todo_ajax_object.export_file_heading, true);
       },

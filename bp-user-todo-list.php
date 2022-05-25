@@ -143,7 +143,6 @@ function list_todo_tab_function_to_show_title() {
 	$profile_menu_label = $bptodo->profile_menu_label;
 	echo '<a href="javascript:void(0);" id="export_my_tasks">';
 	/* Translators: Display plural label name */
-	echo sprintf( esc_html__( '%1$s List', 'wb-todo' ), esc_html( $profile_menu_label ) );
 	$args  = array(
 		'post_type'      => 'bp-todo',
 		'author'         => bp_displayed_user_id(),
@@ -155,7 +154,8 @@ function list_todo_tab_function_to_show_title() {
 		?>
 			<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
 			<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-			<i class="fa fa-download" aria-hidden="true"></i>
+			<div class="export-download"></div>
+			<?php echo esc_html__( 'Export', 'wb-todo' ) ;?>
 		<?php
 	}
 	echo '</a>';

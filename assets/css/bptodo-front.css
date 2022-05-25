@@ -31,15 +31,6 @@
   width: 100%;
 }
 
-#export_my_tasks {
-  color: #000 !important;
-  margin-left: 15px;
-}
-
-button.bptodo-item:focus {
-  background-color: #eee;
-  outline: none;
-}
 
 button.bptodo-item {
   background-color: #eee;
@@ -223,6 +214,11 @@ textarea {
 }
 
 /*** 26/12/2017 ***/
+
+#bptodo-todos{
+  margin: 0px;
+  padding: 0;
+}
 #bptodo-tabs {
   background: #fff;
   margin-top: 20px;
@@ -272,7 +268,7 @@ textarea {
   border: 0;
   border-radius: 0;
   border-bottom: 0px solid #ccc;
-  margin: 0 0 20px;
+  margin: 0;
   padding: 0;
 }
 
@@ -309,11 +305,6 @@ textarea {
   margin-right: 8px;
 }
 
-#bptodo-tabs.ui-tabs .ui-tabs-nav li a#export_my_tasks{
-  background: none;
-  margin: 0px;
-  padding: 0;
-}
 
 .bp-todo-dashboard-at-a-glance-box h4 {
   font-size: 30px;
@@ -327,13 +318,9 @@ textarea {
 }
 
 .bptodo-color {
-  height: 20px !important;
+  height: 18px !important;
   width: 25%;
-  background: #00e61b;
-  background: -moz-linear-gradient(top,  #00e61b 0%, #009912 100%);
-  background: -webkit-linear-gradient(top,  #00e61b 0%,#009912 100%); 
-  background: linear-gradient(to bottom,  #00e61b 0%,#009912 100%); 
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e61b', endColorstr='#009912',GradientType=0 ); 
+  background: #06bd1c;
   border-radius: 100px !important;
 }
 
@@ -394,6 +381,14 @@ textarea {
   border-color: #616161 transparent transparent transparent;
 }
 
+#bptodo-task-tabs .bptodo-task-tabs-head{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 20px;
+}
+
 #bptodo-task-tabs.ui-tabs {
   border: 0;
   background: 0;
@@ -421,7 +416,7 @@ textarea {
   margin-right: 10px;
 }
 
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.all-bp-todo-list-export{
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export{
   float:right;
   background: #5e6c85;
   border-radius: 100px;
@@ -430,15 +425,33 @@ textarea {
   justify-content: center;
   padding: 10px 20px;
 }
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.all-bp-todo-list-export span{
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export a#export_my_tasks{
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
   color: #fff;
+  font-size: 14px;
 }
 
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .export-download,
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin{
+    width: 20px;
+    height: 20px;
+    margin-right:8px;
+    background: url(images/export.svg) no-repeat center center;
+    background-size: cover;
+}
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin{
+    background: url(images/loading-white.svg) no-repeat center center;
+    animation-name: reload;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+}
 
-
+@keyframes reload {
+  from { transform: rotate(359deg); }
+  to { transform: rotate(0deg); }
+}
 
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
   border: 0px solid #3a9dfb;

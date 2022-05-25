@@ -117,20 +117,21 @@ if ( empty( $todos ) ) {
 
 					<div id="bptodo-todos">
 						<div id="bptodo-task-tabs">
-							<ul class="bptodo-task-tabs-btn">
-								<li class="all-bp-todo-list-tab">
-									<a href="#bptodo-all">
-									<img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/all-list.svg" />   
-									<?php /* Translators: Display plural label name  */ ?>
-									<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-									<span class="bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span></a>
-								</li>
-								<li class="all-bp-todo-list-tab-completed">
-									<a href="#bptodo-completed"><img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/check-complete.svg" />	<?php esc_html_e( 'Completed', 'wb-todo' ); ?><span class="bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span></a>
-								</li>
-								<li class="all-bp-todo-list-export"><?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?></li>
-							</ul>
-							
+							<div class="bptodo-task-tabs-head">
+								<ul class="bptodo-task-tabs-btn">
+									<li class="all-bp-todo-list-tab">
+										<a href="#bptodo-all">
+										<img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/all-list.svg" />   
+										<?php /* Translators: Display plural label name  */ ?>
+										<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+										<span class="bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span></a>
+									</li>
+									<li class="all-bp-todo-list-tab-completed">
+										<a href="#bptodo-completed"><img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/check-complete.svg" />	<?php esc_html_e( 'Completed', 'wb-todo' ); ?><span class="bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span></a>
+									</li>
+								</ul>
+								<div class="all-bp-todo-list-export"><?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?></div>
+							</div>
 							<div id="bptodo-all">
 								<div class="bptodo-admin-row">
 									
@@ -212,11 +213,11 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php if ( 'complete' !== $todo_status ) { ?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" />																
+															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<label><input type="checkbox" class="option-input checkbox" /></label>																
 															</li>
 															<?php } else {?>	
-																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 																<input type="checkbox" class="option-input checkbox" checked />																
 															</li>
 															<?php } ?>
@@ -313,11 +314,11 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php if ( 'complete' !== $todo_status ) { ?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" />																
+															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<label><input type="checkbox" class="option-input checkbox" /></label>																
 															</li>
 															<?php } else {?>	
-																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 																<input type="checkbox" class="option-input checkbox" checked />																
 															</li>
 															<?php } ?>
@@ -419,11 +420,11 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php if ( 'complete' !== $todo_status ) { ?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" />																
+															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<label><input type="checkbox" class="option-input checkbox" /></label>																
 															</li>
 															<?php } else {?>	
-																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 																<input type="checkbox" class="option-input checkbox" checked />																
 															</li>
 															<?php } ?>	
@@ -518,14 +519,14 @@ if ( empty( $todos ) ) {
 																	}
 																}
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row ">
 														<?php if ( 'complete' !== $todo_status ) { ?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" />																
+															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<label><input type="checkbox" class="option-input checkbox" /></label>																
 															</li>
 															<?php } else {?>	
-																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" checked />																
+																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																	<label><input type="checkbox" class="option-input checkbox" checked /></label>															
 															</li>
 															<?php } ?>	
 															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
@@ -634,11 +635,11 @@ if ( empty( $todos ) ) {
 																?>
 															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 															<?php if ( 'complete' !== $todo_status ) { ?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-																<input type="checkbox" class="option-input checkbox" />																
+															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<label><input type="checkbox" class="option-input checkbox" /></label>															
 															</li>
 															<?php } else {?>	
-																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
+																<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 																<input type="checkbox" class="option-input checkbox" checked />																
 															</li>
 															<?php } ?>	
