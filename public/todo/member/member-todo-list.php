@@ -118,17 +118,19 @@ if ( empty( $todos ) ) {
 					<div id="bptodo-todos">
 						<div id="bptodo-task-tabs">
 							<ul class="bptodo-task-tabs-btn">
-								<li>
-									<a href="#bptodo-all"><i class="fa fa-list" aria-hidden="true"></i>
+								<li class="all-bp-todo-list-tab">
+									<a href="#bptodo-all">
+									<img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/all-list.svg" />   
 									<?php /* Translators: Display plural label name  */ ?>
 									<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
 									<span class="bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span></a>
 								</li>
-								<li>
-									<a href="#bptodo-completed"><i class="fa fa-check"></i><?php esc_html_e( 'Completed', 'wb-todo' ); ?><span class="bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span></a>
+								<li class="all-bp-todo-list-tab-completed">
+									<a href="#bptodo-completed"><img src="<?php echo BPTODO_PLUGIN_URL ?>assets/css/images/check-complete.svg" />	<?php esc_html_e( 'Completed', 'wb-todo' ); ?><span class="bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span></a>
 								</li>
+								<li class="all-bp-todo-list-export"><?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?></li>
 							</ul>
-							<?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?>
+							
 							<div id="bptodo-all">
 								<div class="bptodo-admin-row">
 									
@@ -219,7 +221,7 @@ if ( empty( $todos ) ) {
 															</li>
 															<?php } ?>
 															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li class="<?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $due_date_str ); ?></li>
+															<li class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $due_date_str ); ?></li>
 															<li class="bptodo-cat">
 																<?php
 																foreach ( $todo_cats as $todo_cat ) {

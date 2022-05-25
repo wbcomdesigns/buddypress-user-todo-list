@@ -298,6 +298,21 @@ textarea {
   font-size: 14px;
   color: #399dff;
   border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#bptodo-tabs.ui-tabs .ui-tabs-nav li img{
+  width: 20px;
+  height: auto;
+  margin-right: 8px;
+}
+
+#bptodo-tabs.ui-tabs .ui-tabs-nav li a#export_my_tasks{
+  background: none;
+  margin: 0px;
+  padding: 0;
 }
 
 .bp-todo-dashboard-at-a-glance-box h4 {
@@ -406,6 +421,25 @@ textarea {
   margin-right: 10px;
 }
 
+#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.all-bp-todo-list-export{
+  float:right;
+  background: #5e6c85;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+}
+#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.all-bp-todo-list-export span{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  color: #fff;
+}
+
+
+
+
 #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
   border: 0px solid #3a9dfb;
   border-radius: 100px;
@@ -434,7 +468,9 @@ textarea {
 .bp_all_todo_count,
 .bp_completed_todo_count,
 #bptodo-task-tabs .ui-tabs-nav li a span {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #ffffff;
   color: #0285ff;
   line-height: 17px;
@@ -449,10 +485,8 @@ textarea {
 
 #bptodo-task-tabs .ui-tabs-nav li a span {
   position: relative;
-  width: auto;
-  height: auto;
-  top: 0;
-  bottom: 0;
+  min-width: 18px;
+  min-height: 18px;
 }
 
 /*** To-do Priority css ***/
