@@ -41,12 +41,15 @@ jQuery(document).ready(function () {
     });
   });
   
+  function loadOnReady(){
   jQuery("#bptodo-tabs").tabs({
     heightStyle: "content"
   });
   jQuery("#bptodo-task-tabs").tabs({
     heightStyle: "content"
   });
+}
+loadOnReady();
 
   var acc = document.getElementsByClassName("bptodo-item");
   var i;
@@ -192,12 +195,24 @@ jQuery(document).ready(function () {
           jQuery('#bptodo-completed tbody').append(response.completed_html);
           jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
           jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
-          clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
-          location.reload();
+          clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')          
+          bptodo_reload_url();
         }
       }
     );
   });
+
+  function bptodo_reload_url(){
+    jQuery.ajax({
+      url:todo_ajax_object.bptodo_complete_url,
+      success: function (data){
+        let tabledata = jQuery(data).find('.bptodo-adming-setting')[0].innerHTML;
+        jQuery('.bptodo-adming-setting').html(tabledata);
+        loadOnReady();
+        jQuery('#bptodo-completed').css('display','none');                                
+      }
+    })
+  }
 
   //Undo complete a todo
   jQuery(document).on('click', '.bptodo-undo-complete-todo', function (event) {
@@ -212,7 +227,7 @@ jQuery(document).ready(function () {
     },
       function (response) {
         if (response == 'todo-undo-completed') {
-          location.reload();
+          bptodo_reload_url();
         }
       }
     );

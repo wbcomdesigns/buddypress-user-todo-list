@@ -110,6 +110,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
 						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
+						'bptodo_complete_url' => bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list',
 					)
 				);
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
