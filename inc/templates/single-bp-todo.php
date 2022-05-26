@@ -27,9 +27,23 @@ get_header(); ?>
 			<div class="bptodo-list-single">
 				<header class="entry-header">
 					<?php the_title( '<h1 class="entry-title">', '</h1>' );?>
-					<?php $todo_priority = get_post_meta( $post->ID, 'todo_priority', true );?>
+					<?php 
+					$todo_priority = get_post_meta( $post->ID, 'todo_priority', true );
+					if ( ! empty( $todo_priority ) ) {
+						if ( 'critical' === $todo_priority ) {
+							$priority_class = 'bptodo-priority-critical';
+							$priority_text  = esc_html__( 'Critical', 'wb-todo' );
+						} elseif ( 'high' === $todo_priority ) {
+							$priority_class = 'bptodo-priority-high';
+							$priority_text  = esc_html__( 'High', 'wb-todo' );
+						} else {
+							$priority_class = 'bptodo-priority-normal';
+							$priority_text  = esc_html__( 'Normal', 'wb-todo' );
+						}
+					}
+					?>
 					<div class="signle-bptodo-meta">
-						<div class="single-todo-priority"><?php echo esc_html( $todo_priority );?></div>
+						<div class="single-todo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></div>
 						<div class="single-todo-date"><?php echo get_the_date( '' ,$post->ID );?></div>
 						<div class="single-todo-cat">Category</div>
 					</div>
