@@ -178,7 +178,7 @@ if ( empty( $todos ) ) {
 																}
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
@@ -278,7 +278,7 @@ if ( empty( $todos ) ) {
 																}
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
@@ -380,7 +380,7 @@ if ( empty( $todos ) ) {
 																}
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
@@ -483,7 +483,7 @@ if ( empty( $todos ) ) {
 																}
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
@@ -596,7 +596,7 @@ if ( empty( $todos ) ) {
 																$diff_days     = $diff->format( '%R%a' );
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
