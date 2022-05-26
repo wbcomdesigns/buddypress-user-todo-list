@@ -24,8 +24,7 @@ get_header(); ?>
 
 
 		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-			<div class="bptodo-list-single">
-				<header class="entry-header">
+			<div class="bptodo-list-single">			
 				<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 				<?php
 				$todo_priority = get_post_meta( $post->ID, 'todo_priority', true );
@@ -61,7 +60,6 @@ get_header(); ?>
 					?>
 						</div>
 					</div>
-				</header><!-- .entry-header -->
 				<div class="entry-content">
 					<?php the_content(); ?>
 					<?php

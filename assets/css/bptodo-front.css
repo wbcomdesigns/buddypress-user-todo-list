@@ -722,8 +722,8 @@ New UI
 }
 
 .bp-to-do-actions .bp-to-do-actions-list img{
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: auto;
 }
 
 .option-input {
@@ -936,6 +936,7 @@ Edit popup
   background-color: transparent;
   font-size: 1.5rem;
   transition: 0.25s linear;
+  cursor: pointer;
 }
 .bptodo-modal.modal .content-wrapper .close:before, 
 .bptodo-modal.modal .content-wrapper .close:after {
@@ -945,18 +946,58 @@ Edit popup
   height: 0.125rem;
   background-color: #000;
 }
-.bptodo-modal.modal .content-wrapper .close:before {
-  transform: rotate(-45deg);
-}
-.bptodo-modal.modal .content-wrapper .close:after {
-  transform: rotate(45deg);
-}
-.bptodo-modal.modal .content-wrapper .close:hover {
-  transform: rotate(360deg);
-}
+
 .bptodo-modal.modal .content-wrapper .close:hover:before, 
 .bptodo-modal .content-wrapper .close:hover:after {
   background-color: #e12807;
 }
 
 
+
+@media only screen and (max-width: 543px) {
+
+  .todo-header{
+    display: none;
+  }
+  #buddypress .todo-header-list .todo-header-list-row,
+  .todo-header-list .todo-header-list-row{
+    flex-wrap: wrap;
+    padding: 60px 15px 15px 15px;
+    position: relative;
+    border: 1px #e6e2f3 solid;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+
+  .todo-header-list-row .bptodo-priority{
+    position: absolute;
+    top: 0;
+  }
+  .todo-header-list-row .bp-to-do-actions{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 150px;
+  }
+
+  .todo-header-list-row .bptodo-check{
+    width: 50px;
+  }
+
+  .todo-header-list-row .bptodo-task {
+    width: calc(100% - 50px);
+    order: 3;
+    padding-left: 0;
+  }
+  .todo-header-list-row .bptodo-date{
+    width: 100%;
+    order: 5;
+  }
+  .todo-header-list-row .bptodo-cat{
+    width: 100%;
+    order: 6;
+  }
+
+
+
+}
