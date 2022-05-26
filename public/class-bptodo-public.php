@@ -939,8 +939,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @return void
 		 */
 		public function bptodo_add_div_edit_form() {
-			echo '<div class="bptodo_edit_form_popup_class modal-closed"></div>';
-		}
+            echo '<div class="bptodo-modal modal" data-modal="trigger">
+                    <div class="content-wrapper bptodo_edit_form_popup">
+                    <button class="close"></button>
+						form
+                        </div>
+                    </div>';
+        }
 
 		public function bptodo_update_form_popup() {
 			$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data'] : '';

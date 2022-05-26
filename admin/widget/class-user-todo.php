@@ -118,7 +118,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 					?>
 				<?php endif; ?>
 				<div class="widget-bptodo-list-meta">
-					<span class="bptodo-list-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></span>
+					<div class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></div>
 					<span class="post-date"><?php echo esc_html( $todo_due_date ); ?></span>
 				</div>
 			</li>

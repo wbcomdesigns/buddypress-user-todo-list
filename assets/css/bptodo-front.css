@@ -315,14 +315,30 @@ textarea {
   background-color: #fff;
   position: relative;
   border-radius: 100px !important;
+  overflow: hidden;
 }
 
 .bptodo-color {
   height: 18px !important;
   width: 25%;
-  background: #06bd1c;
   border-radius: 100px !important;
+  position: relative;
 }
+
+.bptodo-color:before {
+  content: '';
+  background-color: #06bd1c;
+  /* animation: 1s ease-in-out;
+  animation-fill-mode: both; */
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+
 
 .bptodo-progress-section {
   padding: 20px;
@@ -340,6 +356,7 @@ textarea {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 1;
 }
 
 .bptodo-progress-section .task-progress-task-count-wrap {
@@ -693,6 +710,21 @@ New UI
   background: #f7faff;
 }
 
+.bp-to-do-actions .bp-to-do-actions-list button.trigger{
+  border: none;
+  background: none;
+  padding: 0px;
+  color: #000;;
+}
+
+.bp-to-do-actions .bp-to-do-actions-list button.trigger:hover{
+  background: none;
+}
+
+.bp-to-do-actions .bp-to-do-actions-list img{
+  width: 20px;
+  height: 20px;
+}
 
 .option-input {
   -webkit-appearance: none;
@@ -779,25 +811,19 @@ widget
   padding:0px;
 }
 
-.widget-bptodo-list-meta span{
+.widget-bptodo-list-meta .bptodo-priority{
   margin-right: 10px;
-  font-size: 13px;
+
 }
-.widget-bptodo-list-meta span.bptodo-list-priority{
-    background: #25a715;
-    border-radius: 100px;
-    padding: 3px 10px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #fff;
-    text-transform: capitalize;
+.widget-bptodo-list-meta .bptodo-priority{
     min-width: 100px;
-    text-align: center;
+
 } 
 .widget-bptodo-list-meta span.post-date{
   opacity: 0.8;
+  font-size: 13px;
 }
-.modal-closed{
+/* .modal-closed{
   opacity: 0;
   z-index: -999;
 }
@@ -809,7 +835,7 @@ widget
     background: white;
     left: 36%;
     padding: 50px;
-}
+} */
 
 /*==================
 Single To DO 
@@ -852,3 +878,85 @@ Single To DO
   left: -50%;
   top: 10px;
 }
+
+
+/*========================
+Edit popup
+========================*/
+.bptodo-modal.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 0vh;
+  background-color: transparent;
+  overflow: hidden;
+  transition: background-color 0.25s ease;
+  z-index: 9999;
+}
+
+.bptodo-modal.modal.open {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: background-color 0.25s;
+}
+.bptodo-modal.modal.open > .content-wrapper {
+  transform: scale(1);
+}
+.bptodo-modal.modal .content-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+  margin: 0;
+  padding: 2.5rem;
+  background-color: #fff;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.12);
+  transform: scale(0);
+  transition: transform 0.25s;
+  transition-delay: 0.15s;
+}
+.bptodo-modal .content-wrapper .close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background-color: transparent;
+  font-size: 1.5rem;
+  transition: 0.25s linear;
+}
+.bptodo-modal.modal .content-wrapper .close:before, 
+.bptodo-modal.modal .content-wrapper .close:after {
+  position: absolute;
+  content: "";
+  width: 1.25rem;
+  height: 0.125rem;
+  background-color: #000;
+}
+.bptodo-modal.modal .content-wrapper .close:before {
+  transform: rotate(-45deg);
+}
+.bptodo-modal.modal .content-wrapper .close:after {
+  transform: rotate(45deg);
+}
+.bptodo-modal.modal .content-wrapper .close:hover {
+  transform: rotate(360deg);
+}
+.bptodo-modal.modal .content-wrapper .close:hover:before, 
+.bptodo-modal .content-wrapper .close:hover:after {
+  background-color: #e12807;
+}
+
+

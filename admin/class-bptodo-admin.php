@@ -97,7 +97,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 				}
 
-				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION );
+				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
 
 				wp_localize_script(
 					'bptodo-js-front',
@@ -116,6 +116,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
 			}
 			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );
+			wp_enqueue_script( 'bptodo-js-pdfobject', BPTODO_PLUGIN_URL . 'assets/js/pdfobject.min.js', array( 'jquery' ), BPTODO_VERSION );
 		}
 
 		/**
