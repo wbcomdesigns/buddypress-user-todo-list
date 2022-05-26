@@ -182,7 +182,6 @@ loadOnReady();
       jQuery(this).addClass('todo-complete');
     }
     if( jQuery(this).hasClass('todo-uncomplete') ){
-    jQuery(this).html('<i class="fa fa-refresh fa-spin"></i>');
     jQuery.post(
       ajaxurl, {
       'action': 'bptodo_complete_todo',
