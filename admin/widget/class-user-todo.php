@@ -90,6 +90,19 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				<?php
 				$post_title   = get_the_title( $recent_todo->ID );
 				$todo_priority = get_post_meta( $recent_todo->ID, 'todo_priority', true );
+				$todo_due_date = get_post_meta( $recent_todo->ID, 'todo_due_date', true );
+				if ( ! empty( $todo_priority ) ) {
+					if ( 'critical' === $todo_priority ) {
+						$priority_class = 'bptodo-priority-critical';
+						$priority_text  = esc_html__( 'Critical', 'wb-todo' );
+					} elseif ( 'high' === $todo_priority ) {
+						$priority_class = 'bptodo-priority-high';
+						$priority_text  = esc_html__( 'High', 'wb-todo' );
+					} else {
+						$priority_class = 'bptodo-priority-normal';
+						$priority_text  = esc_html__( 'Normal', 'wb-todo' );
+					}
+				}
 				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
 				$aria_current = '';
 
@@ -105,8 +118,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 					?>
 				<?php endif; ?>
 				<div class="widget-bptodo-list-meta">
-					<span class="bptodo-list-priority"><?php echo esc_html_e( $todo_priority, 'wb-todo' ); ?></span>
-					<span class="post-date"><?php echo get_the_date( '', $recent_todo->ID ); ?></span>
+					<span class="bptodo-list-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></span>
+					<span class="post-date"><?php echo esc_html( $todo_due_date ); ?></span>
 				</div>
 			</li>
 				<?php endforeach; ?>
