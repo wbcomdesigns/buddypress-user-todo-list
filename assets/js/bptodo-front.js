@@ -176,6 +176,12 @@ loadOnReady();
     var uid = jQuery(this).data('uid');
     var completed_todo = jQuery('.bp_completed_todo_count').text();
     var all_todo = jQuery('.bp_all_todo_count').text();
+    if(jQuery(this).hasClass('todo-complete')){
+      markUncompleteTodo(tid);
+      jQuery(this).removeClass('todo-uncomplete');
+      jQuery(this).addClass('todo-complete');
+    }
+    if( jQuery(this).hasClass('todo-uncomplete') ){
     jQuery(this).html('<i class="fa fa-refresh fa-spin"></i>');
     jQuery.post(
       ajaxurl, {
@@ -200,6 +206,9 @@ loadOnReady();
         }
       }
     );
+    jQuery(this).addClass('todo-uncomplete');
+      jQuery(this).removeClass('todo-complete');
+    }
   });
 
   function bptodo_reload_url(){
@@ -215,9 +224,7 @@ loadOnReady();
   }
 
   //Undo complete a todo
-  jQuery(document).on('click', '.bptodo-undo-complete-todo', function (event) {
-    event.preventDefault();
-    var tid = jQuery(this).data('tid');
+  function markUncompleteTodo(tid){
     jQuery(this).html('<i class="fa fa-refresh fa-spin"></i>');
     jQuery.post(
       ajaxurl, {
@@ -231,7 +238,7 @@ loadOnReady();
         }
       }
     );
-  });
+  }
 });
 
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
