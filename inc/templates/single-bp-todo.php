@@ -17,42 +17,54 @@ get_header(); ?>
 		<main id="main" class="site-main" role="main">
 
 		<?php
-		// Start the loop.
-		while ( have_posts() ) :
-			the_post();
+			// Start the loop.
+			while ( have_posts() ) :
+				the_post();
 			?>
-	<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-			<?php
-				the_title( '<h1 class="entry-title">', '</h1>' );
-				$todo_priority = get_post_meta( $post->ID, 'todo_priority', true );
-				echo esc_html( $todo_priority );
-				echo get_the_date( '' ,$post->ID );
-			?>
-	</header><!-- .entry-header -->
-	<div class="entry-content">
-				<?php the_content(); ?>
-				<?php
-				wp_link_pages(
-					array(
-						'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'wb-todo' ) . '</span>',
-						'after'       => '</div>',
-						'link_before' => '<span>',
-						'link_after'  => '</span>',
-						'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'wb-todo' ) . ' </span>%',
-						'separator'   => '<span class="screen-reader-text">, </span>',
-					)
-				);
-				?>
-		</div><!-- .entry-content -->
-	</article>
-			<?php endwhile; ?>
-			<?php if ( ! empty( bptodo_todo_user_report() ) ) : ?>
-			<div class="single-to-report">
-				<?php bptodo_todo_user_report(); ?>
+
+
+		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+			<div class="bptodo-list-single">
+				<header class="entry-header">
+					<?php the_title( '<h1 class="entry-title">', '</h1>' );?>
+					<?php $todo_priority = get_post_meta( $post->ID, 'todo_priority', true );?>
+					<div class="signle-bptodo-meta">
+						<div class="single-todo-priority"><?php echo esc_html( $todo_priority );?></div>
+						<div class="single-todo-date"><?php echo get_the_date( '' ,$post->ID );?></div>
+						<div class="single-todo-cat">Category</div>
+					</div>
+				</header><!-- .entry-header -->
+				<div class="entry-content">
+					<?php the_content(); ?>
+					<?php
+					wp_link_pages(
+						array(
+							'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'wb-todo' ) . '</span>',
+							'after'       => '</div>',
+							'link_before' => '<span>',
+							'link_after'  => '</span>',
+							'pagelink'    => '<span class="screen-reader-text">' . __( 'Page', 'wb-todo' ) . ' </span>%',
+							'separator'   => '<span class="screen-reader-text">, </span>',
+						)
+					);
+					?>
+				</div><!-- .entry-content -->
 			</div>
-			<?php endif; ?>
-		</main><!-- .site-main -->
-	</div><!-- .content-area -->
+		</article>
+
+		<?php endwhile; ?>
+
+		<?php if ( ! empty( bptodo_todo_user_report() ) ) : ?>
+		
+		<div class="single-to-report">
+			<?php bptodo_todo_user_report(); ?>
+		</div>
+
+		<?php endif; ?>
+
+	</main><!-- .site-main -->
+
+</div><!-- .content-area -->
+
 <?php get_sidebar( 'right' ); ?>
 <?php get_footer(); ?>

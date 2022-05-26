@@ -790,6 +790,9 @@ widget
     font-size: 14px;
     line-height: 20px;
     color: #fff;
+    text-transform: capitalize;
+    min-width: 100px;
+    text-align: center;
 } 
 .widget-bptodo-list-meta span.post-date{
   opacity: 0.8;
@@ -806,4 +809,46 @@ widget
     background: white;
     left: 36%;
     padding: 50px;
+}
+
+/*==================
+Single To DO 
+==================*/
+
+.bptodo-list-single .signle-bptodo-meta{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.bptodo-list-single .signle-bptodo-meta .single-todo-priority{
+    display: inline-block;
+    min-width: 100px;
+    max-width: 100px;
+    padding: 5px 5px;
+    font-size: 14px;
+    color: #fff;
+    background: #4caf50;
+    border-radius: 100px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.bptodo-list-single .signle-bptodo-meta .single-todo-date,
+.bptodo-list-single .signle-bptodo-meta .single-todo-cat{
+    position: relative;
+}
+
+.bptodo-list-single .signle-bptodo-meta .single-todo-date:before,
+.bptodo-list-single .signle-bptodo-meta .single-todo-cat:before{
+  content: '';
+  height: 5px;
+  width: 5px;
+  border-radius: 100px;
+  background: #c3c3c3;
+  position: absolute;
+  left: -50%;
+  top: 10px;
 }
