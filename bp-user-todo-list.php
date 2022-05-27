@@ -139,27 +139,27 @@ function bptodo_plugin_init() {
  * @access  public
  */
 function list_todo_tab_function_to_show_title() {
-	global $bptodo;
-	$profile_menu_label = $bptodo->profile_menu_label;
-	echo '<a href="javascript:void(0);" id="export_my_tasks">';
-	/* Translators: Display plural label name */
-	$args  = array(
-		'post_type'      => 'bp-todo',
-		'author'         => bp_displayed_user_id(),
-		'post_staus'     => 'publish',
-		'posts_per_page' => -1,
-	);
-	$todos = get_posts( $args );
-	if ( 0 !== count( $todos ) ) {
-		?>
-			<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
-			<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-			<div class="export-download"></div>
-			<?php echo esc_html__( 'Export', 'wb-todo' ) ;?>
-		<?php
-	}
-	echo '</a>';
+    global $bptodo;
+    $profile_menu_label = $bptodo->profile_menu_label;
+    // echo '<div class="export-download"></div>';
+    /* Translators: Display plural label name */
+    $args  = array(
+        'post_type'      => 'bp-todo',
+        'author'         => bp_displayed_user_id(),
+        'post_staus'     => 'publish',
+        'posts_per_page' => -1,
+    );
+    $todos = get_posts( $args );
+    if ( 0 !== count( $todos ) ) {
+        ?>
+            <?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
+            <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
+            <a href="javascript:void(0);" id="export_my_tasks"><div class="export-download"></div> <?php echo esc_html__( 'Export', 'wb-todo' ) ;?></a>
+        <?php
+    }
+    echo '';
 }
+
 
 /**
  * Function to remove bptodo plugin if already exist.
