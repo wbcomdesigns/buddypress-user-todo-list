@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
-  jQuery(document).on('click','.fa-edit',function(){
-    var tid=jQuery(this).parent().data('tid');
+  jQuery(document).on('click','.trigger',function(){
+    var tid=jQuery(this).data('tid');
     jQuery.ajax({
       url:ajaxurl,
       type:'post',
@@ -9,14 +9,7 @@ jQuery(document).ready(function () {
       t_id:tid,
       },
     success:function(response) {
-      jQuery('.bptodo_edit_form_popup_class').removeClass('modal-closed');
-      jQuery('.bptodo_edit_form_popup_class').addClass('modal-open');
-      jQuery('.bptodo_edit_form_popup_class').html(response);
-      jQuery('#bptodo_close').on('click', function(){
-        jQuery('.bptodo_edit_form_popup_class').addClass('modal-closed');
-        jQuery('.bptodo_edit_form_popup_class').removeClass('modal-open');
-        jQuery('.modal-open').css('display','none');
-      });      
+      jQuery('.edit_form_popup').html(response);      
       }
     });
   });

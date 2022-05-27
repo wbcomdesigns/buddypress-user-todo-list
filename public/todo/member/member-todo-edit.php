@@ -28,7 +28,7 @@ if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
 $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 ?>
-<input type="button" id="bptodo_close" value="close">
+
 <form action="" method="post" id="bptodo_edit_form_popup">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
