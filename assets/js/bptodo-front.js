@@ -1,4 +1,15 @@
 jQuery(document).ready(function () {
+  // add active class on all todo
+  jQuery('.all-bp-todo-list-tab').addClass('active');
+  jQuery('.all-bp-todo-list-tab-completed').on('click' , function(){
+    jQuery('.all-bp-todo-list-tab').removeClass('active');
+    jQuery(this).addClass('active');
+  });
+  jQuery('.all-bp-todo-list-tab').on('click' , function(){
+    jQuery('.all-bp-todo-list-tab-completed').removeClass('active');
+    jQuery(this).addClass('active');
+  });
+  // end add active class on all todo
   jQuery(document).on('click','.trigger',function(){
     var tid=jQuery(this).data('tid');
     jQuery.ajax({
@@ -33,16 +44,6 @@ jQuery(document).ready(function () {
       }
     });
   });
-  
-  function loadOnReady(){
-  jQuery("#bptodo-tabs").tabs({
-    heightStyle: "content"
-  });
-  jQuery("#bptodo-task-tabs").tabs({
-    heightStyle: "content"
-  });
-}
-loadOnReady();
 
   var acc = document.getElementsByClassName("bptodo-item");
   var i;

@@ -89,10 +89,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					wp_enqueue_script( 'jquery' );
 				}
 
-				if ( ! wp_script_is( 'jquery-ui-tabs' ) ) {
-					wp_enqueue_script( 'jquery-ui-tabs' );
-				}
-
 				if ( ! wp_script_is( 'datepicker.min.js' ) ) {
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 				}
