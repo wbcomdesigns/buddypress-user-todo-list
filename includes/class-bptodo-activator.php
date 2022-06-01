@@ -20,7 +20,7 @@
  * @subpackage Plugin_Name/includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Activator {
+class Bptodo_List_Activator {
 
 	/**
 	 * The $_REQUEST during plugin activation.
@@ -65,6 +65,10 @@ class Plugin_Name_Activator {
 			}
 		}
 
+		$todo_mal_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+		if ( false == $todo_mal_setting || '' == $todo_mal_setting  ) {
+			update_user_meta( bp_loggedin_user_id(), 'todo_mail_setting', 'no' );
+		}
 		/**
 		 * The plugin is now safely activated.
 		 * Perform your activation actions here.

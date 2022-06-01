@@ -57,6 +57,27 @@ if ( ! defined( 'BPTODO_TEMPLATE_PATH' ) ) {
 	define( 'BPTODO_TEMPLATE_PATH', BPTODO_PLUGIN_PATH . '/inc/templates/' );
 }
 
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-buddypress-friend-follow-suggestion-activator.php
+ */
+function activate_bptodo_list() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-activator.php';
+	Bptodo_List_Activator::activate();
+}
+
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-buddypress-friend-follow-suggestion-deactivator.php
+ */
+function deactivate_bptodo_list() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-deactivator.php';
+	Bptodo_List_Deactivator::deactivate();
+}
+
+register_activation_hook( __FILE__, 'activate_bptodo_list' );
+register_deactivation_hook( __FILE__, 'deactivate_bptodo_list' );
+
 global $bptodo;
 
 /**

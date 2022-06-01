@@ -66,25 +66,29 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						$curr_date = date_create( date( 'Y-m-d' ) );
 						$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 						$diff      = date_diff( $curr_date, $due_date );
+						$mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+						$mail_settings = isset( $mail_setting[0] ) ? $mail_setting[0] : '';
 						if ( is_object( $diff ) ) {
 							$diff_days = $diff->format( '%R%a' );
 						}
 						/** Check if mail sending is allowed. */
-						if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
+						if ( 'yes' == $mail_settings ) {
+							if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
 
-							/** If today is the due date. */
-							if ( 0 == $diff_days ) {
-								/** If the mail is not sent already. */
-								$due_date_mail_sent = get_post_meta( $todo->ID, 'todo_last_day_mail_sent', true );
-								if ( 'no' == $due_date_mail_sent ) {
-									$author       = get_userdata( $author_id );
-									$author_email = $author->data->user_email;
-									$subject      = esc_html__( 'BPTODO Task - WordPress', 'wb-todo' );
-									/* Translators: Get a To do title name */
-									$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
-									$headers  = 'From:' . 'testing@gmail.com';
-									wp_mail( $author_email, $subject, $messsage, $headers );
-									update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
+								/** If today is the due date. */
+								if ( 0 == $diff_days ) {
+									/** If the mail is not sent already. */
+									$due_date_mail_sent = get_post_meta( $todo->ID, 'todo_last_day_mail_sent', true );
+									if ( 'no' == $due_date_mail_sent ) {
+										$author       = get_userdata( $author_id );
+										$author_email = $author->data->user_email;
+										$subject      = esc_html__( 'BPTODO Task - WordPress', 'wb-todo' );
+										/* Translators: Get a To do title name */
+										$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
+										$headers  = 'From:' . 'testing@gmail.com';
+										wp_mail( $author_email, $subject, $messsage, $headers );
+										update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
+									}
 								}
 							}
 						}
@@ -977,6 +981,66 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
 			}
 			exit();
+		}
+
+		/**
+		 * Bptodo_before_submit_in_mail
+		 *
+		 * @return void
+		 */
+		public function bptodo_before_submit_in_mail() {
+				$mail = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+			?>
+			<table class="notification-settings" id="activity-notification-settings">
+		<thead>
+			<tr>
+				<th class="icon">&nbsp;</th>				
+				<th class="title"><?php esc_html_e( 'To Do Mail', 'wb-todo' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'wb-todo' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'wb-todo' ); ?></th>			
+			</tr>
+		</thead>
+
+		<tbody>
+				<?php if ( bp_activity_do_mentions() ) : ?>
+					<tr id="activity-notification-settings-mentions">
+					<td>&nbsp;</td>
+					<td>
+						<?php
+						/* translators: %s: the displayed user username */
+						printf( esc_html_e( 'Enable/disable mail option for subscriber', 'wb-todo' ), bp_core_get_username( bp_displayed_user_id() ) );
+						?>
+					</td>
+					<td class="yes"><input type="radio" name="notifications[todo_mail_setting]" id="todo-mail-settings-yes" value="yes"<?php checked( isset( $mail[0] ) ? $mail[0] : '', 'yes', true ); ?>/><label for="todo-mail-settings-yes" class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Yes, send email', 'wb-todo' );
+					?>
+					</label></td>
+					<td class="no"><input type="radio" name="notifications[todo_mail_setting]" id="todo-mail-settings-no" value="no"<?php checked( isset( $mail[0] ) ? $mail[0] : '', 'no', true ); ?>/><label for="todo-mail-settings-no" class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'No, do not send email', 'wb-todo' );
+					?>
+					</label></td>
+				</tr>
+			<?php endif; ?>
+		</tbody>
+	</table>
+				<?php
+		}
+
+		/**
+		 * Bptodo_mail_settings_after_save
+		 *
+		 * @return void
+		 */
+		public function bptodo_mail_settings_after_save() {
+			if ( isset( $_POST['notifications'] ) ) {
+				$post_data = isset( $_POST['notifications']['todo_mail_setting'] ) ? $_POST['notifications']['todo_mail_setting'] : '';
+				update_user_meta( bp_loggedin_user_id(), 'todo_mail_setting', $post_data );
+			}
+
 		}
 	}
 	new Bptodo_Public();

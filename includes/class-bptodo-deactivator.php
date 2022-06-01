@@ -20,7 +20,7 @@
  * @subpackage Plugin_Name/includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Deactivator {
+class Bptodo_List_Deactivator {
 
 	/**
 	 * The $_REQUEST during plugin activation.
