@@ -59,7 +59,7 @@ if ( ! defined( 'BPTODO_TEMPLATE_PATH' ) ) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-buddypress-friend-follow-suggestion-activator.php
+ * This action is documented in includes/class-bptodo-activator.php
  */
 function activate_bptodo_list() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-activator.php';
@@ -68,7 +68,7 @@ function activate_bptodo_list() {
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class-buddypress-friend-follow-suggestion-deactivator.php
+ * This action is documented in includes/class-bptodo-deactivator.php
  */
 function deactivate_bptodo_list() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-deactivator.php';

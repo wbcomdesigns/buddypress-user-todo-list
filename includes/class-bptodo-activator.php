@@ -65,8 +65,8 @@ class Bptodo_List_Activator {
 			}
 		}
 
-		$todo_mal_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
-		if ( false == $todo_mal_setting || '' == $todo_mal_setting  ) {
+		$todo_mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+		if ( false == $todo_mail_setting || '' == $todo_mail_setting  ) {
 			update_user_meta( bp_loggedin_user_id(), 'todo_mail_setting', 'no' );
 		}
 		/**

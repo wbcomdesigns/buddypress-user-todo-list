@@ -1008,7 +1008,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					<td>
 						<?php
 						/* translators: %s: the displayed user username */
-						printf( esc_html_e( 'Enable/disable mail option for subscriber', 'wb-todo' ), bp_core_get_username( bp_displayed_user_id() ) );
+						printf( esc_html_e( 'Enable/disable mail option', 'wb-todo' ), bp_core_get_username( bp_displayed_user_id() ) );
 						?>
 					</td>
 					<td class="yes"><input type="radio" name="notifications[todo_mail_setting]" id="todo-mail-settings-yes" value="yes"<?php checked( isset( $mail[0] ) ? $mail[0] : '', 'yes', true ); ?>/><label for="todo-mail-settings-yes" class="bp-screen-reader-text">
