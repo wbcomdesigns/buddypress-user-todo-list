@@ -200,7 +200,7 @@ if ( empty( $todos ) ) {
 										<span class="bpdoto-count-tab bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span>
 									</a>
 								</li>
-								<li class="all-bp-todo-list-tab">
+								<li class="all-bp-todo-list-tab-completed">
 									<a href="#bptodo-completed">
 										<div class="bptodo-btn-icon"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/check-complete.svg" /></div>
 										<?php esc_html_e( 'Completed', 'wb-todo' ); ?>

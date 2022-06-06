@@ -1,15 +1,21 @@
 jQuery(document).ready(function () {
   // add active class on all todo
+  jQuery("#bptodo-completed").css('display','none');
   jQuery('.all-bp-todo-list-tab').addClass('active');
   jQuery('.all-bp-todo-list-tab-completed').on('click' , function(){
     jQuery('.all-bp-todo-list-tab').removeClass('active');
     jQuery(this).addClass('active');
+    jQuery('#bptodo-all').css('display','none');     
+    jQuery("#bptodo-completed").css('display','block');
   });
   jQuery('.all-bp-todo-list-tab').on('click' , function(){
     jQuery('.all-bp-todo-list-tab-completed').removeClass('active');
     jQuery(this).addClass('active');
+    jQuery("#bptodo-completed").css('display','none');
+    jQuery('#bptodo-all').css('display','block');
   });
   // end add active class on all todo
+  
   jQuery(document).on('click','.trigger',function(){
     var tid=jQuery(this).data('tid');
     jQuery.ajax({
@@ -164,7 +170,7 @@ jQuery(document).ready(function () {
   });
 
   //Complete a todo
-  jQuery(document).on('click', '.bptodo-complete-todo', function () {
+  jQuery(document).on('click', '.bptodo-complete-todo', function () {    
     var clicked_tid = jQuery(this);
     var tid = jQuery(this).data('tid');
     var uid = jQuery(this).data('uid');
@@ -210,7 +216,6 @@ jQuery(document).ready(function () {
       success: function (data){
         let tabledata = jQuery(data).find('.bptodo-adming-setting')[0].innerHTML;
         jQuery('.bptodo-adming-setting').html(tabledata);
-        loadOnReady();
         jQuery('#bptodo-completed').css('display','none');                                
       }
     })
