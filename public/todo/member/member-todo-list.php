@@ -198,10 +198,12 @@ if ( empty( $todos ) ) {
 																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	// $all_remaining_todo++;
 																}
+																$bptodo_row_complete = '';
 																if ( 'complete' === $todo_status ) {
 																	$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 																	$due_date_td_class = '';
 																	$all_completed_todo++;
+																	$bptodo_row_complete = 'completed';
 																}
 																if ( ! empty( $todo_priority ) ) {
 																	if ( 'critical' === $todo_priority ) {
@@ -216,7 +218,7 @@ if ( empty( $todos ) ) {
 																	}
 																}
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -299,10 +301,12 @@ if ( empty( $todos ) ) {
 																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
+																$bptodo_row_complete = '';
 																if ( 'complete' === $todo_status ) {
 																	$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 																	$due_date_td_class = '';
 																	$all_completed_todo++;
+																	$bptodo_row_complete = 'completed';
 																}
 																if ( ! empty( $todo_priority ) ) {
 																	if ( 'critical' === $todo_priority ) {
@@ -317,7 +321,7 @@ if ( empty( $todos ) ) {
 																	}
 																}
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -401,11 +405,12 @@ if ( empty( $todos ) ) {
 																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
-
+																$bptodo_row_complete = '';
 																if ( 'complete' === $todo_status ) {
 																	$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 																	$due_date_td_class = '';
 																	$all_completed_todo++;
+																	$bptodo_row_complete = 'completed';
 																}
 
 																if ( ! empty( $todo_priority ) ) {
@@ -422,7 +427,7 @@ if ( empty( $todos ) ) {
 																}
 
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -504,10 +509,12 @@ if ( empty( $todos ) ) {
 																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
+																$bptodo_row_complete = '';
 																if ( 'complete' === $todo_status ) {
 																	$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 																	$due_date_td_class = '';
 																	$all_completed_todo++;
+																	$bptodo_row_complete = 'completed';
 																}
 																if ( ! empty( $todo_priority ) ) {
 																	if ( 'critical' === $todo_priority ) {
@@ -522,7 +529,7 @@ if ( empty( $todos ) ) {
 																	}
 																}
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row ">													
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">													
 																<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -617,10 +624,12 @@ if ( empty( $todos ) ) {
 																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
 																	$all_remaining_todo++;
 																}
+																$bptodo_row_complete = '';
 																if ( 'complete' === $todo_status ) {
 																	$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 																	$due_date_td_class = '';
 																	$all_completed_todo++;
+																	$bptodo_row_complete = 'completed';
 																}
 																if ( ! empty( $todo_priority ) ) {
 																	if ( 'critical' === $todo_priority ) {
@@ -635,7 +644,7 @@ if ( empty( $todos ) ) {
 																	}
 																}
 																?>
-															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
