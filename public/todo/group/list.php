@@ -827,7 +827,7 @@ if ( empty( $todos ) ) {
 																	<ul class="bp-to-do-actions-list">
 																			<?php if ( $can_modify ) { ?>
 																				<?php /* Translators: Display todo title name  */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a>
+																		<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/trash-alt.svg" /></a>
 																		</li>
 																		<?php } ?>
 																			<?php if ( 'complete' !== $todo_status ) { ?>
