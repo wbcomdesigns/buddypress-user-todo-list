@@ -190,27 +190,28 @@ if ( empty( $todos ) ) {
 					<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
 					
 					<div id="bptodo-todos">
-						<div id="bptodo-task-tabs">
-							<ul class="bptodo-task-tabs-btn">
-								<li class="all-bp-todo-list-tab">
-									<a href="#bptodo-all">
-										<div class="bptodo-btn-icon"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/all-list.svg" /></div>  
-										<?php /* Translators: Display the plural label name */ ?>
-										<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-										<span class="bpdoto-count-tab bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span>
-									</a>
-								</li>
-								<li class="all-bp-todo-list-tab-completed">
-									<a href="#bptodo-completed">
-										<div class="bptodo-btn-icon"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/check-complete.svg" /></div>
-										<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
-										<span class="bpdoto-count-tab bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span>
-									</a>
-								</li>
-							</ul>
+							<div id="bptodo-task-tabs">
+								<div class="bptodo-task-tabs-head">
+								<ul class="bptodo-task-tabs-btn">
+									<li class="all-bp-todo-list-tab">
+										<a href="#bptodo-all">
+											<div class="bptodo-btn-icon"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/all-list.svg" /></div>  
+											<?php /* Translators: Display the plural label name */ ?>
+											<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+											<span class="bpdoto-count-tab bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span>
+										</a>
+									</li>
+									<li class="all-bp-todo-list-tab-completed">
+										<a href="#bptodo-completed">
+											<div class="bptodo-btn-icon"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/check-complete.svg" /></div>
+											<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+											<span class="bpdoto-count-tab bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span>
+										</a>
+									</li>
+								</ul>
+							</div>
+
 							<div id="bptodo-all">
-							
-							
 								<div class="todo-panel">
 									<div class="todo-detail">
 										<div class="bp-todo-reminder">
@@ -328,14 +329,15 @@ if ( empty( $todos ) ) {
 															<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/eye.svg" /></a></li>
 																<?php } ?>
 															<?php } ?>
-																<?php
+																
+														</ul>
+															<?php
 																if ( $can_views ) {
 																	?>
-																<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
+																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																	<?php
 																}
-																?>
-														</ul>
+															?>
 													</li>
 												</ul>
 												<?php } ?>
@@ -439,14 +441,15 @@ if ( empty( $todos ) ) {
 																<?php /* Translators: Display todo title name  */ ?>
 															<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/eye.svg" /></a></li>																
 															<?php } ?>														
-															<?php
+															
+														</ul>
+														<?php
 															if ( $can_views ) {
 																?>
-																<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
+																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																<?php
 															}
 															?>
-														</ul>
 													</li>
 												</ul>
 												<?php } ?>
@@ -568,14 +571,15 @@ if ( empty( $todos ) ) {
 																<?php /* Translators: Display todo title name  */ ?>
 															<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/eye.svg" /></a></li>																
 															<?php } ?>																
-																<?php
+															
+														</ul>
+														<?php
 																if ( $can_views ) {
 																	?>
-																<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
+																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																	<?php
 																}
 																?>
-														</ul>
 														</li>
 													</ul>
 												<?php } ?>
@@ -697,14 +701,15 @@ if ( empty( $todos ) ) {
 															<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/eye.svg" /></a></li>
 																<?php } ?>																
 															<?php } ?>																
-																<?php
-																if ( $can_views ) {
-																	?>
-																<li id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></li>
-																	<?php
-																}
-																?>
+																
 														</ul>
+														<?php
+															if ( $can_views ) {
+																?>
+															<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
+																<?php
+															}
+														?>
 													</li>
 													</ul>
 												<?php } ?>

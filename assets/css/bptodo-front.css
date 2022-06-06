@@ -456,11 +456,15 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #0285ff;
+  background: #5e6c85;
   color: #fff;
   padding: 8px 20px;
   border-radius: 100px;
   min-height: 40px;
+}
+
+#bptodo-task-tabs .bptodo-task-tabs-btn li.active a{
+  background: #0285ff;
 }
 
 #bptodo-task-tabs .bptodo-task-tabs-btn li a img{
@@ -755,9 +759,28 @@ New UI
   justify-content: space-between;
   margin:0px;
   padding:10px 0; 
+  border-top: 1px #efefef solid;
 }
-.todo-header-list .todo-header-list-row:nth-child(2n){
+/* .todo-header-list .todo-header-list-row:nth-child(2n){
   background: #f7faff;
+} */
+
+.todo-header-list .todo-header-list-row.completed{
+  background: #f7faff;
+}
+
+.todo-header-list .todo-header-list-row.completed .bptodo-date{
+  color: #f51c0c;
+}
+
+.todo-header-list-row  .bptodo-progress-group{
+    text-align: center;
+    margin-top: 10px;
+    background: #5e6c85;
+    padding: 5px;
+    border-radius: 100px !important;
+    color: #fff;
+    font-size: 15px;
 }
 
 .bp-to-do-actions .bp-to-do-actions-list button.trigger{
