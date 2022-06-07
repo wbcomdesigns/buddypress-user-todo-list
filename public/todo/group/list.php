@@ -249,6 +249,9 @@ if ( empty( $todos ) ) {
 														$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 														$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
 														$todo_cat_id = 0;
+														if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
+															$todo_cat_id = $todo_cat[0]->term_id;
+														}
 														if ( $diff_days < 0 ) {
 															/* Translators: Number of expiry days */
 															$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
@@ -305,7 +308,7 @@ if ( empty( $todos ) ) {
 														<?php
 														foreach ( $todo_cats as $todo_cat ) {
 															if ( $todo_cat_id == $todo_cat->term_id ) {
-																echo $todo_cat->name;
+																echo esc_html( $todo_cat->name );
 															}
 														}
 														?>
@@ -332,11 +335,11 @@ if ( empty( $todos ) ) {
 																
 														</ul>
 															<?php
-																if ( $can_views ) {
-																	?>
+															if ( $can_views ) {
+																?>
 																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																	<?php
-																}
+															}
 															?>
 													</li>
 												</ul>
@@ -360,9 +363,13 @@ if ( empty( $todos ) ) {
 														$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 														$diff          = date_diff( $curr_date, $due_date );
 														$diff_days     = $diff->format( '%R%a' );
+														$priority_class = '';
 														$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 														$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
 														$todo_cat_id = 0;
+														if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
+															$todo_cat_id = $todo_cat[0]->term_id;
+														}
 														if ( $diff_days < 0 ) {
 															/* Translators: Number of expiry days */
 															$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
@@ -419,7 +426,7 @@ if ( empty( $todos ) ) {
 														<?php
 														foreach ( $todo_cats as $todo_cat ) {
 															if ( $todo_cat_id == $todo_cat->term_id ) {
-																echo $todo_cat->name;
+																echo esc_html( $todo_cat->name );
 															}
 														}
 														?>
@@ -444,12 +451,12 @@ if ( empty( $todos ) ) {
 															
 														</ul>
 														<?php
-															if ( $can_views ) {
-																?>
+														if ( $can_views ) {
+															?>
 																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																<?php
-															}
-															?>
+														}
+														?>
 													</li>
 												</ul>
 												<?php } ?>
@@ -535,7 +542,7 @@ if ( empty( $todos ) ) {
 														<?php
 														foreach ( $todo_cats as $todo_cat ) {
 															if ( $todo_cat_id == $todo_cat->term_id ) {
-																echo $todo_cat->name;
+																echo esc_html( $todo_cat->name );
 															}
 														}
 														?>
@@ -574,12 +581,12 @@ if ( empty( $todos ) ) {
 															
 														</ul>
 														<?php
-																if ( $can_views ) {
-																	?>
+														if ( $can_views ) {
+															?>
 																<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																	<?php
-																}
-																?>
+														}
+														?>
 														</li>
 													</ul>
 												<?php } ?>
@@ -665,7 +672,7 @@ if ( empty( $todos ) ) {
 														<?php
 														foreach ( $todo_cats as $todo_cat ) {
 															if ( $todo_cat_id == $todo_cat->term_id ) {
-																echo $todo_cat->name;
+																echo esc_html( $todo_cat->name );
 															}
 														}
 														?>
@@ -704,11 +711,11 @@ if ( empty( $todos ) ) {
 																
 														</ul>
 														<?php
-															if ( $can_views ) {
-																?>
+														if ( $can_views ) {
+															?>
 															<div id="bptodo-progress-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-progress-group"><?php echo esc_html( bptodo_get_user_average_todos( $tid ) ); ?></div>
 																<?php
-															}
+														}
 														?>
 													</li>
 													</ul>
@@ -817,7 +824,7 @@ if ( empty( $todos ) ) {
 																<?php
 																foreach ( $todo_cats as $todo_cat ) {
 																	if ( $todo_cat_id == $todo_cat->term_id ) {
-																		echo $todo_cat->name;
+																		echo esc_html( $todo_cat->name );
 																	}
 																}
 																?>
