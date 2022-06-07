@@ -117,8 +117,50 @@ jQuery(document).ready(function () {
 
   });
 
+  // on popup add cat row
+  jQuery('.edit_form_popup').on('click', '.add-todo-category', function () {
+    jQuery('.add-todo-cat-row').slideToggle('slow');
+    var element_height = jQuery('.add-todo-cat-row').css('height').match(/\d+/);
+    if (element_height[0] > 5) {
+      jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
+    } else {
+      jQuery('.add-todo-category i').attr('class', 'fa fa-minus');
+    }
+
+  });
+  // on popup add cat row
+
   //Add BP Todo Category
   jQuery(document).on('click', '#add-todo-cat', function () {
+    var name = jQuery('#todo-category-name').val();
+    var btn_text = jQuery(this).html();
+    if (name == '') {
+      jQuery('#todo-category-name').addClass('bptodo-add-cat-empty').attr('placeholder', todo_ajax_object.required_cat_text);
+    } else {
+      var security_nonce = jQuery('#bptodo-add-category-nonce').val();
+      jQuery(this).html(btn_text + ' <i class="fa fa-refresh fa-spin"></i>');
+      jQuery.post(
+        ajaxurl, {
+        'action': 'bptodo_add_todo_category_front',
+        'name': name,
+        'security_nonce': security_nonce
+      },
+        function (response) {
+          if (response == 'todo-category-added') {
+            var html = '<option value="' + name + '" selected>' + name + '</option>';
+            jQuery('#bp_todo_categories').append(html);
+            jQuery('.add-todo-cat-row').hide();
+            jQuery('#add-todo-cat').html(btn_text);
+            jQuery('#todo-category-name').val('');
+            jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
+          }
+        }
+      );
+    }
+  });
+
+  //Add BP Todo Category on popup
+  jQuery('.edit_form_popup').on('click', '#add-todo-cat', function () {
     var name = jQuery('#todo-category-name').val();
     var btn_text = jQuery(this).html();
     if (name == '') {
