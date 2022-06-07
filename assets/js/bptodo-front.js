@@ -26,7 +26,8 @@ jQuery(document).ready(function () {
       t_id:tid,
       },
     success:function(response) {
-      jQuery('.edit_form_popup').html(response);      
+      jQuery('.edit_form_popup').html(response); 
+      jQuery('.bptodo-text-input').datepicker();     
       }
     });
   });
