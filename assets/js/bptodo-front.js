@@ -2,13 +2,13 @@ jQuery(document).ready(function () {
   // add active class on all todo
   jQuery("#bptodo-completed").css('display','none');
   jQuery('.all-bp-todo-list-tab').addClass('active');
-  jQuery('.all-bp-todo-list-tab-completed').on('click' , function(){
+  jQuery(document).on('click' ,'.all-bp-todo-list-tab-completed', function(){
     jQuery('.all-bp-todo-list-tab').removeClass('active');
     jQuery(this).addClass('active');
     jQuery('#bptodo-all').css('display','none');     
     jQuery("#bptodo-completed").css('display','block');
   });
-  jQuery('.all-bp-todo-list-tab').on('click' , function(){
+  jQuery(document).on('click' ,'.all-bp-todo-list-tab', function(){
     jQuery('.all-bp-todo-list-tab-completed').removeClass('active');
     jQuery(this).addClass('active');
     jQuery("#bptodo-completed").css('display','none');
