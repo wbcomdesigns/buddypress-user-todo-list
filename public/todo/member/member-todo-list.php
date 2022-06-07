@@ -230,7 +230,7 @@ if ( empty( $todos ) ) {
 																}
 																?>
 															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox" 
+															<label><input type="checkbox" class="option-input checkbox <?php if ( $due_date_td_class ) { echo esc_attr( $disabled ); }?>" 
 																<?php
 																echo esc_attr( $checked );
 																if ( $due_date_td_class ) {
