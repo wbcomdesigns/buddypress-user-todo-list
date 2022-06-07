@@ -290,7 +290,7 @@ if ( empty( $todos ) ) {
 														}
 
 														?>
-												<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>"  class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
+												<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>"  class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete . $due_date_td_class ); ?>">
 														<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
