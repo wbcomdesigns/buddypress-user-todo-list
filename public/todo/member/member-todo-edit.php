@@ -33,10 +33,10 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Category', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<div>
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
@@ -70,19 +70,19 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Title', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
 			</td>
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Summary', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<?php
 				$settings = array(
 					'media_buttons' => true,
@@ -94,19 +94,19 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
 			</td>
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Priority', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<select name="todo_priority" id="bp_todo_priority" required>
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
@@ -118,8 +118,8 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 		<?php $change_edit_btn = apply_filters( 'bptodo_change_todo_edit_button', $change = false ); ?>
 		<?php if ( ! $change_edit_btn ) { ?>
 			<tr>
-				<td width="20%"></td>
-				<td width="80%">
+				<td></td>
+				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<?php /* Translators: Display plural label name  */ ?>

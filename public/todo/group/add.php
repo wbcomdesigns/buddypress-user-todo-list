@@ -155,10 +155,10 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bp_group_todo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Category', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<div>
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
@@ -185,19 +185,19 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Title', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<input type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
 			</td>
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Summary', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<?php
 				$settings = array(
 					'media_buttons' => true,
@@ -209,19 +209,19 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" required>
 			</td>
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 				<?php esc_html_e( 'Priority', 'wb-todo' ); ?>
 			</td>
-			<td width="80%">
+			<td>
 				<select name="todo_priority" id="bp_todo_priority" required>
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
@@ -232,7 +232,7 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		</tr>
 
 		<tr>
-			<td width="20%">
+			<td>
 			</td>
 			<td>
 				<input type="hidden" name="todo_group_id" value="<?php echo esc_attr( $group_id ); ?>">
@@ -242,8 +242,8 @@ if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save
 		<?php $change_submit_btn = apply_filters( 'bp_group_todo_change_submit_button', $change = false ); ?>
 		<?php if ( ! $change_submit_btn ) { ?>
 			<tr>
-				<td width="20%"></td>
-				<td width="80%">
+				<td></td>
+				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'group_save_new_todo_data_nonce' ); ?>
 					<?php /* Translators: Display the plural label name */ ?>
 					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo sprintf( esc_html__( 'Submit %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>" >
