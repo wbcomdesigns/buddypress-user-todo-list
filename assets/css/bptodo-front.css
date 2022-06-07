@@ -873,6 +873,12 @@ New UI
   z-index: 100;
 }
 
+.option-input.disabled,
+.option-input.disabled:hover{
+  background: #dae7f9 !important;
+  cursor: inherit;
+}
+
 .bp-to-do-actions-list{
   display: flex;
   flex-wrap: wrap;
