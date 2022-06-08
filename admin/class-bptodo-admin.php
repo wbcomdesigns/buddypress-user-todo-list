@@ -137,7 +137,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_add_menu_page() {
-			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) ) {
+			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) && class_exists( 'Buddypress' )  ) {
 				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
 				add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
 			}

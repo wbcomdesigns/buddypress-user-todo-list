@@ -142,6 +142,8 @@ function bptodo_plugin_init() {
 	} else {
 		// $bp_active = in_array( 'buddypress/bp-loader.php', get_option( 'active_plugins' ) );
 		if ( ! class_exists( 'BuddyPress' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+			deactivate_plugins( plugin_basename( __FILE__ ) );
 			add_action( 'admin_init', 'bptodo_existing_bptodo_plugin' );
 			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
 		} else {
@@ -160,25 +162,25 @@ function bptodo_plugin_init() {
  * @access  public
  */
 function list_todo_tab_function_to_show_title() {
-    global $bptodo;
-    $profile_menu_label = $bptodo->profile_menu_label;
-    // echo '<div class="export-download"></div>';
-    /* Translators: Display plural label name */
-    $args  = array(
-        'post_type'      => 'bp-todo',
-        'author'         => bp_displayed_user_id(),
-        'post_staus'     => 'publish',
-        'posts_per_page' => -1,
-    );
-    $todos = get_posts( $args );
-    if ( 0 !== count( $todos ) ) {
-        ?>
-            <?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
-            <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-            <a href="javascript:void(0);" id="export_my_tasks"><div class="export-download"></div> <?php echo esc_html__( 'Export', 'wb-todo' ) ;?></a>
-        <?php
-    }
-    echo '';
+	global $bptodo;
+	$profile_menu_label = $bptodo->profile_menu_label;
+	// echo '<div class="export-download"></div>';
+	/* Translators: Display plural label name */
+	$args  = array(
+		'post_type'      => 'bp-todo',
+		'author'         => bp_displayed_user_id(),
+		'post_staus'     => 'publish',
+		'posts_per_page' => -1,
+	);
+	$todos = get_posts( $args );
+	if ( 0 !== count( $todos ) ) {
+		?>
+			<?php $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' ); ?>
+			<input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
+			<a href="javascript:void(0);" id="export_my_tasks"><div class="export-download"></div> <?php echo esc_html__( 'Export', 'wb-todo' ); ?></a>
+		<?php
+	}
+	echo '';
 }
 
 
@@ -204,10 +206,23 @@ function bptodo_existing_bptodo_plugin() {
 function bptodo_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
 	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
+	$action              = 'install-plugin';
+	$slug                = 'buddypress';
+	$plugin_install_link = '<a href="' . wp_nonce_url(
+		add_query_arg(
+			array(
+				'action' => $action,
+				'plugin' => $slug,
+			),
+			admin_url( 'update.php' )
+		),
+		$action . '_' . $slug
+	) . '">' . $bp_plugin . '</a>';
 	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
-	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
-	if ( isset( $_GET['activate'] ) ) {
-		unset( $_GET['activate'] );
+	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . wp_kses_post( $plugin_install_link ) . '</strong>' ) . '</p></div>';
+	if ( null !== filter_input( INPUT_GET, 'activate' ) ) {
+		$activate = filter_input( INPUT_GET, 'activate' );
+		unset( $activate );
 	}
 }
 
@@ -220,10 +235,23 @@ function bptodo_plugin_admin_notice() {
 function bptodo_network_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
 	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
+	$action              = 'install-plugin';
+	$slug                = 'buddypress';
+	$plugin_install_link = '<a href="' . wp_nonce_url(
+		add_query_arg(
+			array(
+				'action' => $action,
+				'plugin' => $slug,
+			),
+			admin_url( 'update.php' )
+		),
+		$action . '_' . $slug
+	) . '">' . $bp_plugin . '</a>';
 	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
-	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
-	if ( isset( $_GET['activate'] ) ) {
-		unset( $_GET['activate'] );
+	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . wp_kses_post( $plugin_install_link ) . '</strong>' ) . '</p></div>';
+	if ( null !== filter_input( INPUT_GET, 'activate' ) ) {
+		$activate = filter_input( INPUT_GET, 'activate' );
+		unset( $activate );
 	}
 }
 

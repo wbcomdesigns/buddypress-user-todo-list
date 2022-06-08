@@ -38,6 +38,9 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_create_cpt() {
+			if ( ! class_exists( 'Buddypress' ) ) {
+				return false;
+			}
 			$labels = array(
 				'name'               => esc_html__( 'To-Do Items', 'wb-todo' ),
 				'singular_name'      => esc_html__( 'To-Do Item', 'wb-todo' ),
