@@ -38,7 +38,7 @@ class Bptodo_List_Activator {
 	 * @access   private
 	 * @var      string    $plugin    The $_REQUEST['plugin'] value during plugin activation.
 	 */
-	private static $plugin = PLUGIN_NAME_BASE_NAME;
+	private static $plugin = 'wb-todo';
 
 	/**
 	 * Activate the plugin.
@@ -54,8 +54,8 @@ class Bptodo_List_Activator {
 			|| false === self::validate_request( self::$plugin )
 			|| false === self::check_caps()
 		) {
-			if ( isset( $_REQUEST['plugin'] ) ) {
-				if ( ! check_admin_referer( 'activate-plugin_' . self::$request['plugin'] ) ) {
+			if ( isset( $_REQUEST['wb-todo'] ) ) {
+				if ( ! check_admin_referer( 'activate-plugin_' . self::$request['wb-todo'] ) ) {
 					exit;
 				}
 			} elseif ( isset( $_REQUEST['checked'] ) ) {
@@ -67,7 +67,7 @@ class Bptodo_List_Activator {
 
 		$todo_mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
 		if ( false == $todo_mail_setting || '' == $todo_mail_setting  ) {
-			update_user_meta( bp_loggedin_user_id(), 'todo_mail_setting', 'no' );
+			update_user_meta( get_current_user_id(), 'todo_mail_setting', 'no' );
 		}
 		/**
 		 * The plugin is now safely activated.
