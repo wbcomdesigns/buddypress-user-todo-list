@@ -1,1 +1,19 @@
 /* Admin CSS */
+.bptodo-groups{
+display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.bptodo-groups span{
+    display: block;
+    background: #e7efff;
+    padding: 15px 30px;
+    border-left: 5px solid #4076da;
+    font-size: 15px;
+    color: #2656af;
+}
+.bptodo-groups span a{
+    color: #ff0000;
+    text-decoration: none;
+}

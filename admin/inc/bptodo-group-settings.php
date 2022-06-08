@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 $group_todo_list_settings = get_option( 'group-todo-list-settings' );
+if ( bp_is_active( 'groups' ) ) {
 ?>
 <div class="wbcom-tab-content">
 	<form method="post" action="options.php">
@@ -69,3 +70,18 @@ $group_todo_list_settings = get_option( 'group-todo-list-settings' );
 		<?php submit_button(); ?>
 	</form>
 </div>
+<?php
+} else {
+	?>
+<div class="wbcom-tab-content">
+	<div class="bptodo-groups">
+		<?php
+		$bp_groups_link = '<a href="' . admin_url( 'admin.php?page=bp-components' ) . '" target="blank">Click here</a>';
+		?>
+		<span>
+			<?php echo sprintf( esc_html( 'Enable BuddyPress groups component to allow groups integration %1$s.' ), '<strong>' . wp_kses_post( $bp_groups_link ) . '</strong>' ); ?>
+		</span>
+	</div>
+</div>
+<?php }
+?>
