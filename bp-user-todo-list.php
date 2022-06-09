@@ -120,6 +120,20 @@ function bptodo_admin_page_link( $links ) {
 add_action( 'plugins_loaded', 'bptodo_plugin_init' );
 
 /**
+ * Add media button for subscriber.
+ *
+ * @return void
+ */
+function bptodo_media_button_subscriber() {
+	$subscriber = get_role( 'subscriber' );
+	if ( ! empty( $subscriber ) ) {
+			$subscriber->add_cap( 'upload_files' );
+	}
+}
+
+add_action( 'init', 'bptodo_media_button_subscriber' );
+
+/**
  * Check plugin requirement on plugins loaded.
  * this plugin requires buddypress to be installed and active.
  *
