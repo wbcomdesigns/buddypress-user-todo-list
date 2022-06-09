@@ -1109,6 +1109,9 @@ Edit popup
   padding: 0px;
 }
 
+#ui-datepicker-div{
+  background: #fff;
+}
 
 
 
