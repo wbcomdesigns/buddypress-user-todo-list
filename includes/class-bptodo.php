@@ -188,7 +188,7 @@ class Bptodo_List {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bptodo_add_menu_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_general_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_shortcode_settings' );
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_save_general_settings' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_custom_variables' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
 
