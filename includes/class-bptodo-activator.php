@@ -75,6 +75,8 @@ class Bptodo_List_Activator {
 			$user_todo_list_settings = array(
 				'profile_menu_label' => 'To-do',
 				'profile_menu_label_plural' => 'To-dos',
+				'enable_todo_member' => 'on',
+				'enable_todo_group' => 'on',
 				'allow_user_add_category' => 'on',
 				'send_notification' => 'on',
 				'send_mail' => 'on',

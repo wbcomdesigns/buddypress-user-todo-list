@@ -502,7 +502,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'default_subnav_slug'     => 'list',
 					'show_for_displayed_user' => true,
 				);
-				bp_core_new_nav_item( $tab_args );
+				$enable_todo_member = get_option( 'user_todo_list_settings' );
+				if ( isset( $enable_todo_member['enable_todo_member'] ) ) {
+					bp_core_new_nav_item( $tab_args );
+				}
 
 				/** Add subnav add new todo item. */
 				bp_core_new_subnav_item(

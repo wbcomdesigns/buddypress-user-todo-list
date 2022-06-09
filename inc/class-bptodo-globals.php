@@ -49,6 +49,28 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 */
 		public $profile_menu_slug;
 
+
+		/**
+		 * Variable contains enable member setting.
+		 *
+		 * @since    1.0.0
+		 * @author   Wbcom Designs
+		 * @access   public
+		 * @var      string $enable_todo_member contains group setting.
+		 */
+		public $enable_todo_member;
+
+
+		/**
+		 * Variable contains enable group setting.
+		 *
+		 * @since    1.0.0
+		 * @author   Wbcom Designs
+		 * @access   public
+		 * @var      string $enable_todo_group conatins group setting.
+		 */
+		public $enable_todo_group;
+
 		/**
 		 * Variable contains email notification setting.
 		 *
@@ -120,7 +142,6 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		public function setup_globals() {
 			global $bptodo;
 			$settings = get_option( 'user_todo_list_settings' );
-
 			$this->profile_menu_label        = esc_html__( 'To-Do', 'wb-todo' );
 			$this->profile_menu_label_plural = esc_html__( 'To-Dos', 'wb-todo' );
 			if ( isset( $settings['profile_menu_label'] ) ) {
@@ -134,6 +155,18 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$this->profile_menu_slug = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
 
 			// $this->profile_menu_slug         = str_replace( ' ', '-', strtolower( $this->profile_menu_label ) );
+
+			/** Allow User To Add Todo Tab in Member. */
+			$this->enable_todo_member = 'no';
+			if ( ! empty( $settings['enable_todo_member'] ) ) {
+				$this->enable_todo_member = 'yes';
+			}
+
+			/** Allow User To Add Todo Tab In Group. */
+			$this->enable_todo_group = 'no';
+			if ( ! empty( $settings['enable_todo_group'] ) ) {
+				$this->enable_todo_group = 'yes';
+			}
 
 			/** Allow User To Add Todo Category. */
 			$this->allow_user_add_category = 'no';
