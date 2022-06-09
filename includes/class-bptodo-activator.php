@@ -66,9 +66,32 @@ class Bptodo_List_Activator {
 		}
 
 		$todo_mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
-		if ( false == $todo_mail_setting || '' == $todo_mail_setting  ) {
+		if ( false == $todo_mail_setting || '' == $todo_mail_setting ) {
 			update_user_meta( get_current_user_id(), 'todo_mail_setting', 'no' );
 		}
+
+		$user_todo_list_settings = get_option( 'user_todo_list_settings' );
+		if ( false === $user_todo_list_settings ) {
+			$user_todo_list_settings = array(
+				'profile_menu_label' => 'To-do',
+				'profile_menu_label_plural' => 'To-dos',
+				'allow_user_add_category' => 'on',
+				'send_notification' => 'on',
+				'send_mail' => 'on',
+			);
+			update_option( 'user_todo_list_settings', $user_todo_list_settings );
+		}
+
+		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+		if ( false === $group_todo_list_settings ) {
+			$group_todo_list_settings = array(
+				'mod_enable' => 'yes',
+				'list_enable' => 'yes',
+				'view_enable' => 'yes',
+			);
+			update_option( 'group-todo-list-settings', $group_todo_list_settings );
+		}
+
 		/**
 		 * The plugin is now safely activated.
 		 * Perform your activation actions here.
