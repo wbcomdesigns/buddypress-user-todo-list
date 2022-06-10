@@ -164,7 +164,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 						<?php } ?>
 					</select>
 					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
-					<a href="javascript:void(0);" class="add-todo-category"><i class="fas fa-plus" aria-hidden="true"></i></a>
+					<a href="javascript:void(0);" class="add-todo-category"><span class="add-cat-icon"></span></a>
 					<?php } ?>
 				</div>
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>

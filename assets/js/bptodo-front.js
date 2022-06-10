@@ -124,8 +124,11 @@ jQuery(document).ready(function () {
     var element_height = jQuery('.add-todo-cat-row').css('height').match(/\d+/);
     if (element_height[0] > 5) {
       jQuery('.add-todo-category i').attr('class', 'fa fa-plus');
+      jQuery('span').removeClass('remove-cat-icon');
+      jQuery('span').addClass('add-cat-icon');
     } else {
-      jQuery('.add-todo-category i').attr('class', 'fa fa-minus');
+      jQuery('span').removeClass('add-cat-icon');
+      jQuery('span').addClass('remove-cat-icon');
     }
 
   });
