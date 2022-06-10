@@ -713,7 +713,7 @@ if ( empty( $todos ) ) {
 															<?php if ( 'complete' !== $todo_status ) { ?>
 																<?php if ( $can_modify ) { ?>
 																	<?php /* Translators: Display todo title name  */ ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
+																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" data-type = 'group' title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
 															<?php } ?>
 																<?php /* Translators: Display todo title name  */ ?>
 																<?php if ( $can_views ) { ?>

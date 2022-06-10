@@ -933,11 +933,16 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function bptodo_edit_form_popup() {
 			$todo_id = isset( $_POST['t_id'] ) ? $_POST['t_id'] : '';
-			ob_start();
-			include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
-			$todo_edit = ob_get_clean();
-			echo $todo_edit;
-			exit();
+			$component_type = isset( $_POST['component'] ) ? $_POST['component'] : '';
+				ob_start();
+			if ( 'member' == $component_type ) {
+				include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
+			} else if ( 'group' == $component_type ) {
+				include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
+			}
+				$todo_edit = ob_get_clean();
+				echo $todo_edit;
+				exit();
 		}
 
 		/**
@@ -957,6 +962,72 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 		public function bptodo_update_form_popup() {
 			$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data'] : '';
+			foreach ( $update_form_data as $key => $value ) {
+				$todo_cat = $update_form_data[0]['value'];
+				$todo_title = $update_form_data[1]['value'];
+				$todo_summary = $update_form_data[2]['value'];
+				$todo_due_date = $update_form_data[3]['value'];
+				$todo_priority = $update_form_data[4]['value'];
+				$todo_todo_id = $update_form_data[8]['value'];
+				$todo_primary_todo_id = $update_form_data[9]['value'];
+				$todo_group_id = $update_form_data[10]['value'];
+
+				$cat             = isset( $todo_cat ) ? sanitize_text_field( $todo_cat ) : '';
+				$title           = isset( $todo_title ) ? sanitize_text_field( wp_unslash( $todo_title ) ) : '';
+				$summary         = isset( $todo_summary ) ? wp_kses_post( wp_unslash( $todo_summary ) ) : '';
+				$due_date        = isset( $todo_due_date ) ? sanitize_text_field( wp_unslash( $todo_due_date ) ) : '';
+				$priority        = isset( $todo_priority ) ? sanitize_text_field( wp_unslash( $todo_priority ) ) : '';
+				$todo_id         = isset( $todo_todo_id ) ? sanitize_text_field( wp_unslash( $todo_todo_id ) ) : '';
+				$primary_todo_id = isset( $todo_primary_todo_id ) ? sanitize_text_field( wp_unslash( $todo_primary_todo_id ) ) : '';
+
+				$taxonomy = 'todo_category';
+				$args     = array(
+					'ID'           => $todo_id,
+					'post_type'    => 'bp-todo',
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_content' => $summary,
+					'post_author'  => get_current_user_id(),
+				);
+				$post_id  = wp_update_post( $args );
+				update_post_meta( $post_id, 'todo_status', 'incomplete' );
+				update_post_meta( $post_id, 'todo_due_date', $due_date );
+				update_post_meta( $post_id, 'todo_priority', $priority );
+
+				if ( ! empty( $todo_group_id ) ) {
+					update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
+				}
+
+				wp_set_object_terms( $post_id, $cat, $taxonomy );
+
+				$associated_todo = array();
+	
+				$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
+
+				array_push( $associated_todo, $primary_todo_id );
+				foreach ( (array) $associated_todo as $key => $_todo_id ) {
+					$args    = array(
+						'ID'           => $_todo_id,
+						'post_type'    => 'bp-todo',
+						'post_status'  => 'publish',
+						'post_title'   => $title,
+						'post_content' => $summary,
+					);
+					$post_id = wp_update_post( $args );
+					// var_dump( $post_id );die;
+
+					update_post_meta( $post_id, 'todo_status', 'incomplete' );
+					update_post_meta( $post_id, 'todo_due_date', $due_date );
+					update_post_meta( $post_id, 'todo_priority', $priority );
+
+					if ( ! empty( $todo_group_id ) ) {
+						update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
+					}
+
+					wp_set_object_terms( $post_id, $cat, $taxonomy );
+				}
+			}
+
 			if ( is_array( $update_form_data ) ) {
 				$update_data = array();
 				foreach ( $update_form_data as $key => $value ) {
@@ -1005,7 +1076,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		</thead>
 
 		<tbody>
-				<?php if ( bp_activity_do_mentions() ) : ?>
+			<?php if ( bp_activity_do_mentions() ) : ?>
 					<tr id="activity-notification-settings-mentions">
 					<td>&nbsp;</td>
 					<td>
@@ -1030,7 +1101,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			<?php endif; ?>
 		</tbody>
 	</table>
-				<?php
+						<?php
 		}
 
 		/**

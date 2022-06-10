@@ -18,12 +18,14 @@ jQuery(document).ready(function () {
   
   jQuery(document).on('click','.trigger',function(){
     var tid=jQuery(this).data('tid');
+    var component_type = jQuery(this).data('type');
     jQuery.ajax({
       url:ajaxurl,
       type:'post',
       data:{
       action:'bptodo_edit_form_popup',
       t_id:tid,
+      component:component_type,
       },
     success:function(response) {
       jQuery('.edit_form_popup').html(response); 
@@ -31,6 +33,7 @@ jQuery(document).ready(function () {
       }
     });
   });
+  
 
   jQuery('.bptodo_edit_form_popup_class').on('click','#todo_update', function (e){
     e.preventDefault();
@@ -45,6 +48,27 @@ jQuery(document).ready(function () {
       data:{
       action:'bptodo_update_form_popup',
       update_form_data:editFormValue,
+      },
+      success:function(response){
+        location.reload();
+      }
+    });
+  });
+
+
+  jQuery('.bptodo_edit_form_popup_class').on('click','#group_todo_update', function (e){
+    e.preventDefault();
+    jQuery('#bptodo_edit_form_popup').trigger('submit');
+  });
+  jQuery(document).on('submit', '#bptodo_edit_form_popup', function(e){
+    e.preventDefault();
+    let editFormValue = jQuery('#bptodo_edit_form_popup').serializeArray();
+    jQuery.ajax({
+      url:ajaxurl,
+      type:'post',      
+      data:{
+      action:'bptodo_update_form_popup',
+      update_form_data:editFormValue,      
       },
       success:function(response){
         location.reload();

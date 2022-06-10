@@ -576,7 +576,7 @@ if ( empty( $todos ) ) {
 																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																	<?php if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
+																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
 																	<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>																		
 																	<?php } ?>																		
 																</ul>
