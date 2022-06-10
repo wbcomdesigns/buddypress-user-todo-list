@@ -135,8 +135,6 @@ if ( ! empty( $atts['category'] ) ) {
 																		<?php /* translators: Display todo title name */ ?>
 																		<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
 																	<?php } else { ?>
-																		<?php /* translators: Display todo title name */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
 																</ul>
 															</li>
@@ -231,8 +229,6 @@ if ( ! empty( $atts['category'] ) ) {
 																		<?php /* translators: Display todo title name */ ?>
 																		<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
 																	<?php } else { ?>
-																		<?php /* translators: Display todo title name */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
 																</ul>
 															</li>
@@ -325,8 +321,6 @@ if ( ! empty( $atts['category'] ) ) {
 																		<?php /* Translators: Display todo title name */ ?>
 																		<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
 																	<?php } else { ?>
-																		<?php /* Translators: Display todo title name */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
 																</ul>
 															</li>
@@ -419,8 +413,6 @@ if ( ! empty( $atts['category'] ) ) {
 																		<?php /* Translators: Display todo title name */ ?>
 																		<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo BPTODO_PLUGIN_URL; ?>assets/css/images/edit.svg" /></button></li>
 																	<?php } else { ?>
-																		<?php /* Translators: Display todo title name */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 																	<?php } ?>
 																</ul>
 															</li>
