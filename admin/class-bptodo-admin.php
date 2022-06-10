@@ -160,7 +160,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				<div class="bptodo-header">
 					<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 					<h1 class="wbcom-plugin-heading">
-						<?php esc_html_e( 'BuddyPress User To-Do List Settings', 'wb-todo' ); ?>
+						<?php esc_html_e( 'BuddyPress User To-Do List', 'wb-todo' ); ?>
 					</h1>
 				</div>
 				<?php $this->bptodo_show_notice(); ?>

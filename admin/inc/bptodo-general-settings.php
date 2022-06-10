@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $bptodo;
 ?>
 <div class="wbcom-tab-content">
+	<div class="wbcom-welcome-main-wrapper">
+	<h2 class="wbcom-welcome-title">General Setting</h2>
 	<form action="" method="POST" id="bptodo-general-settings-form">
 		<table class="form-table">
 			<tbody>
@@ -114,4 +116,5 @@ global $bptodo;
 			<input type="submit" name="bptodo-save-settings" class="button button-primary" value="Save Changes">
 		</p>
 	</form>
+</div>
 </div>

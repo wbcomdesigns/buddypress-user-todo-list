@@ -155,10 +155,23 @@ td.bp-to-do-actions ul {
   padding: 0;
 }
 
-.add-todo-category i {
-  margin-left: 10px;
-  font-size: 22px;
+.add-todo-category span{
+  margin: 0px 10px;
+  padding: 0px;
+  height: 26px;
+  width: 26px;
+  display: inline-block;
+  background: #f5f5f5 url(images/plus.svg) no-repeat center center;
+  background-size: 22px;
+  border-radius: 100px;
+  vertical-align: middle;
 }
+.add-todo-category span.remove-cat-icon{
+  background: #f5f5f5 url(images/minus.svg) no-repeat center center;
+  background-size: 22px;
+}
+
+
 
 .buddyboss-select {
   width: 50%;

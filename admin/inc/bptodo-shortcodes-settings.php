@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $bptodo;
 ?>
 <div class="wbcom-tab-content">
+	<div class="wbcom-welcome-main-wrapper">
+	<h2 class="wbcom-welcome-title">Shortcodes</h2>
+	<div id="bptodo-general-settings-form">
 	<table class="form-table">
 		<tbody>
 			<tr>
@@ -36,4 +39,6 @@ global $bptodo;
 			</tr>
 		</tbody>
 	</table>
+</div>
+</div>
 </div>

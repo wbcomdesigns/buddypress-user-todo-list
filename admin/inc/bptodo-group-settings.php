@@ -12,7 +12,9 @@ $group_todo_list_settings = get_option( 'group-todo-list-settings' );
 if ( bp_is_active( 'groups' ) ) {
 ?>
 <div class="wbcom-tab-content">
-	<form method="post" action="options.php">
+	<div class="wbcom-welcome-main-wrapper">
+	<h2 class="wbcom-welcome-title">Group To-do</h2>
+	<form method="post" action="options.php" id="bptodo-general-settings-form">
 		<table class="form-table">
 			<?php
 			settings_fields( 'group-todo-list-settings' );
@@ -69,6 +71,7 @@ if ( bp_is_active( 'groups' ) ) {
 		</table>
 		<?php submit_button(); ?>
 	</form>
+</div>
 </div>
 <?php
 } else {
