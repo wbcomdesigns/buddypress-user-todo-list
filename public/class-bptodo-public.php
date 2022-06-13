@@ -304,6 +304,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name, $component_name, $id ) {
 			global $bptodo;
+			$action = array();
 			$profile_menu_label = $bptodo->profile_menu_label;
 			if ( 'bptodo_due_date_action' === $component_action_name ) {
 				$todo = get_post( $item_id );
