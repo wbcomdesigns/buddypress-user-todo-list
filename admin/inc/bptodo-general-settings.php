@@ -12,7 +12,7 @@ global $bptodo;
 ?>
 <div class="wbcom-tab-content">
 	<div class="wbcom-welcome-main-wrapper">
-	<h2 class="wbcom-welcome-title">General Setting</h2>
+	<h2 class="wbcom-welcome-title"><?php echo esc_html( 'General Setting' ); ?></h2>
 	<form action="" method="POST" id="bptodo-general-settings-form">
 		<table class="form-table">
 			<tbody>
@@ -55,19 +55,6 @@ global $bptodo;
 						</label>
 						<label for="bptodo-enable-todo-tab-member"><?php esc_html_e( 'Enable todo in member', 'wb-todo' ); ?></label>
 						<p class="description"><?php esc_html_e( 'Check this option if you want to allow enable todo tab in member.', 'wb-todo' ); ?></p>
-					</td>
-				</tr>
-
-				<!-- Enable todo for group -->
-				<tr>
-					<th scope="row"><label for="bptodo-enable-todo-group"><?php esc_html_e( 'Enable To-do For Group', 'wb-todo' ); ?></label></th>
-					<td>
-						<label class="wb-switch">
-							<input type="checkbox" name="bptodo_enable_todo_group" id="bptodo-enable-todo-tab-group" <?php echo ( 'yes' === $bptodo->enable_todo_group ) ? 'checked' : 'unchecked'; ?>>
-							<span class="wb-slider wb-round"></span>
-						</label>
-						<label for="bptodo-enable-todo-tab-group"><?php esc_html_e( 'Enable todo in group', 'wb-todo' ); ?></label>
-						<p class="description"><?php esc_html_e( 'Check this option if you want to allow enable todo tab in group.', 'wb-todo' ); ?></p>
 					</td>
 				</tr>
 

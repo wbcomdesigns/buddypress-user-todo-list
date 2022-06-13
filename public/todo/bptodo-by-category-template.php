@@ -98,6 +98,7 @@ if ( ! empty( $atts['category'] ) ) {
 															/* translators: Number of left days */
 															$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 														}
+														$bptodo_row_complete = '';
 														if ( 'complete' === $todo_status ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';

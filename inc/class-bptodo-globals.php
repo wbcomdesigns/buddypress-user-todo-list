@@ -69,7 +69,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @access   public
 		 * @var      string $enable_todo_group conatins group setting.
 		 */
-		public $enable_todo_group;
+		// public $enable_todo_group;
 
 		/**
 		 * Variable contains email notification setting.
@@ -160,12 +160,6 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$this->enable_todo_member = 'no';
 			if ( ! empty( $settings['enable_todo_member'] ) ) {
 				$this->enable_todo_member = 'yes';
-			}
-
-			/** Allow User To Add Todo Tab In Group. */
-			$this->enable_todo_group = 'no';
-			if ( ! empty( $settings['enable_todo_group'] ) ) {
-				$this->enable_todo_group = 'yes';
 			}
 
 			/** Allow User To Add Todo Category. */

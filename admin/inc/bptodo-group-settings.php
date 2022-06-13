@@ -67,6 +67,21 @@ if ( bp_is_active( 'groups' ) ) {
 						<p class="description"><?php esc_html_e( 'Check this option if you want to permit group moderators to view report on single todo page.', 'wb-todo' ); ?></p>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="bptodo-enable-todo-tab-group"><?php esc_html_e( 'Enable To-do For Group', 'wb-todo' ); ?></label></th>
+					<td>
+						<label class="wb-switch">
+							<input type="checkbox" name="group-todo-list-settings[enable_todo_tab_group]" id="bptodo-enable-todo-tab-group" value="yes"
+							<?php
+							if ( isset( $group_todo_list_settings['enable_todo_tab_group'] ) ) {
+								checked( 'yes', $group_todo_list_settings['enable_todo_tab_group'] ); }
+							?>
+							>
+							<span class="wb-slider wb-round"></span>
+						</label>
+						<p class="description"><?php esc_html_e( 'Check this option if you want to allow enable todo tab in group.', 'wb-todo' ); ?></p>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<?php submit_button(); ?>

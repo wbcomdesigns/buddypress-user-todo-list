@@ -20,13 +20,12 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$profile_menu_slug         = $bptodo->profile_menu_slug;
 			$my_todo_items             = $bptodo->my_todo_items;
-			$enable_todo_group = get_option( 'user_todo_list_settings' );
-
+			$enable_todo_group = get_option( 'group-todo-list-settings' );
 			$args = array(
 				'slug' => $profile_menu_slug,
 				'name' => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 			);
-			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_group'] ) ) {
+			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_tab_group'] ) ) {
 				parent::init( $args );
 			}
 		}
