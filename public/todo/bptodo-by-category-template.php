@@ -80,7 +80,7 @@ if ( ! empty( $atts['category'] ) ) {
 														$todo_title = $todo->post_title;
 														$todo_view_url = get_permalink( $tid );
 														$todo_edit_url = bp_core_get_userlink( get_current_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-
+														$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class = '';
 														$curr_date    = date_create( date( 'Y-m-d' ) );
@@ -102,6 +102,18 @@ if ( ! empty( $atts['category'] ) ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
+														if ( ! empty( $todo_priority ) ) {
+															if ( 'critical' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-critical';
+																$priority_text  = esc_html__( 'Critical', 'wb-todo' );
+															} elseif ( 'high' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-high';
+																$priority_text  = esc_html__( 'High', 'wb-todo' );
+															} else {
+																$priority_class = 'bptodo-priority-normal';
+																$priority_text  = esc_html__( 'Normal', 'wb-todo' );
+															}
+														}
 														?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php
@@ -115,7 +127,7 @@ if ( ! empty( $atts['category'] ) ) {
 														<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
 															</li>
-															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 															<li class="bptodo-date  <?php echo esc_attr( $due_date_td_class ); if ( 'complete' === $todo_status ) {echo esc_html( $class );} ?>">
 																<?php echo esc_html( $due_date_str, 'wb-todo' ); ?>
 															</li>
@@ -267,7 +279,7 @@ if ( ! empty( $atts['category'] ) ) {
 														$todo_title = $todo->post_title;
 														$todo_view_url = get_permalink( $tid );
 														$todo_edit_url = bp_core_get_userlink( get_current_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-
+														$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class    = '';
 														$curr_date    = date_create( date( 'Y-m-d' ) );
@@ -289,6 +301,18 @@ if ( ! empty( $atts['category'] ) ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
+														if ( ! empty( $todo_priority ) ) {
+															if ( 'critical' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-critical';
+																$priority_text  = esc_html__( 'Critical', 'wb-todo' );
+															} elseif ( 'high' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-high';
+																$priority_text  = esc_html__( 'High', 'wb-todo' );
+															} else {
+																$priority_class = 'bptodo-priority-normal';
+																$priority_text  = esc_html__( 'Normal', 'wb-todo' );
+															}
+														}
 														?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php
@@ -302,7 +326,7 @@ if ( ! empty( $atts['category'] ) ) {
 														<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
 															</li>
-															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 															<li class="bptodo-date <?php echo esc_html( $due_date_td_class ); if ( 'complete' === $todo_status ) {echo esc_attr( $class );}?>">
 																<?php echo esc_html( $due_date_str ); ?>
 															</li>
@@ -359,7 +383,7 @@ if ( ! empty( $atts['category'] ) ) {
 														$todo_title = $todo->post_title;
 														$todo_view_url = get_permalink( $tid );
 														$todo_edit_url = bp_core_get_userlink( get_current_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-
+														$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class    = '';
 														$curr_date    = date_create( date( 'Y-m-d' ) );
@@ -381,6 +405,18 @@ if ( ! empty( $atts['category'] ) ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
 														}
+														if ( ! empty( $todo_priority ) ) {
+															if ( 'critical' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-critical';
+																$priority_text  = esc_html__( 'Critical', 'wb-todo' );
+															} elseif ( 'high' === $todo_priority ) {
+																$priority_class = 'bptodo-priority-high';
+																$priority_text  = esc_html__( 'High', 'wb-todo' );
+															} else {
+																$priority_class = 'bptodo-priority-normal';
+																$priority_text  = esc_html__( 'Normal', 'wb-todo' );
+															}
+														}
 														?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
 														<?php
@@ -394,7 +430,7 @@ if ( ! empty( $atts['category'] ) ) {
 														<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
 															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
 															</li>
-															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 															<li class="bptodo-date <?php echo esc_attr( $due_date_td_class ); if ( 'complete' === $todo_status ) { echo esc_attr( $class );	}?>">
 																<?php echo esc_html( $due_date_str ); ?>
 															</li>

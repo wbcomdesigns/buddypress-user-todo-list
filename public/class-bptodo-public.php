@@ -745,6 +745,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
 				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
 				(int) $completed_todos++;
+				$avg_percentage = '';
 				if ( $all_todo > 0 ) {
 					$avg_percentage = ( $completed_todos * 100 ) / $all_todo;
 				}
