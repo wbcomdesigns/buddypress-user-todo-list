@@ -873,7 +873,7 @@ if ( empty( $todos ) ) {
 															<?php } else { ?>
 															<div class="info bp-feedback">
 																<span class="bp-icon" aria-hidden="true"></span>
-																<p class="text"><?php echo esc_html( 'No any completed todo found' ); ?></p>
+																<p class="text"><?php echo esc_html( 'Completed Todo Not Found' ); ?></p>
 															</div>
 																<?php } ?>
 														</div>
