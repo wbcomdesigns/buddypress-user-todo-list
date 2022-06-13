@@ -101,6 +101,7 @@ if ( ! empty( $atts['category'] ) ) {
 														if ( 'complete' === $todo_status ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
+															$bptodo_row_complete = 'completed';
 														}
 														if ( ! empty( $todo_priority ) ) {
 															if ( 'critical' === $todo_priority ) {
@@ -115,7 +116,7 @@ if ( ! empty( $atts['category'] ) ) {
 															}
 														}
 														?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 														<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -207,9 +208,10 @@ if ( ! empty( $atts['category'] ) ) {
 														if ( 'complete' === $todo_status ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
+															$bptodo_row_complete = 'completed';
 														}
 														?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete );?>">
 														<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
@@ -300,6 +302,7 @@ if ( ! empty( $atts['category'] ) ) {
 														if ( 'complete' === $todo_status ) {
 															$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 															$due_date_td_class = '';
+															$bptodo_row_complete = 'completed';
 														}
 														if ( ! empty( $todo_priority ) ) {
 															if ( 'critical' === $todo_priority ) {
@@ -314,7 +317,7 @@ if ( ! empty( $atts['category'] ) ) {
 															}
 														}
 														?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete );?>">
 														<?php
 																$checked = '';
 																$checked_class = 'todo-uncomplete';
