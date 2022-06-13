@@ -67,7 +67,11 @@ class Bptodo_List_Activator {
 
 		$todo_mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
 		if ( false == $todo_mail_setting || '' == $todo_mail_setting ) {
-			update_user_meta( get_current_user_id(), 'todo_mail_setting', 'no' );
+			$all_users = get_users();
+			foreach( $all_users as $all_userdata ){
+				$all_users_id = $all_userdata->ID;
+				update_user_meta( $all_users_id, 'todo_mail_setting', 'no' );
+			}
 		}
 
 		$user_todo_list_settings = get_option( 'user_todo_list_settings' );
