@@ -29,7 +29,7 @@ jQuery(document).ready(function () {
       },
     success:function(response) {
       jQuery('.edit_form_popup').html(response); 
-      jQuery('.bptodo-text-input').datepicker();     
+      jQuery('#datepick').datepicker();     
       }
     });
   });
