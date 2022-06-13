@@ -95,19 +95,26 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
 
+				$todo_ajax_object = array(
+					'ajax_url'            => admin_url( 'admin-ajax.php' ),
+					'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+					/* Translators: Display plural label name */
+					'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
+					'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
+					'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
+					'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
+					'bptodo_complete_url' => get_permalink( $post->ID ),
+				);
+				if ( bp_is_active( 'members' ) || bp_is_active( 'groups' ) ) {
+					$todo_ajax_object['bptodo_complete_url'] = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list';
+				}
+				if ( shortcode_exists( 'bptodo_by_category' ) ) {
+					$todo_ajax_object['bptodo_complete_url'] = get_permalink( $post->ID );
+				}
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',
-					array(
-						'ajax_url'            => admin_url( 'admin-ajax.php' ),
-						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
-						/* Translators: Display plural label name */
-						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
-						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
-						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
-						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
-						'bptodo_complete_url' => bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list',
-					)
+					$todo_ajax_object,
 				);
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
 			}
@@ -137,7 +144,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_add_menu_page() {
-			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) && class_exists( 'Buddypress' )  ) {
+			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) && class_exists( 'Buddypress' ) ) {
 				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
 				add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
 			}
