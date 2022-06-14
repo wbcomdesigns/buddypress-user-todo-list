@@ -29,7 +29,7 @@ if ( ! class_exists( 'Wbcom_Admin_Settings' ) ) {
 			add_shortcode( 'wbcom_admin_setting_header', array( $this, 'wbcom_admin_setting_header_html' ) );
 			add_action( 'admin_menu', array( $this, 'wbcom_admin_additional_pages' ), 999 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'wbcom_enqueue_admin_scripts' ) );
-			add_action( 'wp_ajax_wbcom_manage_plugin_installation', array( $this, 'wbcom_do_plugin_action' ) );
+			//add_action( 'wp_ajax_wbcom_manage_plugin_installation', array( $this, 'wbcom_do_plugin_action' ) );
 		}
 
 		/**
@@ -38,19 +38,19 @@ if ( ! class_exists( 'Wbcom_Admin_Settings' ) ) {
 		 * @since 2.0.0
 		 * @access public
 		 */
-		public function wbcom_do_plugin_action() {
-			$action = ! empty( $_POST['plugin_action'] ) ? $_POST['plugin_action'] : false;
-			$slug   = ! empty( $_POST['plugin_slug'] ) ? $_POST['plugin_slug'] : false;
+		// public function wbcom_do_plugin_action() {
+		// 	$action = ! empty( $_POST['plugin_action'] ) ? $_POST['plugin_action'] : false;
+		// 	$slug   = ! empty( $_POST['plugin_slug'] ) ? $_POST['plugin_slug'] : false;
 
-			if ( 'install_plugin' === $action ) {
-				$this->wbcom_do_plugin_install( $slug );
-			} elseif ( 'activate_plugin' === $action ) {
-				$this->wbcom_do_plugin_activate( $slug );
-			} else {
-				$this->wbcom_do_plugin_deactivate( $slug );
-			}
-			die;
-		}
+		// 	if ( 'install_plugin' === $action ) {
+		// 		$this->wbcom_do_plugin_install( $slug );
+		// 	} elseif ( 'activate_plugin' === $action ) {
+		// 		$this->wbcom_do_plugin_activate( $slug );
+		// 	} else {
+		// 		$this->wbcom_do_plugin_deactivate( $slug );
+		// 	}
+		// 	die;
+		// }
 
 		/**
 		 * Function for activate plugin.

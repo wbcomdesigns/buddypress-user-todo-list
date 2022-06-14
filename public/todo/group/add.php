@@ -46,7 +46,7 @@ if ( ! empty( $group_members_ids ) ) {
 }
 
 // Save todo items.
-if ( isset( $_POST['group_todo_create'] ) && wp_verify_nonce( $_POST['group_save_new_todo_data_nonce'], 'wp-bp-todo' ) ) {
+if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['group_save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 
 	if ( isset( $_POST['todo_cat'] ) ) {
 		$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
