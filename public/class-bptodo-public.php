@@ -387,7 +387,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			$profile_menu_label        = $bptodo->profile_menu_label;
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-			$profile_menu_slug         = $bptodo->profile_menu_slug;
+			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug  );
 			$my_todo_items             = $bptodo->my_todo_items;
 			$name        = $profile_menu_slug;
 			$groups_link = bp_get_group_permalink( $bp->groups->current_group );
@@ -488,7 +488,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$profile_menu_label        = $bptodo->profile_menu_label;
 				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
-				$profile_menu_slug = strtolower( $bptodo->profile_menu_label );
+				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
 				$my_todo_items     = $bptodo->my_todo_items;
 				$displayed_uid  = bp_displayed_user_id();
 				$parent_slug    = $profile_menu_slug;

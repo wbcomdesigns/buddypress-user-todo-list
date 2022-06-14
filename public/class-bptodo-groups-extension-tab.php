@@ -22,7 +22,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			$my_todo_items             = $bptodo->my_todo_items;
 			$enable_todo_group = get_option( 'group-todo-list-settings' );
 			$args = array(
-				'slug' => $profile_menu_slug,
+				'slug' => sanitize_title( strtolower( $profile_menu_slug ) ),
 				'name' => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 			);
 			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_tab_group'] ) ) {
