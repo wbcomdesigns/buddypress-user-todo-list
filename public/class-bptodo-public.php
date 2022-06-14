@@ -937,7 +937,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$todo_id = isset( $_POST['t_id'] ) ? $_POST['t_id'] : '';
 			$component_type = isset( $_POST['component'] ) ? $_POST['component'] : '';
 				ob_start();
-			if ( 'member' == $component_type ) {
+			if ( 'member' != $component_type || 'group' != $component_type ) {
+				include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
+			} else if ( 'member' == $component_type ) {
 				include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
 			} else if ( 'group' == $component_type ) {
 				include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
@@ -1003,7 +1005,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				wp_set_object_terms( $post_id, $cat, $taxonomy );
 
 				$associated_todo = array();
-	
+
 				$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
 
 				array_push( $associated_todo, $primary_todo_id );
