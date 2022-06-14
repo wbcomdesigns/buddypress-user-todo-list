@@ -16,6 +16,7 @@ jQuery(document).ready(function () {
   });
   // end add active class on all todo
   
+  // open popup on click
   jQuery(document).on('click','.trigger',function(){
     var tid=jQuery(this).data('tid');
     var component_type = jQuery(this).data('type');
@@ -26,6 +27,7 @@ jQuery(document).ready(function () {
       action:'bptodo_edit_form_popup',
       t_id:tid,
       component:component_type,
+      ajax_nonce: todo_ajax_object.ajax_nonce,
       },
     success:function(response) {
       jQuery('.edit_form_popup').html(response); 
@@ -34,7 +36,7 @@ jQuery(document).ready(function () {
     });
   });
   
-
+  // update todo on popup
   jQuery('.bptodo_edit_form_popup_class').on('click','#todo_update', function (e){
     e.preventDefault();
     jQuery('#bptodo_edit_form_popup').trigger('submit');
@@ -48,6 +50,7 @@ jQuery(document).ready(function () {
       data:{
       action:'bptodo_update_form_popup',
       update_form_data:editFormValue,
+      ajax_nonce: todo_ajax_object.ajax_nonce,
       },
       success:function(response){
         location.reload();
@@ -68,7 +71,8 @@ jQuery(document).ready(function () {
       type:'post',      
       data:{
       action:'bptodo_update_form_popup',
-      update_form_data:editFormValue,      
+      update_form_data:editFormValue, 
+      ajax_nonce: todo_ajax_object.ajax_nonce,     
       },
       success:function(response){
         location.reload();

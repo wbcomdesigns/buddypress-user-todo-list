@@ -131,7 +131,7 @@ if ( empty( $todos ) ) {
 
 	<!-- Show the successful message when todo is added -->
 	<?php
-	if ( isset( $_POST['todo_create'] ) ) {
+	if ( isset( $_POST['todo_create'] ) && isset( $_POST['save_new_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 		if ( 'nouveau' === $bp_template_option ) {
 			?>
 				<div id="message" class="bptodo-notice info bp-feedback bp-messages bp-template-notice">
