@@ -140,7 +140,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
 			</td>
 		</tr>
 

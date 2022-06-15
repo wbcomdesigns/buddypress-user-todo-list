@@ -98,7 +98,7 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
 			</td>
 		</tr>
 
