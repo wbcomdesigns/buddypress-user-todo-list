@@ -192,7 +192,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			echo '<div class="wbcom-tabs-section"><div class="nav-tab-wrapper"><div class="wb-responsive-menu"><span>' . esc_html( 'Menu' ) . '</span><input class="wb-toggle-btn" type="checkbox" id="wb-toggle-btn"><label class="wb-toggle-icon" for="wb-toggle-btn"><span class="wb-icon-bars"></span></label></div><ul>';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
 				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
-				echo '<li><a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption, 'wb-todo' ) . '</a></li>';
+				echo '<li><a class="nav-tab ' . esc_attr( $active ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption ) . '</a></li>';
 			}
 			echo '</div></ul></div>';
 		}
@@ -331,7 +331,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 */
 		public function bptodo_show_notice() {
 			if ( isset( $_POST['bptodo-save-settings'] ) && isset( $_POST['bptodo-general-settings-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bptodo-general-settings-nonce'] ) ), 'bptodo' ) ) {
-				echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html( 'Settings Saved.', 'wb-todo' ) . '</strong></p></div>';
+				echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html( 'Settings Saved.' ) . '</strong></p></div>';
 			}
 		}
 	}

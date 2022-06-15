@@ -62,7 +62,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			}
 
 			if ( bp_action_variable() === 'add' ) {
-				if ( isset( $_GET['args'] ) ) {
+				if ( isset( $_GET['args'] ) ) { //phpcs:ignore
 					bp_get_template_part( 'edit' );
 				} else {
 					bp_get_template_part( 'add' );

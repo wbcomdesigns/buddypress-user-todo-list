@@ -139,7 +139,7 @@ if ( ! empty( $atts['category'] ) ) {
 															</li>
 															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
 															<li class="bptodo-date  <?php echo esc_attr( $due_date_td_class ); if ( 'complete' === $todo_status ) {echo esc_html( $class );} ?>">
-																<?php echo esc_html( $due_date_str, 'wb-todo' ); ?>
+																<?php echo esc_html( $due_date_str ); ?>
 															</li>
 															<li class="bptodo-task <?php if ( 'complete' === $todo_status ) { echo esc_attr( $class );} ?>">
 																<?php echo esc_html( $todo_title ); ?>
@@ -175,7 +175,7 @@ if ( ! empty( $atts['category'] ) ) {
 						<?php if ( ! empty( $todo_list['today'] ) ) { ?>
 							<div class="bptodo-admin-row">
 								<div>
-									<button class="bptodo-item"><?php echo esc_html( 'TODAY', 'wb-todo' ); ?></button>
+									<button class="bptodo-item"><?php echo esc_html( 'TODAY' ); ?></button>
 									<div class="bptodo-panel">
 										<div class="todo-detail">
 											<div class="bp-todo-reminder">

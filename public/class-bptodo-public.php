@@ -946,7 +946,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
 				}
 					$todo_edit = ob_get_clean();
-					echo $todo_edit;
+					echo $todo_edit; //phpcs:ignore
 					exit();
 			}
 		}
@@ -968,7 +968,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 		public function bptodo_update_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : '';
+				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
 				foreach ( $update_form_data as $key => $value ) {
 					$todo_cat = $update_form_data[0]['value'];
 					$todo_title = $update_form_data[1]['value'];
