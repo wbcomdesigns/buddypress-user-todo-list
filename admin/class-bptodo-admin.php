@@ -103,14 +103,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 					'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
 					'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
-					'bptodo_complete_url' => get_permalink( $post->ID ),
+					'bptodo_complete_url' => bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list',
 				);
-				if ( bp_is_active( 'members' ) || bp_is_active( 'groups' ) ) {
-					$todo_ajax_object['bptodo_complete_url'] = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list';
-				}
-				if ( shortcode_exists( 'bptodo_by_category' ) ) {
-					$todo_ajax_object['bptodo_complete_url'] = get_permalink( $post->ID );
-				}
+
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',

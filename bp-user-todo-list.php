@@ -325,6 +325,28 @@ function bptodo_activation_redirect_settings( $plugin ) {
 		exit;
 	}
 }
+add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
+/**
+ * Bptodo_activate_group_member_todo
+ *
+ * @return void
+ */
+function bptodo_activate_group_member_todo() {
+	$user_todo_list_settings = get_option( 'user_todo_list_settings' );
+	if ( ! isset( $user_todo_list_settings['enable_todo_member'] ) ) {
+		$user_todo_list_settings['enable_todo_member'] = 'on';
+	}
+	update_option( 'user_todo_list_settings', $user_todo_list_settings );
+
+	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+
+	if ( ! isset( $group_todo_list_settings['enable_todo_tab_group'] ) ) {
+		$group_todo_list_settings['enable_todo_tab_group'] = 'yes';
+	}
+	update_option( 'group-todo-list-settings', $group_todo_list_settings );
+
+}
+
 
 function bptodo_run() {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo.php';
