@@ -308,7 +308,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_label = $bptodo->profile_menu_label;
 			if ( 'bptodo_due_date_action' === $component_action_name ) {
 				$todo = get_post( $item_id );
-				echo esc_html( $todo );
 				if ( ! empty( $todo ) ) {
 					$todo_title = $todo->post_title;
 					$todo_link  = get_permalink( $item_id );
@@ -559,8 +558,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function add_todo_tab_function_to_show_title() {
 			global $bptodo;
 			$profile_menu_slug = $bptodo->profile_menu_slug;
-			if ( isset( $_GET['args'] ) ) {
-				$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
+			if ( isset( $_GET['args'] ) ) { //phpcs:ignore
+				$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) ); //phpcs:ignore
 				$todo    = get_post( $todo_id );
 				/* Translators: 1) Get a Plural Label Name 2) Get a to to title */
 				echo sprintf( esc_html__( 'Edit %1$s : %2$s', 'wb-todo' ), esc_html( $profile_menu_slug ), esc_html( $todo->post_title ) );
