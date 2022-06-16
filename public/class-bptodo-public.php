@@ -332,30 +332,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			return $action;
 		}
 
-		/**
-		 * Register the shortcode - bptodo_by_categpry that will list all the todo items according to the category.
-		 *
-		 * @since    1.0.0
-		 * @access   public
-		 * @author   Wbcom Designs
-		 * @param    string $atts contain attribute.
-		 */
-		public function bptodo_by_categpry_template( $atts ) {
-			if ( is_user_logged_in() ) {
-				ob_start();
-				$shortcode_template = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template.php';
-				if ( file_exists( $shortcode_template ) ) {
-					include_once $shortcode_template;
-				}
-				return ob_get_clean();
-			} else {
-				$shortcode_template_loggedout_user = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template-loggedout-user.php';
-				if ( file_exists( $shortcode_template_loggedout_user ) ) {
-					include_once $shortcode_template_loggedout_user;
-				}
-			}
-		}
-
 		// ~~~~~~~~~~~~
 		/**
 		 * Function to register template location.

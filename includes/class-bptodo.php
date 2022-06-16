@@ -187,7 +187,6 @@ class Bptodo_List {
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt_category' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bptodo_add_menu_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_general_settings' );
-		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_shortcode_settings' );
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_custom_variables' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
@@ -220,7 +219,6 @@ class Bptodo_List {
 		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_due_date_notifications_component' );
 		$this->loader->add_filter( 'bp_notifications_get_notifications_for_user', $plugin_public, 'bptodo_format_due_date_notifications', 10, 8 );
 		$this->loader->add_filter( 'cron_schedules', $plugin_public, 'bptodo_notification_cron_schedule' );
-		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_categpry_template' );
 
 		/** Export My Tasks. */
 		$this->loader->add_action( 'wp_ajax_bptodo_export_my_tasks', $plugin_public, 'bptodo_export_my_tasks' );

@@ -263,32 +263,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		}
 
 		/**
-		 * Display plugin shortcode setting's tab.
-		 *
-		 * @author  wbcomdesigns
-		 * @since   1.0.0
-		 * @access  public
-		 */
-		public function bptodo_register_shortcode_settings() {
-			$this->plugin_settings_tabs['user-todo-list-shortcodes'] = esc_html__( 'Shortcodes', 'wb-todo' );
-			register_setting( 'user-todo-list-shortcodes', 'user-todo-list-shortcodes' );
-			add_settings_section( 'section_shortcodes', ' ', array( &$this, 'bptodo_general_shortcodes_content' ), 'user-todo-list-shortcodes' );
-		}
-
-		/**
-		 * Display plugin shortcode setting's tab content.
-		 *
-		 * @author  wbcomdesigns
-		 * @since   1.0.0
-		 * @access  public
-		 */
-		public function bptodo_general_shortcodes_content() {
-			if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-shortcodes-settings.php' ) ) {
-				require_once dirname( __FILE__ ) . '/inc/bptodo-shortcodes-settings.php';
-			}
-		}
-
-		/**
 		 * Save general setting.
 		 *
 		 * @author  wbcomdesigns
