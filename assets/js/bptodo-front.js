@@ -30,8 +30,7 @@ jQuery(document).ready(function () {
       ajax_nonce: todo_ajax_object.ajax_nonce,
       },
     success:function(response) {
-      jQuery('.edit_form_popup').html(response); 
-      jQuery('#datepick').datepicker();     
+      jQuery('.edit_form_popup').html(response);    
       }
     });
   });
@@ -279,7 +278,7 @@ bptodo_open_close_on_category();
           jQuery('#bptodo-completed tbody').append(response.completed_html);
           jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
           jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
-          clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')          
+          clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
           bptodo_reload_url();
         }
       }
@@ -303,6 +302,10 @@ bptodo_open_close_on_category();
               console.log(height);
             });
           bptodo_open_close_on_category();
+          const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
+      for(let button of buttons) {
+        modalEvent(button);
+      }
       }
     })
   }
