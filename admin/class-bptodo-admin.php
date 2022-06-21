@@ -95,21 +95,18 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
 
-				$todo_ajax_object = array(
-					'ajax_url'            => admin_url( 'admin-ajax.php' ),
-					'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
-					/* Translators: Display plural label name */
-					'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
-					'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
-					'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
-					'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
-					'bptodo_complete_url' => bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $bptodo->profile_menu_slug . '/list',
-				);
-
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',
-					$todo_ajax_object,
+					array(
+						'ajax_url'            => admin_url( 'admin-ajax.php' ),
+						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+						/* Translators: Display plural label name */
+						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
+						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
+						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
+						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
+					)
 				);
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
 			}
