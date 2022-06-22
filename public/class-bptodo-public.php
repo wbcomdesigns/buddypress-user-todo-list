@@ -32,13 +32,17 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 		}
 
+		
+
 		public function enqueue_styles() {
 
 		}
 
 		public function enqueue_scripts() {
-
+		
 		}
+
+		
 
 		/**
 		 * Actions performed to send mails and notifications whose due date has arrived.
@@ -362,7 +366,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			$profile_menu_label        = $bptodo->profile_menu_label;
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug  );
+			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug );
 			$my_todo_items             = $bptodo->my_todo_items;
 			$name        = $profile_menu_slug;
 			$groups_link = bp_get_group_permalink( $bp->groups->current_group );
@@ -913,9 +917,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo_id = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
 				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';
 					ob_start();
-				if ( 'member' != $component_type || 'group' != $component_type ) {
-					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
-				} else if ( 'member' == $component_type ) {
+				if ( 'member' == $component_type ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
 				} else if ( 'group' == $component_type ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
@@ -932,6 +934,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @return void
 		 */
 		public function bptodo_add_div_edit_form() {
+			
 			echo '<div class="bptodo-modal modal" data-modal="trigger">
                     <div class="content-wrapper bptodo_edit_form_popup">
                     <button class="close"></button>
@@ -939,6 +942,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					</div>
 						</div>
                     </div>';
+
 		}
 
 		public function bptodo_update_form_popup() {
