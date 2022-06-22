@@ -48,7 +48,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 					<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
 					<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 					<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_html( $add_cat_nonce ); ?>">
-					<button type="button" id="add-todo-cat"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
+					<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 				</div>
 				<?php } ?>
 			</td>

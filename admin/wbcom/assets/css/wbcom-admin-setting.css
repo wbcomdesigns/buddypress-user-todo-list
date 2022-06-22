@@ -902,8 +902,16 @@
     margin-right: 8px;
 }
 
-.nav-tab-wrapper ul li:first-child a.nav-tab:before {
+.nav-tab-wrapper ul li.Welcome a.nav-tab:before {
     content: "\f102";
+}
+
+.nav-tab-wrapper ul li.General a.nav-tab:before {
+    content: "\f111";
+}
+
+.nav-tab-wrapper ul li.Group.To-Do a.nav-tab:before {
+    content: "\f307";
 }
 
 /* Welcome Page : End */
