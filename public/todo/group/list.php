@@ -222,7 +222,9 @@ if ( empty( $todos ) ) {
 													<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
 													<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
 													<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+													<?php if(bp_group_is_admin() || bp_group_is_mod() ) { ?>
 													<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
+													<?php  } ?>
 												</ul>
 											</div>
 											<div class="todo-header-list">
@@ -439,7 +441,7 @@ if ( empty( $todos ) ) {
 													</li>
 													<li class="bptodo-task<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
 													<!-- <li class="<?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : esc_attr( $due_date_td_class ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"><?php echo esc_html( $due_date_str ); ?></li> -->
-
+													<?php if(bp_group_is_admin() || bp_group_is_mod() ) { ?>
 													<li class="bp-to-do-actions">
 														<ul class="bp-to-do-actions-list">
 															<?php if ( $can_modify ) { ?>
@@ -464,6 +466,7 @@ if ( empty( $todos ) ) {
 														}
 														?>
 													</li>
+													<?php } ?>
 												</ul>
 												<?php } ?>
 
@@ -704,6 +707,7 @@ if ( empty( $todos ) ) {
 														// }
 														?>
 													"><?php // echo esc_html( $due_date_str ); ?></li> -->
+													<?php if(bp_group_is_admin() || bp_group_is_mod() ) { ?>
 													<li class="bp-to-do-actions">
 														<ul class="bp-to-do-actions-list">
 														<?php if ( $can_modify ) { ?>
@@ -730,6 +734,7 @@ if ( empty( $todos ) ) {
 														}
 														?>
 													</li>
+													<?php } ?>
 													</ul>
 												<?php } ?>
 
@@ -754,7 +759,9 @@ if ( empty( $todos ) ) {
 															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
 															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
 															<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+															<?php if(bp_group_is_admin() || bp_group_is_mod() ) { ?>
 															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
+															<?php } ?>
 														</ul>
 													</div>
 													<div class="todo-header-list">
@@ -850,6 +857,7 @@ if ( empty( $todos ) ) {
 																	echo esc_attr( $class );}
 																?>
 																	"><a href="<?php echo esc_url( $todo_view_url ); ?>" target = "_blank"><?php echo esc_html( $todo_title ); ?></a></li>
+																<?php if(bp_group_is_admin() || bp_group_is_mod() ) { ?>
 																<li class="bp-to-do-actions">
 																	<ul class="bp-to-do-actions-list">
 																			<?php if ( $can_modify ) { ?>
@@ -868,6 +876,7 @@ if ( empty( $todos ) ) {
 																		<?php } ?>																				
 																	</ul>
 																</li>
+																<?php } ?>
 															</ul>
 																<?php } ?>
 															<?php } else { ?>
