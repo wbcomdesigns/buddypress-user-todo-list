@@ -924,6 +924,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				}
 					$todo_edit = ob_get_clean();
 					echo $todo_edit; //phpcs:ignore
+					\_WP_Editors::enqueue_scripts();
+					print_footer_scripts();
+					\_WP_Editors::editor_js();
 					exit();
 			}
 		}

@@ -130,17 +130,8 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 					'media_buttons' => false,
 					'editor_height' => 200,
 					'quicktags' => false,
-					'tinymce' => array(         
-						'toolbar1' => 'bold,italic,undo,redo',
-						'statusbar' => false,
-						'resize' => 'both',
-						'paste_as_text' => true
-					)
 				);
 				wp_editor( $todo->post_content, 'bptodo-summary-input', $settings );
-				\_WP_Editors::enqueue_scripts();
-				print_footer_scripts();
-				\_WP_Editors::editor_js();
 				?>
 			</td>
 		</tr>
