@@ -13,7 +13,7 @@ global $bptodo;
 <div class="wbcom-tab-content">
 	<div class="wbcom-welcome-main-wrapper">
 		<div class="wbcom-admin-title-section">
-			<h3><?php esc_html_e( 'General Settings', 'bp-member-reviews' ); ?></h3>
+			<h3><?php esc_html_e( 'General Settings', 'wb-todo' ); ?></h3>
 		</div>
 		<div class="wbcom-admin-option-wrap wbcom-admin-option-wrap-view">
 			<form action="" method="POST" id="bptodo-general-settings-form">

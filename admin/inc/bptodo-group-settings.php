@@ -14,7 +14,7 @@ if ( bp_is_active( 'groups' ) ) {
 <div class="wbcom-tab-content">
 	<div class="wbcom-welcome-main-wrapper">
 		<div class="wbcom-admin-title-section">
-			<h3><?php esc_html_e( 'Group To-do Settings', 'bp-member-reviews' ); ?></h3>
+			<h3><?php esc_html_e( 'Group To-do Settings', 'wb-todo' ); ?></h3>
 		</div>
 		<div class="wbcom-admin-option-wrap wbcom-admin-option-wrap-view">
 			<form method="post" action="options.php" id="bptodo-general-settings-form">
