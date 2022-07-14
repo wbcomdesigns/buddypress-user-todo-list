@@ -32,17 +32,17 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 		}
 
-		
+
 
 		public function enqueue_styles() {
 
 		}
 
 		public function enqueue_scripts() {
-		
+
 		}
 
-		
+
 
 		/**
 		 * Actions performed to send mails and notifications whose due date has arrived.
@@ -66,11 +66,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
 					$diff_days   = '';
 					if ( 'complete' !== $todo_status ) {
-						$author_id = $todo->post_author;
-						$curr_date = date_create( date( 'Y-m-d' ) );
-						$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-						$diff      = date_diff( $curr_date, $due_date );
-						$mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+						$author_id     = $todo->post_author;
+						$curr_date     = date_create( date( 'Y-m-d' ) );
+						$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
+						$diff          = date_diff( $curr_date, $due_date );
+						$mail_setting  = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
 						$mail_settings = isset( $mail_setting[0] ) ? $mail_setting[0] : '';
 						if ( is_object( $diff ) ) {
 							$diff_days = $diff->format( '%R%a' );
@@ -289,7 +289,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_notification_cron_schedule( $schedules ) {
 			$schedules['every_six_hours'] = array(
 				'interval' => apply_filters( 'bptodo_notification_cron_schedule_interval', 21600 ), // Every 6 hours
-				'display'  => __( 'Every 6 hours' ),
+				'display'  => __( 'Every 6 hours', 'wb-todo' ),
 			);
 			return $schedules;
 		}
@@ -308,7 +308,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name, $component_name, $id ) {
 			global $bptodo;
-			$action = array();
+			$action             = array();
 			$profile_menu_label = $bptodo->profile_menu_label;
 			if ( 'bptodo_due_date_action' === $component_action_name ) {
 				$todo = get_post( $item_id );
@@ -368,9 +368,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug );
 			$my_todo_items             = $bptodo->my_todo_items;
-			$name        = $profile_menu_slug;
-			$groups_link = bp_get_group_permalink( $bp->groups->current_group );
-			$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
+			$name                      = $profile_menu_slug;
+			$groups_link               = bp_get_group_permalink( $bp->groups->current_group );
+			$admin_link                = trailingslashit( $groups_link . $profile_menu_slug );
 
 			// Common params to all nav items.
 			$default_params = array(
@@ -379,7 +379,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				'show_in_admin_bar' => true,
 			);
 
-			$sub_nav[] = array_merge(
+			$sub_nav[]    = array_merge(
 				array(
 					'name'            => $profile_menu_label_plural,
 					'slug'            => 'list',
@@ -469,12 +469,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
 				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
 				$my_todo_items     = $bptodo->my_todo_items;
-				$displayed_uid  = bp_displayed_user_id();
-				$parent_slug    = $profile_menu_slug;
-				$todo_menu_link = bp_core_get_userlink( $displayed_uid, false, true ) . $parent_slug;
+				$displayed_uid     = bp_displayed_user_id();
+				$parent_slug       = $profile_menu_slug;
+				$todo_menu_link    = bp_core_get_userlink( $displayed_uid, false, true ) . $parent_slug;
 
-				$name     = bp_get_displayed_user_username();
-				$tab_args = array(
+				$name               = bp_get_displayed_user_username();
+				$tab_args           = array(
 					'name'                    => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 					'slug'                    => $profile_menu_slug,
 					'screen_function'         => array( $this, 'todo_tab_function_to_show_screen' ),
@@ -914,12 +914,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function bptodo_edit_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$todo_id = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
+				$todo_id        = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
 				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';
 					ob_start();
 				if ( 'member' == $component_type ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
-				} else if ( 'group' == $component_type ) {
+				} elseif ( 'group' == $component_type ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
 				}
 					$todo_edit = ob_get_clean();
@@ -937,7 +937,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @return void
 		 */
 		public function bptodo_add_div_edit_form() {
-			
+
 			echo '<div class="bptodo-modal modal" data-modal="trigger">
                     <div class="content-wrapper bptodo_edit_form_popup">
                     <button class="close"></button>
@@ -952,14 +952,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
 				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
 				foreach ( $update_form_data as $key => $value ) {
-					$todo_cat = $update_form_data[0]['value'];
-					$todo_title = $update_form_data[1]['value'];
-					$todo_summary = $update_form_data[2]['value'];
-					$todo_due_date = $update_form_data[3]['value'];
-					$todo_priority = $update_form_data[4]['value'];
-					$todo_todo_id = $update_form_data[8]['value'];
+					$todo_cat             = $update_form_data[0]['value'];
+					$todo_title           = $update_form_data[1]['value'];
+					$todo_summary         = $update_form_data[2]['value'];
+					$todo_due_date        = $update_form_data[3]['value'];
+					$todo_priority        = $update_form_data[4]['value'];
+					$todo_todo_id         = $update_form_data[8]['value'];
 					$todo_primary_todo_id = $update_form_data[9]['value'];
-					$todo_group_id = $update_form_data[10]['value'];
+					$todo_group_id        = $update_form_data[10]['value'];
 
 					$cat             = isset( $todo_cat ) ? sanitize_text_field( $todo_cat ) : '';
 					$title           = isset( $todo_title ) ? sanitize_text_field( wp_unslash( $todo_title ) ) : '';
@@ -1022,13 +1022,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					foreach ( $update_form_data as $key => $value ) {
 						$update_data[ $value['name'] ] = $value['value'];
 					}
-					$cat      = sanitize_text_field( $update_data['todo_cat'] );
-					$title    = sanitize_text_field( $update_data['todo_title'] );
-					$summary  = wp_kses_post( $update_data['bptodo-summary-input'] );
-					$due_date = sanitize_text_field( $update_data['todo_due_date'] );
-					$priority = sanitize_text_field( $update_data['todo_priority'] );
-					$todo_id  = sanitize_text_field( $update_data['hidden_todo_id'] );
-					$taxonomy     = 'todo_category';
+					$cat              = sanitize_text_field( $update_data['todo_cat'] );
+					$title            = sanitize_text_field( $update_data['todo_title'] );
+					$summary          = wp_kses_post( $update_data['bptodo-summary-input'] );
+					$due_date         = sanitize_text_field( $update_data['todo_due_date'] );
+					$priority         = sanitize_text_field( $update_data['todo_priority'] );
+					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] );
+					$taxonomy         = 'todo_category';
 						$args         = array(
 							'ID'           => $todo_id,
 							'post_type'    => 'bp-todo',
