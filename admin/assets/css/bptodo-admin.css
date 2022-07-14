@@ -17,3 +17,9 @@
     color: #ff0000;
     text-decoration: none;
 }
+.nav-tab-wrapper ul li a#user-todo-list-settings:before {
+    content: "\f111" !important;
+}
+.nav-tab-wrapper ul li a#group-todo-list-settings:before {
+    content: "\f307" !important;
+}
