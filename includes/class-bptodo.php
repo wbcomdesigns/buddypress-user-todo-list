@@ -180,7 +180,7 @@ class Bptodo_List {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Bptodo_Admin( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
-		$plugin_cpt = new Bptodo_Cpt( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
+		$plugin_cpt   = new Bptodo_Cpt( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt' );
@@ -190,7 +190,7 @@ class Bptodo_List {
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_custom_variables' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
-
+		$this->loader->add_action( 'in_admin_header', $plugin_admin, 'wbcom_hide_all_admin_notices_from_setting_page' );
 	}
 
 	/**
@@ -241,11 +241,11 @@ class Bptodo_List {
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );
 
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );
-		
+
 		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
 
 		$this->loader->add_action( 'bp_members_notification_settings_before_submit', $plugin_public, 'bptodo_before_submit_in_mail' );
-		
+
 		$this->loader->add_action( 'bp_core_notification_settings_after_save', $plugin_public, 'bptodo_mail_settings_after_save' );
 
 	}
