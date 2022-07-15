@@ -315,7 +315,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 *
 		 * @return void
 		 */
-		public function wbcom_hide_all_admin_notices_from_setting_page() {
+		public function bptodo_hide_all_admin_notices_from_setting_page() {
 			$wbcom_pages_array  = array( 'wbcomplugins', 'wbcom-plugins-page', 'wbcom-support-page', 'user-todo-list-settings' );
 			$wbcom_setting_page = filter_input( INPUT_GET, 'page' ) ? filter_input( INPUT_GET, 'page' ) : '';
 
