@@ -1,11 +1,12 @@
 /* Admin CSS */
-.bptodo-groups{
+.bptodo-groups {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
 }
-.bptodo-groups span{
+
+.bptodo-groups span {
     display: block;
     background: #e7efff;
     padding: 15px 30px;
@@ -13,13 +14,32 @@
     font-size: 15px;
     color: #2656af;
 }
-.bptodo-groups span a{
+
+.bptodo-groups span a {
     color: #ff0000;
     text-decoration: none;
 }
+
 .nav-tab-wrapper ul li a#user-todo-list-settings:before {
     content: "\f111" !important;
 }
+
 .nav-tab-wrapper ul li a#group-todo-list-settings:before {
     content: "\f307" !important;
+}
+
+.wp-core-ui .notice.is-dismissible {
+    position: absolute;
+    right: 50px;
+    z-index: 99;
+    border-radius: 10px;
+    line-height: normal;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    color: #10AB00;
+}
+
+button.notice-dismiss:before {
+    color: red !important;
 }
