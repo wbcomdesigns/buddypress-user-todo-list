@@ -218,8 +218,8 @@ function bptodo_existing_bptodo_plugin() {
  * @since   1.0.0
  */
 function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
-	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
+	$bptodo_plugin       = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bp_plugin           = esc_html__( 'BuddyPress', 'wb-todo' );
 	$action              = 'install-plugin';
 	$slug                = 'buddypress';
 	$plugin_install_link = '<a href="' . wp_nonce_url(
@@ -247,8 +247,8 @@ function bptodo_plugin_admin_notice() {
  * @since   1.0.0
  */
 function bptodo_network_plugin_admin_notice() {
-	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
-	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
+	$bptodo_plugin       = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bp_plugin           = esc_html__( 'BuddyPress', 'wb-todo' );
 	$action              = 'install-plugin';
 	$slug                = 'buddypress';
 	$plugin_install_link = '<a href="' . wp_nonce_url(
@@ -340,7 +340,7 @@ function bptodo_activate_group_member_todo() {
 
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	if ( ! isset( $group_todo_list_settings['enable_todo_tab_group'] ) ) {
+	if ( isset( $group_todo_list_settings['enable_todo_tab_group'] ) ) {
 		$group_todo_list_settings['enable_todo_tab_group'] = 'yes';
 	}
 	update_option( 'group-todo-list-settings', $group_todo_list_settings );
