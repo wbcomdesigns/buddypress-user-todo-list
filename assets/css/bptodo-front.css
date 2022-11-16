@@ -1127,6 +1127,14 @@ Edit popup
 }
 
 
+/*BuddyBoss Theme*/
+body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
+    display: none !important;
+}
+
+
+
+
 
 @media only screen and (max-width: 768px) {
 
