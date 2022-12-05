@@ -306,7 +306,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @param    string $total_items total items.
 		 * @param    string $format contain format.
 		 */
-		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name, $component_name, $id ) {
+		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
 			global $bptodo;
 			$action             = array();
 			$profile_menu_label = $bptodo->profile_menu_label;
