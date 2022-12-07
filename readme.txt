@@ -3,8 +3,8 @@ Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 6.0.1
-Stable tag: 3.0.0
+Tested up to: 6.1.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,10 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+= 3.1.0 =
+* Fix: (#221) Fixed notices
+* Fix: Profile todo UI with BB
+
 = 3.0.0 =
 * Fix: Rewamped the plugin
 
