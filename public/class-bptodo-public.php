@@ -992,8 +992,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$associated_todo = array();
 
 					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-
-					array_push( $associated_todo, $primary_todo_id );
+					if( is_array( $associated_todo ) ){
+						array_push( $associated_todo, $primary_todo_id );
+					}
 					foreach ( (array) $associated_todo as $key => $_todo_id ) {
 						$args    = array(
 							'ID'           => $_todo_id,
