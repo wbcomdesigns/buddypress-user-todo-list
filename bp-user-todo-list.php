@@ -347,6 +347,19 @@ function bptodo_activate_group_member_todo() {
 
 }
 
+$active_plugins = get_option( 'active_plugins' );
+if ( in_array( 'buddypress-member-review/buddypress-member-review.php', $active_plugins ) ) {
+	add_action('wp_footer' , 'bptodo_css');
+}
+function bptodo_css(){
+	?>
+	<style>
+		.bptodo-modal.modal {
+  			z-index: 99; 
+		}
+	</style>
+	<?php
+}
 
 function bptodo_run() {
 	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo.php';
