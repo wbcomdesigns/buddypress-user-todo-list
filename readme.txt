@@ -10,9 +10,36 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-Todo List is a modern task personal task management solution for BuddyPress. At the moment, BuddyPress Todo List allow your to create your personal task list with timestamp. You can mark them complete when you are done with them. It will also send reminder when you have any overdue task.
+he BuddyPress Todo List plugin allows BuddyPress members to add tasks to their to-do list and will enable them to 'edit,' 'delete,' and 'mark-complete' their mission. In addition, members can create a category for to-do and add to-do accordingly.
 
-It is built to be reliable, scalable, secure and flexible. We have worked hard to make it easy to use and we will love your feedback in making it better.
+It also has a due date reminder feature that reminds the user of their due date and sends an email and BuddyPress notification to the user. And the user can export all to-do tasks in a CSV format.
+
+You can list all To-do on any page using a shortcode.
+
+BuddyPress User Todo List Features
+  1- Add custom Profile Menu Label for to-do.
+  2- Allow or Disallow users to add to-do categories.
+  3- Enable or disable Send email option for users whose to-do date has arrived.
+  4- Enable or disable BP Notification whose to-do date has arrived.
+  5- Options for Task Edit, Task Delete, and Task Mark as Complete from the front end.
+  6- Use a shortcode [bptodo_by_category category=”CATEGORY_ID”] to display To-do.
+
+Easy-to-Use Backend Setting
+  1- Customize the label of to do
+  2- Admin Can allow users to add new categories
+  3- Admin can enable BuddyPress notifications
+  4- Admin can also enable the e-mail feature
+
+Post Reviews Base upon Multiple Criteria
+  1- Members can create a to-do
+  2- They can edit, delete, and mark complete the to-do.
+  3- Help members to remember things with notification and email features.
+  4- Members can create to-dos based on the category.
+
+BuddyPress ToDo List with Group Task
+  1. Adding the task to the group
+  2. Tasks will be added to group members to-do lists
+  3. Members can mark to-dos assigned to them from the group mark complete from the profile to-do tab.
 
 = Links =
 
