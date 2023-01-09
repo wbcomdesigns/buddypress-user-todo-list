@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-he BuddyPress Todo List plugin allows BuddyPress members to add tasks to their to-do list and will enable them to 'edit,' 'delete,' and 'mark-complete' their mission. In addition, members can create a category for to-do and add to-do accordingly.
+The BuddyPress Todo List plugin allows BuddyPress members to add tasks to their to-do list and will enable them to 'edit,' 'delete,' and 'mark-complete' their mission. In addition, members can create a category for to-do and add to-do accordingly.
 
 It also has a due date reminder feature that reminds the user of their due date and sends an email and BuddyPress notification to the user. And the user can export all to-do tasks in a CSV format.
 
