@@ -1,14 +1,14 @@
-# Copyright (C) 2022
+# Copyright (C) 2023 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-02 10:45:28+00:00\n"
+"POT-Creation-Date: 2023-01-09 05:44:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Varun Dubey\n"
 "Language-Team: Wbcom Designs\n"
 "Language: en\n"
@@ -1329,28 +1329,28 @@ msgstr ""
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1062
+#: public/class-bptodo-public.php:1063
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1063
+#: public/class-bptodo-public.php:1064
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1064
+#: public/class-bptodo-public.php:1065
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1074
+#: public/class-bptodo-public.php:1075
 msgid "Enable/disable mail option"
 msgstr ""
 
-#: public/class-bptodo-public.php:1080
+#: public/class-bptodo-public.php:1081
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1086
+#: public/class-bptodo-public.php:1087
 #. translators: accessibility text
 msgid "No, do not send email"
 msgstr ""
