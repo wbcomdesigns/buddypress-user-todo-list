@@ -1029,6 +1029,8 @@ Edit popup
   height: 0vh;
   background-color: transparent;
   overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
   transition: background-color 0.25s ease;
   z-index: 9999;
 }
@@ -1038,6 +1040,8 @@ Edit popup
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  visibility: visible;
   transition: background-color 0.25s;
 }
 /* .bptodo-modal.modal.open > .content-wrapper {
