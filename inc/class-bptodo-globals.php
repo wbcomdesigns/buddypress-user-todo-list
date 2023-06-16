@@ -179,6 +179,10 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			if ( ! empty( $settings['send_mail'] ) ) {
 				$this->send_mail = 'yes';
 			}
+			$this->bptodo_user_roles = [];
+			if ( ! empty( $settings['bptodo_user_roles'] ) ) {
+				$this->bptodo_user_roles = $settings['bptodo_user_roles'];
+			}			
 
 			/** Send Mail. */
 			// $this->hide_button = 'no';

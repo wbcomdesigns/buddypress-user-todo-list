@@ -60,11 +60,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		}
 
 		public function enqueue_styles() {
-
+			wp_enqueue_style( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/css/selectize.css', array(), BPTODO_VERSION, 'all' );
 		}
 
 		public function enqueue_scripts() {
-
+			
+			wp_enqueue_script( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/js/selectize.min.js', array( 'jquery' ), BPTODO_VERSION, false );
+			wp_enqueue_script( 'bp-todo-list-js', plugin_dir_url( __FILE__ ) . 'assets/js/bp-todo-list-admin.js', array( 'jquery' ), BPTODO_VERSION, false );
 		}
 
 			/**
@@ -293,6 +295,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				if ( isset( $_POST['bptodo_send_mail'] ) ) {
 					$settings['send_mail'] = sanitize_text_field( wp_unslash( $_POST['bptodo_send_mail'] ) );
 				}
+				if ( isset( $_POST['bptodo_user_roles'] ) ) {
+					$settings['bptodo_user_roles'] =  $_POST['bptodo_user_roles'];
+				}				
 				update_option( 'user_todo_list_settings', $settings );
 			}
 		}

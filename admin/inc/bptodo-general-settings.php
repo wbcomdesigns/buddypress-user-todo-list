@@ -8,7 +8,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-global $bptodo;
+global $bptodo, $wp_roles;
+$all_roles          = $wp_roles->get_names();
+unset( $all_roles['administrator'] );
 ?>
 <div class="wbcom-tab-content">
 	<div class="wbcom-welcome-main-wrapper">
@@ -124,6 +126,24 @@ global $bptodo;
 								<span class="wb-slider wb-round"></span>
 							</label>
 							<p class="description"><?php esc_html_e( 'Send a mail to the user whose To-Do due date has arrived.', 'wb-todo' ); ?></p>
+						</div>
+					</div>
+					
+					<div class="wbcom-settings-section-wrap">
+						<div class="wbcom-settings-section-options-heading">
+							<label for="bptodo-send-mail">
+								<?php esc_html_e( 'Select user role to create todos', 'wb-todo' ); ?>
+							</label>
+							<p class="description"><?php esc_html_e( 'Select the user roles who can create todos from them profile page.', 'wb-todo' ); ?></p>
+						</div>
+						<div class="wbcom-settings-section-options">
+							<select name="bptodo_user_roles[]" id="bptodo_user_roles" multiple="true" data-placeholder="<?php esc_html_e( 'Select user roles', 'wb-todo' ); ?>">
+							<?php foreach ( $all_roles as $role_id => $role_name ):
+								$role_name       = translate_user_role( $role_name );
+							?>
+								<option value="<?php echo esc_attr($role_id);?>" <?php if( !empty($bptodo->bptodo_user_roles) && in_array($role_id, $bptodo->bptodo_user_roles)):?> selected <?php endif;?>><?php echo esc_html($role_name);?></option>
+							<?php endforeach;?>
+							</select>
 						</div>
 					</div>
 				</div>

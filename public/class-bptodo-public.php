@@ -462,10 +462,20 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function bptodo_member_profile_todo_tab() {
 			if ( bp_is_my_profile() ) {
-				global $bp, $bptodo;
+				global $bp, $bptodo, $current_user;
+				
 				$settings                  = get_option( 'user_todo_list_settings' );
 				$profile_menu_label        = $bptodo->profile_menu_label;
 				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
+				$bptodo_user_roles		   = $bptodo->bptodo_user_roles;
+				$user_roles				   = $current_user->roles;
+				
+				if ( !empty($bptodo_user_roles) && !in_array( 'administrator', $user_roles)) {
+					$common_roles = array_intersect($user_roles, $bptodo_user_roles);
+					if ( empty($common_roles)) {
+						return;
+					}						
+				}
 				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
 				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
 				$my_todo_items     = $bptodo->my_todo_items;
