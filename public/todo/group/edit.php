@@ -64,6 +64,10 @@ if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
 $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 
+if ( $todo_priority == '' ) {
+	$todo_priority = 'normal';
+}
+
 $todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
 
 $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
@@ -141,7 +145,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" required>
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>">
 			</td>
 		</tr>
 
@@ -150,7 +154,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 				<?php esc_html_e( 'Priority', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<select name="todo_priority" id="bp_todo_priority" required>
+				<select name="todo_priority" id="bp_todo_priority" >
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
 					<option value="high" <?php selected( $todo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>

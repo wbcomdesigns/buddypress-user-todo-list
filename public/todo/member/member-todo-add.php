@@ -83,7 +83,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" required>
+				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input">
 			</td>
 		</tr>
 
@@ -92,11 +92,11 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 				<?php esc_html_e( 'Priority', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<select name="todo_priority" id="bp_todo_priority" required>
+				<select name="todo_priority" id="bp_todo_priority" >
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
 					<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-					<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+					<option value="normal" selected><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
 				</select>
 			</td>
 		</tr>
