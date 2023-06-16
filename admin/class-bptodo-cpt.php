@@ -70,9 +70,8 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'capability_type'     => 'post',
 				'capabilities'        => array(
 					'create_posts' => false,
-					'delete_posts' => false,
-					'edit_post'    => false,
 				),
+				'map_meta_cap'          => true,
 				'has_archive'         => true,
 				'hierarchical'        => false,
 				'menu_position'       => null,
