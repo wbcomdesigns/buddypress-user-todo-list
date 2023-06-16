@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-20 08:31:05+00:00\n"
+"POT-Creation-Date: 2023-06-16 11:04:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,51 +24,51 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/class-bptodo-admin.php:105
+#: admin/class-bptodo-admin.php:107
 #. Translators: Display plural label name
 msgid "My %1$s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:106
+#: admin/class-bptodo-admin.php:108
 msgid "Category name is required."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:107
+#: admin/class-bptodo-admin.php:109
 msgid "Undo Complete"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:108
+#: admin/class-bptodo-admin.php:110
 msgid "Are you sure?"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:140
+#: admin/class-bptodo-admin.php:142
 msgid "WB Plugins"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:141 admin/class-bptodo-admin.php:210
+#: admin/class-bptodo-admin.php:143 admin/class-bptodo-admin.php:212
 msgid "General"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:143
+#: admin/class-bptodo-admin.php:145
 msgid "BP User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:168 admin/class-bptodo-feedback.php:271
+#: admin/class-bptodo-admin.php:170 admin/class-bptodo-feedback.php:271
 #: admin/class-bptodo-feedback.php:311
 #: admin/wbcom/templates/wbcom-license-page.php:12
 msgid "BuddyPress User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:169
+#: admin/class-bptodo-admin.php:171
 #: admin/wbcom/templates/wbcom-license-page.php:13
 msgid "Version %s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:209
+#: admin/class-bptodo-admin.php:211
 msgid "Welcome"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:211
+#: admin/class-bptodo-admin.php:213
 msgid "Group To-Do"
 msgstr ""
 
@@ -219,78 +219,90 @@ msgstr ""
 msgid "No thanks / I already have"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:16
+#: admin/inc/bptodo-general-settings.php:18
 msgid "General Settings"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:25
+#: admin/inc/bptodo-general-settings.php:27
 msgid "To-do Label (Singular)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:29
+#: admin/inc/bptodo-general-settings.php:31
 msgid "Label"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:37
+#: admin/inc/bptodo-general-settings.php:39
 msgid "To-dos Label (Plural)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:41
+#: admin/inc/bptodo-general-settings.php:43
 msgid "To-dos"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:66
+#: admin/inc/bptodo-general-settings.php:68
 msgid "Enable To-do For Member"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:68
+#: admin/inc/bptodo-general-settings.php:70
 msgid "Check this option if you want to allow enable todo tab in member."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:75
+#: admin/inc/bptodo-general-settings.php:77
 msgid "Enable todo in member"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:83
+#: admin/inc/bptodo-general-settings.php:85
 msgid "Allow User To Add Category"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:85
+#: admin/inc/bptodo-general-settings.php:87
 msgid ""
 "Check this option if you want to allow normal users of the site to have the "
 "ability to create the To-Do category."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:92
+#: admin/inc/bptodo-general-settings.php:94
 msgid "Allow the loggedin user to create To-Do category."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:100
+#: admin/inc/bptodo-general-settings.php:102
 msgid "Send Notification"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:102
+#: admin/inc/bptodo-general-settings.php:104
 msgid ""
 "Check this option if you want to send notification to the member as a "
 "reminder for his/her task due date."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:109
+#: admin/inc/bptodo-general-settings.php:111
 msgid "Send a BP notification to the user whose To-Do due date has arrived."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:117
+#: admin/inc/bptodo-general-settings.php:119
 msgid "Send Mail"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:119
+#: admin/inc/bptodo-general-settings.php:121
 msgid ""
 "Check this option if you want to send mail to the member as a reminder for "
 "his/her task due date."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:126
+#: admin/inc/bptodo-general-settings.php:128
 msgid "Send a mail to the user whose To-Do due date has arrived."
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:135
+msgid "Select user role to create todos"
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:137
+msgid "Select the user roles who can create todos from them profile page."
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:140
+msgid "Select user roles"
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:17
@@ -1033,7 +1045,7 @@ msgid "A dynamic list of ToDos of displayed member."
 msgstr ""
 
 #: admin/widget/class-user-todo.php:97 inc/templates/single-bp-todo.php:34
-#: public/class-bptodo-public.php:768 public/todo/group/add.php:227
+#: public/class-bptodo-public.php:778 public/todo/group/add.php:227
 #: public/todo/group/edit.php:155 public/todo/group/list.php:284
 #: public/todo/group/list.php:406 public/todo/group/list.php:526
 #: public/todo/group/list.php:659 public/todo/group/list.php:817
@@ -1048,7 +1060,7 @@ msgid "Critical"
 msgstr ""
 
 #: admin/widget/class-user-todo.php:100 inc/templates/single-bp-todo.php:37
-#: public/class-bptodo-public.php:771 public/todo/group/add.php:228
+#: public/class-bptodo-public.php:781 public/todo/group/add.php:228
 #: public/todo/group/edit.php:156 public/todo/group/list.php:287
 #: public/todo/group/list.php:409 public/todo/group/list.php:529
 #: public/todo/group/list.php:662 public/todo/group/list.php:820
@@ -1063,7 +1075,7 @@ msgid "High"
 msgstr ""
 
 #: admin/widget/class-user-todo.php:103 inc/templates/single-bp-todo.php:40
-#: public/class-bptodo-public.php:774 public/todo/group/add.php:229
+#: public/class-bptodo-public.php:784 public/todo/group/add.php:229
 #: public/todo/group/edit.php:157 public/todo/group/list.php:290
 #: public/todo/group/list.php:412 public/todo/group/list.php:532
 #: public/todo/group/list.php:665 public/todo/group/list.php:823
@@ -1175,7 +1187,7 @@ msgid "List"
 msgstr ""
 
 #: public/class-bptodo-public.php:200 public/class-bptodo-public.php:405
-#: public/class-bptodo-public.php:493 public/todo/group/add.php:181
+#: public/class-bptodo-public.php:503 public/todo/group/add.php:181
 #: public/todo/group/edit.php:108 public/todo/member/member-todo-add.php:51
 #: public/todo/member/member-todo-edit.php:66
 msgid "Add"
@@ -1197,13 +1209,13 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: public/class-bptodo-public.php:248 public/class-bptodo-public.php:748
+#: public/class-bptodo-public.php:248 public/class-bptodo-public.php:758
 #. Translators: Display Expiry Days
 #. translators: Number of expiry days
 msgid "Expired %d days ago!"
 msgstr ""
 
-#: public/class-bptodo-public.php:250 public/class-bptodo-public.php:751
+#: public/class-bptodo-public.php:250 public/class-bptodo-public.php:761
 #: public/todo/group/list.php:262 public/todo/group/list.php:383
 #: public/todo/group/list.php:503 public/todo/group/list.php:636
 #: public/todo/group/list.php:794 public/todo/member/member-todo-list.php:191
@@ -1214,13 +1226,13 @@ msgstr ""
 msgid "Today is the last day to complete. Hurry Up!"
 msgstr ""
 
-#: public/class-bptodo-public.php:253 public/class-bptodo-public.php:756
+#: public/class-bptodo-public.php:253 public/class-bptodo-public.php:766
 #. Translators: Dislpay the left days
 #. translators: Number of left days
 msgid "%d days left to complete the task!"
 msgstr ""
 
-#: public/class-bptodo-public.php:257 public/class-bptodo-public.php:761
+#: public/class-bptodo-public.php:257 public/class-bptodo-public.php:771
 msgid "Completed!"
 msgstr ""
 
@@ -1242,30 +1254,30 @@ msgstr ""
 msgid "Create Event"
 msgstr ""
 
-#: public/class-bptodo-public.php:545
+#: public/class-bptodo-public.php:555
 #. Translators: 1) Get a Plural Label Name 2) Get a to to title
 msgid "Edit %1$s : %2$s"
 msgstr ""
 
-#: public/class-bptodo-public.php:548
+#: public/class-bptodo-public.php:558
 #. Translators: Get a Singular Label Name
 msgid "Add a new %1$s in your list"
 msgstr ""
 
-#: public/class-bptodo-public.php:597 public/class-bptodo-public.php:664
+#: public/class-bptodo-public.php:607 public/class-bptodo-public.php:674
 #: public/todo/group/list.php:144
 #. Translators: Display plural label name
 #. Translators: Display the plural label name
 msgid "%1$s added successfully !"
 msgstr ""
 
-#: public/class-bptodo-public.php:603 public/class-bptodo-public.php:669
+#: public/class-bptodo-public.php:613 public/class-bptodo-public.php:679
 msgid ""
 "There was a problem updating some of your profile information. Please try "
 "again."
 msgstr ""
 
-#: public/class-bptodo-public.php:784 public/todo/group/list.php:327
+#: public/class-bptodo-public.php:794 public/todo/group/list.php:327
 #: public/todo/group/list.php:449 public/todo/group/list.php:715
 #: public/todo/group/list.php:865 public/todo/member/member-todo-list.php:259
 #: public/todo/member/member-todo-list.php:364
@@ -1279,7 +1291,7 @@ msgstr ""
 msgid "Remove: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:787 public/todo/group/list.php:333
+#: public/class-bptodo-public.php:797 public/todo/group/list.php:333
 #: public/todo/group/list.php:454 public/todo/group/list.php:588
 #: public/todo/group/list.php:720 public/todo/group/list.php:871
 #: public/todo/member/member-todo-list.php:263
@@ -1296,7 +1308,7 @@ msgstr ""
 msgid "Edit: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:788 public/todo/group/list.php:304
+#: public/class-bptodo-public.php:798 public/todo/group/list.php:304
 #: public/todo/group/list.php:425 public/todo/group/list.php:545
 #: public/todo/group/list.php:678 public/todo/group/list.php:837
 #: public/todo/group/list.php:875 public/todo/member/member-todo-list.php:232
@@ -1308,11 +1320,11 @@ msgstr ""
 msgid "Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:790
+#: public/class-bptodo-public.php:800
 msgid "Undo Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:792 public/todo/group/list.php:337
+#: public/class-bptodo-public.php:802 public/todo/group/list.php:337
 #: public/todo/group/list.php:457 public/todo/group/list.php:591
 #: public/todo/group/list.php:724 public/todo/group/list.php:873
 #: public/todo/member/member-todo-list.php:265
@@ -1329,30 +1341,34 @@ msgstr ""
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1063
+#: public/class-bptodo-public.php:1073
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1064
+#: public/class-bptodo-public.php:1074
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1065
+#: public/class-bptodo-public.php:1075
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1075
+#: public/class-bptodo-public.php:1085
 msgid "Enable/disable mail option"
 msgstr ""
 
-#: public/class-bptodo-public.php:1081
+#: public/class-bptodo-public.php:1091
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1087
+#: public/class-bptodo-public.php:1097
 #. translators: accessibility text
 msgid "No, do not send email"
+msgstr ""
+
+#: public/class-bptodo-public.php:1128
+msgid "Disable todos tab?"
 msgstr ""
 
 #: public/todo/group/add.php:159 public/todo/group/edit.php:79

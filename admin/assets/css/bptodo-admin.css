@@ -43,3 +43,16 @@
 button.notice-dismiss:before {
     color: red !important;
 }
+
+/* bptodo user roles wrap */
+.wbcom-settings-section-wrap.bptodo-user-roles-wrap {
+    overflow: visible;
+}
+
+.wbcom-settings-section-wrap.bptodo-user-roles-wrap .wbcom-settings-section-options [type="text"] {
+    height: auto;
+}
+
+.wbcom-settings-section-wrap.bptodo-user-roles-wrap .selectize-dropdown-content {
+    height: 140px;
+}

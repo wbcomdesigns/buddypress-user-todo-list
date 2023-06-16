@@ -129,7 +129,7 @@ unset( $all_roles['administrator'] );
 						</div>
 					</div>
 					
-					<div class="wbcom-settings-section-wrap">
+					<div class="wbcom-settings-section-wrap bptodo-user-roles-wrap">
 						<div class="wbcom-settings-section-options-heading">
 							<label for="bptodo-send-mail">
 								<?php esc_html_e( 'Select user role to create todos', 'wb-todo' ); ?>
