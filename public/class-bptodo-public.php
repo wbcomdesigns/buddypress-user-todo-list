@@ -1106,6 +1106,25 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 
 		}
+		
+		public function bp_nouveau_add_disable_group_todolists_checkbox(){
+			global $bp;
+			$group_id = $bp->groups->current_group->id;
+			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true);
+			printf( '<p class="bp-controls-wrap">
+				<label for="group-disable-todos" class="bp-label-text">
+					<input type="checkbox" name="group-disable-todos" id="group-disable-todos" value="1" %s/> %s
+				</label>
+			</p>',checked($group_disable_todos, 1, false), esc_html__( 'Disable todos tab?', 'wb-todo' )  );
+		}
+		
+		public function bp_nouveau_add_disable_group_todolists_details_edited( $group_id ) {
+			if ( isset( $_POST['group-disable-todos'])) {
+				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos']);
+			} else {
+				groups_update_groupmeta( $group_id, 'group-disable-todos', '');
+			}
+		}
 	}
 	new Bptodo_Public();
 }

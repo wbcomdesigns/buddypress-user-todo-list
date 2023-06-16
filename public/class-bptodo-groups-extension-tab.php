@@ -15,7 +15,13 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 		public function __construct() {
 
 			global $bp, $bptodo;
-
+			if ( bp_is_group() ) {
+				$group_id = $bp->groups->current_group->id;
+				$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true);
+				if ( $group_disable_todos == 1) {
+					return;
+				}
+			}
 			$profile_menu_label        = $bptodo->profile_menu_label;
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$profile_menu_slug         = $bptodo->profile_menu_slug;
@@ -24,7 +30,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			$args = array(
 				'slug' => sanitize_title( strtolower( $profile_menu_slug ) ),
 				'name' => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
-			);
+			);			
 			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_tab_group'] ) ) {
 				parent::init( $args );
 			}

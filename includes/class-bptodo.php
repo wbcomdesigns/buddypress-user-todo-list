@@ -247,6 +247,10 @@ class Bptodo_List {
 		$this->loader->add_action( 'bp_members_notification_settings_before_submit', $plugin_public, 'bptodo_before_submit_in_mail' );
 
 		$this->loader->add_action( 'bp_core_notification_settings_after_save', $plugin_public, 'bptodo_mail_settings_after_save' );
+		
+		
+		$this->loader->add_action( 'groups_custom_group_fields_editable', $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox', 999 );
+		$this->loader->add_action( 'groups_group_details_edited', $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited', 999 );
 
 	}
 
