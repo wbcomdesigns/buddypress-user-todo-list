@@ -470,7 +470,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$bptodo_user_roles		   = $bptodo->bptodo_user_roles;
 				$user_roles				   = $current_user->roles;
 				
-				if ( !empty($bptodo_user_roles) && !in_array( 'administrator', $user_roles)) {
+				if ( ( !empty($bptodo_user_roles) || empty($bptodo_user_roles) )&& !in_array( 'administrator', $user_roles)) {
 					$common_roles = array_intersect($user_roles, $bptodo_user_roles);
 					if ( empty($common_roles)) {
 						return;
