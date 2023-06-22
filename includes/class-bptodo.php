@@ -187,6 +187,8 @@ class Bptodo_List {
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt_category' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bptodo_add_menu_page' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_general_settings' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_shortcode_settings' );
+		
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_custom_variables' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
@@ -236,7 +238,8 @@ class Bptodo_List {
 		$this->loader->add_action( 'wp_ajax_bptodo_add_todo_category_front', $plugin_public, 'bptodo_add_todo_category_front' );
 
 		// Shortcode name must be the same as in shortcode_atts() third parameter.
-		$this->loader->add_shortcode( $this->get_plugin_prefix() . 'shortcode', $plugin_public, 'pfx_shortcode_func' );
+		$this->loader->add_shortcode( $this->get_plugin_prefix() . 'shortcode', $plugin_public, 'pfx_shortcode_func' );		
+		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_categpry_template' );
 
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );
 
