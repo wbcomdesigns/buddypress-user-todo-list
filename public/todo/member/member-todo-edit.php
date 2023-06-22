@@ -14,13 +14,14 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
-// if ( isset( $_GET['args'] ) ) {
-	// $todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
-// }
+if ( isset( $_GET['args'] ) ) {
+	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
+}
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 $todo      = get_post( $todo_id );
 
 $todo_cat    = wp_get_object_terms( $todo_id, 'todo_category' );
+
 $todo_cat_id = 0;
 if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 	$todo_cat_id = $todo_cat[0]->term_id;

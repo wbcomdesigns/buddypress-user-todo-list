@@ -248,7 +248,7 @@ bptodo_open_close_on_category();
   });
 
   //Complete a todo
-  jQuery(document).on('click', '.bptodo-complete-todo', function () {    
+  jQuery(document).on('click', '.bptodo-complete-todo', function () {
     var clicked_tid = jQuery(this);
     var tid = jQuery(this).data('tid');
     var uid = jQuery(this).data('uid');
