@@ -22,6 +22,12 @@ $args  = array(
 	'author'         => get_current_user_id(),
 	'posts_per_page' => -1,
 );
+$args['meta_query'] = [
+					array(
+						'key'   => 'todo_group_id',											
+						'compare'	=> 'NOT EXISTS'
+					)
+				];
 $todos = get_posts( $args );
 
 $todo_list          = array();

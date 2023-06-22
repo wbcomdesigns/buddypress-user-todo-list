@@ -130,6 +130,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 */
 		public function __construct() {
 			$this->setup_globals();
+			add_action( 'wp', [$this, 'setup_globals']);
 		}
 
 		/**
@@ -202,12 +203,30 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function bptodo_count_my_todo_items() {
+			global $bp;
 			$args  = array(
 				'post_type'      => 'bp-todo',
 				'author'         => get_current_user_id(),
 				'post_staus'     => 'publish',
 				'posts_per_page' => -1,
 			);
+			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {			
+				$args['meta_query'] = [
+										array(
+											'key'   => 'todo_group_id',
+											'value' => bp_get_current_group_id(),
+											'compare'	=> '='
+										)
+							];
+			} else {
+				$args['meta_query'] = [
+										array(
+											'key'   => 'todo_group_id',											
+											'compare'	=> 'NOT EXISTS'
+										)
+							];
+			}
+			
 			$todos = get_posts( $args );
 			return count( $todos );
 		}
