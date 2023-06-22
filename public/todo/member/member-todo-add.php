@@ -83,7 +83,7 @@ $form_post_link = bp_core_get_userlink( $displayed_uid, false, true ) . $profile
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input">
+				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo date('Y-m-d');?>">
 			</td>
 		</tr>
 

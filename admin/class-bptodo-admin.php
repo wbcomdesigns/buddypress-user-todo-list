@@ -94,7 +94,8 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				if ( ! wp_script_is( 'datepicker.min.js' ) ) {
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 				}
-
+				
+				wp_enqueue_script( 'select2-js', BPTODO_PLUGIN_URL . 'assets/js/select2.full.min.js', array( 'jquery' ), BPTODO_VERSION, true );
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
 
 				wp_localize_script(
@@ -110,6 +111,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
 					)
 				);
+				wp_enqueue_style( 'select2-css', BPTODO_PLUGIN_URL . 'assets/css/select2.min.css', array(), BPTODO_VERSION );
 				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
 			}
 			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );

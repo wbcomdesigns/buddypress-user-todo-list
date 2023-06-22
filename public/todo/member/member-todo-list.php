@@ -121,16 +121,15 @@ if ( empty( $todos ) ) {
 								<ul class="bptodo-task-tabs-btn">
 									<li class="all-bp-todo-list-tab">
 										<a href="#bptodo-all">
-											<div class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/all-list.svg" /></div>  
-											<?php /* Translators: Display plural label name  */ ?>
-											<?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+											<span class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/all-list.svg" /></span>  
+											<span><?php echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></span>
 											<span class="bpdoto-count-tab bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span>
 										</a>
 									</li>
 									<li class="all-bp-todo-list-tab-completed">
 										<a href="#bptodo-completed">
-											<div class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/check-complete.svg" /></div>
-											<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+											<span class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/check-complete.svg" /></span>
+											<span><?php esc_html_e( 'Completed', 'wb-todo' ); ?></span>
 											<span class="bpdoto-count-tab bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span>
 										</a>
 									</li>

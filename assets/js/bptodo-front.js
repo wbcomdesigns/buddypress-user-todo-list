@@ -326,6 +326,13 @@ bptodo_open_close_on_category();
       }
     );
   }
+  
+  if ( jQuery('#todo_group_members').length >= 1) {	
+	jQuery('#todo_group_members').select2({
+		placeholder: jQuery('#todo_group_members').attr( 'placeholder' ),
+		allowClear: true
+	});
+  }
 });
 
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
