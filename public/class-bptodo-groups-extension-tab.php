@@ -29,11 +29,22 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			$enable_todo_group = get_option( 'group-todo-list-settings' );
 			$args = array(
 				'slug' => sanitize_title( strtolower( $profile_menu_slug ) ),
-				'name' => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
+				'name' => esc_html( $profile_menu_label_plural ) . ' <span>' . $my_todo_items . '</span>',
+				'count' => $my_todo_items,
 			);			
 			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_tab_group'] ) ) {
 				parent::init( $args );
 			}
+			add_filter( 'bp_nouveau_nav_has_count', [$this, 'bptodo_group_nav_has_count'], 10, 3 );
+			add_filter( 'bp_nouveau_get_nav_count', [$this, 'bptodo_group_nav_has_count'], 10, 3 );
+		}
+		
+		public function bptodo_group_nav_has_count( $count, $nav_item, $displayed_nav) {
+			if ( 'groups' === $displayed_nav && 'to-do' === $nav_item->slug ) {
+				global $bp, $bptodo;
+				$count = $bptodo->my_todo_items;				
+			}
+			return $count;
 		}
 
 		/**
