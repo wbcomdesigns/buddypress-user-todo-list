@@ -218,13 +218,6 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 											'compare'	=> '='
 										)
 							];
-			} else {
-				$args['meta_query'] = [
-										array(
-											'key'   => 'todo_group_id',											
-											'compare'	=> 'NOT EXISTS'
-										)
-							];
 			}
 			
 			$todos = get_posts( $args );
