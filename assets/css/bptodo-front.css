@@ -720,6 +720,21 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 }
 
 
+/*Groups To-do-List*/
+.groups .bptodo-form-add table.bptodo-add-todo-tbl span.select2.select2-container.select2-container--default {
+    width: 100% !important;
+}
+.groups .bptodo-form-add table.bptodo-add-todo-tbl .select2-container--default .select2-selection--multiple {
+    border-color:#ddd;
+}
+.groups .bptodo-form-add .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    border-radius: 5px !important;
+}
+.groups .bptodo-form-add .select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
+    line-height: 23px;
+}
+
+
 /*==================
 New UI
 ==================*/
@@ -958,7 +973,6 @@ widget
 }
 
 
-
 /*.modal-closed{
   opacity: 0;
   z-index: -999;
@@ -1135,7 +1149,6 @@ Edit popup
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none !important;
 }
-
 
 
 

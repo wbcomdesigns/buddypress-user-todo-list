@@ -257,9 +257,9 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 		</tr>
 
 		<tr>
-			<td>
+			<td style="padding: 0;">
 			</td>
-			<td>
+			<td style="padding: 0;">
 				<input type="hidden" name="todo_group_id" value="<?php echo esc_attr( $group_id ); ?>">
 			</td>
 		</tr>

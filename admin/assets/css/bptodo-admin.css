@@ -28,6 +28,10 @@
     content: "\f307" !important;
 }
 
+.nav-tab-wrapper ul li a#user-todo-list-shortcodes:before {
+    content: "\f150" !important;
+}
+
 .wp-core-ui .notice.is-dismissible {
     position: absolute;
     right: 50px;
@@ -55,4 +59,16 @@ button.notice-dismiss:before {
 
 .wbcom-settings-section-wrap.bptodo-user-roles-wrap .selectize-dropdown-content {
     height: 140px;
+}
+
+.bptodo-shortcode-tab ol {
+    margin: 0 0;
+    padding: 10px 15px;
+    background: #f7f7f7;
+    line-height: 1.2;
+    border-radius: 8px;
+}
+.bptodo-shortcode-tab ol li {
+    margin: 0;
+    display: block;
 }

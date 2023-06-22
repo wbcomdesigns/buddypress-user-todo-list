@@ -11,29 +11,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $bptodo;
 ?>
 <div class="wbcom-tab-content">
-	<table class="form-table">
-		<tbody>
-			<tr>
-				<th scope="row"><label for="bptodo-shortcode-1">[bptodo_by_category category="<i>CATEGORY_ID</i>"]</label></th>
-				<td>
-					<p>
-						<?php
+<div class="wbcom-welcome-main-wrapper form-table">
+	<div class="wbcom-admin-title-section">
+		<h3>Shortcode</h3>
+	</div>
+	<div class="wbcom-admin-option-wrap wbcom-admin-option-wrap-view">
+		<div class="bptodo-shortcode-tab wbcom-settings-section-wrap">
+			<label for="bptodo-shortcode-1">[bptodo_by_category category="<i>CATEGORY_ID</i>"]</label>
+			<p class="description">
+				<?php
+				/* Translators: Get a Plural Label Name */
+					echo sprintf( esc_html__( 'This shortcode will list all the %1$s category wise.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
+				?>
+			</p>
+			<strong class="description"><?php esc_html_e( 'Arguments accepted:', 'wb-todo' ); ?></strong>
+			<ol type="1">
+				<li>
+					<?php
+						echo esc_html( 'category : ' );
 						/* Translators: Get a Plural Label Name */
-							echo sprintf( esc_html__( 'This shortcode will list all the %1$s category wise.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
-						?>
-					</p>
-					<p class="description"><?php esc_html_e( 'Arguments accepted:', 'wb-todo' ); ?></p>
-					<ol type="1">
-						<li>
-							<?php
-								echo esc_html( 'category : ' );
-								/* Translators: Get a Plural Label Name */
-								echo sprintf( esc_html__( 'You need to provide the category id of which the %1$s you want to show.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
-							?>
-						</li>
-					</ol>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+						echo sprintf( esc_html__( 'You need to provide the category id of which the %1$s you want to show.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
+					?>
+				</li>
+			</ol>
+			</div>
+		</div>
+	</div>
 </div>
