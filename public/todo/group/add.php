@@ -81,6 +81,10 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 		$todo_group_members = wp_unslash( $_POST['todo_group_members'] );
 		if ( !in_array('all', $todo_group_members)) {
 			$group_members_ids = $todo_group_members;
+			$current_user 		= get_current_user_id();
+			$cu_index     		= array_search( $current_user, $group_members_ids );
+			unset( $group_members_ids[ $cu_index ] );
+			unset( $members_ids[ $cu_index ] );
 		}		
 	}
 	if ( empty( $todo_group_id ) ) {
