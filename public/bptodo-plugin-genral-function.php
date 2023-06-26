@@ -219,22 +219,21 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 			'group_id'            => $group_id,
 			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 		);
-
+		/*
 		$group_members_result = groups_get_group_members( $args );
 		$group_members_ids    = array();
 
 		foreach ( $group_members_result['members'] as $member ) {
 			$group_members_ids[] = $member->ID;
 		}
-
 		$member_count = count( $group_members_ids );
-
+		*/
+		
 		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
 
-		$avg_rating = 0;
-
-		if ( ! empty( $member_count ) ) {
-			$avg_rating = ( $completed_count * 100 ) / $member_count;
+		$avg_rating = 0;		
+		if ( ! empty( $total_count ) ) {
+			$avg_rating = ( $completed_count * 100 ) / $total_count;
 			$avg_rating = round( $avg_rating, 2 ) . '% ';
 		}
 		return $avg_rating;
