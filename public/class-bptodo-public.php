@@ -463,18 +463,18 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_member_profile_todo_tab() {
 			if ( bp_is_my_profile() ) {
 				global $bp, $bptodo, $current_user;
-				
+
 				$settings                  = get_option( 'user_todo_list_settings' );
 				$profile_menu_label        = $bptodo->profile_menu_label;
 				$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-				$bptodo_user_roles		   = $bptodo->bptodo_user_roles;
-				$user_roles				   = $current_user->roles;
-				
-				if ( ( !empty($bptodo_user_roles) || empty($bptodo_user_roles) )&& !in_array( 'administrator', $user_roles)) {
-					$common_roles = array_intersect($user_roles, $bptodo_user_roles);
-					if ( empty($common_roles)) {
+				$bptodo_user_roles         = $bptodo->bptodo_user_roles;
+				$user_roles                = $current_user->roles;
+
+				if ( ( ! empty( $bptodo_user_roles ) || empty( $bptodo_user_roles ) ) && ! in_array( 'administrator', $user_roles ) ) {
+					$common_roles = array_intersect( $user_roles, $bptodo_user_roles );
+					if ( empty( $common_roles ) ) {
 						return;
-					}						
+					}
 				}
 				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
 				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
@@ -1002,7 +1002,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$associated_todo = array();
 
 					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-					if( is_array( $associated_todo ) ){
+					if ( is_array( $associated_todo ) ) {
 						array_push( $associated_todo, $primary_todo_id );
 					}
 					foreach ( (array) $associated_todo as $key => $_todo_id ) {
@@ -1116,23 +1116,27 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 
 		}
-		
-		public function bp_nouveau_add_disable_group_todolists_checkbox(){
+
+		public function bp_nouveau_add_disable_group_todolists_checkbox() {
 			global $bp;
 			$group_id = $bp->groups->current_group->id;
-			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true);
-			printf( '<p class="bp-controls-wrap">
+			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
+			printf(
+				'<p class="bp-controls-wrap">
 				<label for="group-disable-todos" class="bp-label-text">
 					<input type="checkbox" name="group-disable-todos" id="group-disable-todos" value="1" %s/> %s
 				</label>
-			</p>',checked($group_disable_todos, 1, false), esc_html__( 'Disable todos tab?', 'wb-todo' )  );
+			</p>',
+				checked( $group_disable_todos, 1, false ),
+				esc_html__( 'Disable todos tab?', 'wb-todo' )
+			);
 		}
-		
+
 		public function bp_nouveau_add_disable_group_todolists_details_edited( $group_id ) {
-			if ( isset( $_POST['group-disable-todos'])) {
-				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos']);
+			if ( isset( $_POST['group-disable-todos'] ) ) {
+				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos'] );
 			} else {
-				groups_update_groupmeta( $group_id, 'group-disable-todos', '');
+				groups_update_groupmeta( $group_id, 'group-disable-todos', '' );
 			}
 		}
 		/**
@@ -1146,12 +1150,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_by_categpry_template( $atts ) {
 			ob_start();
 			if ( is_user_logged_in() ) {
-				
+
 				$shortcode_template = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template.php';
 				if ( file_exists( $shortcode_template ) ) {
 					include_once $shortcode_template;
 				}
-				
 			} else {
 				$shortcode_template_loggedout_user = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template-loggedout-user.php';
 				if ( file_exists( $shortcode_template_loggedout_user ) ) {
@@ -1159,6 +1162,62 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				}
 			}
 			return ob_get_clean();
+		}
+
+		/**
+		 * Function will trigger to register notification component
+		 */
+		public function bptodo_notifications_get_registered_components( $component_names = array() ) {
+			// Force $component_names to be an array.
+			if ( ! is_array( $component_names ) ) {
+				$component_names = array();
+			}
+			// Add 'buddypress_member_review' component to registered components array.
+			array_push( $component_names, 'bptodo_group_todo_notifications' );
+			// Return component's with 'buddypress_member_review' appended.
+			return $component_names;
+		}
+
+		/**
+		 * Function will trigger format notifications
+		 */
+		public function bptodo_gp_todo_notification_format( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
+			$bptodo_post         = get_post( $item_id );
+			$author_name              = bp_core_get_user_displayname( $secondary_item_id );
+			$user_link                = bp_get_notifications_permalink( get_current_user_id() );
+			if ( 'bptodo_group_todo_notifications' === $component_name ) {
+				$notification_string = sprintf( __( ' %1$s todo added in group by %2$s.', 'bp-profile-views' ), $bptodo_post->post_title, $author_name );
+				if ( 'string' === $format ) {
+					$return = "<a href='" . esc_url( $bptodo_post->guid ) . "'>" . $notification_string . '</a>';
+				} else {
+					$return = array(
+						'text' => $notification_string,
+						'link' => $user_link,
+					);
+				}
+			}
+			return $return;
+		}
+
+		/**
+		 * Function will trigger notifications to member users
+		 */
+		public function bptodo_group_member_notification( $group_members_ids, $post_id ) {
+			foreach ( $group_members_ids as $group_members_id ) {
+				if ( bp_is_active( 'notifications' ) ) {
+					$args = array(
+						'user_id'           => $group_members_id,
+						'item_id'           => $post_id,
+						'secondary_item_id' => get_current_user_id(),
+						'component_name'    => 'bptodo_group_todo_notifications',
+						'component_action'  => 'bptodo_group_todo_notifications_action',
+						'date_notified'     => bp_core_current_time(),
+						'is_new'            => 1,
+						'allow_duplicate'   => true,
+					);
+				}
+				bp_notifications_add_notification( $args );
+			}
 		}
 	}
 	new Bptodo_Public();

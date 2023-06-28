@@ -18,6 +18,7 @@ $group_members = groups_get_group_members(
 		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
 );
+
 $group_members_ids = array();
 $members_ids = array();
 if ( isset( $group_members['members'] ) ) {
@@ -108,6 +109,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 		'post_author'  => $displayed_uid,
 	);
 	$primary_todo_id = wp_insert_post( $args );
+	do_action( 'bptodo_group_todo_submit', $group_members_ids, $primary_todo_id );
 	update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
 	update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
 	update_post_meta( $primary_todo_id, 'todo_priority', $priority );
@@ -156,7 +158,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 
 		update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
 	}
-
+	
 	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
 
 	?>

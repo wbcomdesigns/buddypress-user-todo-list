@@ -254,6 +254,9 @@ class Bptodo_List {
 		
 		$this->loader->add_action( 'groups_custom_group_fields_editable', $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox', 999 );
 		$this->loader->add_action( 'groups_group_details_edited', $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited', 999 );
+		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_notifications_get_registered_components' );
+		$this->loader->add_filter( 'bp_notifications_get_notifications_for_user', $plugin_public, 'bptodo_gp_todo_notification_format', 10, 8 );
+		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_notification', 10, 2 );
 
 	}
 
