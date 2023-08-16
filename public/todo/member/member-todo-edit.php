@@ -14,8 +14,8 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
-if ( isset( $_GET['args'] ) ) {
-	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
+if ( isset( $_GET['args'] ) ) { //phpcs:ignore
+	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) ); //phpcs:ignore
 }
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 $todo      = get_post( $todo_id );

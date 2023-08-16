@@ -112,6 +112,13 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		public $my_todo_items;
 
 		/**
+		 * For user roles
+		 *
+		 * @var array
+		 */
+		public $bptodo_user_roles;
+
+		/**
 		 * Variable contains hide btton settings.
 		 *
 		 * @since    2.2.1

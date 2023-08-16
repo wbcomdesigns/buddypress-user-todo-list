@@ -170,7 +170,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						<div class="wbcom_admin_header-wrapper">
 							<div id="wb_admin_plugin_name">
 								<?php esc_html_e( 'BuddyPress User To-Do List', 'wb-todo' ); ?>
-								<span><?php printf( __( 'Version %s', 'wb-todo' ), BPTODO_VERSION ); ?></span>
+								<span><?php 
+								/* translators: %s: */
+								printf( esc_html__( 'Version %s', 'wb-todo' ), esc_attr( BPTODO_VERSION ) );
+								?></span>
 							</div>
 							<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 						</div>
@@ -197,7 +200,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			echo '<div class="wbcom-tabs-section"><div class="nav-tab-wrapper"><div class="wb-responsive-menu"><span>' . esc_html( 'Menu' ) . '</span><input class="wb-toggle-btn" type="checkbox" id="wb-toggle-btn"><label class="wb-toggle-icon" for="wb-toggle-btn"><span class="wb-icon-bars"></span></label></div><ul>';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
 				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
-				echo '<li class="' . $tab_caption . '"><a class="nav-tab ' . esc_attr( $active ) . '" id="' . esc_attr( $tab_key ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption ) . '</a></li>';
+				echo '<li class="' . esc_attr( $tab_caption ) . '"><a class="nav-tab ' . esc_attr( $active ) . '" id="' . esc_attr( $tab_key ) . '" href="?page=' . esc_attr( $this->plugin_slug ) . '&tab=' . esc_attr( $tab_key ) . '">' . esc_html( $tab_caption ) . '</a></li>';
 			}
 			echo '</div></ul></div>';
 		}
@@ -326,7 +329,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					$settings['send_mail'] = sanitize_text_field( wp_unslash( $_POST['bptodo_send_mail'] ) );
 				}
 				if ( isset( $_POST['bptodo_user_roles'] ) ) {
-					$settings['bptodo_user_roles'] =  $_POST['bptodo_user_roles'];
+					$settings['bptodo_user_roles'] = map_deep( wp_unslash( $_POST['bptodo_user_roles'] ), 'sanitize_text_field' );
 				}				
 				update_option( 'user_todo_list_settings', $settings );
 			}

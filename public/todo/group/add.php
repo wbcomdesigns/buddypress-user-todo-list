@@ -13,7 +13,7 @@ global $bp;
 $group_members = groups_get_group_members(
 	array(
 		'group_id'   => $bp->groups->current_group->id,
-		//'group_role' => array( 'member', 'mod', 'administrator' ),
+		// 'group_role' => array( 'member', 'mod', 'administrator' ),
 		'exclude_admins_mods' => false,
 		// 'exclude_admins_mods' => apply_filters( 'bptodo_exclude_modrator_view', true ),
 	)
@@ -24,7 +24,7 @@ $members_ids = array();
 if ( isset( $group_members['members'] ) ) {
 	foreach ( $group_members['members'] as $member ) {
 		$group_members_ids[] = $member->ID;
-		$members_ids[$member->ID] = $member->display_name;
+		$members_ids[ $member->ID ] = $member->display_name;
 	}
 }
 
@@ -76,19 +76,19 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 	if ( isset( $_POST['todo_group_id'] ) ) {
 		$todo_group_id = sanitize_text_field( wp_unslash( $_POST['todo_group_id'] ) );
 	}
-	
+
 	/* Create todos for selected group members */
 	if ( isset( $_POST['todo_group_members'] ) ) {
 		$todo_group_members = wp_unslash( $_POST['todo_group_members'] );
-		if ( !in_array('all', $todo_group_members)) {
+		if ( ! in_array( 'all', $todo_group_members ) ) {
 			$group_members_ids = $todo_group_members;
-			$current_user 		= get_current_user_id();
-			if ( in_array($current_user, $group_members_ids)) {
-				$cu_index     		= array_search( $current_user, $group_members_ids );
+			$current_user       = get_current_user_id();
+			if ( in_array( $current_user, $group_members_ids ) ) {
+				$cu_index           = array_search( $current_user, $group_members_ids );
 				unset( $group_members_ids[ $cu_index ] );
 				unset( $members_ids[ $cu_index ] );
 			}
-		}		
+		}
 	}
 	if ( empty( $todo_group_id ) ) {
 		$todo_group_id = $group_id;
@@ -158,7 +158,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 
 		update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
 	}
-	
+
 	update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
 
 	?>
@@ -232,7 +232,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo date('Y-m-d');?>">
+				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>">
 			</td>
 		</tr>
 
@@ -255,11 +255,11 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 				<?php esc_html_e( 'Group members', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<select name="todo_group_members[]" id="todo_group_members" multiple placeholder="<?php esc_html_e( 'Please select group members to assign todo', 'wb-todo');?>">
+				<select name="todo_group_members[]" id="todo_group_members" multiple placeholder="<?php esc_html_e( 'Please select group members to assign todo', 'wb-todo' ); ?>">
 					<option value="all"><?php esc_html_e( 'All Members', 'wb-todo' ); ?></option>
-					<?php foreach($members_ids as $member_id=>$member_name):?>
-						<option value="<?php echo esc_attr($member_id);?>"><?php echo esc_html($member_name);?></option>
-					<?php endforeach;?>
+					<?php foreach ( $members_ids as $member_id => $member_name ) : ?>
+						<option value="<?php echo esc_attr( $member_id ); ?>"><?php echo esc_html( $member_name ); ?></option>
+					<?php endforeach; ?>
 				</select>
 			</td>
 		</tr>

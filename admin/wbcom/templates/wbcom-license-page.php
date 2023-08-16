@@ -10,7 +10,10 @@
 		<div class="wbcom_admin_header-wrapper">
 			<div id="wb_admin_plugin_name">
 				<?php esc_html_e( 'BuddyPress User To-Do List', 'wb-todo' ); ?>
-				<span><?php printf( __( 'Version %s', 'wb-todo' ), BPTODO_VERSION ); ?></span>
+				<span><?php 
+				/* translators: %s: */
+				printf( esc_html__( 'Version %s', 'wb-todo' ), esc_attr( BPTODO_VERSION ) );
+				?></span>
 			</div>
 			<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>
 		</div>

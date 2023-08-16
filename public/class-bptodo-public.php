@@ -604,6 +604,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					if ( ! is_wp_error( $todo_post_id ) ) {
 						bp_core_add_message(
 							sprintf(
+								/* translators: %s: */
 								esc_html__( '%1$s added successfully !', 'wb-todo' ),
 								esc_html( $profile_menu_label )
 							)
@@ -791,15 +792,15 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				<td class="todo-completed">' . $todo_title . '</td>
 				<td class="bp-to-do-actions">
 				<ul>
-				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-times"></i></a></li>';
+				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-times"></i></a></li>';
 				if ( 'complete' !== $todo_status ) {
 
-					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-edit"></i></a></li>
+					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-edit"></i></a></li>
 					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-check"></i></a></li>';
 				} else {
-					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
+					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
 				}
-					$completed_html .= '<li><a href="' . esc_attr( $todo_view_url ) . '" title="' . sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ) . '" target="_blank"><i class="fa fa-eye"></i></a></li>';
+					$completed_html .= '<li><a href="' . esc_attr( $todo_view_url ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ) . '" target="_blank"><i class="fa fa-eye"></i></a></li>';
 				$completed_html     .= '</ul></td></tr>';
 				/** End of html of completed todo. */
 				$response = array(
@@ -1133,8 +1134,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		public function bp_nouveau_add_disable_group_todolists_details_edited( $group_id ) {
-			if ( isset( $_POST['group-disable-todos'] ) ) {
-				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos'] );
+			if ( isset( $_POST['group-disable-todos'] ) ) { //phpcs:ignore
+				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos'] ); //phpcs:ignore
 			} else {
 				groups_update_groupmeta( $group_id, 'group-disable-todos', '' );
 			}
