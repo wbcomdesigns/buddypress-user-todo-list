@@ -1204,6 +1204,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * Function will trigger notifications to member users
 		 */
 		public function bptodo_group_member_notification( $group_members_ids, $post_id ) {
+			if ( ! array_key_exists( 'todo_group_members', $_POST ) ) { //phpcs:ignore
+				return;
+			}
 			foreach ( $group_members_ids as $group_members_id ) {
 				if ( bp_is_active( 'notifications' ) ) {
 					$args = array(
