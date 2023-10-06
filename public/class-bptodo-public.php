@@ -1183,11 +1183,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * Function will trigger format notifications
 		 */
 		public function bptodo_gp_todo_notification_format( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
-			$bptodo_post         = get_post( $item_id );
-			$author_name              = bp_core_get_user_displayname( $secondary_item_id );
-			$user_link                = bp_get_notifications_permalink( get_current_user_id() );
+			$get_gp_id 	   = get_post_meta( $item_id, 'todo_group_id', true );
+			$group 		   = groups_get_group( array( 'group_id' => $get_gp_id ) );
+			$bptodo_post   = get_post( $item_id );
+			$author_name   = bp_core_get_user_displayname( $secondary_item_id );
+			$user_link     = bp_get_notifications_permalink( get_current_user_id() );
 			if ( 'bptodo_group_todo_notifications' === $component_name ) {
-				$notification_string = sprintf( __( ' %1$s todo added in group by %2$s.', 'bp-profile-views' ), $bptodo_post->post_title, $author_name );
+				$notification_string = sprintf( __( ' %1$s todo added in group %2$s by %3$s.', 'bp-profile-views' ), $bptodo_post->post_title, $group->name, $author_name );
 				if ( 'string' === $format ) {
 					$return = "<a href='" . esc_url( $bptodo_post->guid ) . "'>" . $notification_string . '</a>';
 				} else {
