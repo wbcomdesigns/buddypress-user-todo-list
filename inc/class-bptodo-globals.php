@@ -81,6 +81,10 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 */
 		public $send_mail;
 
+
+		public $req_duedate;
+
+
 		/**
 		 * Variable contains email notification setting.
 		 *
@@ -186,6 +190,12 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$this->send_mail = 'no';
 			if ( ! empty( $settings['send_mail'] ) ) {
 				$this->send_mail = 'yes';
+			}
+
+			/** Due Date Require or not. */
+			$this->req_duedate = 'no';
+			if ( ! empty( $settings['req_duedate'] ) ) {
+				$this->req_duedate = 'yes';
 			}
 			$this->bptodo_user_roles = [];
 			if ( ! empty( $settings['bptodo_user_roles'] ) ) {

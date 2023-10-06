@@ -146,6 +146,22 @@ unset( $all_roles['administrator'] );
 							</select>
 						</div>
 					</div>
+
+					<div class="wbcom-settings-section-wrap bptodo-user-roles-wrap">
+						<div class="wbcom-settings-section-options-heading">
+							<label for="bptodo-send-mail">
+								<?php esc_html_e( 'Due date is required?', 'wb-todo' ); ?>
+							</label>
+							<p class="description"><?php esc_html_e( 'Make the required due date, enable the option', 'wb-todo' ); ?></p>
+						</div>
+						<div class="wbcom-settings-section-options">
+							<label class="wb-switch">
+								<input type="checkbox" name="bptodo_req_duedate" id="bptodo-req-todo-due-date" <?php echo ( 'yes' === $bptodo->req_duedate ) ? 'checked' : 'unchecked'; ?>>
+								<span class="wb-slider wb-round"></span>
+							</label>
+						</div>
+					</div>
+
 				</div>
 				<p class="submit">
 					<?php wp_nonce_field( 'bptodo', 'bptodo-general-settings-nonce' ); ?>

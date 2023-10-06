@@ -36,7 +36,10 @@ global $bptodo;
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $name               = bp_get_displayed_user_username();
-
+$bptodo_req = '';
+if ( 'yes' == $bptodo->req_duedate ) {
+	$bptodo_req = 'required';
+}
 
 $displayed_uid  = get_current_user_id();
 $form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
@@ -232,7 +235,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>">
+				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"<?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 

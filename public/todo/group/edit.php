@@ -18,6 +18,11 @@ $profile_menu_slug  = $bptodo->profile_menu_slug;
 $groups_link        = bp_get_group_permalink( $bp->groups->current_group );
 $admin_link         = trailingslashit( $groups_link . $profile_menu_slug );
 
+$bptodo_req = '';
+if ( 'yes' == $bptodo->req_duedate ) {
+	$bptodo_req = 'required';
+}
+
 $displayed_uid = bp_displayed_user_id();
 
 // List of Todo Items.
@@ -145,7 +150,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>">
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>"<?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 

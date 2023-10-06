@@ -31,6 +31,10 @@ $todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
 if ( $todo_priority == '' ) {
 	$todo_priority = 'normal';
 }
+$bptodo_req = '';
+if ( 'yes' == $bptodo->req_duedate ) {
+	$bptodo_req = 'required';
+}
 ?>
 
 <form action="" method="post" id="bptodo_edit_form_popup">
@@ -103,7 +107,7 @@ if ( $todo_priority == '' ) {
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>">
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>"<?php echo esc_attr( $bptodo_req );?>>
 			</td>
 		</tr>
 

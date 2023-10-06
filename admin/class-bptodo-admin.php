@@ -330,6 +330,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				}
 				if ( isset( $_POST['bptodo_user_roles'] ) ) {
 					$settings['bptodo_user_roles'] = map_deep( wp_unslash( $_POST['bptodo_user_roles'] ), 'sanitize_text_field' );
+				}
+				if ( isset( $_POST['bptodo_req_duedate'] ) ) {
+					$settings['req_duedate'] = sanitize_text_field( wp_unslash( $_POST['bptodo_req_duedate'] ) );
 				}				
 				update_option( 'user_todo_list_settings', $settings );
 			}
