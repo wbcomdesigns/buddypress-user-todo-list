@@ -134,7 +134,7 @@ if ( empty( $todos ) ) {
 										</a>
 									</li>
 								</ul>
-								<div class="all-bp-todo-list-export"><?php echo wp_kses_post( list_todo_tab_function_to_show_title() ); ?></div>
+								<div class="all-bp-todo-list-export"><?php echo esc_html( list_todo_tab_function_to_show_title() ); ?></div>
 							</div>
 							<div id="bptodo-all">
 								<div class="bptodo-admin-row">
