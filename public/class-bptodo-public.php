@@ -168,7 +168,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_slug         = $bptodo->profile_menu_slug;
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$my_todo_items             = $bptodo->my_todo_items;
-
+            $todo_list_settings = get_option( 'user_todo_list_settings' );
+			if(isset( $todo_list_settings['enable_todo_member'] )){
 			$base_url      = bp_loggedin_user_domain() . $profile_menu_slug;
 			$todo_add_url  = $base_url . '/add';
 			$todo_list_url = $base_url . '/list';
@@ -202,6 +203,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					)
 				);
 			}
+		 }
 		}
 
 		/**

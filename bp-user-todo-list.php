@@ -335,7 +335,7 @@ add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
  */
 function bptodo_activate_group_member_todo() {
 	$user_todo_list_settings = get_option( 'user_todo_list_settings' );
-	if ( ! isset( $user_todo_list_settings['enable_todo_member'] ) ) {
+	if (  isset( $user_todo_list_settings['enable_todo_member'] ) ) {
 		$user_todo_list_settings['enable_todo_member'] = 'on';
 	}
 	update_option( 'user_todo_list_settings', $user_todo_list_settings );
