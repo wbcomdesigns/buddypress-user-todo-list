@@ -1,115 +1,115 @@
 jQuery(document).ready(function () {
   // add active class on all todo
-  jQuery("#bptodo-completed").css('display','none');
+  jQuery("#bptodo-completed").css('display', 'none');
   jQuery('.all-bp-todo-list-tab').addClass('active');
-  jQuery(document).on('click' ,'.all-bp-todo-list-tab-completed', function(){
+  jQuery(document).on('click', '.all-bp-todo-list-tab-completed', function () {
     jQuery('.all-bp-todo-list-tab').removeClass('active');
     jQuery(this).addClass('active');
-    jQuery('#bptodo-all').css('display','none');     
-    jQuery("#bptodo-completed").css('display','block');
+    jQuery('#bptodo-all').css('display', 'none');
+    jQuery("#bptodo-completed").css('display', 'block');
   });
-  jQuery(document).on('click' ,'.all-bp-todo-list-tab', function(){
+  jQuery(document).on('click', '.all-bp-todo-list-tab', function () {
     jQuery('.all-bp-todo-list-tab-completed').removeClass('active');
     jQuery(this).addClass('active');
-    jQuery("#bptodo-completed").css('display','none');
-    jQuery('#bptodo-all').css('display','block');
+    jQuery("#bptodo-completed").css('display', 'none');
+    jQuery('#bptodo-all').css('display', 'block');
   });
   // end add active class on all todo
-  
+
   // open popup on click
-  jQuery(document).on('click','.trigger',function(){
-    var tid=jQuery(this).data('tid');
+  jQuery(document).on('click', '.trigger', function () {
+    var tid = jQuery(this).data('tid');
     var component_type = jQuery(this).data('type');
     jQuery.ajax({
-      url:ajaxurl,
-      type:'post',
-      data:{
-      action:'bptodo_edit_form_popup',
-      t_id:tid,
-      component:component_type,
-      ajax_nonce: todo_ajax_object.ajax_nonce,
+      url: ajaxurl,
+      type: 'post',
+      data: {
+        action: 'bptodo_edit_form_popup',
+        t_id: tid,
+        component: component_type,
+        ajax_nonce: todo_ajax_object.ajax_nonce,
       },
-    success:function(response) {
-      jQuery('.edit_form_popup').html(response);    
+      success: function (response) {
+        jQuery('.edit_form_popup').html(response);
       }
     });
   });
-  
+
   // update todo on popup
-  jQuery('.bptodo_edit_form_popup_class').on('click','#todo_update', function (e){
+  jQuery('.bptodo_edit_form_popup_class').on('click', '#todo_update', function (e) {
     e.preventDefault();
     jQuery('#bptodo_edit_form_popup').trigger('submit');
   });
-  jQuery(document).on('submit', '#bptodo_edit_form_popup', function(e){
+  jQuery(document).on('submit', '#bptodo_edit_form_popup', function (e) {
     e.preventDefault();
     let editFormValue = jQuery('#bptodo_edit_form_popup').serializeArray();
     jQuery.ajax({
-      url:ajaxurl,
-      type:'post',      
-      data:{
-      action:'bptodo_update_form_popup',
-      update_form_data:editFormValue,
-      ajax_nonce: todo_ajax_object.ajax_nonce,
+      url: ajaxurl,
+      type: 'post',
+      data: {
+        action: 'bptodo_update_form_popup',
+        update_form_data: editFormValue,
+        ajax_nonce: todo_ajax_object.ajax_nonce,
       },
-      success:function(response){
+      success: function (response) {
         location.reload();
       }
     });
   });
 
 
-  jQuery('.bptodo_edit_form_popup_class').on('click','#group_todo_update', function (e){
+  jQuery('.bptodo_edit_form_popup_class').on('click', '#group_todo_update', function (e) {
     e.preventDefault();
     jQuery('#bptodo_edit_form_popup').trigger('submit');
   });
-  jQuery(document).on('submit', '#bptodo_edit_form_popup', function(e){
+  jQuery(document).on('submit', '#bptodo_edit_form_popup', function (e) {
     e.preventDefault();
     let editFormValue = jQuery('#bptodo_edit_form_popup').serializeArray();
     jQuery.ajax({
-      url:ajaxurl,
-      type:'post',      
-      data:{
-      action:'bptodo_update_form_popup',
-      update_form_data:editFormValue, 
-      ajax_nonce: todo_ajax_object.ajax_nonce,     
+      url: ajaxurl,
+      type: 'post',
+      data: {
+        action: 'bptodo_update_form_popup',
+        update_form_data: editFormValue,
+        ajax_nonce: todo_ajax_object.ajax_nonce,
       },
-      success:function(response){
+      success: function (response) {
         location.reload();
       }
     });
   });
 
-  function bptodo_open_close_on_category(){
-  var acc = document.getElementsByClassName("bptodo-item");
-  var i;
-  for (i = 0; i < acc.length; i++) {
-    if (i == 0) {
-      var panel = acc[i].nextElementSibling;
-      var first_child = jQuery(acc[i]);
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-        first_child.removeClass('active');
-      } else {
-        first_child.addClass('active');
-        panel.style.maxHeight = panel.scrollHeight + "px";
+  function bptodo_open_close_on_category() {
+    var acc = document.getElementsByClassName("bptodo-item");
+    var i;
+    for (i = 0; i < acc.length; i++) {
+      if (i == 0) {
+        var panel = acc[i].nextElementSibling;
+        var first_child = jQuery(acc[i]);
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+          first_child.removeClass('active');
+        } else {
+          first_child.addClass('active');
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
       }
-    }
-    acc[i].onclick = function () {
-      console.log(jQuery('.bptodo-panel')[0].scrollHeight);
-      var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-        jQuery(this).removeClass('active');
-        jQuery(this).removeClass('bptodo-sameday-open');
-      } else {
-        jQuery(this).addClass('active');
-        jQuery(this).addClass('bptodo-sameday-open');
-        panel.style.maxHeight = panel.scrollHeight + "px";
+      acc[i].onclick = function () {
+        console.log(jQuery('.bptodo-panel')[0].scrollHeight);
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+          jQuery(this).removeClass('active');
+          jQuery(this).removeClass('bptodo-sameday-open');
+        } else {
+          jQuery(this).addClass('active');
+          jQuery(this).addClass('bptodo-sameday-open');
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        }
       }
     }
   }
-}
-bptodo_open_close_on_category();
+  bptodo_open_close_on_category();
 
   jQuery(document).on('click', '.bptodo-accordion', function () {
     return false;
@@ -254,64 +254,64 @@ bptodo_open_close_on_category();
     var uid = jQuery(this).data('uid');
     var completed_todo = jQuery('.bp_completed_todo_count').text();
     var all_todo = jQuery('.bp_all_todo_count').text();
-    if(jQuery(this).hasClass('todo-complete')){
+    if (jQuery(this).hasClass('todo-complete')) {
       markUncompleteTodo(tid);
       jQuery(this).removeClass('todo-uncomplete');
       jQuery(this).addClass('todo-complete');
     }
-    if( jQuery(this).hasClass('todo-uncomplete') ){
-    jQuery.post(
-      ajaxurl, {
-      'action': 'bptodo_complete_todo',
-      'ajax_nonce': todo_ajax_object.ajax_nonce,
-      'tid': tid,
-      'uid': uid,
-      'completed': completed_todo,
-      'all_todo': all_todo
-    },
-      function (response) {
-        var response = JSON.parse(response);
-        if (response.result === 'todo-completed') {
-          clicked_tid.closest('tr').find("td").addClass('todo-completed');
-          clicked_tid.closest('td').prev('td').text(response.due_date_str);
-          jQuery('.bp_completed_todo_count').text(response.completed_todo);
-          jQuery('#bptodo-completed tbody').append(response.completed_html);
-          jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
-          jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
-          clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
-          bptodo_reload_url();
+    if (jQuery(this).hasClass('todo-uncomplete')) {
+      jQuery.post(
+        ajaxurl, {
+        'action': 'bptodo_complete_todo',
+        'ajax_nonce': todo_ajax_object.ajax_nonce,
+        'tid': tid,
+        'uid': uid,
+        'completed': completed_todo,
+        'all_todo': all_todo
+      },
+        function (response) {
+          var response = JSON.parse(response);
+          if (response.result === 'todo-completed') {
+            clicked_tid.closest('tr').find("td").addClass('todo-completed');
+            clicked_tid.closest('td').prev('td').text(response.due_date_str);
+            jQuery('.bp_completed_todo_count').text(response.completed_todo);
+            jQuery('#bptodo-completed tbody').append(response.completed_html);
+            jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
+            jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
+            clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
+            bptodo_reload_url();
+          }
         }
-      }
-    );
-    jQuery(this).addClass('todo-uncomplete');
+      );
+      jQuery(this).addClass('todo-uncomplete');
       jQuery(this).removeClass('todo-complete');
     }
   });
 
-  function bptodo_reload_url(){
+  function bptodo_reload_url() {
     jQuery.ajax({
-      url:todo_ajax_object.bptodo_complete_url,
-      success: function (data){        
+      url: todo_ajax_object.bptodo_complete_url,
+      success: function (data) {
         let tabledata = jQuery(data).find('.bptodo-adming-setting')[0].innerHTML;
         jQuery('.bptodo-adming-setting').html(tabledata);
-        jQuery('#bptodo-completed').css('display','none');
-            jQuery('.bptodo-item').trigger('click');
-            jQuery('.bptodo-panel').each(function(){
-              let height = jQuery(this)[0].scrollHeight;
-              jQuery(this).css('max-height', height);
-              console.log(height);
-            });
-          bptodo_open_close_on_category();
-          const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
-      for(let button of buttons) {
-        modalEvent(button);
-      }
+        jQuery('#bptodo-completed').css('display', 'none');
+        jQuery('.bptodo-item').trigger('click');
+        jQuery('.bptodo-panel').each(function () {
+          let height = jQuery(this)[0].scrollHeight;
+          jQuery(this).css('max-height', height);
+          console.log(height);
+        });
+        bptodo_open_close_on_category();
+        const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
+        for (let button of buttons) {
+          modalEvent(button);
+        }
       }
     })
   }
 
   //Undo complete a todo
-  function markUncompleteTodo(tid){
+  function markUncompleteTodo(tid) {
     jQuery(this).html('<i class="fa fa-refresh fa-spin"></i>');
     jQuery.post(
       ajaxurl, {
@@ -326,12 +326,12 @@ bptodo_open_close_on_category();
       }
     );
   }
-  
-  if ( jQuery('#todo_group_members').length >= 1) {	
-	jQuery('#todo_group_members').select2({
-		placeholder: jQuery('#todo_group_members').attr( 'placeholder' ),
-		allowClear: true
-	});
+
+  if (jQuery('#todo_group_members').length >= 1) {
+    jQuery('#todo_group_members').select2({
+      placeholder: jQuery('#todo_group_members').attr('placeholder'),
+      allowClear: true
+    });
   }
 });
 
@@ -381,24 +381,24 @@ const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
 console.log(buttons);
 
 
-for(let button of buttons) {
-	modalEvent(button);
+for (let button of buttons) {
+  modalEvent(button);
 }
 
 function modalEvent(button) {
-	button.addEventListener('click', () => {
-		// const trigger = button.getAttribute('data-modal-trigger');
-    
-		// console.log('trigger', trigger)
-		const modal = document.querySelector("[data-modal=trigger]");
-		// console.log('modal', modal)
-		const contentWrapper = modal.querySelector('.content-wrapper');
-		const close = modal.querySelector('.close');
+  button.addEventListener('click', () => {
+    // const trigger = button.getAttribute('data-modal-trigger');
 
-		close.addEventListener('click', () => modal.classList.remove('open'));
-		modal.addEventListener('click', () => modal.classList.remove('open'));
-		contentWrapper.addEventListener('click', (e) => e.stopPropagation());
+    // console.log('trigger', trigger)
+    const modal = document.querySelector("[data-modal=trigger]");
+    // console.log('modal', modal)
+    const contentWrapper = modal.querySelector('.content-wrapper');
+    const close = modal.querySelector('.close');
 
-		modal.classList.toggle('open');
-	});
+    close.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', () => modal.classList.remove('open'));
+    contentWrapper.addEventListener('click', (e) => e.stopPropagation());
+
+    modal.classList.toggle('open');
+  });
 }

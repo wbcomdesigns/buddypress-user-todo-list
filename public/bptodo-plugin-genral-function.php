@@ -189,6 +189,7 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 		global $bp, $post;
 		$group_id        = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
 		$todo_primary_id = get_post_meta( $todoID, 'todo_primary_id', true );
+		$gp_admin_id     = groups_get_group_admins( $group_id );
 
 		$total_args = array(
 			'post_type'      => 'bp-todo',
@@ -207,6 +208,8 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 				),
 			),
 		);
+
+		$total_args['author__not_in'] = (float) $gp_admin_id;
 
 		$todos = get_posts( $total_args );
 		// print_r( count( $todos ) );
@@ -228,10 +231,9 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 		}
 		$member_count = count( $group_members_ids );
 		*/
-		
-		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
 
-		$avg_rating = 0;		
+		$completed_count = bpto_completed_todo_count( $group_id, $todo_primary_id );
+		$avg_rating      = 0;
 		if ( ! empty( $total_count ) ) {
 			$avg_rating = ( $completed_count * 100 ) / $total_count;
 			$avg_rating = round( $avg_rating, 2 ) . '% ';
@@ -252,9 +254,9 @@ if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
 	 * @return [float]                Count of completed to-dos.
 	 */
 	function bpto_completed_todo_count( $group_id, $todo_primary_id ) {
-		$associated_todo = get_post_meta( $todo_primary_id, 'botodo_associated_todo', true );
-
-		$completed_args  = array(
+		$associated_todo                  = get_post_meta( $todo_primary_id, 'botodo_associated_todo', true );
+		$gp_admin_id                      = groups_get_group_admins( $group_id );
+		$completed_args                   = array(
 			'post_type'      => 'bp-todo',
 			'posts_per_page' => -1,
 			'meta_query'     => array(
@@ -275,6 +277,8 @@ if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
 				),
 			),
 		);
+		$completed_args['author__not_in'] = (float) $gp_admin_id;
+
 		$completed_todos = get_posts( $completed_args );
 		$completed_count = 0;
 		if ( ! empty( $completed_todos ) ) {
