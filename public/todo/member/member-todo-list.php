@@ -173,11 +173,11 @@ if ( empty( $todos ) ) {
 																$diff           = date_diff( $curr_date, $due_date );
 																$diff_days      = $diff->format( '%R%a' );
 																$priority_class = '';
-																$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
-																$todo      = get_post( $tid );
-																$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id = 0;
-																$disabled = '';
+																$todo_cats      = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+																$todo           = get_post( $tid );
+																$todo_cat       = wp_get_object_terms( $tid, 'todo_category' );
+																$todo_cat_id    = 0;
+																$disabled       = '';
 																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 																	$todo_cat_id = $todo_cat[0]->term_id;
 																}
@@ -185,7 +185,7 @@ if ( empty( $todos ) ) {
 																	/* Translators: Number of expiry days */
 																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
 																	$due_date_td_class = 'bptodo-expired';
-																	$disabled = 'disabled';
+																	$disabled          = 'disabled';
 																} elseif ( 0 === $diff_days ) {
 																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 																	$due_date_td_class = 'bptodo-expires-today';
@@ -221,15 +221,20 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete . $due_date_td_class ); ?>">
 																<?php
-																$checked = '';
+																$checked       = '';
 																$checked_class = 'todo-uncomplete';
 																if ( 'complete' == $todo_status ) {
-																	$checked = 'checked';
+																	$checked       = 'checked';
 																	$checked_class = 'todo-complete';
 																}
 																?>
 															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox <?php if ( $due_date_td_class ) { echo esc_attr( $disabled ); }?>" 
+															<label><input type="checkbox" class="option-input checkbox 
+																<?php
+																if ( $due_date_td_class ) {
+																	echo esc_attr( $disabled ); }
+																?>
+															" 
 																<?php
 																echo esc_attr( $checked );
 																if ( $due_date_td_class ) {
@@ -243,13 +248,15 @@ if ( empty( $todos ) ) {
 															<li class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
 															<li class="bptodo-cat">
 																<span class="bptodo-cat-mobile-title">Category</span>
-																<span class="bptodo-cat-text"><?php
+																<span class="bptodo-cat-text">
+																<?php
 																foreach ( $todo_cats as $todo_cat ) {
 																	if ( $todo_cat_id == $todo_cat->term_id ) {
 																		echo esc_html( $todo_cat->name );
 																	}
 																}
-																?></span>
+																?>
+																</span>
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
 															<li class="bp-to-do-actions">
@@ -286,10 +293,10 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
-																$todo      = get_post( $tid );
-																$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id = 0;
+																$todo_cats     = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+																$todo          = get_post( $tid );
+																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
+																$todo_cat_id   = 0;
 																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 																	$todo_cat_id = $todo_cat[0]->term_id;
 																}
@@ -333,10 +340,10 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
-																$checked = '';
+																$checked       = '';
 																$checked_class = 'todo-uncomplete';
 																if ( 'complete' == $todo_status ) {
-																	$checked = 'checked';
+																	$checked       = 'checked';
 																	$checked_class = 'todo-complete';
 																}
 																?>
@@ -354,7 +361,8 @@ if ( empty( $todos ) ) {
 																		echo esc_html( $todo_cat->name );
 																	}
 																}
-																?></span>
+																?>
+																</span>
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
 															<li class="bp-to-do-actions" >
@@ -392,10 +400,10 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
-																$todo      = get_post( $tid );
-																$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id = 0;
+																$todo_cats     = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+																$todo          = get_post( $tid );
+																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
+																$todo_cat_id   = 0;
 																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 																	$todo_cat_id = $todo_cat[0]->term_id;
 																}
@@ -441,10 +449,10 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
-																$checked = '';
+																$checked       = '';
 																$checked_class = 'todo-uncomplete';
 																if ( 'complete' == $todo_status ) {
-																	$checked = 'checked';
+																	$checked       = 'checked';
 																	$checked_class = 'todo-complete';
 																}
 																?>
@@ -462,7 +470,8 @@ if ( empty( $todos ) ) {
 																		echo esc_html( $todo_cat->name );
 																	}
 																}
-																?></span>
+																?>
+																</span>
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
 															<li class="bp-to-do-actions">
@@ -494,14 +503,15 @@ if ( empty( $todos ) ) {
 																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
 																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str  = $due_date_td_class    = '';
+																$date_value    = get_post_meta( $todo->ID, 'todo_due_date', true );
 																$curr_date     = date_create( date( 'Y-m-d' ) );
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
-																$todo      = get_post( $tid );
-																$todo_cat    = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id = 0;
+																$todo_cats     = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+																$todo          = get_post( $tid );
+																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
+																$todo_cat_id   = 0;
 																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 																	$todo_cat_id = $todo_cat[0]->term_id;
 																}
@@ -545,10 +555,10 @@ if ( empty( $todos ) ) {
 																?>
 														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">													
 																<?php
-																$checked = '';
+																$checked       = '';
 																$checked_class = 'todo-uncomplete';
 																if ( 'complete' == $todo_status ) {
-																	$checked = 'checked';
+																	$checked       = 'checked';
 																	$checked_class = 'todo-complete';
 																}
 																?>
@@ -556,7 +566,15 @@ if ( empty( $todos ) ) {
 															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
 															</li>
 															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
+															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span>
+																							   <?php
+																								if ( '' == $date_value || empty( $date_value ) ) {
+																									echo esc_html( '-', 'wb-todo' );
+																								} else {
+																									echo esc_html( $due_date_str );
+																								}
+																								?>
+															</li>
 															<li class="bptodo-cat">
 																<span class="bptodo-cat-mobile-title">Category</span>
 																<span class="bptodo-cat-text">
@@ -566,7 +584,8 @@ if ( empty( $todos ) ) {
 																		echo esc_html( $todo_cat->name );
 																	}
 																}
-																?></span>
+																?>
+																</span>
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
 															<li class="bp-to-do-actions">
@@ -662,10 +681,10 @@ if ( empty( $todos ) ) {
 																?>
 															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
 																<?php
-																$checked = '';
+																$checked       = '';
 																$checked_class = 'todo-uncomplete';
 																if ( 'complete' == $todo_status ) {
-																	$checked = 'checked';
+																	$checked       = 'checked';
 																	$checked_class = 'todo-complete';
 																}
 																?>
@@ -678,11 +697,11 @@ if ( empty( $todos ) ) {
 																	<span class="bptodo-cat-mobile-title">Category</span>
 																	<span class="bptodo-cat-text">
 																		<?php
-																			foreach ( $todo_cats as $todo_cat ) {
-																				if ( $todo_cat_id == $todo_cat->term_id ) {
-																					echo esc_html( $todo_cat->name );
-																				}
+																		foreach ( $todo_cats as $todo_cat ) {
+																			if ( $todo_cat_id == $todo_cat->term_id ) {
+																				echo esc_html( $todo_cat->name );
 																			}
+																		}
 																		?>
 																	</span>
 																<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>

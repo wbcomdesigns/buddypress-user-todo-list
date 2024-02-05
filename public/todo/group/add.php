@@ -235,7 +235,7 @@ if ( isset( $_POST['group_todo_create'] ) && isset( $_POST['group_save_new_todo_
 				<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
 			</td>
 			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" value="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"<?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input"<?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
