@@ -42,14 +42,14 @@ get_header(); ?>
 
 					echo sprintf(
 						'<a href="%1$s" rel="bookmark">%2$s</a>',
-						esc_url( bp_core_get_user_domain( get_the_author_meta( 'ID' ) ) ),
+						esc_url( bp_members_get_user_url( get_the_author_meta( 'ID' ) ) ),
 						get_avatar( get_the_author_meta( 'email' ), 55 )
 					);
 				}
 					echo sprintf(
 						/* translators: Display author name */
 						esc_html_x( '%s', 'post author', 'wb-todo' ),
-						'<span class="author vcard"><a class="url fn n" href="' . esc_url( bp_core_get_user_domain( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
+						'<span class="author vcard"><a class="url fn n" href="' . esc_url( bp_members_get_user_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 					);
 				?>
 			</div>

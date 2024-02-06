@@ -14,7 +14,7 @@ $profile_menu_slug         = $bptodo->profile_menu_slug;
 $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 
-$groups_link = bp_get_group_permalink( $bp->groups->current_group );
+$groups_link = bp_get_group_url( $bp->groups->current_group );
 $admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 $group_members = groups_get_group_members(

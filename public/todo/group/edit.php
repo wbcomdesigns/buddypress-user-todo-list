@@ -15,8 +15,8 @@ $group_id           = ( $bp->groups->current_group->id ) ? $bp->groups->current_
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 
-$groups_link        = bp_get_group_permalink( $bp->groups->current_group );
-$admin_link         = trailingslashit( $groups_link . $profile_menu_slug );
+$groups_link = bp_get_group_url( $bp->groups->current_group );
+$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 $bptodo_req = '';
 if ( 'yes' == $bptodo->req_duedate ) {
@@ -55,9 +55,8 @@ if ( isset( $group_members['members'] ) ) {
 }
 
 // if ( isset( $_GET['args'] ) ) {
-// 	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
+// $todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) );
 // }
-
 $todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
 $todo      = get_post( $todo_id );
 
@@ -138,7 +137,7 @@ value="<?php echo esc_html( $todo_cat->name ); ?>">
 				$settings = array(
 					'media_buttons' => false,
 					'editor_height' => 200,
-					'quicktags' => false,
+					'quicktags'     => false,
 				);
 				wp_editor( $todo->post_content, 'bptodo-summary-input', $settings );
 				?>

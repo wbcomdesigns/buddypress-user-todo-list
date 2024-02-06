@@ -42,7 +42,7 @@ if ( 'yes' == $bptodo->req_duedate ) {
 }
 
 $displayed_uid  = get_current_user_id();
-$form_post_link = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
+$form_post_link = bp_get_group_url() . strtolower( $profile_menu_label ) . '/list';
 
 if ( ! empty( $group_members_ids ) ) {
 	$current_user = get_current_user_id();
