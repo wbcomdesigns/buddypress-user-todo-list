@@ -79,8 +79,7 @@ if ( empty( $todos ) ) {
 	if ( 'nouveau' === $bp_template_option ) { ?>
 		<div id="message" class="info bp-feedback bp-messages bp-template-notice">
 			<span class="bp-icon" aria-hidden="true"></span>
-			<?php } else { ?>
-			<div id="message" class="info">
+						<div id="message" class="info">
 			<?php } ?>
 				<p>
 					<?php /* Translators: Display plural label name  */ ?>

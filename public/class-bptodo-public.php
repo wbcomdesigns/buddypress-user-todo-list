@@ -549,6 +549,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 */
 		public function add_todo_tab_function_to_show_title() {
 			global $bptodo;
+
 			$profile_menu_slug = $bptodo->profile_menu_slug;
 			if ( isset( $_GET['args'] ) ) { //phpcs:ignore
 				$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) ); //phpcs:ignore
@@ -928,6 +929,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_edit_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
 				$todo_id        = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
+				$todo_guid        = isset( $_POST['gu_id'] ) ? sanitize_text_field( wp_unslash( $_POST['gu_id'] ) ) : '';
+
 				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';
 					ob_start();
 				if ( 'member' == $component_type ) {
@@ -964,6 +967,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_update_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
 				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
+				// $myfile = file_put_contents( ABSPATH . 'wp-content/plugins/logs.php', print_r( $update_form_data, true ) . PHP_EOL, FILE_APPEND | LOCK_EX );
 				foreach ( $update_form_data as $key => $value ) {
 					$todo_cat             = $update_form_data[0]['value'];
 					$todo_title           = $update_form_data[1]['value'];

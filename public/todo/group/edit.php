@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bp,$bptodo;
-
-$group_id           = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
+// echo 'thid id' . $todo_guid;
+$group_id           = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : $todo_guid;
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 
@@ -44,7 +44,7 @@ $form_post_link = add_query_arg(
 
 $group_members = groups_get_group_members(
 	array(
-		'group_id'            => $bp->groups->current_group->id,
+		'group_id'            => $group_id,
 		'exclude_admins_mods' => false,
 	)
 );

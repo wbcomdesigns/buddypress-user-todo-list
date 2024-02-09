@@ -19,6 +19,8 @@ jQuery(document).ready(function () {
   // open popup on click
   jQuery(document).on('click', '.trigger', function () {
     var tid = jQuery(this).data('tid');
+    var guid = jQuery(this).data('guid');
+
     var component_type = jQuery(this).data('type');
     jQuery.ajax({
       url: ajaxurl,
@@ -26,6 +28,7 @@ jQuery(document).ready(function () {
       data: {
         action: 'bptodo_edit_form_popup',
         t_id: tid,
+        gu_id: guid,
         component: component_type,
         ajax_nonce: todo_ajax_object.ajax_nonce,
       },
