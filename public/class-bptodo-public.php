@@ -974,9 +974,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$todo_summary         = $update_form_data[2]['value'];
 					$todo_due_date        = $update_form_data[3]['value'];
 					$todo_priority        = $update_form_data[4]['value'];
-					$todo_todo_id         = $update_form_data[8]['value'];
-					$todo_primary_todo_id = $update_form_data[9]['value'];
-					$todo_group_id        = $update_form_data[10]['value'];
+					$todo_todo_id         = $update_form_data[8]['value'] ?? false;
+					$todo_primary_todo_id = $update_form_data[9]['value'] ?? false;
+					$todo_group_id        = $update_form_data[10]['value'] ?? false;
 
 					$cat             = isset( $todo_cat ) ? sanitize_text_field( $todo_cat ) : '';
 					$title           = isset( $todo_title ) ? sanitize_text_field( wp_unslash( $todo_title ) ) : '';
