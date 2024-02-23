@@ -30,7 +30,10 @@ if ( isset( $group_members['members'] ) ) {
 
 $group_id = ( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
 
-$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+		$todo_cats = get_terms('todo_category', array(
+			'orderby'    => 'name',
+			'hide_empty' => false,
+		));
 
 global $bptodo;
 $profile_menu_label = $bptodo->profile_menu_label;

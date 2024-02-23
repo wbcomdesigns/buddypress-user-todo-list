@@ -9,7 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$todo_cats = get_terms( 'todo_category', 'orderby=name&hide_empty=0' );
+		$todo_cats = get_terms('todo_category', array(
+			'orderby'    => 'name',
+			'hide_empty' => false,
+		));
 
 global $bptodo;
 $profile_menu_label = $bptodo->profile_menu_label;
