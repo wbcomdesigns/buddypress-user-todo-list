@@ -227,11 +227,13 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 				'post_staus'     => 'publish',
 				'posts_per_page' => -1,
 			);
-			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {			
+			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+				// Ensure $group_id is a non-negative integer
+				$group_id = absint(bp_get_current_group_id());		
 				$args['meta_query'] = [
 										array(
 											'key'   => 'todo_group_id',
-											'value' => bp_get_current_group_id(),
+											'value' => $group_id,
 											'compare'	=> '='
 										)
 							];

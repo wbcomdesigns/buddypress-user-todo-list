@@ -439,7 +439,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$create_event_text = __( 'Create Event', 'wb-todo' );
 			echo '<div class="wb-group-archive-add-event"><a href="' . esc_url( $groups_link ) . '">' . esc_html( $create_event_text ) . '</a></div>';
 
-			echo do_shortcode( '[eab_group_archives groups="' . bp_get_current_group_id() . '" lookahead="yes"]' );
+			$group_id = absint(bp_get_current_group_id()); // Sanitize the group ID
+			echo do_shortcode('[eab_group_archives groups="' . $group_id . '" lookahead="yes"]');
+
 
 			do_action( 'eab-buddypress-group_events-after_head' );
 			// echo $this->_get_navigation($timestamp);.
