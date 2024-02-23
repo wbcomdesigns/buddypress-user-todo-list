@@ -141,7 +141,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
-		$instance['title']      = strip_tags( $new_instance['title'] );
+		$instance['title']      = wp_strip_all_tags( $new_instance['title'] );
 		$instance['number']     = (int) $new_instance['number'];
 		$instance['link_title'] = ! empty( $new_instance['link_title'] );
 
@@ -158,7 +158,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$title      = isset( $instance['title'] ) ? strip_tags( $instance['title'] ) : '';
+		$title      = isset( $instance['title'] ) ? wp_strip_all_tags( $instance['title'] ) : '';
 		$number     = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
 		$link_title = isset( $instance['link_title'] ) ? (bool) $instance['link_title'] : '';
 		?>
