@@ -40,10 +40,11 @@ get_header(); ?>
 						$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 					}
 				}
-				$todo_cats = get_terms('todo_category', array(
-					'orderby'    => 'name',
-					'hide_empty' => false,
-				));
+				$todo_cats = get_terms( array(
+    'taxonomy'   => 'todo_category',
+    'orderby'    => 'name',
+    'hide_empty' => false,
+) );
 				$todo_cat    = wp_get_object_terms( $post->ID, 'todo_category' );
 				$todo_cat_id = 0;
 				if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {

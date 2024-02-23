@@ -17,7 +17,8 @@ $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $pro
 if ( isset( $_GET['args'] ) ) { //phpcs:ignore
 	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) ); //phpcs:ignore
 }
-$todo_cats = get_terms('todo_category', array(
+$todo_cats = get_terms(array(
+	'taxonomy'   => 'todo_category',
 	'orderby'    => 'name',
 	'hide_empty' => false,
 ));
