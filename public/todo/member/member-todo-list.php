@@ -30,7 +30,7 @@ $all_completed_todo = 0;
 $all_remaining_todo = 0;
 $completed_todo_ids = array();
 foreach ( $todos as $todo ) {
-	$curr_date   = date_create( date( 'Y-m-d' ) );
+	$curr_date = date_create(gmdate('Y-m-d'));
 	$due_date    = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 	$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
 	$diff        = date_diff( $curr_date, $due_date );
@@ -167,7 +167,7 @@ if ( empty( $todos ) ) {
 																$todo_status    = get_post_meta( $todo->ID, 'todo_status', true );
 																$todo_priority  = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str   = $due_date_td_class = '';
-																$curr_date      = date_create( date( 'Y-m-d' ) );
+																$curr_date      = date_create( gmdate('Y-m-d') );
 																$due_date       = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff           = date_diff( $curr_date, $due_date );
 																$diff_days      = $diff->format( '%R%a' );
@@ -288,7 +288,7 @@ if ( empty( $todos ) ) {
 																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
 																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str  = $due_date_td_class  = '';
-																$curr_date     = date_create( date( 'Y-m-d' ) );
+																$curr_date     = date_create( gmdate('Y-m-d') );
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
@@ -395,7 +395,7 @@ if ( empty( $todos ) ) {
 																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
 																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str  = $due_date_td_class = '';
-																$curr_date     = date_create( date( 'Y-m-d' ) );
+																$curr_date     = date_create( gmdate('Y-m-d') );
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
@@ -503,7 +503,7 @@ if ( empty( $todos ) ) {
 																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str  = $due_date_td_class    = '';
 																$date_value    = get_post_meta( $todo->ID, 'todo_due_date', true );
-																$curr_date     = date_create( date( 'Y-m-d' ) );
+																$curr_date     = date_create( gmdate('Y-m-d') );
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
@@ -636,7 +636,7 @@ if ( empty( $todos ) ) {
 																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
 																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
 																$due_date_str  = $due_date_td_class = '';
-																$curr_date     = date_create( date( 'Y-m-d' ) );
+																$curr_date     = date_create( gmdate('Y-m-d') );
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
