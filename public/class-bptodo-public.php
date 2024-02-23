@@ -1198,7 +1198,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$notification_guid               = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
 
 			if ( 'bptodo_group_todo_notifications' === $component_name ) {
-				$notification_string = sprintf( __( ' %1$s todo added in group %2$s by %3$s.', 'bp-profile-views' ), $notification_title, $group->name, $author_name );
+				/* translators: 1: todo title, 2: group name, 3: author name */
+				$notification_string = sprintf(__(' %1$s todo added in group %2$s by %3$s.', 'bp-profile-views'), $notification_title, $group->name, $author_name);
 				if ( 'string' === $format ) {
 					$return = "<a href='" . esc_url( $notification_guid ) . "'>" . $notification_string . '</a>';
 				} else {
