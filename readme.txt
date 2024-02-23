@@ -3,8 +3,8 @@ Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 6.1.1
-Stable tag: 3.1.1
+Tested up to: 6.4.3
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,15 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+
+= 3.2.0 =
+- Resolved PHP warnings and profile sidebar display issues. (#259)
+- Addressed due date field malfunction in group settings. (#257)
+- Corrected group To-Do percentage tracking and description editing. (#254, #256)
+- Improved compatibility with BuddyPress v12 functions. (#258)
+- Updated top banner visuals and navigation links.
+- Enhanced user notifications for group To-Do creations. (#244)
+
 = 3.1.1 =
 * Fix: (#226)Fixed todo summary is not editable input is not saving
 * Fix: (#229)Fixed header menu not clickable when plugin activate
