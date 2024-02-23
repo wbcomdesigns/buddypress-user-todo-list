@@ -67,7 +67,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$diff_days   = '';
 					if ( 'complete' !== $todo_status ) {
 						$author_id     = $todo->post_author;
-						$curr_date     = date_create( date( 'Y-m-d' ) );
+						$curr_date     = date_create( gmdate('Y-m-d') );
 						$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 						$diff          = date_diff( $curr_date, $due_date );
 						$mail_setting  = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
@@ -241,7 +241,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			if ( 'status' === $column_name ) {
 				$todo_status = get_post_meta( $post_id, 'todo_status', true );
-				$curr_date   = date_create( date( 'Y-m-d' ) );
+				$curr_date   = date_create( gmdate('Y-m-d') );
 				$due_date    = date_create( get_post_meta( $post_id, 'todo_due_date', true ) );
 				$diff        = date_diff( $curr_date, $due_date );
 				$diff_days   = $diff->format( '%R%a' );
@@ -751,7 +751,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo_view_url      = get_permalink( $tid );
 				$todo_status        = get_post_meta( $todo->ID, 'todo_status', true );
 				$todo_priority      = get_post_meta( $todo->ID, 'todo_priority', true );
-				$curr_date          = date_create( date( 'Y-m-d' ) );
+				$curr_date          = date_create( gmdate('Y-m-d') );
 				$due_date           = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 				$diff               = date_diff( $curr_date, $due_date );
 				$diff_days          = $diff->format( '%R%a' );

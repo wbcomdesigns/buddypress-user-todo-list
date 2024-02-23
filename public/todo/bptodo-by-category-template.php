@@ -35,7 +35,7 @@ if ( ! empty( $atts['category'] ) ) {
 		if ( ! empty( $todos ) ) {
 			$todo_list = array();
 			foreach ( $todos as $todo ) {
-				$curr_date = date_create( date( 'Y-m-d' ) );
+				$curr_date = date_create( gmdate('Y-m-d') );
 				$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 				$diff      = date_diff( $curr_date, $due_date );
 				$diff_days = $diff->format( '%R%a' );
@@ -83,7 +83,7 @@ if ( ! empty( $atts['category'] ) ) {
 
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class = '';
-														$curr_date    = date_create( date( 'Y-m-d' ) );
+														$curr_date    = date_create( gmdate('Y-m-d') );
 														$due_date     = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
@@ -184,7 +184,7 @@ if ( ! empty( $atts['category'] ) ) {
 
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class = '';
-														$curr_date    = date_create( date( 'Y-m-d' ) );
+														$curr_date    = date_create( gmdate('Y-m-d') );
 														$due_date     = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
@@ -284,7 +284,7 @@ if ( ! empty( $atts['category'] ) ) {
 
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class    = '';
-														$curr_date    = date_create( date( 'Y-m-d' ) );
+														$curr_date    = date_create( gmdate('Y-m-d') );
 														$due_date     = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
@@ -384,7 +384,7 @@ if ( ! empty( $atts['category'] ) ) {
 
 														$todo_status  = get_post_meta( $todo->ID, 'todo_status', true );
 														$due_date_str = $due_date_td_class    = '';
-														$curr_date    = date_create( date( 'Y-m-d' ) );
+														$curr_date    = date_create( gmdate('Y-m-d') );
 														$due_date     = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 														$diff         = date_diff( $curr_date, $due_date );
 														$diff_days    = $diff->format( '%R%a' );
