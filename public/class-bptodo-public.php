@@ -236,7 +236,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			if ( 'due_date' === $column_name ) {
 				$due_date = get_post_meta( $post_id, 'todo_due_date', true );
-				echo esc_html( date( 'F jS, Y', strtotime( $due_date ) ) );
+				echo esc_html(gmdate('F jS, Y', strtotime($due_date)));
 			}
 
 			if ( 'status' === $column_name ) {
