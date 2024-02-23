@@ -54,12 +54,15 @@ if ( isset( $group_members['members'] ) ) {
 	}
 }
 
-$todo_cats = get_terms( 'todo_category', array(
-    'orderby'    => 'name',
-    'hide_empty' => false,
-) );
+$todo_cats = get_terms(
+	array(
+		'taxonomy'   => 'todo_category',
+		'orderby'    => 'name',
+		'hide_empty' => false,
+	)
+);
 
-$todo      = get_post( $todo_id );
+$todo = get_post( $todo_id );
 
 $todo_cat    = wp_get_object_terms( $todo_id, 'todo_category' );
 $todo_cat_id = 0;

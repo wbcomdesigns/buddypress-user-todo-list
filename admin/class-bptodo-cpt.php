@@ -71,7 +71,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'capabilities'        => array(
 					'create_posts' => false,
 				),
-				'map_meta_cap'          => true,
+				'map_meta_cap'        => true,
 				'has_archive'         => true,
 				'hierarchical'        => false,
 				'menu_position'       => null,
@@ -114,8 +114,8 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			register_taxonomy( 'todo_category', array( 'bp-todo' ), $tax_args );
 
 			$numTerms = wp_count_terms(
-				'todo_category',
 				array(
+					'taxonomy'   => 'todo_category',
 					'hide_empty' => false,
 					'parent'     => 0,
 				)
