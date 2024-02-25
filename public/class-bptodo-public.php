@@ -89,7 +89,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 										$subject      = esc_html__( 'BPTODO Task - WordPress', 'wb-todo' );
 										/* Translators: Get a To do title name */
 										$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
-										$headers  = 'From:' . 'testing@gmail.com';
+										$headers  = array('Content-Type: text/html; charset=UTF-8');
 										wp_mail( $author_email, $subject, $messsage, $headers );
 										update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
 									}
