@@ -42,7 +42,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-	define( 'BPTODO_VERSION', '3.1.1' );
+	define( 'BPTODO_VERSION', '3.2.0' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
