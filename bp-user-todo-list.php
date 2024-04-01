@@ -329,8 +329,28 @@ function bptodo_activation_redirect_settings( $plugin ) {
 			exit;
 		}
 	}
+	if ( $plugin == $_REQUEST['plugin'] && class_exists( 'Buddypress' ) ) {
+		if ( isset( $_REQUEST['action'] ) && $_REQUEST['action']  == 'activate-plugin' && isset( $_REQUEST['plugin'] ) && $_REQUEST['plugin'] == $plugin) { //phpcs:ignore		
+			set_transient( '_bptodo_is_new_install', true, 30 );
+		}
+	}
 }
 add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
+
+/**
+ * Bptodo_do_activation_redirect
+ *
+ * @return void
+ */
+function bptodo_do_activation_redirect() {
+	if ( get_transient( '_bptodo_is_new_install' ) ) {
+		delete_transient( '_bptodo_is_new_install' );
+		wp_safe_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+
+	}
+}
+add_action( 'admin_init', 'bptodo_do_activation_redirect' );
+
 /**
  * Bptodo_activate_group_member_todo
  *
