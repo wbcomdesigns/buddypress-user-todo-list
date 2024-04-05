@@ -3,7 +3,7 @@
  * Plugin Name: Wbcom Designs BP Todo List
  * Plugin URI: https://wbcomdesigns.com/contact/
  * Description: This plugin allows users to create to-do items in their profile section and a simple interface to schedule their tasks.
- * Version: 3.2.0
+ * Version: 3.2.1
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -42,7 +42,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-	define( 'BPTODO_VERSION', '3.2.0' );
+	define( 'BPTODO_VERSION', '3.2.1' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -358,7 +358,7 @@ add_action( 'admin_init', 'bptodo_do_activation_redirect' );
  */
 function bptodo_activate_group_member_todo() {
 	$user_todo_list_settings = get_option( 'user_todo_list_settings' );
-	if (  isset( $user_todo_list_settings['enable_todo_member'] ) ) {
+	if ( isset( $user_todo_list_settings['enable_todo_member'] ) ) {
 		$user_todo_list_settings['enable_todo_member'] = 'on';
 	}
 	update_option( 'user_todo_list_settings', $user_todo_list_settings );
