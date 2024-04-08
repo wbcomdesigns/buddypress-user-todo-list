@@ -1210,8 +1210,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'link' => $user_link,
 					);
 				}
+				return $return;
+
 			}
-			return $return;
+			return $content;
 		}
 
 		/**
