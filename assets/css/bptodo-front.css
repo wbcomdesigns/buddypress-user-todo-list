@@ -1,292 +1,300 @@
 .bptodo-task.todo-completed,
 .bptodo-task.bptodo-tasktodo-completed {
-  text-decoration: line-through;
-  animation: strike 0.2s linear;
+    text-decoration: line-through;
+    animation: strike 0.2s linear;
 }
 
 @keyframes strike {
-  from { text-decoration-color: transparent; }
-  to { text-decoration-color: auto; }
+    from {
+        text-decoration-color: transparent;
+    }
+    to {
+        text-decoration-color: auto;
+    }
 }
 
 .add-todo-cat-row {
-  display: none;
-  margin-top: 15px;
+    display: none;
+    margin-top: 15px;
 }
 
 .bptodo-add-todo-success {
-  border: 1px solid #eeeeee;
-  padding: 10px;
-  padding-bottom: 0;
-  background-color: #ddffd9;
-  margin-bottom: 5px;
-  vertical-align: middle;
+    border: 1px solid #eeeeee;
+    padding: 10px;
+    padding-bottom: 0;
+    background-color: #ddffd9;
+    margin-bottom: 5px;
+    vertical-align: middle;
 }
 
 .bptodo-add-todo-success p {
-  color: #0f9200;
+    color: #0f9200;
 }
+
 
 /** TODO LIST CSS **/
+
 .bptodo-adming-setting {
-  /*	float: left;*/
-  width: 100%;
+    /*	float: left;*/
+    width: 100%;
 }
 
-
 button.bptodo-item {
-  background-color: #5e6c85;
-  border: medium none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  margin-bottom: 15px;
-  outline: medium none;
-  padding: 15px 20px;
-  text-align: left;
-  transition: all 0.4s ease 0s;
-  width: 100%;
-  font-weight: bold;
+    background-color: #5e6c85;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    margin-bottom: 15px;
+    outline: medium none;
+    padding: 15px 20px;
+    text-align: left;
+    transition: all 0.4s ease 0s;
+    width: 100%;
+    font-weight: bold;
 }
 
 button.bptodo-item:hover {
-  background-color: #0285ff !important;
+    background-color: #0285ff !important;
 }
 
 div.bptodo-panel {
-  padding: 0 0px;
-  background-color: white;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-  margin: 0px 5%;
+    padding: 0 0px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    margin: 0px 5%;
 }
 
 button.bptodo-item::after {
-  color: #fff;
-  content: "+";
-  float: right;
-  font-size: 13px;
-  font-weight: bolder;
-  margin-left: 5px;
+    color: #fff;
+    content: "+";
+    float: right;
+    font-size: 13px;
+    font-weight: bolder;
+    margin-left: 5px;
 }
 
 button.bptodo-item::after:hover {
-  color: #fff;
+    color: #fff;
 }
 
 button.bptodo-item.active::after {
-  content: "−";
-  color: rgb(255, 255, 255);
+    content: "−";
+    color: rgb(255, 255, 255);
 }
 
 .bptodo-admin-row {
-  clear: both;
-  overflow: hidden;
-  padding-bottom: 5px;
+    clear: both;
+    overflow: hidden;
+    padding-bottom: 5px;
 }
 
 .bptodo-item-accord {
-  margin-left: 0px;
+    margin-left: 0px;
 }
 
 .bptodo-admin-row div.bptodo-panel {
-  margin: 0px;
+    margin: 0px;
 }
 
 table.bp-todo-reminder th {
-  background: #f9f9f9;
-  border: none;
-  text-align: left;
+    background: #f9f9f9;
+    border: none;
+    text-align: left;
 }
 
 table.bp-todo-reminder th:first-child,
 table.bp-todo-reminder td:first-child {
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 table.bp-todo-reminder th:last-child,
 table.bp-todo-reminder td:last-child {
-  padding-right: 10px;
+    padding-right: 10px;
 }
 
 table.bp-todo-reminder {
-  width: 100%;
-  border: none;
+    width: 100%;
+    border: none;
 }
 
 table.bp-todo-reminder tbody td.bp-to-do-actions ul li {
-  display: inline-block;
-  margin: 4px;
+    display: inline-block;
+    margin: 4px;
 }
 
 table.bp-todo-reminder tbody td.bp-to-do-actions ul li a {
-  background: #dedede;
-  border-radius: 50px;
-  height: 25px;
-  width: 25px;
-  line-height: 25px;
-  display: block;
-  text-align: center;
-  color: #313131;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: #dedede;
+    border-radius: 50px;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    display: block;
+    text-align: center;
+    color: #313131;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 table.bp-todo-reminder tbody td.bp-to-do-actions ul li a:hover {
-  color: #fff;
-  background: #2094f4;
+    color: #fff;
+    background: #2094f4;
 }
 
 table.bp-todo-reminder tbody td {
-  text-align: left;
-  padding: 10px;
+    text-align: left;
+    padding: 10px;
 }
 
 .bp-todo-reminder tbody td img,
 .type-bp-todo img {
-  display: block;
+    display: block;
 }
 
 td.bp-to-do-actions ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.add-todo-category span{
-  margin: 0px 10px;
-  padding: 0px;
-  height: 26px;
-  width: 26px;
-  display: inline-block;
-  background: #f5f5f5 url(images/plus.svg) no-repeat center center;
-  background-size: 22px;
-  border-radius: 100px;
-  vertical-align: middle;
-}
-.add-todo-category span.remove-cat-icon{
-  background: #f5f5f5 url(images/minus.svg) no-repeat center center;
-  background-size: 22px;
+.add-todo-category span {
+    margin: 0px 10px;
+    padding: 0px;
+    height: 26px;
+    width: 26px;
+    display: inline-block;
+    background: #f5f5f5 url(images/plus.svg) no-repeat center center;
+    background-size: 22px;
+    border-radius: 100px;
+    vertical-align: middle;
 }
 
-
+.add-todo-category span.remove-cat-icon {
+    background: #f5f5f5 url(images/minus.svg) no-repeat center center;
+    background-size: 22px;
+}
 
 .buddyboss-select {
-  width: 50%;
+    width: 50%;
 }
 
 .add-todo-cat-row input {
-  width: 50%;
+    width: 50%;
 }
 
 .bptodo-add-cat-empty::-webkit-input-placeholder {
-  color: red;
+    color: red;
 }
 
 .bptodo-add-todo-tbl,
 .bptodo-add-todo-tbl th,
 .bptodo-add-todo-tbl td {
-  border: none;
-  /*vertical-align: top!important;*/
+    border: none;
+    /*vertical-align: top!important;*/
 }
 
 .bptodo-add-todo-tbl {
-  width: 100%;
-  margin-bottom: 0px;
+    width: 100%;
+    margin-bottom: 0px;
 }
 
 table.bptodo-add-todo-tbl tbody tr td {
-  padding: 5px 0;
-  display: block;
-  width: 100%;
-}
-table.bptodo-add-todo-tbl tbody tr td:first-child{
-  font-weight: 500;
+    padding: 5px 0;
+    display: block;
+    width: 100%;
 }
 
-table.bptodo-add-todo-tbl tbody tr td input[type="text"]{
-  width: 100%;
+table.bptodo-add-todo-tbl tbody tr td:first-child {
+    font-weight: 500;
 }
 
-table.bptodo-add-todo-tbl tbody tr{
-  display: block;
-  margin-bottom: 5px;
+table.bptodo-add-todo-tbl tbody tr td input[type="text"] {
+    width: 100%;
+}
+
+table.bptodo-add-todo-tbl tbody tr {
+    display: block;
+    margin-bottom: 5px;
 }
 
 #bptodo-calender .buddyboss-select-inner select {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .bp-user #buddypress table a {
-  color: #000 !important;
+    color: #000 !important;
 }
 
 a:focus,
 button:focus {
-  outline: none !important;
+    outline: none !important;
 }
 
 .bptodo-form-add input[type="text"],
 textarea {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 #todo-category-name {
-  width: 70% !important;
+    width: 70% !important;
 }
 
 #add-todo-cat {
-  width: 25% !important;
-  margin: 0px 0px 0px 5px;
-  padding: 10px !important;
+    width: 25% !important;
+    margin: 0px 0px 0px 5px;
+    padding: 10px !important;
 }
+
 
 /*** 26/12/2017 ***/
 
-#bptodo-todos{
-  margin: 0px;
-  padding: 0;
+#bptodo-todos {
+    margin: 0px;
+    padding: 0;
 }
+
 #bptodo-tabs {
-  background: #fff;
-  margin-top: 10px;
-  border-radius: 0 !important;
-  border: 0;
+    background: #fff;
+    margin-top: 10px;
+    border-radius: 0 !important;
+    border: 0;
 }
 
 #bptodo-dashboard ul {
-  margin: 0 !important;
-  padding: 0 !important;
-  list-style: none;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none;
 }
 
 #bptodo-dashboard ul li {
-  width: 100%;
-  font-size: 14px;
-  text-align: center;
-  border: 1px solid #ddd;
-  background: #f9f9f9;
-  display: inline-block;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 5px;
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 #bptodo-dashboard ul li p {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 #bptodo-dashboard * {
-  box-sizing: border-box !important;
+    box-sizing: border-box !important;
 }
 
 #bptodo-dashboard-box {
-  display: flex;
-  position: relative !important;
-  overflow: hidden !important;
+    display: flex;
+    position: relative !important;
+    overflow: hidden !important;
 }
+
 
 /* *** 05-01-2018 **
 #bptodo-settings-tbl .ui-widget-content {
@@ -335,107 +343,106 @@ textarea {
   margin-right: 8px;
 } */
 
-
 .bp-todo-dashboard-at-a-glance-box h4 {
-  font-size: 30px;
-  margin-bottom: 10px;
+    font-size: 30px;
+    margin-bottom: 10px;
 }
 
 .bptodo-light-grey {
-  background-color: #fff;
-  position: relative;
-  border-radius: 100px !important;
-  overflow: hidden;
+    background-color: #fff;
+    position: relative;
+    border-radius: 100px !important;
+    overflow: hidden;
 }
 
 .bptodo-color {
-  height: 18px !important;
-  width: 25%;
-  border-radius: 100px !important;
-  position: relative;
+    height: 18px !important;
+    width: 25%;
+    border-radius: 100px !important;
+    position: relative;
 }
 
 .bptodo-color:before {
-  content: '';
-  background-color: #06bd1c;
-  /* animation: 1s ease-in-out;
+    content: '';
+    background-color: #06bd1c;
+    /* animation: 1s ease-in-out;
   animation-fill-mode: both; */
-  width: 100%;
-  height: 100%;
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
-
-
 
 .bptodo-progress-section {
-  padding: 20px;
-  position: relative;
-  background: #f5f2ff;
-  border-radius: 10px !important;
-  margin: 10px 0;
+    padding: 20px;
+    position: relative;
+    background: #f5f2ff;
+    border-radius: 10px !important;
+    margin: 10px 0;
 }
 
-.bptodo-light-grey > span {
-  color: #fff;
-  min-width: 80px;
-  display: block;
-  padding-left: 10px;
-  font-size: 12px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
+.bptodo-light-grey>span {
+    color: #fff;
+    min-width: 80px;
+    display: block;
+    padding-left: 10px;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
 
 .bptodo-progress-section .task-progress-task-count-wrap {
-  position: relative;
-  top: -5px;
-  min-width: 100px;
-  z-index: 1;
+    position: relative;
+    top: -5px;
+    min-width: 100px;
+    z-index: 1;
 }
 
 .bptodo-progress-section h5 {
-  margin: 0 0 2rem;
+    margin: 0 0 2rem;
 }
 
 .bptodo-progress-section .task-progress-task-count {
-  position: relative;
-  background: #5e6c85;
-  border: 1px solid #5e6c85;
+    position: relative;
+    background: #5e6c85;
+    border: 1px solid #5e6c85;
 }
 
 .bptodo-progress-section .task-progress-task-count {
-  display: inline-block;
-  text-align: center;
-  font-size: 10px;
-  background: #5e6c85;
-  color: #fff;
-  padding: 0px 10px;
-  border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+    font-size: 10px;
+    background: #5e6c85;
+    color: #fff;
+    padding: 0px 10px;
+    border-radius: 4px;
 }
 
 .bptodo-progress-section .task-progress-task-count::after {
-  content: " ";
-  position: absolute;
-  top: 100%;
-  /* At the bottom of the tooltip */
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #5e6c85 transparent transparent transparent;
+    content: " ";
+    position: absolute;
+    top: 100%;
+    /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #5e6c85 transparent transparent transparent;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-head{
+#bptodo-task-tabs .bptodo-task-tabs-head {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin: 0 0 20px;
 }
+
+
 /* 
 #bptodo-task-tabs.ui-tabs {
   border: 0;
@@ -464,94 +471,100 @@ textarea {
   margin-right: 10px;
 } */
 
-
-#bptodo-task-tabs .bptodo-task-tabs-btn{
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
+#bptodo-task-tabs .bptodo-task-tabs-btn {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 #bptodo-task-tabs .bptodo-task-tabs-btn li {
-  font-size: 14px;
-  border: 0px solid #3a9dfb;
-  border-radius: 5px;
-  background: #fff;
-  font-weight: normal;
-  margin-right: 10px;
+    font-size: 14px;
+    border: 0px solid #3a9dfb;
+    border-radius: 5px;
+    background: #fff;
+    font-weight: normal;
+    margin-right: 10px;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-btn li a{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #5e6c85;
-  color: #fff;
-  padding: 8px 20px;
-  border-radius: 100px;
-  min-height: 40px;
+#bptodo-task-tabs .bptodo-task-tabs-btn li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #5e6c85;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 100px;
+    min-height: 40px;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-btn li.active a{
-  background: #0285ff;
+#bptodo-task-tabs .bptodo-task-tabs-btn li.active a {
+    background: #0285ff;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-btn li a img{
-  width: 24px;
-  margin-right: 5px;
+#bptodo-task-tabs .bptodo-task-tabs-btn li a img {
+    width: 24px;
+    margin-right: 5px;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-btn li a .bpdoto-count-tab{
-  min-width: 22px;
-  height: 22px;
-  background: #fff;
-  text-align: center;
-  border-radius: 100px;
-  margin-left: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0285ff;
+#bptodo-task-tabs .bptodo-task-tabs-btn li a .bpdoto-count-tab {
+    min-width: 22px;
+    height: 22px;
+    background: #fff;
+    text-align: center;
+    border-radius: 100px;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0285ff;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export{
-  float:right;
-  background: #5e6c85;
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  min-height: 40px;
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
+    float: right;
+    background: #5e6c85;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    min-height: 40px;
 }
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export a#export_my_tasks{
-  display: flex;
-  align-items: center;
-  color: #fff;
-  font-size: 14px;
+
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export a#export_my_tasks {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 14px;
 }
 
 #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .export-download,
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin{
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin {
     width: 20px;
     height: 20px;
-    margin-right:8px;
+    margin-right: 8px;
     background: url(images/export.svg) no-repeat center center;
     background-size: cover;
 }
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin{
+
+#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin {
     background: url(images/loading-white.svg) no-repeat center center;
     animation-name: reload;
     animation-duration: 2000ms;
     animation-iteration-count: infinite;
-    animation-timing-function: linear; 
+    animation-timing-function: linear;
 }
 
 @keyframes reload {
-  from { transform: rotate(359deg); }
-  to { transform: rotate(0deg); }
+    from {
+        transform: rotate(359deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
 }
+
 
 /* #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
   border: 0px solid #3a9dfb;
@@ -602,134 +615,147 @@ textarea {
   min-height: 18px;
 } */
 
+
 /*** To-do Priority css ***/
+
 table.bp-todo-reminder tbody td.bptodo-priority {
-  width: 140px;
+    width: 140px;
 }
 
 .bptodo-priority .bptodo-priority-critical,
 .bptodo-priority .bptodo-priority-high,
 .bptodo-priority .bptodo-priority-normal {
-  display: inline-block;
-  width: 100%;
-  max-width: 100px;
-  margin: 0 auto;
-  padding: 5px 5px;
-  font-size: 14px;
-  color: #fff;
-  background: #f44336;
-  border-radius: 100px;
-  text-align: center;
+    display: inline-block;
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto;
+    padding: 5px 5px;
+    font-size: 14px;
+    line-height: 1;
+    color: #fff;
+    background: #f44336;
+    border-radius: 100px;
+    text-align: center;
 }
 
 .bptodo-priority .bptodo-priority-high {
-  background: #fb8c00;
+    background: #fb8c00;
 }
 
 .bptodo-priority .bptodo-priority-normal {
-  background: #4caf50;
+    background: #4caf50;
 }
 
+
 /* BuddyPress Nouveau Fixes */
+
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h1,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h2,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h3,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h4,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-setting h5,
 body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
-  margin: 0 0 15px;
+    margin: 0 0 15px;
 }
 
 .bp-nouveau.buddypress .buddypress-wrap #insert-media-button {
-  padding: 0 10px 1px;
+    padding: 0 10px 1px;
 }
 
+
 /******** Report Table *************/
+
 .single-to-report table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  width: 100%;
-  margin: 0 0 1rem;
-  border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0 0 1rem;
+    border: 1px solid #ddd;
 }
 
 .single-to-report table th,
 .single-to-report table td {
-  padding: 1rem;
-  border: 1px solid #ddd;
-  text-align: center;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
+
 /* Shortcode Form */
+
 .bptodo-loggedout-user-bptodo-panel {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 30px !important;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 0px 70px #edebeb;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px !important;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0px 70px #edebeb;
 }
+
 .bptodo-loggedout-user-bptodo-panel form#loginform p {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
+
 .bptodo-loggedout-user-bptodo-panel form#loginform input[type="text"],
 .bptodo-loggedout-user-bptodo-panel form#loginform input[type="email"],
 .bptodo-loggedout-user-bptodo-panel form#loginform input[type="password"] {
-  width: 100%;
-  margin-top: 5px;
+    width: 100%;
+    margin-top: 5px;
 }
+
 .bptodo-loggedout-user-bptodo-panel form#loginform label {
-  display: block;
+    display: block;
 }
 
 .theme-buddysocial .bptodo-loggedout-user-bptodo-panel input#wp-submit,
 .theme-varuna .bptodo-loggedout-user-bptodo-panel input#wp-submit {
-  background: #333;
-  border-radius: 5px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 8px 20px;
+    background: #333;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 20px;
 }
 
+
 /* Media Query */
+
 @media only screen and (max-width: 543px) {
-  .todo-detail {
-    overflow-x: auto;
-  }
-
-  #bptodo-dashboard-box {
-    display: block;
-  }
-
-  #bptodo-dashboard ul li {
-    width: 100%;
-    margin: 0;
-    margin-bottom: 10px;
-  }
-
-  #bptodo-dashboard ul li:last-child {
-    margin-bottom: 0;
-  }
-
-  /* #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
+    .todo-detail {
+        overflow-x: auto;
+    }
+    #bptodo-dashboard-box {
+        display: block;
+    }
+    #bptodo-dashboard ul li {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 10px;
+    }
+    #bptodo-dashboard ul li:last-child {
+        margin-bottom: 0;
+    }
+    /* #bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active,
   #bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
     margin-bottom: 10px;
   } */
-
 }
 
 
 /*Groups To-do-List*/
+
 .groups .bptodo-form-add table.bptodo-add-todo-tbl span.select2.select2-container.select2-container--default {
     width: 100% !important;
 }
+
 .groups .bptodo-form-add table.bptodo-add-todo-tbl .select2-container--default .select2-selection--multiple {
-    border-color:#ddd;
+    border-color: #ddd;
 }
+
 .groups .bptodo-form-add .select2-container--default .select2-selection--multiple .select2-selection__choice {
     border-radius: 5px !important;
 }
+
 .groups .bptodo-form-add .select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
     line-height: 23px;
 }
@@ -739,16 +765,17 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 New UI
 ==================*/
 
-.todo-header{
-  background: #f7faff;
+.todo-header {
+    background: #f7faff;
 }
-.todo-header .todo-header-head{
-  display: flex;
-  justify-content: space-between;
-  list-style: none;
-  margin:0px;
-  padding: 0px;
-  font-weight: 500;
+
+.todo-header .todo-header-head {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    font-weight: 500;
 }
 
 .todo-header .todo-header-head .bptodo-check,
@@ -769,68 +796,75 @@ New UI
 .todo-header-list-row .bp-to-do-actions,
 .todo-header-list-row .bptodo-date,
 .todo-header-list-row .bptodo-cat,
-.todo-header-list-row .bptodo-task{
-  padding:20px 10px;
-  box-sizing: border-box;
+.todo-header-list-row .bptodo-task {
+    padding: 20px 10px;
+    box-sizing: border-box;
 }
 
 .todo-header .todo-header-head .bptodo-check,
-.todo-header-list-row .bptodo-check{
-  width: 80px;
+.todo-header-list-row .bptodo-check {
+    width: 80px;
 }
+
 .todo-header .todo-header-head .bptodo-priority,
-.todo-header-list-row .bptodo-priority{
-  width: 120px;
+.todo-header-list-row .bptodo-priority {
+    width: 120px;
 }
+
 .todo-header .todo-header-head .bptodo-date,
 .todo-header-list-row .bptodo-date {
-  width: 120px;
+    width: 120px;
 }
+
 .todo-header-list-row .bptodo-date span,
-.todo-header-list-row .bptodo-cat span.bptodo-cat-mobile-title{
-  display: none;
+.todo-header-list-row .bptodo-cat span.bptodo-cat-mobile-title {
+    display: none;
 }
 
 .todo-header .todo-header-head .bptodo-cat,
-.todo-header-list-row .bptodo-cat{
-  width: 200px;
+.todo-header-list-row .bptodo-cat {
+    width: 200px;
 }
+
 .todo-header .todo-header-head .bptodo-task,
-.todo-header-list-row .bptodo-task{
-  width: 30%;
+.todo-header-list-row .bptodo-task {
+    width: 30%;
 }
+
 .todo-header .todo-header-head .bptodo-actions,
-.todo-header-list-row .bp-to-do-actions{
-  width: 15%;
-  text-align: center;
+.todo-header-list-row .bp-to-do-actions {
+    width: 15%;
+    text-align: center;
 }
 
-.todo-header-list-row .bptodo-task{
-  font-weight: 500;
+.todo-header-list-row .bptodo-task {
+    font-weight: 500;
 }
 
-.todo-header-list .todo-header-list-row{
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  margin:0px;
-  padding:10px 0; 
-  border-top: 1px #efefef solid;
-  background: #fff;
+.todo-header-list .todo-header-list-row {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    padding: 10px 0;
+    border-top: 1px #efefef solid;
+    background: #fff;
 }
+
+
 /* .todo-header-list .todo-header-list-row:nth-child(2n){
   background: #f7faff;
 } */
 
-.todo-header-list .todo-header-list-row.completed{
-  background: #f7faff;
+.todo-header-list .todo-header-list-row.completed {
+    background: #f7faff;
 }
 
-.todo-header-list .todo-header-list-row.completed .bptodo-date{
-  color: #30bb36;
+.todo-header-list .todo-header-list-row.completed .bptodo-date {
+    color: #30bb36;
 }
 
-.todo-header-list-row  .bptodo-progress-group{
+.todo-header-list-row .bptodo-progress-group {
     text-align: center;
     margin-top: 10px;
     background: #5e6c85;
@@ -840,136 +874,156 @@ New UI
     font-size: 15px;
 }
 
-.bp-to-do-actions .bp-to-do-actions-list button.trigger{
-  border: none;
-  background: none;
-  padding: 0px;
-  color: #000;;
+.bp-to-do-actions .bp-to-do-actions-list button.trigger {
+    border: none;
+    background: none;
+    padding: 0px;
+    color: #000;
+    ;
 }
 
-.bp-to-do-actions .bp-to-do-actions-list button.trigger:hover{
-  background: none;
+.bp-to-do-actions .bp-to-do-actions-list button.trigger:hover {
+    background: none;
 }
 
-.bp-to-do-actions .bp-to-do-actions-list img{
-  width: 22px;
-  height: auto;
+.bp-to-do-actions .bp-to-do-actions-list img {
+    width: 22px;
+    height: auto;
 }
 
 .option-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  position: relative;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 22px;
-  width: 22px;
-  transition: all 0.15s ease-out 0s;
-  background: #dae7f9;
-  border: none;
-  color: #FFF;
-  cursor: pointer;
-  display: inline-block;
-  margin-right: 0.5rem;
-  outline: none;
-  position: relative;
-  z-index: 1;
-  border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 22px !important;
+    width: 22px !important;
+    transition: all 0.15s ease-out 0s;
+    background: #dae7f9;
+    border: none;
+    color: #FFF;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    border-radius: 5px;
 }
+
 .option-input:hover {
-  background: #cddef5;
+    background: #cddef5;
 }
+
 .option-input:checked {
-  background: #0285ff;
+    background: #0285ff;
 }
+
 .option-input:checked::before {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  content: "";
-  background: url(images/check.svg) no-repeat center center;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    content: "";
+    background: url(images/check.svg) no-repeat center center;
 }
+
 .option-input:checked::after {
-  background: #dae7f9;
-  content: "";
-  display: block;
-  position: relative;
-  z-index: 100;
+    background: #dae7f9;
+    content: "";
+    display: block;
+    position: relative;
+    z-index: 100;
 }
 
 .option-input.disabled,
-.option-input.disabled:hover{
-  background: #dae7f9 !important;
-  cursor: inherit;
+.option-input.disabled:hover {
+    background: #dae7f9 !important;
+    cursor: inherit;
 }
 
-.bp-to-do-actions-list{
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  justify-content: space-around;
-  margin: 0;
-  padding: 0;
+.bp-to-do-actions-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
 }
 
 .bptodo-expires-today,
 .bptodo-expired .bptodo-date {
-  color: #f51c0c;
+    color: #f51c0c;
+}
+
+#wp-bptodo-summary-input-wrap button#bptodo-summary-input-tmce,
+#wp-bptodo-summary-input-wrap button#bptodo-summary-input-html {
+    background: transparent;
+    border-color: #ccc;
+    border-radius: 0;
+    color: #777;
+}
+
+#wp-bptodo-summary-input-wrap.html-active button#bptodo-summary-input-html,
+#wp-bptodo-summary-input-wrap.tmce-active button#bptodo-summary-input-tmce {
+    color: #000;
+    background-color: #fff;
 }
 
 
 /*========================
 widget 
 =========================*/
-.widget-bptodo-list-row ul{
+
+.widget-bptodo-list-row ul {
     list-style: none;
     margin: 0px;
     padding: 0px;
 }
 
-.widget-bptodo-list-row ul li{
-  border-bottom: 1px #e3e3e3 solid;
-  margin: 0 0 10px;
-  padding:0 0 10px; 
+.widget-bptodo-list-row ul li {
+    border-bottom: 1px #e3e3e3 solid;
+    margin: 0 0 10px;
+    padding: 0 0 10px;
 }
 
-.widget-bptodo-list-row ul li:last-child{
-  margin-bottom: 0;
-  padding-bottom: 0px;
-  border-bottom: 0px;
+.widget-bptodo-list-row ul li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0px;
+    border-bottom: 0px;
 }
 
-.widget-bptodo-list-meta{
-  display: flex;
-  align-items: center;
-  margin:5px 0 0;
-  padding:0px;
+.widget-bptodo-list-meta {
+    display: flex;
+    align-items: center;
+    margin: 5px 0 0;
+    padding: 0px;
 }
 
-.widget-bptodo-list-meta .bptodo-priority{
-  margin-right: 10px;
-
+.widget-bptodo-list-meta .bptodo-priority {
+    margin-right: 10px;
 }
-.widget-bptodo-list-meta .bptodo-priority{
+
+.widget-bptodo-list-meta .bptodo-priority {
     min-width: 80px;
-
-} 
-.widget-bptodo-list-meta span.post-date{
-  opacity: 0.8;
-  font-size: 13px;
 }
 
-.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-critical, 
-.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-high, 
+.widget-bptodo-list-meta span.post-date {
+    opacity: 0.8;
+    font-size: 13px;
+}
+
+.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-critical,
+.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-high,
 .widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-normal {
-  padding: 3px 5px;
-  font-size: 13px;
-  line-height: 1.3;
+    padding: 3px 5px;
+    font-size: 13px;
+    line-height: 1.3;
 }
 
 
@@ -987,19 +1041,20 @@ widget
     padding: 50px;
 } */
 
+
 /*==================
 Single To DO 
 ==================*/
 
-.bptodo-list-single .signle-bptodo-meta{
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 25px;
+.bptodo-list-single .signle-bptodo-meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
-.bptodo-list-single .signle-bptodo-meta .single-todo-priority{
+.bptodo-list-single .signle-bptodo-meta .single-todo-priority {
     display: inline-block;
     min-width: 100px;
     max-width: 100px;
@@ -1013,255 +1068,249 @@ Single To DO
 }
 
 .bptodo-list-single .signle-bptodo-meta .single-todo-date,
-.bptodo-list-single .signle-bptodo-meta .single-todo-cat{
+.bptodo-list-single .signle-bptodo-meta .single-todo-cat {
     position: relative;
 }
 
 .bptodo-list-single .signle-bptodo-meta .single-todo-date:before,
-.bptodo-list-single .signle-bptodo-meta .single-todo-cat:before{
-  content: '';
-  height: 5px;
-  width: 5px;
-  border-radius: 100px;
-  background: #c3c3c3;
-  position: absolute;
-  left: -50%;
-  top: 10px;
+.bptodo-list-single .signle-bptodo-meta .single-todo-cat:before {
+    content: '';
+    height: 5px;
+    width: 5px;
+    border-radius: 100px;
+    background: #c3c3c3;
+    position: absolute;
+    left: -50%;
+    top: 10px;
 }
 
 
 /*========================
 Edit popup
 ========================*/
+
 .bptodo-modal.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 0vh;
-  background-color: transparent;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transition: background-color 0.25s ease;
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 0vh;
+    background-color: transparent;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: background-color 0.25s ease;
+    z-index: 9999;
 }
 
 .bptodo-modal.modal.open {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  opacity: 1;
-  visibility: visible;
-  transition: background-color 0.25s;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 1;
+    visibility: visible;
+    transition: background-color 0.25s;
 }
+
+
 /* .bptodo-modal.modal.open > .content-wrapper {
   transform: scale(1);
 } */
 
 .bptodo-modal.modal .content-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 100%;
-  max-width: 500px;
-  max-height: 80%;
-  margin: 0;
-  padding:0;
-  background-color: #fff;
-  border-radius: 7px;
-  overflow: hidden;
-  box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.12);
-  margin: 20px;
-  /* transform: scale(0); */
-  /* transition: transform 0.25s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80%;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.12);
+    margin: 20px;
+    /* transform: scale(0); */
+    /* transition: transform 0.25s;
   transition-delay: 0.15s; */
 }
+
 .bptodo-modal .content-wrapper .close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: none;
-  background-color: transparent;
-  transition: 0.25s linear;
-  cursor: pointer;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background-color: transparent;
+    transition: 0.25s linear;
+    cursor: pointer;
 }
-.bptodo-modal.modal .content-wrapper .close:before, 
+
+.bptodo-modal.modal .content-wrapper .close:before,
 .bptodo-modal.modal .content-wrapper .close:after {
-  position: absolute;
-  content: "";
-  width: 1.25rem;
-  height: 0.125rem;
-  background-color: #000;
+    position: absolute;
+    content: "";
+    width: 1.25rem;
+    height: 0.125rem;
+    background-color: #000;
 }
 
-.bptodo-modal.modal .content-wrapper .close:before{
-  transform: rotate(45deg);
-}
-.bptodo-modal.modal .content-wrapper .close:after{
-  transform: rotate(135deg);
+.bptodo-modal.modal .content-wrapper .close:before {
+    transform: rotate(45deg);
 }
 
-.bptodo-modal.modal .content-wrapper .close:hover:before, 
+.bptodo-modal.modal .content-wrapper .close:after {
+    transform: rotate(135deg);
+}
+
+.bptodo-modal.modal .content-wrapper .close:hover:before,
 .bptodo-modal .content-wrapper .close:hover:after {
-  background-color: #e12807;
+    background-color: #e12807;
 }
 
-.bptodo-modal .edit_form_popup{
-  padding: 30px;
-  width: 100%;
-  overflow-y: scroll;
+.bptodo-modal .edit_form_popup {
+    padding: 30px;
+    width: 100%;
+    overflow-y: scroll;
 }
 
 .bptodo-modal .edit_form_popup::-webkit-scrollbar {
-  width: 0.5em;
+    width: 0.5em;
 }
- 
+
 .bptodo-modal .edit_form_popup::-webkit-scrollbar-thumb {
-  background-color: #f1f0f0;
-}
-.bptodo-modal .wp-editor-container textarea.wp-editor-area{
-  height: auto !important;
-  min-height: 100px !important;
+    background-color: #f1f0f0;
 }
 
-
-.bptodo-adming-setting.bptod-category-shortcode-block{
-  padding: 0px;
+.bptodo-modal .wp-editor-container textarea.wp-editor-area {
+    height: auto !important;
+    min-height: 100px !important;
 }
 
-#ui-datepicker-div{
-  background: #fff;
+.bptodo-adming-setting.bptod-category-shortcode-block {
+    padding: 0px;
+}
+
+#ui-datepicker-div {
+    background: #fff;
 }
 
 
 /*BuddyBoss Theme*/
+
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none !important;
 }
 
-
-
-
 @media only screen and (max-width: 768px) {
-
-  .todo-header{
-    display: none;
-  }
-  #buddypress .todo-header-list .todo-header-list-row,
-  .todo-header-list .todo-header-list-row{
-    flex-wrap: wrap;
-    padding: 60px 15px 15px 15px;
-    position: relative;
-    border: 1px #e6e2f3 solid;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 15px #f7faff;
-  }
-
-  .todo-header-list-row .bptodo-priority{
-    position: absolute;
-    top: 20px;
-    left: 15px;
-    padding: 0;
-  }
-  .todo-header-list-row .bp-to-do-actions{
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 150px;
-  }
-
-  .todo-header-list-row .bptodo-check{
-    width: 32px;
-    padding: 10px 0;
-  }
-
-  .todo-header-list-row .bptodo-task {
-    width: calc(100% - 32px);
-    order: 3;
-    padding-left: 0;
-    padding: 10px 0;
-  }
-  .todo-header-list-row .bptodo-date,
-  .todo-header-list-row .bptodo-cat{
-    width: 100%;
-    order: 5;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-   .todo-header-list-row .bptodo-date span,
-   .todo-header-list-row .bptodo-cat span.bptodo-cat-mobile-title{
-    display: block;
-    color: initial;
-    font-weight: 500;
-  }
-  .todo-header-list-row .bptodo-cat{
-    width: 100%;
-    order: 6;
-    padding: 10px 0px 0;
-  }
-
-  #bptodo-task-tabs .bptodo-task-tabs-btn li a{
-    padding: 5px 10px;
-    min-height: 36px;
-  }
-
-  #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export{
-    padding: 5px 20px;
-    min-height: 36px;
-  }
-  .bp-to-do-actions-list{
-    justify-content: flex-end;
-  }
-  .bp-to-do-actions-list li{
-    margin-left: 10px;
-  }
-
-  .groups .todo-header-list-row .bp-to-do-actions{
-    right: 0;
-    bottom: 0;
-    top: inherit;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-top: 1px #e6e2f3 solid;
-    border-radius: 0px !important;
-    padding: 10px;
-  }
-  .groups .todo-header-list-row .bptodo-progress-group{
-    margin-top:0px;
-    padding: 5px 20px;
-  }
-  .groups #buddypress .todo-header-list .todo-header-list-row, 
-  .groups .todo-header-list .todo-header-list-row{
-    padding: 60px 15px 70px 15px;
-  }
-
+    .todo-header {
+        display: none;
+    }
+    #buddypress .todo-header-list .todo-header-list-row,
+    .todo-header-list .todo-header-list-row {
+        flex-wrap: wrap;
+        padding: 60px 15px 15px 15px;
+        position: relative;
+        border: 1px #e6e2f3 solid;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: inset 0 0 15px #f7faff;
+    }
+    .todo-header-list-row .bptodo-priority {
+        position: absolute;
+        top: 20px;
+        left: 15px;
+        padding: 0;
+    }
+    .todo-header-list-row .bp-to-do-actions {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 150px;
+    }
+    .todo-header-list-row .bptodo-check {
+        width: 32px;
+        padding: 10px 0;
+    }
+    .todo-header-list-row .bptodo-task {
+        width: calc(100% - 32px);
+        order: 3;
+        padding-left: 0;
+        padding: 10px 0;
+    }
+    .todo-header-list-row .bptodo-date,
+    .todo-header-list-row .bptodo-cat {
+        width: 100%;
+        order: 5;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .todo-header-list-row .bptodo-date span,
+    .todo-header-list-row .bptodo-cat span.bptodo-cat-mobile-title {
+        display: block;
+        color: initial;
+        font-weight: 500;
+    }
+    .todo-header-list-row .bptodo-cat {
+        width: 100%;
+        order: 6;
+        padding: 10px 0px 0;
+    }
+    #bptodo-task-tabs .bptodo-task-tabs-btn li a {
+        padding: 5px 10px;
+        min-height: 36px;
+    }
+    #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
+        padding: 5px 20px;
+        min-height: 36px;
+    }
+    .bp-to-do-actions-list {
+        justify-content: flex-end;
+    }
+    .bp-to-do-actions-list li {
+        margin-left: 10px;
+    }
+    .groups .todo-header-list-row .bp-to-do-actions {
+        right: 0;
+        bottom: 0;
+        top: inherit;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px #e6e2f3 solid;
+        border-radius: 0px !important;
+        padding: 10px;
+    }
+    .groups .todo-header-list-row .bptodo-progress-group {
+        margin-top: 0px;
+        padding: 5px 20px;
+    }
+    .groups #buddypress .todo-header-list .todo-header-list-row,
+    .groups .todo-header-list .todo-header-list-row {
+        padding: 60px 15px 70px 15px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
-
-  #bptodo-task-tabs .bptodo-task-tabs-head,
-  #bptodo-task-tabs .bptodo-task-tabs-btn{
-    display: block;
-  }
-  #bptodo-task-tabs .bptodo-task-tabs-btn li,
-  #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export{
-    margin: 0 0 10px;
-  }
-
+    #bptodo-task-tabs .bptodo-task-tabs-head,
+    #bptodo-task-tabs .bptodo-task-tabs-btn {
+        display: block;
+    }
+    #bptodo-task-tabs .bptodo-task-tabs-btn li,
+    #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
+        margin: 0 0 10px;
+    }
 }
