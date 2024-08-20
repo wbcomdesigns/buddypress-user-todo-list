@@ -64,7 +64,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'show_in_menu'        => true,
 				'query_var'           => true,
 				'rewrite'             => array(
-					'slug'       => 'todo',
+					'slug'       => sanitize_title( 'todo' ),
 					'with_front' => false,
 				),
 				'capability_type'     => 'post',
@@ -113,7 +113,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 			register_taxonomy( 'todo_category', array( 'bp-todo' ), $tax_args );
 
-			$numTerms = wp_count_terms(
+			$num_terms = wp_count_terms(
 				array(
 					'taxonomy'   => 'todo_category',
 					'hide_empty' => false,
@@ -122,7 +122,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			);
 
 			$term = term_exists( 'Uncategorized', 'todo_category' );
-			if ( empty( $term ) && '0' === $numTerms ) {
+			if ( empty( $term ) && '0' === $num_terms ) {
 				wp_insert_term(
 					'Uncategorized',
 					'todo_category'
