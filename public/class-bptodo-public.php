@@ -49,115 +49,119 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 
 		/**
-		 * Actions performed to send mails and notifications whose due date has arrived.
+		 * Handles the management of todo items' due dates.
+		 * This function sends email and BuddyPress notifications for tasks that are due today or have already passed.
 		 *
-		 * @since    1.0.0
-		 * @access   public
-		 * @author   Wbcom Designs
+		 * @since 1.0.0
+		 * @access public
 		 */
 		public function bptodo_manage_todo_due_date() {
 			global $bptodo;
-			$args       = array(
+
+			// Query to get all incomplete todos that are due today or have passed
+			$args = array(
 				'post_type'      => 'bp-todo',
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
-				'order_by'       => 'name',
-				'order'          => 'ASC',
+				'meta_query'     => array(
+					array(
+						'key'     => 'todo_status',
+						'value'   => 'complete',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => 'todo_due_date',
+						'value'   => gmdate('Y-m-d'),
+						'compare' => '<=',
+						'type'    => 'DATE',
+					),
+				),
 			);
-			$todo_items = get_posts( $args );
-			if ( ! empty( $todo_items ) ) {
-				foreach ( $todo_items as $key => $todo ) {
-					$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
-					$diff_days   = '';
-					if ( 'complete' !== $todo_status ) {
-						$author_id     = $todo->post_author;
-						$curr_date     = date_create( gmdate('Y-m-d') );
-						$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-						$diff          = date_diff( $curr_date, $due_date );
-						$mail_setting  = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
-						$mail_settings = isset( $mail_setting[0] ) ? $mail_setting[0] : '';
-						if ( is_object( $diff ) ) {
-							$diff_days = $diff->format( '%R%a' );
-						}
-						/** Check if mail sending is allowed. */
-						if ( 'yes' == $mail_settings ) {
-							if ( ! empty( $bptodo->send_mail ) && 'yes' == $bptodo->send_mail ) {
 
-								/** If today is the due date. */
-								if ( 0 == $diff_days ) {
-									/** If the mail is not sent already. */
-									$due_date_mail_sent = get_post_meta( $todo->ID, 'todo_last_day_mail_sent', true );
-									if ( 'no' == $due_date_mail_sent ) {
-										$author       = get_userdata( $author_id );
-										$author_email = $author->data->user_email;
-										$subject      = esc_html__( 'BPTODO Task - WordPress', 'wb-todo' );
-										/* Translators: Get a To do title name */
-										$messsage = sprintf( esc_html__( 'Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!', 'wb-todo' ), esc_html( $todo->post_title ) );
-										$headers  = array('Content-Type: text/html; charset=UTF-8');
-										wp_mail( $author_email, $subject, $messsage, $headers );
-										update_post_meta( $todo->ID, 'todo_last_day_mail_sent', 'yes' );
-									}
-								}
-							}
-						}
+			// Execute the query
+			$todo_query = new WP_Query($args);
 
-						/** Check if notification sending is allowed. */
-						if ( ! empty( $bptodo->send_notification ) && 'yes' == $bptodo->send_notification ) {
-							/** If today is the due date. */
-							if ( 0 == $diff_days ) {
-								/** If the mail is not sent already. */
-								$due_date_notification_sent = get_post_meta( $todo->ID, 'todo_last_day_notification_sent', true );
-								if ( 'no' == $due_date_notification_sent ) {
-									/** Send notification for appectance. */
-									bp_notifications_add_notification(
-										array(
-											'user_id' => $author_id,
-											'item_id' => $todo->ID,
-											'secondary_item_id' => get_current_user_id(),
-											'component_name' => 'bptodo_due_date',
-											'component_action' => 'bptodo_due_date_action',
-											'date_notified' => bp_core_current_time(),
-											'is_new'  => 1,
-										)
-									);
-									update_post_meta( $todo->ID, 'todo_last_day_notification_sent', 'yes' );
-								}
-							}
-						}
+			// Loop through each todo item and process it
+			if ($todo_query->have_posts()) {
+				while ($todo_query->have_posts()) {
+					$todo_query->the_post();
+					$todo_id = get_the_ID();
+					$author_id = get_post_field('post_author', $todo_id);
+
+					// Retrieve the user's mail settings
+					$mail_setting = get_user_meta($author_id, 'todo_mail_setting', true);
+
+					// Send email notification if configured
+					$this->send_due_date_email($todo_id, $author_id, $mail_setting);
+
+					// Send BuddyPress notification
+					$this->send_due_date_notification($todo_id, $author_id);
+				}
+			}
+
+			// Reset post data to avoid conflicts
+			wp_reset_postdata();
+		}
+
+			/**
+			 * Sends an email notification to the task owner if the task's due date is today.
+			 *
+			 * @since 1.0.0
+			 * @access private
+			 * @param int $todo_id The ID of the todo item.
+			 * @param int $author_id The ID of the task owner.
+			 * @param string $mail_settings The user's mail settings.
+			 */
+			private function send_due_date_email($todo_id, $author_id, $mail_settings) {
+				// Check if the user has opted to receive email notifications
+				if ('yes' === $mail_settings) {
+					$email_sent = get_post_meta($todo_id, 'todo_last_day_mail_sent', true);
+					if ('no' === $email_sent) {
+						// Prepare email components
+						$author_email = get_the_author_meta('user_email', $author_id);
+						$site_name = get_bloginfo('name');
+						$task_name = get_the_title($todo_id);
+						$subject = sprintf(esc_html__('%1$s: Task "%2$s" Due Today', 'wb-todo'), $site_name, $task_name);
+						$message = sprintf(esc_html__('Your task: %1$s is due today. Kindly finish it up! Thanks!', 'wb-todo'), $task_name);
+						$headers = ['Content-Type: text/html; charset=UTF-8'];
+
+						// Send the email
+						wp_mail($author_email, $subject, $message, $headers);
+
+						// Mark the email as sent to avoid duplicates
+						update_post_meta($todo_id, 'todo_last_day_mail_sent', 'yes');
 					}
 				}
 			}
-		}
 
-		/**
-		 * Actions performed to add a todo button on member header.
-		 *
-		 * @since    1.0.0
-		 * @access   public
-		 * @author   Wbcom Designs
-		 */
-		/*
-		public function bptodo_add_todo_button_on_member_header() {
+			/**
+			 * Sends a BuddyPress notification to the task owner if the task's due date is today.
+			 *
+			 * @since 1.0.0
+			 * @access private
+			 * @param int $todo_id The ID of the todo item.
+			 * @param int $author_id The ID of the task owner.
+			 */
+			private function send_due_date_notification($todo_id, $author_id) {
+				$notification_sent = get_post_meta($todo_id, 'todo_last_day_notification_sent', true);
+				if ('no' === $notification_sent) {
+					// Send the BuddyPress notification
+					bp_notifications_add_notification(array(
+						'user_id'           => $author_id,
+						'item_id'           => $todo_id,
+						'secondary_item_id' => get_current_user_id(),
+						'component_name'    => 'bptodo_due_date',
+						'component_action'  => 'bptodo_due_date_action',
+						'date_notified'     => bp_core_current_time(),
+						'is_new'            => 1,
+					));
 
-			global $bptodo;
-
-			// echo $bptodo->hide_button;
-			if ( 'yes' != $bptodo->hide_button ) {
-				return;
+					// Mark the notification as sent to avoid duplicates
+					update_post_meta($todo_id, 'todo_last_day_notification_sent', 'yes');
+				}
 			}
 
-			$profile_menu_label = $bptodo->profile_menu_label;
-			$profile_menu_slug  = $bptodo->profile_menu_slug;
-			if ( bp_displayed_user_id() === bp_loggedin_user_id() ) {
-				$todo_add_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add';
-				?>
-				<div id="bptodo-add-todo-btn" class="generic-button">
-					<a href="<?php echo esc_attr( $todo_add_url ); ?>" class="add-todo"><?php echo sprintf( esc_html__( 'Add %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></a>
-				</div>
-				<?php
-			}
-		}
-		*/
+
 
 		/**
 		 * Contain admin nav item.
