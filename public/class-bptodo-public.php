@@ -164,55 +164,69 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 
 		/**
-		 * Contain admin nav item.
+		 * Add To-Do items to the BuddyPress admin bar.
 		 *
 		 * @since    1.0.0
 		 * @access   public
 		 * @author   Wbcom Designs
-		 * @param    array $wp_admin_nav contain admin nav item.
+		 * @param    array $wp_admin_nav Array of admin nav items.
 		 */
 		public function bptodo_setup_admin_bar( $wp_admin_nav = array() ) {
+			// Fetch the global $wp_admin_bar and $bptodo objects.
 			global $wp_admin_bar, $bptodo;
+
+			// Get profile menu settings from the global $bptodo object.
 			$profile_menu_slug         = $bptodo->profile_menu_slug;
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$my_todo_items             = $bptodo->my_todo_items;
-            $todo_list_settings = get_option( 'user_todo_list_settings' );
-			if(isset( $todo_list_settings['enable_todo_member'] )){
-			$base_url      = bp_loggedin_user_domain() . $profile_menu_slug;
-			$todo_add_url  = $base_url . '/add';
-			$todo_list_url = $base_url . '/list';
+
+			// Fetch the To-Do list settings.
+			$todo_list_settings = get_option( 'user_todo_list_settings' );
+
+			// Return early if To-Do lists are not enabled for members.
+			if ( ! isset( $todo_list_settings['enable_todo_member'] ) ) {
+				return;
+			}
+
+			// Proceed if the user is logged in.
 			if ( is_user_logged_in() ) {
+				// Generate base URLs.
+				$base_url      = bp_loggedin_user_domain() . $profile_menu_slug;
+				$todo_add_url  = trailingslashit( $base_url . '/add' );
+				$todo_list_url = trailingslashit( $base_url . '/list' );
+
+				// Add the main To-Do menu item to the BuddyPress admin bar.
 				$wp_admin_bar->add_menu(
 					array(
 						'parent' => 'my-account-buddypress',
-						'id'     => 'my-account-' . $profile_menu_slug,
-						'title'  => $profile_menu_label_plural . ' <span class="count">' . $my_todo_items . '</span>',
-						'href'   => trailingslashit( $todo_list_url ),
+						'id'     => 'my-account-' . esc_attr( $profile_menu_slug ),
+						'title'  => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . esc_html( $my_todo_items ) . '</span>',
+						'href'   => esc_url( $todo_list_url ),
 					)
 				);
 
-				/** Add add-new submenu. */
+				// Add the "List" submenu.
 				$wp_admin_bar->add_menu(
 					array(
-						'parent' => 'my-account-' . $profile_menu_slug,
-						'id'     => 'my-account-' . $profile_menu_slug . '-list',
+						'parent' => 'my-account-' . esc_attr( $profile_menu_slug ),
+						'id'     => 'my-account-' . esc_attr( $profile_menu_slug ) . '-list',
 						'title'  => esc_html__( 'List', 'wb-todo' ),
-						'href'   => trailingslashit( $todo_list_url ),
+						'href'   => esc_url( $todo_list_url ),
 					)
 				);
 
-				/** Add add-new submenu. */
+				// Add the "Add" submenu.
 				$wp_admin_bar->add_menu(
 					array(
-						'parent' => 'my-account-' . $profile_menu_slug,
-						'id'     => 'my-account-' . $profile_menu_slug . '-add',
+						'parent' => 'my-account-' . esc_attr( $profile_menu_slug ),
+						'id'     => 'my-account-' . esc_attr( $profile_menu_slug ) . '-add',
 						'title'  => esc_html__( 'Add', 'wb-todo' ),
-						'href'   => trailingslashit( $todo_add_url ),
+						'href'   => esc_url( $todo_add_url ),
 					)
 				);
 			}
-		 }
 		}
+
 
 		/**
 		 * Contain default settings.
