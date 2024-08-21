@@ -244,50 +244,54 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		/**
-		 * Contain default settings.
+		 * Display custom column content for due date, status, and ID.
 		 *
 		 * @since    1.0.0
 		 * @access   public
 		 * @author   Wbcom Designs
-		 * @param    array $column_name contain default settings.
-		 * @param    int   $post_id contain post id.
+		 * @param    string $column_name The name of the column being processed.
+		 * @param    int    $post_id     The ID of the post.
 		 */
 		public function bptodo_due_date_column_content( $column_name, $post_id ) {
-			$due_date_str      = '';
-			$due_date_td_class = '';
+			// Initialize variables.
+			$output = '';
+			$meta_keys = array('todo_due_date', 'todo_status');
+			$meta_values = get_post_meta($post_id, '', true);
 
-			if ( 'due_date' === $column_name ) {
-				$due_date = get_post_meta( $post_id, 'todo_due_date', true );
-				echo esc_html(gmdate('F jS, Y', strtotime($due_date)));
+			// Get the due date and status in a single query.
+			$due_date = isset($meta_values['todo_due_date'][0]) ? $meta_values['todo_due_date'][0] : '';
+			$todo_status = isset($meta_values['todo_status'][0]) ? $meta_values['todo_status'][0] : '';
+
+			// Process columns.
+			if ( 'due_date' === $column_name && $due_date ) {
+				$output = esc_html(gmdate('F jS, Y', strtotime($due_date)));
 			}
 
-			if ( 'status' === $column_name ) {
-				$todo_status = get_post_meta( $post_id, 'todo_status', true );
-				$curr_date   = date_create( gmdate('Y-m-d') );
-				$due_date    = date_create( get_post_meta( $post_id, 'todo_due_date', true ) );
-				$diff        = date_diff( $curr_date, $due_date );
-				$diff_days   = $diff->format( '%R%a' );
-				if ( $diff_days < 0 ) {
-					/* Translators: Display Expiry Days */
-					$due_date_str = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
-				} elseif ( 0 === $diff_days ) {
-					$due_date_str = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-				} else {
-					/* Translators: Dislpay the left days  */
-					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
-				}
+			if ( 'status' === $column_name && $due_date ) {
+				$curr_date = date_create(gmdate('Y-m-d'));
+				$due_date_obj = date_create($due_date);
+				$diff = date_diff($curr_date, $due_date_obj);
+				$diff_days = (int) $diff->format('%R%a');
 
+				// Check and display the appropriate message based on due date and status.
 				if ( 'complete' === $todo_status ) {
-					$due_date_str = esc_html__( 'Completed!', 'wb-todo' );
+					$output = esc_html__('Completed!', 'wb-todo');
+				} elseif ( $diff_days < 0 ) {
+					$output = sprintf(esc_html__('Expired %d days ago!', 'wb-todo'), abs($diff_days));
+				} elseif ( 0 === $diff_days ) {
+					$output = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
+				} else {
+					$output = sprintf(esc_html__('%d days left to complete the task!', 'wb-todo'), abs($diff_days));
 				}
-
-				echo esc_html( $due_date_str );
 			}
 
 			if ( 'todo_id' === $column_name ) {
-				echo esc_html( $post_id );
+				$output = esc_html($post_id);
 			}
+
+			echo $output;
 		}
+
 
 		/**
 		 * Actions performed for adding component for due date of todo list.
