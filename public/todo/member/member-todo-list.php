@@ -13,6 +13,11 @@ global $bp, $bptodo;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $profile_menu_label = $bptodo->profile_menu_label;
 
+// Initialize $all_todo_count to avoid warnings
+$all_todo_count = 0;
+$all_completed_todo = 0;
+$avg_rating = 0;
+
 // Function to generate task list
 function bptodo_generate_task_list( $tasks, $due_date_text, $is_completed = false ) {
 	global $profile_menu_slug;
@@ -119,15 +124,15 @@ function bptodo_generate_task_list( $tasks, $due_date_text, $is_completed = fals
 												<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
 												<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
 											</ul>
-										</div>
-										<div class="todo-header-list">
-											<?php
-												// Generate task lists for different timeframes
-												bptodo_generate_task_list( $todo_list['past'] ?? [], esc_html__( 'Expired!', 'wb-todo' ) );
-												bptodo_generate_task_list( $todo_list['today'] ?? [], esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' ) );
-												bptodo_generate_task_list( $todo_list['tomorrow'] ?? [], esc_html__( '1 day left', 'wb-todo' ) );
-												bptodo_generate_task_list( $todo_list['future'] ?? [], esc_html__( 'Future Task', 'wb-todo' ) );
-											?>
+											<div class="todo-header-list">
+												<?php
+													// Generate task lists for different timeframes
+													bptodo_generate_task_list( $todo_list['past'] ?? [], esc_html__( 'Expired!', 'wb-todo' ) );
+													bptodo_generate_task_list( $todo_list['today'] ?? [], esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' ) );
+													bptodo_generate_task_list( $todo_list['tomorrow'] ?? [], esc_html__( '1 day left', 'wb-todo' ) );
+													bptodo_generate_task_list( $todo_list['future'] ?? [], esc_html__( 'Future Task', 'wb-todo' ) );
+												?>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -136,21 +141,19 @@ function bptodo_generate_task_list( $tasks, $due_date_text, $is_completed = fals
 					</div>
 
 					<div id="bptodo-completed">
-						<div id="bptodo-all">
-							<div class="bptodo-admin-row">
-								<div class="todo-panel">
-									<div class="todo-detail">
-										<div class="bp-todo-reminder">
-											<div class="todo-header">
-												<ul class="todo-header-head">
-													<li class="bptodo-check"></li>
-													<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
-													<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
-													<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-													<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
-													<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
-												</ul>
-											</div>
+						<div class="bptodo-admin-row">
+							<div class="todo-panel">
+								<div class="todo-detail">
+									<div class="bp-todo-reminder">
+										<div class="todo-header">
+											<ul class="todo-header-head">
+												<li class="bptodo-check"></li>
+												<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
+												<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
+												<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
+												<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+												<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
+											</ul>
 											<div class="todo-header-list">
 												<?php
 													// Generate the completed task list
@@ -169,7 +172,3 @@ function bptodo_generate_task_list( $tasks, $due_date_text, $is_completed = fals
 		</div>
 	</div>
 </section>
-
-<?php
-}
-?>
