@@ -167,7 +167,16 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access public
 		 */
 		public function bptodo_admin_options_page() {
-			$tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ?: 'user-todo-list-welcome';
+			$tab = filter_input(INPUT_GET, 'tab', FILTER_DEFAULT);
+
+			if ($tab !== null) {
+				// Sanitize the input by removing any HTML tags and trimming whitespace
+				$tab = strip_tags(trim($tab));
+			} else {
+				// Default value if 'tab' parameter is not set
+				$tab = 'user-todo-list-welcome';
+			}
+
 			?>
 			<div class="wrap">
 				<div class="wbcom-bb-plugins-offer-wrapper">
@@ -204,7 +213,18 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access public
 		 */
 		public function bptodo_plugin_settings_tabs() {
-			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ?: 'user-todo-list-welcome';
+			$current_tab = filter_input(INPUT_GET, 'tab', FILTER_DEFAULT);
+
+			if ($current_tab !== null) {
+				// Sanitize the input by removing any HTML tags and trimming whitespace
+				$current_tab = strip_tags(trim($current_tab));
+			} else {
+				// Default value if 'tab' parameter is not set
+				$current_tab = 'user-todo-list-welcome';
+			}
+
+			// Now you can safely use $current_tab in your code
+
 			echo '<div class="wbcom-tabs-section"><div class="nav-tab-wrapper"><div class="wb-responsive-menu"><span>' . esc_html( 'Menu' ) . '</span><input class="wb-toggle-btn" type="checkbox" id="wb-toggle-btn"><label class="wb-toggle-icon" for="wb-toggle-btn"><span class="wb-icon-bars"></span></label></div><ul>';
 			foreach ( $this->plugin_settings_tabs as $tab_key => $tab_caption ) {
 				$active = $current_tab === $tab_key ? 'nav-tab-active' : '';
@@ -353,7 +373,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 */
 		public function bptodo_hide_all_admin_notices_from_setting_page() {
 			$wbcom_pages_array  = array( 'wbcomplugins', 'wbcom-plugins-page', 'wbcom-support-page', 'user-todo-list-settings' );
-			$wbcom_setting_page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+			// Get the 'page' parameter from the GET request and sanitize it
+			$wbcom_setting_page = filter_input(INPUT_GET, 'page', FILTER_DEFAULT);
+
+			if ($wbcom_setting_page !== null) {
+				// Sanitize the input by removing any HTML tags and trimming whitespace
+				$wbcom_setting_page = strip_tags(trim($wbcom_setting_page));
+			}
 
 			if ( in_array( $wbcom_setting_page, $wbcom_pages_array, true ) ) {
 				remove_all_actions( 'admin_notices' );
