@@ -78,9 +78,6 @@ function deactivate_bptodo_list() {
 register_activation_hook( __FILE__, 'activate_bptodo_list' );
 register_deactivation_hook( __FILE__, 'deactivate_bptodo_list' );
 
-require_once __DIR__ . '/vendor/autoload.php';
-HardG\BuddyPress120URLPolyfills\Loader::init();
-
 global $bptodo;
 
 /**
