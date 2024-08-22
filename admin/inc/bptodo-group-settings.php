@@ -46,9 +46,9 @@ if ( bp_is_active( 'groups' ) ) : ?>
 						<div class="wbcom-settings-section-wrap">
 							<div class="wbcom-settings-section-options-heading">
 								<label for="bptodo-on-moderator">
-									<?php esc_html_e( 'Allow Group Moderators to Modify To-do List', 'wb-todo' ); ?>
+									<?php esc_html_e( 'Prevent Group Moderators from Modifying To-do List', 'wb-todo' ); ?>
 								</label>
-								<p class="description"><?php esc_html_e( 'Enable this option to allow group moderators to modify the To-do list.', 'wb-todo' ); ?></p>
+								<p class="description"><?php esc_html_e( 'Enable this option to prevent group moderators from modifying the To-do list.', 'wb-todo' ); ?></p>
 							</div>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">

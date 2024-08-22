@@ -367,14 +367,17 @@ if ( ! function_exists( 'bptodo_enable_report_view' ) ) {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 		$can_view = false;
 
-		if ( groups_is_user_mod( $current_user, $group_id ) || groups_is_user_admin( $current_user, $group_id ) ) {
-			$mod_can_view = isset( $group_todo_list_settings['view_enable'] );
+		// Check if the setting to allow viewing is enabled
+		if ( isset( $group_todo_list_settings['view_enable'] ) && 'yes' === $group_todo_list_settings['view_enable'] ) {
 
-			if ( $mod_can_view ) {
+			// Check if the user is either a group admin or moderator
+			if ( groups_is_user_mod( $current_user, $group_id ) || groups_is_user_admin( $current_user, $group_id ) ) {
 				$can_view = true;
 			}
 		}
 
+		// Allow filtering the result
 		return apply_filters( 'bptodo_enable_report_view', $can_view, $current_user, $group_id );
 	}
 }
+
