@@ -11,17 +11,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $bp, $bptodo;
 
-$group_id           = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : $todo_guid;
+// Attempt to get group ID from the BuddyPress group context
+$group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : '';
+
+// If the group ID is not available, attempt to use the group ID stored in the post meta
+if ( empty( $group_id ) && isset( $todo_id ) ) {
+	$group_id = get_post_meta( $todo_id, 'todo_group_id', true );
+}
+
+if ( empty( $group_id ) ) {
+    // If no group ID is available even after the fallback, handle the situation (e.g., exit or set a default value)
+    return; // or set $group_id to a default valid value if applicable
+}
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 
 $groups_link = bp_get_group_url( $bp->groups->current_group );
 $admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
-$bptodo_req = ( 'yes' === $bptodo->req_duedate ) ? 'required' : '';
+$bptodo_req = $bptodo->req_duedate === 'yes' ? 'required' : '';
 
 $displayed_uid = bp_displayed_user_id();
 
+// List of Todo Items.
 $args  = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
@@ -44,8 +56,6 @@ $group_members = groups_get_group_members(
 		'exclude_admins_mods' => false,
 	)
 );
-
-$group_members_ids = array();
 if ( isset( $group_members['members'] ) ) {
 	foreach ( $group_members['members'] as $member ) {
 		$group_members_ids[] = $member->ID;
@@ -63,13 +73,20 @@ $todo_cats = get_terms(
 $todo = get_post( $todo_id );
 
 $todo_cat    = wp_get_object_terms( $todo_id, 'todo_category' );
-$todo_cat_id = ! empty( $todo_cat ) && is_array( $todo_cat ) ? $todo_cat[0]->term_id : 0;
+$todo_cat_id = 0;
+if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
+	$todo_cat_id = $todo_cat[0]->term_id;
+}
 
 $todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
-$todo_priority = get_post_meta( $todo_id, 'todo_priority', true ) ?: 'normal';
+$todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
+if ( empty( $todo_priority ) ) {
+	$todo_priority = 'normal';
+}
 
-$todo_group_id   = get_post_meta( $todo_id, 'todo_group_id', true );
+$todo_group_id  = get_post_meta( $todo_id, 'todo_group_id', true );
 $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
+
 ?>
 
 <form action="" method="post" id="bptodo_edit_form_popup">
@@ -81,10 +98,12 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 				<div>
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
-						<?php foreach ( $todo_cats as $todo_cat ) { ?>
-							<option value="<?php echo esc_html( $todo_cat->name ); ?>" <?php selected( $todo_cat_id, $todo_cat->term_id ); ?>>
-								<?php echo esc_html( $todo_cat->name ); ?>
-							</option>
+						<?php if ( isset( $todo_cats ) ) { ?>
+							<?php foreach ( $todo_cats as $todo_cat ) { ?>
+								<option value="<?php echo esc_attr( $todo_cat->name ); ?>" <?php selected( $todo_cat_id, $todo_cat->term_id ); ?>>
+									<?php echo esc_html( $todo_cat->name ); ?>
+								</option>
+							<?php } ?>
 						<?php } ?>
 					</select>
 					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
@@ -93,8 +112,10 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 				</div>
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
-						<input type="text" id="todo-category-name" placeholder="<?php echo sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>">
-						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
+						<?php /* Translators: Display the plural label name */ ?>
+						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
+						<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
+						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( $add_cat_nonce ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 					</div>
 				<?php } ?>
@@ -104,7 +125,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 		<tr>
 			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
 			<td>
-				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
+				<input type="text" name="todo_title" value="<?php echo esc_html( $todo->post_title ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" required class="bptodo-text-input">
 			</td>
 		</tr>
 
@@ -125,7 +146,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 		<tr>
 			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
 			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="date" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
@@ -157,12 +178,14 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<input type="hidden" name="primary_todo_id" value="<?php echo esc_attr( $primary_todo_id ); ?>">
 					<input type="hidden" name="group_id" value="<?php echo esc_attr( $group_id ); ?>">
-					<input type="submit" id="group_todo_update" name="group_todo_update" value="<?php echo sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ); ?>">
+					<?php /* Translators: Display the plural label name */ ?>
+					<input type="submit" id="group_todo_update" name="group_todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>
-		<?php } else {
-			do_action( 'bp_group_todo_change_todo_edit_button_action', $profile_menu_label );
-		} ?>
+		<?php } else { ?>
+			<?php do_action( 'bp_group_todo_change_todo_edit_button_action', $profile_menu_label ); ?>
+		<?php } ?>
+
 		<?php do_action( 'bp_group_todo_add_field_after_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
