@@ -1,7 +1,13 @@
 /* Admin CSS */
 .bptodo-groups {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     height: 100%;
 }
@@ -55,14 +61,17 @@ button.notice-dismiss:before {
 
 .wbcom-settings-section-wrap.bptodo-user-roles-wrap .wbcom-settings-section-options [type="text"] {
     height: auto;
+    min-height: 40px !important;
 }
 
 .wbcom-settings-section-wrap.bptodo-user-roles-wrap .selectize-dropdown-content {
     height: 140px;
 }
-.bptodo-shortcode-tab label{
+
+.bptodo-shortcode-tab label {
     font-weight: 500;
 }
+
 .bptodo-shortcode-tab ol {
     margin: 0 0;
     padding: 10px 15px;
@@ -70,6 +79,7 @@ button.notice-dismiss:before {
     line-height: 1.2;
     border-radius: 8px;
 }
+
 .bptodo-shortcode-tab ol li {
     margin: 0;
     display: block;

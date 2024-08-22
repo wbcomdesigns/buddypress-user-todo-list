@@ -1,14 +1,14 @@
-# Copyright (C) 2023 
+# Copyright (C) 2024 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-16 11:04:32+00:00\n"
+"POT-Creation-Date: 2024-08-22 04:48:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2023-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Varun Dubey\n"
 "Language-Team: Wbcom Designs\n"
 "Language: en\n"
@@ -24,52 +24,56 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/class-bptodo-admin.php:107
-#. Translators: Display plural label name
+#: admin/class-bptodo-admin.php:122
 msgid "My %1$s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:108
+#: admin/class-bptodo-admin.php:123
 msgid "Category name is required."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:109
+#: admin/class-bptodo-admin.php:124
 msgid "Undo Complete"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:110
+#: admin/class-bptodo-admin.php:125
 msgid "Are you sure?"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:142
+#: admin/class-bptodo-admin.php:157
 msgid "WB Plugins"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:143 admin/class-bptodo-admin.php:212
+#: admin/class-bptodo-admin.php:158 admin/class-bptodo-admin.php:244
 msgid "General"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:145
+#: admin/class-bptodo-admin.php:160
 msgid "BP User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:170 admin/class-bptodo-feedback.php:271
-#: admin/class-bptodo-feedback.php:311
+#: admin/class-bptodo-admin.php:193 admin/class-bptodo-feedback.php:268
+#: admin/class-bptodo-feedback.php:308
 #: admin/wbcom/templates/wbcom-license-page.php:12
 msgid "BuddyPress User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:171
-#: admin/wbcom/templates/wbcom-license-page.php:13
+#: admin/class-bptodo-admin.php:194
+#: admin/wbcom/templates/wbcom-license-page.php:16
+#. translators: %s:
 msgid "Version %s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:211
+#: admin/class-bptodo-admin.php:243
 msgid "Welcome"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:213
+#: admin/class-bptodo-admin.php:245
 msgid "Group To-Do"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:297
+msgid "Shortcodes"
 msgstr ""
 
 #: admin/class-bptodo-cpt.php:45 admin/class-bptodo-cpt.php:47
@@ -105,105 +109,105 @@ msgstr ""
 msgid "No To-Do Item Found In Trash"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:94 admin/class-bptodo-cpt.php:95
+#: admin/class-bptodo-cpt.php:93 admin/class-bptodo-cpt.php:94
 msgid "To-Do Category"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:96
+#: admin/class-bptodo-cpt.php:95
 msgid "Search To-Do Items Categories"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:97
+#: admin/class-bptodo-cpt.php:96
 msgid "All To-Do Items Categories"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:98
+#: admin/class-bptodo-cpt.php:97
 msgid "Parent To-Do Item Category"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:99
+#: admin/class-bptodo-cpt.php:98
 msgid "Parent To-Do Item Category:"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:100
+#: admin/class-bptodo-cpt.php:99
 msgid "Edit Category"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:101
+#: admin/class-bptodo-cpt.php:100
 msgid "Update Category"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:102
+#: admin/class-bptodo-cpt.php:101
 msgid "Add To-Do Item Category"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:103
+#: admin/class-bptodo-cpt.php:102
 msgid "No To-Do Item Categories Found"
 msgstr ""
 
-#: admin/class-bptodo-cpt.php:104
+#: admin/class-bptodo-cpt.php:103
 msgid "Categories"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:88
+#: admin/class-bptodo-feedback.php:85
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:90
+#: admin/class-bptodo-feedback.php:87
 msgid "a year"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:97
+#: admin/class-bptodo-feedback.php:94
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:99
+#: admin/class-bptodo-feedback.php:96
 msgid "a week"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:106
+#: admin/class-bptodo-feedback.php:103
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:108
+#: admin/class-bptodo-feedback.php:105
 msgid "a day"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:115
+#: admin/class-bptodo-feedback.php:112
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:117
+#: admin/class-bptodo-feedback.php:114
 msgid "an hour"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:124
+#: admin/class-bptodo-feedback.php:121
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:126
+#: admin/class-bptodo-feedback.php:123
 msgid "a minute"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:133
+#: admin/class-bptodo-feedback.php:130
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:135
+#: admin/class-bptodo-feedback.php:132
 msgid "a second"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:274
+#: admin/class-bptodo-feedback.php:271
 msgid "Are you enjoying BuddyPress User To-Do List?"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:277
+#: admin/class-bptodo-feedback.php:274
 #. translators: 1. Name
 msgid ""
 "We hope you're enjoying %1$s! Could you please do us a BIG favor and give "
@@ -211,140 +215,174 @@ msgid ""
 "motivation?"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:281
+#: admin/class-bptodo-feedback.php:278
 msgid "Leave a Review"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:282
+#: admin/class-bptodo-feedback.php:279
 msgid "No thanks / I already have"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:18
+#: admin/inc/bptodo-general-settings.php:19
 msgid "General Settings"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:27
+#: admin/inc/bptodo-general-settings.php:28
 msgid "To-do Label (Singular)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:31
+#: admin/inc/bptodo-general-settings.php:32
 msgid "Label"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:39
+#: admin/inc/bptodo-general-settings.php:40
 msgid "To-dos Label (Plural)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:43
+#: admin/inc/bptodo-general-settings.php:44
 msgid "To-dos"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:68
+#: admin/inc/bptodo-general-settings.php:52
 msgid "Enable To-do For Member"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:70
-msgid "Check this option if you want to allow enable todo tab in member."
+#: admin/inc/bptodo-general-settings.php:54
+msgid "Enable this option to add a To-do tab for members."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:77
-msgid "Enable todo in member"
+#: admin/inc/bptodo-general-settings.php:61
+msgid "Enable To-do tab for members."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:85
-msgid "Allow User To Add Category"
+#: admin/inc/bptodo-general-settings.php:69
+msgid "Allow User to Add Category"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:87
-msgid ""
-"Check this option if you want to allow normal users of the site to have the "
-"ability to create the To-Do category."
+#: admin/inc/bptodo-general-settings.php:71
+msgid "Enable this option to allow users to create To-do categories."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:94
-msgid "Allow the loggedin user to create To-Do category."
+#: admin/inc/bptodo-general-settings.php:78
+msgid "Allow users to create To-do categories."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:102
+#: admin/inc/bptodo-general-settings.php:86
 msgid "Send Notification"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:104
+#: admin/inc/bptodo-general-settings.php:88
 msgid ""
-"Check this option if you want to send notification to the member as a "
-"reminder for his/her task due date."
+"Enable this option to send a notification to the member as a reminder for "
+"their task due date."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:111
-msgid "Send a BP notification to the user whose To-Do due date has arrived."
-msgstr ""
-
-#: admin/inc/bptodo-general-settings.php:119
-msgid "Send Mail"
-msgstr ""
-
-#: admin/inc/bptodo-general-settings.php:121
+#: admin/inc/bptodo-general-settings.php:95
 msgid ""
-"Check this option if you want to send mail to the member as a reminder for "
-"his/her task due date."
+"Send a BuddyPress notification to the user when their To-do due date "
+"arrives."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:128
-msgid "Send a mail to the user whose To-Do due date has arrived."
+#: admin/inc/bptodo-general-settings.php:103
+msgid "Send Email"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:135
-msgid "Select user role to create todos"
+#: admin/inc/bptodo-general-settings.php:105
+msgid ""
+"Enable this option to send an email reminder to the member for their task "
+"due date."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:137
-msgid "Select the user roles who can create todos from them profile page."
+#: admin/inc/bptodo-general-settings.php:112
+msgid "Send an email to the user when their To-do due date arrives."
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:140
+#: admin/inc/bptodo-general-settings.php:120
+msgid "Select User Roles to Create To-dos"
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:122
+msgid ""
+"Select the user roles that are allowed to create To-dos from their profile "
+"page."
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:125
 msgid "Select user roles"
 msgstr ""
 
-#: admin/inc/bptodo-group-settings.php:17
+#: admin/inc/bptodo-general-settings.php:139
+msgid "Require Due Date?"
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:141
+msgid "Enable this option to make the due date required when creating To-dos."
+msgstr ""
+
+#: admin/inc/bptodo-general-settings.php:153
+msgid "Save Changes"
+msgstr ""
+
+#: admin/inc/bptodo-group-settings.php:18
 msgid "Group To-do Settings"
 msgstr ""
 
-#: admin/inc/bptodo-group-settings.php:29
+#: admin/inc/bptodo-group-settings.php:32
 msgid "Enable To-do For Group"
 msgstr ""
 
-#: admin/inc/bptodo-group-settings.php:31
-msgid "Check this option if you want to allow enable todo tab in group."
+#: admin/inc/bptodo-group-settings.php:34
+msgid "Enable this option to add a To-do tab for groups."
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:49
-msgid "Allow group moderators to modify To Do list"
+msgid "Allow Group Moderators to Modify To-do List"
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:51
-msgid ""
-"Check this option if you want to permit group moderators to modify To Do "
-"list."
+msgid "Enable this option to allow group moderators to modify the To-do list."
+msgstr ""
+
+#: admin/inc/bptodo-group-settings.php:66
+msgid "Include Group Moderators in To-do Average List Calculation"
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:68
-msgid "Allow group moderators to add in To Do list"
-msgstr ""
-
-#: admin/inc/bptodo-group-settings.php:70
 msgid ""
-"Check this option if you want to permit group moderators to add in To Do "
-"average list."
+"Enable this option to include group moderators in the calculation of group "
+"To-do completion."
 msgstr ""
 
-#: admin/inc/bptodo-group-settings.php:87
-msgid "Allow group moderators to view To Do list report"
+#: admin/inc/bptodo-group-settings.php:83
+msgid "Allow Group Moderators to View To-do List Report"
 msgstr ""
 
-#: admin/inc/bptodo-group-settings.php:89
+#: admin/inc/bptodo-group-settings.php:85
 msgid ""
-"Check this option if you want to permit group moderators to view report on "
-"single todo page."
+"Enable this option to allow group moderators to view reports on the To-do "
+"list."
+msgstr ""
+
+#: admin/inc/bptodo-group-settings.php:108
+msgid "Click here"
+msgstr ""
+
+#: admin/inc/bptodo-group-settings.php:109
+msgid "Enable BuddyPress groups component to allow groups integration %s."
+msgstr ""
+
+#: admin/inc/bptodo-shortcodes-settings.php:24
+#. Translators: Get a Plural Label Name
+msgid "This shortcode will list all the %1$s category wise."
+msgstr ""
+
+#: admin/inc/bptodo-shortcodes-settings.php:27
+msgid "Arguments accepted:"
+msgstr ""
+
+#: admin/inc/bptodo-shortcodes-settings.php:33
+#. Translators: Get a Plural Label Name
+msgid "You need to provide the category id of which the %1$s you want to show."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:15
@@ -408,39 +446,38 @@ msgstr ""
 msgid "Send Feedback"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:18
+#: admin/wbcom/templates/wbcom-license-page.php:23
 msgid "Plugin License"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:24
-#: admin/wbcom/templates/wbcom-license-page.php:36
+#: admin/wbcom/templates/wbcom-license-page.php:29
+#: admin/wbcom/templates/wbcom-license-page.php:41
 msgid "Product"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:25
-#: admin/wbcom/templates/wbcom-license-page.php:37
+#: admin/wbcom/templates/wbcom-license-page.php:30
+#: admin/wbcom/templates/wbcom-license-page.php:42
 msgid "Version"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:26
-#: admin/wbcom/templates/wbcom-license-page.php:38
+#: admin/wbcom/templates/wbcom-license-page.php:31
+#: admin/wbcom/templates/wbcom-license-page.php:43
 msgid "Key"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:27
-#: admin/wbcom/templates/wbcom-license-page.php:39
-#: public/bptodo-plugin-genral-function.php:329
-#: public/class-bptodo-public.php:217
+#: admin/wbcom/templates/wbcom-license-page.php:32
+#: admin/wbcom/templates/wbcom-license-page.php:44
+#: public/bptodo-plugin-genral-function.php:315
+#: public/class-bptodo-public.php:241
 msgid "Status"
 msgstr ""
 
-#: admin/wbcom/templates/wbcom-license-page.php:28
-#: admin/wbcom/templates/wbcom-license-page.php:40
+#: admin/wbcom/templates/wbcom-license-page.php:33
+#: admin/wbcom/templates/wbcom-license-page.php:45
 msgid "Action"
 msgstr ""
 
 #: admin/wbcom/templates/wbcom-plugins-page.php:12
-#: admin/wbcom/wbcom-admin-settings.php:305
 msgid "Themes & Extension"
 msgstr ""
 
@@ -459,8 +496,8 @@ msgstr ""
 
 #: admin/wbcom/templates/wbcom-plugins-page.php:23
 #: admin/wbcom/templates/wbcom-plugins-page.php:362
-#: admin/wbcom/wbcom-admin-settings.php:224
-#: admin/wbcom/wbcom-admin-settings.php:225
+#: admin/wbcom/wbcom-admin-settings.php:211
+#: admin/wbcom/wbcom-admin-settings.php:212
 msgid "Our Themes"
 msgstr ""
 
@@ -976,8 +1013,8 @@ msgid ""
 msgstr ""
 
 #: admin/wbcom/templates/wbcom-support-page.php:12
-#: admin/wbcom/wbcom-admin-settings.php:232
-#: admin/wbcom/wbcom-admin-settings.php:233 bp-user-todo-list.php:115
+#: admin/wbcom/wbcom-admin-settings.php:219
+#: admin/wbcom/wbcom-admin-settings.php:220 bp-user-todo-list.php:115
 msgid "Support"
 msgstr ""
 
@@ -1019,24 +1056,28 @@ msgid ""
 "guarantee any delay."
 msgstr ""
 
-#: admin/wbcom/wbcom-admin-settings.php:193
+#: admin/wbcom/wbcom-admin-settings.php:182
 msgid "Activate"
 msgstr ""
 
-#: admin/wbcom/wbcom-admin-settings.php:194
+#: admin/wbcom/wbcom-admin-settings.php:183
 msgid "Deactivate"
 msgstr ""
 
-#: admin/wbcom/wbcom-admin-settings.php:216
-#: admin/wbcom/wbcom-admin-settings.php:217
+#: admin/wbcom/wbcom-admin-settings.php:203
+#: admin/wbcom/wbcom-admin-settings.php:204
 msgid "Our Plugins"
 msgstr ""
 
-#: admin/wbcom/wbcom-admin-settings.php:299 bp-user-todo-list.php:114
+#: admin/wbcom/wbcom-admin-settings.php:289 bp-user-todo-list.php:114
 msgid "Settings"
 msgstr ""
 
-#: admin/wbcom/wbcom-admin-settings.php:311
+#: admin/wbcom/wbcom-admin-settings.php:295
+msgid "Themes & Extensions"
+msgstr ""
+
+#: admin/wbcom/wbcom-admin-settings.php:301
 msgid "Help & Support"
 msgstr ""
 
@@ -1044,48 +1085,48 @@ msgstr ""
 msgid "A dynamic list of ToDos of displayed member."
 msgstr ""
 
-#: admin/widget/class-user-todo.php:97 inc/templates/single-bp-todo.php:34
-#: public/class-bptodo-public.php:778 public/todo/group/add.php:227
-#: public/todo/group/edit.php:155 public/todo/group/list.php:284
-#: public/todo/group/list.php:406 public/todo/group/list.php:526
-#: public/todo/group/list.php:659 public/todo/group/list.php:817
-#: public/todo/member/member-todo-add.php:97
-#: public/todo/member/member-todo-edit.php:113
-#: public/todo/member/member-todo-list.php:213
-#: public/todo/member/member-todo-list.php:325
-#: public/todo/member/member-todo-list.php:432
-#: public/todo/member/member-todo-list.php:537
-#: public/todo/member/member-todo-list.php:654
+#: admin/widget/class-user-todo.php:97 inc/templates/single-bp-todo.php:39
+#: public/class-bptodo-public.php:810 public/todo/group/add.php:172
+#: public/todo/group/edit.php:137 public/todo/group/list.php:280
+#: public/todo/group/list.php:375 public/todo/group/list.php:470
+#: public/todo/group/list.php:565 public/todo/group/list.php:682
+#: public/todo/member/member-todo-add.php:88
+#: public/todo/member/member-todo-edit.php:97
+#: public/todo/member/member-todo-list.php:216
+#: public/todo/member/member-todo-list.php:339
+#: public/todo/member/member-todo-list.php:451
+#: public/todo/member/member-todo-list.php:561
+#: public/todo/member/member-todo-list.php:687
 msgid "Critical"
 msgstr ""
 
-#: admin/widget/class-user-todo.php:100 inc/templates/single-bp-todo.php:37
-#: public/class-bptodo-public.php:781 public/todo/group/add.php:228
-#: public/todo/group/edit.php:156 public/todo/group/list.php:287
-#: public/todo/group/list.php:409 public/todo/group/list.php:529
-#: public/todo/group/list.php:662 public/todo/group/list.php:820
-#: public/todo/member/member-todo-add.php:98
-#: public/todo/member/member-todo-edit.php:114
-#: public/todo/member/member-todo-list.php:216
-#: public/todo/member/member-todo-list.php:328
-#: public/todo/member/member-todo-list.php:435
-#: public/todo/member/member-todo-list.php:540
-#: public/todo/member/member-todo-list.php:657
+#: admin/widget/class-user-todo.php:100 inc/templates/single-bp-todo.php:43
+#: public/class-bptodo-public.php:813 public/todo/group/add.php:173
+#: public/todo/group/edit.php:138 public/todo/group/list.php:283
+#: public/todo/group/list.php:378 public/todo/group/list.php:473
+#: public/todo/group/list.php:568 public/todo/group/list.php:685
+#: public/todo/member/member-todo-add.php:89
+#: public/todo/member/member-todo-edit.php:98
+#: public/todo/member/member-todo-list.php:219
+#: public/todo/member/member-todo-list.php:342
+#: public/todo/member/member-todo-list.php:454
+#: public/todo/member/member-todo-list.php:564
+#: public/todo/member/member-todo-list.php:690
 msgid "High"
 msgstr ""
 
-#: admin/widget/class-user-todo.php:103 inc/templates/single-bp-todo.php:40
-#: public/class-bptodo-public.php:784 public/todo/group/add.php:229
-#: public/todo/group/edit.php:157 public/todo/group/list.php:290
-#: public/todo/group/list.php:412 public/todo/group/list.php:532
-#: public/todo/group/list.php:665 public/todo/group/list.php:823
-#: public/todo/member/member-todo-add.php:99
-#: public/todo/member/member-todo-edit.php:115
-#: public/todo/member/member-todo-list.php:219
-#: public/todo/member/member-todo-list.php:331
-#: public/todo/member/member-todo-list.php:438
-#: public/todo/member/member-todo-list.php:543
-#: public/todo/member/member-todo-list.php:660
+#: admin/widget/class-user-todo.php:103 inc/templates/single-bp-todo.php:47
+#: public/class-bptodo-public.php:816 public/todo/group/add.php:174
+#: public/todo/group/edit.php:139 public/todo/group/list.php:286
+#: public/todo/group/list.php:381 public/todo/group/list.php:476
+#: public/todo/group/list.php:571 public/todo/group/list.php:688
+#: public/todo/member/member-todo-add.php:90
+#: public/todo/member/member-todo-edit.php:99
+#: public/todo/member/member-todo-list.php:222
+#: public/todo/member/member-todo-list.php:345
+#: public/todo/member/member-todo-list.php:457
+#: public/todo/member/member-todo-list.php:567
+#: public/todo/member/member-todo-list.php:693
 msgid "Normal"
 msgstr ""
 
@@ -1123,409 +1164,454 @@ msgstr ""
 msgid "%1$s is ineffective now as it requires %2$s to be installed and active."
 msgstr ""
 
-#: inc/class-bptodo-globals.php:145
+#: inc/class-bptodo-globals.php:56
 msgid "To-Do"
 msgstr ""
 
-#: inc/class-bptodo-globals.php:146
+#: inc/class-bptodo-globals.php:57
 msgid "To-Dos"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:60
+#: inc/templates/archive-bp-todo.php:59
 #. translators: %s: Post title.
 msgid "Continue reading %s"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:66 inc/templates/single-bp-todo.php:68
+#: inc/templates/archive-bp-todo.php:66 inc/templates/single-bp-todo.php:69
 msgid "Pages:"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:70 inc/templates/archive-bp-todo.php:87
-#: inc/templates/single-bp-todo.php:72
+#: inc/templates/archive-bp-todo.php:70 inc/templates/archive-bp-todo.php:89
+#: inc/templates/single-bp-todo.php:73
 msgid "Page"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:76
+#: inc/templates/archive-bp-todo.php:77
 msgid "Permalink to %s"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:76
+#: inc/templates/archive-bp-todo.php:77
 msgid "Read More"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:85
+#: inc/templates/archive-bp-todo.php:87
 msgid "Previous page"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:86
+#: inc/templates/archive-bp-todo.php:88
 msgid "Next page"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:94
+#: inc/templates/archive-bp-todo.php:96
 msgid "Nothing Found"
 msgstr ""
 
-#: public/bptodo-plugin-genral-function.php:328
+#: inc/templates/archive-bp-todo.php:100
+msgid "It seems we can’t find what you’re looking for. Perhaps searching can help."
+msgstr ""
+
+#: public/bptodo-plugin-genral-function.php:314
 msgid "Members"
 msgstr ""
 
-#: public/bptodo-plugin-genral-function.php:330
+#: public/bptodo-plugin-genral-function.php:316
 msgid "Time"
 msgstr ""
 
-#: public/class-bptodo-public.php:89
-msgid "BPTODO Task - WordPress"
+#: public/class-bptodo-public.php:124
+msgid "%1$s: Task \"%2$s\" Due Today"
 msgstr ""
 
-#: public/class-bptodo-public.php:91
-#. Translators: Get a To do title name
-msgid "Your task: %1$s is going to exipre today. Kindly finish it up! Thanks!"
+#: public/class-bptodo-public.php:125
+msgid "Your task: %1$s is due today. Kindly finish it up! Thanks!"
 msgstr ""
 
-#: public/class-bptodo-public.php:190
+#: public/class-bptodo-public.php:213
 msgid "List"
 msgstr ""
 
-#: public/class-bptodo-public.php:200 public/class-bptodo-public.php:405
-#: public/class-bptodo-public.php:503 public/todo/group/add.php:181
-#: public/todo/group/edit.php:108 public/todo/member/member-todo-add.php:51
-#: public/todo/member/member-todo-edit.php:66
+#: public/class-bptodo-public.php:223 public/class-bptodo-public.php:433
+#: public/class-bptodo-public.php:533 public/todo/group/add.php:148
+#: public/todo/group/edit.php:98 public/todo/member/member-todo-add.php:50
+#: public/todo/member/member-todo-edit.php:58
 msgid "Add"
 msgstr ""
 
-#: public/class-bptodo-public.php:216 public/todo/group/add.php:213
-#: public/todo/group/add.php:216 public/todo/group/edit.php:141
-#: public/todo/group/edit.php:144 public/todo/group/list.php:222
-#: public/todo/group/list.php:759 public/todo/member/member-todo-add.php:83
-#: public/todo/member/member-todo-add.php:86
-#: public/todo/member/member-todo-edit.php:99
-#: public/todo/member/member-todo-edit.php:102
-#: public/todo/member/member-todo-list.php:150
-#: public/todo/member/member-todo-list.php:605
+#: public/class-bptodo-public.php:240
+#: public/todo/bptodo-by-category-template.php:39 public/todo/group/add.php:164
+#: public/todo/group/add.php:165 public/todo/group/edit.php:126
+#: public/todo/group/edit.php:128 public/todo/group/list.php:224
+#: public/todo/group/list.php:627 public/todo/member/member-todo-add.php:77
+#: public/todo/member/member-todo-add.php:79
+#: public/todo/member/member-todo-edit.php:86
+#: public/todo/member/member-todo-edit.php:88
+#: public/todo/member/member-todo-list.php:148
+#: public/todo/member/member-todo-list.php:638
 msgid "Due Date"
 msgstr ""
 
-#: public/class-bptodo-public.php:218
+#: public/class-bptodo-public.php:242
 msgid "ID"
 msgstr ""
 
-#: public/class-bptodo-public.php:248 public/class-bptodo-public.php:758
-#. Translators: Display Expiry Days
+#: public/class-bptodo-public.php:278 public/class-bptodo-public.php:803
+#: public/todo/bptodo-by-category-template.php:72
+msgid "Completed!"
+msgstr ""
+
+#: public/class-bptodo-public.php:280 public/class-bptodo-public.php:790
+#: public/todo/bptodo-by-category-template.php:62
 #. translators: Number of expiry days
 msgid "Expired %d days ago!"
 msgstr ""
 
-#: public/class-bptodo-public.php:250 public/class-bptodo-public.php:761
-#: public/todo/group/list.php:262 public/todo/group/list.php:383
-#: public/todo/group/list.php:503 public/todo/group/list.php:636
-#: public/todo/group/list.php:794 public/todo/member/member-todo-list.php:191
-#: public/todo/member/member-todo-list.php:302
-#: public/todo/member/member-todo-list.php:408
-#: public/todo/member/member-todo-list.php:514
-#: public/todo/member/member-todo-list.php:631
+#: public/class-bptodo-public.php:282 public/class-bptodo-public.php:793
+#: public/todo/bptodo-by-category-template.php:65
+#: public/todo/group/list.php:263 public/todo/group/list.php:358
+#: public/todo/group/list.php:453 public/todo/group/list.php:548
+#: public/todo/group/list.php:665 public/todo/member/member-todo-list.php:194
+#: public/todo/member/member-todo-list.php:316
+#: public/todo/member/member-todo-list.php:427
+#: public/todo/member/member-todo-list.php:538
+#: public/todo/member/member-todo-list.php:664
 msgid "Today is the last day to complete. Hurry Up!"
 msgstr ""
 
-#: public/class-bptodo-public.php:253 public/class-bptodo-public.php:766
-#. Translators: Dislpay the left days
+#: public/class-bptodo-public.php:284 public/class-bptodo-public.php:798
+#: public/todo/bptodo-by-category-template.php:68
 #. translators: Number of left days
 msgid "%d days left to complete the task!"
 msgstr ""
 
-#: public/class-bptodo-public.php:257 public/class-bptodo-public.php:771
-msgid "Completed!"
-msgstr ""
-
-#: public/class-bptodo-public.php:292
+#: public/class-bptodo-public.php:320
 msgid "Every 6 hours"
 msgstr ""
 
-#: public/class-bptodo-public.php:319
+#: public/class-bptodo-public.php:347
 #. Translators: 1) Get a Plural Label Name 2) Display the To do title name
 msgid "%1$s due date arrived for task: %2$s"
 msgstr ""
 
-#: public/class-bptodo-public.php:322
+#: public/class-bptodo-public.php:350
 #. Translators: 1) Get a Plural Label Name 2) Display the To do title name
 msgid "Your %1$s: %2$s is due today. Please complete it as soon as possible."
 msgstr ""
 
-#: public/class-bptodo-public.php:437
+#: public/class-bptodo-public.php:465
 msgid "Create Event"
 msgstr ""
 
-#: public/class-bptodo-public.php:555
+#: public/class-bptodo-public.php:586
 #. Translators: 1) Get a Plural Label Name 2) Get a to to title
 msgid "Edit %1$s : %2$s"
 msgstr ""
 
-#: public/class-bptodo-public.php:558
+#: public/class-bptodo-public.php:589
 #. Translators: Get a Singular Label Name
 msgid "Add a new %1$s in your list"
 msgstr ""
 
-#: public/class-bptodo-public.php:607 public/class-bptodo-public.php:674
-#: public/todo/group/list.php:144
+#: public/class-bptodo-public.php:639 public/class-bptodo-public.php:706
+#: public/todo/group/list.php:147
+#. translators: %s:
 #. Translators: Display plural label name
 #. Translators: Display the plural label name
 msgid "%1$s added successfully !"
 msgstr ""
 
-#: public/class-bptodo-public.php:613 public/class-bptodo-public.php:679
+#: public/class-bptodo-public.php:645 public/class-bptodo-public.php:711
 msgid ""
 "There was a problem updating some of your profile information. Please try "
 "again."
 msgstr ""
 
-#: public/class-bptodo-public.php:794 public/todo/group/list.php:327
-#: public/todo/group/list.php:449 public/todo/group/list.php:715
-#: public/todo/group/list.php:865 public/todo/member/member-todo-list.php:259
-#: public/todo/member/member-todo-list.php:364
-#: public/todo/member/member-todo-list.php:576
-#: public/todo/member/member-todo-list.php:693
-#. Translators: Display the todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
+#: public/class-bptodo-public.php:826
+#: public/todo/bptodo-by-category-template.php:83
+#: public/todo/group/list.php:320 public/todo/group/list.php:415
+#: public/todo/group/list.php:510 public/todo/group/list.php:605
+#: public/todo/group/list.php:722 public/todo/member/member-todo-list.php:269
+#: public/todo/member/member-todo-list.php:379
+#: public/todo/member/member-todo-list.php:609
+#: public/todo/member/member-todo-list.php:726
+#. translators: %s:
 #. Translators: Display todo title name
 msgid "Remove: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:797 public/todo/group/list.php:333
-#: public/todo/group/list.php:454 public/todo/group/list.php:588
-#: public/todo/group/list.php:720 public/todo/group/list.php:871
-#: public/todo/member/member-todo-list.php:263
-#: public/todo/member/member-todo-list.php:367
-#: public/todo/member/member-todo-list.php:475
-#: public/todo/member/member-todo-list.php:579
-#: public/todo/member/member-todo-list.php:696
-#. Translators: Display the todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
+#: public/class-bptodo-public.php:829
+#: public/todo/bptodo-by-category-template.php:85
+#: public/todo/group/list.php:321 public/todo/group/list.php:416
+#: public/todo/group/list.php:511 public/todo/group/list.php:606
+#: public/todo/group/list.php:723 public/todo/member/member-todo-list.php:273
+#: public/todo/member/member-todo-list.php:382
+#: public/todo/member/member-todo-list.php:495
+#: public/todo/member/member-todo-list.php:612
+#: public/todo/member/member-todo-list.php:729
+#. translators: %s:
 #. Translators: Display todo title name
 msgid "Edit: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:798 public/todo/group/list.php:304
-#: public/todo/group/list.php:425 public/todo/group/list.php:545
-#: public/todo/group/list.php:678 public/todo/group/list.php:837
-#: public/todo/group/list.php:875 public/todo/member/member-todo-list.php:232
-#: public/todo/member/member-todo-list.php:344
-#: public/todo/member/member-todo-list.php:452
-#: public/todo/member/member-todo-list.php:556
-#: public/todo/member/member-todo-list.php:673
-#. Translators: Display todo title name
+#: public/class-bptodo-public.php:830
+#: public/todo/bptodo-by-category-template.php:86
+#: public/todo/group/list.php:299 public/todo/group/list.php:394
+#: public/todo/group/list.php:489 public/todo/group/list.php:584
+#: public/todo/group/list.php:701 public/todo/member/member-todo-list.php:235
+#: public/todo/member/member-todo-list.php:358
+#: public/todo/member/member-todo-list.php:471
+#: public/todo/member/member-todo-list.php:580
+#: public/todo/member/member-todo-list.php:706
+#. translators: %s:
 msgid "Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:800
+#: public/class-bptodo-public.php:832
+#: public/todo/bptodo-by-category-template.php:88
+#. translators: %s:
 msgid "Undo Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:802 public/todo/group/list.php:337
-#: public/todo/group/list.php:457 public/todo/group/list.php:591
-#: public/todo/group/list.php:724 public/todo/group/list.php:873
-#: public/todo/member/member-todo-list.php:265
-#: public/todo/member/member-todo-list.php:369
-#: public/todo/member/member-todo-list.php:477
-#: public/todo/member/member-todo-list.php:580
-#: public/todo/member/member-todo-list.php:698
-#. Translators: Display the todo title name
+#: public/class-bptodo-public.php:834
+#: public/todo/member/member-todo-list.php:275
+#: public/todo/member/member-todo-list.php:384
+#: public/todo/member/member-todo-list.php:496
+#: public/todo/member/member-todo-list.php:613
+#: public/todo/member/member-todo-list.php:731
+#. translators: %s:
 #. Translators: Display todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
-#. Translators: Display todo title name
+#. translators: %s:
 #. Translators: Display todo title name
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1073
+#: public/class-bptodo-public.php:1110
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1074
+#: public/class-bptodo-public.php:1111
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1075
+#: public/class-bptodo-public.php:1112
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1085
+#: public/class-bptodo-public.php:1122
 msgid "Enable/disable mail option"
 msgstr ""
 
-#: public/class-bptodo-public.php:1091
+#: public/class-bptodo-public.php:1128
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1097
+#: public/class-bptodo-public.php:1134
 #. translators: accessibility text
 msgid "No, do not send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1128
+#: public/class-bptodo-public.php:1168
 msgid "Disable todos tab?"
 msgstr ""
 
-#: public/todo/group/add.php:159 public/todo/group/edit.php:79
-#: public/todo/group/list.php:223 public/todo/group/list.php:760
-#: public/todo/member/member-todo-add.php:29
-#: public/todo/member/member-todo-edit.php:37
-#: public/todo/member/member-todo-list.php:151
-#: public/todo/member/member-todo-list.php:606
+#: public/class-bptodo-public.php:1232
+#. translators: 1: todo title, 2: group name, 3: author name
+msgid " %1$s todo added in group %2$s by %3$s."
+msgstr ""
+
+#: public/todo/bptodo-by-category-template-loggedout-user.php:14
+msgid "You need to be logged in to view the to-do items."
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:36
+msgid "Sr. No."
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:37
+#: public/todo/group/list.php:226 public/todo/group/list.php:629
+#: public/todo/member/member-todo-list.php:150
+#: public/todo/member/member-todo-list.php:640
+msgid "Task"
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:38
+msgid "Task Description"
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:40
+msgid "Mark Complete"
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:166
+#. Translators: 1) Profile Menu Plural Label
+msgid "There are no %s in this category."
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:180
+msgid "Please provide a valid category ID."
+msgstr ""
+
+#: public/todo/bptodo-by-category-template.php:192
+msgid "Please provide any category ID."
+msgstr ""
+
+#: public/todo/group/add.php:131 public/todo/group/edit.php:79
+#: public/todo/group/list.php:225 public/todo/group/list.php:628
+#: public/todo/member/member-todo-add.php:33
+#: public/todo/member/member-todo-edit.php:39
+#: public/todo/member/member-todo-list.php:149
+#: public/todo/member/member-todo-list.php:639
 msgid "Category"
 msgstr ""
 
-#: public/todo/group/add.php:164 public/todo/group/add.php:226
-#: public/todo/group/edit.php:84 public/todo/group/edit.php:154
-#: public/todo/member/member-todo-add.php:34
-#: public/todo/member/member-todo-add.php:96
-#: public/todo/member/member-todo-edit.php:42
-#: public/todo/member/member-todo-edit.php:112
+#: public/todo/group/add.php:135 public/todo/group/add.php:171
+#: public/todo/group/edit.php:83 public/todo/group/edit.php:136
+#: public/todo/member/member-todo-add.php:37
+#: public/todo/member/member-todo-add.php:87
+#: public/todo/member/member-todo-edit.php:43
+#: public/todo/member/member-todo-edit.php:96
 msgid "--Select--"
 msgstr ""
 
-#: public/todo/group/add.php:178 public/todo/group/edit.php:105
-#: public/todo/member/member-todo-add.php:48
-#: public/todo/member/member-todo-edit.php:63
-#. Translators: Display the plural label name
-#. translators: Display plural label name
-#. Translators: Display plural label name
-msgid "%1$s category"
+#: public/todo/group/add.php:146
+msgid "%s category"
 msgstr ""
 
-#: public/todo/group/add.php:189 public/todo/group/add.php:192
-#: public/todo/group/edit.php:116 public/todo/group/edit.php:119
+#: public/todo/group/add.php:154 public/todo/group/add.php:155
+#: public/todo/group/edit.php:105 public/todo/group/edit.php:107
+#: public/todo/member/member-todo-add.php:57
 #: public/todo/member/member-todo-add.php:59
-#: public/todo/member/member-todo-add.php:62
-#: public/todo/member/member-todo-edit.php:74
-#: public/todo/member/member-todo-edit.php:77
+#: public/todo/member/member-todo-edit.php:65
+#: public/todo/member/member-todo-edit.php:67
 msgid "Title"
 msgstr ""
 
-#: public/todo/group/add.php:198 public/todo/group/edit.php:125
-#: public/todo/member/member-todo-add.php:68
-#: public/todo/member/member-todo-edit.php:83
+#: public/todo/group/add.php:158 public/todo/group/edit.php:112
+#: public/todo/member/member-todo-add.php:64
+#: public/todo/member/member-todo-edit.php:72
 msgid "Summary"
 msgstr ""
 
-#: public/todo/group/add.php:222 public/todo/group/edit.php:150
-#: public/todo/group/list.php:221 public/todo/group/list.php:758
-#: public/todo/member/member-todo-add.php:92
-#: public/todo/member/member-todo-edit.php:108
-#: public/todo/member/member-todo-list.php:149
-#: public/todo/member/member-todo-list.php:604
+#: public/todo/group/add.php:168 public/todo/group/edit.php:133
+#: public/todo/group/list.php:223 public/todo/group/list.php:626
+#: public/todo/member/member-todo-add.php:84
+#: public/todo/member/member-todo-edit.php:93
+#: public/todo/member/member-todo-list.php:147
+#: public/todo/member/member-todo-list.php:637
 msgid "Priority"
 msgstr ""
 
-#: public/todo/group/add.php:249 public/todo/member/member-todo-add.php:111
-#. Translators: Display the plural label name
-#. translators: Display plural label name
+#: public/todo/group/add.php:179
+msgid "Group members"
+msgstr ""
+
+#: public/todo/group/add.php:181
+msgid "Please select group members to assign todo"
+msgstr ""
+
+#: public/todo/group/add.php:182
+msgid "All Members"
+msgstr ""
+
+#: public/todo/group/add.php:201 public/todo/member/member-todo-add.php:100
 msgid "Submit %s"
 msgstr ""
 
-#: public/todo/group/edit.php:178 public/todo/member/member-todo-edit.php:127
-#. Translators: Display the plural label name
-#. Translators: Display plural label name
+#: public/todo/group/edit.php:96 public/todo/member/member-todo-add.php:48
+#: public/todo/member/member-todo-edit.php:56
+msgid "%1$s category"
+msgstr ""
+
+#: public/todo/group/edit.php:160 public/todo/member/member-todo-edit.php:110
 msgid "Update %s"
 msgstr ""
 
-#: public/todo/group/list.php:127 public/todo/member/member-todo-list.php:87
+#: public/todo/group/list.php:130 public/todo/member/member-todo-list.php:86
 #. Translators: Display the plural label name
 #. Translators: Display plural label name
 msgid "Sorry, no %1$s found."
 msgstr ""
 
-#: public/todo/group/list.php:161
+#: public/todo/group/list.php:164
 #. Translators: Display the plural label name
 msgid "%1$s updated successfully !"
 msgstr ""
 
-#: public/todo/group/list.php:169 public/todo/member/member-todo-list.php:95
+#: public/todo/group/list.php:172 public/todo/member/member-todo-list.php:94
 msgid "Task Progress"
 msgstr ""
 
-#: public/todo/group/list.php:183 public/todo/group/list.php:207
-#: public/todo/group/list.php:276 public/todo/group/list.php:398
-#: public/todo/group/list.php:518 public/todo/group/list.php:651
-#: public/todo/group/list.php:809 public/todo/member/member-todo-list.php:109
-#: public/todo/member/member-todo-list.php:133
-#: public/todo/member/member-todo-list.php:205
-#: public/todo/member/member-todo-list.php:317
-#: public/todo/member/member-todo-list.php:423
-#: public/todo/member/member-todo-list.php:529
-#: public/todo/member/member-todo-list.php:646
+#: public/todo/group/list.php:186 public/todo/group/list.php:209
+#: public/todo/group/list.php:272 public/todo/group/list.php:367
+#: public/todo/group/list.php:462 public/todo/group/list.php:557
+#: public/todo/group/list.php:674 public/todo/member/member-todo-list.php:108
+#: public/todo/member/member-todo-list.php:131
+#: public/todo/member/member-todo-list.php:208
+#: public/todo/member/member-todo-list.php:331
+#: public/todo/member/member-todo-list.php:442
+#: public/todo/member/member-todo-list.php:553
+#: public/todo/member/member-todo-list.php:679
 msgid "Completed"
 msgstr ""
 
-#: public/todo/group/list.php:200 public/todo/member/member-todo-list.php:126
-#. Translators: Display the plural label name
-#. Translators: Display plural label name
+#: public/todo/group/list.php:202 public/todo/member/member-todo-list.php:124
+#. translators: %s:
 msgid "All %1$s"
 msgstr ""
 
-#: public/todo/group/list.php:224 public/todo/group/list.php:761
-#: public/todo/member/member-todo-list.php:152
-#: public/todo/member/member-todo-list.php:607
-msgid "Task"
-msgstr ""
-
-#: public/todo/group/list.php:226 public/todo/group/list.php:763
-#: public/todo/member/member-todo-list.php:153
-#: public/todo/member/member-todo-list.php:608
+#: public/todo/group/list.php:228 public/todo/group/list.php:631
+#: public/todo/member/member-todo-list.php:151
+#: public/todo/member/member-todo-list.php:641
 msgid "Actions"
 msgstr ""
 
-#: public/todo/group/list.php:259 public/todo/group/list.php:380
-#: public/todo/group/list.php:500 public/todo/group/list.php:633
-#: public/todo/group/list.php:791 public/todo/member/member-todo-list.php:187
-#: public/todo/member/member-todo-list.php:299
-#: public/todo/member/member-todo-list.php:405
-#: public/todo/member/member-todo-list.php:511
-#: public/todo/member/member-todo-list.php:628
-#. Translators: Number of expiry days
-#. Translators: Number of expiry date
-#. Translators: Number of expiry days
+#: public/todo/group/list.php:260 public/todo/group/list.php:355
+#: public/todo/group/list.php:450 public/todo/group/list.php:545
+#: public/todo/group/list.php:662 public/todo/member/member-todo-list.php:190
+#: public/todo/member/member-todo-list.php:313
+#: public/todo/member/member-todo-list.php:424
+#: public/todo/member/member-todo-list.php:535
+#: public/todo/member/member-todo-list.php:661
 #. Translators: Number of expiry days
 msgid "Expired!"
 msgstr ""
 
-#: public/todo/group/list.php:266 public/todo/group/list.php:388
-#: public/todo/group/list.php:508 public/todo/group/list.php:641
-#: public/todo/group/list.php:799 public/todo/member/member-todo-list.php:195
-#: public/todo/member/member-todo-list.php:307
-#: public/todo/member/member-todo-list.php:413
-#: public/todo/member/member-todo-list.php:519
-#: public/todo/member/member-todo-list.php:636
+#: public/todo/group/list.php:266 public/todo/group/list.php:361
+#: public/todo/group/list.php:456 public/todo/group/list.php:551
+#: public/todo/group/list.php:668 public/todo/member/member-todo-list.php:198
+#: public/todo/member/member-todo-list.php:321
+#: public/todo/member/member-todo-list.php:432
+#: public/todo/member/member-todo-list.php:543
+#: public/todo/member/member-todo-list.php:669
 msgid "day"
 msgstr ""
 
-#: public/todo/group/list.php:268 public/todo/group/list.php:390
-#: public/todo/group/list.php:510 public/todo/group/list.php:643
-#: public/todo/group/list.php:801 public/todo/member/member-todo-list.php:197
-#: public/todo/member/member-todo-list.php:309
-#: public/todo/member/member-todo-list.php:415
-#: public/todo/member/member-todo-list.php:521
-#: public/todo/member/member-todo-list.php:638
+#: public/todo/group/list.php:266 public/todo/group/list.php:361
+#: public/todo/group/list.php:456 public/todo/group/list.php:551
+#: public/todo/group/list.php:668 public/todo/member/member-todo-list.php:200
+#: public/todo/member/member-todo-list.php:323
+#: public/todo/member/member-todo-list.php:434
+#: public/todo/member/member-todo-list.php:545
+#: public/todo/member/member-todo-list.php:671
 msgid "days"
 msgstr ""
 
-#: public/todo/group/list.php:271 public/todo/group/list.php:393
-#: public/todo/group/list.php:513 public/todo/group/list.php:646
-#: public/todo/group/list.php:804 public/todo/member/member-todo-list.php:200
-#: public/todo/member/member-todo-list.php:312
-#: public/todo/member/member-todo-list.php:418
-#: public/todo/member/member-todo-list.php:524
-#: public/todo/member/member-todo-list.php:641
+#: public/todo/group/list.php:267 public/todo/group/list.php:362
+#: public/todo/group/list.php:457 public/todo/group/list.php:552
+#: public/todo/group/list.php:669 public/todo/member/member-todo-list.php:203
+#: public/todo/member/member-todo-list.php:326
+#: public/todo/member/member-todo-list.php:437
+#: public/todo/member/member-todo-list.php:548
+#: public/todo/member/member-todo-list.php:674
 #. Translators: Number of left days
 msgid "%1$d %2$s left"
 msgstr ""
 
-#: public/todo/group/list.php:583 public/todo/member/member-todo-list.php:472
+#: public/todo/group/list.php:732
+msgid "Completed Todo Not Found"
+msgstr ""
+
+#: public/todo/member/member-todo-list.php:492
 #. Translators: Display todo title name
 msgid "Remove: %s "
 msgstr ""
@@ -1535,8 +1621,8 @@ msgctxt "widget name"
 msgid "Member To-Do"
 msgstr ""
 
-#: inc/templates/archive-bp-todo.php:51
-#. translators: Display author name
+#: inc/templates/archive-bp-todo.php:49
+#. translators: %s: post author name
 msgctxt "post author"
-msgid "%s"
+msgid "Post by: %s"
 msgstr ""
