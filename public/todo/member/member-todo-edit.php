@@ -15,56 +15,73 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug;
-$todo_id            = isset( $_GET['args'] ) ? sanitize_text_field( wp_unslash( $_GET['args'] ) ) : 0;
-$todo_cats          = get_terms( array(
+
+if ( isset( $_GET['args'] ) ) { // phpcs:ignore
+	$todo_id = sanitize_text_field( wp_unslash( $_GET['args'] ) ); // phpcs:ignore
+}
+
+$todo_cats = get_terms(array(
 	'taxonomy'   => 'todo_category',
 	'orderby'    => 'name',
 	'hide_empty' => false,
 ));
 
-$todo           = get_post( $todo_id );
-$todo_cat       = wp_get_object_terms( $todo_id, 'todo_category' );
-$todo_cat_id    = ! empty( $todo_cat ) && is_array( $todo_cat ) ? $todo_cat[0]->term_id : 0;
-$todo_due_date  = get_post_meta( $todo_id, 'todo_due_date', true );
-$todo_priority  = get_post_meta( $todo_id, 'todo_priority', true ) ?: 'normal';
-$bptodo_req     = $bptodo->req_duedate === 'yes' ? 'required' : '';
+$todo = get_post( $todo_id );
 
+$todo_cat = wp_get_object_terms( $todo_id, 'todo_category' );
+
+$todo_cat_id = 0;
+if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
+	$todo_cat_id = $todo_cat[0]->term_id;
+}
+
+$todo_due_date = get_post_meta( $todo_id, 'todo_due_date', true );
+$todo_priority = get_post_meta( $todo_id, 'todo_priority', true );
+if ( empty( $todo_priority ) ) {
+	$todo_priority = 'normal';
+}
+
+$bptodo_req = '';
+if ( 'yes' === $bptodo->req_duedate ) {
+	$bptodo_req = 'required';
+}
 ?>
 
 <form action="" method="post" id="bptodo_edit_form_popup">
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
-
 		<tr>
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
 				<div>
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
-						<?php foreach ( $todo_cats as $todo_cat ) : ?>
-							<option value="<?php echo esc_attr( $todo_cat->name ); ?>" <?php selected( $todo_cat_id, $todo_cat->term_id ); ?>>
-								<?php echo esc_html( $todo_cat->name ); ?>
-							</option>
-						<?php endforeach; ?>
+						<?php if ( isset( $todo_cats ) && ! empty( $todo_cats ) ) { ?>
+							<?php foreach ( $todo_cats as $cat ) { ?>
+								<option value="<?php echo esc_html( $cat->name ); ?>" <?php selected( $todo_cat_id, $cat->term_id ); ?>>
+									<?php echo esc_html( $cat->name ); ?>
+								</option>
+							<?php } ?>
+						<?php } ?>
 					</select>
-					<?php if ( $bptodo->allow_user_add_category === 'yes' ) : ?>
+					<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 						<a href="javascript:void(0);" class="add-todo-category"><span class="add-cat-icon"></span></a>
-					<?php endif; ?>
+					<?php } ?>
 				</div>
-				<?php if ( $bptodo->allow_user_add_category === 'yes' ) : ?>
+				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
-						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), $profile_menu_label ) ); ?>">
+						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 					</div>
-				<?php endif; ?>
+				<?php } ?>
 			</td>
 		</tr>
 
 		<tr>
 			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
 			<td>
-				<input type="text" name="todo_title" value="<?php echo esc_attr( $todo->post_title ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" required class="bptodo-text-input">
+				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
 			</td>
 		</tr>
 
@@ -85,7 +102,7 @@ $bptodo_req     = $bptodo->req_duedate === 'yes' ? 'required' : '';
 		<tr>
 			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
 			<td>
-				<input type="date" name="todo_due_date" value="<?php echo esc_attr( $todo_due_date ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
@@ -101,19 +118,38 @@ $bptodo_req     = $bptodo->req_duedate === 'yes' ? 'required' : '';
 			</td>
 		</tr>
 
-		<?php if ( ! apply_filters( 'bptodo_change_todo_edit_button', false ) ) : ?>
+		<?php $change_edit_btn = apply_filters( 'bptodo_change_todo_edit_button', false ); ?>
+		<?php if ( ! $change_edit_btn ) { ?>
 			<tr>
 				<td></td>
 				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
-					<input type="submit" id="todo_update" name="todo_update" value="<?php echo esc_attr( sprintf( esc_html__( 'Update %s', 'wb-todo' ), $profile_menu_label ) ); ?>">
+					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" name="todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>
-		<?php else : ?>
+		<?php } else { ?>
 			<?php do_action( 'bptodo_change_todo_edit_button_action', $profile_menu_label ); ?>
-		<?php endif; ?>
-
+		<?php } ?>
 		<?php do_action( 'bptodo_add_field_after_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 	</table>
 </form>
+
+<?php
+/*
+	// Show the successful message when todo is updated
+	if ( isset( $_POST['todo_update'] ) ) {
+		if ( 'nouveau' == $bp_template_option ) {
+			?>
+				<div id="message" class="info bp-feedback bp-messages bp-template-notice">
+				<span class="bp-icon" aria-hidden="true"></span>
+		<?php } else { ?>
+				<div id="message" class="info">
+		<?php } ?>
+					<p>
+						<?php echo sprintf( esc_html__( '%1$s updated successfully!', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+					</p>
+				</div>
+	<?php } ?>
+*/ 
+?>
