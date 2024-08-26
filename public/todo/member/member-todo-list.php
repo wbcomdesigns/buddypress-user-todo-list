@@ -493,6 +493,7 @@ if ( empty( $todos ) ) {
 																	<?php if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
 																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
+																	<?php  /* translators: %s */ ?>
 																	<li><a href="<?php echo esc_attr( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>" target="_blank"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>																		
 																	<?php } ?>																		
 																</ul>

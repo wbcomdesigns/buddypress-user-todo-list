@@ -121,7 +121,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						$author_email = get_the_author_meta('user_email', $author_id);
 						$site_name = get_bloginfo('name');
 						$task_name = get_the_title($todo_id);
+						/* translators: %2$s */
 						$subject = sprintf(esc_html__('%1$s: Task "%2$s" Due Today', 'wb-todo'), $site_name, $task_name);
+						/* translators: %1$s */
 						$message = sprintf(esc_html__('Your task: %1$s is due today. Kindly finish it up! Thanks!', 'wb-todo'), $task_name);
 						$headers = ['Content-Type: text/html; charset=UTF-8'];
 
@@ -275,12 +277,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 				// Check and display the appropriate message based on due date and status.
 				if ( 'complete' === $todo_status ) {
-					$output = esc_html__('Completed!', 'wb-todo');
+					$output = esc_html_e('Completed!', 'wb-todo');
 				} elseif ( $diff_days < 0 ) {
+					/* translators: %d */
 					$output = sprintf(esc_html__('Expired %d days ago!', 'wb-todo'), abs($diff_days));
 				} elseif ( 0 === $diff_days ) {
-					$output = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
+					$output = esc_html_e('Today is the last day to complete. Hurry Up!', 'wb-todo');
 				} else {
+					/* translators: %d */
 					$output = sprintf(esc_html__('%d days left to complete the task!', 'wb-todo'), abs($diff_days));
 				}
 			}
@@ -289,7 +293,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$output = esc_html($post_id);
 			}
 
-			echo $output;
+			echo esc_html( $output ) ;
 		}
 
 

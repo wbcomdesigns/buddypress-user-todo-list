@@ -105,7 +105,9 @@ if ( bp_is_active( 'groups' ) ) : ?>
 				<div class="form-table">
 					<div class="bptodo-groups">
 						<?php
+						/* translators: %s */
 						$bp_groups_link = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'admin.php?page=bp-components' ) ), esc_html__( 'Click here', 'wb-todo' ) );
+						 /* translators: %s */
 						printf( '<span>%s</span>', wp_kses_post( sprintf( __( 'Enable BuddyPress groups component to allow groups integration %s.', 'wb-todo' ), '<strong>' . $bp_groups_link . '</strong>' ) ) );
 						?>
 					</div>

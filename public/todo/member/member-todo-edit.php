@@ -70,6 +70,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 				</div>
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
+						<?php  /* translators: %1$s */ ?>
 						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
@@ -125,6 +126,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_update_todo_data_nonce' ); ?>
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
+					<?php  /* translators: %s */ ?>
 					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" name="todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>

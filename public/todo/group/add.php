@@ -146,6 +146,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 				</div>
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) : ?>
 					<div class="add-todo-cat-row">
+						<?php	/* translators: %s */ ?>
 						<input type="text" id="todo-category-name" placeholder="<?php echo esc_html( sprintf( __( '%s category', 'wb-todo' ), $profile_menu_label ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
@@ -201,6 +202,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 				<td></td>
 				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'group_save_new_todo_data_nonce' ); ?>
+						<?php /* translators: %s */ ?>
 					<input id="bp-add-new-todo" type="submit" name="group_todo_create" value="<?php echo esc_html( sprintf( __( 'Submit %s', 'wb-todo' ), $profile_menu_label ) ); ?>">
 				</td>
 			</tr>

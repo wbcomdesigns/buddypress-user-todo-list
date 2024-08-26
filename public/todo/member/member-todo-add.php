@@ -45,6 +45,7 @@ $allow_add_category = $bptodo->allow_user_add_category === 'yes';
 				</div>
 				<?php if ( $allow_add_category ) : ?>
 					<div class="add-todo-cat-row">
+						<?php  /* translators: %1$s */ ?>
 						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), $profile_menu_label ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
@@ -97,6 +98,7 @@ $allow_add_category = $bptodo->allow_user_add_category === 'yes';
 				<td></td>
 				<td>
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
+					<?php  /* translators: %s */ ?>
 					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo esc_attr( sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label ) ); ?>">
 				</td>
 			</tr>

@@ -59,17 +59,19 @@ function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu
 									$diff_days        = $diff->format( '%R%a' );
 
 									if ( $diff_days < 0 ) {
+										 /* translators: %s */
 										$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 										$due_date_td_class = 'bptodo-expired';
 									} elseif ( 0 === $diff_days ) {
-										$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
+										$due_date_str      = esc_html_e( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 										$due_date_td_class = 'bptodo-expires-today';
 									} else {
+										 /* translators: %s */
 										$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 									}
 
 									if ( 'complete' === $todo_status ) {
-										$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
+										$due_date_str      = esc_html_e( 'Completed!', 'wb-todo' );
 										$due_date_td_class = '';
 									}
 									?>
@@ -80,11 +82,15 @@ function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu
 										<td class="<?php echo esc_attr( $due_date_td_class . ' ' . $class ); ?>"><?php echo esc_html( $due_date_str ); ?></td>
 										<td class="bp-to-do-actions">
 											<ul>
-												<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
-												<?php if ( 'complete' !== $todo_status ) { ?>
+													<?php /* translators: %s */ ?>
+													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-times"></i></a></li>
+													<?php if ( 'complete' !== $todo_status ) { ?>
+													<?php /* translators: %s */ ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-edit"></i></a></li>
+													<?php /* translators: %s */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-check"></i></a></li>
 												<?php } else { ?>
+													<?php /* translators: %s */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><i class="fa fa-undo"></i></a></li>
 												<?php } ?>
 											</ul>

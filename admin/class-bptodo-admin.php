@@ -119,6 +119,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					array(
 						'ajax_url'            => admin_url( 'admin-ajax.php' ),
 						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+						/* translators: %1$s */
 						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
@@ -191,6 +192,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						<div class="wbcom_admin_header-wrapper">
 							<div id="wb_admin_plugin_name">
 								<?php esc_html_e( 'BuddyPress User To-Do List', 'wb-todo' ); ?>
+								<?php	/* translators: %1$s */ ?>
 								<span><?php printf( esc_html__( 'Version %s', 'wb-todo' ), esc_attr( BPTODO_VERSION ) ); ?></span>
 							</div>
 							<?php echo do_shortcode( '[wbcom_admin_setting_header]' ); ?>

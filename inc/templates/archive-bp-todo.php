@@ -74,6 +74,7 @@ get_header(); ?>
 						?>
 						
 						<p class="no-margin">
+					  		<?php /* translators: %s/  */ ?>
 							<a href="<?php the_permalink(); ?>" title="<?php echo esc_attr(sprintf(__('Permalink to %s', 'wb-todo'), the_title_attribute('echo=0'))); ?>" class="read-more button"><?php esc_html_e('Read More', 'wb-todo'); ?></a>
 						</p>
 					</div><!-- .entry-content -->

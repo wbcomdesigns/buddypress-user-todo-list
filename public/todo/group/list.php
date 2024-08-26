@@ -22,7 +22,6 @@ if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, 
 } else {
     $groups_link = bp_get_group_permalink($bp->groups->current_group);
 }
-// $groups_link = bp_get_group_url($bp->groups->current_group);
 $admin_link  = trailingslashit($groups_link . $profile_menu_slug);
 
 $group_members = groups_get_group_members(
@@ -269,6 +268,7 @@ if (empty($todo_list)) {
                                                                                 $due_date_td_class = 'bptodo-expires-today';
                                                                             } else {
                                                                                 $day_string = abs($diff_days) === 1 ? __('day', 'wb-todo') : __('days', 'wb-todo');
+						                                                        /* translators: %1$d */
                                                                                 $due_date_str = sprintf(esc_html__('%1$d %2$s left', 'wb-todo'), abs($diff_days), $day_string);
                                                                             }
 
@@ -301,6 +301,7 @@ if (empty($todo_list)) {
                                                                                     $checked_class = 'todo-complete';
                                                                                 }
                                                                                 ?>
+					                                                            <?php	/* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
                                                                                     <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
                                                                                 </li>
@@ -322,7 +323,9 @@ if (empty($todo_list)) {
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
+                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
@@ -364,6 +367,7 @@ if (empty($todo_list)) {
                                                                                 $due_date_td_class = 'bptodo-expires-today';
                                                                             } else {
                                                                                 $day_string = abs($diff_days) === 1 ? __('day', 'wb-todo') : __('days', 'wb-todo');
+                                                                                 /* translators: %1$d */
                                                                                 $due_date_str = sprintf(esc_html__('%1$d %2$s left', 'wb-todo'), abs($diff_days), $day_string);
                                                                             }
 
@@ -396,6 +400,7 @@ if (empty($todo_list)) {
                                                                                     $checked_class = 'todo-complete';
                                                                                 }
                                                                                 ?>
+                                                                                <?php  /* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
                                                                                     <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
                                                                                 </li>
@@ -417,7 +422,9 @@ if (empty($todo_list)) {
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
@@ -459,6 +466,7 @@ if (empty($todo_list)) {
                                                                                 $due_date_td_class = 'bptodo-expires-today';
                                                                             } else {
                                                                                 $day_string = abs($diff_days) === 1 ? __('day', 'wb-todo') : __('days', 'wb-todo');
+                                                                                 /* translators: %1$d */
                                                                                 $due_date_str = sprintf(esc_html__('%1$d %2$s left', 'wb-todo'), abs($diff_days), $day_string);
                                                                             }
 
@@ -491,7 +499,8 @@ if (empty($todo_list)) {
                                                                                     $checked_class = 'todo-complete';
                                                                                 }
                                                                                 ?>
-                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                <?php  /* translators: %s */ ?>
+                                                                              <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
                                                                                     <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
@@ -512,8 +521,10 @@ if (empty($todo_list)) {
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
-                                                                                            <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
-                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                        <?php  /* translators: %s */ ?>
+                                                                                        <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                        <?php  /* translators: %s */ ?>
+                                                                                        <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
                                                                                 <?php } ?>
@@ -554,6 +565,7 @@ if (empty($todo_list)) {
                                                                                 $due_date_td_class = 'bptodo-expires-today';
                                                                             } else {
                                                                                 $day_string = abs($diff_days) === 1 ? __('day', 'wb-todo') : __('days', 'wb-todo');
+                                                                                 /* translators: %1$d */
                                                                                 $due_date_str = sprintf(esc_html__('%1$d %2$s left', 'wb-todo'), abs($diff_days), $day_string);
                                                                             }
 
@@ -586,6 +598,7 @@ if (empty($todo_list)) {
                                                                                     $checked_class = 'todo-complete';
                                                                                 }
                                                                                 ?>
+                                                                                 <?php  /* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
                                                                                     <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
                                                                                 </li>
@@ -607,7 +620,9 @@ if (empty($todo_list)) {
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
@@ -671,6 +686,7 @@ if (empty($todo_list)) {
                                                                                     $due_date_td_class = 'bptodo-expires-today';
                                                                                 } else {
                                                                                     $day_string = abs($diff_days) === 1 ? __('day', 'wb-todo') : __('days', 'wb-todo');
+                                                                                     /* translators: %s */
                                                                                     $due_date_str = sprintf(esc_html__('%1$d %2$s left', 'wb-todo'), abs($diff_days), $day_string);
                                                                                 }
 
@@ -703,6 +719,7 @@ if (empty($todo_list)) {
                                                                                         $checked_class = 'todo-complete';
                                                                                     }
                                                                                     ?>
+                                                                                     <?php  /* translators: %s */ ?>
                                                                                     <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
                                                                                         <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
                                                                                     </li>
@@ -724,7 +741,9 @@ if (empty($todo_list)) {
                                                                                     <?php if ($can_modify) { ?>
                                                                                         <li class="bp-to-do-actions">
                                                                                             <ul class="bp-to-do-actions-list">
+                                                                                                 <?php  /* translators: %s */ ?>
                                                                                                 <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                                <?php  /* translators: %s */ ?>
                                                                                                 <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                             </ul>
                                                                                         </li>

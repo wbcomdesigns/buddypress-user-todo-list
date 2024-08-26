@@ -30,7 +30,6 @@ if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, 
 } else {
     $groups_link = bp_get_group_permalink($bp->groups->current_group);
 }
-// $groups_link = bp_get_group_url( $bp->groups->current_group );
 $admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 $bptodo_req = $bptodo->req_duedate === 'yes' ? 'required' : '';
