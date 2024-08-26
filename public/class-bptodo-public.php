@@ -397,7 +397,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug );
 			$my_todo_items             = $bptodo->my_todo_items;
 			$name                      = $profile_menu_slug;
-			$groups_link               = bp_get_group_url( $bp->groups->current_group );
+			if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, '12.0', '>=' ) ) {
+                $groups_link           = bp_get_group_url( $bp->groups->current_group );
+            } else {
+                $groups_link           = bp_get_group_permalink( $bp->groups->current_group );
+            }
 			$admin_link                = trailingslashit( $groups_link . $profile_menu_slug );
 
 			// Common params to all nav items.

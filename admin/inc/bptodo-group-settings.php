@@ -63,9 +63,9 @@ if ( bp_is_active( 'groups' ) ) : ?>
 						<div class="wbcom-settings-section-wrap">
 							<div class="wbcom-settings-section-options-heading">
 								<label for="bptodo-list-moderator">
-									<?php esc_html_e( 'Include Group Moderators in To-do Average List Calculation', 'wb-todo' ); ?>
+									<?php esc_html_e( 'Group Moderators to add to-dos in group ', 'wb-todo' ); ?>
 								</label>
-								<p class="description"><?php esc_html_e( 'Enable this option to include group moderators in the calculation of group To-do completion.', 'wb-todo' ); ?></p>
+								<p class="description"><?php esc_html_e( 'Enable this option to allow group moderators to add to-dos in the group.', 'wb-todo' ); ?></p>
 							</div>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">

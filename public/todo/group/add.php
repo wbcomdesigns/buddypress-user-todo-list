@@ -39,8 +39,11 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $bptodo_req         = 'yes' === $bptodo->req_duedate ? 'required' : '';
 $displayed_uid      = get_current_user_id();
-$form_post_link     = bp_get_group_url() . strtolower( $profile_menu_label ) . '/list';
-
+if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, '12.0', '>=' ) ) {
+    $form_post_link     = bp_get_group_url() . strtolower( $profile_menu_label ) . '/list';
+} else {
+    $form_post_link     = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
+}
 if ( ! empty( $group_members_ids ) ) {
 	$current_user = get_current_user_id();
 	$cu_index     = array_search( $current_user, $group_members_ids, true );
