@@ -465,7 +465,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			echo '<h3>Group Events</h3>';
 
-			$groups_link       = bp_get_group_url( $bp->groups->current_group ) . 'add-events/';
+			if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, '12.0', '>=' ) ) {
+                $groups_link       = bp_get_group_url( $bp->groups->current_group ) . 'add-events/';
+            } else {
+                $groups_link       = bp_get_group_permalink( $bp->groups->current_group ) . 'add-events/';
+            }
 			$create_event_text = __( 'Create Event', 'wb-todo' );
 			echo '<div class="wb-group-archive-add-event"><a href="' . esc_url( $groups_link ) . '">' . esc_html( $create_event_text ) . '</a></div>';
 
