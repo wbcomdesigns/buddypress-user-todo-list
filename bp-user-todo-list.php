@@ -113,28 +113,28 @@ add_action( 'init', 'bptodo_media_button_subscriber' );
  */
 function bptodo_check_buddypress_subsite_activation() {
     // If BuddyPress is not active or this is not a multisite, no further checks are needed.
-    if ( ! is_multisite() || ! class_exists( 'BuddyPress' ) ) {
+    if ( ! is_multisite()) {
         return;
     }
 
-    // Check if BuddyPress is network-active.
-    if ( is_plugin_active_for_network( 'buddypress/bp-loader.php' ) ) {
-        // Get the BuddyPress root blog. If not defined, default to the primary site.
-        $bp_root_blog = defined( 'BP_ROOT_BLOG' ) ? BP_ROOT_BLOG : get_network()->blog_id;
-        $current_blog_id = get_current_blog_id();
-
-        // If the current blog is not the root blog, deactivate the To-Do List plugin.
-        if ( $current_blog_id != $bp_root_blog ) {
-            deactivate_plugins( plugin_basename( __FILE__ ) );
-            add_action( 'admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
+    //Shalu Testing
+    $deactivate = false;
+    if( is_network_admin() ) {
+        if(!is_plugin_active_for_network('buddypress/bp-loader.php')) {
+            $deactivate = true;
+            add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
         }
-
-    } else {
-        // BuddyPress is not network-active, check if it's active on the current subsite.
+    }else{
         if ( ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
             // BuddyPress is not active on this subsite, deactivate the To-Do List plugin.
-            deactivate_plugins( plugin_basename( __FILE__ ) );
+            $deactivate = true;
             add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+        }
+    }
+    if( $deactivate ) {
+        deactivate_plugins( plugin_basename( __FILE__ ) );
+        if( isset($_GET['activate']) ) {
+            unset($_GET['activate']);
         }
     }
 }
@@ -217,13 +217,13 @@ add_action( 'wp_footer', 'bptodo_css' );
 /**
  * Redirect to settings page after activation.
  */
-add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
-function bptodo_activation_redirect_settings( $plugin ) {
-    if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
-        wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
-        exit;
-    }
-}
+// add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
+// function bptodo_activation_redirect_settings( $plugin ) {
+    // if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
+    //     wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+    //     exit;
+    // }
+// }
 
 /**
  * Run the main plugin class.
@@ -234,3 +234,123 @@ function bptodo_run() {
     $plugin->run();
 }
 bptodo_run();
+
+
+
+
+
+
+
+
+//testing code
+add_action('activated_plugin', 'my_plugin_post_activation', 10, 2);
+
+
+function my_plugin_post_activation($plugin, $network_wide) {
+	if (is_multisite()) {
+		change_plugin_status('activate', false);
+		change_plugin_status('deactivate', true);
+	}
+}
+
+
+function change_plugin_status($status, $network_wide = false){
+	$plugin_path = plugin_basename(__FILE__);
+	if ($network_wide) {
+		$active_plugins = get_site_option('active_sitewide_plugins');
+	} else {
+		$active_plugins = get_option('active_plugins');
+	}
+	if( $status == 'deactivate' ) {
+		if (isset($active_plugins[$plugin_path]) && !empty($active_plugins[$plugin_path]) ) {
+			unset($active_plugins[$plugin_path]);
+			if ($network_wide) {
+				update_site_option('active_sitewide_plugins', $active_plugins);
+			}else{
+				update_option('active_plugins', $active_plugins);
+			}
+		}
+	}else{
+		if (!isset($active_plugins[$plugin_path])) {
+			$current_timestamp = current_time('timestamp');
+			$active_plugins[] = $plugin_path;
+			if ($network_wide) {
+				update_site_option('active_sitewide_plugins', $active_plugins);
+			}else{
+				update_option('active_plugins', $active_plugins);
+			}
+		}
+	}
+}
+
+
+add_filter('network_admin_plugin_action_links_' . plugin_basename(__FILE__), 'custom_network_plugin_action_links');
+
+function custom_network_plugin_action_links($links) {
+    // Create a new activation link for network activation
+	unset($links['activate']);
+
+	// Create a new deactivation link
+    $links['deactivate'] = '<a href="#" class="custom-deactivate-plugin" data-plugin="' . esc_attr(plugin_basename(__FILE__)) . '">Network Deactivate</a>';
+
+    return $links;
+}
+
+
+// Enqueue JavaScript for confirmation and AJAX handling
+add_action('admin_enqueue_scripts', 'enqueue_custom_deactivation_script');
+
+function enqueue_custom_deactivation_script() {
+    // Only enqueue on the network admin plugin page
+    if (is_network_admin()) {
+        wp_enqueue_script('custom-deactivation-script', plugin_dir_url(__FILE__) . 'deactivation-script.js', ['jquery'], null, true);
+        wp_localize_script('custom-deactivation-script', 'deactivation_ajax_object', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('custom_deactivation_nonce'),
+        ]);
+    }
+}
+
+
+
+// Handle the AJAX request for deactivation
+add_action('wp_ajax_custom_deactivate_plugin', 'custom_deactivate_plugin');
+
+function custom_deactivate_plugin() {
+    check_ajax_referer('custom_deactivation_nonce', 'nonce');
+
+	$sites = get_sites();
+	foreach ($sites as $site) {
+			deactivate_plugin_for_site($site->blog_id);
+	}
+	wp_send_json_success(['message' => 'Plugin deactivated successfully']);
+}
+
+// Function to deactivate the plugin for a specific site
+function deactivate_plugin_for_site($site_id) {
+    // Switch to the specified site
+    switch_to_blog($site_id);
+
+    // Get the current active plugins for the site
+    $active_plugins = get_option('active_plugins');
+
+    // Check if the plugin is active and remove it
+    $plugin_basename = plugin_basename(__FILE__);
+    if (in_array($plugin_basename, $active_plugins)) {
+        $active_plugins = array_diff($active_plugins, [$plugin_basename]);
+        update_option('active_plugins', $active_plugins);
+    }
+
+    // Restore the original blog
+    restore_current_blog();
+}
+
+add_filter('site_option_active_sitewide_plugins', 'set_plugin_active_for_network', 99, 3);
+function set_plugin_active_for_network($value, $option, $network_id){
+	if('active_sitewide_plugins' == $option && is_network_admin()) {
+		$plugin_path = plugin_basename(__FILE__);
+		$timestamp = current_time('timestamp');
+		$value[$plugin_path] = $timestamp;
+	}
+	return $value;
+}

@@ -34,6 +34,32 @@
 	 		placeholder		: $( '#bptodo_user_roles').data( 'placeholder' ),
 	 		plugins			: ['remove_button']
 	 	});
+
+		 $('.custom-deactivate-plugin').on('click', function(e) {
+			e.preventDefault();
+   
+			if (confirm('Are you sure you want to deactivate this plugin for all site?')) {
+				$.ajax({
+					url: deactivation_ajax_object.ajax_url,
+					type: 'POST',
+					data: {
+						action: 'custom_deactivate_plugin',
+						nonce: deactivation_ajax_object.nonce,
+					},
+					success: function(response) {
+						if (response.success) {
+							alert(response.data.message);
+							location.reload(); // Reload the page to see the changes
+						} else {
+							alert('Error: ' + response.data.message);
+						}
+					},
+					error: function() {
+						alert('There was an error with the AJAX request.');
+					}
+				});
+			}
+		});
 	 });
 
 })( jQuery );
