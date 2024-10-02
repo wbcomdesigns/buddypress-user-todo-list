@@ -165,30 +165,16 @@ function bptodo_show_buddypress_required_notice() {
 add_action( 'admin_init', 'bptodo_check_subsite_activation' );
 
 /**
- * Custom CSS for frontend.
- */
-function bptodo_custom_css() {
-    ?>
-    <style>
-        .bptodo-modal.modal {
-            z-index: 99; 
-        }
-    </style>
-    <?php
-}
-add_action( 'wp_footer', 'bptodo_custom_css' );
-
-/**
  * Handle AJAX request for deactivation
  */
-add_action( 'wp_ajax_bptodo_custom_deactivate_plugin', 'bptodo_custom_deactivate_plugin' );
+add_action( 'wp_ajax_bptodo_deactivate_plugin', 'bptodo_deactivate_plugin' ); // Removed custom from function name
 
-function bptodo_custom_deactivate_plugin() {
-    check_ajax_referer( 'custom_deactivation_nonce', 'nonce' );
+function bptodo_deactivate_plugin() {
+    check_ajax_referer( 'bptodo_deactivation_nonce', 'nonce' );  // Updated nonce name
 
     $sites = get_sites();
     foreach ( $sites as $site ) {
-        bptodo_deactivate_plugin_for_site( $site->blog_id );
+        bptodo_deactivate_plugin_for_site( $site->blog_id );  // Ensure function name consistency
     }
     wp_send_json_success( array( 'message' => 'Plugin deactivated successfully' ) );
 }
