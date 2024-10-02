@@ -75,6 +75,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		public function enqueue_scripts() {
 			wp_enqueue_script( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/js/selectize.min.js', array( 'jquery' ), BPTODO_VERSION, false );
 			wp_enqueue_script( 'bp-todo-list-js', plugin_dir_url( __FILE__ ) . 'assets/js/bp-todo-list-admin.js', array( 'jquery' ), BPTODO_VERSION, false );
+			wp_localize_script('bp-todo-list-js', 'deactivation_ajax_object', [
+				'ajax_url' => admin_url('admin-ajax.php'),
+				'nonce' => wp_create_nonce('custom_deactivation_nonce'),
+			]);
 		}
 
 		/**
