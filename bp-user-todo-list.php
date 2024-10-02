@@ -167,10 +167,10 @@ add_action( 'admin_init', 'bptodo_check_subsite_activation' );
 /**
  * Handle AJAX request for deactivation
  */
-add_action( 'wp_ajax_bptodo_deactivate_plugin', 'bptodo_deactivate_plugin' ); // Removed custom from function name
+add_action( 'wp_ajax_bptodo_deactivate_plugin', 'bptodo_deactivate_plugin' ); // Updated to remove custom_
 
 function bptodo_deactivate_plugin() {
-    check_ajax_referer( 'bptodo_deactivation_nonce', 'nonce' );  // Updated nonce name
+    check_ajax_referer( 'bptodo_deactivation_nonce', 'nonce' );  // Updated nonce name to match branding
 
     $sites = get_sites();
     foreach ( $sites as $site ) {
@@ -180,7 +180,7 @@ function bptodo_deactivate_plugin() {
 }
 
 /**
- * Deactivate the plugin for a specific site.
+ * Function to deactivate the plugin for a specific site.
  */
 function bptodo_deactivate_plugin_for_site( $site_id ) {
     switch_to_blog( $site_id );
