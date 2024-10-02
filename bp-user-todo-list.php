@@ -3,7 +3,7 @@
  * Plugin Name: Wbcom Designs BP Todo List
  * Plugin URI: https://wbcomdesigns.com/contact/
  * Description: This plugin allows users to create to-do items in their profile section and a simple interface to schedule their tasks.
- * Version: 3.2.1
+ * Version: 3.2.2
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -38,7 +38,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-    define( 'BPTODO_VERSION', '3.2.1' );
+    define( 'BPTODO_VERSION', '3.2.2' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -46,7 +46,7 @@ if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
 }
 
 if ( ! defined( 'BP_ROOT_BLOG' ) ) {
-    define( 'BP_ROOT_BLOG', 1 );
+    define( 'BP_ROOT_BLOG', 1);
 }
 
 if ( ! defined( 'BPTODO_TEMPLATE_PATH' ) ) {
@@ -113,28 +113,38 @@ add_action( 'init', 'bptodo_media_button_subscriber' );
  */
 function bptodo_check_buddypress_subsite_activation() {
     // If BuddyPress is not active or this is not a multisite, no further checks are needed.
-    if ( ! is_multisite()) {
+    if ( ! is_multisite() ) {
+        if(! is_plugin_active( 'buddypress/bp-loader.php' )) {
+            add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+            if( isset($_GET['activate']) ) {
+                unset($_GET['activate']);
+            }
+         }
         return;
     }
-
-    //Shalu Testing
-    $deactivate = false;
     if( is_network_admin() ) {
         if(!is_plugin_active_for_network('buddypress/bp-loader.php')) {
-            $deactivate = true;
             add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
+            $sites = get_sites();
+            foreach ($sites as $site) {
+                deactivate_plugin_for_site($site->blog_id);
+            }
+            change_plugin_status('deactivate', true);
+            // $deactivate_nonce = wp_create_nonce('deactivate-plugin_buddypress/bp-loader.php');
+            if( isset($_GET['activate']) ) {
+                unset($_GET['activate']);
+            }
+            // wp_redirect( admin_url( 'plugins.php?action=deactivate&plugin=buddypress/bp-loader.php&plugin_status=all&paged=1&s&_wpnonce=' . $deactivate_nonce ) );
         }
     }else{
         if ( ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
             // BuddyPress is not active on this subsite, deactivate the To-Do List plugin.
-            $deactivate = true;
             add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
-        }
-    }
-    if( $deactivate ) {
-        deactivate_plugins( plugin_basename( __FILE__ ) );
-        if( isset($_GET['activate']) ) {
-            unset($_GET['activate']);
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+            if( isset($_GET['activate']) ) {
+                unset($_GET['activate']);
+            }
         }
     }
 }
@@ -236,13 +246,6 @@ function bptodo_run() {
 bptodo_run();
 
 
-
-
-
-
-
-
-//testing code
 add_action('activated_plugin', 'my_plugin_post_activation', 10, 2);
 
 
@@ -251,6 +254,16 @@ function my_plugin_post_activation($plugin, $network_wide) {
 		change_plugin_status('activate', false);
 		change_plugin_status('deactivate', true);
 	}
+
+    if(!class_exists( 'BuddyPress' ) ) {
+        if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
+            if(!is_multisite()) {
+                wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+                exit;
+            }
+           
+        }
+     } 
 }
 
 
