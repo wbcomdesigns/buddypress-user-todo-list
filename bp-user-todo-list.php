@@ -102,7 +102,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_
  */
 function bptodo_allow_subscribers_upload() {
     $subscriber = get_role( 'subscriber' );
-    if ( ! empty( $subscriber ) ) {
+    if ( $subscriber && ! $subscriber->has_cap( 'upload_files' ) ) {
         $subscriber->add_cap( 'upload_files' );
     }
 }
