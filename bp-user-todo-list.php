@@ -151,14 +151,19 @@ function bptodo_check_subsite_activation() {
  * Show admin notice to inform the user that To-Do List can only be activated on the BuddyPress root blog.
  */
 function bptodo_show_buddypress_root_blog_notice() {
-    echo '<div class="error"><p>' . esc_html__( 'Wbcom Designs BP To-Do List can only be activated on the BuddyPress root blog.', 'wb-todo' ) . '</p></div>';
+    echo '<div class="notice notice-error is-dismissible">';
+    echo '<p>' . esc_html__( 'Wbcom Designs BP To-Do List can only be activated on the BuddyPress root blog.', 'wb-todo' ) . '</p>';
+    echo '</div>';
 }
+
 
 /**
  * Show admin notice to inform the user that BuddyPress is required for the To-Do List plugin.
  */
 function bptodo_show_buddypress_required_notice() {
-    echo '<div class="error"><p>' . esc_html__( 'Wbcom Designs BP To-Do List requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ) . '</p></div>';
+    echo '<div class="notice notice-error is-dismissible">';
+    echo '<p>' . esc_html__( 'Wbcom Designs BP To-Do List requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ) . '</p>';
+    echo '</div>';
 }
 
 // Hook the function to check BuddyPress activation on the correct blog or subsite.
