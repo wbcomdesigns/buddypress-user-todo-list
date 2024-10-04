@@ -113,9 +113,11 @@ add_action( 'init', 'bptodo_media_button_subscriber' );
  */
 function bptodo_check_buddypress_subsite_activation() {
     // If BuddyPress is not active or this is not a multisite, no further checks are needed.
-    if ( ! is_multisite() ) {
+    if ( ! is_multisite()) {
         return;
     }
+
+    //Shalu Testing
     $deactivate = false;
     if( is_network_admin() ) {
         if(!is_plugin_active_for_network('buddypress/bp-loader.php')) {
@@ -215,13 +217,13 @@ add_action( 'wp_footer', 'bptodo_css' );
 /**
  * Redirect to settings page after activation.
  */
-add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
-function bptodo_activation_redirect_settings( $plugin ) {
+// add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
+// function bptodo_activation_redirect_settings( $plugin ) {
     // if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
     //     wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
     //     exit;
     // }
-}
+// }
 
 /**
  * Run the main plugin class.
@@ -296,18 +298,18 @@ function custom_network_plugin_action_links($links) {
 
 
 // Enqueue JavaScript for confirmation and AJAX handling
-// add_action('admin_enqueue_scripts', 'enqueue_custom_deactivation_script');
+add_action('admin_enqueue_scripts', 'enqueue_custom_deactivation_script');
 
-// function enqueue_custom_deactivation_script() {
-//     // Only enqueue on the network admin plugin page
-//     if (is_network_admin()) {
-//         wp_enqueue_script('custom-deactivation-script', plugin_dir_url(__FILE__) . 'deactivation-script.js', ['jquery'], null, true);
-//         wp_localize_script('custom-deactivation-script', 'deactivation_ajax_object', [
-//             'ajax_url' => admin_url('admin-ajax.php'),
-//             'nonce' => wp_create_nonce('custom_deactivation_nonce'),
-//         ]);
-//     }
-// }
+function enqueue_custom_deactivation_script() {
+    // Only enqueue on the network admin plugin page
+    if (is_network_admin()) {
+        wp_enqueue_script('custom-deactivation-script', plugin_dir_url(__FILE__) . 'deactivation-script.js', ['jquery'], null, true);
+        wp_localize_script('custom-deactivation-script', 'deactivation_ajax_object', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce' => wp_create_nonce('custom_deactivation_nonce'),
+        ]);
+    }
+}
 
 
 
