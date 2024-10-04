@@ -296,18 +296,18 @@ function custom_network_plugin_action_links($links) {
 
 
 // Enqueue JavaScript for confirmation and AJAX handling
-add_action('admin_enqueue_scripts', 'enqueue_custom_deactivation_script');
+// add_action('admin_enqueue_scripts', 'enqueue_custom_deactivation_script');
 
-function enqueue_custom_deactivation_script() {
-    // Only enqueue on the network admin plugin page
-    if (is_network_admin()) {
-        wp_enqueue_script('custom-deactivation-script', plugin_dir_url(__FILE__) . 'deactivation-script.js', ['jquery'], null, true);
-        wp_localize_script('custom-deactivation-script', 'deactivation_ajax_object', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('custom_deactivation_nonce'),
-        ]);
-    }
-}
+// function enqueue_custom_deactivation_script() {
+//     // Only enqueue on the network admin plugin page
+//     if (is_network_admin()) {
+//         wp_enqueue_script('custom-deactivation-script', plugin_dir_url(__FILE__) . 'deactivation-script.js', ['jquery'], null, true);
+//         wp_localize_script('custom-deactivation-script', 'deactivation_ajax_object', [
+//             'ajax_url' => admin_url('admin-ajax.php'),
+//             'nonce' => wp_create_nonce('custom_deactivation_nonce'),
+//         ]);
+//     }
+// }
 
 
 
