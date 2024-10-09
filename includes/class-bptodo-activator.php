@@ -67,11 +67,29 @@ class Bptodo_List_Activator {
 
 		$todo_mail_setting = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
 		if ( false == $todo_mail_setting || '' == $todo_mail_setting ) {
-			$all_users = get_users();
-			foreach( $all_users as $all_userdata ){
-				$all_users_id = $all_userdata->ID;
-				update_user_meta( $all_users_id, 'todo_mail_setting', 'no' );
-			}
+			$offset = 0;
+			$batch_size = 100;
+			do {
+				// Fetch users in batches to avoid memory issues with large datasets.
+				$users = get_users( array(
+					'number' => $batch_size,
+					'offset' => $offset,
+				));
+
+				foreach( $users as $user ) {
+					$user_id = $user->ID;
+					
+					// Check the current 'todo_mail_setting' value.
+					$todo_mail_option = get_user_meta( $user_id, 'todo_mail_setting', true );
+					
+					// Update only if 'todo_mail_setting' is not already 'yes'.
+					if ( $todo_mail_option !== 'yes' ) {
+						update_user_meta( $user_id, 'todo_mail_setting', 'yes' );
+					}
+				}
+
+				$offset += $batch_size;
+			} while ( count( $users ) === $batch_size );
 		}
 
 		$user_todo_list_settings = get_option( 'user_todo_list_settings' );
