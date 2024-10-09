@@ -327,7 +327,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		/**
-		 * Actions performed for formatting the notifications of bptodo due date.
+		 * Actions performed for formatting the notifications of bptodo due date
+		 * and also for todo added in the group.
 		 *
 		 * @since    1.0.0
 		 * @access   public
@@ -365,6 +366,29 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					}
 				}
 			}
+
+			//Notification send when todo added in the group
+			if ( 'bptodo_group_todo_notifications' === $component_name ) {
+				$get_gp_id   		= get_post_meta( $item_id, 'todo_group_id', true );
+				$group       		= groups_get_group( array( 'group_id' => $get_gp_id ) );
+				$bptodo_post 		= get_post( $item_id );
+				$author_name        = bp_core_get_user_displayname( $secondary_item_id );
+				$user_link          = bp_get_notifications_permalink( get_current_user_id() );
+				$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
+				$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
+				/* translators: 1: todo title, 2: group name, 3: author name */
+				$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
+		
+				if ( 'string' === $format ) {
+					$action = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
+				} else {
+					$action = array(
+						'text' => $notification_string,
+						'link' => $user_link,
+					);
+				}
+			}
+			
 			return $action;
 		}
 
@@ -1225,37 +1249,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			array_push( $component_names, 'bptodo_group_todo_notifications' );
 			// Return component's with 'buddypress_member_review' appended.
 			return $component_names;
-		}
-
-		/**
-		 * Function will trigger format notifications
-		 */
-		public function bptodo_gp_todo_notification_format( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
-			$return = ''; // Ensure $return is initialized
-		
-			$get_gp_id = get_post_meta( $item_id, 'todo_group_id', true );
-			$group = groups_get_group( array( 'group_id' => $get_gp_id ) );
-			$bptodo_post = get_post( $item_id );
-			$author_name = bp_core_get_user_displayname( $secondary_item_id );
-			$user_link = bp_get_notifications_permalink( get_current_user_id() );
-			$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
-			$notification_guid = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
-		
-			if ( 'bptodo_group_todo_notifications' === $component_name ) {
-				/* translators: 1: todo title, 2: group name, 3: author name */
-				$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
-		
-				if ( 'string' === $format ) {
-					$return = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
-				} else {
-					$return = array(
-						'text' => $notification_string,
-						'link' => $user_link,
-					);
-				}
-			}
-		
-			return $return;
 		}
 		
 
