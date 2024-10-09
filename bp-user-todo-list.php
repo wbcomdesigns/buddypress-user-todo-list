@@ -111,50 +111,88 @@ add_action( 'init', 'bptodo_media_button_subscriber' );
 /**
  * Check if the To-Do List plugin should be active on the current subsite.
  */
-function bptodo_check_buddypress_subsite_activation() {
-    // If BuddyPress is not active or this is not a multisite, no further checks are needed.
-    if ( ! is_multisite()) {
+function bptodo_check_buddypress_subsite_activation() {    
+    // Ensure this is a multisite installation
+    if ( ! is_multisite() ) {
         return;
     }
-
-    //Shalu Testing
+    
     $deactivate = false;
-    if( is_network_admin() ) {
-        if(!is_plugin_active_for_network('buddypress/bp-loader.php')) {
+    // If we're in the network admin, check for network-wide BuddyPress activation
+    if ( is_network_admin() ) {
+        if ( ! is_plugin_active_for_network( 'buddypress/bp-loader.php' ) ) {
+            // BuddyPress is not network-activated, deactivate the plugin
             $deactivate = true;
             add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
         }
-    }else{
-        if ( ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
-            // BuddyPress is not active on this subsite, deactivate the To-Do List plugin.
-            $deactivate = true;
-            add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+    } else {
+        // Check if BP_ROOT_BLOG is defined
+        if ( defined( 'BP_ROOT_BLOG' ) ) {
+            if ( get_current_blog_id() != BP_ROOT_BLOG ) {
+                // This subsite is not the one defined by BP_ROOT_BLOG, deactivate plugin
+                $deactivate = true;
+                add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
+            }
+        } else {
+            // BP_ROOT_BLOG is not defined, so only activate on the main site
+            if ( ! is_main_site() && ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
+                // BuddyPress is not active on this subsite, deactivate the plugin
+                $deactivate = true;
+                add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+            }
         }
     }
-    if( $deactivate ) {
+
+    // Deactivate the plugin if necessary
+    if ( $deactivate ) {
         deactivate_plugins( plugin_basename( __FILE__ ) );
-        if( isset($_GET['activate']) ) {
-            unset($_GET['activate']);
+
+        // Prevent the activation message from showing up after deactivation
+        if ( isset( $_GET['activate'] ) ) {
+            unset( $_GET['activate'] );
         }
     }
+}
+add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
+
+/**
+ * Admin notice when BP_ROOT_BLOG is defined and the plugin is activated on the wrong subsite.
+ */
+function bptodo_show_bp_root_blog_notice() {    
+    echo '<div class="error"><p>';
+	printf(
+		// Translators: %s.
+		esc_html__( '%1$s is only active on the subsite defined by BP_ROOT_BLOG.', 'wb-todo' ),
+		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+	);
+	echo '</p></div>';
 }
 
 /**
  * Show admin notice to inform the user that To-Do List can only be activated on the BuddyPress root blog.
  */
-function bptodo_show_buddypress_root_blog_notice() {
-    echo '<div class="error"><p>' . esc_html__( 'Wbcom Designs BP To-Do List can only be activated on the BuddyPress root blog.', 'wb-todo' ) . '</p></div>';
+function bptodo_show_buddypress_root_blog_notice() {   
+    echo '<div class="error"><p>';
+	printf(
+		// Translators: %s.
+		esc_html__( '%1$s can only be activated on the BuddyPress root blog.', 'wb-todo' ),
+		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+	);
+	echo '</p></div>';
 }
 
 /**
  * Show admin notice to inform the user that BuddyPress is required for the To-Do List plugin.
  */
-function bptodo_show_buddypress_required_notice() {
-    echo '<div class="error"><p>' . esc_html__( 'Wbcom Designs BP To-Do List requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ) . '</p></div>';
+function bptodo_show_buddypress_required_notice() {    
+    echo '<div class="error"><p>';
+	printf(
+		// Translators: %s.
+		esc_html__( '%1$s requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ),
+		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+	);
+	echo '</p></div>';
 }
-
-// Hook the function to check BuddyPress activation on the correct blog or subsite.
-add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
 
 /**
  * Screen function for todo list title.
