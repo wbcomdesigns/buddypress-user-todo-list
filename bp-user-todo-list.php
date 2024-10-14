@@ -239,20 +239,6 @@ function bptodo_activate_group_member_todo() {
 add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
 
 /**
- * Custom CSS for frontend.
- */
-function bptodo_css() {
-    ?>
-    <style>
-        .bptodo-modal.modal {
-            z-index: 99; 
-        }
-    </style>
-    <?php
-}
-add_action( 'wp_footer', 'bptodo_css' );
-
-/**
  * Redirect to settings page after activation.
  */
 // add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
