@@ -38,15 +38,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 		}
 
-		public function enqueue_styles() {
-
-		}
-
-		public function enqueue_scripts() {
-
-		}
-
-
 
 		/**
 		 * Handles the management of todo items' due dates.
@@ -392,7 +383,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			return $action;
 		}
 
-		// ~~~~~~~~~~~~
 		/**
 		 * Function to register template location.
 		 */
@@ -503,13 +493,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			$group_id = absint(bp_get_current_group_id()); // Sanitize the group ID
 			echo do_shortcode('[eab_group_archives groups="' . $group_id . '" lookahead="yes"]');
-
-
-			do_action( 'eab-buddypress-group_events-after_head' );
-			// echo $this->_get_navigation($timestamp);.
-			// echo $renderer->get_month_calendar($timestamp);.
-			// echo $this->_get_navigation($timestamp);.
-			do_action( 'eab-buddypress-group_events-after_events' );
+			do_action( 'bptodo-buddypress-group_events-after_events' );
 		}
 
 		/**
@@ -542,7 +526,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						return;
 					}
 				}
-				// $profile_menu_label_plural = $settings['profile_menu_label_plural'];
 				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
 				$my_todo_items     = $bptodo->my_todo_items;
 				$displayed_uid     = bp_displayed_user_id();
@@ -779,7 +762,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function list_todo_tab_function_to_show_content() {
 			include 'todo/member/member-todo-list.php';
 		}
-		// ~~~~~~~~~~~~
+	
 
 		/**
 		 * Actions performed to complete a todo.
@@ -1032,8 +1015,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 		public function bptodo_update_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
-				// $myfile = file_put_contents( ABSPATH . 'wp-content/plugins/logs.php', print_r( $update_form_data, true ) . PHP_EOL, FILE_APPEND | LOCK_EX );
+				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore				
 				foreach ( $update_form_data as $key => $value ) {
 					$todo_cat             = $update_form_data[0]['value'];
 					$todo_title           = $update_form_data[1]['value'];
@@ -1086,8 +1068,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 							'post_title'   => $title,
 							'post_content' => $summary,
 						);
-						$post_id = wp_update_post( $args );
-						// var_dump( $post_id );die;
+						$post_id = wp_update_post( $args );						
 
 						update_post_meta( $post_id, 'todo_status', 'incomplete' );
 						update_post_meta( $post_id, 'todo_due_date', $due_date );

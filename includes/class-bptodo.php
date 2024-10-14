@@ -148,6 +148,8 @@ class Bptodo_List {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-feedback.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/widget/class-user-todo.php';
+		
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/bptodo-functions.php';
 
 		$this->loader = new Bptodo_List_Loader();
 
