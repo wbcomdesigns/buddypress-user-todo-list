@@ -50,6 +50,8 @@ class Bptodo_List_Activator {
 	 */
 	public static function activate() {
 
+		global $wp_roles;
+
 		if ( false === self::get_request()
 			|| false === self::validate_request( self::$plugin )
 			|| false === self::check_caps()
@@ -93,14 +95,22 @@ class Bptodo_List_Activator {
 		}
 
 		$user_todo_list_settings = get_option( 'user_todo_list_settings' );
+		
+		$all_roles = $wp_roles->get_names();
+		unset( $all_roles['administrator'] );
+		foreach ( $all_roles as $role_id => $role_name ) {
+			$user_array[] = $role_id;
+		}
+
 		if ( false === $user_todo_list_settings ) {
 			$user_todo_list_settings = array(
-				'profile_menu_label' => 'To-do',
+				'profile_menu_label' 		=> 'To-do',
 				'profile_menu_label_plural' => 'To-dos',
-				'enable_todo_member' => 'on',
-				'allow_user_add_category' => 'on',
-				'send_notification' => 'on',
-				'send_mail' => 'on',
+				'enable_todo_member' 		=> 'on',
+				'allow_user_add_category' 	=> 'on',
+				'send_notification' 		=> 'on',
+				'send_mail' 				=> 'on',
+				'bptodo_user_roles' 		=> $user_array,				
 			);
 			update_option( 'user_todo_list_settings', $user_todo_list_settings );
 		}
@@ -108,9 +118,9 @@ class Bptodo_List_Activator {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 		if ( false === $group_todo_list_settings ) {
 			$group_todo_list_settings = array(
-				'mod_enable' => 'yes',
-				'list_enable' => 'yes',
-				'view_enable' => 'yes',
+				'mod_enable'  			=> 'yes',
+				'list_enable' 			=> 'yes',
+				'view_enable' 			=> 'yes',
 				'enable_todo_tab_group' => 'yes',
 			);
 			update_option( 'group-todo-list-settings', $group_todo_list_settings );
