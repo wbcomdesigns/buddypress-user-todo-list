@@ -208,15 +208,12 @@ class Bptodo_List {
 
 		$plugin_public = new Bptodo_Public( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
 		$this->loader->add_action( 'bp_init', $plugin_public, 'bptodo_register_templates_pack', 5 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_add_todo_tabs_in_groups', 10 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_member_profile_todo_tab' );
 
 		$this->loader->add_action( 'bptodo_todo_notification', $plugin_public, 'bptodo_manage_todo_due_date' );
-		// add_action( 'bp_member_header_actions', array( $this, 'bptodo_add_todo_button_on_member_header' ) );.
+		
 		$this->loader->add_action( 'bp_setup_admin_bar', $plugin_public, 'bptodo_setup_admin_bar', 80 );
 		$this->loader->add_filter( 'manage_bp-todo_posts_columns', $plugin_public, 'bptodo_due_date_column_heading', 10 );
 		$this->loader->add_action( 'manage_bp-todo_posts_custom_column', $plugin_public, 'bptodo_due_date_column_content', 10, 2 );
