@@ -242,7 +242,9 @@ class Bptodo_List {
 
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );
 
-		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );
+		$this->loader->add_action( 'wp_ajax_bptodo_view_todo_popup', $plugin_public, 'bptodo_view_todo_popup' );
+
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );		
 
 		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
 

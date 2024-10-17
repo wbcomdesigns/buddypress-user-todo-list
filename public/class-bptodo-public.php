@@ -987,12 +987,31 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				} elseif ( 'group' == $component_type ) {
 					include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
 				}
-					$todo_edit = ob_get_clean();
+					$todo_edit = ob_get_clean();					
 					echo $todo_edit; //phpcs:ignore
 					\_WP_Editors::enqueue_scripts();
 					print_footer_scripts();
 					\_WP_Editors::editor_js();
 					exit();
+			}
+		}
+
+		/**
+		 * Display report in popup in group
+		 *
+		 * @return void
+		 */
+		public function bptodo_view_todo_popup(){
+			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
+				$todo_id        = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
+				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';				
+				ob_start();
+				if ( 'member' == $component_type ) {
+					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-view.php';
+				}
+				$todo_edit = ob_get_clean();
+				echo $todo_edit; //phpcs:ignore				
+				exit();
 			}
 		}
 

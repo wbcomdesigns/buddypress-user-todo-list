@@ -20,22 +20,38 @@ jQuery(document).ready(function () {
   jQuery(document).on('click', '.trigger', function () {
     var tid = jQuery(this).data('tid');
     var guid = jQuery(this).data('guid');
-
+    var btn = jQuery(this).data('btn');
     var component_type = jQuery(this).data('type');
-    jQuery.ajax({
-      url: ajaxurl,
-      type: 'post',
-      data: {
-        action: 'bptodo_edit_form_popup',
-        t_id: tid,
-        gu_id: guid,
-        component: component_type,
-        ajax_nonce: todo_ajax_object.ajax_nonce,
-      },
-      success: function (response) {
-        jQuery('.edit_form_popup').html(response);
-      }
-    });
+    if ( 'edit' == btn ){
+      jQuery.ajax({
+        url: ajaxurl,
+        type: 'post',
+        data: {
+          action: 'bptodo_edit_form_popup',
+          t_id: tid,
+          gu_id: guid,
+          component: component_type,
+          ajax_nonce: todo_ajax_object.ajax_nonce,
+        },
+        success: function (response) {
+          jQuery('.edit_form_popup').html(response);
+        }
+      });
+    } else{
+      jQuery.ajax({
+        url: ajaxurl,
+        type: 'post',
+        data: {
+          action: 'bptodo_view_todo_popup',
+          t_id: tid,
+          component: component_type,
+          ajax_nonce: todo_ajax_object.ajax_nonce,
+        },
+        success: function (response) {
+          jQuery('.edit_form_popup').html(response);
+        }
+      });
+    }
   });
 
   // update todo on popup
