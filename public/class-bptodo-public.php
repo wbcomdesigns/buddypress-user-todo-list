@@ -459,6 +459,16 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					),
 					$default_params
 				);
+
+				$sub_nav[] = array_merge(
+					array(
+						'name'            => esc_html__( 'Reports', 'wb-todo' ),
+						'slug'            => 'reports',
+						'screen_function' => array( $this, 'bind_bp_groups_page' ),
+						'position'        => 0,
+					),
+					$default_params
+				);
 			}
 
 			foreach ( $sub_nav as $nav ) {
