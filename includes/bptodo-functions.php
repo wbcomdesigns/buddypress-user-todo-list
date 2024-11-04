@@ -43,3 +43,27 @@ function bptodo_report_view_enabled( $group_id, $current_user ) {
 	return $can_views;
 }
 add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );
+
+
+/**
+ * Hide the todo tab when group todo disable option is enabled.
+ *
+ * @return void
+ */
+function bptodo_disable_group_todo(){
+	global $bp;
+	if ( bp_is_group() ) {
+		$group_id 			 = $bp->groups->current_group->id;
+		$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
+		if ( 1 === (int) $group_disable_todos ) {
+		?>
+		<style>
+			#nav-to-do{
+				display:none!important;
+			}
+		</style>
+		<?php
+		}
+	}
+}
+add_action( 'wp', 'bptodo_disable_group_todo' );
