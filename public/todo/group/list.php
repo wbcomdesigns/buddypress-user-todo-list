@@ -326,7 +326,7 @@ if (empty($todo_list)) {
                                                                                              <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
-                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-btn="edit" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
                                                                                 <?php } ?>
@@ -425,7 +425,7 @@ if (empty($todo_list)) {
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
-                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-btn="edit" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
                                                                                 <?php } ?>
@@ -524,7 +524,7 @@ if (empty($todo_list)) {
                                                                                         <?php  /* translators: %s */ ?>
                                                                                         <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                         <?php  /* translators: %s */ ?>
-                                                                                        <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-btn="edit" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                        <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
                                                                                 <?php } ?>
@@ -623,7 +623,7 @@ if (empty($todo_list)) {
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
-                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-btn="edit" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                         </ul>
                                                                                     </li>
                                                                                 <?php } ?>
@@ -744,7 +744,7 @@ if (empty($todo_list)) {
                                                                                                  <?php  /* translators: %s */ ?>
                                                                                                 <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                                 <?php  /* translators: %s */ ?>
-                                                                                                <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-btn="edit" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                                <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
                                                                                             </ul>
                                                                                         </li>
                                                                                     <?php } ?>

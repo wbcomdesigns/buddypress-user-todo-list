@@ -271,17 +271,8 @@ if ( empty( $todos ) ) {
 																		><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																	<?php } if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="edit" data-modal-trigger="trigger" data-type="member" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																		<?php /* Translators: Display todo title name  */ 
-																			$can_view = bptodo_enable_report_view( get_current_user_id(), $todo_gp_id );
-																			if( $can_view && $todo_gp_id ){
-																		?>
-																	<li>
-																		<button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="view" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">	
-																			<img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/stats.svg" />
-																		</button>
-																	</li>																		
-																	<?php } } ?>
+																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" data-type="member" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>																																			
+																	<?php } ?>
 																		
 																</ul>
 															</li>
@@ -388,17 +379,8 @@ if ( empty( $todos ) ) {
 																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																	<?php } if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="edit" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																		<?php /* Translators: Display todo title name  */ 
-																			$can_view = bptodo_enable_report_view( get_current_user_id(), $todo_gp_id );
-																			if( $can_view && $todo_gp_id ){
-																		?>
-																	<li>
-																		<button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="view" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">	
-																			<img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/stats.svg" />
-																		</button>
-																	</li>																		
-																	<?php } } ?>
+																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>																																				
+																	<?php } ?>
 																</ul>
 															</li>
 														</ul>
@@ -509,17 +491,8 @@ if ( empty( $todos ) ) {
 																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s ', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																	<?php } if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="edit" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																	<?php  /* translators: %s */ 
-																		$can_view = bptodo_enable_report_view( get_current_user_id(), $todo_gp_id );
-																		if( $can_view && $todo_gp_id ){
-																	?>
-																	<li>
-																		<button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="view" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">	
-																			<img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/stats.svg" />
-																		</button>
-																	</li>																		
-																	<?php } } ?>																		
+																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>																																			
+																	<?php } ?>																		
 																</ul>
 															</li>
 														</ul>
@@ -635,17 +608,8 @@ if ( empty( $todos ) ) {
 																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																	<?php } if ( 'complete' !== $todo_status ) { ?>
 																		<?php /* Translators: Display todo title name  */ ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="edit" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																		<?php 																			
-																			$can_view = bptodo_enable_report_view( get_current_user_id(), $todo_gp_id );
-																			if( $can_view && $todo_gp_id ){
-																		?>
-																		<li>																		
-																			<button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="view" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">	
-																			<img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/stats.svg" />
-																			</button>
-																		</li>																		
-																	<?php } } ?>																		
+																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>																																				
+																	<?php } ?>																		
 																</ul>
 															</li>
 																	</ul>
@@ -760,17 +724,8 @@ if ( empty( $todos ) ) {
 																		<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
 																		<?php if ( 'complete' !== $todo_status ) { ?>
 																			<?php /* Translators: Display todo title name  */ ?>
-																		<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="edit" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																			<?php /* Translators: Display todo title name  */ 
-																				$can_view = bptodo_enable_report_view( get_current_user_id(), $todo_gp_id );
-																				if( $can_view && $todo_gp_id ){
-																			?>
-																			<li>
-																				<button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger"  data-btn="view" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">	
-																					<img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/stats.svg" />
-																				</button>
-																			</li>																			
-																		<?php } } ?>																		
+																		<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>																																						
+																		<?php } ?>																		
 																	</ul>
 																</li>
 															</ul>

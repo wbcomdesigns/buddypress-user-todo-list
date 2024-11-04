@@ -31,6 +31,26 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			add_action('init', [$this, 'setup_cron_event']);
 
 		}
+
+		/**
+		 * Enqueue styles.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		public function enqueue_styles() {
+			wp_enqueue_style( 'datatables-css', BPTODO_PLUGIN_URL . 'assets/css/datatables.min.css', array(), BPTODO_VERSION, 'all' );
+		}
+
+		/**
+		 * Enqueue scripts.
+		 *
+		 * @since 1.0.0
+		 * @access public
+		 */
+		public function enqueue_scripts() {
+			wp_enqueue_script( 'datatables-js', BPTODO_PLUGIN_URL . 'assets/js/datatables.min.js', array( 'jquery' ), BPTODO_VERSION, false );			
+		}
 		
 		public function setup_cron_event() {
 			if ( ! wp_next_scheduled( 'bptodo_todo_notification' ) ) {
@@ -1005,25 +1025,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					exit();
 			}
 		}
-
-		/**
-		 * Display report in popup in group
-		 *
-		 * @return void
-		 */
-		public function bptodo_view_todo_popup(){
-			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$todo_id        = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
-				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';				
-				ob_start();
-				if ( 'member' == $component_type ) {
-					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-view.php';
-				}
-				$todo_edit = ob_get_clean();
-				echo $todo_edit; //phpcs:ignore				
-				exit();
-			}
-		}
+		
 
 		/**
 		 * Bptodo_add_div_edit_form
@@ -1283,6 +1285,78 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					);
 				}
 				bp_notifications_add_notification( $args );
+			}
+		}
+		
+		/**
+		 * Display group todo member specific report.
+		 *
+		 * @return void
+		 */
+		public function bptodo_display_group_todo_report(){
+			if ( isset( $_GET['action'] ) && 'get_group_todo_report' === $_GET['action'] ) {
+				check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
+				
+				$group_id         = isset( $_GET['group'] ) ? sanitize_text_field( wp_unslash( $_GET['group'] ) ) : '';
+				$selected_todo_id = isset( $_GET['todo_id'] ) ? intval( $_GET['todo_id'] ) : null; // Get the selected todo ID if available
+				
+				$todos_table_data = array();
+				$args = array(
+					'post_type'      => 'bp-todo',
+					'post_status'    => 'publish',
+					'author'         => get_current_user_id(),
+					'meta_key'       => 'todo_group_id',
+					'meta_value'     => $group_id,
+					'paged'          => 1,
+					'orderby'        => 'date',
+					'order'          => 'DESC',
+				);
+				$todo_query = get_posts($args);			
+				$args = array(
+					'group_id'            => $group_id,
+					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', true ),
+				);
+				$group_members = groups_get_group_members( $args );
+				$group_members_ids = array_column( $group_members['members'], 'ID' );
+
+				if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
+					foreach( $todo_query as $todos ) {
+						$todo_id = $todos->ID;					
+						$parent_todo = get_post_meta( $todo_id, 'todo_primary_id', true );					
+						// Check if selected todo ID is set, and skip non-matching todos
+						if ( $selected_todo_id && $selected_todo_id != $todo_id ) {
+							continue;
+						}
+
+						if ( $parent_todo ) {
+							$assoc_todos = get_post_meta( $parent_todo, 'botodo_associated_todo', true );						
+							if ( $assoc_todos ) {
+								foreach ( $assoc_todos as $assoc_todo ) {
+									$member_todo_status  = get_post_meta( $assoc_todo, 'todo_status', true );
+									$todo_author_id      = get_post_field( 'post_author', $assoc_todo );
+									$member_todo_time    = get_post_meta( $assoc_todo, 'todo_complete_time', true );
+									$member_todo_time    = $member_todo_time ? human_time_diff( current_time( 'timestamp' ), $member_todo_time ) . ' ago' : '-';									
+									if ( in_array( $todo_author_id, $group_members_ids ) ) {
+										$author_name = get_the_author_meta( 'display_name', $todo_author_id );
+										$row = array(
+											'Members'      => ucfirst( $author_name ),
+											'Status'       => $member_todo_status,
+											'Time'         => $member_todo_time,
+										);
+										$todos_table_data[] = $row;
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				echo wp_json_encode(
+					array(
+						'data' => $todos_table_data,
+					)
+				);
+				die;
 			}
 		}
 	}

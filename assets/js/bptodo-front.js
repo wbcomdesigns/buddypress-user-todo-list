@@ -20,9 +20,8 @@ jQuery(document).ready(function () {
   jQuery(document).on('click', '.trigger', function () {
     var tid = jQuery(this).data('tid');
     var guid = jQuery(this).data('guid');
-    var btn = jQuery(this).data('btn');
-    var component_type = jQuery(this).data('type');
-    if ( 'edit' == btn ){
+    
+    var component_type = jQuery(this).data('type');    
       jQuery.ajax({
         url: ajaxurl,
         type: 'post',
@@ -36,22 +35,7 @@ jQuery(document).ready(function () {
         success: function (response) {
           jQuery('.edit_form_popup').html(response);
         }
-      });
-    } else{
-      jQuery.ajax({
-        url: ajaxurl,
-        type: 'post',
-        data: {
-          action: 'bptodo_view_todo_popup',
-          t_id: tid,
-          component: component_type,
-          ajax_nonce: todo_ajax_object.ajax_nonce,
-        },
-        success: function (response) {
-          jQuery('.edit_form_popup').html(response);
-        }
-      });
-    }
+      });   
   });
 
   // update todo on popup
@@ -352,6 +336,46 @@ jQuery(document).ready(function () {
       allowClear: true
     });
   }
+
+  // Function to initialize the DataTable with optional todoId parameter
+  function initializeTodoTable(todoId = null) {
+    jQuery('#bp-todo-table').DataTable({
+      destroy: true, // Allow reinitialization
+      ajax: {
+        url: ajaxurl,
+        data: {
+          action: 'get_group_todo_report',
+          group: jQuery('#bp-todo-table').data('group'),
+          ajax_nonce: todo_ajax_object.ajax_nonce,
+          todo_id: todoId  // Pass selected todo ID if available
+        },
+      },
+      columns: [
+        { data: 'Members', className: 'first_name' },
+        { data: 'Status', className: 'last_name' },
+        { data: 'Time', className: 'course' },
+      ],
+      layout: {
+        topStart: {
+          buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5']
+        }
+      },
+      paging: true
+    });
+  }
+
+  // Initialize DataTable on page load with default data
+  jQuery(document).ready(function () {
+    const todoSelect = document.getElementById('todo-select');
+    initializeTodoTable(todoSelect.value);
+  });
+
+  // Reload DataTable when a new option is selected from the dropdown
+  jQuery('#todo-select').on('change', function () {
+    const selectedTodoId = jQuery(this).val();
+    initializeTodoTable(selectedTodoId); // Call function with selected todo ID
+  });
+
 });
 
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {

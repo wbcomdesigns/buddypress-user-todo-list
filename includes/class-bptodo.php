@@ -208,6 +208,9 @@ class Bptodo_List {
 
 		$plugin_public = new Bptodo_Public( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
 		$this->loader->add_action( 'bp_init', $plugin_public, 'bptodo_register_templates_pack', 5 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_add_todo_tabs_in_groups', 10 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_member_profile_todo_tab' );
@@ -240,9 +243,7 @@ class Bptodo_List {
 		$this->loader->add_shortcode( $this->get_plugin_prefix() . 'shortcode', $plugin_public, 'pfx_shortcode_func' );		
 		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_categpry_template' );
 
-		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );
-
-		$this->loader->add_action( 'wp_ajax_bptodo_view_todo_popup', $plugin_public, 'bptodo_view_todo_popup' );
+		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
 
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );		
 
@@ -257,6 +258,7 @@ class Bptodo_List {
 		$this->loader->add_action( 'groups_group_details_edited', $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited', 999 );
 		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_notifications_get_registered_components' );
 		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_notification', 10, 2 );
+		$this->loader->add_action( 'wp_ajax_get_group_todo_report', $plugin_public, 'bptodo_display_group_todo_report' );
 
 	}
 
