@@ -259,10 +259,11 @@ if (empty($todo_list)) {
 
                                                                             $todo_cat    = wp_get_object_terms($tid, 'todo_category');
                                                                             $todo_cat_id = !empty($todo_cat) && is_array($todo_cat) ? $todo_cat[0]->term_id : 0;
-
+                                                                            $disabled       = '';
                                                                             if ($diff_days < 0) {
                                                                                 $due_date_str      = esc_html__('Expired!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expired';
+                                                                                $disabled          = 'disabled';
                                                                             } elseif (0 === $diff_days) {
                                                                                 $due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expires-today';
@@ -303,7 +304,7 @@ if (empty($todo_list)) {
                                                                                 ?>
 					                                                            <?php	/* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
+                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr( $disabled );?>" <?php echo esc_attr($checked);?><?php echo esc_attr( $disabled );?>  /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -358,10 +359,11 @@ if (empty($todo_list)) {
 
                                                                             $todo_cat    = wp_get_object_terms($tid, 'todo_category');
                                                                             $todo_cat_id = !empty($todo_cat) && is_array($todo_cat) ? $todo_cat[0]->term_id : 0;
-
+                                                                            $disabled = '';
                                                                             if ($diff_days < 0) {
                                                                                 $due_date_str      = esc_html__('Expired!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expired';
+                                                                                $disabled          = 'disabled';
                                                                             } elseif (0 === $diff_days) {
                                                                                 $due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expires-today';
@@ -402,7 +404,7 @@ if (empty($todo_list)) {
                                                                                 ?>
                                                                                 <?php  /* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
+                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr( $disabled );?>" <?php echo esc_attr($checked); ?><?php echo esc_attr( $disabled );?>/></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -457,10 +459,11 @@ if (empty($todo_list)) {
 
                                                                             $todo_cat    = wp_get_object_terms($tid, 'todo_category');
                                                                             $todo_cat_id = !empty($todo_cat) && is_array($todo_cat) ? $todo_cat[0]->term_id : 0;
-
+                                                                             $disabled          = '';
                                                                             if ($diff_days < 0) {
                                                                                 $due_date_str      = esc_html__('Expired!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expired';
+                                                                                 $disabled          = 'disabled';
                                                                             } elseif (0 === $diff_days) {
                                                                                 $due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expires-today';
@@ -501,7 +504,7 @@ if (empty($todo_list)) {
                                                                                 ?>
                                                                                 <?php  /* translators: %s */ ?>
                                                                               <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
+                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?>/></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -556,10 +559,11 @@ if (empty($todo_list)) {
 
                                                                             $todo_cat    = wp_get_object_terms($tid, 'todo_category');
                                                                             $todo_cat_id = !empty($todo_cat) && is_array($todo_cat) ? $todo_cat[0]->term_id : 0;
-
+                                                                            $disabled = '';
                                                                             if ($diff_days < 0) {
                                                                                 $due_date_str      = esc_html__('Expired!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expired';
+                                                                                $disabled = 'disabled';
                                                                             } elseif (0 === $diff_days) {
                                                                                 $due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
                                                                                 $due_date_td_class = 'bptodo-expires-today';
@@ -600,7 +604,7 @@ if (empty($todo_list)) {
                                                                                 ?>
                                                                                  <?php  /* translators: %s */ ?>
                                                                                 <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
+                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -677,10 +681,11 @@ if (empty($todo_list)) {
 
                                                                                 $todo_cat    = wp_get_object_terms($tid, 'todo_category');
                                                                                 $todo_cat_id = !empty($todo_cat) && is_array($todo_cat) ? $todo_cat[0]->term_id : 0;
-
+                                                                                $disabled = '';
                                                                                 if ($diff_days < 0) {
                                                                                     $due_date_str      = esc_html__('Expired!', 'wb-todo');
                                                                                     $due_date_td_class = 'bptodo-expired';
+                                                                                    $disabled = 'disabled';
                                                                                 } elseif (0 === $diff_days) {
                                                                                     $due_date_str      = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
                                                                                     $due_date_td_class = 'bptodo-expires-today';
@@ -721,7 +726,7 @@ if (empty($todo_list)) {
                                                                                     ?>
                                                                                      <?php  /* translators: %s */ ?>
                                                                                     <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                        <label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr($checked); ?> /></label>
+                                                                                        <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?> /></label>
                                                                                     </li>
                                                                                     <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                     <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>

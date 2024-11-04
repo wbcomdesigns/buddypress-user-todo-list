@@ -943,7 +943,7 @@ New UI
 
 .option-input.disabled,
 .option-input.disabled:hover {
-    background: #dae7f9 !important;
+    background: #f5f5f5 !important;
     cursor: inherit;
 }
 
