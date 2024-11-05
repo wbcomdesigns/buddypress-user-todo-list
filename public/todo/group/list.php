@@ -241,8 +241,6 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
-                                                                            $todo_view_url = get_permalink($tid);
-
                                                                             $todo_status    = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority  = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str   = $due_date_td_class = '';
@@ -320,7 +318,7 @@ if (empty($todo_list)) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><a href="<?php echo esc_url($todo_view_url); ?>" target="_blank"><?php echo esc_html($todo_title); ?></a></li>
+                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
@@ -341,8 +339,6 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
-                                                                            $todo_view_url = get_permalink($tid);
-
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class  = '';
@@ -420,7 +416,7 @@ if (empty($todo_list)) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><a href="<?php echo esc_url($todo_view_url); ?>" target="_blank"><?php echo esc_html($todo_title); ?></a></li>
+                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
@@ -441,8 +437,6 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
-                                                                            $todo_view_url = get_permalink($tid);
-
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class = '';
@@ -520,7 +514,7 @@ if (empty($todo_list)) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><a href="<?php echo esc_url($todo_view_url); ?>" target="_blank"><?php echo esc_html($todo_title); ?></a></li>
+                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
@@ -541,8 +535,6 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
-                                                                            $todo_view_url = get_permalink($tid);
-
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class = '';
@@ -620,7 +612,7 @@ if (empty($todo_list)) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><a href="<?php echo esc_url($todo_view_url); ?>" target="_blank"><?php echo esc_html($todo_title); ?></a></li>
+                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
                                                                                 <?php if ($can_modify) { ?>
                                                                                     <li class="bp-to-do-actions">
                                                                                         <ul class="bp-to-do-actions-list">
@@ -663,8 +655,6 @@ if (empty($todo_list)) {
                                                                                 $todo          = get_post($tid);
                                                                                 $todo_title    = $todo->post_title;
                                                                                 $todo_edit_url = $admin_link . '/add?args=' . $tid;
-                                                                                $todo_view_url = get_permalink($tid);
-
                                                                                 $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                                 $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                                 $due_date_str  = $due_date_td_class = '';
@@ -742,7 +732,7 @@ if (empty($todo_list)) {
                                                                                             ?>
                                                                                         </span>
                                                                                     </li>
-                                                                                    <li class="bptodo-task"><a href="<?php echo esc_url($todo_view_url); ?>" target="_blank"><?php echo esc_html($todo_title); ?></a></li>
+                                                                                    <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
                                                                                     <?php if ($can_modify) { ?>
                                                                                         <li class="bp-to-do-actions">
                                                                                             <ul class="bp-to-do-actions-list">

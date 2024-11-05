@@ -458,14 +458,21 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				),
 				$default_params
 			);
-			$is_admin     = bp_group_is_admin();
-				$can_list = false;
+			$is_admin   = bp_group_is_admin();
+			$can_list 	= false;
+			$can_views  = bp_group_is_mod();
+			
 			if ( bp_group_is_mod() ) {
 				$group_id    = $bp->groups->current_group->id;
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
 				$can_list    = true;
 				if ( $mod_can_add ) {
 					$can_list = false;
+				}
+
+				$mod_can_views = bptodo_report_view_enabled($group_id, get_current_user_id());
+				if ($mod_can_views) {
+					$can_views = false;
 				}
 			}
 
@@ -478,8 +485,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'position'        => 0,
 					),
 					$default_params
-				);
+				);				
+			}
 
+			if( $is_admin || $can_views ){
 				$sub_nav[] = array_merge(
 					array(
 						'name'            => esc_html__( 'Reports', 'wb-todo' ),
