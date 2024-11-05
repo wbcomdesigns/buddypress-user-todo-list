@@ -113,44 +113,47 @@ add_action( 'init', 'bptodo_media_button_subscriber' );
  */
 function bptodo_check_buddypress_subsite_activation() {    
     // Ensure this is a multisite installation
-    if ( ! is_multisite() ) {
-        return;
-    }
-    
-    $deactivate = false;
-    // If we're in the network admin, check for network-wide BuddyPress activation
-    if ( is_network_admin() ) {
-        if ( ! is_plugin_active_for_network( 'buddypress/bp-loader.php' ) ) {
-            // BuddyPress is not network-activated, deactivate the plugin
-            $deactivate = true;
-            add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
-        }
-    } else {
-        // Check if BP_ROOT_BLOG is defined
-        if ( defined( 'BP_ROOT_BLOG' ) ) {
-            if ( get_current_blog_id() != BP_ROOT_BLOG ) {
-                // This subsite is not the one defined by BP_ROOT_BLOG, deactivate plugin
+        if ( is_multisite() ) {        
+        $deactivate = false;
+        // If we're in the network admin, check for network-wide BuddyPress activation
+        if ( is_network_admin() ) {
+            if ( ! is_plugin_active_for_network( 'buddypress/bp-loader.php' ) ) {
+                // BuddyPress is not network-activated, deactivate the plugin
                 $deactivate = true;
-                add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
+                add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
             }
         } else {
-            // BP_ROOT_BLOG is not defined, so only activate on the main site
-            if ( ! is_main_site() && ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
-                // BuddyPress is not active on this subsite, deactivate the plugin
-                $deactivate = true;
-                add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+            // Check if BP_ROOT_BLOG is defined
+            if ( defined( 'BP_ROOT_BLOG' ) ) {
+                if ( get_current_blog_id() != BP_ROOT_BLOG ) {
+                    // This subsite is not the one defined by BP_ROOT_BLOG, deactivate plugin
+                    $deactivate = true;
+                    add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
+                }
+            } else {
+                // BP_ROOT_BLOG is not defined, so only activate on the main site
+                if ( ! is_main_site() && ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
+                    // BuddyPress is not active on this subsite, deactivate the plugin
+                    $deactivate = true;
+                    add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
+                }
             }
         }
-    }
 
-    // Deactivate the plugin if necessary
-    if ( $deactivate ) {
-        deactivate_plugins( plugin_basename( __FILE__ ) );
-        $activate = filter_input( INPUT_GET, 'activate' ) ? filter_input( INPUT_GET, 'activate' ) : '';
-        // Prevent the activation message from showing up after deactivation
-        if ( isset( $activate ) ) { 
-            unset( $activate );
+        // Deactivate the plugin if necessary
+        if ( $deactivate ) {
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+            $activate = filter_input( INPUT_GET, 'activate' ) ? filter_input( INPUT_GET, 'activate' ) : '';
+            // Prevent the activation message from showing up after deactivation
+            if ( isset( $activate ) ) { 
+                unset( $activate );
+            }
         }
+    } else {
+        if ( ! class_exists( 'BuddyPress' ) ) {
+            deactivate_plugins( plugin_basename( __FILE__ ) );
+			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
+		}
     }
 }
 add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
@@ -192,6 +195,19 @@ function bptodo_show_buddypress_required_notice() {
 		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
 	);
 	echo '</p></div>';
+}
+
+/**
+ * Plugin notice - activate buddypress - single site.
+ *
+ * @author  wbcomdesigns
+ * @since   1.0.0
+ */
+function bptodo_plugin_admin_notice() {
+	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
+	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
+	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 }
 
 /**
@@ -241,13 +257,16 @@ add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
 /**
  * Redirect to settings page after activation.
  */
-// add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
-// function bptodo_activation_redirect_settings( $plugin ) {
-    // if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
-    //     wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
-    //     exit;
-    // }
-// }
+add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
+function bptodo_activation_redirect_settings( $plugin ) {
+    if ( is_multisite() ) {
+        return;
+    } 
+    if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
+        wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+        exit;
+    }
+}
 
 /**
  * Run the main plugin class.
