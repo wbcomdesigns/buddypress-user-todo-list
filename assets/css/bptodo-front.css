@@ -1205,6 +1205,57 @@ Edit popup
     background: #fff;
 }
 
+/* Youzify */
+
+#youzify .youzify-group-content nav#youzify-profile-navmenu #nav-to-do-groups-li a span {
+    font-size: 11px;
+    min-width: 20px;
+    margin-left: 5px;
+    padding: 2px 5px;
+    text-align: center;
+    display: inline-block;
+    background-color: var(--yzfy-card-secondary-bg-color);
+    border-radius: var(--reign-global-border-radius);
+}
+#nav-to-do-groups-li a#nav-to-do::before{
+    content: "\f044";
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav {
+    padding: 15px 20px;
+    margin: 0 0 35px;
+    background-color: var(--yzfy-card-bg-color);
+    background-color: var(--reign-site-sections-bg-color);
+    border-radius: 3px;
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav{
+    width: 100%;
+    display: table;
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li{
+    display: inline-block;
+    float: left;
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a{
+        padding: 0;
+        margin: 5px 12px 5px 0;
+        color: var(--yzfy-submenu-link-color);
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+        text-transform: uppercase;
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a:before {
+    background: #32A0FF;
+    content: '\f303';
+    width: 32px;
+    height: 32px;
+    font-size: var(--yzfy-big-font-size);
+    line-height: 32px;
+    text-align: center;
+    background: url(../images/dotted-bg.png), linear-gradient(to left, #24C6DC, #514A9D);
+    background: url(../images/dotted-bg.png), -webkit-linear-gradient(right, #24C6DC, #514A9D);
+}
+
 
 /*BuddyBoss Theme*/
 
