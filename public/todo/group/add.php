@@ -56,8 +56,8 @@ if ( ! empty( $group_members_ids ) ) {
 if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'] )
 	&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['group_save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 
-	$todo_group_members = isset( $_POST['todo_group_members'] ) ? (array) wp_unslash( $_POST['todo_group_members'] ) : array();
-
+	$todo_group_members = isset( $_POST['todo_group_members'] ) ? (array) wp_unslash( $_POST['todo_group_members'] ) : array(); //phpcs:ignore
+	
 	if ( ! empty( $todo_group_members ) && ! in_array( 'all', $todo_group_members, true ) ) {
 		$group_members_ids = $todo_group_members;
 		$cu_index          = array_search( $current_user, $group_members_ids, true );
@@ -67,11 +67,11 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 	}
 
 	$todo_group_id = isset( $_POST['todo_group_id'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_group_id'] ) ) : $group_id;
-	$title         = sanitize_text_field( wp_unslash( $_POST['todo_title'] ) );
-	$summary       = wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) );
-	$due_date      = sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) );
-	$priority      = sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) );
-	$cat           = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
+	$title         = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
+	$summary       = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
+	$due_date      = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
+	$priority      = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
+	$cat           = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';	
 
 	$args            = array(
 		'post_type'    => 'bp-todo',
