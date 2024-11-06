@@ -131,7 +131,9 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bp_group_todo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
-			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
+			<td>
+				<label><?php esc_html_e( 'Category', 'wb-todo' ); ?></label>
+			</td>
 			<td>
 				<div>
 					<select name="todo_cat" id="bp_todo_categories" required>
@@ -149,27 +151,27 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 						<?php	/* translators: %s */ ?>
 						<input type="text" id="todo-category-name" placeholder="<?php echo esc_html( sprintf( __( '%s category', 'wb-todo' ), $profile_menu_label ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
-						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
+						<button type="button" id="add-todo-cat" class="btn button wp-element-button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 					</div>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
+			<td><label><?php esc_html_e( 'Title', 'wb-todo' ); ?></label></td>
 			<td><input type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input"></td>
 		</tr>
 		<tr>
-			<td><?php esc_html_e( 'Summary', 'wb-todo' ); ?></td>
+			<td><label><?php esc_html_e( 'Summary', 'wb-todo' ); ?></label></td>
 			<td>
 				<?php wp_editor( '', 'bptodo-summary-input', array( 'media_buttons' => true, 'editor_height' => 200 ) ); ?>
 			</td>
 		</tr>
 		<tr>
-			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
+			<td><label><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></label></td>
 			<td><input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>></td>
 		</tr>
 		<tr>
-			<td><?php esc_html_e( 'Priority', 'wb-todo' ); ?></td>
+			<td><label><?php esc_html_e( 'Priority', 'wb-todo' ); ?></label></td>
 			<td>
 				<select name="todo_priority" id="bp_todo_priority">
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
@@ -180,7 +182,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 			</td>
 		</tr>
 		<tr>
-			<td><?php esc_html_e( 'Group members', 'wb-todo' ); ?></td>
+			<td><label><?php esc_html_e( 'Group members', 'wb-todo' ); ?></label></td>
 			<td>
 				<select name="todo_group_members[]" id="todo_group_members" multiple placeholder="<?php esc_html_e( 'Please select group members to assign todo', 'wb-todo' ); ?>">
 					<option value="all"><?php esc_html_e( 'All Members', 'wb-todo' ); ?></option>

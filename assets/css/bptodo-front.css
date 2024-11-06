@@ -1262,9 +1262,46 @@ Edit popup
 }
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#add-groups-li a#add:before{
     content: '\f303';
+    background: #FF7376;
+    background: linear-gradient(to left, #fa6d9d, #ff1e6b);
+    background: -webkit-linear-gradient(right, #fa6d9d, #ff1e6b);    
 }
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#reports-groups-li a#reports:before {
     content: '\f15b';
+    background: #24cbbb;
+    background: linear-gradient(to left, #45eada, #009688);
+    background: -webkit-linear-gradient(right, #45eada, #009688);    
+}
+#youzify .youzify-group-content #youzify-group-body form#myForm.bptodo-form-add {
+    padding: 20px;
+    background-color: var(--yzfy-card-bg-color);
+    border-radius: 3px;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td{
+    text-align: left;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl .nice-select {
+    width: 60%;
+    border: 1px solid #e3e3e3;
+    text-align: left !important;
+    margin-right: 10px;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl span.current {
+    text-align: left !important;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl .nice-select.open .list {
+    width: 100%;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr{
+    border: none;
+    margin-bottom: 10px;
+}
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td label {
+    font-size: 15px;
+}
+#youzify .youzify-group-content #youzify-group-body form input[type=submit]#bp-add-new-todo {
+    width: 40%;
+    height: 48px;
 }
 
 /* Reign Theme */
@@ -1274,8 +1311,12 @@ Edit popup
 .wb-reign-theme #youzify section.bptodo-adming-setting {
     margin-bottom: 40px;
 }
-
-
+.wb-reign-theme #youzify #add-todo-cat {
+    color: var(--reign-site-button-text-color);
+}
+.wb-reign-theme #youzify-group-body form input[type=submit]#bp-add-new-todo{
+    color: var(--reign-site-button-text-color);
+}
 
 /*BuddyBoss Theme*/
 
