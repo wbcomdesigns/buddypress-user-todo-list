@@ -1243,9 +1243,7 @@ Edit popup
     background-color: var(--yzfy-card-secondary-bg-color);
     border-radius: var(--reign-global-border-radius);
 }
-#nav-to-do-groups-li a#nav-to-do::before{
-    content: "\f044";
-}
+
 #youzify .youzify-group-content #youzify-group-body nav#subnav {
     padding: 15px 20px;
     margin: 0 0 35px;
@@ -1347,6 +1345,10 @@ Edit popup
 }
 .wb-reign-theme #youzify-group-body form input[type=submit]#bp-add-new-todo{
     color: var(--reign-site-button-text-color);
+}
+.buddyx-nav-iconic .groups-nav li#nav-to-do-groups-li a:before,
+.wb-reign-theme #nav-to-do-groups-li a#nav-to-do::before {
+    content: "\f044";
 }
 
 /*BuddyBoss Theme*/
