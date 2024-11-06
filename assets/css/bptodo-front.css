@@ -1306,11 +1306,16 @@ Edit popup
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td{
     text-align: left;
 }
+#youzify .youzify-group-content #youzify-group-body .bptodo-add-todo-tbl select#bp_todo_categories,
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl .nice-select {
     width: 60%;
     border: 1px solid #e3e3e3;
     text-align: left !important;
     margin-right: 10px;
+    display: inline-block !important;
+}
+#youzify .youzify-group-content #youzify-group-body table .bp_todo_categories .nice-select {
+    display: none !important;
 }
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl span.current {
     text-align: left !important;

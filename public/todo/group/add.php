@@ -135,7 +135,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 				<label><?php esc_html_e( 'Category', 'wb-todo' ); ?></label>
 			</td>
 			<td>
-				<div>
+				<div class="bp_todo_categories">
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php foreach ( $todo_cats as $todo_cat ) : ?>
