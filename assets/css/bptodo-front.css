@@ -1223,8 +1223,7 @@ Edit popup
 #youzify .youzify-group-content #youzify-group-body nav#subnav {
     padding: 15px 20px;
     margin: 0 0 35px;
-    background-color: var(--yzfy-card-bg-color);
-    background-color: var(--reign-site-sections-bg-color);
+    background-color: var(--yzfy-card-bg-color);    
     border-radius: 3px;
 }
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav{
@@ -1241,20 +1240,41 @@ Edit popup
         color: var(--yzfy-submenu-link-color);
         font-size: 12px;
         font-weight: 600;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        gap: 5px;
         text-transform: uppercase;
 }
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a:before {
     background: #32A0FF;
-    content: '\f303';
+    content: "\f044";
     width: 32px;
     height: 32px;
     font-size: var(--yzfy-big-font-size);
     line-height: 32px;
+    display: block;
+    border-radius: 100px;
     text-align: center;
-    background: url(../images/dotted-bg.png), linear-gradient(to left, #24C6DC, #514A9D);
-    background: url(../images/dotted-bg.png), -webkit-linear-gradient(right, #24C6DC, #514A9D);
+    background: linear-gradient(to left, #24C6DC, #514A9D);
+    background: -webkit-linear-gradient(right, #24C6DC, #514A9D);
+    color: #fff;
+    font-family: "Font Awesome 5 Free" !important;
 }
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#add-groups-li a#add:before{
+    content: '\f303';
+}
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#reports-groups-li a#reports:before {
+    content: '\f15b';
+}
+
+/* Reign Theme */
+.wb-reign-theme #youzify .youzify-group-content #youzify-group-body nav#subnav{
+    background-color: var(--reign-site-sections-bg-color);
+}
+.wb-reign-theme #youzify section.bptodo-adming-setting {
+    margin-bottom: 40px;
+}
+
 
 
 /*BuddyBoss Theme*/
