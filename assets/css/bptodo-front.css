@@ -440,6 +440,7 @@ textarea {
     justify-content: space-between;
     align-items: center;
     margin: 0 0 20px;
+    padding: 10px 10px 0;
 }
 
 
@@ -664,6 +665,22 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 
 
 /******** Report Table *************/
+.select-todo-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+#bp-todo-table_wrapper div#bp-todo-table_filter {
+    margin-bottom: 15px;
+}
+
+#bp-todo-table_wrapper div#bp-todo-table_filter label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
 .single-to-report table {
     border-collapse: collapse;

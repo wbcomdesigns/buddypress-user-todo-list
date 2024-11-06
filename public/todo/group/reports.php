@@ -12,17 +12,20 @@ $args = array(
 );
 $todo_query = get_posts($args);
 ?> 
-<label><?php esc_html_e( 'Select Todo', 'wb-todo' ); ?>:</label>
-<select id="todo-select">
-    <?php if($todo_query) { 
-        foreach ( $todo_query as $todo ) : ?>
-        <option value="<?php echo esc_attr( $todo->ID ); ?>">
-            <?php echo esc_html( get_the_title( $todo->ID ) ); ?>
-        </option>
-    <?php endforeach; } else{
-        echo '<option value="">'. esc_html__( 'No Todos found', 'wb-todo' ). '</option>';  // Display message if no todos found.
-    }?>
-</select>
+<div class="todo-reports-wrapper">
+    <div class="select-todo-option">
+        <label><?php esc_html_e( 'Select Todo', 'wb-todo' ); ?>:</label>
+        <select id="todo-select">
+            <?php if($todo_query) { 
+                foreach ( $todo_query as $todo ) : ?>
+                <option value="<?php echo esc_attr( $todo->ID ); ?>">
+                    <?php echo esc_html( get_the_title( $todo->ID ) ); ?>
+                </option>
+            <?php endforeach; } else{
+                echo '<option value="">'. esc_html__( 'No Todos found', 'wb-todo' ). '</option>';  // Display message if no todos found.
+            }?>
+        </select>
+    </div>
 <table id="bp-todo-table" class="bp-todo-report" data-group="<?php echo esc_attr( bp_get_current_group_id() ); ?>">
     <thead>
         <tr>
@@ -40,3 +43,4 @@ $todo_query = get_posts($args);
             </tr>
         </tfoot>
 </table>
+</div>
