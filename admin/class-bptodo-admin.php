@@ -96,8 +96,8 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				(
 					strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $profile_menu_slug ) !== false ||
 					isset( $post->post_type ) ||
-					( isset( $post->post_content ) && has_shortcode( $post->post_content, 'bptodo_by_category' ) ) ||
-					has_shortcode( $post->post_content, 'ld_dashboard' )
+					( isset( $post->post_content ) && ( has_shortcode( $post->post_content, 'bptodo_by_category' ) ||
+					has_shortcode( $post->post_content, 'ld_dashboard' ) ) )
 				)
 			) {
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
