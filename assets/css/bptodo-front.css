@@ -677,6 +677,9 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 .select-todo-option label {
     flex: 0 0 auto;
 }
+.select-todo-option select#todo-select{
+    width: 100%;
+}
 #bp-todo-table_wrapper div#bp-todo-table_filter {
     margin-bottom: 15px;
 }
@@ -1355,6 +1358,10 @@ Edit popup
 
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none !important;
+}
+.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:before,
+.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:after{
+    display: none;
 }
 
 @media only screen and (max-width: 768px) {
