@@ -223,8 +223,9 @@ if ( empty( $todos ) ) {
 																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																	}
 																}
+																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete . $due_date_td_class ); ?>">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete . $due_date_td_class ); ?> <?php echo esc_attr( $group_todo ); ?>">
 																<?php
 																$checked       = '';
 																$checked_class = 'todo-uncomplete';
@@ -263,7 +264,16 @@ if ( empty( $todos ) ) {
 																?>
 																</span>
 															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
+															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
+																<?php
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
+																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
+																	} else{
+																		echo esc_html( $todo_title ); 
+																	}
+																?>
+															</li>
 															<li class="bp-to-do-actions">
 																<ul class="bp-to-do-actions-list">
 																<?php if ( empty( $todo_gp_id ) ){ /* Translators: Display todo title name  */ ?>
@@ -345,8 +355,9 @@ if ( empty( $todos ) ) {
 																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																	}
 																}
+																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
 																<?php
 																$checked       = '';
 																$checked_class = 'todo-uncomplete';
@@ -372,7 +383,16 @@ if ( empty( $todos ) ) {
 																?>
 																</span>
 															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
+															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
+																<?php
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
+																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
+																	} else{
+																		echo esc_html( $todo_title ); 
+																	}
+																?>
+															</li>
 															<li class="bp-to-do-actions" >
 																<ul class="bp-to-do-actions-list">
 																	<?php if ( empty( $todo_gp_id ) ){ /* Translators: Display todo title name  */ ?>
@@ -456,9 +476,9 @@ if ( empty( $todos ) ) {
 																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																	}
 																}
-
+																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
 																<?php
 																$checked       = '';
 																$checked_class = 'todo-uncomplete';
@@ -484,7 +504,16 @@ if ( empty( $todos ) ) {
 																?>
 																</span>
 															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
+															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
+																<?php
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
+																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
+																	} else{
+																		echo esc_html( $todo_title ); 
+																	}
+																?>
+															</li>
 															<li class="bp-to-do-actions">
 																<ul class="bp-to-do-actions-list">
 																<?php if( empty( $todo_gp_id ) ){ /* Translators: Display todo title name  */ ?>
@@ -524,7 +553,7 @@ if ( empty( $todos ) ) {
 																));
 																$todo          = get_post( $tid );
 																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id   = 0;
+																$todo_cat_id   = 0;																
 																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );																
 																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
 																	$todo_cat_id = $todo_cat[0]->term_id;
@@ -565,9 +594,10 @@ if ( empty( $todos ) ) {
 																		$priority_class = 'bptodo-priority-normal';
 																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																	}
-																}
+																}																
+																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
 																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">													
+														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">													
 																<?php
 																$checked       = '';
 																$checked_class = 'todo-uncomplete';
@@ -601,7 +631,16 @@ if ( empty( $todos ) ) {
 																?>
 																</span>
 															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
+															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
+																<?php
+																if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
+																	 $group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
+																} else{
+																	echo esc_html( $todo_title ); 
+																}
+																?>
+															</li>
 															<li class="bp-to-do-actions">
 																<ul class="bp-to-do-actions-list">
 																<?php if( empty( $todo_gp_id ) ){ /* Translators: Display todo title name  */ ?>
@@ -654,6 +693,7 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
+																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );
 																if ( $diff_days < 0 ) {
 																	/* Translators: Number of expiry days */
 																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
@@ -691,8 +731,9 @@ if ( empty( $todos ) ) {
 																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
 																	}
 																}
+																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
 																?>
-															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?>">
+															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
 																<?php
 																$checked       = '';
 																$checked_class = 'todo-uncomplete';
@@ -717,7 +758,16 @@ if ( empty( $todos ) ) {
 																		}
 																		?>
 																	</span>
-																<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><?php echo esc_html( $todo_title ); ?></li>
+																<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
+																	<?php
+																		if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
+																			$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																			echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
+																		} else{
+																			echo esc_html( $todo_title ); 
+																		}
+																	?>
+																</li>
 																<li class="bp-to-do-actions">
 																	<ul class="bp-to-do-actions-list">
 																	<?php /* Translators: Display todo title name  */ ?>
