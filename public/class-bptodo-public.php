@@ -1321,9 +1321,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'order'          => 'DESC',
 				);
 				$todo_query = get_posts($args);			
-				$args = array(
-					'group_id'            => $group_id,
-					'exclude_admins_mods' => apply_filters( 'bptodo_include_admin_moderator_group_report', false ), //allow admin and mod in group report.
+				$args = apply_filters( 'bptodo_admin_mod_gorup_report_view', 
+					array(
+						'group_id'            => $group_id,
+						'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', false ),
+					)
 				);
 				$group_members = groups_get_group_members( $args );
 				$group_members_ids = array_column( $group_members['members'], 'ID' );
