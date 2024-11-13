@@ -1323,7 +1323,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo_query = get_posts($args);			
 				$args = array(
 					'group_id'            => $group_id,
-					'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', true ),
+					'exclude_admins_mods' => apply_filters( 'bptodo_include_admin_moderator_group_report', false ), //allow admin and mod in group report.
 				);
 				$group_members = groups_get_group_members( $args );
 				$group_members_ids = array_column( $group_members['members'], 'ID' );
