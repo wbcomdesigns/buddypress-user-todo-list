@@ -263,10 +263,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 					}
 				</style>
 				<div class="notice updated wb-todo-notice">
-					<div class="wb-todo-notice-inner">
-						<div class="wb-todo-notice-icon">
-							<img src="<?php echo esc_url( BPTODO_PLUGIN_URL . '/admin/wbcom/assets/imgs/bp-to-do.jpeg' ); ?>" alt="<?php echo esc_attr__( 'BuddyPress User To-Do List', 'wb-todo' ); ?>" />
-						</div>
+					<div class="wb-todo-notice-inner">						
 						<div class="wb-todo-notice-content">
 							<h3><?php echo esc_html__( 'Are you enjoying BuddyPress User To-Do List?', 'wb-todo' ); ?></h3>
 							<p>
