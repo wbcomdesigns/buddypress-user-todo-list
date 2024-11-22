@@ -3,8 +3,8 @@ Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 6.5.0
-Stable tag: 3.2.1
+Tested up to: 6.7.0
+Stable tag: 3.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,6 +71,33 @@ The screenshots are present in the root of the plugin folder.
 4. screenshot-4 - is the screen which shows form to create a to-do.
 
 == Changelog ==
+
+== Changelog ==
+= 3.3.0 =
+* Fixed feedback icon display issues.
+* Added functionality to identify groups and profiles in user profiles.
+* Added group admin and moderator roles in the group to-do report.
+* Added filters to exclude admins and moderators in group reports.
+* Fixed reports page UI and group member tab UI.
+* Fixed to-do form and category display with Youzify.
+* Fixed submenu tab display with Youzify.
+* Fixed group to-do submenu UI issues.
+* Fixed reports sorting arrow issue with BuddyBoss theme.
+* Fixed PHP warnings and fatal errors when BuddyPress is not active.
+* Fixed console issues in member profiles and the to-do list.
+* Fixed errors related to map functionality and frontend checkbox display.
+* Added report tab to group to-do functionality.
+* Added stats icon for the group to-do report display.
+* Automatically published posts for administrators using filters.
+* Defaulted to select all users for the "create to-do" option.
+* Removed delete icons and single to-do links from group to-dos.
+* Optimized usermeta keys for email notifications.
+* Fixed text domain issues and added translation support for distance units (KM, Miles).
+* Fixed redirection issues during plugin activation on multisite setups.
+* Removed unnecessary inline code and unused variables for better performance.
+* Enhanced security with escaping, sanitization, and nonce verification.
+* Improved email content formatting and notification settings.
+
 = 3.2.1 =
 - Compatibility check with WordPress 6.5.0
 
