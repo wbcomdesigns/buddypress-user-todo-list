@@ -260,6 +260,8 @@ class Bptodo_List {
 		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_notification', 10, 2 );
 		$this->loader->add_action( 'wp_ajax_get_group_todo_report', $plugin_public, 'bptodo_display_group_todo_report' );
 
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_mark_notification_as_read_on_single' );
+
 	}
 
 	/**

@@ -364,7 +364,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$custom_link  = $todo_link;
 					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
 					$custom_text = sprintf( esc_html__( 'Your %1$s: %2$s is due today. Please complete it as soon as possible.', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
-
+					$custom_link           = add_query_arg( array( 'referer' => 'user_due_notification' ), $custom_link );			// for identification of mark as read action 
+					$custom_link           = wp_nonce_url( $custom_link, 'mark-as-read-notification-' . get_current_user_id() . '-' . $item_id );		// for security purpose when mark as read notification.
+					// WordPress Toolbar.
 					/** WP Toolbar. */
 					if ( 'string' === $format ) {
 						$action = '<a href="' . esc_url( $custom_link ) . '" title="' . esc_attr( $custom_title ) . '">' . esc_html( $custom_text ) . '</a>';
@@ -389,6 +391,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
 				/* translators: 1: todo title, 2: group name, 3: author name */
 				$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
+				$notification_guid           = add_query_arg( array( 'referer' => 'user_group_notification' ), $notification_guid );			// for identification of mark as read action 
+				$notification_guid           = wp_nonce_url( $notification_guid, 'mark-as-read-notification-' . get_current_user_id() . '-' . $item_id );		// for security purpose when mark as read notification.
 		
 				if ( 'string' === $format ) {
 					$action = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
@@ -401,6 +405,44 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 			
 			return $action;
+		}
+		
+
+		function bptodo_mark_notification_as_read_on_single() {
+			if ( ! isset( $_GET['referer'] ) || empty( $_GET['referer'] ) ) {
+				return ;
+			}
+			
+			global $post;
+			$current_user_id = get_current_user_id();
+			if( isset( $_GET['referer'] ) && 'user_due_notification' === $_GET['referer'] ){
+				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}-{$post->ID}" ) ) {
+					BP_Notifications_Notification::update(
+						array( 'is_new' => false ),
+						array(
+							'component_action'  => 'bptodo_due_date_action',
+							'user_id'           => $current_user_id,
+							'item_id' => $post->ID,
+						)
+					);
+	
+				}
+			}
+
+			if( isset( $_GET['referer'] ) && 'user_group_notification' === $_GET['referer'] ){
+				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}-{$post->ID}" ) ) {
+					BP_Notifications_Notification::update(
+						array( 'is_new' => false ),
+						array(
+							'component_action'  => 'bptodo_group_todo_notifications_action',
+							'user_id'           => $current_user_id,
+							'item_id' 			=> $post->ID,
+						)
+					);
+	
+				}
+			}
+			
 		}
 
 		/**
