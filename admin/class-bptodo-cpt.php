@@ -78,7 +78,6 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'supports'            => array( 'title', 'editor', 'author', 'thumbnail' ),
 			);
 			register_post_type( 'bp-todo', $args );
-			flush_rewrite_rules( false );
 		}
 
 		/**
