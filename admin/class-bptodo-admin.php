@@ -185,9 +185,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			<div class="wrap">
 				<div class="wbcom-bb-plugins-offer-wrapper">
 					<div id="wb_admin_logo">
-						<a href="https://wbcomdesigns.com/downloads/buddypress-community-bundle/?utm_source=pluginoffernotice&utm_medium=community_banner" target="_blank">
-							<img src="<?php echo esc_url( BPTODO_PLUGIN_URL ) . 'admin/wbcom/assets/imgs/wbcom-offer-notice.png'; ?>">
-						</a>
 					</div>
 				</div>
 				<div class="wbcom-wrap">
