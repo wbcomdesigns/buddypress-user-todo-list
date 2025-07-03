@@ -58,7 +58,6 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 		 */
 		public function __construct( $args ) {
 			$this->slug = $args['slug'];
-			$this->name = $args['name'];
 
 			$this->date_option  = $this->slug . '_activation_date';
 			$this->nobug_option = $this->slug . '_no_bug';
@@ -267,6 +266,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 						<div class="wb-todo-notice-content">
 							<h3><?php echo esc_html__( 'Are you enjoying BuddyPress User To-Do List?', 'wb-todo' ); ?></h3>
 							<p>
+								<?php  $this->name = __( 'BuddyPress User To-Do List', 'wb-todo' ) ?>
 								<?php /* translators: 1. Name */ ?>
 								<?php printf( esc_html__( 'We hope you\'re enjoying %1$s! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wb-todo' ), esc_html( $this->name ) ); ?>
 							</p>
@@ -302,7 +302,6 @@ endif;
 new BuddyPress_TO_DO_Feedback(
 	array(
 		'slug'       => 'bp_to_do',
-		'name'       => __( 'BuddyPress User To-Do List', 'wb-todo' ),
 		'time_limit' => WEEK_IN_SECONDS,
 	)
 );
