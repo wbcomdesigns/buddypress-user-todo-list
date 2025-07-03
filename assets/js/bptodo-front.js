@@ -360,6 +360,19 @@ jQuery(document).ready(function () {
           buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5']
         }
       },
+      language: {
+        'emptyTable': todo_ajax_object.localized.empty_table,
+        'paginate': {
+          'first': todo_ajax_object.localized.paginate_first,
+          'last': todo_ajax_object.localized.paginate_last,
+          'next': todo_ajax_object.localized.paginate_next,
+          'previous': todo_ajax_object.localized.paginate_previous
+        },
+        'search': todo_ajax_object.localized.search,
+        'lengthMenu': todo_ajax_object.localized.show_entries,
+        'info': todo_ajax_object.localized.pagination_info,
+        'infoEmpty': todo_ajax_object.localized.pagination_empty_info
+      },
       paging: true
     });
   }

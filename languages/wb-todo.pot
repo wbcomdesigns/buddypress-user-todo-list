@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-11 11:32:45+00:00\n"
+"POT-Creation-Date: 2025-07-03 11:03:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,56 +24,92 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: admin/class-bptodo-admin.php:126
+#: admin/class-bptodo-admin.php:128
 #. translators: %1$s
 msgid "My %1$s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:127
+#: admin/class-bptodo-admin.php:129
 msgid "Category name is required."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:128
+#: admin/class-bptodo-admin.php:130
 msgid "Undo Complete"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:129
+#: admin/class-bptodo-admin.php:131
 msgid "Are you sure?"
 msgstr ""
 
+#: admin/class-bptodo-admin.php:153
+msgid "No data available in table"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:154
+msgid "First"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:155
+msgid "Last"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:156
+msgid "Next"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:157
+msgid "Previous"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:158
+msgid "Search"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:159
+msgid "Show %s entries"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:160
+msgid "Showing %d to %d of %d entries"
+msgstr ""
+
 #: admin/class-bptodo-admin.php:161
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
+
+#: admin/class-bptodo-admin.php:188
 msgid "WB Plugins"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:162 admin/class-bptodo-admin.php:246
+#: admin/class-bptodo-admin.php:189 admin/class-bptodo-admin.php:273
 msgid "General"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:164
+#: admin/class-bptodo-admin.php:191
 msgid "BP User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:194 admin/class-bptodo-feedback.php:305
+#: admin/class-bptodo-admin.php:221 admin/class-bptodo-feedback.php:305
 #: admin/wbcom/templates/wbcom-license-page.php:9
 msgid "BuddyPress User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:196
+#: admin/class-bptodo-admin.php:223
 #: admin/wbcom/templates/wbcom-license-page.php:13
 #. translators: %1$s
 #. translators: %s:
 msgid "Version %s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:245
+#: admin/class-bptodo-admin.php:272
 msgid "Welcome"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:247
+#: admin/class-bptodo-admin.php:274
 msgid "Group To-Do"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:299
+#: admin/class-bptodo-admin.php:326
 msgid "Shortcodes"
 msgstr ""
 

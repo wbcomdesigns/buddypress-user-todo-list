@@ -116,6 +116,8 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				wp_enqueue_script( 'select2-js', BPTODO_PLUGIN_URL . 'assets/js/select2.full.min.js', array( 'jquery' ), BPTODO_VERSION, true );
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
 
+				$localized_strings = $this->bp_todo_get_localized_strings();
+				
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',
@@ -127,6 +129,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
 						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
+						'localized'           => $localized_strings
 					)
 				);
 				wp_enqueue_style( 'select2-css', BPTODO_PLUGIN_URL . 'assets/css/select2.min.css', array(), BPTODO_VERSION );
@@ -135,6 +138,30 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );
 			wp_enqueue_script( 'bptodo-js-pdfobject', BPTODO_PLUGIN_URL . 'assets/js/pdfobject.min.js', array( 'jquery' ), BPTODO_VERSION );
+
+		}
+
+		/**
+		 * Function to create Data Table related strings translatable.
+		 * 
+		 * @since 3.3.1
+		 */
+		private function bp_todo_get_localized_strings() {
+			
+			$localized_strings = array();
+
+			$localized_strings['empty_table']         = __( 'No data available in table', 'wb-todo' );
+			$localized_strings['paginate_first']      = __( 'First', 'wb-todo' );
+			$localized_strings['paginate_last']       = __( 'Last', 'wb-todo' );
+			$localized_strings['paginate_next']       = __( 'Next', 'wb-todo' );
+			$localized_strings['paginate_previous']   = __( 'Previous', 'wb-todo' );
+			$localized_strings['search']              = __( 'Search', 'wb-todo' );
+			$localized_strings['show_entries']        =  sprintf(__( 'Show %s entries', 'wb-todo' ), '_MENU_' );
+			$localized_strings['pagination_info']     =  sprintf(__( "Showing %d to %d of %d entries", 'wb-todo' ), '_START_', '_END_', '_TOTAL_');
+			$localized_strings['pagination_empty_info']   =  __( "Showing 0 to 0 of 0 entries", 'wb-todo' );
+			
+
+			return $localized_strings;
 		}
 
 		/**
