@@ -31,7 +31,7 @@ $todo_query = get_posts($args);
         <tr>
             <th><?php esc_html_e( 'Members', 'wb-todo' ); ?></th>
             <th><?php esc_html_e( 'Status', 'wb-todo' ); ?></th>
-            <th><?php esc_html_e( 'Time', 'wb-todo' ); ?></th>
+            <th><?php esc_html_e( 'Complete Time', 'wb-todo' ); ?></th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -39,7 +39,7 @@ $todo_query = get_posts($args);
             <tr>
                 <th><?php esc_html_e( 'Members', 'wb-todo' ); ?></th>
                 <th><?php esc_html_e( 'Status', 'wb-todo' ); ?></th>
-                <th><?php esc_html_e( 'Time', 'wb-todo' ); ?></th>
+                <th><?php esc_html_e( 'Complete Time', 'wb-todo' ); ?></th>
             </tr>
         </tfoot>
 </table>

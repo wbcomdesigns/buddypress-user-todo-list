@@ -960,11 +960,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( isset( $_POST['action'] ) && 'bptodo_undo_complete_todo' === $_POST['action'] ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
+					update_post_meta( $tid, 'todo_status', 'incomplete' );
+					if( get_post_meta( $tid, 'todo_complete_time', true ) ) {
+						delete_post_meta( $tid, 'todo_complete_time' );
+					}
 				}
-				update_post_meta( $tid, 'todo_status', 'incomplete' );
-				echo 'todo-undo-completed';
-				die;
+				
 			}
+			wp_die();
 		}
 
 		/**

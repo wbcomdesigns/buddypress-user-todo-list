@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-03 11:03:52+00:00\n"
+"POT-Creation-Date: 2025-07-04 06:40:38+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "BP User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:221 admin/class-bptodo-feedback.php:305
+#: admin/class-bptodo-admin.php:221 admin/class-bptodo-feedback.php:269
 #: admin/wbcom/templates/wbcom-license-page.php:9
 msgid "BuddyPress User To-Do List"
 msgstr ""
@@ -186,61 +186,61 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:85
+#: admin/class-bptodo-feedback.php:84
 #. translators: Number of years
 msgid "%s years"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:87
+#: admin/class-bptodo-feedback.php:86
 msgid "a year"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:94
+#: admin/class-bptodo-feedback.php:93
 #. translators: Number of weeks
 msgid "%s weeks"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:96
+#: admin/class-bptodo-feedback.php:95
 msgid "a week"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:103
+#: admin/class-bptodo-feedback.php:102
 #. translators: Number of days
 msgid "%s days"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:105
+#: admin/class-bptodo-feedback.php:104
 msgid "a day"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:112
+#: admin/class-bptodo-feedback.php:111
 #. translators: Number of hours
 msgid "%s hours"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:114
+#: admin/class-bptodo-feedback.php:113
 msgid "an hour"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:121
+#: admin/class-bptodo-feedback.php:120
 #. translators: Number of minutes
 msgid "%s minutes"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:123
+#: admin/class-bptodo-feedback.php:122
 msgid "a minute"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:130
+#: admin/class-bptodo-feedback.php:129
 #. translators: Number of seconds
 msgid "%s seconds"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:132
+#: admin/class-bptodo-feedback.php:131
 msgid "a second"
 msgstr ""
 
-#: admin/class-bptodo-feedback.php:268
+#: admin/class-bptodo-feedback.php:267
 msgid "Are you enjoying BuddyPress User To-Do List?"
 msgstr ""
 
@@ -1470,7 +1470,6 @@ msgid "Members"
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:316
-#: public/todo/group/reports.php:34 public/todo/group/reports.php:42
 msgid "Time"
 msgstr ""
 
@@ -1651,33 +1650,33 @@ msgstr ""
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1209
+#: public/class-bptodo-public.php:1212
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1210
+#: public/class-bptodo-public.php:1213
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1211
+#: public/class-bptodo-public.php:1214
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1221
+#: public/class-bptodo-public.php:1224
 msgid "Enable/disable mail option"
 msgstr ""
 
-#: public/class-bptodo-public.php:1227
+#: public/class-bptodo-public.php:1230
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1233
+#: public/class-bptodo-public.php:1236
 #. translators: accessibility text
 msgid "No, do not send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1267
+#: public/class-bptodo-public.php:1270
 msgid "Disable todos tab?"
 msgstr ""
 
@@ -1887,6 +1886,10 @@ msgstr ""
 
 #: public/todo/group/reports.php:25
 msgid "No Todos found"
+msgstr ""
+
+#: public/todo/group/reports.php:34 public/todo/group/reports.php:42
+msgid "Complete Time"
 msgstr ""
 
 #: public/todo/member/member-todo-list.php:520
