@@ -22,7 +22,7 @@
 					<div class="wbcom_help_support_details">
 						<div class="wbcom_help_support_inner_details">
 							<h4><?php esc_html_e( 'Tickets Support', 'wb-todo' ); ?></h4>
-							<p><?php esc_html_e( 'Open a ticket on our helpdesk, we don\'t guarantee a fast response but within a week. Except if you\'ve purchased one of our product we\'ll reply within 24 hours.', 'wb-todo' ); ?></p>
+							<p><?php esc_html_e( 'Open a ticket on our helpdesk. We aim to respond within a week, but if you’ve purchased one of our products, you’ll receive a reply within 24 hours.', 'wb-todo' ); ?></p>
 							<div class="wbcom_help_support_button">
 								<a href="https://support.wbcomdesigns.com/portal/newticket" class="wb_btn wb_btn_default" target="_blank">
 									<?php esc_html_e( 'Open a ticket', 'wb-todo' ); ?>

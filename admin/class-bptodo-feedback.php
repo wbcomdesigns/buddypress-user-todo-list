@@ -83,7 +83,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of years */
 				return sprintf( __( '%s years', 'wb-todo' ), $years );
 			} elseif ( $years > 0 ) {
-				return __( 'a year', 'wb-todo' );
+				return __( 'one year', 'wb-todo' );
 			}
 
 			// Get the weeks.
@@ -92,7 +92,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of weeks */
 				return sprintf( __( '%s weeks', 'wb-todo' ), $weeks );
 			} elseif ( $weeks > 0 ) {
-				return __( 'a week', 'wb-todo' );
+				return __( 'one week', 'wb-todo' );
 			}
 
 			// Get the days.
@@ -101,7 +101,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of days */
 				return sprintf( __( '%s days', 'wb-todo' ), $days );
 			} elseif ( $days > 0 ) {
-				return __( 'a day', 'wb-todo' );
+				return __( 'one day', 'wb-todo' );
 			}
 
 			// Get the hours.
@@ -110,7 +110,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of hours */
 				return sprintf( __( '%s hours', 'wb-todo' ), $hours );
 			} elseif ( $hours > 0 ) {
-				return __( 'an hour', 'wb-todo' );
+				return __( 'one hour', 'wb-todo' );
 			}
 
 			// Get the minutes.
@@ -119,7 +119,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of minutes */
 				return sprintf( __( '%s minutes', 'wb-todo' ), $minutes );
 			} elseif ( $minutes > 0 ) {
-				return __( 'a minute', 'wb-todo' );
+				return __( 'one minute', 'wb-todo' );
 			}
 
 			// Get the seconds.
@@ -128,7 +128,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				/* translators: Number of seconds */
 				return sprintf( __( '%s seconds', 'wb-todo' ), $seconds );
 			} elseif ( $seconds > 0 ) {
-				return __( 'a second', 'wb-todo' );
+				return __( 'one second', 'wb-todo' );
 			}
 		}
 
@@ -264,9 +264,9 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				<div class="notice updated wb-todo-notice">
 					<div class="wb-todo-notice-inner">						
 						<div class="wb-todo-notice-content">
-							<h3><?php echo esc_html__( 'Are you enjoying BuddyPress User To-Do List?', 'wb-todo' ); ?></h3>
+							<h3><?php echo esc_html__( 'Are you enjoying BuddyPress User To-do List?', 'wb-todo' ); ?></h3>
 							<p>
-								<?php  $this->name = __( 'BuddyPress User To-Do List', 'wb-todo' ) ?>
+								<?php  $this->name = __( 'BuddyPress User To-do List', 'wb-todo' ) ?>
 								<?php /* translators: 1. Name */ ?>
 								<?php printf( esc_html__( 'We hope you\'re enjoying %1$s! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'wb-todo' ), esc_html( $this->name ) ); ?>
 							</p>

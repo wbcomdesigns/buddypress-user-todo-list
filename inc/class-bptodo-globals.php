@@ -53,8 +53,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			global $bptodo;
 			$settings = get_option( 'user_todo_list_settings' );
 			
-			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'To-Do', 'wb-todo' );
-			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'To-Dos', 'wb-todo' );
+			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'To-do', 'wb-todo' );
+			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'To-dos', 'wb-todo' );
 			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
 			$this->enable_todo_member        = ! empty( $settings['enable_todo_member'] ) ? 'yes' : 'no';
 			$this->allow_user_add_category   = ! empty( $settings['allow_user_add_category'] ) ? 'yes' : 'no';

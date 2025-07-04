@@ -38,7 +38,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_create_cpt() {
-			if ( ! class_exists( 'Buddypress' ) ) {
+			if ( ! class_exists( 'BuddyPress' ) ) {
 				return false;
 			}
 			$labels = array(

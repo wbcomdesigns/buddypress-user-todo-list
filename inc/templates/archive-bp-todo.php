@@ -98,7 +98,7 @@ get_header(); ?>
 				</header><!-- .page-header -->
 				
 				<div class="page-content">
-					<p><?php esc_html_e('It seems we can’t find what you’re looking for. Perhaps searching can help.', 'wb-todo'); ?></p>
+					<p><?php esc_html_e('It seems we can\'t find what you\'re looking for. Perhaps a search can help.', 'wb-todo'); ?></p>
 				</div><!-- .page-content -->
 			</section><!-- .no-results -->
 		<?php endif; ?>

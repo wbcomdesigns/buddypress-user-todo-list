@@ -184,7 +184,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		<tr>
 			<td><label><?php esc_html_e( 'Group members', 'wb-todo' ); ?></label></td>
 			<td>
-				<select name="todo_group_members[]" id="todo_group_members" multiple placeholder="<?php esc_html_e( 'Please select group members to assign todo', 'wb-todo' ); ?>">
+				<select name="todo_group_members[]" id="todo_group_members" multiple placeholder="<?php esc_html_e( 'Please select group members to assign the To-do', 'wb-todo' ); ?>">
 					<option value="all"><?php esc_html_e( 'All Members', 'wb-todo' ); ?></option>
 					<?php foreach ( $members_ids as $member_id => $member_name ) : ?>
 						<option value="<?php echo esc_attr( $member_id ); ?>"><?php echo esc_html( $member_name ); ?></option>

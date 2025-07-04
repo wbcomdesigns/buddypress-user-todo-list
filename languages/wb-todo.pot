@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-04 06:40:38+00:00\n"
+"POT-Creation-Date: 2025-07-04 11:02:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -89,7 +89,7 @@ msgstr ""
 msgid "BP User To-Do List"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:221 admin/class-bptodo-feedback.php:269
+#: admin/class-bptodo-admin.php:221
 #: admin/wbcom/templates/wbcom-license-page.php:9
 msgid "BuddyPress User To-Do List"
 msgstr ""
@@ -192,7 +192,7 @@ msgid "%s years"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:86
-msgid "a year"
+msgid "one year"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:93
@@ -201,7 +201,7 @@ msgid "%s weeks"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:95
-msgid "a week"
+msgid "one week"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:102
@@ -210,7 +210,7 @@ msgid "%s days"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:104
-msgid "a day"
+msgid "one day"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:111
@@ -219,7 +219,7 @@ msgid "%s hours"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:113
-msgid "an hour"
+msgid "one hour"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:120
@@ -228,7 +228,7 @@ msgid "%s minutes"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:122
-msgid "a minute"
+msgid "one minute"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:129
@@ -237,11 +237,15 @@ msgid "%s seconds"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:131
-msgid "a second"
+msgid "one second"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:267
-msgid "Are you enjoying BuddyPress User To-Do List?"
+msgid "Are you enjoying BuddyPress User To-do List?"
+msgstr ""
+
+#: admin/class-bptodo-feedback.php:269
+msgid "BuddyPress User To-do List"
 msgstr ""
 
 #: admin/class-bptodo-feedback.php:271
@@ -276,7 +280,7 @@ msgstr ""
 msgid "To-dos Label (Plural)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:44
+#: admin/inc/bptodo-general-settings.php:44 inc/class-bptodo-globals.php:57
 msgid "To-dos"
 msgstr ""
 
@@ -383,11 +387,11 @@ msgid ""
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:66
-msgid "Group Moderators to add to-dos in group "
+msgid "Allow Group Moderators to add to-dos in group"
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:68
-msgid "Enable this option to allow group moderators to add to-dos in the group."
+msgid "Enable this option to allow group moderators to add To-dos to the group."
 msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:83
@@ -407,12 +411,12 @@ msgstr ""
 
 #: admin/inc/bptodo-group-settings.php:111
 #. translators: %s
-msgid "Enable BuddyPress groups component to allow groups integration %s."
+msgid "Enable the BuddyPress groups component to allow group integration %s."
 msgstr ""
 
 #: admin/inc/bptodo-shortcodes-settings.php:24
 #. Translators: Get a Plural Label Name
-msgid "This shortcode will list all the %1$s category wise."
+msgid "This shortcode will list all the %1$s by category."
 msgstr ""
 
 #: admin/inc/bptodo-shortcodes-settings.php:27
@@ -427,9 +431,9 @@ msgstr ""
 #: admin/inc/bptodo-welcome-page.php:15
 msgid ""
 "BuddyPress Todo List plugin allows BuddyPress members to add tasks to their "
-"to-do list and allows them to ‘edit’, ‘delete’, ‘mark-complete’ their task. "
-"Members can create the category for to-do and add to-do according to "
-"category wise."
+"To-do list and allows them to `edit`, `delete`, and `mark as complete` "
+"their tasks. Members can create categories for To-dos and add To-dos by "
+"category."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:20
@@ -438,9 +442,9 @@ msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:21
 msgid ""
-"Here are all the resources you may need to get help from us. Documentation "
-"is usually the best place to start. Should you require help anytime, our "
-"customer care team is available to assist you at the support center."
+"If you need assistance, here are some helpful resources. Our documentation "
+"is a great place to start, and our support team is available if you require "
+"further help."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:26
@@ -449,8 +453,8 @@ msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:27
 msgid ""
-"We have prepared an extensive guide on  Wbcom Designs BP User Todo List to "
-"learn all aspects of the plugin. You will find most of your answers here."
+"Explore our detailed guide on BuddyPress To-do List to understand all the "
+"features and how to make the most of them."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:28
@@ -463,8 +467,8 @@ msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:35
 msgid ""
-"We strive to offer the best customer care via our support center. Once your "
-"theme is activated, you can ask us for help anytime."
+"Our support team is here to assist you with any questions or issues. Feel "
+"free to contact us anytime through our support center."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:36
@@ -472,13 +476,13 @@ msgid "Get Support"
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:41
-msgid "Got Feedback?"
+msgid "Share Feedback"
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:42
 msgid ""
-"We want to hear about your experience with the plugin. We would also love "
-"to hear any suggestions you may for future updates."
+"We’d love to hear about your experience with the plugin. Your feedback and "
+"suggestions help us improve future updates."
 msgstr ""
 
 #: admin/inc/bptodo-welcome-page.php:43
@@ -1271,9 +1275,9 @@ msgstr ""
 
 #: admin/wbcom/templates/wbcom-support-page.php:25
 msgid ""
-"Open a ticket on our helpdesk, we don't guarantee a fast response but "
-"within a week. Except if you've purchased one of our product we'll reply "
-"within 24 hours."
+"Open a ticket on our helpdesk. We aim to respond within a week, but if "
+"you’ve purchased one of our products, you’ll receive a reply within 24 "
+"hours."
 msgstr ""
 
 #: admin/wbcom/templates/wbcom-support-page.php:28
@@ -1418,11 +1422,7 @@ msgid "Export"
 msgstr ""
 
 #: inc/class-bptodo-globals.php:56
-msgid "To-Do"
-msgstr ""
-
-#: inc/class-bptodo-globals.php:57
-msgid "To-Dos"
+msgid "To-do"
 msgstr ""
 
 #: inc/templates/archive-bp-todo.php:59
@@ -1461,7 +1461,7 @@ msgid "Nothing Found"
 msgstr ""
 
 #: inc/templates/archive-bp-todo.php:101
-msgid "It seems we can’t find what you’re looking for. Perhaps searching can help."
+msgid "It seems we can't find what you're looking for. Perhaps a search can help."
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:314
@@ -1768,7 +1768,7 @@ msgid "Group members"
 msgstr ""
 
 #: public/todo/group/add.php:187
-msgid "Please select group members to assign todo"
+msgid "Please select group members to assign the To-do"
 msgstr ""
 
 #: public/todo/group/add.php:188

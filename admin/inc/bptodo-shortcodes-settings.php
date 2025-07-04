@@ -21,7 +21,7 @@ global $bptodo;
 			<p class="description">
 				<?php
 				/* Translators: Get a Plural Label Name */
-					echo sprintf( esc_html__( 'This shortcode will list all the %1$s category wise.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
+					echo sprintf( esc_html__( 'This shortcode will list all the %1$s by category.', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) );
 				?>
 			</p>
 			<strong class="description"><?php esc_html_e( 'Arguments accepted:', 'wb-todo' ); ?></strong>

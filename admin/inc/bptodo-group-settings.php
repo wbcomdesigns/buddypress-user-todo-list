@@ -63,9 +63,9 @@ if ( bp_is_active( 'groups' ) ) : ?>
 						<div class="wbcom-settings-section-wrap">
 							<div class="wbcom-settings-section-options-heading">
 								<label for="bptodo-list-moderator">
-									<?php esc_html_e( 'Group Moderators to add to-dos in group ', 'wb-todo' ); ?>
+									<?php esc_html_e( 'Allow Group Moderators to add to-dos in group', 'wb-todo' ); ?>
 								</label>
-								<p class="description"><?php esc_html_e( 'Enable this option to allow group moderators to add to-dos in the group.', 'wb-todo' ); ?></p>
+								<p class="description"><?php esc_html_e( 'Enable this option to allow group moderators to add To-dos to the group.', 'wb-todo' ); ?></p>
 							</div>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">
@@ -108,7 +108,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 						/* translators: %s */
 						$bp_groups_link = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'admin.php?page=bp-components' ) ), esc_html__( 'Click here', 'wb-todo' ) );
 						 /* translators: %s */
-						printf( '<span>%s</span>', wp_kses_post( sprintf( __( 'Enable BuddyPress groups component to allow groups integration %s.', 'wb-todo' ), '<strong>' . $bp_groups_link . '</strong>' ) ) );
+						printf( '<span>%s</span>', wp_kses_post( sprintf( __( 'Enable the BuddyPress groups component to allow group integration %s.', 'wb-todo' ), '<strong>' . $bp_groups_link . '</strong>' ) ) );
 						?>
 					</div>
 				</div>
