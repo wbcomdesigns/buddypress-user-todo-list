@@ -377,8 +377,11 @@ jQuery(document).ready(function () {
 
   // Initialize DataTable on page load with default data
   jQuery(document).ready(function () {
-    const todoSelect = document.getElementById('todo-select');
-    initializeTodoTable(todoSelect.value);
+    var todoSelect = document.getElementById('todo-select');
+    if( todoSelect ) {
+      initializeTodoTable(todoSelect.value);
+    }
+    
   });
 
   // Reload DataTable when a new option is selected from the dropdown
