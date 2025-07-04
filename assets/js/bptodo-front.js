@@ -98,7 +98,6 @@ jQuery(document).ready(function () {
         }
       }
       acc[i].onclick = function () {
-        console.log(jQuery('.bptodo-panel')[0].scrollHeight);
         var panel = this.nextElementSibling;
         if (panel.style.maxHeight) {
           panel.style.maxHeight = null;
@@ -302,7 +301,6 @@ jQuery(document).ready(function () {
         jQuery('.bptodo-panel').each(function () {
           let height = jQuery(this)[0].scrollHeight;
           jQuery(this).css('max-height', height);
-          console.log(height);
         });
         bptodo_open_close_on_category();
         const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
@@ -434,8 +432,6 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 const buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
 
-console.log(buttons);
-
 
 for (let button of buttons) {
   modalEvent(button);
@@ -443,11 +439,7 @@ for (let button of buttons) {
 
 function modalEvent(button) {
   button.addEventListener('click', () => {
-    // const trigger = button.getAttribute('data-modal-trigger');
-
-    // console.log('trigger', trigger)
     const modal = document.querySelector("[data-modal=trigger]");
-    // console.log('modal', modal)
     const contentWrapper = modal.querySelector('.content-wrapper');
     const close = modal.querySelector('.close');
 
