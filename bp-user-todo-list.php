@@ -263,8 +263,10 @@ function bptodo_activation_redirect_settings( $plugin ) {
         return;
     } 
     if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
-        wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
-        exit;
+        if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'activate' && isset( $_REQUEST['plugin'] ) && $_REQUEST['plugin'] === $plugin ) { //phpcs:ignore
+            wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+            exit;
+        }
     }
 }
 
