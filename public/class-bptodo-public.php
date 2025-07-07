@@ -124,8 +124,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			 * @param string $mail_settings The user's mail settings.
 			 */
 			private function send_due_date_email($todo_id, $author_id, $mail_settings) {
+				$global_mail_settings = !empty( get_option( 'user_todo_list_settings', true ) ) ? get_option( 'user_todo_list_settings', true ) : array();
+							
 				// Check if the user has opted to receive email notifications
-				if ('yes' === $mail_settings) {
+				if ( isset( $global_mail_settings['send_mail'] ) && 'yes' === $mail_settings) {
 					$email_sent = get_post_meta($todo_id, 'todo_last_day_mail_sent', true);
 					if ('no' === $email_sent) {
 						// Prepare email components
@@ -133,9 +135,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						$site_name = get_bloginfo('name');
 						$task_name = get_the_title($todo_id);
 						/* translators: %2$s */
-						$subject = sprintf(esc_html__('%1$s: Task "%2$s" Due Today', 'wb-todo'), $site_name, $task_name);
+						$subject = sprintf(html_entity_decode( esc_html__('%1$s: Task "%2$s" Due Today', 'wb-todo') ), $site_name, $task_name);
 						/* translators: %1$s */
-						$message = sprintf(esc_html__('Your task: %1$s is due today. Kindly finish it up! Thanks!', 'wb-todo'), $task_name);
+						$message = sprintf( html_entity_decode( esc_html__('Your task: %1$s is due today. Kindly finish it up! Thanks!', 'wb-todo') ) , $task_name);
 						$headers = ['Content-Type: text/html; charset=UTF-8'];
 
 						// Send the email
@@ -1203,7 +1205,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @return void
 		 */
 		public function bptodo_before_submit_in_mail() {
-				$mail = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
+			$global_mail_settings = get_option( 'user_todo_list_settings', true );
+
+			if( ! isset( $global_mail_settings['send_mail'] ) || ( empty( $global_mail_settings['send_mail'] ) ) )  {
+				return;
+			}
+
+			$mail = get_user_meta( get_current_user_id(), 'todo_mail_setting' );
 			?>
 			<table class="notification-settings" id="activity-notification-settings">
 		<thead>
@@ -1221,7 +1229,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					<td>&nbsp;</td>
 					<td>
 						<?php
-						esc_html_e( 'Enable/disable mail option', 'wb-todo' );
+						esc_html_e( 'Get email alerts when task due dates are near.', 'wb-todo' );
 						?>
 					</td>
 					<td class="yes"><input type="radio" name="notifications[todo_mail_setting]" id="todo-mail-settings-yes" value="yes"<?php checked( isset( $mail[0] ) ? $mail[0] : '', 'yes', true ); ?>/><label for="todo-mail-settings-yes" class="bp-screen-reader-text">
