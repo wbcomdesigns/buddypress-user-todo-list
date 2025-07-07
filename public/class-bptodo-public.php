@@ -477,7 +477,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug );
 			$my_todo_items             = $bptodo->my_todo_items;
 			$name                      = $profile_menu_slug;
-			if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, '12.0', '>=' ) ) {
+			if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
                 $groups_link           = bp_get_group_url( $bp->groups->current_group );
             } else {
                 $groups_link           = bp_get_group_permalink( $bp->groups->current_group );
@@ -564,7 +564,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			echo '<h3>Group Events</h3>';
 
-			if ( function_exists( 'buddypress' ) && version_compare( buddypress()->version, '12.0', '>=' ) ) {
+			if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
                 $groups_link       = bp_get_group_url( $bp->groups->current_group ) . 'add-events/';
             } else {
                 $groups_link       = bp_get_group_permalink( $bp->groups->current_group ) . 'add-events/';
@@ -862,7 +862,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$user_id           = isset( $_POST['uid'] ) ? sanitize_text_field( wp_unslash( $_POST['uid'] ) ) : '';
 				update_post_meta( $tid, 'todo_status', 'complete' );
 				update_post_meta( $tid, 'todo_user_id', $user_id );
-				update_post_meta( $tid, 'todo_complete_time', time() );
+				update_post_meta( $tid, 'todo_complete_time', current_time('timestamp') );
 				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
 				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
 				(int) $completed_todos++;

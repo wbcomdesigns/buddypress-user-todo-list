@@ -266,8 +266,12 @@ if ( empty( $todos ) ) {
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
 																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
-																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+																			$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		} else {
+																			$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		}										
+																		
 																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
 																	} else{
 																		echo esc_html( $todo_title ); 
@@ -385,8 +389,12 @@ if ( empty( $todos ) ) {
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
 																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
-																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+																			$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		} else {
+																			$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		}
+																		
 																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
 																	} else{
 																		echo esc_html( $todo_title ); 
@@ -506,8 +514,12 @@ if ( empty( $todos ) ) {
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
 																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
-																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+																			$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		} else {
+																			$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		}									
+																		
 																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
 																	} else{
 																		echo esc_html( $todo_title ); 
@@ -633,8 +645,12 @@ if ( empty( $todos ) ) {
 															</li>
 															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
 																<?php
-																if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
-																	 $group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																								if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+																		$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	} else {
+																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																	}								
+																	
 																	echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
 																} else{
 																	echo esc_html( $todo_title ); 
@@ -760,8 +776,12 @@ if ( empty( $todos ) ) {
 																	</span>
 																<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
 																	<?php
-																		if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																																		
-																			$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																		if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																						if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+																				$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																			} else {
+																				$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
+																			}							
+																			
 																			echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
 																		} else{
 																			echo esc_html( $todo_title ); 
