@@ -97,6 +97,10 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		$associated_todos = array();
 
 		foreach ( $group_members_ids as $member_id ) {
+			
+			if( groups_is_user_admin( $member_id, $todo_group_id ) || groups_is_user_mod( $member_id, $todo_group_id ) ) {
+				continue;
+			}
 			$args    = array(
 				'post_type'    => 'bp-todo',
 				'post_status'  => 'publish',
