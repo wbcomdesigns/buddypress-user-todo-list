@@ -322,7 +322,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( ! is_array( $component_names ) ) {
 				$component_names = array();
 			}
-			array_push( $component_names, 'bptodo_due_date' );
+				array_push( $component_names, 'bptodo_due_date' );
 			return $component_names;
 		}
 		/**
@@ -352,9 +352,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @param    string $total_items total items.
 		 * @param    string $format contain format.
 		 */
-		public function bptodo_format_due_date_notifications( $content, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
+		public function bptodo_format_due_date_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $component_action_name = '', $component_name = '', $id = '' ) {
 			global $bptodo;
-			$action             = array();
 			$profile_menu_label = $bptodo->profile_menu_label;
 			if ( 'bptodo_due_date_action' === $component_action_name ) {
 				$todo = get_post( $item_id );
@@ -367,7 +366,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
 					$custom_text = sprintf( esc_html__( 'Your %1$s: %2$s is due today. Please complete it as soon as possible.', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 					$custom_link           = add_query_arg( array( 'referer' => 'user_due_notification' ), $custom_link );			// for identification of mark as read action 
-					$custom_link           = wp_nonce_url( $custom_link, 'mark-as-read-notification-' . get_current_user_id() . '-' . $item_id );		// for security purpose when mark as read notification.
+					$custom_link           = wp_nonce_url( $custom_link, 'mark-as-read-notification-' . get_current_user_id() );		// for security purpose when mark as read notification.
 					// WordPress Toolbar.
 					/** WP Toolbar. */
 					if ( 'string' === $format ) {
@@ -384,26 +383,26 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			//Notification send when todo added in the group
 			if ( 'bptodo_group_todo_notifications' === $component_name ) {
-				$get_gp_id   		= get_post_meta( $item_id, 'todo_group_id', true );
-				$group       		= groups_get_group( array( 'group_id' => $get_gp_id ) );
-				$bptodo_post 		= get_post( $item_id );
-				$author_name        = bp_core_get_user_displayname( $secondary_item_id );
-				$user_link          = bp_get_notifications_permalink( get_current_user_id() );
-				$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
-				$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
-				/* translators: 1: todo title, 2: group name, 3: author name */
-				$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
-				$notification_guid           = add_query_arg( array( 'referer' => 'user_group_notification' ), $notification_guid );			// for identification of mark as read action 
-				$notification_guid           = wp_nonce_url( $notification_guid, 'mark-as-read-notification-' . get_current_user_id() . '-' . $item_id );		// for security purpose when mark as read notification.
-		
-				if ( 'string' === $format ) {
-					$action = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
-				} else {
-					$action = array(
-						'text' => $notification_string,
-						'link' => $user_link,
-					);
-				}
+					$get_gp_id   		= get_post_meta( $item_id, 'todo_group_id', true );
+					$group       		= groups_get_group( array( 'group_id' => $get_gp_id ) );
+					$bptodo_post 		= get_post( $item_id );
+					$author_name        = bp_core_get_user_displayname( $secondary_item_id );
+					$user_link          = bp_get_notifications_permalink( get_current_user_id() );
+					$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
+					$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
+					/* translators: 1: todo title, 2: group name, 3: author name */
+					$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
+					$notification_guid           = add_query_arg( array( 'referer' => 'user_group_notification' ), $notification_guid );			// for identification of mark as read action 
+					$notification_guid           = wp_nonce_url( $notification_guid, 'mark-as-read-notification-' . get_current_user_id() );		// for security purpose when mark as read notification.
+			
+					if ( 'string' === $format ) {
+						$action = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
+					} else {
+						$action = array(
+							'text' => $notification_string,
+							'link' => $user_link,
+						);
+					}
 			}
 			
 			return $action;
@@ -414,11 +413,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( ! isset( $_GET['referer'] ) || empty( $_GET['referer'] ) ) {
 				return ;
 			}
-			
 			global $post;
 			$current_user_id = get_current_user_id();
 			if( isset( $_GET['referer'] ) && 'user_due_notification' === $_GET['referer'] ){
-				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}-{$post->ID}" ) ) {
+				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}" ) ) {
 					BP_Notifications_Notification::update(
 						array( 'is_new' => false ),
 						array(
@@ -432,7 +430,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 
 			if( isset( $_GET['referer'] ) && 'user_group_notification' === $_GET['referer'] ){
-				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}-{$post->ID}" ) ) {
+				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}" ) ) {
 					BP_Notifications_Notification::update(
 						array( 'is_new' => false ),
 						array(
