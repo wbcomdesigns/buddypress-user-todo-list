@@ -379,6 +379,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				}
 
 				update_option( 'user_todo_list_settings', $settings );
+				if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+					global $bptodo;
+    				$bptodo = new Bptodo_Globals();
+				}
 			}
 		}
 
