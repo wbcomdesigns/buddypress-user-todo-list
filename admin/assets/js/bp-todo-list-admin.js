@@ -35,16 +35,16 @@
 	 		plugins			: ['remove_button']
 	 	});
 
-		 $('.custom-deactivate-plugin').on('click', function(e) {
+		 $('.bptodo-network-deactivate').on('click', function(e) {
 			e.preventDefault();
    
-			if (confirm('Are you sure you want to deactivate this plugin for all site?')) {
+			if (confirm('Are you sure you want to deactivate this plugin across all sites?')) {
 				$.ajax({
-					url: deactivation_ajax_object.ajax_url,
+					url: bptodo_network_ajax.ajax_url,
 					type: 'POST',
 					data: {
-						action: 'custom_deactivate_plugin',
-						nonce: deactivation_ajax_object.nonce,
+						action: 'bptodo_network_deactivate',
+						nonce: bptodo_network_ajax.nonce,
 					},
 					success: function(response) {
 						if (response.success) {

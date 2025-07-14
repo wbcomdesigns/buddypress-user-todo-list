@@ -1006,6 +1006,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
+				
+				// Standard permission check
+				$todo = get_post($tid);
+				if (!$todo || ($todo->post_author != get_current_user_id() && !current_user_can('edit_others_posts'))) {
+					echo 'unauthorized';
+					die;
+				}
+				
 				$primary_todo_id = get_post_meta( $tid, 'todo_primary_id', true );
 				if ( $primary_todo_id ) {
 					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
