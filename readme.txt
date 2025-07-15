@@ -3,8 +3,8 @@ Contributors: wbcomdesigns , vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
-Tested up to: 6.7.0
-Stable tag: 3.3.0
+Tested up to: 6.8.1
+Stable tag: 3.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -73,6 +73,22 @@ The screenshots are present in the root of the plugin folder.
 == Changelog ==
 
 == Changelog ==
+= 3.4.0 =
+* Added To-Do tab navigation icons and UI improvements.
+* Fixed: Network-wide plugin handling support.
+* Fixed: Setting save issue with BuddyBoss platform.
+* Fixed: Notification issue when all to-dos are deleted.
+* Fixed: Email notification issues.
+* Fixed: Task duplication when assigned to group admin/moderator.
+* Fixed: Fatal error and incorrect timestamp issue with BuddyBoss.
+* Fixed: Bulk plugin activate redirection bug.
+* Fixed: JavaScript-related warnings and removed unnecessary console logs.
+* Fixed: Group To-Do completion time issue.
+* Fixed: Early text domain loading issue.
+* Improved: Translated DataTable strings.
+* Improved: Overall text strings and UI feedback messages.
+* Cleanup: Removed unused files and optimized codebase.
+
 = 3.3.0 =
 * Fixed feedback icon display issues.
 * Added functionality to identify groups and profiles in user profiles.
