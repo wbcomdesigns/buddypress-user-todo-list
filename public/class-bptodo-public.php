@@ -179,7 +179,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 
 		/**
-		 * Add To-Do items to the BuddyPress admin bar.
+		 * Add Todo items to the BuddyPress admin bar.
 		 *
 		 * @since    1.0.0
 		 * @access   public
@@ -195,10 +195,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 			$my_todo_items             = $bptodo->my_todo_items;
 
-			// Fetch the To-Do list settings.
+			// Fetch the Todo list settings.
 			$todo_list_settings = get_option( 'user_todo_list_settings' );
 
-			// Return early if To-Do lists are not enabled for members.
+			// Return early if Todo lists are not enabled for members.
 			if ( ! isset( $todo_list_settings['enable_todo_member'] ) ) {
 				return;
 			}
@@ -210,7 +210,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo_add_url  = trailingslashit( $base_url . '/add' );
 				$todo_list_url = trailingslashit( $base_url . '/list' );
 
-				// Add the main To-Do menu item to the BuddyPress admin bar.
+				// Add the main Todo menu item to the BuddyPress admin bar.
 				$wp_admin_bar->add_menu(
 					array(
 						'parent' => 'my-account-buddypress',

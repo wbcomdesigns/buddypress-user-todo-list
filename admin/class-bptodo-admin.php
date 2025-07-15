@@ -188,7 +188,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
 				add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
 			}
-			add_submenu_page( 'wbcomplugins', esc_html__( 'BP User To-Do List', 'wb-todo' ), esc_html__( 'BP User To-Do List', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
+			add_submenu_page( 'wbcomplugins', esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ), esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
 		}
 
 		/**
@@ -218,7 +218,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					<div class="blpro-header">
 						<div class="wbcom_admin_header-wrapper">
 							<div id="wb_admin_plugin_name">
-								<?php esc_html_e( 'BuddyPress User To-Do List', 'wb-todo' ); ?>
+								<?php esc_html_e( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ); ?>
 								<?php	/* translators: %1$s */ ?>
 								<span><?php printf( esc_html__( 'Version %s', 'wb-todo' ), esc_attr( BPTODO_VERSION ) ); ?></span>
 							</div>
@@ -271,7 +271,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		public function bptodo_register_general_settings() {
 			$this->plugin_settings_tabs['user-todo-list-welcome']   = esc_html__( 'Welcome', 'wb-todo' );
 			$this->plugin_settings_tabs['user-todo-list-settings']  = esc_html__( 'General', 'wb-todo' );
-			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group To-Do', 'wb-todo' );
+			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group Todo', 'wb-todo' );
 
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_welcome', ' ', array( $this, 'bptodo_welcome_content' ), 'user-todo-list-welcome' );

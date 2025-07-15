@@ -25,8 +25,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	public function __construct() {
 
 		// Setup widget name & description.
-		$name        = _x( 'Member To-Do', 'widget name', 'wb-todo' );
-		$description = __( 'A dynamic list of ToDos of displayed member.', 'wb-todo' );
+		$name        = _x( 'Member Todo', 'widget name', 'wb-todo' );
+		$description = __( 'A dynamic list of Todos of displayed member.', 'wb-todo' );
 
 		// Call WP_Widget constructor.
 		parent::__construct(
@@ -173,7 +173,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>">
 				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'link_title' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>" value="1" <?php checked( $link_title ); ?> />
-				<?php esc_html_e( 'Link widget title to archive page of To-Do', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Link widget title to archive page of Todo', 'wb-todo' ); ?>
 			</label>
 		</p>
 

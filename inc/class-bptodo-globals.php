@@ -53,8 +53,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			global $bptodo;
 			$settings = get_option( 'user_todo_list_settings' );
 			
-			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'To-do', 'wb-todo' );
-			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'To-dos', 'wb-todo' );
+			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
+			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
 			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
 			$this->enable_todo_member        = ! empty( $settings['enable_todo_member'] ) ? 'yes' : 'no';
 			$this->allow_user_add_category   = ! empty( $settings['allow_user_add_category'] ) ? 'yes' : 'no';
@@ -71,7 +71,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @since    1.0.0
 		 * @access   private
 		 * @author   Wbcom Designs
-		 * @return   int The count of to-do items.
+		 * @return   int The count of todo items.
 		 */
 		private function bptodo_count_my_todo_items() {
 			$args = [

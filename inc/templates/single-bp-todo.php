@@ -1,8 +1,8 @@
 <?php
 /**
- * The template for displaying single To-Do items
+ * The template for displaying single Todo items
  *
- * This template focuses on displaying the content of To-Do items within the standard page structure.
+ * This template focuses on displaying the content of Todo items within the standard page structure.
  * It avoids altering the global header, footer, or sidebar styles.
  *
  * @package bp-user-todo-list
@@ -30,7 +30,7 @@ get_header(); ?>
                 
                 <div class="signle-bptodo-meta">
                     <?php
-                    // To-Do Priority
+                    // Todo Priority
                     $todo_priority = get_post_meta( get_the_ID(), 'todo_priority', true );
                     if ( ! empty( $todo_priority ) ) {
                         switch ( $todo_priority ) {
@@ -50,10 +50,10 @@ get_header(); ?>
                         echo '<div class="single-todo-priority"><span class="' . esc_attr( $priority_class ) . '">' . esc_html( $priority_text ) . '</span></div>';
                     }
 
-                    // To-Do Date
+                    // Todo Date
                     echo '<div class="single-todo-date">' . esc_html( get_the_date() ) . '</div>';
 
-                    // To-Do Category
+                    // Todo Category
                     $todo_cat = wp_get_object_terms( get_the_ID(), 'todo_category' );
                     if ( ! empty( $todo_cat ) && ! is_wp_error( $todo_cat ) ) {
                         echo '<div class="single-todo-cat">' . esc_html( $todo_cat[0]->name ) . '</div>';

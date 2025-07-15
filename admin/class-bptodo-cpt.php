@@ -42,16 +42,16 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				return false;
 			}
 			$labels = array(
-				'name'               => esc_html__( 'To-Do Items', 'wb-todo' ),
-				'singular_name'      => esc_html__( 'To-Do Item', 'wb-todo' ),
-				'menu_name'          => esc_html__( 'To-Do Items', 'wb-todo' ),
-				'name_admin_bar'     => esc_html__( 'To-Do Items', 'wb-todo' ),
-				'view_item'          => esc_html__( 'View To-Do Item', 'wb-todo' ),
-				'all_items'          => esc_html__( 'All To-Do Items', 'wb-todo' ),
-				'search_items'       => esc_html__( 'Search To-Do Item', 'wb-todo' ),
-				'parent_item_colon'  => esc_html__( 'Parent To-Do Item:', 'wb-todo' ),
-				'not_found'          => esc_html__( 'No To-Do Item Found', 'wb-todo' ),
-				'not_found_in_trash' => esc_html__( 'No To-Do Item Found In Trash', 'wb-todo' ),
+				'name'               => esc_html__( 'Todo Items', 'wb-todo' ),
+				'singular_name'      => esc_html__( 'Todo Item', 'wb-todo' ),
+				'menu_name'          => esc_html__( 'Todo Items', 'wb-todo' ),
+				'name_admin_bar'     => esc_html__( 'Todo Items', 'wb-todo' ),
+				'view_item'          => esc_html__( 'View Todo Item', 'wb-todo' ),
+				'all_items'          => esc_html__( 'All Todo Items', 'wb-todo' ),
+				'search_items'       => esc_html__( 'Search Todo Item', 'wb-todo' ),
+				'parent_item_colon'  => esc_html__( 'Parent Todo Item:', 'wb-todo' ),
+				'not_found'          => esc_html__( 'No Todo Item Found', 'wb-todo' ),
+				'not_found_in_trash' => esc_html__( 'No Todo Item Found In Trash', 'wb-todo' ),
 			);
 
 			$args = array(
@@ -89,16 +89,16 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 */
 		public function bptodo_create_cpt_category() {
 			$tax_labels = array(
-				'name'              => esc_html__( 'To-Do Category', 'wb-todo' ),
-				'singular_name'     => esc_html__( 'To-Do Category', 'wb-todo' ),
-				'search_items'      => esc_html__( 'Search To-Do Items Categories', 'wb-todo' ),
-				'all_items'         => esc_html__( 'All To-Do Items Categories', 'wb-todo' ),
-				'parent_item'       => esc_html__( 'Parent To-Do Item Category', 'wb-todo' ),
-				'parent_item_colon' => esc_html__( 'Parent To-Do Item Category:', 'wb-todo' ),
+				'name'              => esc_html__( 'Todo Category', 'wb-todo' ),
+				'singular_name'     => esc_html__( 'Todo Category', 'wb-todo' ),
+				'search_items'      => esc_html__( 'Search Todo Items Categories', 'wb-todo' ),
+				'all_items'         => esc_html__( 'All Todo Items Categories', 'wb-todo' ),
+				'parent_item'       => esc_html__( 'Parent Todo Item Category', 'wb-todo' ),
+				'parent_item_colon' => esc_html__( 'Parent Todo Item Category:', 'wb-todo' ),
 				'edit_item'         => esc_html__( 'Edit Category', 'wb-todo' ),
 				'update_item'       => esc_html__( 'Update Category', 'wb-todo' ),
-				'add_new_item'      => esc_html__( 'Add To-Do Item Category', 'wb-todo' ),
-				'not_found'         => esc_html__( 'No To-Do Item Categories Found', 'wb-todo' ),
+				'add_new_item'      => esc_html__( 'Add Todo Item Category', 'wb-todo' ),
+				'not_found'         => esc_html__( 'No Todo Item Categories Found', 'wb-todo' ),
 				'menu_name'         => esc_html__( 'Categories', 'wb-todo' ),
 			);
 			$tax_args   = array(

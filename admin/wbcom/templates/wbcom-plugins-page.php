@@ -539,8 +539,8 @@
 					</div>
 					<div class="wbcom-addons-plugins-card">
 						<div class="wbcom-addons-card-details">
-							<h2><?php esc_html_e( 'BuddyPress User Todo List', 'wb-todo' ); ?></h2>
-							<p><?php esc_html_e( 'Allow users to create, organize, and manage personal to-do lists with categories directly from their BuddyPress profiles.', 'wb-todo' ); ?></p>
+							<h2><?php esc_html_e( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ); ?></h2>
+							<p><?php esc_html_e( 'Allow users to create, organize, and manage personal todo lists with categories directly from their BuddyPress profiles.', 'wb-todo' ); ?></p>
 							<div class="wbcom-addons-card-button">								
 								<a target="_blank" href="https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/" class="wbcom-addons-button"><?php esc_html_e( 'View Details', 'wb-todo' ); ?></a>
 								<a href="https://docs.wbcomdesigns.com/doc_category/buddypress-user-to-do-list/" class="wbcom-addons-button wbcom-purchase" target="_blank"><?php esc_html_e( 'Docs', 'wb-todo' ); ?></a>

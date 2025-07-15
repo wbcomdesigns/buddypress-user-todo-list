@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Wbcom Designs BP Todo List
+ * Plugin Name: Todo for BuddyPress & BuddyBoss
  * Plugin URI: https://wbcomdesigns.com/contact/
- * Description: This plugin allows users to create to-do items in their profile section and a simple interface to schedule their tasks.
+ * Description: Complete todo and task management for BuddyPress and BuddyBoss communities.
  * Version: 3.3.0
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
@@ -109,7 +109,7 @@ function bptodo_media_button_subscriber() {
 add_action( 'init', 'bptodo_media_button_subscriber' );
 
 /**
- * Check if the To-Do List plugin should be active on the current subsite.
+ * Check if the Todo List plugin should be active on the current subsite.
  */
 function bptodo_check_buddypress_subsite_activation() {    
     // Ensure this is a multisite installation
@@ -166,33 +166,33 @@ function bptodo_show_bp_root_blog_notice() {
 	printf(
 		// Translators: %s.
 		esc_html__( '%1$s is only active on the subsite defined by BP_ROOT_BLOG.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
 	);
 	echo '</p></div>';
 }
 
 /**
- * Show admin notice to inform the user that To-Do List can only be activated on the BuddyPress root blog.
+ * Show admin notice to inform the user that Todo List can only be activated on the BuddyPress root blog.
  */
 function bptodo_show_buddypress_root_blog_notice() {   
     echo '<div class="error"><p>';
 	printf(
 		// Translators: %s.
 		esc_html__( '%1$s can only be activated on the BuddyPress root blog.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
 	);
 	echo '</p></div>';
 }
 
 /**
- * Show admin notice to inform the user that BuddyPress is required for the To-Do List plugin.
+ * Show admin notice to inform the user that BuddyPress is required for the Todo List plugin.
  */
 function bptodo_show_buddypress_required_notice() {    
     echo '<div class="error"><p>';
 	printf(
 		// Translators: %s.
 		esc_html__( '%1$s requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'To-Do List', 'wb-todo' ) . '</strong>'
+		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
 	);
 	echo '</p></div>';
 }
@@ -204,9 +204,9 @@ function bptodo_show_buddypress_required_notice() {
  * @since   1.0.0
  */
 function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = esc_html__( 'BuddyPress Member To-Do List', 'wb-todo' );
+	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' );
 	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
-	/* Translators: 1) BuddyPress Member To-Do List 2) BuddyPress  */
+	/* Translators: 1) BuddyPress Member Todo List 2) BuddyPress  */
 	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
 }
 

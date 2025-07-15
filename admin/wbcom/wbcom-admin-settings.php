@@ -260,7 +260,7 @@ if ( ! class_exists( 'Wbcom_Admin_Settings' ) ) {
 			$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 			if ( ! $page ) {
-				// Fallback to the default settings page for the User To-Do List plugin
+				// Fallback to the default settings page for the User Todo List plugin
 				$page = 'user-todo-list-settings';
 			}
 

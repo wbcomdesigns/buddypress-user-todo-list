@@ -104,8 +104,8 @@ class Bptodo_List_Activator {
 
 		if ( false === $user_todo_list_settings ) {
 			$user_todo_list_settings = array(
-				'profile_menu_label' 		=> 'To-do',
-				'profile_menu_label_plural' => 'To-dos',
+				'profile_menu_label' 		=> 'Todo',
+				'profile_menu_label_plural' => 'Todos',
 				'enable_todo_member' 		=> 'on',
 				'allow_user_add_category' 	=> 'on',
 				'send_notification' 		=> 'on',
