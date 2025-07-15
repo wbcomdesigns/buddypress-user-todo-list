@@ -189,7 +189,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				add_menu_page( esc_html__( 'WB Plugins', 'wb-todo' ), esc_html__( 'WB Plugins', 'wb-todo' ), 'manage_options', 'wbcomplugins', array( $this, 'bptodo_admin_options_page' ), 'dashicons-lightbulb', 59 );
 				add_submenu_page( 'wbcomplugins', esc_html__( 'General', 'wb-todo' ), esc_html__( 'General', 'wb-todo' ), 'manage_options', 'wbcomplugins' );
 			}
-			add_submenu_page( 'wbcomplugins', esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ), esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
+			add_submenu_page( 'wbcomplugins', esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ), esc_html__( 'Todo Lists', 'wb-todo' ), 'manage_options', 'user-todo-list-settings', array( $this, 'bptodo_admin_options_page' ) );
 		}
 
 		/**
