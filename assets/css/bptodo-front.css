@@ -8,6 +8,7 @@
     from {
         text-decoration-color: transparent;
     }
+
     to {
         text-decoration-color: auto;
     }
@@ -561,6 +562,7 @@ textarea {
     from {
         transform: rotate(359deg);
     }
+
     to {
         transform: rotate(0deg);
     }
@@ -665,21 +667,25 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 
 
 /******** Report Table *************/
-.todo-reports-wrapper{
+.todo-reports-wrapper {
     margin-top: 20px;
 }
+
 .select-todo-option {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
     gap: 10px;
 }
+
 .select-todo-option label {
     flex: 0 0 auto;
 }
-.select-todo-option select#todo-select{
+
+.select-todo-option select#todo-select {
     width: 100%;
 }
+
 #bp-todo-table_wrapper div#bp-todo-table_filter {
     margin-bottom: 15px;
 }
@@ -689,9 +695,11 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
     align-items: center;
     gap: 5px;
 }
+
 div#bp-todo-table_wrapper div#bp-todo-table_length select {
     width: 55px;
 }
+
 .single-to-report table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -751,20 +759,25 @@ div#bp-todo-table_wrapper div#bp-todo-table_length select {
     .todo-detail {
         overflow-x: auto;
     }
+
     #bptodo-dashboard-box {
         display: block;
     }
+
     #bptodo-dashboard ul li {
         width: 100%;
         margin: 0;
         margin-bottom: 10px;
     }
+
     #bptodo-dashboard ul li:last-child {
         margin-bottom: 0;
     }
+
     .todo-reports-wrapper select#todo-select {
         width: 100%;
     }
+
     #bp-todo-table_wrapper div#bp-todo-table_filter label {
         justify-content: center;
     }
@@ -1250,28 +1263,32 @@ Edit popup
 #youzify .youzify-group-content #youzify-group-body nav#subnav {
     padding: 15px 20px;
     margin: 0 0 35px;
-    background-color: var(--yzfy-card-bg-color);    
+    background-color: var(--yzfy-card-bg-color);
     border-radius: 3px;
 }
-#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav{
+
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav {
     width: 100%;
     display: table;
 }
-#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li{
+
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li {
     display: inline-block;
     float: left;
 }
-#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a{
-        padding: 0;
-        margin: 5px 12px 5px 0;
-        color: var(--yzfy-submenu-link-color);
-        font-size: 12px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        text-transform: uppercase;
+
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a {
+    padding: 0;
+    margin: 5px 12px 5px 0;
+    color: var(--yzfy-submenu-link-color);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
 }
+
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li a:before {
     background: #32A0FF;
     content: "\f044";
@@ -1287,26 +1304,31 @@ Edit popup
     color: #fff;
     font-family: "Font Awesome 5 Free" !important;
 }
-#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#add-groups-li a#add:before{
+
+#youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#add-groups-li a#add:before {
     content: '\f303';
     background: #FF7376;
     background: linear-gradient(to left, #fa6d9d, #ff1e6b);
-    background: -webkit-linear-gradient(right, #fa6d9d, #ff1e6b);    
+    background: -webkit-linear-gradient(right, #fa6d9d, #ff1e6b);
 }
+
 #youzify .youzify-group-content #youzify-group-body nav#subnav ul.subnav li#reports-groups-li a#reports:before {
     content: '\f15b';
     background: #24cbbb;
     background: linear-gradient(to left, #45eada, #009688);
-    background: -webkit-linear-gradient(right, #45eada, #009688);    
+    background: -webkit-linear-gradient(right, #45eada, #009688);
 }
+
 #youzify .youzify-group-content #youzify-group-body form#myForm.bptodo-form-add {
     padding: 20px;
     background-color: var(--yzfy-card-bg-color);
     border-radius: 3px;
 }
-#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td{
+
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td {
     text-align: left;
 }
+
 #youzify .youzify-group-content #youzify-group-body .bptodo-add-todo-tbl select#bp_todo_categories,
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl .nice-select {
     width: 60%;
@@ -1315,43 +1337,80 @@ Edit popup
     margin-right: 10px;
     display: inline-block !important;
 }
+
 #youzify .youzify-group-content #youzify-group-body table .bp_todo_categories .nice-select {
     display: none !important;
 }
+
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl span.current {
     text-align: left !important;
 }
+
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl .nice-select.open .list {
     width: 100%;
 }
-#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr{
+
+#youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr {
     border: none;
     margin-bottom: 10px;
 }
+
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td label {
     font-size: 15px;
 }
+
 #youzify .youzify-group-content #youzify-group-body form input[type=submit]#bp-add-new-todo {
     width: 40%;
     height: 48px;
 }
 
 /* Reign Theme */
-.wb-reign-theme #youzify .youzify-group-content #youzify-group-body nav#subnav{
+.wb-reign-theme #youzify .youzify-group-content #youzify-group-body nav#subnav {
     background-color: var(--reign-site-sections-bg-color);
 }
+
 .wb-reign-theme #youzify section.bptodo-adming-setting {
     margin-bottom: 40px;
 }
+
 .wb-reign-theme #youzify #add-todo-cat {
     color: var(--reign-site-button-text-color);
 }
-.wb-reign-theme #youzify-group-body form input[type=submit]#bp-add-new-todo{
+
+.wb-reign-theme #youzify-group-body form input[type=submit]#bp-add-new-todo {
     color: var(--reign-site-button-text-color);
 }
+
+/* Add Nav Icons */
 .buddyx-nav-iconic .groups-nav li#nav-to-do-groups-li a:before,
 .wb-reign-theme #nav-to-do-groups-li a#nav-to-do::before {
     content: "\f044";
+}
+
+.buddyx-nav-iconic #todo-personal-li>a:before,
+.buddyx-nav-iconic #nav-todo-groups-li>a:before,
+.reign-nav-iconic #todo-personal-li>a:before,
+.reign-nav-iconic #nav-todo-groups-li>a:before {
+    content: "\f0ae";
+}
+
+.reign-nav-iconic #add-groups-li>a:before,
+.reign-nav-iconic #add-personal-li>a:before,
+.buddyx-nav-iconic #add-groups-li>a:before,
+.buddyx-nav-iconic #add-personal-li>a:before {
+    content: "\f044";
+}
+
+.reign-nav-iconic #list-groups-li>a:before,
+.reign-nav-iconic #list-personal-li>a:before,
+.buddyx-nav-iconic #list-groups-li>a:before,
+.buddyx-nav-iconic #list-personal-li>a:before {
+    content: "\f0ae";
+}
+
+.reign-nav-iconic #reports-groups-li>a:before,
+.buddyx-nav-iconic #reports-groups-li>a:before {
+    content: "\f15b";
 }
 
 /*BuddyBoss Theme*/
@@ -1359,8 +1418,9 @@ Edit popup
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none !important;
 }
+
 .buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:before,
-.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:after{
+.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:after {
     display: none;
 }
 
@@ -1368,6 +1428,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     .todo-header {
         display: none;
     }
+
     #buddypress .todo-header-list .todo-header-list-row,
     .todo-header-list .todo-header-list-row {
         flex-wrap: wrap;
@@ -1378,28 +1439,33 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
         border-radius: 10px;
         box-shadow: inset 0 0 15px #f7faff;
     }
+
     .todo-header-list-row .bptodo-priority {
         position: absolute;
         top: 20px;
         left: 15px;
         padding: 0;
     }
+
     .todo-header-list-row .bp-to-do-actions {
         position: absolute;
         right: 0;
         top: 0;
         width: 150px;
     }
+
     .todo-header-list-row .bptodo-check {
         width: 32px;
         padding: 10px 0;
     }
+
     .todo-header-list-row .bptodo-task {
         width: calc(100% - 32px);
         order: 3;
         padding-left: 0;
         padding: 10px 0;
     }
+
     .todo-header-list-row .bptodo-date,
     .todo-header-list-row .bptodo-cat {
         width: 100%;
@@ -1409,31 +1475,38 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
         align-items: center;
         justify-content: space-between;
     }
+
     .todo-header-list-row .bptodo-date span,
     .todo-header-list-row .bptodo-cat span.bptodo-cat-mobile-title {
         display: block;
         color: initial;
         font-weight: 500;
     }
+
     .todo-header-list-row .bptodo-cat {
         width: 100%;
         order: 6;
         padding: 10px 0px 0;
     }
+
     #bptodo-task-tabs .bptodo-task-tabs-btn li a {
         padding: 5px 10px;
         min-height: 36px;
     }
+
     #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
         padding: 5px 20px;
         min-height: 36px;
     }
+
     .bp-to-do-actions-list {
         justify-content: flex-end;
     }
+
     .bp-to-do-actions-list li {
         margin-left: 10px;
     }
+
     .groups .todo-header-list-row .bp-to-do-actions {
         right: 0;
         bottom: 0;
@@ -1446,10 +1519,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
         border-radius: 0px !important;
         padding: 10px;
     }
+
     .groups .todo-header-list-row .bptodo-progress-group {
         margin-top: 0px;
         padding: 5px 20px;
     }
+
     .groups #buddypress .todo-header-list .todo-header-list-row,
     .groups .todo-header-list .todo-header-list-row {
         padding: 60px 15px 70px 15px;
@@ -1457,10 +1532,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 @media only screen and (max-width: 480px) {
+
     #bptodo-task-tabs .bptodo-task-tabs-head,
     #bptodo-task-tabs .bptodo-task-tabs-btn {
         display: block;
     }
+
     #bptodo-task-tabs .bptodo-task-tabs-btn li,
     #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
         margin: 0 0 10px;

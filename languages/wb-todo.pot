@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-15 08:00:28+00:00\n"
+"POT-Creation-Date: 2025-07-15 08:53:58+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +22,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
-"X-Generator: grunt-wp-i18n 1.0.4\n"
+"X-Generator: grunt-wp-i18n 1.0.3\n"
 
 #: admin/class-bptodo-admin.php:128
 #. translators: %1$s
@@ -77,15 +77,15 @@ msgstr ""
 msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:188
+#: admin/class-bptodo-admin.php:189
 msgid "WB Plugins"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:189 admin/class-bptodo-admin.php:273
+#: admin/class-bptodo-admin.php:190 admin/class-bptodo-admin.php:274
 msgid "General"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:191 admin/class-bptodo-admin.php:221
+#: admin/class-bptodo-admin.php:192 admin/class-bptodo-admin.php:222
 #: admin/class-bptodo-feedback.php:269
 #: admin/wbcom/templates/wbcom-license-page.php:9
 #: admin/wbcom/templates/wbcom-plugins-page.php:542 bp-user-todo-list.php:169
@@ -94,22 +94,22 @@ msgstr ""
 msgid "Todo for BuddyPress & BuddyBoss"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:223
+#: admin/class-bptodo-admin.php:224
 #: admin/wbcom/templates/wbcom-license-page.php:13
 #. translators: %1$s
 #. translators: %s:
 msgid "Version %s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:272
+#: admin/class-bptodo-admin.php:273
 msgid "Welcome"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:274
+#: admin/class-bptodo-admin.php:275
 msgid "Group Todo"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:326
+#: admin/class-bptodo-admin.php:327
 msgid "Shortcodes"
 msgstr ""
 
@@ -268,8 +268,8 @@ msgstr ""
 msgid "Todo Label (Singular)"
 msgstr ""
 
-#: admin/inc/bptodo-general-settings.php:32
-msgid "Label"
+#: admin/inc/bptodo-general-settings.php:32 inc/class-bptodo-globals.php:56
+msgid "Todo"
 msgstr ""
 
 #: admin/inc/bptodo-general-settings.php:40
@@ -1410,10 +1410,6 @@ msgstr ""
 
 #: bp-user-todo-list.php:392
 msgid "Plugin deactivated across all sites"
-msgstr ""
-
-#: inc/class-bptodo-globals.php:56
-msgid "Todo"
 msgstr ""
 
 #: inc/templates/archive-bp-todo.php:59

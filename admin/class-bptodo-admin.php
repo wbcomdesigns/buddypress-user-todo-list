@@ -172,7 +172,8 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 */
 		public function bptodo_admin_variables() {
 			$screen = get_current_screen();
-			if ( 'wb-plugins_page_user-todo-list-settings' === $screen->base ) {
+
+			if ( 'wb-plugins_page_user-todo-list-settings' === $screen->base || ( isset($_GET['page']) && $_GET['page'] === 'wbcomplugins' ) ) {
 				wp_enqueue_style( 'bptodo-css-admin', BPTODO_PLUGIN_URL . 'admin/assets/css/bptodo-admin.css', array() );
 			}
 		}
