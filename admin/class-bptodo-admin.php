@@ -62,8 +62,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 */
-		public function enqueue_styles() {
-			wp_enqueue_style( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/css/selectize.css', array(), BPTODO_VERSION, 'all' );
+		public function enqueue_styles( $hook_suffix ) {
+			if ( $hook_suffix === 'wb-plugins_page_user-todo-list-settings' ) {
+				wp_enqueue_style( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/css/selectize.css', array(), BPTODO_VERSION, 'all' );
+			}
 		}
 
 		/**
@@ -72,12 +74,11 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 */
-		public function enqueue_scripts() {
-			wp_enqueue_script( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/js/selectize.min.js', array( 'jquery' ), BPTODO_VERSION, false );
-			wp_enqueue_script( 'bp-todo-list-js', plugin_dir_url( __FILE__ ) . 'assets/js/bp-todo-list-admin.js', array( 'jquery' ), BPTODO_VERSION, false );
-			
-		
-			
+		public function enqueue_scripts( $hook_suffix ) {	
+			if ( $hook_suffix === 'wb-plugins_page_user-todo-list-settings' ) {
+				wp_enqueue_script( 'selectize', plugin_dir_url( __FILE__ ) . 'assets/js/selectize.min.js', array( 'jquery' ), BPTODO_VERSION, false );
+				wp_enqueue_script( 'bp-todo-list-js', plugin_dir_url( __FILE__ ) . 'assets/js/bp-todo-list-admin.js', array( 'jquery' ), BPTODO_VERSION, false );			
+			}
 		}
 
 		/**

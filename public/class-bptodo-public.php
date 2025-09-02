@@ -39,7 +39,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @access public
 		 */
 		public function enqueue_styles() {
-			wp_enqueue_style( 'datatables-css', BPTODO_PLUGIN_URL . 'assets/css/datatables.min.css', array(), BPTODO_VERSION, 'all' );
+			wp_register_style( 'datatables-css',BPTODO_PLUGIN_URL . 'assets/css/datatables.min.css', array(),BPTODO_VERSION, 'all' );
+			if( function_exists('bp_is_groups_component') && bp_is_groups_component() || function_exists('bp_is_group') && bp_is_group() ){				
+				wp_enqueue_style( 'datatables-css' );
+			}
 		}
 
 		/**
@@ -48,8 +51,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @since 1.0.0
 		 * @access public
 		 */
-		public function enqueue_scripts() {
-			wp_enqueue_script( 'datatables-js', BPTODO_PLUGIN_URL . 'assets/js/datatables.min.js', array( 'jquery' ), BPTODO_VERSION, false );			
+		public function enqueue_scripts() {			
+			wp_register_script( 'datatables-js', BPTODO_PLUGIN_URL . 'assets/js/datatables.min.js', array( 'jquery' ), BPTODO_VERSION, false );			
+			if( function_exists('bp_is_groups_component') && bp_is_groups_component() || function_exists('bp_is_group') && bp_is_group() ){
+				wp_enqueue_script( 'datatables-js' );			
+			}
 		}
 		
 		public function setup_cron_event() {
