@@ -76,12 +76,61 @@ $all_completed_todo = 0;
 $all_remaining_todo = 0;
 $completed_todo_ids = array();
 $todo_list          = array();
+$all_todos          = array(); // Store all todos for intelligent sorting
 
 // Loop through all pages to get all todos.
 do {
     $todos = get_posts($args);
-    
-    foreach ($todos as $todo) {
+
+    // Collect all todos first for sorting
+    $all_todos = array_merge($all_todos, $todos);
+
+    $args['paged']++;
+} while (count($todos) === $args['posts_per_page']); // Continue fetching until no more posts are returned.
+
+// Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
+usort( $all_todos, function( $a, $b ) {
+	$a_status   = get_post_meta( $a->ID, 'todo_status', true );
+	$b_status   = get_post_meta( $b->ID, 'todo_status', true );
+	$a_priority = get_post_meta( $a->ID, 'todo_priority', true );
+	$b_priority = get_post_meta( $b->ID, 'todo_priority', true );
+	$a_due_date = get_post_meta( $a->ID, 'todo_due_date', true );
+	$b_due_date = get_post_meta( $b->ID, 'todo_due_date', true );
+
+	// 1. Completed tasks always go to bottom
+	if ( $a_status === 'complete' && $b_status !== 'complete' ) {
+		return 1;
+	}
+	if ( $a_status !== 'complete' && $b_status === 'complete' ) {
+		return -1;
+	}
+
+	// 2. Sort by priority (Critical=3, High=2, Normal=1, Empty=0)
+	$priority_map = array( 'critical' => 3, 'high' => 2, 'normal' => 1 );
+	$a_priority_val = isset( $priority_map[ $a_priority ] ) ? $priority_map[ $a_priority ] : 0;
+	$b_priority_val = isset( $priority_map[ $b_priority ] ) ? $priority_map[ $b_priority ] : 0;
+
+	if ( $a_priority_val !== $b_priority_val ) {
+		return $b_priority_val - $a_priority_val; // Higher priority first
+	}
+
+	// 3. Sort by due date (earliest first, empty dates last)
+	if ( empty( $a_due_date ) && ! empty( $b_due_date ) ) {
+		return 1;
+	}
+	if ( ! empty( $a_due_date ) && empty( $b_due_date ) ) {
+		return -1;
+	}
+	if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
+		return strtotime( $a_due_date ) - strtotime( $b_due_date );
+	}
+
+	// 4. If all else equal, sort by post date (newest first)
+	return strtotime( $b->post_date ) - strtotime( $a->post_date );
+} );
+
+// Now process the sorted todos
+foreach ($all_todos as $todo) {
         $curr_date   = date_create(gmdate('Y-m-d'));
         $due_date    = date_create(get_post_meta($todo->ID, 'todo_due_date', true));
         $todo_status = get_post_meta($todo->ID, 'todo_status', true);
@@ -113,10 +162,7 @@ do {
         }
 
         $all_todo_count++;
-    }
-
-    $args['paged']++;
-} while (count($todos) === $args['posts_per_page']); // Continue fetching until no more posts are returned.
+}
 
 $avg_rating = $all_todo_count > 0 ? ($all_completed_todo * 100) / $all_todo_count : 0;
 

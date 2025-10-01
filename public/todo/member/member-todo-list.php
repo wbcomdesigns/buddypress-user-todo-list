@@ -15,7 +15,7 @@ $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 $class                     = 'todo-completed';
 
-// List of Todo Items.
+// List of Todo Items with intelligent sorting.
 $args  = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
@@ -23,6 +23,47 @@ $args  = array(
 	'posts_per_page' => -1,
 );
 $todos = get_posts( $args );
+
+// Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
+usort( $todos, function( $a, $b ) {
+	$a_status   = get_post_meta( $a->ID, 'todo_status', true );
+	$b_status   = get_post_meta( $b->ID, 'todo_status', true );
+	$a_priority = get_post_meta( $a->ID, 'todo_priority', true );
+	$b_priority = get_post_meta( $b->ID, 'todo_priority', true );
+	$a_due_date = get_post_meta( $a->ID, 'todo_due_date', true );
+	$b_due_date = get_post_meta( $b->ID, 'todo_due_date', true );
+
+	// 1. Completed tasks always go to bottom
+	if ( $a_status === 'complete' && $b_status !== 'complete' ) {
+		return 1;
+	}
+	if ( $a_status !== 'complete' && $b_status === 'complete' ) {
+		return -1;
+	}
+
+	// 2. Sort by priority (Critical=3, High=2, Normal=1, Empty=0)
+	$priority_map = array( 'critical' => 3, 'high' => 2, 'normal' => 1 );
+	$a_priority_val = isset( $priority_map[ $a_priority ] ) ? $priority_map[ $a_priority ] : 0;
+	$b_priority_val = isset( $priority_map[ $b_priority ] ) ? $priority_map[ $b_priority ] : 0;
+
+	if ( $a_priority_val !== $b_priority_val ) {
+		return $b_priority_val - $a_priority_val; // Higher priority first
+	}
+
+	// 3. Sort by due date (earliest first, empty dates last)
+	if ( empty( $a_due_date ) && ! empty( $b_due_date ) ) {
+		return 1;
+	}
+	if ( ! empty( $a_due_date ) && empty( $b_due_date ) ) {
+		return -1;
+	}
+	if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
+		return strtotime( $a_due_date ) - strtotime( $b_due_date );
+	}
+
+	// 4. If all else equal, sort by post date (newest first)
+	return strtotime( $b->post_date ) - strtotime( $a->post_date );
+} );
 
 $todo_list          = array();
 $all_todo_count     = 0;
