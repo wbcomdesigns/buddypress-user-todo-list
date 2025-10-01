@@ -351,7 +351,8 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		public function bptodo_save_general_settings() {
 			if ( isset( $_POST['bptodo-save-settings'] ) && isset( $_POST['bptodo-general-settings-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bptodo-general-settings-nonce'] ) ), 'bptodo' ) ) {
 				$settings = array();
-				
+
+				// Text fields
 				if ( isset( $_POST['bptodo_profile_menu_label'] ) ) {
 					$settings['profile_menu_label'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label'] ) );
 				}
@@ -361,23 +362,19 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				if ( isset( $_POST['bptodo_profile_menu_label_plural'] ) ) {
 					$settings['profile_menu_label_plural'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label_plural'] ) );
 				}
-				if ( isset( $_POST['bptodo_enable_todo_member'] ) ) {
-					$settings['enable_todo_member'] = sanitize_text_field( wp_unslash( $_POST['bptodo_enable_todo_member'] ) );
-				}
-				if ( isset( $_POST['bptodo_allow_user_add_category'] ) ) {
-					$settings['allow_user_add_category'] = sanitize_text_field( wp_unslash( $_POST['bptodo_allow_user_add_category'] ) );
-				}
-				if ( isset( $_POST['bptodo_send_notification'] ) ) {
-					$settings['send_notification'] = sanitize_text_field( wp_unslash( $_POST['bptodo_send_notification'] ) );
-				}
-				if ( isset( $_POST['bptodo_send_mail'] ) ) {
-					$settings['send_mail'] = sanitize_text_field( wp_unslash( $_POST['bptodo_send_mail'] ) );
-				}
+
+				// Checkboxes - handle both checked and unchecked states
+				$settings['enable_todo_member'] = isset( $_POST['bptodo_enable_todo_member'] ) ? 'yes' : 'no';
+				$settings['allow_user_add_category'] = isset( $_POST['bptodo_allow_user_add_category'] ) ? 'yes' : 'no';
+				$settings['send_notification'] = isset( $_POST['bptodo_send_notification'] ) ? 'yes' : 'no';
+				$settings['send_mail'] = isset( $_POST['bptodo_send_mail'] ) ? 'yes' : 'no';
+				$settings['req_duedate'] = isset( $_POST['bptodo_req_duedate'] ) ? 'yes' : 'no';
+
+				// Multi-select
 				if ( isset( $_POST['bptodo_user_roles'] ) ) {
 					$settings['bptodo_user_roles'] = map_deep( wp_unslash( $_POST['bptodo_user_roles'] ), 'sanitize_text_field' );
-				}
-				if ( isset( $_POST['bptodo_req_duedate'] ) ) {
-					$settings['req_duedate'] = sanitize_text_field( wp_unslash( $_POST['bptodo_req_duedate'] ) );
+				} else {
+					$settings['bptodo_user_roles'] = array();
 				}
 
 				update_option( 'user_todo_list_settings', $settings );
