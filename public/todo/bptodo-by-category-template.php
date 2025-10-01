@@ -159,7 +159,13 @@ if ( ! empty( $atts['category'] ) ) {
 				return -1;
 			}
 			if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-				return strtotime( $a_due_date ) - strtotime( $b_due_date );
+				$a_timestamp = strtotime( $a_due_date );
+				$b_timestamp = strtotime( $b_due_date );
+				// Handle invalid dates gracefully
+				if ( false === $a_timestamp || false === $b_timestamp ) {
+					return 0;
+				}
+				return $a_timestamp - $b_timestamp;
 			}
 
 			// 4. If all else equal, sort by post date (newest first)
