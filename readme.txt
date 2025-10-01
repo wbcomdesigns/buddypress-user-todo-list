@@ -4,7 +4,7 @@ Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, cpt, todo
 Requires at least: 4.0.1
 Tested up to: 6.8.1
-Stable tag: 3.4.0
+Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,23 @@ The screenshots are present in the root of the plugin folder.
 
 == Changelog ==
 
-== Changelog ==
+= 3.5.0 =
+* Enhancement: Migrated email notifications to use BuddyPress native email system (bp_send_email).
+* Enhancement: Added BuddyPress email template for todo due date reminders with customizable tokens.
+* Enhancement: Email templates now support dynamic todo labels from plugin settings.
+* Enhancement: Intelligent task sorting - incomplete tasks sorted by due date, completed tasks at bottom.
+* Enhancement: Added comprehensive WP-CLI commands for testing and demo data generation.
+* Fixed: Due date validation now properly enforces required field setting across all forms.
+* Fixed: User roles restriction for todo creation now works correctly.
+* Fixed: Notification labels now dynamically use custom todo labels instead of hardcoded "Todo".
+* Fixed: Broken notification function that was causing PHP errors.
+* Fixed: Admin settings checkboxes now properly handle both checked and unchecked states.
+* Fixed: Category functionality and global variables initialization.
+* Fixed: Shortcode display issues with category-based todo lists.
+* Improved: Email templates automatically install on plugin activation.
+* Improved: Better integration with BuddyPress email management system.
+* Improved: Task sorting logic across member profiles, groups, and shortcode displays.
+
 = 3.4.0 =
 * Added To-Do tab navigation icons and UI improvements.
 * Fixed: Network-wide plugin handling support.
