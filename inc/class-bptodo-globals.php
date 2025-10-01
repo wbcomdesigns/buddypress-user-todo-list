@@ -52,7 +52,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		public function setup_globals() {
 			global $bptodo;
 			$settings = get_option( 'user_todo_list_settings' );
-			
+
 			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
 			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
 			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
@@ -66,7 +66,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		}
 
 		/**
-		 * Count current member todo items.
+		 * Count current member todo items efficiently using direct database query.
 		 *
 		 * @since    1.0.0
 		 * @access   private
@@ -74,26 +74,24 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @return   int The count of todo items.
 		 */
 		private function bptodo_count_my_todo_items() {
-			$args = [
-				'post_type'      => 'bp-todo',
-				'author'         => get_current_user_id(),
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-			];
+			global $wpdb;
 
+			$user_id = get_current_user_id();
+
+			// Base SQL query for counting posts
+			$sql          = "SELECT COUNT(p.ID) FROM {$wpdb->posts} p WHERE p.post_type = 'bp-todo' AND p.post_status = 'publish' AND p.post_author = %d";
+			$prepare_args = [ $user_id ];
+
+			// Add meta query for group filtering if needed
 			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
-				$group_id = absint(bp_get_current_group_id());        
-				$args['meta_query'] = [
-					[
-						'key'     => 'todo_group_id',
-						'value'   => $group_id,
-						'compare' => '='
-					]
-				];
+				$group_id       = absint( bp_get_current_group_id() );
+				$sql           .= " AND EXISTS (SELECT 1 FROM {$wpdb->postmeta} pm WHERE pm.post_id = p.ID AND pm.meta_key = 'todo_group_id' AND pm.meta_value = %d)";
+				$prepare_args[] = $group_id;
 			}
 
-			$todos = get_posts( $args );
-			return count( $todos );
+			$count = $wpdb->get_var( $wpdb->prepare( $sql, $prepare_args ) );
+
+			return (int) $count;
 		}
 	}
 }

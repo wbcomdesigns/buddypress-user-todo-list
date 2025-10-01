@@ -1307,17 +1307,26 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @param    string $atts contain attribute.
 		 */
 		public function bptodo_by_categpry_template( $atts ) {
+			// Parse shortcode attributes
+			$atts = shortcode_atts(
+				array(
+					'category' => '',
+				),
+				$atts,
+				'bptodo_by_category'
+			);
+
 			ob_start();
 			if ( is_user_logged_in() ) {
 
 				$shortcode_template = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template.php';
 				if ( file_exists( $shortcode_template ) ) {
-					include_once $shortcode_template;
+					include $shortcode_template;
 				}
 			} else {
 				$shortcode_template_loggedout_user = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template-loggedout-user.php';
 				if ( file_exists( $shortcode_template_loggedout_user ) ) {
-					include_once $shortcode_template_loggedout_user;
+					include $shortcode_template_loggedout_user;
 				}
 			}
 			return ob_get_clean();

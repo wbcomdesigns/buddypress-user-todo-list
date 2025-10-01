@@ -82,7 +82,8 @@ class Bptodo_List {
 			$this->version = '1.0.0';
 		}
 
-		$this->plugin_name = 'wb-todo';
+		$this->plugin_name   = 'wb-todo';
+		$this->plugin_prefix = 'bptodo_';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -239,8 +240,7 @@ class Bptodo_List {
 		/** Add BP Todo Category. */
 		$this->loader->add_action( 'wp_ajax_bptodo_add_todo_category_front', $plugin_public, 'bptodo_add_todo_category_front' );
 
-		// Shortcode name must be the same as in shortcode_atts() third parameter.
-		$this->loader->add_shortcode( $this->get_plugin_prefix() . 'shortcode', $plugin_public, 'pfx_shortcode_func' );		
+		// Register shortcode for displaying todos by category
 		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_categpry_template' );
 
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
