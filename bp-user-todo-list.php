@@ -281,6 +281,16 @@ function bptodo_run() {
 bptodo_run();
 
 /**
+ * Register WP-CLI commands if WP-CLI is available.
+ */
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	require_once plugin_dir_path( __FILE__ ) . 'admin/class-bptodo-cli-commands.php';
+	WP_CLI::add_command( 'bptodo generate member-todos', array( 'BPTODO_CLI_Commands', 'member_todos' ) );
+	WP_CLI::add_command( 'bptodo generate group-todos', array( 'BPTODO_CLI_Commands', 'group_todos' ) );
+	WP_CLI::add_command( 'bptodo cleanup', array( 'BPTODO_CLI_Commands', 'cleanup' ) );
+}
+
+/**
  * Advanced multisite management functionality.
  * Disabled by default for standard WordPress installations.
  */
