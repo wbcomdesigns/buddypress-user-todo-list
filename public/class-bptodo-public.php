@@ -130,30 +130,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			 * @param string $mail_settings The user's mail settings.
 			 */
 			private function send_due_date_email($todo_id, $author_id, $mail_settings) {
-				$global_mail_settings = !empty( get_option( 'user_todo_list_settings', true ) ) ? get_option( 'user_todo_list_settings', true ) : array();
-							
-				// Check if the user has opted to receive email notifications
-				if ( isset( $global_mail_settings['send_mail'] ) && 'yes' === $mail_settings) {
-					$email_sent = get_post_meta($todo_id, 'todo_last_day_mail_sent', true);
-					if ('no' === $email_sent) {
-						// Prepare email components
-						$author_email = get_the_author_meta('user_email', $author_id);
-						$site_name = get_bloginfo('name');
-						$task_name = get_the_title($todo_id);
-						/* translators: %2$s */
-						$subject = sprintf(html_entity_decode( esc_html__('%1$s: Task "%2$s" Due Today', 'wb-todo') ), $site_name, $task_name);
-						/* translators: %1$s */
-						$message = sprintf( html_entity_decode( esc_html__('Your task: %1$s is due today. Kindly finish it up! Thanks!', 'wb-todo') ) , $task_name);
-						$headers = ['Content-Type: text/html; charset=UTF-8'];
-
-						// Send the email
-						wp_mail($author_email, $subject, $message, $headers);
-
-						// Mark the email as sent to avoid duplicates
-						update_post_meta($todo_id, 'todo_last_day_mail_sent', 'yes');
-					}
-				}
-			}
+		// Use BuddyPress Email system
+		if ( class_exists( 'Bptodo_Emails' ) ) {
+			Bptodo_Emails::send_due_date_email( $todo_id, $author_id, $mail_settings );
+		}
+	}
 
 			/**
 			 * Sends a BuddyPress notification to the task owner if the task's due date is today.
@@ -164,23 +145,30 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			 * @param int $author_id The ID of the task owner.
 			 */
 			private function send_due_date_notification($todo_id, $author_id) {
-				$notification_sent = get_post_meta($todo_id, 'todo_last_day_notification_sent', true);
-				if ('no' === $notification_sent) {
-					// Send the BuddyPress notification
-					bp_notifications_add_notification(array(
-						'user_id'           => $author_id,
-						'item_id'           => $todo_id,
-						'secondary_item_id' => get_current_user_id(),
-						'component_name'    => 'bptodo_due_date',
-						'component_action'  => 'bptodo_due_date_action',
-						'date_notified'     => bp_core_current_time(),
-						'is_new'            => 1,
-					));
+		$global_notification_settings = ! empty( get_option( 'user_todo_list_settings', true ) ) ? get_option( 'user_todo_list_settings', true ) : array();
 
-					// Mark the notification as sent to avoid duplicates
-					update_post_meta($todo_id, 'todo_last_day_notification_sent', 'yes');
-				}
-			}
+		// Check if BP notifications are enabled in settings
+		if ( ! isset( $global_notification_settings['send_notification'] ) || 'yes' !== $global_notification_settings['send_notification'] ) {
+			return;
+		}
+
+		$notification_sent = get_post_meta($todo_id, 'todo_last_day_notification_sent', true);
+		if ('no' === $notification_sent) {
+			// Send the BuddyPress notification
+			bp_notifications_add_notification(array(
+				'user_id'           => $author_id,
+				'item_id'           => $todo_id,
+				'secondary_item_id' => get_current_user_id(),
+				'component_name'    => 'bptodo_due_date',
+				'component_action'  => 'bptodo_due_date_action',
+				'date_notified'     => bp_core_current_time(),
+				'is_new'            => 1,
+			));
+
+			// Mark the notification as sent to avoid duplicates
+			update_post_meta($todo_id, 'todo_last_day_notification_sent', 'yes');
+		}
+	}
 
 
 
@@ -205,7 +193,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$todo_list_settings = get_option( 'user_todo_list_settings' );
 
 			// Return early if Todo lists are not enabled for members.
-			if ( ! isset( $todo_list_settings['enable_todo_member'] ) ) {
+			if ( empty( $todo_list_settings['enable_todo_member'] ) || 'yes' !== $todo_list_settings['enable_todo_member'] ) {
 				return;
 			}
 
@@ -629,22 +617,35 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'show_for_displayed_user' => true,
 				);
 				$enable_todo_member = get_option( 'user_todo_list_settings' );
-				if ( isset( $enable_todo_member['enable_todo_member'] ) ) {
+				if ( ! empty( $enable_todo_member['enable_todo_member'] ) && 'yes' === $enable_todo_member['enable_todo_member'] ) {
 					bp_core_new_nav_item( $tab_args );
 				}
 
-				/** Add subnav add new todo item. */
-				bp_core_new_subnav_item(
-					array(
-						'name'            => esc_html__( 'Add', 'wb-todo' ),
-						'slug'            => 'add',
-						'parent_url'      => $todo_menu_link . '/',
-						'parent_slug'     => $parent_slug,
-						'screen_function' => array( $this, 'bptodo_add_todo_show_screen' ),
-						'position'        => 200,
-						'link'            => $todo_menu_link . '/add',
-					)
-				);
+				/** Add subnav add new todo item - only for allowed roles */
+				$settings = get_option( 'user_todo_list_settings' );
+				$show_add_tab = true;
+
+				if ( ! empty( $settings['bptodo_user_roles'] ) ) {
+					$user = wp_get_current_user();
+					$user_roles = $user->roles;
+					$allowed_roles = $settings['bptodo_user_roles'];
+					// Only show if user has allowed role or is admin
+					$show_add_tab = in_array( 'administrator', $user_roles, true ) || array_intersect( $user_roles, $allowed_roles );
+				}
+
+				if ( $show_add_tab ) {
+					bp_core_new_subnav_item(
+						array(
+							'name'            => esc_html__( 'Add', 'wb-todo' ),
+							'slug'            => 'add',
+							'parent_url'      => $todo_menu_link . '/',
+							'parent_slug'     => $parent_slug,
+							'screen_function' => array( $this, 'bptodo_add_todo_show_screen' ),
+							'position'        => 200,
+							'link'            => $todo_menu_link . '/add',
+						)
+					);
+				}
 
 				/** Add subnav todo list items. */
 				bp_core_new_subnav_item(
@@ -764,6 +765,24 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			} else {
 				// Save todo items.
 				if ( isset( $_POST['todo_create'] ) && isset( $_POST['save_new_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
+
+					// Check if user has permission to create todos based on role settings
+					$settings = get_option( 'user_todo_list_settings' );
+					if ( ! empty( $settings['bptodo_user_roles'] ) ) {
+						$user = wp_get_current_user();
+						$user_roles = $user->roles;
+						$allowed_roles = $settings['bptodo_user_roles'];
+
+						// Check if user has at least one allowed role (or is admin)
+						$has_permission = in_array( 'administrator', $user_roles, true ) || array_intersect( $user_roles, $allowed_roles );
+
+						if ( ! $has_permission ) {
+							bp_core_add_message( esc_html__( 'You do not have permission to create todos.', 'wb-todo' ), 'error' );
+							$url = trailingslashit( bp_displayed_user_domain() . strtolower( $profile_menu_label ) . '/list' );
+							bp_core_redirect( $url );
+							return;
+						}
+					}
 
 					if ( isset( $_POST['todo_cat'] ) ) {
 						$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );

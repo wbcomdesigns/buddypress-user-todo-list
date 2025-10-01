@@ -131,6 +131,12 @@ class Bptodo_List_Activator {
 		 * Perform your activation actions here.
 		 */
 
+		// Install BuddyPress email templates if BP is active
+		if ( function_exists( 'bp_is_active' ) ) {
+			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bptodo-emails.php';
+			Bptodo_Emails::install_emails();
+		}
+
 	}
 
 	/**

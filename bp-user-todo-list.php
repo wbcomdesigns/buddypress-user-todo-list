@@ -281,6 +281,13 @@ function bptodo_run() {
 bptodo_run();
 
 /**
+ * Initialize BuddyPress Email integration
+ */
+if ( function_exists( 'bp_is_active' ) ) {
+	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+}
+
+/**
  * Register WP-CLI commands if WP-CLI is available.
  */
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
