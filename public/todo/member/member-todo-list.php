@@ -139,7 +139,7 @@ if ( empty( $todos ) ) {
 	<section class="bptodo-adming-setting">
 		<div class="bptodo-admin-settings-block">
 			<div class="bptodo-progress-section">
-				<h5><?php esc_html_e( 'Task Progress', 'wb-todo' ); ?></h5>
+				<h5><?php printf( esc_html__( '%s Progress', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></h5>
 				<div class="task-progress-task-count-wrap">
 					<div class="task-progress-task-count">
 						<span class="task_breaker-total-tasks"><?php echo esc_html( $all_todo_count ); ?></span>
@@ -195,7 +195,7 @@ if ( empty( $todos ) ) {
 															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
 															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
 															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-															<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+															<li class="bptodo-task"><?php echo esc_html( $profile_menu_label ); ?></li>
 															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
 														</ul>
 													</div>
@@ -738,7 +738,7 @@ if ( empty( $todos ) ) {
 															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
 															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
 															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-															<li class="bptodo-task"><?php esc_html_e( 'Task', 'wb-todo' ); ?></li>
+															<li class="bptodo-task"><?php echo esc_html( $profile_menu_label ); ?></li>
 															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
 														</ul>
 													</div>

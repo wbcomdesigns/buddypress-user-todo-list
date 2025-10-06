@@ -26,7 +26,7 @@ $bp_template_option        = bp_get_option( '_bp_theme_package_id' );
  * @param string $class     The CSS class to apply.
  */
 if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
-	function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu_slug, $class ) {
+	function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu_slug, $class, $profile_menu_label = 'Todo' ) {
 	if ( ! empty( $todo_list[ $category ] ) ) { ?>
 		<div class="bptodo-admin-row">
 			<div>
@@ -37,8 +37,8 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 							<thead>
 								<tr>
 									<th><?php esc_html_e( 'Sr. No.', 'wb-todo' ); ?></th>
-									<th><?php esc_html_e( 'Task', 'wb-todo' ); ?></th>
-									<th><?php esc_html_e( 'Task Description', 'wb-todo' ); ?></th>
+									<th><?php echo esc_html( $profile_menu_label ); ?></th>
+									<th><?php printf( esc_html__( '%s Description', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></th>
 									<th><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></th>
 									<th><?php esc_html_e( 'Mark Complete', 'wb-todo' ); ?></th>
 								</tr>
@@ -69,8 +69,9 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 										$due_date_str      = esc_html_e( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 										$due_date_td_class = 'bptodo-expires-today';
 									} else {
-										 /* translators: %s */
-										$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
+										$label_lowercase = strtolower( $profile_menu_label );
+										 /* translators: 1: number of days, 2: todo label (singular, lowercase) */
+										$due_date_str = sprintf( esc_html__( '%1$d days left to complete the %2$s!', 'wb-todo' ), abs( $diff_days ), $label_lowercase );
 									}
 
 									if ( 'complete' === $todo_status ) {
@@ -201,10 +202,10 @@ if ( ! empty( $atts['category'] ) ) {
 				<div class="bptodo-admin-settings-block">
 					<div id="bptodo-settings-tbl">
 						<?php
-						bptodo_display_todo_tasks( $todo_list, 'past', 'PAST', $profile_menu_slug, $class );
-						bptodo_display_todo_tasks( $todo_list, 'today', 'TODAY', $profile_menu_slug, $class );
-						bptodo_display_todo_tasks( $todo_list, 'tomorrow', 'TOMORROW', $profile_menu_slug, $class );
-						bptodo_display_todo_tasks( $todo_list, 'future', 'FUTURE', $profile_menu_slug, $class );
+						bptodo_display_todo_tasks( $todo_list, 'past', 'PAST', $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'today', 'TODAY', $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'tomorrow', 'TOMORROW', $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'future', 'FUTURE', $profile_menu_slug, $class, $profile_menu_label );
 						?>
 					</div>
 				</div>

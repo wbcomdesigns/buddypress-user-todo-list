@@ -70,6 +70,50 @@ register_activation_hook( __FILE__, 'activate_bptodo_list' );
 register_deactivation_hook( __FILE__, 'deactivate_bptodo_list' );
 
 /**
+ * Check for plugin updates and run upgrade routines.
+ */
+add_action( 'plugins_loaded', 'bptodo_check_plugin_update' );
+function bptodo_check_plugin_update() {
+    $installed_version = get_option( 'bptodo_version', '0.0.0' );
+
+    // Check if this is a new installation or upgrade
+    if ( version_compare( $installed_version, BPTODO_VERSION, '<' ) ) {
+        // Run upgrade routine
+        bptodo_upgrade_routine( $installed_version );
+
+        // Update version in database
+        update_option( 'bptodo_version', BPTODO_VERSION );
+    }
+}
+
+/**
+ * Plugin upgrade routine - runs when plugin is updated.
+ *
+ * @param string $from_version The version being upgraded from.
+ */
+function bptodo_upgrade_routine( $from_version ) {
+    // Check if BuddyPress is active
+    if ( ! function_exists( 'bp_is_active' ) ) {
+        return;
+    }
+
+    // Load dependencies
+    require_once plugin_dir_path( __FILE__ ) . 'inc/class-bptodo-globals.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+
+    // Install/update email templates
+    // These functions check if emails exist before creating them
+    Bptodo_Emails::install_emails(); // Due date reminder email
+    Bptodo_Emails::install_assigned_email(); // Assignment notification email
+
+    // Add any future upgrade routines here based on version
+    // Example:
+    // if ( version_compare( $from_version, '3.5.0', '<' ) ) {
+    //     // Upgrade routine for versions before 3.5.0
+    // }
+}
+
+/**
  * Include needed files.
  */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );

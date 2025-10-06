@@ -4,8 +4,14 @@ $args = array(
     'post_type'      => 'bp-todo',
     'post_status'    => 'publish',
     'author'         => get_current_user_id(),
-    'meta_key'       => 'todo_group_id',
-    'meta_value'     => $group_id,
+    'meta_query'     => array(
+        array(
+            'key'     => 'todo_group_id',
+            'value'   => $group_id,
+            'compare' => '=',
+            'type'    => 'NUMERIC',
+        ),
+    ),
     'paged'          => 1, // Use pagination to handle large numbers of posts.
     'orderby'        => 'date',
     'order'          => 'DESC',

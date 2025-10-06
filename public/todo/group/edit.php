@@ -43,8 +43,14 @@ $args  = array(
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
 	'posts_per_page' => apply_filters( 'bptodo_group_edit_limit', 200 ),
-	'meta_key'       => 'todo_group_id',
-	'meta_value'     => $group_id,
+	'meta_query'     => array(
+		array(
+			'key'     => 'todo_group_id',
+			'value'   => $group_id,
+			'compare' => '=',
+			'type'    => 'NUMERIC',
+		),
+	),
 );
 $todos = get_posts( $args );
 

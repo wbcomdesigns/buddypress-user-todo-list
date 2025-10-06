@@ -132,15 +132,17 @@ class Bptodo_List_Activator {
 		 */
 
 		// Install BuddyPress email templates if BP is active
-		// Skip for BuddyBoss as it uses dynamic schema filters instead
 		if ( function_exists( 'bp_is_active' ) ) {
 			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bptodo-emails.php';
 
-			// Only install email posts for standard BuddyPress, not BuddyBoss
-			if ( ! ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) ) {
-				Bptodo_Emails::install_emails();
-			}
+			// Install email templates for both BuddyPress and BuddyBoss
+			// BuddyBoss uses dynamic schema but still needs the email post
+			Bptodo_Emails::install_emails();
+			Bptodo_Emails::install_assigned_email();
 		}
+
+		// Store the plugin version for future upgrade checks
+		update_option( 'bptodo_version', BPTODO_VERSION );
 
 	}
 
