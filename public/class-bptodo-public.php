@@ -1452,13 +1452,33 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 	 * @param int   $post_id           The primary todo post ID
 	 */
 	public function bptodo_group_member_assignment_email( $group_members_ids, $post_id ) {
-		// Check if todo_group_members was posted (means it's a group todo)
-		if ( ! array_key_exists( 'todo_group_members', $_POST ) ) { //phpcs:ignore
+		// Validate inputs
+		if ( empty( $group_members_ids ) || ! is_array( $group_members_ids ) ) {
+			return;
+		}
+
+		if ( empty( $post_id ) ) {
+			return;
+		}
+
+		// Verify this is a group todo by checking the group_id meta
+		$group_id = get_post_meta( $post_id, 'todo_group_id', true );
+		if ( empty( $group_id ) ) {
 			return;
 		}
 
 		// Get current user (the assigner)
 		$assigner_id = get_current_user_id();
+
+		// Ensure Bptodo_Emails class is loaded
+		if ( ! class_exists( 'Bptodo_Emails' ) ) {
+			$emails_file = plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bptodo-emails.php';
+			if ( file_exists( $emails_file ) ) {
+				require_once $emails_file;
+			} else {
+				return;
+			}
+		}
 
 		// Send email to each assigned member
 		foreach ( $group_members_ids as $member_id ) {
@@ -1467,7 +1487,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			// Find the todo ID for this specific member
 			$member_todo_id = $post_id; // Default to primary todo
-			if ( is_array( $associated_todos ) ) {
+			if ( is_array( $associated_todos ) && ! empty( $associated_todos ) ) {
 				foreach ( $associated_todos as $assoc_todo_id ) {
 					$todo_author = get_post_field( 'post_author', $assoc_todo_id );
 					if ( $todo_author == $member_id ) {
@@ -1478,9 +1498,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 
 			// Send the assignment email
-			if ( class_exists( 'Bptodo_Emails' ) ) {
-				Bptodo_Emails::send_assigned_email( $member_todo_id, $member_id, $assigner_id );
-			}
+			Bptodo_Emails::send_assigned_email( $member_todo_id, $member_id, $assigner_id );
 		}
 	}
 		

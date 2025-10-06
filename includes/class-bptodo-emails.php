@@ -406,6 +406,11 @@ Thank you!', 'wb-todo' ),
 			return false;
 		}
 
+		// For BuddyPress (not BuddyBoss), ensure email template exists
+		if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
+			self::ensure_assigned_email_exists();
+		}
+
 		// Get todo details
 		$todo = get_post( $todo_id );
 		if ( ! $todo ) {
@@ -442,19 +447,51 @@ Thank you!', 'wb-todo' ),
 			)
 		);
 
-		// Log error if email sending failed
-		if ( is_wp_error( $sent ) && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( sprintf(
-				'BPTodo Assignment Email Error [Todo ID: %d, Assignee: %d, Assigner: %d]: %s',
-				$todo_id,
-				$assignee_id,
-				$assigner_id,
-				$sent->get_error_message()
-			) );
+		// Return false if email sending failed
+		if ( is_wp_error( $sent ) ) {
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Ensure assigned email exists for BuddyPress
+	 * This is called before sending to verify the template is installed
+	 *
+	 * @since 3.5.0
+	 */
+	private static function ensure_assigned_email_exists() {
+		static $checked = false;
+
+		// Only check once per request
+		if ( $checked ) {
+			return;
+		}
+
+		$checked = true;
+
+		// Check if email exists
+		$args = array(
+			'post_type'      => bp_get_email_post_type(),
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'tax_query'      => array(
+				array(
+					'taxonomy' => bp_get_email_tax_type(),
+					'field'    => 'slug',
+					'terms'    => 'bptodo-assigned',
+				),
+			),
+		);
+
+		$emails = get_posts( $args );
+
+		// If email doesn't exist, install it
+		if ( empty( $emails ) ) {
+			self::install_assigned_email();
+		}
 	}
 }
 
