@@ -17,23 +17,89 @@ class Bptodo_Emails {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'bp_init', array( $this, 'register_email_types' ) );
+		// BuddyBoss uses filters instead of bp_register_email_type()
+		if ( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
+			// BuddyBoss Platform
+			add_filter( 'bp_email_get_schema', array( $this, 'buddyboss_email_schema' ), 10 );
+			add_filter( 'bp_email_get_type_schema', array( $this, 'buddyboss_email_type_schema' ), 10 );
+		} else {
+			// Standard BuddyPress
+			add_action( 'bp_init', array( $this, 'register_email_types' ) );
+		}
 	}
 
 	/**
-	 * Register custom BP email types
+	 * Register custom BP email types (for standard BuddyPress)
 	 *
 	 * @since 3.5.0
 	 */
 	public function register_email_types() {
-		// Register the todo due date email type
-		bp_register_email_type(
-			'bptodo-due-date-reminder',
-			array(
-				/* translators: Email type description in admin */
-				'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
-			)
+		if ( function_exists( 'bp_register_email_type' ) ) {
+			bp_register_email_type(
+				'bptodo-due-date-reminder',
+				array(
+					/* translators: Email type description in admin */
+					'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
+				)
+			);
+		}
+	}
+
+	/**
+	 * Add email schema for BuddyBoss Platform
+	 *
+	 * @since 3.5.0
+	 * @param array $schema Email schema.
+	 * @return array Modified email schema.
+	 */
+	public function buddyboss_email_schema( $schema ) {
+		global $bptodo;
+		if ( empty( $bptodo ) ) {
+			$bptodo = new Bptodo_Globals();
+		}
+		$todo_label = ! empty( $bptodo->profile_menu_label ) ? $bptodo->profile_menu_label : 'Todo';
+
+		$schema['bptodo-due-date-reminder'] = array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => sprintf(
+				/* translators: %s: Todo label */
+				__( '[{{{site.name}}}] %s Due Date Reminder', 'wb-todo' ),
+				$todo_label
+			),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => sprintf(
+				/* translators: 1: Todo label */
+				__( "<a href=\"{{{poster.url}}}\">{{poster.name}}</a> your %s \"{{{bptodo.title}}}\" is due today.\n\n<a href=\"{{{bptodo.url}}}\">View Task</a>", 'wb-todo' ),
+				$todo_label
+			),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => sprintf(
+				/* translators: 1: Todo label */
+				__( "Your %s \"{{{bptodo.title}}}\" is due today. Please complete it as soon as possible.\n\nView Task: {{{bptodo.url}}}", 'wb-todo' ),
+				$todo_label
+			),
 		);
+
+		return $schema;
+	}
+
+	/**
+	 * Add email type schema for BuddyBoss Platform
+	 *
+	 * @since 3.5.0
+	 * @param array $type_schema Email type schema.
+	 * @return array Modified email type schema.
+	 */
+	public function buddyboss_email_type_schema( $type_schema ) {
+		$type_schema['bptodo-due-date-reminder'] = array(
+			'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
+			'unsubscribe' => array(
+				'meta_key' => 'notification_bptodo_due_date',
+				'message'  => __( 'You will no longer receive emails for todo due date reminders.', 'wb-todo' ),
+			),
+		);
+
+		return $type_schema;
 	}
 
 	/**

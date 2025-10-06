@@ -1414,7 +1414,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'order'          => 'DESC',
 				);
 				$todo_query = get_posts($args);			
-				$args = apply_filters( 'bptodo_admin_mod_gorup_report_view', 
+				$args = apply_filters( 'bptodo_admin_mod_gorup_report_view',
 					array(
 						'group_id'            => $group_id,
 						'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', false ),

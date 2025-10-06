@@ -174,7 +174,18 @@ $avg_rating = $all_todo_count > 0 ? ($all_completed_todo * 100) / $all_todo_coun
 
 $bp_template_option = bp_get_option('_bp_theme_package_id');
 
-if (empty($todo_list)) {
+// Check if todo list is actually empty (no todos in any category)
+$has_todos = false;
+if (!empty($todo_list)) {
+    foreach ($todo_list as $category_todos) {
+        if (!empty($category_todos)) {
+            $has_todos = true;
+            break;
+        }
+    }
+}
+
+if (!$has_todos) {
     if ('nouveau' === $bp_template_option) { ?>
         <div id="message" class="bptodo-notice info bp-feedback bp-messages bp-template-notice">
             <span class="bp-icon" aria-hidden="true"></span>
@@ -293,6 +304,7 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+                                                                            $todo_view_url = get_permalink($tid);
                                                                             $todo_status    = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority  = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str   = $due_date_td_class = '';
@@ -371,16 +383,18 @@ if (empty($todo_list)) {
                                                                                     </span>
                                                                                 </li>
                                                                                 <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
-                                                                                <?php if ($can_modify) { ?>
-                                                                                    <li class="bp-to-do-actions">
-                                                                                        <ul class="bp-to-do-actions-list">
-                                                                                             <?php  /* translators: %s */ ?>
+                                                                                <li class="bp-to-do-actions">
+                                                                                    <ul class="bp-to-do-actions-list">
+                                                                                        <?php  /* translators: %s */ ?>
+                                                                                        <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
+                                                                                        <?php if ($can_modify) { ?>
+                                                                                            <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
-                                                                                        </ul>
-                                                                                    </li>
-                                                                                <?php } ?>
+                                                                                        <?php } ?>
+                                                                                    </ul>
+                                                                                </li>
                                                                             </ul>
                                                                         <?php } ?>
                                                                     <?php } ?>
@@ -391,6 +405,7 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+                                                                            $todo_view_url = get_permalink($tid);
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class  = '';
@@ -469,16 +484,18 @@ if (empty($todo_list)) {
                                                                                     </span>
                                                                                 </li>
                                                                                 <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
-                                                                                <?php if ($can_modify) { ?>
-                                                                                    <li class="bp-to-do-actions">
-                                                                                        <ul class="bp-to-do-actions-list">
+                                                                                <li class="bp-to-do-actions">
+                                                                                    <ul class="bp-to-do-actions-list">
+                                                                                        <?php  /* translators: %s */ ?>
+                                                                                        <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
+                                                                                        <?php if ($can_modify) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
-                                                                                        </ul>
-                                                                                    </li>
-                                                                                <?php } ?>
+                                                                                        <?php } ?>
+                                                                                    </ul>
+                                                                                </li>
                                                                             </ul>
                                                                         <?php } ?>
                                                                     <?php } ?>
@@ -489,6 +506,7 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+                                                                            $todo_view_url = get_permalink($tid);
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class = '';
@@ -567,16 +585,18 @@ if (empty($todo_list)) {
                                                                                     </span>
                                                                                 </li>
                                                                                 <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
-                                                                                <?php if ($can_modify) { ?>
-                                                                                    <li class="bp-to-do-actions">
-                                                                                        <ul class="bp-to-do-actions-list">
+                                                                                <li class="bp-to-do-actions">
+                                                                                    <ul class="bp-to-do-actions-list">
                                                                                         <?php  /* translators: %s */ ?>
-                                                                                        <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
-                                                                                        <?php  /* translators: %s */ ?>
-                                                                                        <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
-                                                                                        </ul>
-                                                                                    </li>
-                                                                                <?php } ?>
+                                                                                        <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
+                                                                                        <?php if ($can_modify) { ?>
+                                                                                            <?php  /* translators: %s */ ?>
+                                                                                            <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
+                                                                                            <?php  /* translators: %s */ ?>
+                                                                                            <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
+                                                                                        <?php } ?>
+                                                                                    </ul>
+                                                                                </li>
                                                                             </ul>
                                                                         <?php } ?>
                                                                     <?php } ?>
@@ -587,6 +607,7 @@ if (empty($todo_list)) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+                                                                            $todo_view_url = get_permalink($tid);
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str  = $due_date_td_class = '';
@@ -665,16 +686,18 @@ if (empty($todo_list)) {
                                                                                     </span>
                                                                                 </li>
                                                                                 <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
-                                                                                <?php if ($can_modify) { ?>
-                                                                                    <li class="bp-to-do-actions">
-                                                                                        <ul class="bp-to-do-actions-list">
+                                                                                <li class="bp-to-do-actions">
+                                                                                    <ul class="bp-to-do-actions-list">
+                                                                                        <?php  /* translators: %s */ ?>
+                                                                                        <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
+                                                                                        <?php if ($can_modify) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
-                                                                                        </ul>
-                                                                                    </li>
-                                                                                <?php } ?>
+                                                                                        <?php } ?>
+                                                                                    </ul>
+                                                                                </li>
                                                                             </ul>
                                                                         <?php } ?>
                                                                     <?php } ?>
@@ -707,6 +730,7 @@ if (empty($todo_list)) {
                                                                                 $todo          = get_post($tid);
                                                                                 $todo_title    = $todo->post_title;
                                                                                 $todo_edit_url = $admin_link . '/add?args=' . $tid;
+                                                                                $todo_view_url = get_permalink($tid);
                                                                                 $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                                 $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                                 $due_date_str  = $due_date_td_class = '';
@@ -785,16 +809,18 @@ if (empty($todo_list)) {
                                                                                         </span>
                                                                                     </li>
                                                                                     <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
-                                                                                    <?php if ($can_modify) { ?>
-                                                                                        <li class="bp-to-do-actions">
-                                                                                            <ul class="bp-to-do-actions-list">
-                                                                                                 <?php  /* translators: %s */ ?>
+                                                                                    <li class="bp-to-do-actions">
+                                                                                        <ul class="bp-to-do-actions-list">
+                                                                                            <?php  /* translators: %s */ ?>
+                                                                                            <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
+                                                                                            <?php if ($can_modify) { ?>
+                                                                                                <?php  /* translators: %s */ ?>
                                                                                                 <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                                 <?php  /* translators: %s */ ?>
                                                                                                 <li><button data-tid="<?php echo esc_attr($tid); ?>" class="trigger" data-modal-trigger="trigger" data-type='group' title="<?php echo sprintf(esc_html__('Edit: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/edit.svg" /></button></li>
-                                                                                            </ul>
-                                                                                        </li>
-                                                                                    <?php } ?>
+                                                                                            <?php } ?>
+                                                                                        </ul>
+                                                                                    </li>
                                                                                 </ul>
                                                                             <?php } ?>
                                                                         <?php } else { ?>

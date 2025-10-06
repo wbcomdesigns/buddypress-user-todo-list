@@ -14,24 +14,16 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 		 * Constructor to initialize the group extension.
 		 */
 		public function __construct() {
-			global $bp, $bptodo;
-
-			// Check if we are in a group and if todos are disabled for this group.
-			if ( bp_is_group() ) {
-				$group_id = $bp->groups->current_group->id;
-				$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
-
-				if ( 1 === (int) $group_disable_todos ) {
-					return;
-				}
-			}
+			global $bptodo;
 
 			// Set up the extension settings.
 			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ) );
 			$args = array(
-				'slug'  => $profile_menu_slug,
-				'name'  => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',
-				'count' => $bptodo->my_todo_items,
+				'slug'              => $profile_menu_slug,
+				'name'              => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',
+				'count'             => $bptodo->my_todo_items,
+				'enable_nav_item'   => array( $this, 'should_display_tab' ),
+				'show_tab'          => 'noone', // We'll control visibility with enable_nav_item
 			);
 
 			// Initialize the extension if the group todo tab is enabled.
@@ -43,6 +35,30 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			// Add filters to modify the nav count display.
 			add_filter( 'bp_nouveau_nav_has_count', array( $this, 'bptodo_group_nav_has_count' ), 10, 3 );
 			add_filter( 'bp_nouveau_get_nav_count', array( $this, 'bptodo_group_nav_has_count' ), 10, 3 );
+		}
+
+		/**
+		 * Determine if the todo tab should be displayed for the current group.
+		 *
+		 * @return bool True if tab should be displayed, false otherwise.
+		 */
+		public function should_display_tab() {
+			global $bp;
+
+			// Check if we are in a group context.
+			if ( ! bp_is_group() || empty( $bp->groups->current_group->id ) ) {
+				return false;
+			}
+
+			$group_id = $bp->groups->current_group->id;
+			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
+
+			// If todos are disabled for this group, don't show the tab.
+			if ( 1 === (int) $group_disable_todos ) {
+				return false;
+			}
+
+			return true;
 		}
 
 		/**

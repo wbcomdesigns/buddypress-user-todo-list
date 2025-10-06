@@ -22,8 +22,11 @@ $bp_template_option        = bp_get_option( '_bp_theme_package_id' );
  * @param array  $todo_list List of todo task IDs.
  * @param string $category  The category of tasks being displayed.
  * @param string $label     The label to display for this category.
+ * @param string $profile_menu_slug The profile menu slug.
+ * @param string $class     The CSS class to apply.
  */
-function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu_slug, $class ) {
+if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
+	function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu_slug, $class ) {
 	if ( ! empty( $todo_list[ $category ] ) ) { ?>
 		<div class="bptodo-admin-row">
 			<div>
@@ -104,6 +107,7 @@ function bptodo_display_todo_tasks( $todo_list, $category, $label, $profile_menu
 			</div>
 		</div>
 	<?php }
+	}
 }
 
 // Example usage of the bptodo_display_todo_tasks function:
