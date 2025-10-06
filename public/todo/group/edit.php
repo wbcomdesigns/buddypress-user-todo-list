@@ -36,12 +36,13 @@ $bptodo_req = $bptodo->req_duedate === 'yes' ? 'required' : '';
 
 $displayed_uid = bp_displayed_user_id();
 
-// List of Todo Items.
+// List of Todo Items for group edit form.
+// Limit to prevent memory issues - group todos are typically smaller datasets
 $args  = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
-	'posts_per_page' => -1,
+	'posts_per_page' => apply_filters( 'bptodo_group_edit_limit', 200 ),
 	'meta_key'       => 'todo_group_id',
 	'meta_value'     => $group_id,
 );

@@ -217,14 +217,16 @@ function list_todo_tab_function_to_show_title() {
     global $bptodo;
     $profile_menu_label = $bptodo->profile_menu_label;
 
+    // Only check if user has any todos - no need to load all posts
     $args  = array(
         'post_type'      => 'bp-todo',
         'author'         => bp_displayed_user_id(),
         'post_status'    => 'publish',
-        'posts_per_page' => -1,
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
     );
     $todos = get_posts( $args );
-    if ( count( $todos ) > 0 ) {
+    if ( ! empty( $todos ) ) {
         $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' );
         ?>
         <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">

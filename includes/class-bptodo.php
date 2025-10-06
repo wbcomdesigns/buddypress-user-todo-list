@@ -262,6 +262,10 @@ class Bptodo_List {
 
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_mark_notification_as_read_on_single' );
 
+		// Clear cache when todos are created, updated, or deleted
+		$this->loader->add_action( 'save_post_bp-todo', $plugin_public, 'bptodo_clear_cache_on_save', 10, 3 );
+		$this->loader->add_action( 'before_delete_post', $plugin_public, 'bptodo_clear_cache_on_delete', 10, 2 );
+
 	}
 
 	/**

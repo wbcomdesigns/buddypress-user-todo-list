@@ -25,6 +25,8 @@ class Bptodo_Emails {
 		} else {
 			// Standard BuddyPress
 			add_action( 'bp_init', array( $this, 'register_email_types' ) );
+			// Ensure email template is installed
+			add_action( 'bp_init', array( $this, 'ensure_email_installed' ), 20 );
 		}
 	}
 
@@ -42,6 +44,35 @@ class Bptodo_Emails {
 					'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
 				)
 			);
+		}
+	}
+
+	/**
+	 * Ensure email template is installed (for standard BuddyPress)
+	 *
+	 * @since 3.5.0
+	 */
+	public function ensure_email_installed() {
+		// Check if email already exists
+		$args = array(
+			'post_type'      => bp_get_email_post_type(),
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'tax_query'      => array(
+				array(
+					'taxonomy' => bp_get_email_tax_type(),
+					'field'    => 'slug',
+					'terms'    => 'bptodo-due-date-reminder',
+				),
+			),
+		);
+
+		$emails = get_posts( $args );
+
+		// If email doesn't exist, install it
+		if ( empty( $emails ) ) {
+			self::install_emails();
 		}
 	}
 
@@ -242,9 +273,21 @@ Thank you!', 'wb-todo' ),
 			return true;
 		}
 
+		// Log error if email sending failed
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( sprintf(
+				'BPTodo Email Error [Todo ID: %d, User ID: %d]: %s',
+				$todo_id,
+				$author_id,
+				$sent->get_error_message()
+			) );
+		}
+
 		return false;
 	}
 }
 
-// Initialize the email integration
-new Bptodo_Emails();
+// Initialize the email integration on bp_loaded to ensure BP is fully loaded
+add_action( 'bp_loaded', function() {
+	new Bptodo_Emails();
+}, 5 );

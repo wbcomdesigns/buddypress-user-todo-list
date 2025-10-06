@@ -192,9 +192,11 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 		$todo_primary_id = get_post_meta( $todoID, 'todo_primary_id', true );
 		$gp_admin_id     = groups_get_group_admins( $group_id );
 
+		// Use fields => 'ids' to reduce memory usage
 		$total_args = array(
 			'post_type'      => 'bp-todo',
-			'posts_per_page' => -1,
+			'posts_per_page' => apply_filters( 'bptodo_group_task_limit', 500 ),
+			'fields'         => 'ids',
 			'meta_query'     => array(
 				'relation' => 'AND',
 				array(
@@ -238,9 +240,11 @@ if ( ! function_exists( 'bptodo_get_user_average_todos' ) ) {
 if ( ! function_exists( 'bpto_completed_todo_count' ) ) {
 
 	function bpto_completed_todo_count( $group_id, $todo_primary_id ) {
+		// Use fields => 'ids' to reduce memory usage - we only need the count
 		$completed_args = array(
 			'post_type'      => 'bp-todo',
-			'posts_per_page' => -1,
+			'posts_per_page' => apply_filters( 'bptodo_group_task_limit', 500 ),
+			'fields'         => 'ids',
 			'meta_query'     => array(
 				array(
 					'key'     => 'todo_status',

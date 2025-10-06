@@ -190,14 +190,21 @@ class BPTODO_CLI_Commands {
 	public function cleanup( $args, $assoc_args ) {
 		$delete_all = isset( $assoc_args['all'] );
 
-		$query_args = array(
+		// Use batch processing to avoid memory issues with large datasets
+		$batch_size = 100;
+		$paged = 1;
+		$deleted = 0;
+		$total_found = 0;
+
+		// First, count total items
+		$count_args = array(
 			'post_type'      => 'bp-todo',
-			'posts_per_page' => -1,
+			'posts_per_page' => 1,
 			'fields'         => 'ids',
 		);
 
 		if ( ! $delete_all ) {
-			$query_args['meta_query'] = array(
+			$count_args['meta_query'] = array(
 				array(
 					'key'   => '_bptodo_demo_data',
 					'value' => '1',
@@ -205,37 +212,69 @@ class BPTODO_CLI_Commands {
 			);
 		}
 
-		$todo_ids = get_posts( $query_args );
+		$count_query = new WP_Query( $count_args );
+		$total_found = $count_query->found_posts;
 
-		if ( empty( $todo_ids ) ) {
+		if ( $total_found === 0 ) {
 			WP_CLI::log( 'No demo data found to clean up.' );
 			return;
 		}
 
 		$confirm_message = $delete_all ?
-			"Are you sure you want to delete ALL {count} todos?" :
-			"Delete {count} demo todos?";
+			"Are you sure you want to delete ALL {$total_found} todos?" :
+			"Delete {$total_found} demo todos?";
 
-		WP_CLI::confirm( str_replace( '{count}', count( $todo_ids ), $confirm_message ) );
+		WP_CLI::confirm( $confirm_message );
 
-		$deleted = 0;
-		foreach ( $todo_ids as $todo_id ) {
-			if ( wp_delete_post( $todo_id, true ) ) {
-				$deleted++;
+		// Process in batches
+		do {
+			$query_args = array(
+				'post_type'      => 'bp-todo',
+				'posts_per_page' => $batch_size,
+				'paged'          => $paged,
+				'fields'         => 'ids',
+			);
+
+			if ( ! $delete_all ) {
+				$query_args['meta_query'] = array(
+					array(
+						'key'   => '_bptodo_demo_data',
+						'value' => '1',
+					),
+				);
 			}
-		}
+
+			$query = new WP_Query( $query_args );
+			$todo_ids = $query->posts;
+
+			foreach ( $todo_ids as $todo_id ) {
+				if ( wp_delete_post( $todo_id, true ) ) {
+					$deleted++;
+					if ( $deleted % 50 === 0 ) {
+						WP_CLI::log( "Deleted {$deleted}/{$total_found} todos..." );
+					}
+				}
+			}
+
+			$paged++;
+		} while ( $paged <= $query->max_num_pages );
 
 		WP_CLI::success( "Deleted {$deleted} todos." );
 	}
 
 	/**
-	 * Helper: Clean up demo data without confirmation.
+	 * Helper: Clean up demo data without confirmation using batch processing.
 	 */
 	private function cleanup_demo_data() {
-		$todo_ids = get_posts(
-			array(
+		$batch_size = 100;
+		$paged = 1;
+		$deleted = 0;
+
+		do {
+			$query_args = array(
 				'post_type'      => 'bp-todo',
-				'posts_per_page' => -1,
+				'posts_per_page' => $batch_size,
+				'paged'          => $paged,
 				'fields'         => 'ids',
 				'meta_query'     => array(
 					array(
@@ -243,15 +282,22 @@ class BPTODO_CLI_Commands {
 						'value' => '1',
 					),
 				),
-			)
-		);
+			);
 
-		foreach ( $todo_ids as $todo_id ) {
-			wp_delete_post( $todo_id, true );
-		}
+			$query = new WP_Query( $query_args );
+			$todo_ids = $query->posts;
 
-		if ( ! empty( $todo_ids ) ) {
-			WP_CLI::log( 'Cleaned up ' . count( $todo_ids ) . ' existing demo todos.' );
+			foreach ( $todo_ids as $todo_id ) {
+				if ( wp_delete_post( $todo_id, true ) ) {
+					$deleted++;
+				}
+			}
+
+			$paged++;
+		} while ( $paged <= $query->max_num_pages );
+
+		if ( $deleted > 0 ) {
+			WP_CLI::log( 'Cleaned up ' . $deleted . ' existing demo todos.' );
 		}
 	}
 

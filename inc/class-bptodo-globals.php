@@ -78,20 +78,55 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			$user_id = get_current_user_id();
 
+			// Generate cache key based on user and group context
+			$cache_key = 'bptodo_count_' . $user_id;
+			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+				$cache_key .= '_group_' . absint( bp_get_current_group_id() );
+			}
+
+			// Try to get cached count
+			$count = wp_cache_get( $cache_key, 'bptodo' );
+			if ( false !== $count ) {
+				return (int) $count;
+			}
+
 			// Base SQL query for counting posts
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below
 			$sql          = "SELECT COUNT(p.ID) FROM {$wpdb->posts} p WHERE p.post_type = 'bp-todo' AND p.post_status = 'publish' AND p.post_author = %d";
 			$prepare_args = [ $user_id ];
 
 			// Add meta query for group filtering if needed
 			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
 				$group_id       = absint( bp_get_current_group_id() );
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below
 				$sql           .= " AND EXISTS (SELECT 1 FROM {$wpdb->postmeta} pm WHERE pm.post_id = p.ID AND pm.meta_key = 'todo_group_id' AND pm.meta_value = %d)";
 				$prepare_args[] = $group_id;
 			}
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Caching is handled above
 			$count = $wpdb->get_var( $wpdb->prepare( $sql, $prepare_args ) );
 
+			// Cache for 5 minutes
+			wp_cache_set( $cache_key, (int) $count, 'bptodo', 300 );
+
 			return (int) $count;
+		}
+
+		/**
+		 * Clear todo count cache for a specific user.
+		 *
+		 * @since 1.0.0
+		 * @param int $user_id User ID to clear cache for.
+		 * @param int $group_id Optional group ID if clearing group-specific cache.
+		 */
+		public static function clear_todo_count_cache( $user_id, $group_id = 0 ) {
+			// Clear user's general todo count
+			wp_cache_delete( 'bptodo_count_' . $user_id, 'bptodo' );
+
+			// Clear group-specific count if group ID provided
+			if ( $group_id ) {
+				wp_cache_delete( 'bptodo_count_' . $user_id . '_group_' . $group_id, 'bptodo' );
+			}
 		}
 	}
 }

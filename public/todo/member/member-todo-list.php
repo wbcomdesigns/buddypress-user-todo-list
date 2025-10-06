@@ -16,11 +16,12 @@ $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 $class                     = 'todo-completed';
 
 // List of Todo Items with intelligent sorting.
+// Limit to prevent memory issues - can be increased via filter if needed
 $args  = array(
 	'post_type'      => 'bp-todo',
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
-	'posts_per_page' => -1,
+	'posts_per_page' => apply_filters( 'bptodo_member_list_limit', 500 ),
 );
 $todos = get_posts( $args );
 
@@ -118,7 +119,7 @@ $completed_todo_args    = array(
 	'post_status'    => 'publish',
 	'author'         => get_current_user_id(),
 	'include'        => $completed_todo_ids,
-	'posts_per_page' => -1,
+	'posts_per_page' => apply_filters( 'bptodo_completed_list_limit', 500 ),
 );
 $completed_todos    = get_posts( $completed_todo_args );
 $bp_template_option = bp_get_option( '_bp_theme_package_id' );

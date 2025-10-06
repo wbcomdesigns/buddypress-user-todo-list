@@ -75,48 +75,64 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_manage_todo_due_date() {
 			global $bptodo;
 
-			// Query to get all incomplete todos that are due today or have passed
-			$args = array(
-				'post_type'      => 'bp-todo',
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-				'meta_query'     => array(
-					array(
-						'key'     => 'todo_status',
-						'value'   => 'complete',
-						'compare' => '!=',
+			// Process in batches to avoid memory issues
+			$batch_size = apply_filters( 'bptodo_due_date_batch_size', 100 );
+			$paged = 1;
+			$processed = 0;
+
+			do {
+				// Query for a batch of incomplete todos that are due today or have passed
+				$args = array(
+					'post_type'      => 'bp-todo',
+					'post_status'    => 'publish',
+					'posts_per_page' => $batch_size,
+					'paged'          => $paged,
+					'fields'         => 'ids', // Only get IDs for better performance
+					'no_found_rows'  => false, // We need pagination info
+					'meta_query'     => array(
+						array(
+							'key'     => 'todo_status',
+							'value'   => 'complete',
+							'compare' => '!=',
+						),
+						array(
+							'key'     => 'todo_due_date',
+							'value'   => gmdate('Y-m-d'),
+							'compare' => '<=',
+							'type'    => 'DATE',
+						),
 					),
-					array(
-						'key'     => 'todo_due_date',
-						'value'   => gmdate('Y-m-d'),
-						'compare' => '<=',
-						'type'    => 'DATE',
-					),
-				),
-			);
+				);
 
-			// Execute the query
-			$todo_query = new WP_Query($args);
+				// Execute the query
+				$query = new WP_Query( $args );
+				$todo_ids = $query->posts;
 
-			// Loop through each todo item and process it
-			if ($todo_query->have_posts()) {
-				while ($todo_query->have_posts()) {
-					$todo_query->the_post();
-					$todo_id = get_the_ID();
-					$author_id = get_post_field('post_author', $todo_id);
+				// Process this batch
+				if ( ! empty( $todo_ids ) && is_array( $todo_ids ) ) {
+					foreach ( $todo_ids as $todo_id ) {
+						$author_id = get_post_field('post_author', $todo_id);
 
-					// Retrieve the user's mail settings
-					$mail_setting = get_user_meta($author_id, 'todo_mail_setting', true);
+						// Retrieve the user's mail settings
+						$mail_setting = get_user_meta($author_id, 'todo_mail_setting', true);
 
-					// Send email notification if configured
-					$this->send_due_date_email($todo_id, $author_id, $mail_setting);
+						// Send email notification if configured
+						$this->send_due_date_email($todo_id, $author_id, $mail_setting);
 
-					// Send BuddyPress notification
-					$this->send_due_date_notification($todo_id, $author_id);
+						// Send BuddyPress notification
+						$this->send_due_date_notification($todo_id, $author_id);
+
+						$processed++;
+					}
 				}
-			}
 
-			// Reset post data to avoid conflicts
+				// Move to next page
+				$paged++;
+
+				// Continue if there are more pages
+			} while ( $paged <= $query->max_num_pages );
+
+			// Clean up
 			wp_reset_postdata();
 		}
 
@@ -1062,11 +1078,16 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_export_my_tasks() {
 			check_ajax_referer( 'bptodo-export-todo', 'security_nonce' );
 			if ( isset( $_POST['action'] ) && 'bptodo_export_my_tasks' === $_POST['action'] ) {
+				// Limit export to prevent memory issues - can be increased via filter
+				$export_limit = apply_filters( 'bptodo_export_limit', 1000 );
+
 				$args   = array(
 					'post_type'      => 'bp-todo',
 					'post_status'    => 'publish',
 					'author'         => get_current_user_id(),
-					'posts_per_page' => -1,
+					'posts_per_page' => $export_limit,
+					'orderby'        => 'date',
+					'order'          => 'DESC',
 				);
 				$result = new WP_Query( $args );
 				$todos  = $result->posts;
@@ -1461,6 +1482,85 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					)
 				);
 				die;
+			}
+		}
+
+		/**
+		 * Clear todo count cache when a todo is saved or updated.
+		 *
+		 * @param int     $post_id Post ID.
+		 * @param WP_Post $post    Post object.
+		 * @param bool    $update  Whether this is an update or new post.
+		 */
+		public function bptodo_clear_cache_on_save( $post_id, $post, $update ) {
+			if ( 'bp-todo' !== $post->post_type || wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+				return;
+			}
+
+			$author_id = $post->post_author;
+			$group_id  = get_post_meta( $post_id, 'todo_group_id', true );
+
+			// Clear author's cache
+			Bptodo_Globals::clear_todo_count_cache( $author_id, $group_id );
+
+			// Clear due date email cache
+			delete_transient( 'bptodo_due_todos_' . gmdate('Y-m-d') );
+
+			// For group todos, also clear cache for all associated members
+			$primary_id = get_post_meta( $post_id, 'todo_primary_id', true );
+			if ( $primary_id && $primary_id != $post_id ) {
+				// This is an associated todo, clear the member's cache
+				Bptodo_Globals::clear_todo_count_cache( $author_id, $group_id );
+			} elseif ( $primary_id == $post_id ) {
+				// This is a primary todo, clear cache for all associated members
+				$associated_todos = get_post_meta( $primary_id, 'botodo_associated_todo', true );
+				if ( is_array( $associated_todos ) ) {
+					foreach ( $associated_todos as $todo_id ) {
+						$todo_author = get_post_field( 'post_author', $todo_id );
+						if ( $todo_author ) {
+							Bptodo_Globals::clear_todo_count_cache( $todo_author, $group_id );
+						}
+					}
+				}
+			}
+		}
+
+		/**
+		 * Clear todo count cache when a todo is deleted.
+		 *
+		 * @param int     $post_id Post ID.
+		 * @param WP_Post $post    Post object.
+		 */
+		public function bptodo_clear_cache_on_delete( $post_id, $post ) {
+			if ( ! $post || 'bp-todo' !== $post->post_type ) {
+				return;
+			}
+
+			$author_id = $post->post_author;
+			$group_id  = get_post_meta( $post_id, 'todo_group_id', true );
+
+			// Clear author's cache
+			Bptodo_Globals::clear_todo_count_cache( $author_id, $group_id );
+
+			// Clear due date email cache
+			delete_transient( 'bptodo_due_todos_' . gmdate('Y-m-d') );
+
+			// For group todos, also clear cache for all associated members
+			$primary_id = get_post_meta( $post_id, 'todo_primary_id', true );
+			if ( $primary_id && $primary_id != $post_id ) {
+				// This is an associated todo
+				Bptodo_Globals::clear_todo_count_cache( $author_id, $group_id );
+			} elseif ( $primary_id == $post_id ) {
+				// This is a primary todo, clear cache for all associated members
+				$associated_todos = get_post_meta( $primary_id, 'botodo_associated_todo', true );
+				if ( is_array( $associated_todos ) ) {
+					foreach ( $associated_todos as $todo_id ) {
+						$todo_author = get_post_field( 'post_author', $todo_id );
+						if ( $todo_author ) {
+							Bptodo_Globals::clear_todo_count_cache( $todo_author, $group_id );
+						}
+					}
+				}
 			}
 		}
 	}
