@@ -1444,6 +1444,45 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				bp_notifications_add_notification( $args );
 			}
 		}
+
+	/**
+	 * Function will send assignment emails to group members
+	 *
+	 * @param array $group_members_ids Array of member IDs who are assigned to the todo
+	 * @param int   $post_id           The primary todo post ID
+	 */
+	public function bptodo_group_member_assignment_email( $group_members_ids, $post_id ) {
+		// Check if todo_group_members was posted (means it's a group todo)
+		if ( ! array_key_exists( 'todo_group_members', $_POST ) ) { //phpcs:ignore
+			return;
+		}
+
+		// Get current user (the assigner)
+		$assigner_id = get_current_user_id();
+
+		// Send email to each assigned member
+		foreach ( $group_members_ids as $member_id ) {
+			// Get the associated todo for this member
+			$associated_todos = get_post_meta( $post_id, 'botodo_associated_todo', true );
+
+			// Find the todo ID for this specific member
+			$member_todo_id = $post_id; // Default to primary todo
+			if ( is_array( $associated_todos ) ) {
+				foreach ( $associated_todos as $assoc_todo_id ) {
+					$todo_author = get_post_field( 'post_author', $assoc_todo_id );
+					if ( $todo_author == $member_id ) {
+						$member_todo_id = $assoc_todo_id;
+						break;
+					}
+				}
+			}
+
+			// Send the assignment email
+			if ( class_exists( 'Bptodo_Emails' ) ) {
+				Bptodo_Emails::send_assigned_email( $member_todo_id, $member_id, $assigner_id );
+			}
+		}
+	}
 		
 		/**
 		 * Display group todo member specific report.

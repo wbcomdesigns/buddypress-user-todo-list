@@ -83,7 +83,6 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 	$primary_todo_id = wp_insert_post( $args );
 
 	if ( $primary_todo_id ) {
-		do_action( 'bptodo_group_todo_submit', $group_members_ids, $primary_todo_id );
 		update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
 		update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
 		update_post_meta( $primary_todo_id, 'todo_priority', $priority );
@@ -97,7 +96,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		$associated_todos = array();
 
 		foreach ( $group_members_ids as $member_id ) {
-			
+
 			if( groups_is_user_admin( $member_id, $todo_group_id ) || groups_is_user_mod( $member_id, $todo_group_id ) ) {
 				continue;
 			}
@@ -125,6 +124,9 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		}
 
 		update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
+
+		// Trigger notifications and emails AFTER all todos are created
+		do_action( 'bptodo_group_todo_submit', $group_members_ids, $primary_todo_id );
 
 		echo '<script>window.location.replace("' . esc_url( $form_post_link ) . '");</script>';
 	}
