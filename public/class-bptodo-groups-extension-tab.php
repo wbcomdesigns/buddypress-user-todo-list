@@ -22,15 +22,11 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 				'slug'              => $profile_menu_slug,
 				'name'              => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',
 				'count'             => $bptodo->my_todo_items,
-				'enable_nav_item'   => array( $this, 'should_display_tab' ),
-				'show_tab'          => 'noone', // We'll control visibility with enable_nav_item
+				'enable_nav_item'   => true,
 			);
 
-			// Initialize the extension if the group todo tab is enabled.
-			$enable_todo_group = get_option( 'group-todo-list-settings' );
-			if ( is_user_logged_in() && isset( $enable_todo_group['enable_todo_tab_group'] ) ) {
-				parent::init( $args );
-			}
+			// Always initialize the extension - visibility is controlled by user_can_see_nav_item() method
+			parent::init( $args );
 
 			// Add filters to modify the nav count display.
 			add_filter( 'bp_nouveau_nav_has_count', array( $this, 'bptodo_group_nav_has_count' ), 10, 3 );
@@ -38,14 +34,26 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 		}
 
 		/**
-		 * Determine if the todo tab should be displayed for the current group.
+		 * Override to control navigation item visibility.
+		 * Compatible with both BuddyPress and BuddyBoss.
 		 *
+		 * @param bool $user_can_see_nav_item Default visibility.
 		 * @return bool True if tab should be displayed, false otherwise.
 		 */
-		public function should_display_tab() {
-			global $bp;
+		public function user_can_see_nav_item( $user_can_see_nav_item = false ) {
+			// Check if user is logged in
+			if ( ! is_user_logged_in() ) {
+				return false;
+			}
 
-			// Check if we are in a group context.
+			// Check global settings
+			$enable_todo_group = get_option( 'group-todo-list-settings' );
+			if ( empty( $enable_todo_group['enable_todo_tab_group'] ) || ! in_array( $enable_todo_group['enable_todo_tab_group'], array( 'yes', 'on' ), true ) ) {
+				return false;
+			}
+
+			// Check if we are in a group context
+			global $bp;
 			if ( ! bp_is_group() || empty( $bp->groups->current_group->id ) ) {
 				return false;
 			}
@@ -53,7 +61,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			$group_id = $bp->groups->current_group->id;
 			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
 
-			// If todos are disabled for this group, don't show the tab.
+			// If todos are disabled for this group, don't show the tab
 			if ( 1 === (int) $group_disable_todos ) {
 				return false;
 			}

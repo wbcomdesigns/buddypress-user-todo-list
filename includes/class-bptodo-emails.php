@@ -233,7 +233,7 @@ Thank you!', 'wb-todo' ),
 		// Check global mail setting
 		$global_mail_settings = get_option( 'user_todo_list_settings', array() );
 
-		if ( empty( $global_mail_settings['send_mail'] ) || 'yes' !== $mail_settings ) {
+		if ( ! isset( $global_mail_settings['send_mail'] ) || ! in_array( $global_mail_settings['send_mail'], array( 'yes', 'on' ), true ) || 'yes' !== $mail_settings ) {
 			return false;
 		}
 

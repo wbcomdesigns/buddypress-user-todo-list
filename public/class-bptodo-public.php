@@ -164,7 +164,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		$global_notification_settings = ! empty( get_option( 'user_todo_list_settings', true ) ) ? get_option( 'user_todo_list_settings', true ) : array();
 
 		// Check if BP notifications are enabled in settings
-		if ( ! isset( $global_notification_settings['send_notification'] ) || 'yes' !== $global_notification_settings['send_notification'] ) {
+		if ( ! isset( $global_notification_settings['send_notification'] ) || ! in_array( $global_notification_settings['send_notification'], array( 'yes', 'on' ), true ) ) {
 			return;
 		}
 
@@ -209,7 +209,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$todo_list_settings = get_option( 'user_todo_list_settings' );
 
 			// Return early if Todo lists are not enabled for members.
-			if ( empty( $todo_list_settings['enable_todo_member'] ) || 'yes' !== $todo_list_settings['enable_todo_member'] ) {
+			if ( empty( $todo_list_settings['enable_todo_member'] ) || ! in_array( $todo_list_settings['enable_todo_member'], array( 'yes', 'on' ), true ) ) {
 				return;
 			}
 
@@ -611,7 +611,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$bptodo_user_roles         = $bptodo->bptodo_user_roles;
 				$user_roles                = $current_user->roles;
 
-				if ( ( ! empty( $bptodo_user_roles ) || empty( $bptodo_user_roles ) ) && ! in_array( 'administrator', $user_roles ) ) {
+				// Check if user has permission (admins always have access, others need matching role)
+			if ( ! in_array( 'administrator', $user_roles, true ) && ! empty( $bptodo_user_roles ) ) {
 					$common_roles = array_intersect( $user_roles, $bptodo_user_roles );
 					if ( empty( $common_roles ) ) {
 						return;
@@ -633,7 +634,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'show_for_displayed_user' => true,
 				);
 				$enable_todo_member = get_option( 'user_todo_list_settings' );
-				if ( ! empty( $enable_todo_member['enable_todo_member'] ) && 'yes' === $enable_todo_member['enable_todo_member'] ) {
+				if ( ! empty( $enable_todo_member['enable_todo_member'] ) && in_array( $enable_todo_member['enable_todo_member'], array( 'yes', 'on' ), true ) ) {
 					bp_core_new_nav_item( $tab_args );
 				}
 
@@ -736,6 +737,15 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
 					$todo_id  = isset( $_POST['hidden_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_todo_id'] ) ) : '';
 
+				// Permission check: verify user owns the todo
+				$todo = get_post( $todo_id );
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'wb-todo' ), 'error' );
+					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/list';
+					bp_core_redirect( $todo_edit_url );
+					return;
+				}
+
 					$taxonomy     = 'todo_category';
 					$args         = array(
 						'ID'           => $todo_id,
@@ -743,7 +753,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'post_status'  => 'publish',
 						'post_title'   => $title,
 						'post_content' => $summary,
-						'post_author'  => get_current_user_id(),
 					);
 					$todo_post_id = wp_update_post( $args );
 
@@ -826,7 +835,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'post_status'  => 'publish',
 						'post_title'   => $title,
 						'post_content' => $summary,
-						'post_author'  => get_current_user_id(),
 					);
 
 					$to_do_id = wp_insert_post( $args );
@@ -901,6 +909,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$due_date_td_class = '';
 				$tid               = isset( $_POST['tid'] ) ? sanitize_text_field( wp_unslash( $_POST['tid'] ) ) : '';
 				$user_id           = isset( $_POST['uid'] ) ? sanitize_text_field( wp_unslash( $_POST['uid'] ) ) : '';
+
+			// Permission check: verify user owns the todo
+			$todo = get_post( $tid );
+			if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
+				wp_die();
+			}
 				update_post_meta( $tid, 'todo_status', 'complete' );
 				update_post_meta( $tid, 'todo_user_id', $user_id );
 				update_post_meta( $tid, 'todo_complete_time', current_time('timestamp') );
@@ -1001,6 +1016,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( isset( $_POST['action'] ) && 'bptodo_undo_complete_todo' === $_POST['action'] ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
+
+				// Permission check: verify user owns the todo
+				$todo = get_post( $tid );
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
+					wp_die();
+				}
 					update_post_meta( $tid, 'todo_status', 'incomplete' );
 					if( get_post_meta( $tid, 'todo_complete_time', true ) ) {
 						delete_post_meta( $tid, 'todo_complete_time' );
@@ -1173,6 +1195,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$todo_id         = isset( $todo_todo_id ) ? sanitize_text_field( wp_unslash( $todo_todo_id ) ) : '';
 					$primary_todo_id = isset( $todo_primary_todo_id ) ? sanitize_text_field( wp_unslash( $todo_primary_todo_id ) ) : '';
 
+					// Permission check: verify user owns the todo
+					$todo = get_post( $todo_id );
+					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
+						wp_die();
+					}
+
 					$taxonomy = 'todo_category';
 					$args     = array(
 						'ID'           => $todo_id,
@@ -1180,7 +1209,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'post_status'  => 'publish',
 						'post_title'   => $title,
 						'post_content' => $summary,
-						'post_author'  => get_current_user_id(),
 					);
 					$post_id  = wp_update_post( $args );
 					update_post_meta( $post_id, 'todo_status', 'incomplete' );
@@ -1232,6 +1260,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$due_date         = sanitize_text_field( $update_data['todo_due_date'] );
 					$priority         = sanitize_text_field( $update_data['todo_priority'] );
 					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] );
+
+				// Permission check: verify user owns the todo
+				$todo = get_post( $todo_id );
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
+					wp_die();
+				}
 					$taxonomy         = 'todo_category';
 						$args         = array(
 							'ID'           => $todo_id,
@@ -1239,7 +1274,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 							'post_status'  => 'publish',
 							'post_title'   => $title,
 							'post_content' => $summary,
-							'post_author'  => get_current_user_id(),
 						);
 						$todo_post_id = wp_update_post( $args );
 						update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );

@@ -10,7 +10,8 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	function bptodo_list_group_modrator() {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-		$can_list = ( ! isset( $group_todo_list_settings['list_enable'] ) ) ? true : false;
+		// list_enable = 'yes' means moderators CAN add todos (ALLOW setting)
+		$can_list = ( ! empty( $group_todo_list_settings['list_enable'] ) && in_array( $group_todo_list_settings['list_enable'], array( 'yes', 'on' ), true ) ) ? true : false;
 
 		return $can_list;
 	}
@@ -25,7 +26,9 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	$can_modify = ( ! isset( $group_todo_list_settings['mod_enable'] ) ) ? true : false;
+	// mod_enable = 'yes' means PREVENT modification (inverted logic: PREVENT setting)
+	// So if mod_enable is 'yes', return FALSE (cannot modify); otherwise return TRUE (can modify)
+	$can_modify = ( ! empty( $group_todo_list_settings['mod_enable'] ) && in_array( $group_todo_list_settings['mod_enable'], array( 'yes', 'on' ), true ) ) ? false : true;
 
 	return apply_filters( 'alter_bptodo_if_moderator_modification_enabled', $can_modify, $group_id, $current_user );
 }
@@ -39,7 +42,8 @@ function bptodo_if_moderator_modification_enabled( $group_id, $current_user ) {
 function bptodo_report_view_enabled( $group_id, $current_user ) {
 	$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
-	$can_views = ( ! isset( $group_todo_list_settings['view_enable'] ) ) ? true : false;
+	// view_enable = 'yes' means moderators CAN view reports (ALLOW setting)
+	$can_views = ( ! empty( $group_todo_list_settings['view_enable'] ) && in_array( $group_todo_list_settings['view_enable'], array( 'yes', 'on' ), true ) ) ? true : false;
 	return $can_views;
 }
 add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );

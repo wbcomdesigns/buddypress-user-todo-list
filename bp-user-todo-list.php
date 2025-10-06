@@ -74,15 +74,17 @@ register_deactivation_hook( __FILE__, 'deactivate_bptodo_list' );
  */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
 function run_wp_bptodo_list() {
+    // Initialize globals first before loading group extension
+    global $bptodo;
+    $bptodo = new Bptodo_Globals();
+
+    // Now load group extension which depends on $bptodo
     $include_files = array(
         'public/class-bptodo-groups-extension-tab.php',
     );
     foreach ( $include_files as $include_file ) {
         include $include_file;
     }
-
-    global $bptodo;
-    $bptodo = new Bptodo_Globals();
 }
 
 /**
@@ -240,21 +242,10 @@ function list_todo_tab_function_to_show_title() {
 
 /**
  * Activate group member todo.
+ * NOTE: This function was causing bugs by resetting settings on every page load.
+ * Settings are now properly initialized in the activator class.
  */
-function bptodo_activate_group_member_todo() {
-    $user_todo_list_settings = get_option( 'user_todo_list_settings' );
-    if ( isset( $user_todo_list_settings['enable_todo_member'] ) ) {
-        $user_todo_list_settings['enable_todo_member'] = 'on';
-    }
-    update_option( 'user_todo_list_settings', $user_todo_list_settings );
-
-    $group_todo_list_settings = get_option( 'group-todo-list-settings' );
-    if ( isset( $group_todo_list_settings['enable_todo_tab_group'] ) ) {
-        $group_todo_list_settings['enable_todo_tab_group'] = 'yes';
-    }
-    update_option( 'group-todo-list-settings', $group_todo_list_settings );
-}
-add_action( 'plugins_loaded', 'bptodo_activate_group_member_todo' );
+// Removed problematic function that was forcing incorrect settings values
 
 /**
  * Redirect to settings page after activation.

@@ -106,11 +106,11 @@ class Bptodo_List_Activator {
 			$user_todo_list_settings = array(
 				'profile_menu_label' 		=> 'Todo',
 				'profile_menu_label_plural' => 'Todos',
-				'enable_todo_member' 		=> 'on',
-				'allow_user_add_category' 	=> 'on',
-				'send_notification' 		=> 'on',
-				'send_mail' 				=> 'on',
-				'bptodo_user_roles' 		=> $user_array,				
+				'enable_todo_member' 		=> 'yes',
+				'allow_user_add_category' 	=> 'yes',
+				'send_notification' 		=> 'yes',
+				'send_mail' 				=> 'yes',
+				'bptodo_user_roles' 		=> $user_array,
 			);
 			update_option( 'user_todo_list_settings', $user_todo_list_settings );
 		}

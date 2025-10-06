@@ -378,7 +378,7 @@ if ( ! function_exists( 'bptodo_enable_report_view' ) ) {
 
 		// Group moderators can view the report only if the setting is enabled
 		elseif ( groups_is_user_mod( $current_user, $group_id ) ) {
-			if ( isset( $group_todo_list_settings['view_enable'] ) && 'yes' === $group_todo_list_settings['view_enable'] ) {
+			if ( ! empty( $group_todo_list_settings['view_enable'] ) && in_array( $group_todo_list_settings['view_enable'], array( 'yes', 'on' ), true ) ) {
 				$can_view = true;
 			}
 		}

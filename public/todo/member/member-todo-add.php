@@ -22,7 +22,7 @@ $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
 $bptodo_req         = $bptodo->req_duedate === 'yes' ? 'required' : '';
-$allow_add_category = $bptodo->allow_user_add_category === 'yes';
+$allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 'on' ), true );
 ?>
 
 <form class="bptodo-form-add" action="" method="post" id="myForm">
