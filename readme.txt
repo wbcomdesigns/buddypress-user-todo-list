@@ -73,21 +73,33 @@ The screenshots are present in the root of the plugin folder.
 == Changelog ==
 
 = 3.5.0 =
-* Enhancement: Migrated email notifications to use BuddyPress native email system (bp_send_email).
-* Enhancement: Added BuddyPress email template for todo due date reminders with customizable tokens.
+* Enhancement: Migrated email notifications to use BuddyPress native email system for better reliability.
+* Enhancement: Added intelligent task sorting - incomplete tasks sorted by due date, completed tasks at bottom.
 * Enhancement: Email templates now support dynamic todo labels from plugin settings.
-* Enhancement: Intelligent task sorting - incomplete tasks sorted by due date, completed tasks at bottom.
+* Enhancement: Added automatic email template installation and verification for seamless setup.
 * Enhancement: Added comprehensive WP-CLI commands for testing and demo data generation.
+* Enhancement: Implemented wp_cache system for improved performance (5-minute cache for todo counts).
+* Enhancement: Added transient caching for email notifications to reduce server load.
+* Enhancement: Automatic cache invalidation ensures data accuracy when todos are modified.
+* Enhancement: Added diagnostic tools for easy email configuration troubleshooting.
+* Enhancement: Full compatibility with both BuddyPress and BuddyBoss Platform email systems.
+* Improved: Group todo filtering now more accurate - only shows todos for the current group.
+* Improved: Enhanced email notification system for group todo assignments works seamlessly on all platforms.
+* Improved: Group admin can now properly control todo tab visibility with disable option.
+* Improved: Better empty state handling - shows "no todo found" message when appropriate.
+* Improved: Added view/permalink links to group todos for easy access to detail pages.
+* Improved: Shortcode can now be used multiple times on the same page without conflicts.
+* Improved: Email templates automatically install on plugin activation for easier setup.
+* Improved: Task sorting logic enhanced across member profiles, groups, and shortcode displays.
+* Improved: Group todo queries optimized with proper database structure for better performance.
+* Improved: Email cron query optimized to fetch IDs only instead of full post objects.
+* Improved: Group tab visibility check now works correctly with group context.
 * Fixed: Due date validation now properly enforces required field setting across all forms.
 * Fixed: User roles restriction for todo creation now works correctly.
-* Fixed: Notification labels now dynamically use custom todo labels instead of hardcoded "Todo".
-* Fixed: Broken notification function that was causing PHP errors.
+* Fixed: Notification labels now dynamically use custom todo labels instead of hardcoded text.
 * Fixed: Admin settings checkboxes now properly handle both checked and unchecked states.
-* Fixed: Category functionality and global variables initialization.
-* Fixed: Shortcode display issues with category-based todo lists.
-* Improved: Email templates automatically install on plugin activation.
-* Improved: Better integration with BuddyPress email management system.
-* Improved: Task sorting logic across member profiles, groups, and shortcode displays.
+* Fixed: Category functionality and global variables initialization improved.
+* Fixed: Shortcode display issues with category-based todo lists resolved.
 
 = 3.4.0 =
 * Added To-Do tab navigation icons and UI improvements.
