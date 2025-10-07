@@ -278,7 +278,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_welcome', ' ', array( $this, 'bptodo_welcome_content' ), 'user-todo-list-welcome' );
 			add_settings_section( 'section_general', ' ', array( $this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
-			register_setting( 'group-todo-list-settings', 'group-todo-list-settings' );
+			register_setting( 'group-todo-list-settings', 'group-todo-list-settings', array( $this, 'bptodo_sanitize_group_settings' ) );
 			add_settings_section( 'section_group', ' ', array( $this, 'bptodo_group_settings_content' ), 'group-todo-list-settings' );
 		}
 
@@ -378,15 +378,37 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				}
 
 				update_option( 'user_todo_list_settings', $settings );
-				if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
-					global $bptodo;
-    				$bptodo = new Bptodo_Globals();
-				}
+				// Refresh global settings object to reflect changes immediately
+				global $bptodo;
+				$bptodo = new Bptodo_Globals();
 			}
 		}
 
 		/**
-		 * Show success notice after saving settings.
+	 * Sanitize group todo settings.
+	 * Handles checkbox values properly - unchecked boxes won't be in POST, so we set them to 'no'.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @param array $input The settings input array.
+	 * @return array Sanitized settings array.
+	 */
+	public function bptodo_sanitize_group_settings( $input ) {
+		$sanitized = array();
+
+		// Handle checkboxes - they won't be in $input if unchecked
+		$checkbox_fields = array( 'enable_todo_tab_group', 'mod_enable', 'list_enable', 'view_enable' );
+
+		foreach ( $checkbox_fields as $field ) {
+			// If checkbox is checked, it will have value 'yes', otherwise set to 'no'
+			$sanitized[ $field ] = isset( $input[ $field ] ) && $input[ $field ] === 'yes' ? 'yes' : 'no';
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Show success notice after saving settings.
 		 *
 		 * @since 1.0.0
 		 * @access public

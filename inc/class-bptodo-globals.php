@@ -56,11 +56,11 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
 			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
 			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
-			$this->enable_todo_member        = ! empty( $settings['enable_todo_member'] ) ? 'yes' : 'no';
-			$this->allow_user_add_category   = ! empty( $settings['allow_user_add_category'] ) ? 'yes' : 'no';
-			$this->send_notification         = ! empty( $settings['send_notification'] ) ? 'yes' : 'no';
-			$this->send_mail                 = ! empty( $settings['send_mail'] ) ? 'yes' : 'no';
-			$this->req_duedate               = ! empty( $settings['req_duedate'] ) ? 'yes' : 'no';
+			$this->enable_todo_member        = ( isset( $settings['enable_todo_member'] ) && $settings['enable_todo_member'] === 'yes' ) ? 'yes' : 'no';
+			$this->allow_user_add_category   = ( isset( $settings['allow_user_add_category'] ) && $settings['allow_user_add_category'] === 'yes' ) ? 'yes' : 'no';
+			$this->send_notification         = ( isset( $settings['send_notification'] ) && $settings['send_notification'] === 'yes' ) ? 'yes' : 'no';
+			$this->send_mail                 = ( isset( $settings['send_mail'] ) && $settings['send_mail'] === 'yes' ) ? 'yes' : 'no';
+			$this->req_duedate               = ( isset( $settings['req_duedate'] ) && $settings['req_duedate'] === 'yes' ) ? 'yes' : 'no';
 			$this->bptodo_user_roles         = ! empty( $settings['bptodo_user_roles'] ) ? $settings['bptodo_user_roles'] : [];
 			$this->my_todo_items             = $this->bptodo_count_my_todo_items();
 		}

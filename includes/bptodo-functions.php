@@ -1,5 +1,28 @@
 <?php
 
+/**
+ * BuddyPress/BuddyBoss compatibility helper for getting member URL.
+ * Supports BuddyPress 12.0+, older BuddyPress versions, and BuddyBoss.
+ *
+ * @param int $user_id The user ID.
+ * @return string The member profile URL.
+ * @since 1.0.0
+ */
+if ( ! function_exists( 'bptodo_get_member_url' ) ) {
+	function bptodo_get_member_url( $user_id ) {
+		if ( function_exists( 'bp_members_get_user_url' ) ) {
+			// BuddyPress 12.0+
+			return bp_members_get_user_url( $user_id );
+		} elseif ( function_exists( 'bp_core_get_user_domain' ) ) {
+			// Older BuddyPress/BuddyBoss
+			return bp_core_get_user_domain( $user_id );
+		} else {
+			// Fallback to WordPress author URL
+			return get_author_posts_url( $user_id );
+		}
+	}
+}
+
 if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	/**
 	 *  Add or exclude group modtaros in average percentage calculation.

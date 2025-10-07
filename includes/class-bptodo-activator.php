@@ -110,6 +110,7 @@ class Bptodo_List_Activator {
 				'allow_user_add_category' 	=> 'yes',
 				'send_notification' 		=> 'yes',
 				'send_mail' 				=> 'yes',
+				'req_duedate'				=> 'no',
 				'bptodo_user_roles' 		=> $user_array,
 			);
 			update_option( 'user_todo_list_settings', $user_todo_list_settings );
@@ -118,10 +119,10 @@ class Bptodo_List_Activator {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 		if ( false === $group_todo_list_settings ) {
 			$group_todo_list_settings = array(
-				'mod_enable'  			=> 'yes',
-				'list_enable' 			=> 'yes',
-				'view_enable' 			=> 'yes',
-				'enable_todo_tab_group' => 'yes',
+				'enable_todo_tab_group' => 'yes',  // Enable group todos by default
+				'mod_enable'  			=> 'no',   // Don't prevent modification (allow by default)
+				'list_enable' 			=> 'yes',  // Allow moderators to add todos
+				'view_enable' 			=> 'yes',  // Allow moderators to view reports
 			);
 			update_option( 'group-todo-list-settings', $group_todo_list_settings );
 		}

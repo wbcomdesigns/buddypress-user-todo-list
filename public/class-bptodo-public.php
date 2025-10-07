@@ -517,14 +517,15 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if ( bp_group_is_mod() ) {
 				$group_id    = $bp->groups->current_group->id;
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
-				$can_list    = true;
+				$can_list    = false;
 				if ( $mod_can_add ) {
-					$can_list = false;
+					$can_list = true;
 				}
 
 				$mod_can_views = bptodo_report_view_enabled($group_id, get_current_user_id());
+				$can_views = false;
 				if ($mod_can_views) {
-					$can_views = false;
+					$can_views = true;
 				}
 			}
 
@@ -732,7 +733,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 					$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
 					$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
-					$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( sanitize_text_field( wp_unslash( $_POST['bptodo-summary-input'] ) ) ) : '';
+					$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
 					$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
 					$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
 					$todo_id  = isset( $_POST['hidden_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_todo_id'] ) ) : '';
@@ -768,7 +769,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						bp_core_add_message(
 							sprintf(
 								/* translators: %s: */
-								esc_html__( '%1$s added successfully !', 'wb-todo' ),
+								esc_html__( '%1$s updated successfully !', 'wb-todo' ),
 								esc_html( $profile_menu_label )
 							)
 						);
