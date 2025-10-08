@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 05:29:09+00:00\n"
+"POT-Creation-Date: 2025-10-08 05:37:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -53,11 +53,11 @@ msgstr ""
 msgid "Last"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:157 public/todo/group/overview.php:402
+#: admin/class-bptodo-admin.php:157 public/todo/group/overview.php:413
 msgid "Next"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:158 public/todo/group/overview.php:370
+#: admin/class-bptodo-admin.php:158 public/todo/group/overview.php:381
 msgid "Previous"
 msgstr ""
 
@@ -1747,7 +1747,7 @@ msgid "Profile URL of the user who assigned the todo."
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:381
-#: public/todo/group/overview.php:244
+#: public/todo/group/overview.php:255
 msgid "Group Task Progress"
 msgstr ""
 
@@ -1756,22 +1756,22 @@ msgid "Back to %s"
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:392
-#: public/todo/group/overview.php:261 public/todo/group/overview.php:269
+#: public/todo/group/overview.php:272 public/todo/group/overview.php:280
 msgid "of"
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:392
-#: public/todo/group/overview.php:263
+#: public/todo/group/overview.php:274
 msgid "members completed"
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:404
-#: public/todo/group/overview.php:286
+#: public/todo/group/overview.php:297
 msgid "Member Status"
 msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:407
-#: public/todo/group/overview.php:289
+#: public/todo/group/overview.php:300
 msgid "All"
 msgstr ""
 
@@ -1780,7 +1780,7 @@ msgstr ""
 #: public/todo/group/list.php:325 public/todo/group/list.php:393
 #: public/todo/group/list.php:505 public/todo/group/list.php:617
 #: public/todo/group/list.php:728 public/todo/group/list.php:862
-#: public/todo/group/overview.php:293
+#: public/todo/group/overview.php:304
 #: public/todo/member/member-todo-list.php:156
 #: public/todo/member/member-todo-list.php:179
 #: public/todo/member/member-todo-list.php:257
@@ -1793,7 +1793,7 @@ msgstr ""
 
 #: public/bptodo-plugin-genral-function.php:415
 #: public/bptodo-plugin-genral-function.php:457
-#: public/todo/group/overview.php:297
+#: public/todo/group/overview.php:308
 msgid "Pending"
 msgstr ""
 
@@ -2196,31 +2196,31 @@ msgstr ""
 msgid "Completed Todo Not Found"
 msgstr ""
 
-#: public/todo/group/overview.php:222
+#: public/todo/group/overview.php:233
 msgid "View Progress For:"
 msgstr ""
 
-#: public/todo/group/overview.php:225
+#: public/todo/group/overview.php:236
 msgid "Overall Progress (All Tasks)"
 msgstr ""
 
-#: public/todo/group/overview.php:242
+#: public/todo/group/overview.php:253
 msgid "Task Progress: %s"
 msgstr ""
 
-#: public/todo/group/overview.php:271
+#: public/todo/group/overview.php:282
 msgid "tasks completed"
 msgstr ""
 
-#: public/todo/group/overview.php:335
+#: public/todo/group/overview.php:346
 msgid "tasks"
 msgstr ""
 
-#: public/todo/group/overview.php:345
+#: public/todo/group/overview.php:356
 msgid "No members with assigned tasks found."
 msgstr ""
 
-#: public/todo/group/overview.php:359
+#: public/todo/group/overview.php:370
 msgid "Showing %1$d-%2$d of %3$d members"
 msgstr ""
 

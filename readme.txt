@@ -43,6 +43,27 @@ BuddyPress ToDo List with Group Task
   2. Tasks will be added to group members todo lists
   3. Members can mark todos assigned to them from the group mark complete from the profile todo tab.
 
+Group Overview & Reporting
+  1. View task completion statistics for all group tasks
+  2. Track individual member progress with visual indicators
+  3. Filter members by completion status (All, Completed, Pending)
+  4. Task selector dropdown to view specific task or overall progress
+  5. Site admins can view tasks in read-only mode for non-member groups
+
+Data Retention & Cleanup
+  1. Automatic cleanup of old completed tasks
+  2. Configurable retention periods (30, 60, 90, 180, 365 days, or never)
+  3. Separate settings for group and personal todos
+  4. Manual cleanup option with email notifications
+  5. Move to trash or permanent delete options
+
+= Documentation =
+
+**Comprehensive guides available in the plugin directory:**
+
+*	**USER-GUIDE.md** - Complete user documentation covering all features, settings, and usage instructions
+*	**DEVELOPER-GUIDE.md** - Technical documentation with hooks, filters, and code examples for extending the plugin
+
 = Links =
 
 [Wbcom Designs Site](https://wbcomdesigns.com/downloads/buddypress-user-todo-list/ "BuddyPress User ToDo List" )

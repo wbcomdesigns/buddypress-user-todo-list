@@ -199,8 +199,19 @@ usort($member_stats, function($a, $b) {
     return $a['completion_percentage'] - $b['completion_percentage'];
 });
 
+/**
+ * Filters the member stats before pagination.
+ *
+ * @since 3.5.0
+ *
+ * @param array $member_stats     Array of member statistics.
+ * @param int   $group_id         The group ID.
+ * @param int   $selected_task_id The selected task ID (0 for all tasks).
+ */
+$member_stats = apply_filters( 'bptodo_group_overview_member_stats', $member_stats, $group_id, $selected_task_id );
+
 // Pagination for members
-$members_per_page = 15;
+$members_per_page = apply_filters( 'bptodo_group_overview_members_per_page', 15, $group_id );
 $current_page = isset($_GET['overview_page']) ? absint($_GET['overview_page']) : 1;
 $current_page = max(1, $current_page);
 
