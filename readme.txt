@@ -2,10 +2,10 @@
 Contributors: wbcomdesigns, vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
-Requires at least: 4.0.1
+Requires at least: 6.5
 Tested up to: 6.8.1
 Stable tag: 3.5.0
-Requires PHP: 7.0
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wb-todo
@@ -124,11 +124,12 @@ See the plugin in action before installing. Visit our demo site to explore all f
 
 = Compatibility =
 
-* BuddyPress 2.5 and higher
+* BuddyPress 12.0 and higher (backwards compatible with older versions)
 * BuddyBoss Platform (all versions)
-* WordPress 4.0.1 and higher
-* PHP 7.0 and higher
+* WordPress 6.5 and higher
+* PHP 7.4 and higher (8.0+ recommended)
 * Tested with popular themes: BuddyX, Reign, Youzify, and more
+* Full support for both classic and block editor
 
 = What's New in 3.5.0 =
 
@@ -169,16 +170,16 @@ After activating the plugin, we recommend:
 
 = Requirements =
 
-* BuddyPress 2.5+ or BuddyBoss Platform installed and activated
-* WordPress 4.0.1 or higher
-* PHP 7.0 or higher
-* MySQL 5.6 or higher
+* BuddyPress 12.0+ or BuddyBoss Platform installed and activated
+* WordPress 6.5 or higher
+* PHP 7.4 or higher
+* MySQL 5.7 or higher (8.0+ recommended)
 
 == Frequently Asked Questions ==
 
 = Is BuddyPress required for this plugin? =
 
-Yes, this plugin requires either BuddyPress 2.5 or higher, or BuddyBoss Platform to be installed and activated. It's specifically designed to integrate with BuddyPress/BuddyBoss member profiles and groups.
+Yes, this plugin requires either BuddyPress 12.0 or higher, or BuddyBoss Platform to be installed and activated. It's specifically designed to integrate with BuddyPress/BuddyBoss member profiles and groups.
 
 = Does this work with BuddyBoss Platform? =
 
