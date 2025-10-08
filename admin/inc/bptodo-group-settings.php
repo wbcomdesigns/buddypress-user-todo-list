@@ -42,7 +42,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							</div>
 						</div>
 
-						<!-- Allow Group Moderators to Modify Todo List -->
+						<!-- Prevent Group Moderators from Modifying Todo List -->
 						<div class="wbcom-settings-section-wrap">
 							<div class="wbcom-settings-section-options-heading">
 								<label for="bptodo-on-moderator">
@@ -59,7 +59,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							</div>
 						</div>
 
-						<!-- Include Group Moderators in Todo Average List Calculation -->
+						<!-- Allow Group Moderators to add Todos in group -->
 						<div class="wbcom-settings-section-wrap">
 							<div class="wbcom-settings-section-options-heading">
 								<label for="bptodo-list-moderator">

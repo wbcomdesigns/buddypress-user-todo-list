@@ -435,7 +435,7 @@ Thank you!', 'wb-todo' ),
 			'bptodo.label' => $label_lowercase,
 			'bptodo.Label' => $label_capitalized,
 			'poster.name'  => bp_core_get_user_displayname( $assigner_id ),
-			'poster.url'   => bp_core_get_user_domain( $assigner_id ),
+			'poster.url'   => bptodo_get_member_url( $assigner_id ),
 		);
 
 		// Send the email

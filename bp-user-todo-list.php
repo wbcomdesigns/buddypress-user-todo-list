@@ -100,6 +100,7 @@ function bptodo_upgrade_routine( $from_version ) {
     // Load dependencies
     require_once plugin_dir_path( __FILE__ ) . 'inc/class-bptodo-globals.php';
     require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
 
     // Install/update email templates
     // These functions check if emails exist before creating them

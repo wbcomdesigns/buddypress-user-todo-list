@@ -274,12 +274,15 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			$this->plugin_settings_tabs['user-todo-list-welcome']   = esc_html__( 'Welcome', 'wb-todo' );
 			$this->plugin_settings_tabs['user-todo-list-settings']  = esc_html__( 'General', 'wb-todo' );
 			$this->plugin_settings_tabs['group-todo-list-settings'] = esc_html__( 'Group Todo', 'wb-todo' );
+		$this->plugin_settings_tabs['data-retention-settings']  = esc_html__( 'Data Retention', 'wb-todo' );
 
 			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			add_settings_section( 'section_welcome', ' ', array( $this, 'bptodo_welcome_content' ), 'user-todo-list-welcome' );
 			add_settings_section( 'section_general', ' ', array( $this, 'bptodo_general_settings_content' ), 'user-todo-list-settings' );
 			register_setting( 'group-todo-list-settings', 'group-todo-list-settings', array( $this, 'bptodo_sanitize_group_settings' ) );
 			add_settings_section( 'section_group', ' ', array( $this, 'bptodo_group_settings_content' ), 'group-todo-list-settings' );
+		register_setting( 'data-retention-settings', 'data-retention-settings', array( $this, 'bptodo_sanitize_retention_settings' ) );
+		add_settings_section( 'section_retention', ' ', array( $this, 'bptodo_retention_settings_content' ), 'data-retention-settings' );
 		}
 
 		/**
@@ -317,6 +320,59 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				require_once dirname( __FILE__ ) . '/inc/bptodo-group-settings.php';
 			}
 		}
+
+	/**
+	 * Display data retention settings content.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function bptodo_retention_settings_content() {
+		if ( file_exists( dirname( __FILE__ ) . '/inc/bptodo-retention-settings.php' ) ) {
+			require_once dirname( __FILE__ ) . '/inc/bptodo-retention-settings.php';
+		}
+	}
+
+	/**
+	 * Sanitize data retention settings.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @param array $input The settings input array.
+	 * @return array Sanitized settings array.
+	 */
+	public function bptodo_sanitize_retention_settings( $input ) {
+		$sanitized = array();
+
+		// Handle checkboxes
+		$sanitized['enable_retention'] = isset( $input['enable_retention'] ) && $input['enable_retention'] === 'yes' ? 'yes' : 'no';
+		$sanitized['enable_group_retention'] = isset( $input['enable_group_retention'] ) && $input['enable_group_retention'] === 'yes' ? 'yes' : 'no';
+		$sanitized['enable_personal_retention'] = isset( $input['enable_personal_retention'] ) && $input['enable_personal_retention'] === 'yes' ? 'yes' : 'no';
+		$sanitized['permanent_delete'] = isset( $input['permanent_delete'] ) && $input['permanent_delete'] === 'yes' ? 'yes' : 'no';
+		$sanitized['email_notification'] = isset( $input['email_notification'] ) && $input['email_notification'] === 'yes' ? 'yes' : 'no';
+
+		// Handle select fields
+		$sanitized['cleanup_type'] = isset( $input['cleanup_type'] ) ? sanitize_text_field( $input['cleanup_type'] ) : 'completed';
+
+		// Handle numeric fields
+		$sanitized['retention_days'] = isset( $input['retention_days'] ) ? absint( $input['retention_days'] ) : 90;
+		
+		// Ensure minimum 7 days
+		if ( $sanitized['retention_days'] < 7 ) {
+			$sanitized['retention_days'] = 7;
+		}
+
+		// Handle email field
+		if ( isset( $input['notification_email'] ) ) {
+			$emails = array_map( 'trim', explode( ',', $input['notification_email'] ) );
+			$valid_emails = array_filter( $emails, 'is_email' );
+			$sanitized['notification_email'] = implode( ', ', $valid_emails );
+		} else {
+			$sanitized['notification_email'] = get_option( 'admin_email' );
+		}
+
+		return $sanitized;
+	}
 
 		/**
 		 * Register shortcode settings tab.

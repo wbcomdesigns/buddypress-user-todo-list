@@ -3,7 +3,7 @@ $group_id = bp_get_current_group_id();
 $args = array(
     'post_type'      => 'bp-todo',
     'post_status'    => 'publish',
-    'author'         => get_current_user_id(),
+    'author'         => get_current_user_id(), // Always show only user's own assigned todos
     'meta_query'     => array(
         array(
             'key'     => 'todo_group_id',
@@ -16,6 +16,7 @@ $args = array(
     'orderby'        => 'date',
     'order'          => 'DESC',
 );
+
 $todo_query = get_posts($args);
 ?> 
 <div class="todo-reports-wrapper">

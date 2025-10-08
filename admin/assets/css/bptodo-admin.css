@@ -38,6 +38,10 @@
     content: "\f150" !important;
 }
 
+.nav-tab-wrapper ul li a#data-retention-settings:before {
+    content: "\f534" !important;
+}
+
 .wp-core-ui .notice.is-dismissible {
     position: absolute;
     right: 50px;

@@ -17,12 +17,8 @@ $profile_menu_slug         = $bptodo->profile_menu_slug;
 $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 
-if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
-    $groups_link = bp_get_group_url($bp->groups->current_group);
-} else {
-    $groups_link = bp_get_group_permalink($bp->groups->current_group);
-}
-$admin_link  = trailingslashit($groups_link . $profile_menu_slug);
+$groups_link = bptodo_get_group_url( $bp->groups->current_group );
+$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 $group_members = groups_get_group_members(
     array(
@@ -46,8 +42,17 @@ if ($cu_index !== false) {
 
 $class      = 'todo-completed';
 $group_id   = $bp->groups->current_group->id ? $bp->groups->current_group->id : 0;
-$can_modify = bp_group_is_admin();
-$can_views  = bp_group_is_admin() || bp_group_is_mod();
+
+// Check if user is site admin and whether they're a group member
+$is_site_admin = bptodo_is_site_admin();
+$is_group_member = groups_is_user_member( get_current_user_id(), $group_id );
+
+// Site admin who is NOT a group member gets read-only view
+// Site admin who IS a group member follows normal member permissions
+$is_admin_non_member = $is_site_admin && ! $is_group_member;
+
+$can_modify = bp_group_is_admin() || $is_admin_non_member;
+$can_views  = bp_group_is_admin() || bp_group_is_mod() || $is_admin_non_member;
 
 if (bp_group_is_mod()) {
     $mod_can_modify = bptodo_if_moderator_modification_enabled($group_id, $current_user);
@@ -61,21 +66,41 @@ if (bp_group_is_mod()) {
 }
 
 // List of Todo Items with limited posts per page for better performance.
+// Site admins see all PRIMARY tasks, regular users see only their assigned todos
+
 $args = array(
     'post_type'      => 'bp-todo',
     'post_status'    => 'publish',
-    'author'         => get_current_user_id(),
-    'posts_per_page' => 100, // Limit the number of posts retrieved at a time.
-    'meta_query'     => array(
+    'posts_per_page' => 100,
+    'paged'          => 1,
+);
+
+// Query logic:
+// - Admin who is NOT a group member: Get ALL tasks (we'll filter for primary tasks in PHP)
+// - Admin who IS a group member OR regular user: Get only their own tasks
+if ( $is_admin_non_member ) {
+    // Admin non-member: Get ALL tasks in group, we'll filter for primary tasks in PHP
+    // (Primary tasks have todo_primary_id equal to their own post ID)
+    $args['meta_query'] = array(
         array(
             'key'     => 'todo_group_id',
             'value'   => $group_id,
             'compare' => '=',
             'type'    => 'NUMERIC',
         ),
-    ),
-    'paged'          => 1, // Use pagination to handle large numbers of posts.
-);
+    );
+} else {
+    // Regular member or admin who is a group member: Get only their own tasks
+    $args['author'] = get_current_user_id();
+    $args['meta_query'] = array(
+        array(
+            'key'     => 'todo_group_id',
+            'value'   => $group_id,
+            'compare' => '=',
+            'type'    => 'NUMERIC',
+        ),
+    );
+}
 
 $all_todo_count     = 0;
 $all_completed_todo = 0;
@@ -93,6 +118,18 @@ do {
 
     $args['paged']++;
 } while (count($todos) === $args['posts_per_page']); // Continue fetching until no more posts are returned.
+
+// For admin non-members, filter to show only primary tasks (where todo_primary_id == post_ID)
+// This prevents showing duplicate tasks (primary + associated copies)
+if ( $is_admin_non_member ) {
+    $all_todos = array_filter( $all_todos, function( $todo ) {
+        $primary_id = get_post_meta( $todo->ID, 'todo_primary_id', true );
+        // Primary tasks have todo_primary_id equal to their own ID (self-reference)
+        return $primary_id == $todo->ID;
+    });
+    // Re-index array after filtering
+    $all_todos = array_values( $all_todos );
+}
 
 // Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
 usort( $all_todos, function( $a, $b ) {
@@ -178,6 +215,10 @@ foreach ($all_todos as $todo) {
 
 $avg_rating = $all_todo_count > 0 ? ($all_completed_todo * 100) / $all_todo_count : 0;
 
+// Calculate group-wide statistics for group overview mode
+// Removed unused group-overview statistics calculation (leftover from dual-view mode)
+// These stats are calculated in overview.php instead
+
 $bp_template_option = bp_get_option('_bp_theme_package_id');
 
 // Check if todo list is actually empty (no todos in any category)
@@ -242,6 +283,7 @@ if (!$has_todos) {
                             <section class="bptodo-adming-setting">
                                 <div class="bptodo-admin-settings-block">
                                     <div class="bptodo-progress-section">
+                                        <!-- Personal Progress -->
                                         <h5><?php printf( esc_html__( '%s Progress', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></h5>
                                         <div class="task-progress-task-count-wrap">
                                             <div class="task-progress-task-count">
@@ -261,6 +303,7 @@ if (!$has_todos) {
                                             </div>
                                         </div>
                                     </div>
+
                                     <div id="bptodo-tabs">
 
                                         <?php do_action('bptodo_add_extra_tab_content_before_defaults', $profile_menu_label); ?>
@@ -311,6 +354,10 @@ if (!$has_todos) {
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
                                                                             $todo_view_url = get_permalink($tid);
+
+                                                                            // Admin non-members have read-only access to all tasks
+                                                                            // Members (including admins who are members) can edit their assigned tasks
+                                                                            $is_readonly = $is_admin_non_member;
                                                                             $todo_status    = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority  = get_post_meta($todo->ID, 'todo_priority', true);
                                                                             $due_date_str   = $due_date_td_class = '';
@@ -371,8 +418,8 @@ if (!$has_todos) {
                                                                                 }
                                                                                 ?>
 					                                                            <?php	/* translators: %s */ ?>
-                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr( $disabled );?>" <?php echo esc_attr($checked);?><?php echo esc_attr( $disabled );?>  /></label>
+                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?> <?php echo $is_readonly ? 'bptodo-readonly' : ''; ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo $checked ? 'checked="checked"' : ''; ?> <?php echo $disabled ? 'disabled="disabled"' : ''; ?> <?php echo $is_readonly ? 'disabled="disabled"' : ''; ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -388,12 +435,19 @@ if (!$has_todos) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
+                                                                                <li class="bptodo-task">
+                                                                                    <?php echo esc_html($todo_title); ?>
+                                                                                    <?php if ($is_readonly) { ?>
+                                                                                        <span class="bptodo-readonly-badge" title="<?php esc_attr_e('This task is not assigned to you', 'wb-todo'); ?>">
+                                                                                            <span class="dashicons dashicons-lock"></span> <?php esc_html_e('Read-Only', 'wb-todo'); ?>
+                                                                                        </span>
+                                                                                    <?php } ?>
+                                                                                </li>
                                                                                 <li class="bp-to-do-actions">
                                                                                     <ul class="bp-to-do-actions-list">
                                                                                         <?php  /* translators: %s */ ?>
                                                                                         <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
-                                                                                        <?php if ($can_modify) { ?>
+                                                                                        <?php if ($can_modify && !$is_readonly) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
@@ -411,6 +465,10 @@ if (!$has_todos) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+
+                                                                            // Admin non-members have read-only access to all tasks
+                                                                            // Members (including admins who are members) can edit their assigned tasks
+                                                                            $is_readonly = $is_admin_non_member;
                                                                             $todo_view_url = get_permalink($tid);
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
@@ -472,8 +530,8 @@ if (!$has_todos) {
                                                                                 }
                                                                                 ?>
                                                                                 <?php  /* translators: %s */ ?>
-                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr( $disabled );?>" <?php echo esc_attr($checked); ?><?php echo esc_attr( $disabled );?>/></label>
+                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?> <?php echo $is_readonly ? 'bptodo-readonly' : ''; ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo $checked ? 'checked="checked"' : ''; ?> <?php echo $disabled ? 'disabled="disabled"' : ''; ?> <?php echo $is_readonly ? 'disabled="disabled"' : ''; ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -489,12 +547,19 @@ if (!$has_todos) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
+                                                                                <li class="bptodo-task">
+                                                                                    <?php echo esc_html($todo_title); ?>
+                                                                                    <?php if ($is_readonly) { ?>
+                                                                                        <span class="bptodo-readonly-badge" title="<?php esc_attr_e('This task is not assigned to you', 'wb-todo'); ?>">
+                                                                                            <span class="dashicons dashicons-lock"></span> <?php esc_html_e('Read-Only', 'wb-todo'); ?>
+                                                                                        </span>
+                                                                                    <?php } ?>
+                                                                                </li>
                                                                                 <li class="bp-to-do-actions">
                                                                                     <ul class="bp-to-do-actions-list">
                                                                                         <?php  /* translators: %s */ ?>
                                                                                         <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
-                                                                                        <?php if ($can_modify) { ?>
+                                                                                        <?php if ($can_modify && !$is_readonly) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
@@ -512,6 +577,10 @@ if (!$has_todos) {
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
+
+                                                                            // Admin non-members have read-only access to all tasks
+                                                                            // Members (including admins who are members) can edit their assigned tasks
+                                                                            $is_readonly = $is_admin_non_member;
                                                                             $todo_view_url = get_permalink($tid);
                                                                             $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                             $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
@@ -573,8 +642,8 @@ if (!$has_todos) {
                                                                                 }
                                                                                 ?>
                                                                                 <?php  /* translators: %s */ ?>
-                                                                              <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?>/></label>
+                                                                              <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?> <?php echo $is_readonly ? 'bptodo-readonly' : ''; ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo $checked ? 'checked="checked"' : ''; ?> <?php echo $disabled ? 'disabled="disabled"' : ''; ?> <?php echo $is_readonly ? 'disabled="disabled"' : ''; ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -590,12 +659,19 @@ if (!$has_todos) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
+                                                                                <li class="bptodo-task">
+                                                                                    <?php echo esc_html($todo_title); ?>
+                                                                                    <?php if ($is_readonly) { ?>
+                                                                                        <span class="bptodo-readonly-badge" title="<?php esc_attr_e('This task is not assigned to you', 'wb-todo'); ?>">
+                                                                                            <span class="dashicons dashicons-lock"></span> <?php esc_html_e('Read-Only', 'wb-todo'); ?>
+                                                                                        </span>
+                                                                                    <?php } ?>
+                                                                                </li>
                                                                                 <li class="bp-to-do-actions">
                                                                                     <ul class="bp-to-do-actions-list">
                                                                                         <?php  /* translators: %s */ ?>
                                                                                         <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
-                                                                                        <?php if ($can_modify) { ?>
+                                                                                        <?php if ($can_modify && !$is_readonly) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
@@ -610,6 +686,9 @@ if (!$has_todos) {
                                                                     <?php if (!empty($todo_list['future'])) { ?>
                                                                         <?php foreach ($todo_list['future'] as $tid) { ?>
                                                                             <?php
+                                                                            // Admin non-members have read-only access to all tasks
+                                                                            // Members (including admins who are members) can edit their assigned tasks
+                                                                            $is_readonly = $is_admin_non_member;
                                                                             $todo          = get_post($tid);
                                                                             $todo_title    = $todo->post_title;
                                                                             $todo_edit_url = $admin_link . '/add?args=' . $tid;
@@ -674,8 +753,8 @@ if (!$has_todos) {
                                                                                 }
                                                                                 ?>
                                                                                  <?php  /* translators: %s */ ?>
-                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                    <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?> /></label>
+                                                                                <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?> <?php echo $is_readonly ? 'bptodo-readonly' : ''; ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                    <label><input type="checkbox" class="option-input checkbox" <?php echo $checked ? 'checked="checked"' : ''; ?> <?php echo $disabled ? 'disabled="disabled"' : ''; ?> <?php echo $is_readonly ? 'disabled="disabled"' : ''; ?> /></label>
                                                                                 </li>
                                                                                 <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                 <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>
@@ -691,12 +770,19 @@ if (!$has_todos) {
                                                                                         ?>
                                                                                     </span>
                                                                                 </li>
-                                                                                <li class="bptodo-task"><?php echo esc_html($todo_title); ?></li>
+                                                                                <li class="bptodo-task">
+                                                                                    <?php echo esc_html($todo_title); ?>
+                                                                                    <?php if ($is_readonly) { ?>
+                                                                                        <span class="bptodo-readonly-badge" title="<?php esc_attr_e('This task is not assigned to you', 'wb-todo'); ?>">
+                                                                                            <span class="dashicons dashicons-lock"></span> <?php esc_html_e('Read-Only', 'wb-todo'); ?>
+                                                                                        </span>
+                                                                                    <?php } ?>
+                                                                                </li>
                                                                                 <li class="bp-to-do-actions">
                                                                                     <ul class="bp-to-do-actions-list">
                                                                                         <?php  /* translators: %s */ ?>
                                                                                         <li><a href="<?php echo esc_url($todo_view_url); ?>" title="<?php echo sprintf(esc_html__('View: %s', 'wb-todo'), esc_attr($todo_title)); ?>" target="_blank"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/eye.svg" /></a></li>
-                                                                                        <?php if ($can_modify) { ?>
+                                                                                        <?php if ($can_modify && !$is_readonly) { ?>
                                                                                             <?php  /* translators: %s */ ?>
                                                                                             <li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Remove: %s', 'wb-todo'), esc_attr($todo_title)); ?>"><img src="<?php echo esc_attr(BPTODO_PLUGIN_URL); ?>assets/css/images/trash-alt.svg" /></a></li>
                                                                                             <?php  /* translators: %s */ ?>
@@ -737,6 +823,10 @@ if (!$has_todos) {
                                                                                 $todo_title    = $todo->post_title;
                                                                                 $todo_edit_url = $admin_link . '/add?args=' . $tid;
                                                                                 $todo_view_url = get_permalink($tid);
+
+                                                                                // Admin non-members have read-only access to all tasks
+                                                                                // Members (including admins who are members) can edit their assigned tasks
+                                                                                $is_readonly = $is_admin_non_member;
                                                                                 $todo_status   = get_post_meta($todo->ID, 'todo_status', true);
                                                                                 $todo_priority = get_post_meta($todo->ID, 'todo_priority', true);
                                                                                 $due_date_str  = $due_date_td_class = '';
@@ -797,8 +887,8 @@ if (!$has_todos) {
                                                                                     }
                                                                                     ?>
                                                                                      <?php  /* translators: %s */ ?>
-                                                                                    <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
-                                                                                        <label><input type="checkbox" class="option-input checkbox <?php echo esc_attr($disabled); ?>" <?php echo esc_attr($checked); ?><?php echo esc_attr($disabled); ?> /></label>
+                                                                                    <li id="bptodo-complete-li-<?php echo esc_attr($tid); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr($checked_class); ?> <?php echo $is_readonly ? 'bptodo-readonly' : ''; ?>" data-tid="<?php echo esc_attr($tid); ?>" title="<?php echo sprintf(esc_html__('Complete: %s', 'wb-todo'), esc_attr($todo_title)); ?>">
+                                                                                        <label><input type="checkbox" class="option-input checkbox" <?php echo $checked ? 'checked="checked"' : ''; ?> <?php echo $disabled ? 'disabled="disabled"' : ''; ?> <?php echo $is_readonly ? 'disabled="disabled"' : ''; ?> /></label>
                                                                                     </li>
                                                                                     <li class="bptodo-priority"><span class="<?php echo esc_attr($priority_class); ?>"><?php echo esc_html($priority_text); ?></span></li>
                                                                                     <li class="bptodo-date"><span>Due Date</span><?php echo esc_html($due_date_str); ?></li>

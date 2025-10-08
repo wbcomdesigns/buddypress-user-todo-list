@@ -296,6 +296,12 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 			return;
 		}
 
+		// Only show report on the PRIMARY todo (where primary_id equals post ID)
+		$primary_todo_id = get_post_meta( $post->ID, 'todo_primary_id', true );
+		if ( empty( $primary_todo_id ) || $primary_todo_id != $post->ID ) {
+			return; // This is an associated todo, not the primary one
+		}
+
 		$can_view = bptodo_enable_report_view( $current_user, $group_id );
 
 		if ( ! $can_view ) {
@@ -304,52 +310,160 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 
 		$args = array(
 			'group_id'            => $group_id,
-			'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', true ),
+			'exclude_admins_mods' => false, // Include ALL members including admins and mods
 		);
 
 		$group_members     = groups_get_group_members( $args );
 		$group_members_ids = array_column( $group_members['members'], 'ID' );
 
 		if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
-			?>
-			<table class="bp-todo-report">
-				<thead>
-					<tr>
-						<th><?php esc_html_e( 'Members', 'wb-todo' ); ?></th>
-						<th><?php esc_html_e( 'Status', 'wb-todo' ); ?></th>
-						<th><?php esc_html_e( 'Time', 'wb-todo' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$parent_todo = get_post_meta( $post->ID, 'todo_primary_id', true );
+			$parent_todo = get_post_meta( $post->ID, 'todo_primary_id', true );
 
-					if ( $parent_todo ) {
-						$assoc_todos = get_post_meta( $parent_todo, 'botodo_associated_todo', true );
+			// Calculate completion statistics
+			$total_members = count( $group_members_ids );
+			$completed_count = 0;
+			$member_data = array();
 
-						if ( $assoc_todos ) {
-							foreach ( $assoc_todos as $assoc_todo ) {
-								$member_todo_status  = get_post_meta( $assoc_todo, 'todo_status', true );
-								$todo_author_id      = get_post_field( 'post_author', $assoc_todo );
-								$member_todo_time    = get_post_meta( $assoc_todo, 'todo_complete_time', true );
-								$member_todo_time    = $member_todo_time ? human_time_diff( current_time( 'timestamp' ), $member_todo_time ) . ' ago' : '-';
+			if ( $parent_todo ) {
+				// Add primary todo to statistics
+				$primary_status = get_post_meta( $parent_todo, 'todo_status', true );
+				$primary_author = get_post_field( 'post_author', $parent_todo );
+				$primary_time = get_post_meta( $parent_todo, 'todo_complete_time', true );
+				$primary_date = get_post_meta( $parent_todo, 'todo_completed_date', true );
 
-								if ( in_array( $todo_author_id, $group_members_ids ) ) {
-									$author_name = get_the_author_meta( 'display_name', $todo_author_id );
-									?>
-									<tr>
-										<td><?php echo esc_html( ucfirst( $author_name ) ); ?></td>
-										<td><?php echo esc_html( $member_todo_status ); ?></td>
-										<td><?php echo esc_html( $member_todo_time ); ?></td>
-									</tr>
-									<?php
-								}
+				if ( in_array( $primary_author, $group_members_ids ) ) {
+					$member_data[] = array(
+						'user_id' => $primary_author,
+						'name' => get_the_author_meta( 'display_name', $primary_author ),
+						'status' => $primary_status,
+						'time' => $primary_time,
+						'completed_date' => $primary_date,
+					);
+					if ( $primary_status === 'complete' ) {
+						$completed_count++;
+					}
+				}
+
+				// Add associated todos to statistics
+				$assoc_todos = get_post_meta( $parent_todo, 'botodo_associated_todo', true );
+				if ( $assoc_todos ) {
+					foreach ( $assoc_todos as $assoc_todo ) {
+						$member_todo_status = get_post_meta( $assoc_todo, 'todo_status', true );
+						$todo_author_id = get_post_field( 'post_author', $assoc_todo );
+						$member_todo_time = get_post_meta( $assoc_todo, 'todo_complete_time', true );
+						$member_todo_date = get_post_meta( $assoc_todo, 'todo_completed_date', true );
+
+						if ( in_array( $todo_author_id, $group_members_ids ) ) {
+							$member_data[] = array(
+								'user_id' => $todo_author_id,
+								'name' => get_the_author_meta( 'display_name', $todo_author_id ),
+								'status' => $member_todo_status,
+								'time' => $member_todo_time,
+								'completed_date' => $member_todo_date,
+							);
+							if ( $member_todo_status === 'complete' ) {
+								$completed_count++;
 							}
 						}
 					}
+				}
+			}
+
+			$completion_percentage = $total_members > 0 ? round( ( $completed_count / $total_members ) * 100 ) : 0;
+
+			// Get group link for navigation
+			$group = groups_get_group( $group_id );
+			$group_link = bptodo_get_group_url( $group );
+			$group_todo_link = trailingslashit( $group_link ) . 'todo/list/';
+			?>
+			<div class="bptodo-group-report-wrapper">
+				<div class="bptodo-report-header">
+					<h3 class="bptodo-report-title"><?php esc_html_e( 'Group Task Progress', 'wb-todo' ); ?></h3>
+					<a href="<?php echo esc_url( $group_todo_link ); ?>" class="bptodo-back-to-group">
+						<span class="dashicons dashicons-arrow-left-alt2"></span>
+						<?php printf( esc_html__( 'Back to %s', 'wb-todo' ), esc_html( $group->name ) ); ?>
+					</a>
+				</div>
+
+				<!-- Overall Completion Stats -->
+				<div class="bptodo-report-overview">
+					<div class="bptodo-completion-summary">
+						<span class="bptodo-completion-percentage"><?php echo esc_html( $completion_percentage ); ?>%</span>
+						<span class="bptodo-completion-details"><?php echo esc_html( $completed_count ); ?> <?php esc_html_e( 'of', 'wb-todo' ); ?> <?php echo esc_html( $total_members ); ?> <?php esc_html_e( 'members completed', 'wb-todo' ); ?></span>
+					</div>
+
+					<!-- Progress Bar -->
+					<div class="bptodo-progress-bar">
+						<div class="bptodo-progress-fill" style="width: <?php echo esc_attr( $completion_percentage ); ?>%;"></div>
+					</div>
+				</div>
+
+				<!-- Member Progress List -->
+				<div class="bptodo-member-progress-list">
+					<div class="bptodo-member-list-header">
+						<h4 class="bptodo-member-list-title"><?php esc_html_e( 'Member Status', 'wb-todo' ); ?></h4>
+						<div class="bptodo-member-filters">
+							<button class="bptodo-filter-btn active" data-filter="all">
+								<?php esc_html_e( 'All', 'wb-todo' ); ?>
+								<span class="bptodo-filter-count"><?php echo esc_html( $total_members ); ?></span>
+							</button>
+							<button class="bptodo-filter-btn" data-filter="completed">
+								<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+								<span class="bptodo-filter-count"><?php echo esc_html( $completed_count ); ?></span>
+							</button>
+							<button class="bptodo-filter-btn" data-filter="pending">
+								<?php esc_html_e( 'Pending', 'wb-todo' ); ?>
+								<span class="bptodo-filter-count"><?php echo esc_html( $total_members - $completed_count ); ?></span>
+							</button>
+						</div>
+					</div>
+
+					<!-- Member Grid -->
+					<div class="bptodo-member-grid">
+					<?php foreach ( $member_data as $member ) :
+						$is_complete = $member['status'] === 'complete';
+						$status_class = $is_complete ? 'status-complete' : 'status-incomplete';
+
+						// Get completion date/time
+						$time_text = '';
+						if ( $is_complete ) {
+							if ( !empty( $member['completed_date'] ) ) {
+								// Use the new completed_date field (MySQL datetime)
+								$time_text = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $member['completed_date'] ) );
+							} elseif ( !empty( $member['time'] ) ) {
+								// Fallback to old timestamp field
+								$time_text = human_time_diff( $member['time'], current_time( 'timestamp' ) ) . ' ' . esc_html__( 'ago', 'wb-todo' );
+							}
+						}
 					?>
-				</tbody>
-			</table>
+						<div class="bptodo-member-item <?php echo esc_attr( $status_class ); ?>">
+							<?php echo get_avatar( $member['user_id'], 40, '', '', array( 'class' => 'bptodo-member-avatar' ) ); ?>
+							<div class="bptodo-member-info">
+								<a href="<?php echo bptodo_get_member_url( $member['user_id'] ); ?>" class="bptodo-member-name">
+									<?php echo esc_html( ucfirst( $member['name'] ) ); ?>
+								</a>
+								<span class="bptodo-member-status">
+									<?php if ( $is_complete ) : ?>
+										<span class="bptodo-status-badge bptodo-status-done">
+											<span class="dashicons dashicons-yes"></span>
+											<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+										</span>
+										<?php if ( !empty( $time_text ) ) : ?>
+											<span class="bptodo-member-time"><?php echo esc_html( $time_text ); ?></span>
+										<?php endif; ?>
+									<?php else : ?>
+										<span class="bptodo-status-badge bptodo-status-pending">
+											<span class="dashicons dashicons-clock"></span>
+											<?php esc_html_e( 'Pending', 'wb-todo' ); ?>
+										</span>
+									<?php endif; ?>
+								</span>
+							</div>
+						</div>
+					<?php endforeach; ?>
+					</div><!-- .bptodo-member-grid -->
+				</div>
+			</div>
 			<?php
 			wp_reset_postdata();
 		}

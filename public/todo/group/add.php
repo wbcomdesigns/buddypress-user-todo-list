@@ -39,31 +39,19 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $bptodo_req         = 'yes' === $bptodo->req_duedate ? 'required' : '';
 $displayed_uid      = get_current_user_id();
-if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
-    $form_post_link     = bp_get_group_url() . strtolower( $profile_menu_label ) . '/list';
-} else {
-    $form_post_link     = bp_get_group_permalink() . strtolower( $profile_menu_label ) . '/list';
-}
-if ( ! empty( $group_members_ids ) ) {
-	$current_user = get_current_user_id();
-	$cu_index     = array_search( $current_user, $group_members_ids, true );
-	if ( false !== $cu_index ) {
-		unset( $group_members_ids[ $cu_index ], $members_ids[ $cu_index ] );
-	}
-}
+$form_post_link     = bptodo_get_group_url() . strtolower( $profile_menu_label ) . '/list';
+// Include ALL members including the task creator
+// Removed code that was excluding the current user from task assignment
 
 // Save todo items.
 if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'] )
 	&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['group_save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 
 	$todo_group_members = isset( $_POST['todo_group_members'] ) ? (array) wp_unslash( $_POST['todo_group_members'] ) : array(); //phpcs:ignore
-	
+
 	if ( ! empty( $todo_group_members ) && ! in_array( 'all', $todo_group_members, true ) ) {
 		$group_members_ids = $todo_group_members;
-		$cu_index          = array_search( $current_user, $group_members_ids, true );
-		if ( false !== $cu_index ) {
-			unset( $group_members_ids[ $cu_index ], $members_ids[ $cu_index ] );
-		}
+		// Include ALL selected members including the task creator
 	}
 
 	$todo_group_id = isset( $_POST['todo_group_id'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_group_id'] ) ) : $group_id;
@@ -94,12 +82,16 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		update_post_meta( $primary_todo_id, 'todo_creator_id', get_current_user_id() );
 
 		$associated_todos = array();
+		$current_user_id = get_current_user_id();
 
 		foreach ( $group_members_ids as $member_id ) {
 
-			if( groups_is_user_admin( $member_id, $todo_group_id ) || groups_is_user_mod( $member_id, $todo_group_id ) ) {
+			// Skip the current user as they already have the primary todo assigned
+			if ( $member_id == $current_user_id ) {
 				continue;
 			}
+
+			// Create tasks for ALL other members including admins and mods
 			$args    = array(
 				'post_type'    => 'bp-todo',
 				'post_status'  => 'publish',

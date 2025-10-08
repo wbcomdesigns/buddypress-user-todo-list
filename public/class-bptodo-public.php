@@ -487,12 +487,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_slug         = sanitize_title( $bptodo->profile_menu_slug );
 			$my_todo_items             = $bptodo->my_todo_items;
 			$name                      = $profile_menu_slug;
-			if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
-                $groups_link           = bp_get_group_url( $bp->groups->current_group );
-            } else {
-                $groups_link           = bp_get_group_permalink( $bp->groups->current_group );
-            }
-			$admin_link                = trailingslashit( $groups_link . $profile_menu_slug );
+			$groups_link = bptodo_get_group_url( $bp->groups->current_group );
+			$admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 
 			// Common params to all nav items.
 			$default_params = array(
@@ -544,8 +540,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if( $is_admin || $can_views ){
 				$sub_nav[] = array_merge(
 					array(
-						'name'            => esc_html__( 'Reports', 'wb-todo' ),
-						'slug'            => 'reports',
+						'name'            => esc_html__( 'Group Overview', 'wb-todo' ),
+						'slug'            => 'overview',
 						'screen_function' => array( $this, 'bind_bp_groups_page' ),
 						'position'        => 0,
 					),
@@ -575,11 +571,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			echo '<h3>Group Events</h3>';
 
-			if ( function_exists( 'buddypress' ) && ! isset( buddypress()->buddyboss ) ) {
-                $groups_link       = bp_get_group_url( $bp->groups->current_group ) . 'add-events/';
-            } else {
-                $groups_link       = bp_get_group_permalink( $bp->groups->current_group ) . 'add-events/';
-            }
+			$groups_link       = bptodo_get_group_url( $bp->groups->current_group ) . 'add-events/';
 			$create_event_text = __( 'Create Event', 'wb-todo' );
 			echo '<div class="wb-group-archive-add-event"><a href="' . esc_url( $groups_link ) . '">' . esc_html( $create_event_text ) . '</a></div>';
 
@@ -738,9 +730,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
 					$todo_id  = isset( $_POST['hidden_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_todo_id'] ) ) : '';
 
-				// Permission check: verify user owns the todo
+				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post( $todo_id );
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+				$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
+				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'wb-todo' ), 'error' );
 					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/list';
 					bp_core_redirect( $todo_edit_url );
@@ -911,15 +906,19 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$tid               = isset( $_POST['tid'] ) ? sanitize_text_field( wp_unslash( $_POST['tid'] ) ) : '';
 				$user_id           = isset( $_POST['uid'] ) ? sanitize_text_field( wp_unslash( $_POST['uid'] ) ) : '';
 
-			// Permission check: verify user owns the todo
+			// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 			$todo = get_post( $tid );
-			if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+			$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
+			$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+			if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
 				wp_die();
 			}
 				update_post_meta( $tid, 'todo_status', 'complete' );
 				update_post_meta( $tid, 'todo_user_id', $user_id );
 				update_post_meta( $tid, 'todo_complete_time', current_time('timestamp') );
+				update_post_meta( $tid, 'todo_completed_date', current_time('mysql') ); // Human-readable datetime
 				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
 				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
 				(int) $completed_todos++;
@@ -1018,15 +1017,21 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				if ( isset( $_POST['tid'] ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 
-				// Permission check: verify user owns the todo
+				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post( $tid );
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+				$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
+				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
 					wp_die();
 				}
 					update_post_meta( $tid, 'todo_status', 'incomplete' );
 					if( get_post_meta( $tid, 'todo_complete_time', true ) ) {
 						delete_post_meta( $tid, 'todo_complete_time' );
+					}
+					if( get_post_meta( $tid, 'todo_completed_date', true ) ) {
+						delete_post_meta( $tid, 'todo_completed_date' );
 					}
 				}
 				
@@ -1071,9 +1076,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$tid = sanitize_text_field( wp_unslash( $_POST['tid'] ) );
 				}
 				
-				// Standard permission check
+				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post($tid);
-				if (!$todo || ($todo->post_author != get_current_user_id() && !current_user_can('edit_others_posts'))) {
+				$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
+				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+				if (!$todo || ($todo->post_author != get_current_user_id() && !current_user_can('edit_others_posts') && !$is_group_admin_or_mod)) {
 					echo 'unauthorized';
 					die;
 				}
@@ -1196,9 +1204,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$todo_id         = isset( $todo_todo_id ) ? sanitize_text_field( wp_unslash( $todo_todo_id ) ) : '';
 					$primary_todo_id = isset( $todo_primary_todo_id ) ? sanitize_text_field( wp_unslash( $todo_primary_todo_id ) ) : '';
 
-					// Permission check: verify user owns the todo
+					// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 					$todo = get_post( $todo_id );
-					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+					$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
+					$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
 						wp_die();
 					}
@@ -1262,9 +1273,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$priority         = sanitize_text_field( $update_data['todo_priority'] );
 					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] );
 
-				// Permission check: verify user owns the todo
+				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post( $todo_id );
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) ) ) {
+				$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
+				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
 					wp_die();
 				}
@@ -1519,7 +1533,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$args = array(
 					'post_type'      => 'bp-todo',
 					'post_status'    => 'publish',
-					'author'         => get_current_user_id(),
+					'author'         => get_current_user_id(), // Always show only user's own assigned todos
 					'meta_query'     => array(
 					array(
 						'key'     => 'todo_group_id',
@@ -1532,11 +1546,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'orderby'        => 'date',
 					'order'          => 'DESC',
 				);
-				$todo_query = get_posts($args);			
+
+				$todo_query = get_posts($args);
 				$args = apply_filters( 'bptodo_admin_mod_gorup_report_view',
 					array(
 						'group_id'            => $group_id,
-						'exclude_admins_mods' => apply_filters( 'bptodo_exclude_moderator_view', false ),
+						'exclude_admins_mods' => false, // Include ALL members including admins and mods
 					)
 				);
 				$group_members = groups_get_group_members( $args );

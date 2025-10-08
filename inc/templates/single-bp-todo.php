@@ -74,18 +74,17 @@ get_header(); ?>
                             'separator'   => '<span class="screen-reader-text">, </span>',
                         )
                     );
+
+                    // Display group task progress report if this is a group todo
+                    if ( function_exists( 'bptodo_todo_user_report' ) ) {
+                        bptodo_todo_user_report();
+                    }
                     ?>
                 </div><!-- .entry-content -->
             </div>
         </article>
 
     <?php endwhile; ?>
-
-    <?php if ( function_exists( 'bptodo_todo_user_report' ) && ! empty( bptodo_todo_user_report() ) ) : ?>
-        <div class="single-to-report">
-            <?php bptodo_todo_user_report(); ?>
-        </div>
-    <?php endif; ?>
 
     </main><!-- .site-main -->
 </div><!-- .content-area -->

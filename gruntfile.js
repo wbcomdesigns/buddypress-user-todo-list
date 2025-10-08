@@ -61,10 +61,87 @@ module.exports = function ( grunt ) {
 						updateTimestamp: true // Whether the POT-Creation-Date should be updated without other changes.
 					}
 				}
+			},
+
+			// Minify JavaScript files
+			uglify: {
+				options: {
+					mangle: false,
+					compress: {
+						drop_console: false
+					}
+				},
+				frontend: {
+					files: {
+						'assets/js/bptodo-front.min.js': ['assets/js/bptodo-front.js']
+					}
+				},
+				admin: {
+					files: {
+						'admin/assets/js/bptodo-admin.min.js': ['admin/assets/js/bptodo-admin.js']
+					}
+				}
+			},
+
+			// Minify CSS files
+			cssmin: {
+				options: {
+					shorthandCompacting: false,
+					roundingPrecision: -1
+				},
+				frontend: {
+					files: {
+						'assets/css/bptodo-front.min.css': ['assets/css/bptodo-front.css']
+					}
+				},
+				admin: {
+					files: {
+						'admin/assets/css/bptodo-admin.min.css': ['admin/assets/css/bptodo-admin.css']
+					}
+				}
+			},
+
+			// Generate RTL CSS
+			rtlcss: {
+				options: {
+					opts: {
+						clean: false
+					},
+					saveUnmodified: false
+				},
+				frontend: {
+					expand: true,
+					cwd: 'assets/css/',
+					src: ['bptodo-front.css'],
+					dest: 'assets/css/',
+					ext: '-rtl.css'
+				},
+				admin: {
+					expand: true,
+					cwd: 'admin/assets/css/',
+					src: ['bptodo-admin.css'],
+					dest: 'admin/assets/css/',
+					ext: '-rtl.css'
+				}
+			},
+
+			// Watch for changes
+			watch: {
+				css: {
+					files: ['assets/css/*.css', 'admin/assets/css/*.css', '!**/*-rtl.css', '!**/*.min.css'],
+					tasks: ['cssmin', 'rtlcss']
+				},
+				js: {
+					files: ['assets/js/*.js', 'admin/assets/js/*.js', '!**/*.min.js'],
+					tasks: ['uglify']
+				}
 			}
 		}
 	);
 
-	// register task  'checktextdomain', 'makepot',
-	grunt.registerTask( 'default', [ 'checktextdomain','makepot' ] );
+	// register tasks
+	grunt.registerTask( 'default', [ 'checktextdomain', 'makepot' ] );
+	grunt.registerTask( 'build', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss' ] );
+	grunt.registerTask( 'css', [ 'cssmin', 'rtlcss' ] );
+	grunt.registerTask( 'js', [ 'uglify' ] );
 };

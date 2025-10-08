@@ -250,7 +250,15 @@ jQuery(document).ready(function () {
   });
 
   //Complete a todo
-  jQuery(document).on('click', '.bptodo-complete-todo', function () {
+  jQuery(document).on('click', '.bptodo-complete-todo', function (e) {
+    // Check if checkbox is disabled (read-only task)
+    var checkbox = jQuery(this).find('input[type="checkbox"]');
+    if (checkbox.prop('disabled')) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
     var clicked_tid = jQuery(this);
     var tid = jQuery(this).data('tid');
     var uid = jQuery(this).data('uid');
@@ -390,6 +398,44 @@ jQuery(document).ready(function () {
     initializeTodoTable(selectedTodoId); // Call function with selected todo ID
   });
 
+  // Toggle member breakdown in group overview
+  jQuery(document).on('click', '.bptodo-toggle-members', function (e) {
+    e.preventDefault();
+    const button = jQuery(this);
+    const taskId = button.data('task-id');
+    const membersList = jQuery('#members-' + taskId);
+    const icon = button.find('.dashicons');
+
+    if (membersList.is(':visible')) {
+      membersList.slideUp(200);
+      icon.removeClass('dashicons-arrow-up-alt2').addClass('dashicons-arrow-down-alt2');
+    } else {
+      membersList.slideDown(200);
+      icon.removeClass('dashicons-arrow-down-alt2').addClass('dashicons-arrow-up-alt2');
+    }
+  });
+
+  // Filter members in single task report
+  jQuery(document).on('click', '.bptodo-filter-btn', function (e) {
+    e.preventDefault();
+    const filter = jQuery(this).data('filter');
+
+    // Update active state
+    jQuery('.bptodo-filter-btn').removeClass('active');
+    jQuery(this).addClass('active');
+
+    // Filter member items
+    if (filter === 'all') {
+      jQuery('.bptodo-member-item').fadeIn(200);
+    } else if (filter === 'completed') {
+      jQuery('.bptodo-member-item').hide();
+      jQuery('.bptodo-member-item.status-complete').fadeIn(200);
+    } else if (filter === 'pending') {
+      jQuery('.bptodo-member-item').hide();
+      jQuery('.bptodo-member-item.status-incomplete').fadeIn(200);
+    }
+  });
+
 });
 
 function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
@@ -453,3 +499,10 @@ function modalEvent(button) {
     modal.classList.toggle('open');
   });
 }
+// Task selector dropdown change handler
+jQuery(document).on('change', '#task-selector', function(e) {
+    const selectedUrl = jQuery(this).val();
+    if (selectedUrl) {
+        window.location.href = selectedUrl;
+    }
+});
