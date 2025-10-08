@@ -53,7 +53,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 		<tr>
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
-				<div>
+				<div class="bp_todo_categories">
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) && ! empty( $todo_cats ) ) { ?>

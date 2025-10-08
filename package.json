@@ -7,11 +7,11 @@
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-checktextdomain": "^1.0.1",
-    "grunt-wp-i18n": "^1.0.1",
-    "grunt-contrib-uglify": "^5.0.0",
     "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-uglify": "^5.0.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-rtlcss": "^2.0.2",
-    "grunt-contrib-watch": "^1.1.0"
+    "grunt-wp-i18n": "^1.0.4"
   },
   "engines": {
     "node": ">=6.9.1"

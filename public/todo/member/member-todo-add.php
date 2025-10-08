@@ -32,7 +32,7 @@ $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 
 		<tr>
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
-				<div>
+				<div class="bp_todo_categories">
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php foreach ( $todo_cats as $todo_cat ) : ?>

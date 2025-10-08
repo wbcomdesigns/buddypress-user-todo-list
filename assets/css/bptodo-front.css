@@ -280,8 +280,8 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #333;
-    color: #fff;
+    background-color: #0285ff !important;
+    color: #fff !important;
     width: 36px;
     height: 36px;
     border-radius: 8px;
@@ -290,8 +290,8 @@ textarea {
 }
 
 .add-todo-category:hover {
-    background-color: #0285ff;
-    color: #fff;
+    background-color: #0285ff !important;
+    color: #fff !important;
 }
 
 .add-todo-category i {

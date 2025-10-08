@@ -101,7 +101,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 		<tr>
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
-				<div>
+				<div class="bp_todo_categories">
 					<select name="todo_cat" id="bp_todo_categories" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) ) { ?>
