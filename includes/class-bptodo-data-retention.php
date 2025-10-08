@@ -77,7 +77,7 @@ class Bptodo_Data_Retention {
 		}
 
 		// Calculate cutoff date
-		$cutoff_date = date( 'Y-m-d H:i:s', strtotime( "-{$retention_days} days" ) );
+		$cutoff_date = gmdate( 'Y-m-d H:i:s', strtotime( "-{$retention_days} days" ) );
 
 		// Initialize counters
 		$deleted_tasks = array(
@@ -269,13 +269,19 @@ class Bptodo_Data_Retention {
 
 		$message .= __( 'Cleanup Summary:', 'wb-todo' ) . "\n";
 		$message .= str_repeat( '-', 50 ) . "\n";
+		/* translators: %s: cleanup type (all, group, personal) */
 		$message .= sprintf( __( 'Cleanup Type: %s', 'wb-todo' ), $cleanup_type_label[ $cleanup_type ] ) . "\n";
+		/* translators: %d: number of days */
 		$message .= sprintf( __( 'Retention Period: %d days', 'wb-todo' ), $retention_days ) . "\n";
+		/* translators: %s: delete method (Permanent or Moved to Trash) */
 		$message .= sprintf( __( 'Delete Method: %s', 'wb-todo' ), $permanent_delete ? __( 'Permanent', 'wb-todo' ) : __( 'Moved to Trash', 'wb-todo' ) ) . "\n\n";
 
 		$message .= __( 'Tasks Deleted:', 'wb-todo' ) . "\n";
+		/* translators: %d: number of group tasks deleted */
 		$message .= sprintf( __( '- Group Tasks: %d', 'wb-todo' ), $deleted_tasks['group'] ) . "\n";
+		/* translators: %d: number of personal tasks deleted */
 		$message .= sprintf( __( '- Personal Tasks: %d', 'wb-todo' ), $deleted_tasks['personal'] ) . "\n";
+		/* translators: %d: total number of tasks deleted */
 		$message .= sprintf( __( '- Total: %d', 'wb-todo' ), $deleted_tasks['total'] ) . "\n\n";
 
 		if ( ! $permanent_delete ) {

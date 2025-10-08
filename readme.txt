@@ -7,6 +7,8 @@ Tested up to: 6.8.1
 Stable tag: 3.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: wb-todo
+Domain Path: /languages
 
 == Description ==
 
