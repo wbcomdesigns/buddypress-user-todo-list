@@ -27,7 +27,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function __construct() {
-			
+
+			// Register custom cron schedule before scheduling the event
+			add_filter( 'cron_schedules', array( $this, 'bptodo_notification_cron_schedule' ) );
+
 			add_action('init', [$this, 'setup_cron_event']);
 
 		}

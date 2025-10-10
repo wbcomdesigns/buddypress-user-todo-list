@@ -223,7 +223,6 @@ class Bptodo_List {
 		$this->loader->add_action( 'manage_bp-todo_posts_custom_column', $plugin_public, 'bptodo_due_date_column_content', 10, 2 );
 		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_due_date_notifications_component' );
 		$this->loader->add_filter( 'bp_notifications_get_notifications_for_user', $plugin_public, 'bptodo_format_due_date_notifications', 10, 8 );
-		$this->loader->add_filter( 'cron_schedules', $plugin_public, 'bptodo_notification_cron_schedule' );
 
 		/** Export My Tasks. */
 		$this->loader->add_action( 'wp_ajax_bptodo_export_my_tasks', $plugin_public, 'bptodo_export_my_tasks' );
