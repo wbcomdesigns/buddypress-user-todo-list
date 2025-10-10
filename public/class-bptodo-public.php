@@ -1188,35 +1188,35 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 		public function bptodo_update_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore				
-				foreach ( $update_form_data as $key => $value ) {
-					$todo_cat             = $update_form_data[0]['value'];
-					$todo_title           = $update_form_data[1]['value'];
-					$todo_summary         = $update_form_data[2]['value'];
-					$todo_due_date        = $update_form_data[3]['value'];
-					$todo_priority        = $update_form_data[4]['value'];
-					$todo_todo_id         = $update_form_data[8]['value'] ?? false;
-					$todo_primary_todo_id = $update_form_data[9]['value'] ?? false;
-					$todo_group_id        = $update_form_data[10]['value'] ?? false;
+				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
 
-					$cat             = isset( $todo_cat ) ? sanitize_text_field( $todo_cat ) : '';
-					$title           = isset( $todo_title ) ? sanitize_text_field( wp_unslash( $todo_title ) ) : '';
-					$summary         = isset( $todo_summary ) ? wp_kses_post( wp_unslash( $todo_summary ) ) : '';
-					$due_date        = isset( $todo_due_date ) ? sanitize_text_field( wp_unslash( $todo_due_date ) ) : '';
-					$priority        = isset( $todo_priority ) ? sanitize_text_field( wp_unslash( $todo_priority ) ) : '';
-					$todo_id         = isset( $todo_todo_id ) ? sanitize_text_field( wp_unslash( $todo_todo_id ) ) : '';
-					$primary_todo_id = isset( $todo_primary_todo_id ) ? sanitize_text_field( wp_unslash( $todo_primary_todo_id ) ) : '';
+				if ( is_array( $update_form_data ) ) {
+					// Convert serialized array to associative array
+					$update_data = array();
+					foreach ( $update_form_data as $key => $value ) {
+						$update_data[ $value['name'] ] = $value['value'];
+					}
+
+					// Extract and sanitize form data
+					$cat              = sanitize_text_field( $update_data['todo_cat'] ?? '' );
+					$title            = sanitize_text_field( $update_data['todo_title'] ?? '' );
+					$summary          = wp_kses_post( $update_data['bptodo-summary-input'] ?? '' );
+					$due_date         = sanitize_text_field( $update_data['todo_due_date'] ?? '' );
+					$priority         = sanitize_text_field( $update_data['todo_priority'] ?? '' );
+					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] ?? '' );
+					$primary_todo_id  = sanitize_text_field( $update_data['hidden_primary_id'] ?? '' );
 
 					// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 					$todo = get_post( $todo_id );
-					$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
-					$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+					$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
+					$is_group_admin_or_mod = $todo_group_id && ( bp_group_is_admin( $todo_group_id ) || bp_group_is_mod( $todo_group_id ) );
 
 					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
 						wp_die();
 					}
 
+					// Update main todo
 					$taxonomy = 'todo_category';
 					$args     = array(
 						'ID'           => $todo_id,
@@ -1225,33 +1225,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'post_title'   => $title,
 						'post_content' => $summary,
 					);
-					$post_id  = wp_update_post( $args );
-					update_post_meta( $post_id, 'todo_status', 'incomplete' );
-					update_post_meta( $post_id, 'todo_due_date', $due_date );
-					update_post_meta( $post_id, 'todo_priority', $priority );
+					$post_id = wp_update_post( $args );
 
-					if ( ! empty( $todo_group_id ) ) {
-						update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
-					}
-
-					wp_set_object_terms( $post_id, $cat, $taxonomy );
-
-					$associated_todo = array();
-
-					$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-					if ( is_array( $associated_todo ) ) {
-						array_push( $associated_todo, $primary_todo_id );
-					}
-					foreach ( (array) $associated_todo as $key => $_todo_id ) {
-						$args    = array(
-							'ID'           => $_todo_id,
-							'post_type'    => 'bp-todo',
-							'post_status'  => 'publish',
-							'post_title'   => $title,
-							'post_content' => $summary,
-						);
-						$post_id = wp_update_post( $args );						
-
+					if ( $post_id ) {
 						update_post_meta( $post_id, 'todo_status', 'incomplete' );
 						update_post_meta( $post_id, 'todo_due_date', $due_date );
 						update_post_meta( $post_id, 'todo_priority', $priority );
@@ -1261,43 +1237,39 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						}
 
 						wp_set_object_terms( $post_id, $cat, $taxonomy );
+
+						// Update associated todos if this is a primary todo
+						if ( ! empty( $primary_todo_id ) ) {
+							$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
+
+							if ( is_array( $associated_todo ) && ! in_array( $primary_todo_id, $associated_todo ) ) {
+								array_push( $associated_todo, $primary_todo_id );
+							}
+
+							foreach ( (array) $associated_todo as $key => $_todo_id ) {
+								$args    = array(
+									'ID'           => $_todo_id,
+									'post_type'    => 'bp-todo',
+									'post_status'  => 'publish',
+									'post_title'   => $title,
+									'post_content' => $summary,
+								);
+								$associated_post_id = wp_update_post( $args );
+
+								if ( $associated_post_id ) {
+									update_post_meta( $associated_post_id, 'todo_status', 'incomplete' );
+									update_post_meta( $associated_post_id, 'todo_due_date', $due_date );
+									update_post_meta( $associated_post_id, 'todo_priority', $priority );
+
+									if ( ! empty( $todo_group_id ) ) {
+										update_post_meta( $associated_post_id, 'todo_group_id', $todo_group_id );
+									}
+
+									wp_set_object_terms( $associated_post_id, $cat, $taxonomy );
+								}
+							}
+						}
 					}
-				}
-
-				if ( is_array( $update_form_data ) ) {
-					$update_data = array();
-					foreach ( $update_form_data as $key => $value ) {
-						$update_data[ $value['name'] ] = $value['value'];
-					}
-					$cat              = sanitize_text_field( $update_data['todo_cat'] );
-					$title            = sanitize_text_field( $update_data['todo_title'] );
-					$summary          = wp_kses_post( $update_data['bptodo-summary-input'] );
-					$due_date         = sanitize_text_field( $update_data['todo_due_date'] );
-					$priority         = sanitize_text_field( $update_data['todo_priority'] );
-					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] );
-
-				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
-				$todo = get_post( $todo_id );
-				$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
-				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
-
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
-					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
-					wp_die();
-				}
-					$taxonomy         = 'todo_category';
-						$args         = array(
-							'ID'           => $todo_id,
-							'post_type'    => 'bp-todo',
-							'post_status'  => 'publish',
-							'post_title'   => $title,
-							'post_content' => $summary,
-						);
-						$todo_post_id = wp_update_post( $args );
-						update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
-						update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
-						update_post_meta( $todo_post_id, 'todo_priority', $priority );
-						wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
 				}
 			}
 			exit();
