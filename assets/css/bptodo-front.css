@@ -887,7 +887,6 @@ New UI
 
 .todo-header .todo-header-head {
     display: flex;
-    justify-content: space-between;
     list-style: none;
     margin: 0px;
     padding: 0px;
@@ -919,17 +918,20 @@ New UI
 
 .todo-header .todo-header-head .bptodo-check,
 .todo-header-list-row .bptodo-check {
-    width: 80px;
+    width: 70px;
+    flex-shrink: 0;
 }
 
 .todo-header .todo-header-head .bptodo-priority,
 .todo-header-list-row .bptodo-priority {
     width: 120px;
+    flex-shrink: 0;
 }
 
 .todo-header .todo-header-head .bptodo-date,
 .todo-header-list-row .bptodo-date {
-    width: 120px;
+    width: 150px;
+    flex-shrink: 0;
 }
 
 .todo-header-list-row .bptodo-date span,
@@ -939,28 +941,45 @@ New UI
 
 .todo-header .todo-header-head .bptodo-cat,
 .todo-header-list-row .bptodo-cat {
-    width: 200px;
+    width: 180px;
+    flex-shrink: 0;
 }
 
 .todo-header .todo-header-head .bptodo-task,
 .todo-header-list-row .bptodo-task {
-    width: 30%;
+    flex: 1;
+    min-width: 0;
 }
 
 .todo-header .todo-header-head .bptodo-actions,
 .todo-header-list-row .bp-to-do-actions {
-    width: 15%;
+    width: 140px;
+    flex-shrink: 0;
     text-align: center;
 }
 
 .todo-header-list-row .bptodo-task {
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure proper text wrapping in fixed-width columns */
+.todo-header .todo-header-head .bptodo-priority,
+.todo-header .todo-header-head .bptodo-date,
+.todo-header .todo-header-head .bptodo-cat,
+.todo-header-list-row .bptodo-priority,
+.todo-header-list-row .bptodo-date,
+.todo-header-list-row .bptodo-cat {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .todo-header-list .todo-header-list-row {
     list-style: none;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     margin: 0px;
     padding: 10px 0;
     border-top: 1px #efefef solid;
@@ -1311,6 +1330,202 @@ Edit popup
 .bptodo-modal .wp-editor-container textarea.wp-editor-area {
     height: auto !important;
     min-height: 100px !important;
+}
+
+/* Improved Modal Form Styling */
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr td {
+    padding: 0;
+    display: block;
+    width: 100%;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr td:first-child {
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* Category field - flex layout for dropdown + button */
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr td > div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Consistent styling for all form inputs */
+.bptodo-modal table.bptodo-add-todo-tbl select,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="text"],
+.bptodo-modal table.bptodo-add-todo-tbl input[type="date"],
+.bptodo-modal table.bptodo-add-todo-tbl .bptodo-text-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #fff;
+    min-height: 42px;
+}
+
+/* Select specific adjustments */
+.bptodo-modal table.bptodo-add-todo-tbl select {
+    height: auto;
+    line-height: 1.6;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl select:focus,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="text"]:focus,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="date"]:focus,
+.bptodo-modal table.bptodo-add-todo-tbl .bptodo-text-input:focus {
+    border-color: #5897fb;
+    box-shadow: 0 0 0 3px rgba(88, 151, 251, 0.1);
+    outline: none;
+}
+
+/* Category dropdown specific */
+.bptodo-modal table.bptodo-add-todo-tbl select#bp_todo_categories {
+    flex: 1;
+}
+
+/* Add category button */
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #5897fb;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category:hover {
+    background-color: #4179d4;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category .add-cat-icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: block;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category .add-cat-icon:before,
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category .add-cat-icon:after {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    border-radius: 1px;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category .add-cat-icon:before {
+    width: 2px;
+    height: 16px;
+    left: 9px;
+    top: 2px;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl .add-todo-category .add-cat-icon:after {
+    width: 16px;
+    height: 2px;
+    left: 2px;
+    top: 9px;
+}
+
+/* Add category row */
+.bptodo-modal .add-todo-cat-row {
+    display: none;
+    margin-top: 10px;
+    gap: 10px;
+    flex-direction: row;
+}
+
+.bptodo-modal .add-todo-cat-row.show {
+    display: flex;
+}
+
+.bptodo-modal .add-todo-cat-row input[type="text"] {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.bptodo-modal .add-todo-cat-row button {
+    padding: 10px 20px;
+    background-color: #5897fb;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.bptodo-modal .add-todo-cat-row button:hover {
+    background-color: #4179d4;
+}
+
+/* WP Editor container */
+.bptodo-modal .wp-editor-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bptodo-modal .wp-editor-tools {
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+/* Submit button */
+.bptodo-modal table.bptodo-add-todo-tbl input[type="submit"] {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #5897fb;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl input[type="submit"]:hover {
+    background-color: #4179d4;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl input[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Last row (button row) spacing */
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr:last-child {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+/* Hide empty label cells in submit row */
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr td:first-child:empty {
+    display: none;
+    margin-bottom: 0;
+}
+
+/* Ensure consistent spacing for all form fields */
+.bptodo-modal table.bptodo-add-todo-tbl tbody tr td:last-child {
+    margin-bottom: 0;
 }
 
 .bptodo-adming-setting.bptod-category-shortcode-block {

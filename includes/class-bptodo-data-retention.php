@@ -21,16 +21,31 @@ class Bptodo_Data_Retention {
 		add_action( 'admin_init', array( $this, 'schedule_cleanup' ) );
 		add_action( 'bptodo_daily_cleanup', array( $this, 'run_cleanup' ) );
 
-		// Add action to reschedule when settings change
+		// Add action to reschedule when settings change (note: WordPress uses underscores in option names)
 		add_action( 'update_option_data-retention-settings', array( $this, 'reschedule_cleanup' ), 10, 2 );
+
+		// Also add hook for deactivation
+		register_deactivation_hook( BPTODO_PLUGIN_PATH . 'bp-user-todo-list.php', array( $this, 'clear_scheduled_cleanup' ) );
 	}
 
 	/**
 	 * Schedule the daily cleanup cron job
+	 * Only schedules if retention is enabled in settings
 	 */
 	public function schedule_cleanup() {
-		if ( ! wp_next_scheduled( 'bptodo_daily_cleanup' ) ) {
+		$settings = get_option( 'data-retention-settings', array() );
+
+		// Check if retention is enabled
+		$is_enabled = isset( $settings['enable_retention'] ) && $settings['enable_retention'] === 'yes';
+
+		$is_scheduled = wp_next_scheduled( 'bptodo_daily_cleanup' );
+
+		if ( $is_enabled && ! $is_scheduled ) {
+			// Schedule cron if enabled but not scheduled
 			wp_schedule_event( time(), 'daily', 'bptodo_daily_cleanup' );
+		} elseif ( ! $is_enabled && $is_scheduled ) {
+			// Unschedule cron if disabled but still scheduled
+			wp_unschedule_event( $is_scheduled, 'bptodo_daily_cleanup' );
 		}
 	}
 
@@ -321,6 +336,16 @@ class Bptodo_Data_Retention {
 
 		// Save log
 		update_option( 'bptodo_cleanup_log', $log );
+	}
+
+	/**
+	 * Clear scheduled cleanup on plugin deactivation
+	 */
+	public function clear_scheduled_cleanup() {
+		$timestamp = wp_next_scheduled( 'bptodo_daily_cleanup' );
+		if ( $timestamp ) {
+			wp_unschedule_event( $timestamp, 'bptodo_daily_cleanup' );
+		}
 	}
 }
 
