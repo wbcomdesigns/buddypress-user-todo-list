@@ -264,12 +264,18 @@ jQuery(document).ready(function () {
     var uid = jQuery(this).data('uid');
     var completed_todo = jQuery('.bp_completed_todo_count').text();
     var all_todo = jQuery('.bp_all_todo_count').text();
+
+    // Handle checkbox-based completion (member/group lists)
     if (jQuery(this).hasClass('todo-complete')) {
       markUncompleteTodo(tid);
       jQuery(this).removeClass('todo-uncomplete');
       jQuery(this).addClass('todo-complete');
+      return;
     }
-    if (jQuery(this).hasClass('todo-uncomplete')) {
+
+    // Handle both checkbox-based and link-based completion
+    if (jQuery(this).hasClass('todo-uncomplete') || (!jQuery(this).hasClass('todo-complete') && jQuery(this).is('a'))) {
+      jQuery(this).html('<i class="fa fa-refresh fa-spin"></i>');
       jQuery.post(
         ajaxurl, {
         'action': 'bptodo_complete_todo',
@@ -282,13 +288,26 @@ jQuery(document).ready(function () {
         function (response) {
           var response = JSON.parse(response);
           if (response.result === 'todo-completed') {
-            clicked_tid.closest('tr').find("td").addClass('todo-completed');
-            clicked_tid.closest('td').prev('td').text(response.due_date_str);
+            // Update UI for checkbox-based lists
+            if (clicked_tid.closest('tr').length) {
+              clicked_tid.closest('tr').find("td").addClass('todo-completed');
+              clicked_tid.closest('td').prev('td').text(response.due_date_str);
+            }
+
+            // Update counters and progress bar
             jQuery('.bp_completed_todo_count').text(response.completed_todo);
             jQuery('#bptodo-completed tbody').append(response.completed_html);
             jQuery('.bptodo-color').css('width', response.avg_percentage + '%');
             jQuery('.bptodo-light-grey b').text(response.avg_percentage + '%');
-            clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>')
+
+            // For link-based completion (shortcode), replace with undo link
+            if (clicked_tid.is('a')) {
+              clicked_tid.closest('li').replaceWith('<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li>');
+            } else {
+              // For checkbox-based completion
+              clicked_tid.closest('td').html('<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title=" ' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>');
+            }
+
             bptodo_reload_url();
           }
         }
@@ -296,6 +315,28 @@ jQuery(document).ready(function () {
       jQuery(this).addClass('todo-uncomplete');
       jQuery(this).removeClass('todo-complete');
     }
+  });
+
+  //Undo complete a todo
+  jQuery(document).on('click', '.bptodo-undo-complete-todo', function (e) {
+    e.preventDefault();
+    var clicked_link = jQuery(this);
+    var tid = jQuery(this).data('tid');
+
+    clicked_link.html('<i class="fa fa-refresh fa-spin"></i>');
+
+    jQuery.post(
+      ajaxurl, {
+      'action': 'bptodo_undo_complete_todo',
+      'ajax_nonce': todo_ajax_object.ajax_nonce,
+      'tid': tid,
+    },
+      function (response) {
+        if (response == 'todo-undo-completed') {
+          bptodo_reload_url();
+        }
+      }
+    );
   });
 
   function bptodo_reload_url() {
