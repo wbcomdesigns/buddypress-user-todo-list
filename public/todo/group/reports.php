@@ -1,5 +1,24 @@
 <?php
 $group_id = bp_get_current_group_id();
+
+// Check if user is logged in
+if ( ! is_user_logged_in() ) {
+	bp_core_add_message( __( 'You must be logged in to view reports.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
+// Check if user is a group member (or site admin)
+$current_user_id = get_current_user_id();
+$is_site_admin   = bptodo_is_site_admin();
+$is_group_member = groups_is_user_member( $current_user_id, $group_id );
+
+if ( ! $is_group_member && ! $is_site_admin ) {
+	bp_core_add_message( __( 'You must be a group member to view reports.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
 $args = array(
     'post_type'      => 'bp-todo',
     'post_status'    => 'publish',

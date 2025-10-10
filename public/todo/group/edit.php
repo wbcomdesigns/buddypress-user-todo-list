@@ -14,6 +14,13 @@ global $bp, $bptodo;
 // Attempt to get group ID from the BuddyPress group context
 $group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : '';
 
+// Check if user is logged in
+if ( ! is_user_logged_in() ) {
+	bp_core_add_message( __( 'You must be logged in to edit todos.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
 // If the group ID is not available, attempt to use the group ID stored in the post meta
 if ( empty( $group_id ) && isset( $todo_id ) ) {
 	$group_id = get_post_meta( $todo_id, 'todo_group_id', true );
@@ -23,6 +30,18 @@ if ( empty( $group_id ) ) {
     // If no group ID is available even after the fallback, handle the situation (e.g., exit or set a default value)
     return; // or set $group_id to a default valid value if applicable
 }
+
+// Check if user is a group member (or site admin)
+$current_user_id = get_current_user_id();
+$is_site_admin   = bptodo_is_site_admin();
+$is_group_member = groups_is_user_member( $current_user_id, $group_id );
+
+if ( ! $is_group_member && ! $is_site_admin ) {
+	bp_core_add_message( __( 'You must be a group member to edit todos.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $groups_link = bptodo_get_group_url( $bp->groups->current_group );
