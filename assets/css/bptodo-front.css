@@ -221,6 +221,23 @@ table.bptodo-add-todo-tbl tbody tr {
     margin-bottom: 5px;
 }
 
+/* Fix select dropdowns text cutoff on add/edit pages */
+.bptodo-form-add table.bptodo-add-todo-tbl select,
+table.bptodo-add-todo-tbl select {
+    min-height: 42px;
+    line-height: 1.6;
+    height: auto;
+    padding: 10px 12px;
+}
+
+/* Ensure priority and category selects have proper height */
+#bp_todo_priority,
+#bp_todo_categories {
+    min-height: 42px;
+    line-height: 1.6;
+    height: auto;
+}
+
 #bptodo-calender .buddyboss-select-inner select {
     width: 100% !important;
 }
