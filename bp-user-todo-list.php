@@ -19,12 +19,15 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Load plugin textdomain.
  */
-add_action( 'bp_loaded', 'bptodo_load_textdomain' );
+add_action( 'plugins_loaded', 'bptodo_load_textdomain' );
 function bptodo_load_textdomain() {
     $domain = 'wb-todo';
     $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
-    load_textdomain( $domain, 'languages/' . $domain . '-' . $locale . '.mo' );
+    // Try to load from wp-content/languages/plugins first (for WordPress.org translations)
+    load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $domain . '-' . $locale . '.mo' );
+
+    // Then load from plugin's languages folder as fallback
     load_plugin_textdomain( $domain, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
@@ -264,10 +267,13 @@ function list_todo_tab_function_to_show_title() {
     global $bptodo;
     $profile_menu_label = $bptodo->profile_menu_label;
 
+    // Get displayed user ID with fallback
+    $displayed_user_id = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
+
     // Only check if user has any todos - no need to load all posts
     $args  = array(
         'post_type'      => 'bp-todo',
-        'author'         => bp_displayed_user_id(),
+        'author'         => $displayed_user_id,
         'post_status'    => 'publish',
         'posts_per_page' => 1,
         'fields'         => 'ids',
@@ -278,7 +284,7 @@ function list_todo_tab_function_to_show_title() {
         ?>
         <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
         <a href="javascript:void(0);" id="export_my_tasks">
-            <div class="export-download"></div> 
+            <div class="export-download"></div>
             <?php echo esc_html__( 'Export', 'wb-todo' ); ?>
         </a>
         <?php
@@ -319,10 +325,21 @@ function bptodo_run() {
 bptodo_run();
 
 /**
- * Initialize BuddyPress Email integration
+ * Initialize BuddyPress Email integration and Data Retention
+ * Load after BuddyPress is fully initialized
  */
-if ( function_exists( 'bp_is_active' ) ) {
-	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+add_action( 'plugins_loaded', 'bptodo_load_bp_integrations', 20 );
+function bptodo_load_bp_integrations() {
+	if ( ! function_exists( 'bp_is_active' ) ) {
+		return;
+	}
+
+	// Load email integration
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+
+	// Load data retention functionality
+	// This must be loaded on every request to ensure cron jobs are properly scheduled
+	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
 }
 
 /**

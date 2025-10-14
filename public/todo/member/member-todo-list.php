@@ -665,7 +665,7 @@ if ( empty( $todos ) ) {
 															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span>
 																							   <?php
 																								if ( '' == $date_value || empty( $date_value ) ) {
-																									echo esc_html( '-', 'wb-todo' );
+																									echo '-';
 																								} else {
 																									echo esc_html( $due_date_str );
 																								}
@@ -844,7 +844,7 @@ if ( empty( $todos ) ) {
 															<?php } else { ?>
 															<div class="info bp-feedback">
 																<span class="bp-icon" aria-hidden="true"></span>
-																<p class="text"><?php echo esc_html( 'Completed Todo Not found' ); ?></p>
+																<p class="text"><?php echo esc_html__( 'Completed Todo Not found', 'wb-todo' ); ?></p>
 															</div>
 																<?php } ?>
 														</div>

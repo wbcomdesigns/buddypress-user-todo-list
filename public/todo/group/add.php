@@ -9,6 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Ensure BuddyPress and Groups component are active
+if ( ! function_exists( 'groups_is_user_admin' ) || ! function_exists( 'bp_core_add_message' ) ) {
+	return;
+}
+
 global $bp;
 
 $group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group->id : 0;
@@ -20,13 +25,14 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
-// Check if user is a group member (or site admin)
+// Check if user is a group admin or moderator (or site admin)
 $current_user_id = get_current_user_id();
 $is_site_admin   = bptodo_is_site_admin();
-$is_group_member = groups_is_user_member( $current_user_id, $group_id );
+$is_group_admin  = groups_is_user_admin( $current_user_id, $group_id );
+$is_group_mod    = groups_is_user_mod( $current_user_id, $group_id );
 
-if ( ! $is_group_member && ! $is_site_admin ) {
-	bp_core_add_message( __( 'You must be a group member to add todos.', 'wb-todo' ), 'error' );
+if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
+	bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'wb-todo' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }

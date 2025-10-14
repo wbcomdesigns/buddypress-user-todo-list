@@ -111,10 +111,15 @@ add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );
  * @return void
  */
 function bptodo_disable_group_todo(){
+	// Check if groups component is active
+	if ( ! function_exists( 'bp_is_active' ) || ! bp_is_active( 'groups' ) ) {
+		return;
+	}
+
 	global $bp;
-	if ( bp_is_group() ) {
+	if ( function_exists( 'bp_is_group' ) && bp_is_group() ) {
 		$group_id 			 = $bp->groups->current_group->id;
-		$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
+		$group_disable_todos = function_exists( 'groups_get_groupmeta' ) ? groups_get_groupmeta( $group_id, 'group-disable-todos', true ) : false;
 		if ( 1 === (int) $group_disable_todos ) {
 		?>
 		<style>

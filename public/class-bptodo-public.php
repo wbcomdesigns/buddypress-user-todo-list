@@ -172,7 +172,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		$notification_sent = get_post_meta($todo_id, 'todo_last_day_notification_sent', true);
-		if ('no' === $notification_sent) {
+		if ('no' === $notification_sent && function_exists('bp_notifications_add_notification') && function_exists('bp_core_current_time')) {
 			// Send the BuddyPress notification
 			bp_notifications_add_notification(array(
 				'user_id'           => $author_id,
@@ -219,7 +219,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			// Proceed if the user is logged in.
 			if ( is_user_logged_in() ) {
 				// Generate base URLs.
-				$base_url      = bp_loggedin_user_domain() . $profile_menu_slug;
+				$base_url      = ( function_exists( 'bp_loggedin_user_domain' ) ? bp_loggedin_user_domain() : get_author_posts_url( get_current_user_id() ) ) . $profile_menu_slug;
 				$todo_add_url  = trailingslashit( $base_url . '/add' );
 				$todo_list_url = trailingslashit( $base_url . '/list' );
 
@@ -397,14 +397,18 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			//Notification send when todo added in the group
 			if ( 'bptodo_group_todo_notifications' === $component_name ) {
 					$get_gp_id   		= get_post_meta( $item_id, 'todo_group_id', true );
-					$group       		= groups_get_group( array( 'group_id' => $get_gp_id ) );
+					$group_name         = "";
+				if ( function_exists( "groups_get_group" ) ) {
+					$group       		= groups_get_group( array( "group_id" => $get_gp_id ) );
+					$group_name         = isset( $group->name ) ? $group->name : "";
+				}
 					$bptodo_post 		= get_post( $item_id );
-					$author_name        = bp_core_get_user_displayname( $secondary_item_id );
-					$user_link          = bp_get_notifications_permalink( get_current_user_id() );
+					$author_name        = function_exists( 'bp_core_get_user_displayname' ) ? bp_core_get_user_displayname( $secondary_item_id ) : get_the_author_meta( 'display_name', $secondary_item_id );
+					$user_link          = function_exists( 'bp_get_notifications_permalink' ) ? bp_get_notifications_permalink( get_current_user_id() ) : home_url();
 					$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
 					$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
 					/* translators: 1: todo title, 2: group name, 3: author name */
-					$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group->name, $author_name );
+					$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group_name, $author_name );
 					$notification_guid           = add_query_arg( array( 'referer' => 'user_group_notification' ), $notification_guid );			// for identification of mark as read action 
 					$notification_guid           = wp_nonce_url( $notification_guid, 'mark-as-read-notification-' . get_current_user_id() );		// for security purpose when mark as read notification.
 			
@@ -474,7 +478,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 			global $bp, $current_user, $bptodo;
 
-			if ( ! bp_is_group() ) {
+			if ( ! function_exists( 'bp_is_group' ) || ! bp_is_group() ) {
 				return;
 			}
 
@@ -509,11 +513,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				),
 				$default_params
 			);
-			$is_admin   = bp_group_is_admin();
+			$is_admin   = function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 ));
 			$can_list 	= false;
-			$can_views  = bp_group_is_mod();
+			$can_views  = function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 ));
 			
-			if ( bp_group_is_mod() ) {
+			if ( function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 )) ) {
 				$group_id    = $bp->groups->current_group->id;
 				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
 				$can_list    = false;
@@ -572,13 +576,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function show_group_events_profile_body() {
 			do_action( 'eab-buddypress-group_events-before_events' );
 
-			echo '<h3>Group Events</h3>';
+			echo '<h3>' . esc_html__( 'Group Events', 'wb-todo' ) . '</h3>';
 
 			$groups_link       = bptodo_get_group_url( $bp->groups->current_group ) . 'add-events/';
 			$create_event_text = __( 'Create Event', 'wb-todo' );
 			echo '<div class="wb-group-archive-add-event"><a href="' . esc_url( $groups_link ) . '">' . esc_html( $create_event_text ) . '</a></div>';
 
-			$group_id = absint(bp_get_current_group_id()); // Sanitize the group ID
+			$group_id = absint(function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0); // Sanitize the group ID
 			echo do_shortcode('[eab_group_archives groups="' . $group_id . '" lookahead="yes"]');
 			do_action( 'bptodo-buddypress-group_events-after_events' );
 		}
@@ -598,7 +602,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_member_profile_todo_tab() {
-			if ( bp_is_my_profile() ) {
+			if ( function_exists( 'bp_is_my_profile' ) && bp_is_my_profile() ) {
 				global $bp, $bptodo, $current_user;
 
 				$settings                  = get_option( 'user_todo_list_settings' );
@@ -616,11 +620,11 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				}
 				$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_label ) );
 				$my_todo_items     = $bptodo->my_todo_items;
-				$displayed_uid     = bp_displayed_user_id();
+				$displayed_uid     = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
 				$parent_slug       = $profile_menu_slug;
-				$todo_menu_link    = bp_core_get_userlink( $displayed_uid, false, true ) . $parent_slug;
+				$todo_menu_link    = function_exists( 'bp_core_get_userlink' ) ? bp_core_get_userlink( $displayed_uid, false, true ) : get_author_posts_url( $displayed_uid ) . $parent_slug;
 
-				$name               = bp_get_displayed_user_username();
+				$name               = function_exists( 'bp_get_displayed_user_username' ) ? bp_get_displayed_user_username() : wp_get_current_user()->user_login;
 				$tab_args           = array(
 					'name'                    => esc_html( $profile_menu_label_plural ) . ' <span class="count">' . $my_todo_items . '</span>',
 					'slug'                    => $profile_menu_slug,
@@ -736,7 +740,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post( $todo_id );
 				$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
-				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+				$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
 
 				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'wb-todo' ), 'error' );
@@ -912,7 +916,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 			$todo = get_post( $tid );
 			$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
-			$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+			$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
 
 			if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
@@ -922,10 +926,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				update_post_meta( $tid, 'todo_user_id', $user_id );
 				update_post_meta( $tid, 'todo_complete_time', current_time('timestamp') );
 				update_post_meta( $tid, 'todo_completed_date', current_time('mysql') ); // Human-readable datetime
-				$completed_todos = isset( $_POST['completed'] ) ? sanitize_text_field( wp_unslash( $_POST['completed'] ) ) : '';
-				$all_todo        = isset( $_POST['all_todo'] ) ? sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) : '';
-				(int) $completed_todos++;
-				$avg_percentage = '';
+			$completed_todos = isset( $_POST['completed'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['completed'] ) ) ) : 0;
+				$all_todo        = isset( $_POST['all_todo'] ) ? intval( sanitize_text_field( wp_unslash( $_POST['all_todo'] ) ) ) : 0;
+				$completed_todos++;
+				$avg_percentage = 0;
 				if ( $all_todo > 0 ) {
 					$avg_percentage = ( $completed_todos * 100 ) / $all_todo;
 				}
@@ -1023,7 +1027,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post( $tid );
 				$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
-				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+				$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
 
 				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 					wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
@@ -1036,6 +1040,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					if( get_post_meta( $tid, 'todo_completed_date', true ) ) {
 						delete_post_meta( $tid, 'todo_completed_date' );
 					}
+					echo 'todo-undo-completed';
 				}
 				
 			}
@@ -1082,7 +1087,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 				$todo = get_post($tid);
 				$todo_group_id = get_post_meta($tid, 'todo_group_id', true);
-				$is_group_admin_or_mod = $todo_group_id && (bp_group_is_admin($todo_group_id) || bp_group_is_mod($todo_group_id));
+				$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
 
 				if (!$todo || ($todo->post_author != get_current_user_id() && !current_user_can('edit_others_posts') && !$is_group_admin_or_mod)) {
 					echo 'unauthorized';
@@ -1209,7 +1214,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					// Permission check: allow owner, users with edit_others_posts, or group admins/mods
 					$todo = get_post( $todo_id );
 					$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
-					$is_group_admin_or_mod = $todo_group_id && ( bp_group_is_admin( $todo_group_id ) || bp_group_is_mod( $todo_group_id ) );
+					$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
 
 					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
 						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'wb-todo' ) ) );
@@ -1300,7 +1305,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		</thead>
 
 		<tbody>
-			<?php if ( bp_activity_do_mentions() ) : ?>
+			<?php if ( function_exists( 'bp_activity_do_mentions' ) && bp_activity_do_mentions() ) : ?>
 					<tr id="activity-notification-settings-mentions">
 					<td>&nbsp;</td>
 					<td>
@@ -1343,7 +1348,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bp_nouveau_add_disable_group_todolists_checkbox() {
 			global $bp;
 			$group_id = $bp->groups->current_group->id;
-			$group_disable_todos = groups_get_groupmeta( $group_id, 'group-disable-todos', true );
+			$group_disable_todos = function_exists("groups_get_groupmeta") ? groups_get_groupmeta( $group_id, "group-disable-todos", true ) : false;
 			printf(
 				'<p class="bp-controls-wrap">
 				<label for="group-disable-todos" class="bp-label-text">
@@ -1357,9 +1362,13 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 		public function bp_nouveau_add_disable_group_todolists_details_edited( $group_id ) {
 			if ( isset( $_POST['group-disable-todos'] ) ) { //phpcs:ignore
+			if ( function_exists( 'groups_update_groupmeta' ) ) {
 				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos'] ); //phpcs:ignore
+			}
 			} else {
+			if ( function_exists( 'groups_update_groupmeta' ) ) {
 				groups_update_groupmeta( $group_id, 'group-disable-todos', '' );
+			}
 			}
 		}
 		/**
@@ -1419,7 +1428,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				return;
 			}
 			foreach ( $group_members_ids as $group_members_id ) {
-				if ( bp_is_active( 'notifications' ) ) {
+			if ( bp_is_active( 'notifications' ) && function_exists('bp_notifications_add_notification') && function_exists('bp_core_current_time') ) {
 					$args = array(
 						'user_id'           => $group_members_id,
 						'item_id'           => $post_id,
@@ -1430,8 +1439,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'is_new'            => 1,
 						'allow_duplicate'   => true,
 					);
-				}
-				bp_notifications_add_notification( $args );
+					bp_notifications_add_notification( $args );				}
 			}
 		}
 
@@ -1529,8 +1537,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						'exclude_admins_mods' => false, // Include ALL members including admins and mods
 					)
 				);
+			$group_members = array();
+			$group_members_ids = array();
+			if ( function_exists( 'groups_get_group_members' ) ) {
 				$group_members = groups_get_group_members( $args );
-				$group_members_ids = array_column( $group_members['members'], 'ID' );
+				$group_members_ids = isset( $group_members['members'] ) ? array_column( $group_members['members'], 'ID' ) : array();
+			}
 
 				if ( ! empty( $group_members_ids ) && is_array( $group_members_ids ) ) {
 					foreach( $todo_query as $todos ) {

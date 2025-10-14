@@ -51,10 +51,10 @@ $is_group_member = groups_is_user_member( get_current_user_id(), $group_id );
 // Site admin who IS a group member follows normal member permissions
 $is_admin_non_member = $is_site_admin && ! $is_group_member;
 
-$can_modify = bp_group_is_admin() || $is_admin_non_member;
-$can_views  = bp_group_is_admin() || bp_group_is_mod() || $is_admin_non_member;
+$can_modify = (function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $group_id)) || $is_admin_non_member;
+$can_views = ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $group_id))) || $is_admin_non_member;
 
-if (bp_group_is_mod()) {
+if (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $group_id)) {
     $mod_can_modify = bptodo_if_moderator_modification_enabled($group_id, $current_user);
     if ($mod_can_modify) {
         $can_modify = true;

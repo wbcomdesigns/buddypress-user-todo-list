@@ -240,7 +240,7 @@ class Bptodo_List {
 		$this->loader->add_action( 'wp_ajax_bptodo_add_todo_category_front', $plugin_public, 'bptodo_add_todo_category_front' );
 
 		// Register shortcode for displaying todos by category
-		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_categpry_template' );
+		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_category_template' );
 
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
 
