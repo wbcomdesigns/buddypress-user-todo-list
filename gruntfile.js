@@ -135,6 +135,58 @@ module.exports = function ( grunt ) {
 					files: ['assets/js/*.js', 'admin/assets/js/*.js', '!**/*.min.js'],
 					tasks: ['uglify']
 				}
+			},
+
+			// Clean build directory
+			clean: {
+				build: ['build'],
+				zip: ['*.zip']
+			},
+
+			// Copy files to build directory
+			copy: {
+				build: {
+					expand: true,
+					src: [
+						'**',
+						'!node_modules/**',
+						'!build/**',
+						'!.git/**',
+						'!.github/**',
+						'!.gitignore',
+						'!.gitattributes',
+						'!docs/**',
+						'!*.md',
+						'!Gruntfile.js',
+						'!package.json',
+						'!package-lock.json',
+						'!composer.json',
+						'!composer.lock',
+						'!phpcs.xml',
+						'!phpunit.xml',
+						'!.editorconfig',
+						'!.DS_Store',
+						'!*.zip',
+						'!tests/**',
+						'!bin/**',
+						'!vendor/bin/**'
+					],
+					dest: 'build/buddypress-user-todo-list/'
+				}
+			},
+
+			// Create zip file
+			compress: {
+				build: {
+					options: {
+						mode: 'zip',
+						archive: 'buddypress-user-todo-list.zip'
+					},
+					expand: true,
+					cwd: 'build/',
+					src: ['**/*'],
+					dest: '/'
+				}
 			}
 		}
 	);
@@ -144,4 +196,5 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'build', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'css', [ 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'js', [ 'uglify' ] );
+	grunt.registerTask( 'release', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
 };

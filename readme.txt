@@ -263,33 +263,45 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 == Changelog ==
 
 = 3.5.0 =
-* Enhancement: Migrated email notifications to use BuddyPress native email system for better reliability.
-* Enhancement: Added intelligent task sorting - incomplete tasks sorted by due date, completed tasks at bottom.
-* Enhancement: Email templates now support dynamic todo labels from plugin settings.
-* Enhancement: Added automatic email template installation and verification for seamless setup.
-* Enhancement: Added comprehensive WP-CLI commands for testing and demo data generation.
-* Enhancement: Implemented wp_cache system for improved performance (5-minute cache for todo counts).
-* Enhancement: Added transient caching for email notifications to reduce server load.
-* Enhancement: Automatic cache invalidation ensures data accuracy when todos are modified.
-* Enhancement: Added diagnostic tools for easy email configuration troubleshooting.
-* Enhancement: Full compatibility with both BuddyPress and BuddyBoss Platform email systems.
-* Improved: Group todo filtering now more accurate - only shows todos for the current group.
-* Improved: Enhanced email notification system for group todo assignments works seamlessly on all platforms.
-* Improved: Group admin can now properly control todo tab visibility with disable option.
-* Improved: Better empty state handling - shows "no todo found" message when appropriate.
-* Improved: Added view/permalink links to group todos for easy access to detail pages.
-* Improved: Shortcode can now be used multiple times on the same page without conflicts.
-* Improved: Email templates automatically install on plugin activation for easier setup.
-* Improved: Task sorting logic enhanced across member profiles, groups, and shortcode displays.
-* Improved: Group todo queries optimized with proper database structure for better performance.
-* Improved: Email cron query optimized to fetch IDs only instead of full post objects.
-* Improved: Group tab visibility check now works correctly with group context.
-* Fixed: Due date validation now properly enforces required field setting across all forms.
-* Fixed: User roles restriction for todo creation now works correctly.
-* Fixed: Notification labels now dynamically use custom todo labels instead of hardcoded text.
-* Fixed: Admin settings checkboxes now properly handle both checked and unchecked states.
-* Fixed: Category functionality and global variables initialization improved.
-* Fixed: Shortcode display issues with category-based todo lists resolved.
+* New: Site administrators can now view all group tasks across the entire site with read-only access for better oversight
+* New: Automated data retention system keeps your database clean by removing old completed tasks based on your preferences
+* New: Group overview reporting with real-time progress tracking and member completion statistics
+* New: WP-CLI command support for developers to generate test data and manage tasks from command line
+* New: Comprehensive user and developer documentation included (USER-GUIDE.md and DEVELOPER-GUIDE.md)
+* Enhancement: Complete email system overhaul - now uses BuddyPress native email system for better reliability
+* Enhancement: Email templates now automatically respect your custom todo labels (e.g., "Task" instead of "Todo")
+* Enhancement: Automatic email template installation on plugin activation - no manual setup required
+* Enhancement: Smart task sorting - incomplete tasks appear first sorted by due date, completed tasks move to bottom automatically
+* Enhancement: Implemented smart caching system for faster page loads (5-minute cache for todo counts)
+* Enhancement: Added 15+ action hooks and 10+ filter hooks for extensibility
+* Improved: Full compatibility with both BuddyPress and BuddyBoss Platform email systems
+* Improved: Email reinstallation mechanism helps troubleshoot notification issues quickly
+* Improved: Enhanced notifications when group tasks are assigned to members
+* Improved: Category selection interface with better visual feedback
+* Improved: Better empty state messages - shows "no todos found" when appropriate instead of blank screens
+* Improved: Added direct links to view individual group todos from overview page
+* Improved: DataTables assets now only load on group pages where needed, reducing file loading
+* Improved: Optimized database queries for group todos - pages load significantly faster
+* Improved: Email system uses efficient caching to reduce server load
+* Improved: Automatic cache clearing ensures you always see up-to-date information
+* Improved: Compatibility with popular themes including BuddyX, Reign, and Youzify
+* Improved: Better multisite support with network-wide activation handling
+* Fixed: Cron schedule registration timing issue that prevented scheduled tasks from running properly
+* Fixed: Shortcode complete and undo buttons now work correctly across all themes
+* Fixed: Dropdown text being cut off when adding todos on certain themes
+* Fixed: Todo edit popup now properly updates content when you make changes
+* Fixed: Access control checks ensure only authorized users can view group todo pages
+* Fixed: Admin settings checkboxes now properly save both checked and unchecked states
+* Fixed: Due date validation now correctly enforces required field settings across all forms
+* Fixed: User role restrictions for creating todos now work as expected
+* Fixed: Category functionality fully restored and improved
+* Fixed: Group tab visibility settings now respect admin preferences correctly
+* Fixed: Group todo filtering now shows only tasks for the current group
+* Fixed: Permission checks improved throughout the plugin for better security
+* Fixed: Shortcodes can now be used multiple times on the same page without conflicts
+* Compatibility: Full BuddyPress 12.0+ compatibility while maintaining backwards compatibility
+* Compatibility: WordPress.org localization compliance - ready for official translations
+* Compatibility: Updated minimum requirements - WordPress 6.5+, PHP 7.4+ for better security
 
 = 3.4.0 =
 * Added To-Do tab navigation icons and UI improvements.

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-14 10:52:13+00:00\n"
+"POT-Creation-Date: 2025-10-16 14:04:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1442,7 +1442,7 @@ msgid "A dynamic list of Todos of displayed member."
 msgstr ""
 
 #: admin/widget/class-user-todo.php:97 inc/templates/single-bp-todo.php:39
-#: public/class-bptodo-public.php:973 public/todo/group/add.php:201
+#: public/class-bptodo-public.php:974 public/todo/group/add.php:201
 #: public/todo/group/edit.php:183 public/todo/group/list.php:401
 #: public/todo/group/list.php:513 public/todo/group/list.php:625
 #: public/todo/group/list.php:736 public/todo/group/list.php:870
@@ -1457,7 +1457,7 @@ msgid "Critical"
 msgstr ""
 
 #: admin/widget/class-user-todo.php:100 inc/templates/single-bp-todo.php:43
-#: public/class-bptodo-public.php:976 public/todo/group/add.php:202
+#: public/class-bptodo-public.php:977 public/todo/group/add.php:202
 #: public/todo/group/edit.php:184 public/todo/group/list.php:404
 #: public/todo/group/list.php:516 public/todo/group/list.php:628
 #: public/todo/group/list.php:739 public/todo/group/list.php:873
@@ -1472,7 +1472,7 @@ msgid "High"
 msgstr ""
 
 #: admin/widget/class-user-todo.php:103 inc/templates/single-bp-todo.php:47
-#: public/class-bptodo-public.php:979 public/todo/group/add.php:203
+#: public/class-bptodo-public.php:980 public/todo/group/add.php:203
 #: public/todo/group/edit.php:185 public/todo/group/list.php:407
 #: public/todo/group/list.php:519 public/todo/group/list.php:631
 #: public/todo/group/list.php:742 public/todo/group/list.php:876
@@ -1583,79 +1583,79 @@ msgstr ""
 msgid "It seems we can't find what you're looking for. Perhaps a search can help."
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:264
+#: includes/class-bptodo-data-retention.php:296
 #. translators: %s: site name
 msgid "[%s] Todo List Cleanup Summary"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:273
+#: includes/class-bptodo-data-retention.php:305
 msgid "Completed Tasks"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:274
+#: includes/class-bptodo-data-retention.php:306
 msgid "Pending Tasks"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:275
+#: includes/class-bptodo-data-retention.php:307
 msgid "All Tasks"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:280
+#: includes/class-bptodo-data-retention.php:312
 #. translators: %1$s: site name, %2$s: date and time
 msgid "Automatic cleanup ran on %1$s at %2$s"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:285
+#: includes/class-bptodo-data-retention.php:317
 msgid "Cleanup Summary:"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:288
+#: includes/class-bptodo-data-retention.php:320
 #. translators: %s: cleanup type (all, group, personal)
 msgid "Cleanup Type: %s"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:290
+#: includes/class-bptodo-data-retention.php:322
 #. translators: %d: number of days
 msgid "Retention Period: %d days"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:292
+#: includes/class-bptodo-data-retention.php:324
 #. translators: %s: delete method (Permanent or Moved to Trash)
 msgid "Delete Method: %s"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:292
+#: includes/class-bptodo-data-retention.php:324
 msgid "Permanent"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:292
+#: includes/class-bptodo-data-retention.php:324
 msgid "Moved to Trash"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:294
+#: includes/class-bptodo-data-retention.php:326
 msgid "Tasks Deleted:"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:296
+#: includes/class-bptodo-data-retention.php:328
 #. translators: %d: number of group tasks deleted
 msgid "- Group Tasks: %d"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:298
+#: includes/class-bptodo-data-retention.php:330
 #. translators: %d: number of personal tasks deleted
 msgid "- Personal Tasks: %d"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:300
+#: includes/class-bptodo-data-retention.php:332
 #. translators: %d: total number of tasks deleted
 msgid "- Total: %d"
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:303
+#: includes/class-bptodo-data-retention.php:335
 msgid "Note: Tasks have been moved to trash and can be recovered within 30 days."
 msgstr ""
 
-#: includes/class-bptodo-data-retention.php:308
+#: includes/class-bptodo-data-retention.php:340
 #. translators: %s: settings page URL
 msgid "Manage retention settings: %s"
 msgstr ""
@@ -1818,7 +1818,7 @@ msgid "List"
 msgstr ""
 
 #: public/class-bptodo-public.php:251 public/class-bptodo-public.php:538
-#: public/class-bptodo-public.php:656 public/todo/group/add.php:177
+#: public/class-bptodo-public.php:657 public/todo/group/add.php:177
 #: public/todo/group/edit.php:144 public/todo/member/member-todo-add.php:51
 #: public/todo/member/member-todo-edit.php:76
 msgid "Add"
@@ -1841,12 +1841,12 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: public/class-bptodo-public.php:306 public/class-bptodo-public.php:966
+#: public/class-bptodo-public.php:306 public/class-bptodo-public.php:967
 #: public/todo/bptodo-by-category-template.php:78
 msgid "Completed!"
 msgstr ""
 
-#: public/class-bptodo-public.php:309 public/class-bptodo-public.php:953
+#: public/class-bptodo-public.php:309 public/class-bptodo-public.php:954
 #: public/todo/bptodo-by-category-template.php:66
 #. translators: %d
 #. translators: Number of expiry days
@@ -1854,7 +1854,7 @@ msgstr ""
 msgid "Expired %d days ago!"
 msgstr ""
 
-#: public/class-bptodo-public.php:311 public/class-bptodo-public.php:956
+#: public/class-bptodo-public.php:311 public/class-bptodo-public.php:957
 #: public/todo/bptodo-by-category-template.php:69
 #: public/todo/group/list.php:383 public/todo/group/list.php:495
 #: public/todo/group/list.php:607 public/todo/group/list.php:718
@@ -1866,7 +1866,7 @@ msgstr ""
 msgid "Today is the last day to complete. Hurry Up!"
 msgstr ""
 
-#: public/class-bptodo-public.php:314 public/class-bptodo-public.php:961
+#: public/class-bptodo-public.php:314 public/class-bptodo-public.php:962
 #. translators: %d
 #. translators: Number of left days
 msgid "%d days left to complete the task!"
@@ -1903,48 +1903,48 @@ msgstr ""
 msgid "Create Event"
 msgstr ""
 
-#: public/class-bptodo-public.php:710
+#: public/class-bptodo-public.php:711
 #. Translators: 1) Get a Plural Label Name 2) Get a to to title
 msgid "Edit %1$s : %2$s"
 msgstr ""
 
-#: public/class-bptodo-public.php:713
+#: public/class-bptodo-public.php:714
 #. Translators: Get a Singular Label Name
 msgid "Add a new %1$s in your list"
 msgstr ""
 
-#: public/class-bptodo-public.php:746
+#: public/class-bptodo-public.php:747
 msgid "You do not have permission to edit this todo."
 msgstr ""
 
-#: public/class-bptodo-public.php:774 public/todo/group/list.php:278
+#: public/class-bptodo-public.php:775 public/todo/group/list.php:278
 #. translators: %s:
 #. Translators: Display the plural label name
 msgid "%1$s updated successfully !"
 msgstr ""
 
-#: public/class-bptodo-public.php:780 public/class-bptodo-public.php:863
+#: public/class-bptodo-public.php:781 public/class-bptodo-public.php:864
 msgid ""
 "There was a problem updating some of your profile information. Please try "
 "again."
 msgstr ""
 
-#: public/class-bptodo-public.php:808
+#: public/class-bptodo-public.php:809
 msgid "You do not have permission to create todos."
 msgstr ""
 
-#: public/class-bptodo-public.php:858 public/todo/group/list.php:261
+#: public/class-bptodo-public.php:859 public/todo/group/list.php:261
 #. Translators: Display plural label name
 #. Translators: Display the plural label name
 msgid "%1$s added successfully !"
 msgstr ""
 
-#: public/class-bptodo-public.php:922 public/class-bptodo-public.php:1033
-#: public/class-bptodo-public.php:1220
+#: public/class-bptodo-public.php:923 public/class-bptodo-public.php:1034
+#: public/class-bptodo-public.php:1221
 msgid "Unauthorized"
 msgstr ""
 
-#: public/class-bptodo-public.php:989
+#: public/class-bptodo-public.php:990
 #: public/todo/bptodo-by-category-template.php:90
 #: public/todo/group/list.php:452 public/todo/group/list.php:564
 #: public/todo/group/list.php:676 public/todo/group/list.php:787
@@ -1957,7 +1957,7 @@ msgstr ""
 msgid "Remove: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:992
+#: public/class-bptodo-public.php:993
 #: public/todo/bptodo-by-category-template.php:93
 #: public/todo/group/list.php:454 public/todo/group/list.php:566
 #: public/todo/group/list.php:678 public/todo/group/list.php:789
@@ -1970,7 +1970,7 @@ msgstr ""
 msgid "Edit: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:993
+#: public/class-bptodo-public.php:994
 #: public/todo/bptodo-by-category-template.php:95
 #: public/todo/group/list.php:421 public/todo/group/list.php:533
 #: public/todo/group/list.php:645 public/todo/group/list.php:756
@@ -1984,14 +1984,14 @@ msgstr ""
 msgid "Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:995
+#: public/class-bptodo-public.php:996
 #: public/todo/bptodo-by-category-template.php:98
 #. translators: %s:
 #. translators: %s
 msgid "Undo Complete: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:997 public/todo/group/list.php:449
+#: public/class-bptodo-public.php:998 public/todo/group/list.php:449
 #: public/todo/group/list.php:561 public/todo/group/list.php:673
 #: public/todo/group/list.php:784 public/todo/group/list.php:911
 #: public/todo/member/member-todo-list.php:328
@@ -2004,33 +2004,33 @@ msgstr ""
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1301
+#: public/class-bptodo-public.php:1302
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1302
+#: public/class-bptodo-public.php:1303
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1303
+#: public/class-bptodo-public.php:1304
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1313
+#: public/class-bptodo-public.php:1314
 msgid "Get email alerts when task due dates are near."
 msgstr ""
 
-#: public/class-bptodo-public.php:1319
+#: public/class-bptodo-public.php:1320
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1325
+#: public/class-bptodo-public.php:1326
 #. translators: accessibility text
 msgid "No, do not send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1359
+#: public/class-bptodo-public.php:1360
 msgid "Disable todos tab?"
 msgstr ""
 
