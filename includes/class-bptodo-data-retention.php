@@ -104,11 +104,13 @@ class Bptodo_Data_Retention {
 		// Build query args
 		$base_args = array(
 			'post_type'      => 'bp-todo',
+			'post_status'    => 'any', // Include all post statuses
 			'posts_per_page' => -1,
 			'date_query'     => array(
 				array(
-					'before' => $cutoff_date,
+					'before'    => $cutoff_date,
 					'inclusive' => true,
+					'column'    => 'post_date', // Explicitly set column
 				),
 			),
 		);
@@ -136,11 +138,26 @@ class Bptodo_Data_Retention {
 		// Clean up group tasks
 		if ( $enable_group_retention ) {
 			$group_args = $base_args;
-			$group_args['meta_query'][] = array(
-				'key'     => 'todo_group_id',
-				'value'   => 0,
-				'compare' => '>',
-			);
+
+			// Properly structure meta_query
+			if ( isset( $group_args['meta_query'] ) ) {
+				// If there's already a status filter, add relation and group condition
+				$group_args['meta_query']['relation'] = 'AND';
+				$group_args['meta_query'][] = array(
+					'key'     => 'todo_group_id',
+					'value'   => 0,
+					'compare' => '>',
+				);
+			} else {
+				// No status filter, just add group condition
+				$group_args['meta_query'] = array(
+					array(
+						'key'     => 'todo_group_id',
+						'value'   => 0,
+						'compare' => '>',
+					),
+				);
+			}
 
 			$deleted_tasks['group'] = $this->delete_tasks( $group_args, $permanent_delete );
 		}
@@ -148,7 +165,9 @@ class Bptodo_Data_Retention {
 		// Clean up personal tasks
 		if ( $enable_personal_retention ) {
 			$personal_args = $base_args;
-			$personal_args['meta_query'][] = array(
+
+			// Build personal task condition (group_id = 0 OR doesn't exist)
+			$personal_condition = array(
 				'relation' => 'OR',
 				array(
 					'key'     => 'todo_group_id',
@@ -160,6 +179,19 @@ class Bptodo_Data_Retention {
 					'compare' => '=',
 				),
 			);
+
+			// Properly structure meta_query
+			if ( isset( $personal_args['meta_query'] ) ) {
+				// If there's already a status filter, combine with personal condition
+				$personal_args['meta_query'] = array(
+					'relation' => 'AND',
+					$personal_args['meta_query'][0], // Status condition
+					$personal_condition, // Personal task condition
+				);
+			} else {
+				// No status filter, just use personal condition
+				$personal_args['meta_query'] = $personal_condition;
+			}
 
 			$deleted_tasks['personal'] = $this->delete_tasks( $personal_args, $permanent_delete );
 		}

@@ -622,7 +622,8 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$my_todo_items     = $bptodo->my_todo_items;
 				$displayed_uid     = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
 				$parent_slug       = $profile_menu_slug;
-				$todo_menu_link    = function_exists( 'bp_core_get_userlink' ) ? bp_core_get_userlink( $displayed_uid, false, true ) : get_author_posts_url( $displayed_uid ) . $parent_slug;
+				$base_url          = function_exists( 'bp_core_get_userlink' ) ? bp_core_get_userlink( $displayed_uid, false, true ) : get_author_posts_url( $displayed_uid );
+				$todo_menu_link    = $base_url . $parent_slug;
 
 				$name               = function_exists( 'bp_get_displayed_user_username' ) ? bp_get_displayed_user_username() : wp_get_current_user()->user_login;
 				$tab_args           = array(
@@ -1372,14 +1373,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 		}
 		/**
-		 * Register the shortcode - bptodo_by_categpry that will list all the todo items according to the category.
+		 * Register the shortcode - bptodo_by_category that will list all the todo items according to the category.
 		 *
 		 * @since    1.0.0
 		 * @access   public
 		 * @author   Wbcom Designs
 		 * @param    string $atts contain attribute.
 		 */
-		public function bptodo_by_categpry_template( $atts ) {
+		public function bptodo_by_category_template( $atts ) {
 			// Parse shortcode attributes
 			$atts = shortcode_atts(
 				array(
