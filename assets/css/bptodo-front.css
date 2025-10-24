@@ -3007,6 +3007,20 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     box-shadow: 0 0 0 1px #0073aa;
 }
 
+#task-selector {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#task-selector option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media screen and (max-width: 600px) {
     .bptodo-task-selector {
         flex-direction: column;
