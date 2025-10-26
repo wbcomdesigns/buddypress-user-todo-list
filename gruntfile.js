@@ -6,6 +6,7 @@ module.exports = function ( grunt ) {
 	require( 'load-grunt-tasks' )( grunt );
 	grunt.initConfig(
 		{
+			pkg: grunt.file.readJSON('package.json'),
 
 			// Check text domain
 			checktextdomain: {
@@ -140,7 +141,8 @@ module.exports = function ( grunt ) {
 			// Clean build directory
 			clean: {
 				build: ['build'],
-				zip: ['*.zip']
+				zip: ['*.zip'],
+				dist: ['dist']
 			},
 
 			// Copy files to build directory
@@ -151,6 +153,7 @@ module.exports = function ( grunt ) {
 						'**',
 						'!node_modules/**',
 						'!build/**',
+						'!dist/**',
 						'!.git/**',
 						'!.github/**',
 						'!.gitignore',
@@ -180,7 +183,7 @@ module.exports = function ( grunt ) {
 				build: {
 					options: {
 						mode: 'zip',
-						archive: 'buddypress-user-todo-list.zip'
+						archive: 'dist/buddypress-user-todo-list-<%= pkg.version %>.zip'
 					},
 					expand: true,
 					cwd: 'build/',
@@ -196,5 +199,5 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'build', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'css', [ 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'js', [ 'uglify' ] );
-	grunt.registerTask( 'release', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
+	grunt.registerTask( 'release', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss', 'clean:dist', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
 };

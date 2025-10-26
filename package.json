@@ -1,9 +1,13 @@
 {
   "name": "wb-todo",
-  "version": "0.1.0",
+  "version": "3.5.1",
   "url": "https://github.com/wbcomdesigns/buddypress-user-todo-list/",
   "license": "GPL-2.0+",
   "description": "Group review plugin for BuddyPress",
+  "scripts": {
+    "build": "grunt build",
+    "release": "grunt release"
+  },
   "devDependencies": {
     "grunt": "^1.0.4",
     "grunt-checktextdomain": "^1.0.1",

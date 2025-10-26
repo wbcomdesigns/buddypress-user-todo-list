@@ -1743,6 +1743,37 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none;
 }
 
+@media only screen and (min-width: 768px) {
+    #bptodo-all {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #bptodo-all>.bptodo-admin-row {
+        overflow: visible;
+        padding-bottom: 0;
+    }
+
+    #bptodo-all::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    #bptodo-all::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 4px;
+    }
+
+    #bptodo-all::-webkit-scrollbar-thumb:hover {
+        background-color: #999;
+    }
+
+    .todo-panel {
+        min-width: 800px;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .todo-header {
         display: none;
@@ -2974,6 +3005,20 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     outline: none;
     border-color: #0073aa;
     box-shadow: 0 0 0 1px #0073aa;
+}
+
+#task-selector {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#task-selector option {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 600px) {
