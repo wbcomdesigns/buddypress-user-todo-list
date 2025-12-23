@@ -38,8 +38,9 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function __construct() {
-			$this->setup_globals();
-			add_action( 'wp', [$this, 'setup_globals']);
+			// Setup globals once on 'wp' action when BuddyPress context is available.
+			// Removed duplicate call that was running setup_globals() twice.
+			add_action( 'wp', [ $this, 'setup_globals' ] );
 		}
 
 		/**
