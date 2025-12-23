@@ -193,10 +193,11 @@ function bptodo_check_buddypress_subsite_activation() {
         // Deactivate the plugin if necessary
         if ( $deactivate ) {
             deactivate_plugins( plugin_basename( __FILE__ ) );
-            $activate = filter_input( INPUT_GET, 'activate', FILTER_SANITIZE_STRING );
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking if activate param exists
+            $activate = isset( $_GET['activate'] ) ? sanitize_text_field( wp_unslash( $_GET['activate'] ) ) : '';
             // Prevent the activation message from showing up after deactivation
-            if ( isset( $activate ) ) { 
-                unset( $activate );
+            if ( ! empty( $activate ) ) {
+                unset( $_GET['activate'] );
             }
         }
     } else {
