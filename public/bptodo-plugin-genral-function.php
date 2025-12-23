@@ -53,15 +53,15 @@ if ( ! function_exists( 'bp_todo_locate_template' ) ) {
 if ( ! function_exists( 'bp_todo_get_template' ) ) {
 
 	function bp_todo_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
-
-		if ( is_array( $args ) ) {
-			extract( $args ); // Extract variables for use in the template.
-		}
+		// Note: $args is available directly in the included template.
+		// Templates should access variables via $args['key'] instead of extracted variables.
+		// This avoids security risks associated with extract().
 
 		$template_file = bp_todo_locate_template( $template_name, $template_path, $default_path );
 
 		if ( ! file_exists( $template_file ) ) {
-			_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', $template_file /* phpcs:ignore*/ ), '1.0.0' );
+			/* translators: %s: Template file path */
+			_doing_it_wrong( __FUNCTION__, sprintf( '<code>%s</code> does not exist.', esc_html( $template_file ) ), '1.0.0' );
 			return;
 		}
 
