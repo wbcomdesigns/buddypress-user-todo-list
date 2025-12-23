@@ -21,8 +21,18 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
+// Get todo_id from URL parameter
+$todo_id = isset( $_GET['args'] ) ? absint( $_GET['args'] ) : 0;
+
+// Validate todo_id exists
+if ( empty( $todo_id ) ) {
+	bp_core_add_message( __( 'Invalid todo ID.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
 // If the group ID is not available, attempt to use the group ID stored in the post meta
-if ( empty( $group_id ) && isset( $todo_id ) ) {
+if ( empty( $group_id ) && ! empty( $todo_id ) ) {
 	$group_id = get_post_meta( $todo_id, 'todo_group_id', true );
 }
 
@@ -71,7 +81,7 @@ $todos = get_posts( $args );
 
 $form_post_link = add_query_arg(
 	'args',
-	$todos[0]->ID,
+	$todo_id,
 	$admin_link . '/list'
 );
 
