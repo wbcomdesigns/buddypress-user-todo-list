@@ -783,11 +783,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						);
 					}
 
-					?>
-						<script>
-							window.location.replace('<?php echo esc_url( $todo_edit_url ); ?>');
-						</script>
-					<?php
+					bp_core_redirect( $todo_edit_url );
 				}
 
 				include 'todo/member/member-todo-edit.php';
@@ -864,11 +860,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ), 'error' );
 					}
 
-					?>
-						<script>
-							window.location.replace('<?php echo esc_url( $url ); ?>');							
-						</script>
-					<?php
+					bp_core_redirect( $url );
 				}
 				require 'todo/member/member-todo-add.php';
 			}

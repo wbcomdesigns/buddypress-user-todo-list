@@ -145,7 +145,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		// Trigger notifications and emails AFTER all todos are created
 		do_action( 'bptodo_group_todo_submit', $group_members_ids, $primary_todo_id );
 
-		echo '<script>window.location.replace("' . esc_url( $form_post_link ) . '");</script>';
+		bp_core_redirect( $form_post_link );
 	}
 }
 
