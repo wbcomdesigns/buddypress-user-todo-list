@@ -25,6 +25,15 @@ $args  = array(
 );
 $todos = get_posts( $args );
 
+// Get all todo categories once (instead of inside each loop).
+$todo_cats = get_terms(
+	array(
+		'taxonomy'   => 'todo_category',
+		'orderby'    => 'name',
+		'hide_empty' => false,
+	)
+);
+
 // Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
 usort( $todos, function( $a, $b ) {
 	$a_status   = get_post_meta( $a->ID, 'todo_status', true );
@@ -220,11 +229,7 @@ if ( empty( $todos ) ) {
 																$diff           = date_diff( $curr_date, $due_date );
 																$diff_days      = $diff->format( '%R%a' );
 																$priority_class = '';
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
+																// $todo_cats is already defined at the top of the file.
 
 																$todo           = get_post( $tid );
 																$todo_cat       = wp_get_object_terms( $tid, 'todo_category' );
@@ -354,11 +359,7 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
+																// $todo_cats is already defined at the top of the file.
 																$todo          = get_post( $tid );
 																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
 																$todo_cat_id   = 0;
@@ -476,11 +477,7 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
+																// $todo_cats is already defined at the top of the file.
 																$todo          = get_post( $tid );
 																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
 																$todo_cat_id   = 0;
@@ -598,11 +595,7 @@ if ( empty( $todos ) ) {
 																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 																$diff          = date_diff( $curr_date, $due_date );
 																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
+																// $todo_cats is already defined at the top of the file.
 																$todo          = get_post( $tid );
 																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
 																$todo_cat_id   = 0;																
