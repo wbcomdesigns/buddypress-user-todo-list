@@ -74,7 +74,8 @@ module.exports = function ( grunt ) {
 				},
 				frontend: {
 					files: {
-						'assets/js/bptodo-front.min.js': ['assets/js/bptodo-front.js']
+						'assets/js/bptodo-front.min.js': ['assets/js/bptodo-front.js'],
+						'assets/js/bptodo-modern.min.js': ['assets/js/bptodo-modern.js']
 					}
 				},
 				admin: {
@@ -92,7 +93,9 @@ module.exports = function ( grunt ) {
 				},
 				frontend: {
 					files: {
-						'assets/css/bptodo-front.min.css': ['assets/css/bptodo-front.css']
+						'assets/css/bptodo-front.min.css': ['assets/css/bptodo-front.css'],
+						'assets/css/bptodo-design-system.min.css': ['assets/css/bptodo-design-system.css'],
+						'assets/css/bptodo-components.min.css': ['assets/css/bptodo-components.css']
 					}
 				},
 				admin: {
@@ -113,7 +116,7 @@ module.exports = function ( grunt ) {
 				frontend: {
 					expand: true,
 					cwd: 'assets/css/',
-					src: ['bptodo-front.css'],
+					src: ['bptodo-front.css', 'bptodo-design-system.css', 'bptodo-components.css'],
 					dest: 'assets/css/',
 					ext: '-rtl.css'
 				},

@@ -1,111 +1,157 @@
 <?php
 /**
- * Exit if accessed directly.
+ * Member Todo Add Form
+ *
+ * Modern form layout for adding new todos.
+ * Uses flexbox-based form groups with proper accessibility.
  *
  * @package bp-user-todo-list
+ * @since 3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 global $bptodo;
 
-$todo_cats = get_terms( array(
-    'taxonomy'   => 'todo_category',
-    'orderby'    => 'name',
-    'hide_empty' => false,
-) );
+// Get categories.
+$todo_cats = get_terms(
+	array(
+		'taxonomy'   => 'todo_category',
+		'orderby'    => 'name',
+		'hide_empty' => false,
+	)
+);
 
+// Get settings.
 $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
-$bptodo_req         = $bptodo->req_duedate === 'yes' ? 'required' : '';
+$bptodo_req         = 'yes' === $bptodo->req_duedate ? 'required' : '';
 $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 'on' ), true );
 ?>
 
-<form class="bptodo-form-add" action="" method="post" id="myForm">
-	<table class="bptodo-add-todo-tbl">
-		<?php do_action( 'bptodo_add_field_before_default_listing', $displayed_uid, $form_post_link ); ?>
+<div class="bptodo-wrapper" id="bptodo-member-add">
+	<!-- Page Header -->
+	<div class="bptodo-page-header">
+		<h2 class="bptodo-page-title">
+			<?php
+			printf(
+				/* translators: %s: Todo label */
+				esc_html__( 'Add New %s', 'wb-todo' ),
+				esc_html( $profile_menu_label )
+			);
+			?>
+		</h2>
+		<div class="bptodo-page-actions">
+			<a href="<?php echo esc_url( bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug ); ?>" class="bptodo-btn bptodo-btn--secondary">
+				<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="19" y1="12" x2="5" y2="12"></line>
+					<polyline points="12 19 5 12 12 5"></polyline>
+				</svg>
+				<?php esc_html_e( 'Back to List', 'wb-todo' ); ?>
+			</a>
+		</div>
+	</div>
 
-		<tr>
-			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
-			<td>
-				<div class="bp_todo_categories">
-					<select name="todo_cat" id="bp_todo_categories" required>
-						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
-						<?php foreach ( $todo_cats as $todo_cat ) : ?>
-							<option value="<?php echo esc_attr( $todo_cat->name ); ?>"><?php echo esc_html( $todo_cat->name ); ?></option>
-						<?php endforeach; ?>
-					</select>
-					<?php if ( $allow_add_category ) : ?>
-						<a href="javascript:void(0);" class="add-todo-category"><i class="fa fa-plus" aria-hidden="true"></i></a>
-					<?php endif; ?>
-				</div>
-				<?php if ( $allow_add_category ) : ?>
-					<div class="add-todo-cat-row">
-						<?php  /* translators: %1$s */ ?>
-						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), $profile_menu_label ) ); ?>">
-						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
-						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
-					</div>
-				<?php endif; ?>
-			</td>
-		</tr>
+	<!-- Add Form Card -->
+	<div class="bptodo-card bptodo-card--form">
+		<form class="bptodo-form" action="" method="post" id="bptodo-add-form">
+			<?php
+			/**
+			 * Hook: Before default form fields.
+			 *
+			 * @since 1.0.0
+			 * @param int    $displayed_uid   Displayed user ID.
+			 * @param string $form_post_link  Form action URL.
+			 */
+			do_action( 'bptodo_add_field_before_default_listing', $displayed_uid, $form_post_link );
+			?>
 
-		<tr>
-			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
-			<td>
-				<input type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
-			</td>
-		</tr>
+			<?php
+			// Include form fields partial.
+			$context = 'member';
+			include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-form-fields.php';
+			?>
 
-		<tr>
-			<td><?php esc_html_e( 'Summary', 'wb-todo' ); ?></td>
-			<td>
-				<?php
-				$settings = array(
-					'media_buttons' => true,
-					'editor_height' => 200,
-				);
-				wp_editor( '', 'bptodo-summary-input', $settings );
+			<?php
+			/**
+			 * Hook: After default form fields.
+			 *
+			 * @since 1.0.0
+			 * @param int    $displayed_uid   Displayed user ID.
+			 * @param string $form_post_link  Form action URL.
+			 */
+			do_action( 'bptodo_add_field_after_default_listing', $displayed_uid, $form_post_link );
+			?>
+
+			<?php
+			/**
+			 * Filter: Allow customizing the submit button.
+			 *
+			 * @since 1.0.0
+			 * @param bool $change_button Whether to replace the default button.
+			 */
+			if ( ! apply_filters( 'bptodo_change_submit_button', false ) ) :
 				?>
-			</td>
-		</tr>
-
-		<tr>
-			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
-			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>>
-			</td>
-		</tr>
-
-		<tr>
-			<td><?php esc_html_e( 'Priority', 'wb-todo' ); ?></td>
-			<td>
-				<select name="todo_priority" id="bp_todo_priority">
-					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
-					<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-					<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-					<option value="normal" selected><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
-				</select>
-			</td>
-		</tr>
-
-		<?php if ( ! apply_filters( 'bptodo_change_submit_button', false ) ) : ?>
-			<tr>
-				<td></td>
-				<td>
+				<!-- Form Actions -->
+				<div class="bptodo-form-actions">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
-					<?php  /* translators: %s */ ?>
-					<input id="bp-add-new-todo" type="submit" name="todo_create" value="<?php echo esc_attr( sprintf( esc_html__( 'Submit %s', 'wb-todo' ), $profile_menu_label ) ); ?>">
-				</td>
-			</tr>
-		<?php else : ?>
-			<?php do_action( 'bptodo_change_submit_button_action', $profile_menu_label ); ?>
-		<?php endif; ?>
+					<button type="button" class="bptodo-btn bptodo-btn--secondary js-bptodo-cancel">
+						<?php esc_html_e( 'Cancel', 'wb-todo' ); ?>
+					</button>
+					<button type="submit" name="todo_create" class="bptodo-btn bptodo-btn--primary" id="bp-add-new-todo">
+						<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<polyline points="20 6 9 17 4 12"></polyline>
+						</svg>
+						<?php
+						printf(
+							/* translators: %s: Todo label */
+							esc_html__( 'Create %s', 'wb-todo' ),
+							esc_html( $profile_menu_label )
+						);
+						?>
+					</button>
+				</div>
+			<?php else : ?>
+				<?php
+				/**
+				 * Hook: Custom submit button action.
+				 *
+				 * @since 1.0.0
+				 * @param string $profile_menu_label Todo label.
+				 */
+				do_action( 'bptodo_change_submit_button_action', $profile_menu_label );
+				?>
+			<?php endif; ?>
+		</form>
+	</div>
+</div>
 
-		<?php do_action( 'bptodo_add_field_after_default_listing', $displayed_uid, $form_post_link ); ?>
-	</table>
-</form>
+<script>
+(function() {
+	'use strict';
+
+	document.addEventListener('DOMContentLoaded', function() {
+		// Cancel button handler
+		var cancelBtn = document.querySelector('.js-bptodo-cancel');
+		if (cancelBtn) {
+			cancelBtn.addEventListener('click', function() {
+				window.history.back();
+			});
+		}
+
+		// Form submission with loading state
+		var form = document.getElementById('bptodo-add-form');
+		if (form) {
+			form.addEventListener('submit', function() {
+				var submitBtn = form.querySelector('[type="submit"]');
+				if (submitBtn && window.BPTodo && window.BPTodo.loading) {
+					window.BPTodo.loading.button(submitBtn, '<?php echo esc_js( __( 'Creating...', 'wb-todo' ) ); ?>');
+				}
+			});
+		}
+	});
+})();
+</script>

@@ -635,7 +635,9 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					'show_for_displayed_user' => true,
 				);
 				$enable_todo_member = get_option( 'user_todo_list_settings' );
-				if ( ! empty( $enable_todo_member['enable_todo_member'] ) && in_array( $enable_todo_member['enable_todo_member'], array( 'yes', 'on' ), true ) ) {
+				// Default to enabled if setting doesn't exist (for fresh installs).
+				$is_enabled = empty( $enable_todo_member ) || ( ! empty( $enable_todo_member['enable_todo_member'] ) && in_array( $enable_todo_member['enable_todo_member'], array( 'yes', 'on' ), true ) );
+				if ( $is_enabled ) {
 					bp_core_new_nav_item( $tab_args );
 				}
 

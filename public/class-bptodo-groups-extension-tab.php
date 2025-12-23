@@ -17,7 +17,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 
 			// Set up the extension settings.
-			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ) );
+			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ?? '' ) );
 			$args = array(
 				'slug'              => $profile_menu_slug,
 				'name'              => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',

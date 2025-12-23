@@ -92,6 +92,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 			$profile_menu_slug = $bptodo->profile_menu_slug;
 
+			// Use minified versions in production, non-minified in development.
+			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 			if (
 				isset( $_SERVER['REQUEST_URI'] ) &&
 				(
@@ -101,11 +104,27 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					has_shortcode( $post->post_content, 'ld_dashboard' ) ) )
 				)
 			) {
+				// Legacy jQuery UI for datepicker (still needed for date inputs).
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
+
+				// Font Awesome for legacy icons.
 				if ( ! wp_style_is( 'wb-font-awesome', 'enqueued' ) ) {
 					wp_enqueue_style( 'wb-font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
 				}
 
+				// Modern Design System CSS (loaded first as foundation).
+				wp_enqueue_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), BPTODO_VERSION );
+
+				// Modern Component CSS.
+				wp_enqueue_style( 'bptodo-components', BPTODO_PLUGIN_URL . 'assets/css/bptodo-components' . $suffix . '.css', array( 'bptodo-design-system' ), BPTODO_VERSION );
+
+				// Legacy frontend CSS (for backward compatibility with existing customizations).
+				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front' . $suffix . '.css', array( 'bptodo-components' ), BPTODO_VERSION );
+
+				// Select2 for multi-select dropdowns.
+				wp_enqueue_style( 'select2-css', BPTODO_PLUGIN_URL . 'assets/css/select2.min.css', array(), BPTODO_VERSION );
+
+				// jQuery and datepicker.
 				if ( ! wp_script_is( 'jquery' ) ) {
 					wp_enqueue_script( 'jquery' );
 				}
@@ -114,27 +133,39 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					wp_enqueue_script( 'jquery-ui-datepicker' );
 				}
 
+				// Select2 JS.
 				wp_enqueue_script( 'select2-js', BPTODO_PLUGIN_URL . 'assets/js/select2.full.min.js', array( 'jquery' ), BPTODO_VERSION, true );
-				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front.js', array( 'jquery' ), BPTODO_VERSION, true );
+
+				// Modern UX Module (toast, loading, modal).
+				wp_enqueue_script( 'bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern' . $suffix . '.js', array( 'jquery' ), BPTODO_VERSION, true );
+
+				// Main frontend JavaScript.
+				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front' . $suffix . '.js', array( 'jquery', 'bptodo-modern-js' ), BPTODO_VERSION, true );
 
 				$localized_strings = $this->bp_todo_get_localized_strings();
-				
+
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',
 					array(
 						'ajax_url'            => admin_url( 'admin-ajax.php' ),
 						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
+						'current_user_id'     => get_current_user_id(),
+						'bptodo_complete_url' => esc_url( home_url( $_SERVER['REQUEST_URI'] ?? '' ) ),
 						/* translators: %1$s */
 						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
 						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
 						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
-						'remove_todo_text'    => esc_html__( 'Are you sure?', 'wb-todo' ),
-						'localized'           => $localized_strings
+						'remove_todo_text'    => esc_html__( 'Are you sure you want to delete this task?', 'wb-todo' ),
+						// Toast notification messages.
+						'saving_text'         => esc_html__( 'Saving...', 'wb-todo' ),
+						'todo_updated_text'   => esc_html__( 'Task updated successfully!', 'wb-todo' ),
+						'todo_completed_text' => esc_html__( 'Task completed!', 'wb-todo' ),
+						'todo_removed_text'   => esc_html__( 'Task deleted successfully.', 'wb-todo' ),
+						'error_text'          => esc_html__( 'Something went wrong. Please try again.', 'wb-todo' ),
+						'localized'           => $localized_strings,
 					)
 				);
-				wp_enqueue_style( 'select2-css', BPTODO_PLUGIN_URL . 'assets/css/select2.min.css', array(), BPTODO_VERSION );
-				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front.css', array(), BPTODO_VERSION );
 			}
 
 			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );

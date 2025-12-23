@@ -38,9 +38,9 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function __construct() {
-			// Setup globals once on 'wp' action when BuddyPress context is available.
-			// Removed duplicate call that was running setup_globals() twice.
-			add_action( 'wp', [ $this, 'setup_globals' ] );
+			// Setup globals on 'bp_init' so they're available for bp_setup_nav.
+			// Priority 5 ensures this runs before nav setup (default priority 10).
+			add_action( 'bp_init', [ $this, 'setup_globals' ], 5 );
 		}
 
 		/**
