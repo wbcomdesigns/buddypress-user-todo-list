@@ -191,7 +191,7 @@ if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'
 		</tr>
 		<tr>
 			<td><label><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></label></td>
-			<td><input type="text" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>></td>
+			<td><input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" name="todo_due_date" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>></td>
 		</tr>
 		<tr>
 			<td><label><?php esc_html_e( 'Priority', 'wb-todo' ); ?></label></td>
