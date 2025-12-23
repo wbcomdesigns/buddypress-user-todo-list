@@ -38,30 +38,8 @@ jQuery(document).ready(function () {
       });   
   });
 
-  // update todo on popup
-  jQuery('.bptodo_edit_form_popup_class').on('click', '#todo_update', function (e) {
-    e.preventDefault();
-    jQuery('#bptodo_edit_form_popup').trigger('submit');
-  });
-  jQuery(document).on('submit', '#bptodo_edit_form_popup', function (e) {
-    e.preventDefault();
-    let editFormValue = jQuery('#bptodo_edit_form_popup').serializeArray();
-    jQuery.ajax({
-      url: ajaxurl,
-      type: 'post',
-      data: {
-        action: 'bptodo_update_form_popup',
-        update_form_data: editFormValue,
-        ajax_nonce: todo_ajax_object.ajax_nonce,
-      },
-      success: function (response) {
-        location.reload();
-      }
-    });
-  });
-
-
-  jQuery('.bptodo_edit_form_popup_class').on('click', '#group_todo_update', function (e) {
+  // update todo on popup - combined handler for both member and group todo updates
+  jQuery('.bptodo_edit_form_popup_class').on('click', '#todo_update, #group_todo_update', function (e) {
     e.preventDefault();
     jQuery('#bptodo_edit_form_popup').trigger('submit');
   });
