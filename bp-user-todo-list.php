@@ -148,15 +148,54 @@ function bptodo_admin_page_link( $links ) {
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
 
 /**
- * Allow subscribers to upload media files.
+ * Allow subscribers to upload media files only on BuddyPress todo pages.
+ *
+ * Uses user_has_cap filter to dynamically grant upload capability
+ * instead of permanently modifying the subscriber role.
+ *
+ * @param array $allcaps All capabilities of the user.
+ * @param array $caps    Required capabilities.
+ * @param array $args    Arguments (capability being checked, user ID, etc).
+ * @return array Modified capabilities.
  */
-function bptodo_media_button_subscriber() {
-    $subscriber = get_role( 'subscriber' );
-    if ( ! empty( $subscriber ) ) {
-        $subscriber->add_cap( 'upload_files' );
-    }
+function bptodo_grant_upload_cap_on_todo_pages( $allcaps, $caps, $args ) {
+	// Only process upload_files capability checks.
+	if ( ! in_array( 'upload_files', $caps, true ) ) {
+		return $allcaps;
+	}
+
+	// User already has the capability.
+	if ( ! empty( $allcaps['upload_files'] ) ) {
+		return $allcaps;
+	}
+
+	// Check if we're on a BuddyPress todo page.
+	$is_todo_page = false;
+
+	if ( function_exists( 'bp_is_user' ) && bp_is_user() ) {
+		// Check if on member todo tab.
+		$current_component = function_exists( 'bp_current_component' ) ? bp_current_component() : '';
+		$todo_slug         = 'todo'; // Default slug.
+
+		// Get custom slug from settings if available.
+		$settings = get_option( 'user_todo_list_settings' );
+		if ( ! empty( $settings['profile_menu_label'] ) ) {
+			$todo_slug = sanitize_title( $settings['profile_menu_label'] );
+		}
+
+		if ( $current_component === $todo_slug ) {
+			$is_todo_page = true;
+		}
+	}
+
+	// Grant capability only on todo pages.
+	if ( $is_todo_page ) {
+		$allcaps['upload_files'] = true;
+	}
+
+	return $allcaps;
 }
-add_action( 'init', 'bptodo_media_button_subscriber' );
+add_filter( 'user_has_cap', 'bptodo_grant_upload_cap_on_todo_pages', 10, 3 );
 
 /**
  * Check if the Todo List plugin should be active on the current subsite.
