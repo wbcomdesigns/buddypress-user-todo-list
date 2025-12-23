@@ -10,6 +10,33 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Filter to get only primary tasks (where todo_primary_id equals the post's own ID).
+ * This performs the filtering at database level instead of loading all tasks into memory.
+ *
+ * @param string   $where The WHERE clause of the query.
+ * @param WP_Query $query The WP_Query instance.
+ * @return string Modified WHERE clause.
+ */
+function bptodo_filter_primary_tasks_only( $where, $query ) {
+    global $wpdb;
+
+    // Only apply to our specific query (bp-todo post type)
+    if ( isset( $query->query_vars['post_type'] ) && 'bp-todo' === $query->query_vars['post_type'] ) {
+        // Add condition: todo_primary_id meta value must equal the post's own ID
+        // This filters for primary tasks only (self-referencing todo_primary_id)
+        $where .= $wpdb->prepare(
+            " AND {$wpdb->posts}.ID IN (
+                SELECT pm.post_id FROM {$wpdb->postmeta} pm
+                WHERE pm.meta_key = %s AND pm.meta_value = pm.post_id
+            )",
+            'todo_primary_id'
+        );
+    }
+
+    return $where;
+}
+
 global $bptodo;
 global $bp;
 
@@ -76,11 +103,11 @@ $args = array(
 );
 
 // Query logic:
-// - Admin who is NOT a group member: Get ALL tasks (we'll filter for primary tasks in PHP)
+// - Admin who is NOT a group member: Get only PRIMARY tasks (filtered at database level)
 // - Admin who IS a group member OR regular user: Get only their own tasks
 if ( $is_admin_non_member ) {
-    // Admin non-member: Get ALL tasks in group, we'll filter for primary tasks in PHP
-    // (Primary tasks have todo_primary_id equal to their own post ID)
+    // Admin non-member: Get only PRIMARY tasks in group (filtered at database level)
+    // Primary tasks have todo_primary_id equal to their own post ID (self-reference)
     $args['meta_query'] = array(
         array(
             'key'     => 'todo_group_id',
@@ -89,6 +116,9 @@ if ( $is_admin_non_member ) {
             'type'    => 'NUMERIC',
         ),
     );
+
+    // Add filter to only get primary tasks (where todo_primary_id = post ID)
+    add_filter( 'posts_where', 'bptodo_filter_primary_tasks_only', 10, 2 );
 } else {
     // Regular member or admin who is a group member: Get only their own tasks
     $args['author'] = get_current_user_id();
@@ -119,17 +149,12 @@ do {
     $args['paged']++;
 } while (count($todos) === $args['posts_per_page']); // Continue fetching until no more posts are returned.
 
-// For admin non-members, filter to show only primary tasks (where todo_primary_id == post_ID)
-// This prevents showing duplicate tasks (primary + associated copies)
+// Remove the filter after query completes (only if it was added)
 if ( $is_admin_non_member ) {
-    $all_todos = array_filter( $all_todos, function( $todo ) {
-        $primary_id = get_post_meta( $todo->ID, 'todo_primary_id', true );
-        // Primary tasks have todo_primary_id equal to their own ID (self-reference)
-        return $primary_id == $todo->ID;
-    });
-    // Re-index array after filtering
-    $all_todos = array_values( $all_todos );
+    remove_filter( 'posts_where', 'bptodo_filter_primary_tasks_only', 10 );
 }
+// Note: Primary task filtering is now done at database level via bptodo_filter_primary_tasks_only()
+// No need to filter in PHP anymore - significant performance improvement for large datasets
 
 // Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
 usort( $all_todos, function( $a, $b ) {
