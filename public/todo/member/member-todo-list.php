@@ -541,7 +541,7 @@ if ( empty( $todos ) ) {
 															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
 															</li>	
 															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $todo_title ); ?></li>
+															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
 															<li class="bptodo-cat">
 																<span class="bptodo-cat-mobile-title">Category</span>
 																<span class="bptodo-cat-text">
