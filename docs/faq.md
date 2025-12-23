@@ -457,9 +457,7 @@ See plugin source code for available hooks.
 
 ### REST API support?
 
-**Partial.** Uses WordPress Post REST API.
-
-Endpoints available at: `/wp-json/wp/v2/bp-todo`
+**Not currently available.** The plugin uses AJAX endpoints via `admin-ajax.php` for all operations. REST API endpoints are planned for a future release.
 
 ### Multisite compatible?
 

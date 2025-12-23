@@ -80,7 +80,6 @@ Extend functionality with comprehensive hooks and filters. Full documentation in
 * 10+ filter hooks for customization
 * Complete template hierarchy for theme overrides
 * Comprehensive developer documentation included
-* REST API ready structure
 * Translation ready with POT file
 
 = Perfect For =
