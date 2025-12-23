@@ -1362,14 +1362,16 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		public function bp_nouveau_add_disable_group_todolists_details_edited( $group_id ) {
-			if ( isset( $_POST['group-disable-todos'] ) ) { //phpcs:ignore
-			if ( function_exists( 'groups_update_groupmeta' ) ) {
-				groups_update_groupmeta( $group_id, 'group-disable-todos', $_POST['group-disable-todos'] ); //phpcs:ignore
+			if ( ! function_exists( 'groups_update_groupmeta' ) ) {
+				return;
 			}
+
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified by BuddyPress groups_group_details_edited hook
+			if ( isset( $_POST['group-disable-todos'] ) ) {
+				$value = absint( wp_unslash( $_POST['group-disable-todos'] ) );
+				groups_update_groupmeta( $group_id, 'group-disable-todos', $value );
 			} else {
-			if ( function_exists( 'groups_update_groupmeta' ) ) {
 				groups_update_groupmeta( $group_id, 'group-disable-todos', '' );
-			}
 			}
 		}
 		/**
