@@ -812,7 +812,52 @@
  */
 .bptodo-wrapper .bptodo-btn--icon {
 	padding: var(--bptodo-space-2) !important;
-	min-width: auto;
+	min-width: 36px;
+	min-height: 36px;
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--bptodo-radius-md) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--icon svg {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	stroke: currentColor;
+}
+
+/* Default icon button (edit, etc.) */
+.bptodo-wrapper .bptodo-btn--icon:not(.bptodo-btn--danger) {
+	background: var(--bptodo-gray-100) !important;
+	color: var(--bptodo-text-secondary) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--icon:not(.bptodo-btn--danger):hover:not(:disabled) {
+	background: var(--bptodo-gray-200) !important;
+	color: var(--bptodo-text-primary) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--icon:not(.bptodo-btn--danger) svg {
+	stroke: var(--bptodo-gray-600, #4b5563);
+}
+
+.bptodo-wrapper .bptodo-btn--icon:not(.bptodo-btn--danger):hover:not(:disabled) svg {
+	stroke: var(--bptodo-gray-800, #1f2937);
+}
+
+/* Danger icon button - ensure icon is visible */
+.bptodo-wrapper .bptodo-btn--icon.bptodo-btn--danger {
+	background: var(--bptodo-danger) !important;
+	color: var(--bptodo-white) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--icon.bptodo-btn--danger:hover:not(:disabled) {
+	background: var(--bptodo-danger-dark, #dc2626) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--icon.bptodo-btn--danger svg {
+	stroke: var(--bptodo-white);
 }
 
 /* ==========================================================================
