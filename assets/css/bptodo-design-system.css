@@ -14,12 +14,24 @@
 
 :root {
 	/* -------------------------------------------------------------------------
-	   Colors - Primary Palette
+	   Theme Color Inheritance
+	   Cascade: Reign → BuddyX/BuddyX Pro → BuddyBoss → Fallback
 	   ------------------------------------------------------------------------- */
-	--bptodo-primary: #3b82f6;
-	--bptodo-primary-hover: #2563eb;
+	--bptodo-theme-primary: var(--reign-accent-color, var(--color-theme-primary, var(--bb-rl-background-brand-primary-color, #3b82f6)));
+	--bptodo-theme-primary-hover: var(--reign-accent-hover-color, var(--color-theme-primary, var(--bb-rl-background-brand-primary-hover-color, #2563eb)));
+	--bptodo-theme-bg: var(--reign-site-sections-bg-color, var(--bb-rl-background-color, #ffffff));
+	--bptodo-theme-bg-secondary: var(--reign-site-secondary-bg-color, var(--bb-rl-background-secondary-color, #f9fafb));
+	--bptodo-theme-text: var(--reign-site-body-text-color, var(--bb-body-text-color, #374151));
+	--bptodo-theme-text-heading: var(--reign-site-headings-color, #111827);
+	--bptodo-theme-border: var(--reign-site-border-color, var(--bb-content-border-color, #e5e7eb));
+
+	/* -------------------------------------------------------------------------
+	   Colors - Primary Palette (using theme inheritance)
+	   ------------------------------------------------------------------------- */
+	--bptodo-primary: var(--bptodo-theme-primary);
+	--bptodo-primary-hover: var(--bptodo-theme-primary-hover);
 	--bptodo-primary-active: #1d4ed8;
-	--bptodo-primary-dark: #2563eb;
+	--bptodo-primary-dark: var(--bptodo-theme-primary-hover);
 	--bptodo-primary-darker: #1d4ed8;
 	--bptodo-primary-light: #eff6ff;
 	--bptodo-primary-rgb: 59, 130, 246;
@@ -57,7 +69,7 @@
 	--bptodo-priority-normal-bg: #ecfdf5;
 
 	/* -------------------------------------------------------------------------
-	   Colors - Neutrals (Grays)
+	   Colors - Neutrals (Grays) - Static fallbacks
 	   ------------------------------------------------------------------------- */
 	--bptodo-white: #ffffff;
 	--bptodo-gray-50: #f9fafb;
@@ -73,21 +85,21 @@
 	--bptodo-black: #000000;
 
 	/* -------------------------------------------------------------------------
-	   Colors - Backgrounds
+	   Colors - Backgrounds (using theme inheritance)
 	   ------------------------------------------------------------------------- */
-	--bptodo-bg-page: var(--bptodo-gray-50);
-	--bptodo-bg-card: var(--bptodo-white);
-	--bptodo-bg-input: var(--bptodo-white);
-	--bptodo-bg-hover: var(--bptodo-gray-50);
-	--bptodo-bg-active: var(--bptodo-gray-100);
-	--bptodo-bg-disabled: var(--bptodo-gray-100);
+	--bptodo-bg-page: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-card: var(--bptodo-theme-bg);
+	--bptodo-bg-input: var(--bptodo-theme-bg);
+	--bptodo-bg-hover: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-active: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-disabled: var(--bptodo-theme-bg-secondary);
 
 	/* -------------------------------------------------------------------------
-	   Colors - Text
+	   Colors - Text (using theme inheritance)
 	   ------------------------------------------------------------------------- */
-	--bptodo-text-primary: var(--bptodo-gray-900);
-	--bptodo-text-secondary: var(--bptodo-gray-600);
-	--bptodo-text-tertiary: var(--bptodo-gray-500);
+	--bptodo-text-primary: var(--bptodo-theme-text-heading);
+	--bptodo-text-secondary: var(--bptodo-theme-text);
+	--bptodo-text-tertiary: var(--bptodo-theme-text);
 	--bptodo-text-muted: var(--bptodo-gray-400);
 	--bptodo-text-disabled: var(--bptodo-gray-400);
 	--bptodo-text-inverse: var(--bptodo-white);
@@ -95,10 +107,10 @@
 	--bptodo-text-link-hover: var(--bptodo-primary-hover);
 
 	/* -------------------------------------------------------------------------
-	   Colors - Borders
+	   Colors - Borders (using theme inheritance)
 	   ------------------------------------------------------------------------- */
-	--bptodo-border-light: var(--bptodo-gray-200);
-	--bptodo-border-default: var(--bptodo-gray-300);
+	--bptodo-border-light: var(--bptodo-theme-border);
+	--bptodo-border-default: var(--bptodo-theme-border);
 	--bptodo-border-focus: var(--bptodo-primary);
 
 	/* -------------------------------------------------------------------------
@@ -205,7 +217,7 @@
 	--bptodo-card-radius: var(--bptodo-radius-lg);
 	--bptodo-card-shadow: var(--bptodo-shadow-sm);
 	--bptodo-card-shadow-hover: var(--bptodo-shadow-md);
-	--bptodo-card-bg: var(--bptodo-white);
+	--bptodo-card-bg: var(--bptodo-bg-card);
 	--bptodo-card-border: var(--bptodo-border-light);
 
 	/* Inputs */
@@ -215,7 +227,7 @@
 	--bptodo-input-padding-x: var(--bptodo-space-3);
 	--bptodo-input-padding-y: var(--bptodo-space-2);
 	--bptodo-input-radius: var(--bptodo-radius-md);
-	--bptodo-input-bg: var(--bptodo-white);
+	--bptodo-input-bg: var(--bptodo-bg-input);
 	--bptodo-input-border: var(--bptodo-border-default);
 	--bptodo-input-border-focus: 2px solid var(--bptodo-primary);
 	--bptodo-input-focus-border: var(--bptodo-primary);
