@@ -278,6 +278,92 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 
 		<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
 
+		<!-- Search & Filters Bar -->
+		<?php
+		// Get categories for filter dropdown.
+		$todo_categories = get_terms(
+			array(
+				'taxonomy'   => 'bptodo_category',
+				'hide_empty' => false,
+			)
+		);
+		?>
+		<div class="bptodo-search-filters">
+			<div class="bptodo-search-filters__row">
+				<!-- Search Input -->
+				<div class="bptodo-search-filters__search">
+					<input
+						type="text"
+						id="bptodo-search-input"
+						class="bptodo-input bptodo-search-input"
+						placeholder="<?php esc_attr_e( 'Search todos...', 'wb-todo' ); ?>"
+						aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>"
+					>
+					<svg class="bptodo-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="11" cy="11" r="8"></circle>
+						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+					</svg>
+				</div>
+
+				<!-- Filter Dropdowns -->
+				<div class="bptodo-search-filters__filters">
+					<!-- Status Filter -->
+					<select id="bptodo-filter-status" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Status', 'wb-todo' ); ?></option>
+						<option value="incomplete"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></option>
+						<option value="complete"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+					</select>
+
+					<!-- Priority Filter -->
+					<select id="bptodo-filter-priority" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Priorities', 'wb-todo' ); ?></option>
+						<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
+						<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
+						<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+					</select>
+
+					<!-- Category Filter -->
+					<?php if ( ! empty( $todo_categories ) && ! is_wp_error( $todo_categories ) ) : ?>
+					<select id="bptodo-filter-category" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Categories', 'wb-todo' ); ?></option>
+						<?php foreach ( $todo_categories as $category ) : ?>
+							<option value="<?php echo esc_attr( $category->slug ); ?>"><?php echo esc_html( $category->name ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<?php endif; ?>
+
+					<!-- Clear Filters Button -->
+					<button type="button" id="bptodo-clear-filters" class="bptodo-clear-filters" aria-label="<?php esc_attr_e( 'Clear all filters', 'wb-todo' ); ?>">
+						<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
+					</button>
+				</div>
+			</div>
+
+			<!-- Results Info -->
+			<div class="bptodo-search-filters__info">
+				<span id="bptodo-results-count" class="bptodo-results-count">
+					<?php
+					printf(
+						/* translators: %d: Number of todos */
+						esc_html( _n( 'Showing %d todo', 'Showing %d todos', $all_todo_count, 'wb-todo' ) ),
+						esc_html( $all_todo_count )
+					);
+					?>
+				</span>
+			</div>
+		</div>
+
+		<!-- No Results Message (hidden by default) -->
+		<div class="bptodo-no-results" id="bptodo-no-results" style="display: none;">
+			<svg class="bptodo-no-results__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="11" cy="11" r="8"></circle>
+				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+				<line x1="8" y1="8" x2="14" y2="14"></line>
+				<line x1="14" y1="8" x2="8" y2="14"></line>
+			</svg>
+			<p class="bptodo-no-results__text"><?php esc_html_e( 'No todos match your search criteria.', 'wb-todo' ); ?></p>
+		</div>
+
 		<!-- Tab Navigation -->
 		<div class="bptodo-tabs" role="tablist">
 			<button
