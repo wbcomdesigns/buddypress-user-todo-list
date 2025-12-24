@@ -470,6 +470,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				// Refresh global settings object to reflect changes immediately
 				global $bptodo;
 				$bptodo = new Bptodo_Globals();
+
+				// Set transient for success notice
+				set_transient( 'bptodo_settings_saved', true, 30 );
+
+				// Redirect to prevent form resubmission
+				wp_safe_redirect( admin_url( 'admin.php?page=user-todo-list-settings&tab=user-todo-list-settings&settings-updated=true' ) );
+				exit;
 			}
 		}
 
@@ -503,8 +510,19 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access public
 		 */
 		public function bptodo_show_notice() {
-			if ( isset( $_POST['bptodo-save-settings'] ) && isset( $_POST['bptodo-general-settings-nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['bptodo-general-settings-nonce'] ) ), 'bptodo' ) ) {
+			// Check for settings-updated parameter (from redirect after save)
+			$settings_updated = isset( $_GET['settings-updated'] ) && 'true' === sanitize_text_field( wp_unslash( $_GET['settings-updated'] ) );
+
+			// Check for transient (backup method)
+			$transient_saved = get_transient( 'bptodo_settings_saved' );
+
+			if ( $settings_updated || $transient_saved ) {
 				echo '<div class="notice notice-success is-dismissible"><p><strong>' . esc_html__( 'Settings Saved.', 'wb-todo' ) . '</strong></p></div>';
+
+				// Delete transient after showing notice
+				if ( $transient_saved ) {
+					delete_transient( 'bptodo_settings_saved' );
+				}
 			}
 		}
 

@@ -158,10 +158,70 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 		</div>
 	<?php endif; ?>
 
-	<?php if ( ! empty( $bptodo_todos ) ) : ?>
-		<!-- Filters Bar -->
-		<div class="bptodo-filters">
-			<div class="bptodo-filters__info">
+	<!-- Search & Filters Bar -->
+	<div class="bptodo-search-filters">
+		<div class="bptodo-search-filters__row">
+			<!-- Search Input -->
+			<div class="bptodo-search-filters__search">
+				<input type="text"
+					   id="bptodo-search-input"
+					   class="bptodo-input bptodo-search-input"
+					   placeholder="<?php esc_attr_e( 'Search todos...', 'wb-todo' ); ?>"
+					   value=""
+					   aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>">
+				<svg class="bptodo-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<circle cx="11" cy="11" r="8"></circle>
+					<path d="m21 21-4.35-4.35"></path>
+				</svg>
+			</div>
+
+			<!-- Filter Dropdowns -->
+			<div class="bptodo-search-filters__filters">
+				<!-- Status Filter -->
+				<select id="bptodo-filter-status" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
+					<option value="all"><?php esc_html_e( 'All Status', 'wb-todo' ); ?></option>
+					<option value="incomplete" <?php selected( $bptodo_status, 'incomplete' ); ?>><?php esc_html_e( 'Incomplete', 'wb-todo' ); ?></option>
+					<option value="complete" <?php selected( $bptodo_status, 'complete' ); ?>><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+				</select>
+
+				<!-- Priority Filter -->
+				<select id="bptodo-filter-priority" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
+					<option value="all"><?php esc_html_e( 'All Priority', 'wb-todo' ); ?></option>
+					<option value="critical" <?php selected( $bptodo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
+					<option value="high" <?php selected( $bptodo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
+					<option value="normal" <?php selected( $bptodo_priority, 'normal' ); ?>><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+				</select>
+
+				<!-- Category Filter -->
+				<?php
+				$bptodo_all_categories = get_terms(
+					array(
+						'taxonomy'   => 'todo_category',
+						'hide_empty' => false,
+					)
+				);
+				if ( ! empty( $bptodo_all_categories ) && ! is_wp_error( $bptodo_all_categories ) ) :
+					?>
+					<select id="bptodo-filter-category" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Categories', 'wb-todo' ); ?></option>
+						<?php foreach ( $bptodo_all_categories as $bptodo_cat ) : ?>
+							<option value="<?php echo esc_attr( $bptodo_cat->slug ); ?>" <?php selected( $bptodo_category, $bptodo_cat->slug ); ?>>
+								<?php echo esc_html( $bptodo_cat->name ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				<?php endif; ?>
+
+				<!-- Clear Filters Button -->
+				<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" style="display: none;">
+					<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
+				</button>
+			</div>
+		</div>
+
+		<!-- Results Info -->
+		<div class="bptodo-search-filters__info">
+			<span id="bptodo-results-count">
 				<?php
 				printf(
 					/* translators: 1: current page, 2: total pages, 3: total items */
@@ -171,8 +231,11 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 					absint( $bptodo_total_count )
 				);
 				?>
-			</div>
+			</span>
 		</div>
+	</div>
+
+	<?php if ( ! empty( $bptodo_todos ) ) : ?>
 
 		<!-- Todo Cards Grid -->
 		<div class="bptodo-cards bptodo-cards--shortcode"

@@ -1005,6 +1005,134 @@ jQuery(document).ready(function($) {
     });
   }
 
+  /**
+   * Search and Filter functionality for shortcode todo list
+   */
+  function initSearchFilter() {
+    var $searchInput = $('#bptodo-search-input');
+    var $statusFilter = $('#bptodo-filter-status');
+    var $priorityFilter = $('#bptodo-filter-priority');
+    var $categoryFilter = $('#bptodo-filter-category');
+    var $clearBtn = $('#bptodo-clear-filters');
+    var $cards = $('.bptodo-cards--shortcode .bptodo-card');
+    var $resultsCount = $('#bptodo-results-count');
+    var searchTimeout;
+
+    // Skip if no search/filter elements exist
+    if (!$searchInput.length && !$statusFilter.length) {
+      return;
+    }
+
+    function filterTodos() {
+      var searchText = $searchInput.val().toLowerCase().trim();
+      var statusValue = $statusFilter.val();
+      var priorityValue = $priorityFilter.val();
+      var categoryValue = $categoryFilter.length ? $categoryFilter.val() : '';
+      var visibleCount = 0;
+      var hasActiveFilters = searchText || statusValue !== 'all' || priorityValue !== 'all' || categoryValue;
+
+      // Show/hide clear button
+      if (hasActiveFilters) {
+        $clearBtn.show();
+      } else {
+        $clearBtn.hide();
+      }
+
+      $cards.each(function() {
+        var $card = $(this);
+        var title = $card.find('.bptodo-card__title').text().toLowerCase();
+        var content = $card.find('.bptodo-card__content').text().toLowerCase();
+        var isComplete = $card.hasClass('bptodo-card--completed');
+        var priority = '';
+        var category = $card.find('.bptodo-badge--category').text().toLowerCase().trim();
+
+        // Get priority from class
+        if ($card.hasClass('bptodo-card--priority-critical') || $card.hasClass('bptodo-priority--critical')) {
+          priority = 'critical';
+        } else if ($card.hasClass('bptodo-card--priority-high') || $card.hasClass('bptodo-priority--high')) {
+          priority = 'high';
+        } else {
+          priority = 'normal';
+        }
+
+        var matchesSearch = !searchText || title.indexOf(searchText) !== -1 || content.indexOf(searchText) !== -1;
+        var matchesStatus = statusValue === 'all' ||
+                           (statusValue === 'complete' && isComplete) ||
+                           (statusValue === 'incomplete' && !isComplete);
+        var matchesPriority = priorityValue === 'all' || priority === priorityValue;
+        var matchesCategory = !categoryValue || category === categoryValue.toLowerCase();
+
+        if (matchesSearch && matchesStatus && matchesPriority && matchesCategory) {
+          $card.fadeIn(200);
+          visibleCount++;
+        } else {
+          $card.fadeOut(200);
+        }
+      });
+
+      // Update results count
+      var totalCount = $cards.length;
+      var countText = visibleCount + ' of ' + totalCount + ' items';
+      if (hasActiveFilters) {
+        countText = 'Showing ' + countText + ' (filtered)';
+      }
+      $resultsCount.text(countText);
+
+      // Show "no results" message if needed
+      setTimeout(function() {
+        var $noResults = $('.bptodo-no-results');
+        if (visibleCount === 0 && hasActiveFilters) {
+          if (!$noResults.length) {
+            var noResultsHtml = '<div class="bptodo-no-results">' +
+              '<svg class="bptodo-no-results__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+              '<circle cx="11" cy="11" r="8"></circle>' +
+              '<path d="m21 21-4.35-4.35"></path>' +
+              '</svg>' +
+              '<div class="bptodo-no-results__title">' + (window.todo_ajax_object && window.todo_ajax_object.no_results_text ? window.todo_ajax_object.no_results_text : 'No matching todos found') + '</div>' +
+              '<p>Try adjusting your search or filters</p>' +
+              '</div>';
+            $('.bptodo-cards--shortcode').after(noResultsHtml);
+          }
+          $noResults.show();
+        } else {
+          $noResults.hide();
+        }
+      }, 250);
+    }
+
+    // Search input with debounce
+    $searchInput.on('input', function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(filterTodos, 300);
+    });
+
+    // Filter dropdowns - instant filtering
+    $statusFilter.on('change', filterTodos);
+    $priorityFilter.on('change', filterTodos);
+    if ($categoryFilter.length) {
+      $categoryFilter.on('change', filterTodos);
+    }
+
+    // Clear filters button
+    $clearBtn.on('click', function() {
+      $searchInput.val('');
+      $statusFilter.val('all');
+      $priorityFilter.val('all');
+      if ($categoryFilter.length) {
+        $categoryFilter.val('');
+      }
+      filterTodos();
+    });
+
+    // Keyboard shortcut: Escape to clear search
+    $searchInput.on('keydown', function(e) {
+      if (e.key === 'Escape') {
+        $(this).val('');
+        filterTodos();
+      }
+    });
+  }
+
   // Initialize all modules
   initTabs();
   initEditPopup();
@@ -1021,6 +1149,7 @@ jQuery(document).ready(function($) {
   initModalEvents();
   initTaskSelector();
   initAddNewButton();
+  initSearchFilter();
 
 });
 
