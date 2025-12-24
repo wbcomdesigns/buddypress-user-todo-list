@@ -248,6 +248,9 @@ class Bptodo_List {
 
 		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
 
+		// AJAX handler for getting individual todo card HTML (for smooth card updates)
+		$this->loader->add_action( 'wp_ajax_bptodo_get_todo_card_html', $plugin_public, 'bptodo_get_todo_card_html' );
+
 		$this->loader->add_action( 'bp_members_notification_settings_before_submit', $plugin_public, 'bptodo_before_submit_in_mail' );
 
 		$this->loader->add_action( 'bp_core_notification_settings_after_save', $plugin_public, 'bptodo_mail_settings_after_save' );

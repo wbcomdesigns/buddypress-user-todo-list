@@ -1871,6 +1871,63 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				}
 			}
 		}
+
+		/**
+		 * AJAX handler to get individual todo card HTML.
+		 *
+		 * Used for smooth card updates without full page reloads.
+		 *
+		 * @since 3.6.0
+		 * @return void
+		 */
+		public function bptodo_get_todo_card_html() {
+			check_ajax_referer( 'bptodo-todo-nonce', 'ajax_nonce' );
+
+			$todo_id = isset( $_POST['todo_id'] ) ? absint( $_POST['todo_id'] ) : 0;
+
+			if ( empty( $todo_id ) ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Invalid todo ID.', 'wb-todo' ) ) );
+			}
+
+			$todo = get_post( $todo_id );
+
+			if ( ! $todo || 'bp-todo' !== $todo->post_type ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Todo not found.', 'wb-todo' ) ) );
+			}
+
+			// Check permissions - user must be author, admin, or group admin/mod.
+			$current_user_id = get_current_user_id();
+			$todo_group_id   = get_post_meta( $todo_id, 'todo_group_id', true );
+			$is_owner        = ( (int) $todo->post_author === $current_user_id );
+			$is_admin        = current_user_can( 'edit_others_posts' );
+			$is_group_admin_or_mod = false;
+
+			if ( $todo_group_id && function_exists( 'groups_is_user_admin' ) ) {
+				$is_group_admin_or_mod = groups_is_user_admin( $current_user_id, $todo_group_id )
+					|| ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $todo_group_id ) );
+			}
+
+			if ( ! $is_owner && ! $is_admin && ! $is_group_admin_or_mod ) {
+				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized.', 'wb-todo' ) ) );
+			}
+
+			// Determine context based on group association.
+			$context = ! empty( $todo_group_id ) ? 'group' : 'member';
+
+			// Determine edit/delete permissions.
+			$can_edit   = $is_owner || $is_admin || $is_group_admin_or_mod;
+			$can_delete = $can_edit;
+
+			// Capture the todo card HTML.
+			ob_start();
+			$partial_path = BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
+			if ( file_exists( $partial_path ) ) {
+				include $partial_path;
+			}
+			$html = ob_get_clean();
+
+			wp_send_json_success( array( 'html' => $html ) );
+		}
 	}
 	new Bptodo_Public();
 }
