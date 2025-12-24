@@ -30,33 +30,33 @@ get_header(); ?>
                 
                 <div class="signle-bptodo-meta">
                     <?php
-                    // Todo Priority
-                    $todo_priority = get_post_meta( get_the_ID(), 'todo_priority', true );
-                    if ( ! empty( $todo_priority ) ) {
-                        switch ( $todo_priority ) {
+                    // Todo Priority.
+                    $bptodo_priority = get_post_meta( get_the_ID(), 'todo_priority', true );
+                    if ( ! empty( $bptodo_priority ) ) {
+                        switch ( $bptodo_priority ) {
                             case 'critical':
-                                $priority_class = 'bptodo-priority-critical';
-                                $priority_text  = esc_html__( 'Critical', 'wb-todo' );
+                                $bptodo_priority_class = 'bptodo-priority-critical';
+                                $bptodo_priority_text  = esc_html__( 'Critical', 'wb-todo' );
                                 break;
                             case 'high':
-                                $priority_class = 'bptodo-priority-high';
-                                $priority_text  = esc_html__( 'High', 'wb-todo' );
+                                $bptodo_priority_class = 'bptodo-priority-high';
+                                $bptodo_priority_text  = esc_html__( 'High', 'wb-todo' );
                                 break;
                             default:
-                                $priority_class = 'bptodo-priority-normal';
-                                $priority_text  = esc_html__( 'Normal', 'wb-todo' );
+                                $bptodo_priority_class = 'bptodo-priority-normal';
+                                $bptodo_priority_text  = esc_html__( 'Normal', 'wb-todo' );
                                 break;
                         }
-                        echo '<div class="single-todo-priority"><span class="' . esc_attr( $priority_class ) . '">' . esc_html( $priority_text ) . '</span></div>';
+                        echo '<div class="single-todo-priority"><span class="' . esc_attr( $bptodo_priority_class ) . '">' . esc_html( $bptodo_priority_text ) . '</span></div>';
                     }
 
-                    // Todo Date
+                    // Todo Date.
                     echo '<div class="single-todo-date">' . esc_html( get_the_date() ) . '</div>';
 
-                    // Todo Category
-                    $todo_cat = wp_get_object_terms( get_the_ID(), 'todo_category' );
-                    if ( ! empty( $todo_cat ) && ! is_wp_error( $todo_cat ) ) {
-                        echo '<div class="single-todo-cat">' . esc_html( $todo_cat[0]->name ) . '</div>';
+                    // Todo Category.
+                    $bptodo_cat = wp_get_object_terms( get_the_ID(), 'todo_category' );
+                    if ( ! empty( $bptodo_cat ) && ! is_wp_error( $bptodo_cat ) ) {
+                        echo '<div class="single-todo-cat">' . esc_html( $bptodo_cat[0]->name ) . '</div>';
                     }
                     ?>
                 </div>

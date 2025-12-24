@@ -683,6 +683,288 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		/**
+		 * Process todo form submissions early (before any output).
+		 *
+		 * This method handles form processing on template_redirect to allow
+		 * bp_core_redirect() to work without "headers already sent" errors.
+		 *
+		 * @since 3.6.0
+		 * @access public
+		 */
+		public function bptodo_process_form_submissions() {
+			global $bptodo, $bp;
+
+			$profile_menu_slug  = isset( $bptodo->profile_menu_slug ) ? $bptodo->profile_menu_slug : 'todo';
+			$profile_menu_label = isset( $bptodo->profile_menu_label ) ? $bptodo->profile_menu_label : 'Todo';
+
+			// Process GROUP todo CREATE form (check this first before member check)
+			if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'] )
+				&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['group_save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
+
+				// Ensure we're in a group context or have group ID
+				$group_id = isset( $_POST['todo_group_id'] ) ? absint( $_POST['todo_group_id'] ) : 0;
+				if ( ! $group_id && isset( $bp->groups->current_group->id ) ) {
+					$group_id = $bp->groups->current_group->id;
+				}
+
+				if ( ! $group_id ) {
+					return;
+				}
+
+				// Get the group object for redirects
+				$group = function_exists( 'groups_get_group' ) ? groups_get_group( $group_id ) : null;
+				$group_url = bptodo_get_group_url( $group );
+
+				// Check if user is logged in
+				if ( ! is_user_logged_in() ) {
+					bp_core_add_message( __( 'You must be logged in to add todos.', 'wb-todo' ), 'error' );
+					bp_core_redirect( $group_url );
+					exit;
+				}
+
+				// Check if user is a group admin or moderator (or site admin)
+				$current_user_id = get_current_user_id();
+				$is_site_admin   = bptodo_is_site_admin();
+				$is_group_admin  = function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( $current_user_id, $group_id );
+				$is_group_mod    = function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $group_id );
+
+				if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
+					bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'wb-todo' ), 'error' );
+					bp_core_redirect( $group_url );
+					exit;
+				}
+
+				// Get group members
+				$group_members = groups_get_group_members(
+					array(
+						'group_id'            => $group_id,
+						'exclude_admins_mods' => false,
+					)
+				);
+
+				$group_members_ids = array();
+				if ( ! empty( $group_members['members'] ) ) {
+					foreach ( $group_members['members'] as $member ) {
+						$group_members_ids[] = $member->ID;
+					}
+				}
+
+				// Check if specific members were selected
+				$todo_group_members = isset( $_POST['todo_group_members'] ) ? (array) wp_unslash( $_POST['todo_group_members'] ) : array();
+				if ( ! empty( $todo_group_members ) && ! in_array( 'all', $todo_group_members, true ) ) {
+					$group_members_ids = array_map( 'absint', $todo_group_members );
+				}
+
+				$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
+				$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
+				$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
+				$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
+				$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
+
+				// Create primary todo
+				$args            = array(
+					'post_type'    => 'bp-todo',
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_content' => $summary,
+					'post_author'  => $current_user_id,
+				);
+				$primary_todo_id = wp_insert_post( $args );
+
+				if ( $primary_todo_id && ! is_wp_error( $primary_todo_id ) ) {
+					update_post_meta( $primary_todo_id, 'todo_status', 'incomplete' );
+					update_post_meta( $primary_todo_id, 'todo_due_date', $due_date );
+					update_post_meta( $primary_todo_id, 'todo_priority', $priority );
+					update_post_meta( $primary_todo_id, 'todo_last_day_mail_sent', 'no' );
+					update_post_meta( $primary_todo_id, 'todo_last_day_notification_sent', 'no' );
+					update_post_meta( $primary_todo_id, 'todo_group_id', $group_id );
+					wp_set_object_terms( $primary_todo_id, $cat, 'todo_category' );
+					update_post_meta( $primary_todo_id, 'todo_primary_id', $primary_todo_id );
+					update_post_meta( $primary_todo_id, 'todo_creator_id', $current_user_id );
+
+					$associated_todos = array();
+
+					foreach ( $group_members_ids as $member_id ) {
+						// Skip the current user as they already have the primary todo assigned
+						if ( $member_id == $current_user_id ) {
+							continue;
+						}
+
+						// Create tasks for ALL other members including admins and mods
+						$args    = array(
+							'post_type'    => 'bp-todo',
+							'post_status'  => 'publish',
+							'post_title'   => $title,
+							'post_content' => $summary,
+							'post_author'  => $member_id,
+						);
+						$post_id = wp_insert_post( $args );
+
+						if ( $post_id && ! is_wp_error( $post_id ) ) {
+							$associated_todos[] = $post_id;
+							update_post_meta( $post_id, 'todo_status', 'incomplete' );
+							update_post_meta( $post_id, 'todo_due_date', $due_date );
+							update_post_meta( $post_id, 'todo_priority', $priority );
+							update_post_meta( $post_id, 'todo_last_day_mail_sent', 'no' );
+							update_post_meta( $post_id, 'todo_last_day_notification_sent', 'no' );
+							update_post_meta( $post_id, 'todo_group_id', $group_id );
+							wp_set_object_terms( $post_id, $cat, 'todo_category' );
+							update_post_meta( $post_id, 'todo_creator_id', $current_user_id );
+							update_post_meta( $post_id, 'todo_primary_id', $primary_todo_id );
+						}
+					}
+
+					update_post_meta( $primary_todo_id, 'botodo_associated_todo', $associated_todos );
+
+					// Trigger notifications and emails AFTER all todos are created
+					do_action( 'bptodo_group_todo_submit', $group_members_ids, $primary_todo_id );
+
+					bp_core_add_message(
+						sprintf(
+							/* Translators: Display label name */
+							esc_html__( 'Group %1$s assigned successfully!', 'wb-todo' ),
+							esc_html( $profile_menu_label )
+						)
+					);
+				} else {
+					bp_core_add_message( __( 'There was a problem creating the group todo. Please try again.', 'wb-todo' ), 'error' );
+				}
+
+				// Redirect to group todo list
+				$form_post_link = trailingslashit( $group_url ) . $profile_menu_slug . '/list/';
+				bp_core_redirect( $form_post_link );
+				exit;
+			}
+
+			// Only process MEMBER forms on BuddyPress member pages with todo component
+			if ( ! function_exists( 'bp_is_user' ) || ! bp_is_user() || ! function_exists( 'bp_current_component' ) ) {
+				return;
+			}
+
+			// Check if we're on the todo component
+			if ( bp_current_component() !== $profile_menu_slug ) {
+				return;
+			}
+
+			// Process CREATE todo form
+			if ( isset( $_POST['todo_create'] ) && isset( $_POST['save_new_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
+
+				// Check if user has permission to create todos based on role settings
+				$settings = get_option( 'user_todo_list_settings' );
+				if ( ! empty( $settings['bptodo_user_roles'] ) ) {
+					$user = wp_get_current_user();
+					$user_roles = $user->roles;
+					$allowed_roles = $settings['bptodo_user_roles'];
+
+					// Check if user has at least one allowed role (or is admin)
+					$has_permission = in_array( 'administrator', $user_roles, true ) || array_intersect( $user_roles, $allowed_roles );
+
+					if ( ! $has_permission ) {
+						bp_core_add_message( esc_html__( 'You do not have permission to create todos.', 'wb-todo' ), 'error' );
+						$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
+						bp_core_redirect( $url );
+						exit;
+					}
+				}
+
+				$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
+				$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
+				$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
+				$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
+				$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : 'normal';
+
+				$taxonomy = 'todo_category';
+				$args     = array(
+					'post_type'    => 'bp-todo',
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_content' => $summary,
+				);
+
+				$to_do_id = wp_insert_post( $args );
+
+				if ( ! is_wp_error( $to_do_id ) ) {
+					update_post_meta( $to_do_id, 'todo_status', 'incomplete' );
+					update_post_meta( $to_do_id, 'todo_due_date', $due_date );
+					update_post_meta( $to_do_id, 'todo_priority', $priority );
+					update_post_meta( $to_do_id, 'todo_last_day_mail_sent', 'no' );
+					update_post_meta( $to_do_id, 'todo_last_day_notification_sent', 'no' );
+
+					wp_set_object_terms( $to_do_id, $cat, $taxonomy );
+
+					bp_core_add_message(
+						sprintf(
+							/* Translators: Display label name */
+							esc_html__( '%1$s added successfully!', 'wb-todo' ),
+							esc_html( $profile_menu_label )
+						)
+					);
+				} else {
+					bp_core_add_message( __( 'There was a problem creating your todo. Please try again.', 'wb-todo' ), 'error' );
+				}
+
+				$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
+				bp_core_redirect( $url );
+				exit;
+			}
+
+			// Process UPDATE todo form
+			if ( isset( $_POST['todo_update'] ) && isset( $_POST['save_update_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_update_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
+
+				$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
+				$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
+				$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
+				$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
+				$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
+				$todo_id  = isset( $_POST['hidden_todo_id'] ) ? absint( $_POST['hidden_todo_id'] ) : 0;
+
+				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
+				$todo = get_post( $todo_id );
+				$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
+				$is_group_admin_or_mod = $todo_group_id && ( ( function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( get_current_user_id(), $todo_group_id ) ) || ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( get_current_user_id(), $todo_group_id ) ) );
+
+				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
+					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'wb-todo' ), 'error' );
+					$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
+					bp_core_redirect( $url );
+					exit;
+				}
+
+				$taxonomy     = 'todo_category';
+				$args         = array(
+					'ID'           => $todo_id,
+					'post_type'    => 'bp-todo',
+					'post_status'  => 'publish',
+					'post_title'   => $title,
+					'post_content' => $summary,
+				);
+				$todo_post_id = wp_update_post( $args );
+
+				if ( ! is_wp_error( $todo_post_id ) ) {
+					update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
+					update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
+					update_post_meta( $todo_post_id, 'todo_priority', $priority );
+
+					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
+
+					bp_core_add_message(
+						sprintf(
+							/* translators: %s: Todo label */
+							esc_html__( '%1$s updated successfully!', 'wb-todo' ),
+							esc_html( $profile_menu_label )
+						)
+					);
+				} else {
+					bp_core_add_message( __( 'There was a problem updating your todo. Please try again.', 'wb-todo' ), 'error' );
+				}
+
+				$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
+				bp_core_redirect( $url );
+				exit;
+			}
+		}
+
+		/**
 		 * Screen function for add todo menu item.
 		 *
 		 * @author  wbcomdesigns
@@ -725,145 +1007,12 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		 * @access  public
 		 */
 		public function add_todo_tab_function_to_show_content() {
-			global $bptodo;
-			$profile_menu_label = $bptodo->profile_menu_label;
-			$profile_menu_slug  = $bptodo->profile_menu_slug;
+			// Form processing is now handled earlier by bptodo_process_form_submissions()
+			// on the template_redirect hook to avoid "headers already sent" errors.
+			// This method now only handles template display.
 			if ( isset( $_GET['args'] ) ) {
-
-				// Update todo items.
-				if ( isset( $_POST['todo_update'] ) && isset( $_POST['save_update_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_update_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
-
-					$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
-					$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
-					$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
-					$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
-					$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
-					$todo_id  = isset( $_POST['hidden_todo_id'] ) ? sanitize_text_field( wp_unslash( $_POST['hidden_todo_id'] ) ) : '';
-
-				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
-				$todo = get_post( $todo_id );
-				$todo_group_id = get_post_meta($todo_id, 'todo_group_id', true);
-				$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
-
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
-					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'wb-todo' ), 'error' );
-					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/list';
-					bp_core_redirect( $todo_edit_url );
-					return;
-				}
-
-					$taxonomy     = 'todo_category';
-					$args         = array(
-						'ID'           => $todo_id,
-						'post_type'    => 'bp-todo',
-						'post_status'  => 'publish',
-						'post_title'   => $title,
-						'post_content' => $summary,
-					);
-					$todo_post_id = wp_update_post( $args );
-
-					update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
-					update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
-					update_post_meta( $todo_post_id, 'todo_priority', $priority );
-
-					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
-
-					$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/list';
-
-					if ( ! is_wp_error( $todo_post_id ) ) {
-						bp_core_add_message(
-							sprintf(
-								/* translators: %s: */
-								esc_html__( '%1$s updated successfully !', 'wb-todo' ),
-								esc_html( $profile_menu_label )
-							)
-						);
-					} else {
-						bp_core_add_message(
-							__( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ),
-							'error'
-						);
-					}
-
-					bp_core_redirect( $todo_edit_url );
-				}
-
 				include 'todo/member/member-todo-edit.php';
 			} else {
-				// Save todo items.
-				if ( isset( $_POST['todo_create'] ) && isset( $_POST['save_new_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
-
-					// Check if user has permission to create todos based on role settings
-					$settings = get_option( 'user_todo_list_settings' );
-					if ( ! empty( $settings['bptodo_user_roles'] ) ) {
-						$user = wp_get_current_user();
-						$user_roles = $user->roles;
-						$allowed_roles = $settings['bptodo_user_roles'];
-
-						// Check if user has at least one allowed role (or is admin)
-						$has_permission = in_array( 'administrator', $user_roles, true ) || array_intersect( $user_roles, $allowed_roles );
-
-						if ( ! $has_permission ) {
-							bp_core_add_message( esc_html__( 'You do not have permission to create todos.', 'wb-todo' ), 'error' );
-							$url = trailingslashit( bp_displayed_user_domain() . strtolower( $profile_menu_label ) . '/list' );
-							bp_core_redirect( $url );
-							return;
-						}
-					}
-
-					if ( isset( $_POST['todo_cat'] ) ) {
-						$cat = sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) );
-					}
-
-					if ( isset( $_POST['todo_title'] ) ) {
-						$title = sanitize_text_field( wp_unslash( $_POST['todo_title'] ) );
-					}
-
-					if ( isset( $_POST['todo_due_date'] ) ) {
-						$due_date = sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) );
-					}
-
-					if ( isset( $_POST['bptodo-summary-input'] ) ) {
-						$summary = wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) );
-					}
-
-					if ( isset( $_POST['todo_priority'] ) ) {
-						$priority = sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) );
-					}
-
-					$taxonomy = 'todo_category';
-					$args     = array(
-						'post_type'    => 'bp-todo',
-						'post_status'  => 'publish',
-						'post_title'   => $title,
-						'post_content' => $summary,
-					);
-
-					$to_do_id = wp_insert_post( $args );
-
-					update_post_meta( $to_do_id, 'todo_status', 'incomplete' );
-					update_post_meta( $to_do_id, 'todo_due_date', $due_date );
-					update_post_meta( $to_do_id, 'todo_priority', $priority );
-					update_post_meta( $to_do_id, 'todo_last_day_mail_sent', 'no' );
-					update_post_meta( $to_do_id, 'todo_last_day_notification_sent', 'no' );
-
-					wp_set_object_terms( $to_do_id, $cat, $taxonomy );
-					$url = trailingslashit( bp_displayed_user_domain() . strtolower( $profile_menu_label ) . '/list' );
-
-					if ( ! is_wp_error( $to_do_id ) ) {
-						bp_core_add_message(
-							sprintf(
-								/* Translators: Display plural label name */
-								esc_html__( '%1$s added successfully !', 'wb-todo' ),
-								esc_html( $profile_menu_label )
-							)
-						);
-					} else {
-						bp_core_add_message( __( 'There was a problem updating some of your profile information. Please try again.', 'wb-todo' ), 'error' );
-					}
-
-					bp_core_redirect( $url );
-				}
 				require 'todo/member/member-todo-add.php';
 			}
 		}
@@ -1398,6 +1547,68 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				if ( file_exists( $shortcode_template_loggedout_user ) ) {
 					include $shortcode_template_loggedout_user;
 				}
+			}
+			return ob_get_clean();
+		}
+
+		/**
+		 * Unified todo list shortcode with comprehensive parameter support.
+		 *
+		 * Usage:
+		 * [bptodo_list] - Current user's todos
+		 * [bptodo_list user_id="5"] - Specific user's todos
+		 * [bptodo_list user_id="all"] - All todos (admin only)
+		 * [bptodo_list category="work"] - Filter by category slug
+		 * [bptodo_list category="5"] - Filter by category ID
+		 * [bptodo_list status="incomplete"] - Only incomplete todos
+		 * [bptodo_list status="complete"] - Only completed todos
+		 * [bptodo_list priority="high"] - Only high priority
+		 * [bptodo_list per_page="20"] - 20 items per page
+		 * [bptodo_list orderby="due_date" order="ASC"] - Sort by due date
+		 * [bptodo_list show_add="yes"] - Show add button
+		 *
+		 * Combine any parameters:
+		 * [bptodo_list user_id="all" category="work" status="incomplete" priority="high" per_page="10"]
+		 *
+		 * @since 3.7.0
+		 * @param array $atts Shortcode attributes.
+		 * @return string Shortcode output.
+		 */
+		public function bptodo_list_shortcode( $atts ) {
+			// Parse shortcode attributes with defaults.
+			$atts = shortcode_atts(
+				array(
+					'user_id'   => 0,        // 0 = current user, numeric ID, or "all" for admin.
+					'category'  => '',       // Category slug or ID.
+					'status'    => 'all',    // all, complete, incomplete.
+					'priority'  => 'all',    // all, high, normal, critical.
+					'per_page'  => 10,       // Items per page.
+					'orderby'   => 'due_date', // due_date, date, title, priority.
+					'order'     => 'ASC',    // ASC or DESC.
+					'show_add'  => 'no',     // Show add new button.
+				),
+				$atts,
+				'bptodo_list'
+			);
+
+			// Validate user is logged in for non-public access.
+			if ( ! is_user_logged_in() ) {
+				ob_start();
+				$loggedout_template = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-by-category-template-loggedout-user.php';
+				if ( file_exists( $loggedout_template ) ) {
+					include $loggedout_template;
+				} else {
+					echo '<div class="bptodo-notice bptodo-notice--info">';
+					esc_html_e( 'Please log in to view todos.', 'wb-todo' );
+					echo '</div>';
+				}
+				return ob_get_clean();
+			}
+
+			ob_start();
+			$shortcode_template = BPTODO_PLUGIN_PATH . 'public/todo/bptodo-shortcode-template.php';
+			if ( file_exists( $shortcode_template ) ) {
+				include $shortcode_template;
 			}
 			return ob_get_clean();
 		}

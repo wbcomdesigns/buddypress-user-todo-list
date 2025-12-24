@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$group_todo_list_settings = get_option( 'group-todo-list-settings' );
+$bptodo_group_settings = get_option( 'group-todo-list-settings' );
 
 if ( bp_is_active( 'groups' ) ) : ?>
 	<div class="wbcom-tab-content">
@@ -36,7 +36,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">
 									<input type="checkbox" name="group-todo-list-settings[enable_todo_tab_group]" id="bptodo-enable-todo-tab-group" value="yes"
-									<?php checked( isset( $group_todo_list_settings['enable_todo_tab_group'] ) ? $group_todo_list_settings['enable_todo_tab_group'] : 'no', 'yes' ); ?>>
+									<?php checked( isset( $bptodo_group_settings['enable_todo_tab_group'] ) ? $bptodo_group_settings['enable_todo_tab_group'] : 'no', 'yes' ); ?>>
 									<span class="wb-slider wb-round"></span>
 								</label>
 							</div>
@@ -53,7 +53,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">
 									<input type="checkbox" name="group-todo-list-settings[mod_enable]" id="bptodo-on-moderator" value="yes"
-									<?php checked( isset( $group_todo_list_settings['mod_enable'] ) ? $group_todo_list_settings['mod_enable'] : 'no', 'yes' ); ?>>
+									<?php checked( isset( $bptodo_group_settings['mod_enable'] ) ? $bptodo_group_settings['mod_enable'] : 'no', 'yes' ); ?>>
 									<span class="wb-slider wb-round"></span>
 								</label>
 							</div>
@@ -70,7 +70,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">
 									<input type="checkbox" name="group-todo-list-settings[list_enable]" id="bptodo-list-moderator" value="yes"
-									<?php checked( isset( $group_todo_list_settings['list_enable'] ) ? $group_todo_list_settings['list_enable'] : 'no', 'yes' ); ?>>
+									<?php checked( isset( $bptodo_group_settings['list_enable'] ) ? $bptodo_group_settings['list_enable'] : 'no', 'yes' ); ?>>
 									<span class="wb-slider wb-round"></span>
 								</label>
 							</div>
@@ -87,7 +87,7 @@ if ( bp_is_active( 'groups' ) ) : ?>
 							<div class="wbcom-settings-section-options">
 								<label class="wb-switch">
 									<input type="checkbox" name="group-todo-list-settings[view_enable]" id="bptodo-view-moderator" value="yes"
-									<?php checked( isset( $group_todo_list_settings['view_enable'] ) ? $group_todo_list_settings['view_enable'] : 'no', 'yes' ); ?>>
+									<?php checked( isset( $bptodo_group_settings['view_enable'] ) ? $bptodo_group_settings['view_enable'] : 'no', 'yes' ); ?>>
 									<span class="wb-slider wb-round"></span>
 								</label>
 							</div>
@@ -106,9 +106,9 @@ if ( bp_is_active( 'groups' ) ) : ?>
 					<div class="bptodo-groups">
 						<?php
 						/* translators: %s */
-						$bp_groups_link = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'admin.php?page=bp-components' ) ), esc_html__( 'Click here', 'wb-todo' ) );
+						$bptodo_groups_link = sprintf( '<a href="%s" target="_blank">%s</a>', esc_url( admin_url( 'admin.php?page=bp-components' ) ), esc_html__( 'Click here', 'wb-todo' ) );
 						 /* translators: %s */
-						printf( '<span>%s</span>', wp_kses_post( sprintf( __( 'Enable the BuddyPress groups component to allow group integration %s.', 'wb-todo' ), '<strong>' . $bp_groups_link . '</strong>' ) ) );
+						printf( '<span>%s</span>', wp_kses_post( sprintf( __( 'Enable the BuddyPress groups component to allow group integration %s.', 'wb-todo' ), '<strong>' . $bptodo_groups_link . '</strong>' ) ) );
 						?>
 					</div>
 				</div>

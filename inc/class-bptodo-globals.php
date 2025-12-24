@@ -56,7 +56,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
 			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
-			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
+			$this->profile_menu_slug         = apply_filters( 'bptodo_profile_menu_slug', strtolower( $this->profile_menu_label ) );
 			$this->enable_todo_member        = ( isset( $settings['enable_todo_member'] ) && $settings['enable_todo_member'] === 'yes' ) ? 'yes' : 'no';
 			$this->allow_user_add_category   = ( isset( $settings['allow_user_add_category'] ) && $settings['allow_user_add_category'] === 'yes' ) ? 'yes' : 'no';
 			$this->send_notification         = ( isset( $settings['send_notification'] ) && $settings['send_notification'] === 'yes' ) ? 'yes' : 'no';
@@ -104,7 +104,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 				$prepare_args[] = $group_id;
 			}
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Caching is handled above
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Caching is handled above, SQL is built dynamically with prepare()
 			$count = $wpdb->get_var( $wpdb->prepare( $sql, $prepare_args ) );
 
 			// Cache for 5 minutes

@@ -14,16 +14,8 @@
 jQuery(document).ready(function($) {
   'use strict';
 
-  console.log('[BPTodo] Frontend JS loaded and document ready!');
-
   // Ensure BPTodo module is available
   var BPTodo = window.BPTodo || {};
-  console.log('[BPTodo] BPTodo module:', BPTodo);
-
-  // Debug: catch all clicks on bptodo elements
-  $(document).on('click', '[class*="bptodo"]', function(e) {
-    console.log('[BPTodo] Click on element:', this.className, this);
-  });
 
   /**
    * Tab switching functionality
@@ -449,15 +441,11 @@ jQuery(document).ready(function($) {
    * Remove todo functionality
    */
   function initRemoveTodo() {
-    console.log('[BPTodo] initRemoveTodo() called - binding delete click handler');
-
     $(document).on('click', '.bptodo-remove-todo, .js-bptodo-delete', function(e) {
-      console.log('[BPTodo] Delete button clicked!', this);
       e.preventDefault();
 
       var $btn = $(this);
       var tid = $btn.data('tid') || $btn.data('todo-id');
-      console.log('[BPTodo] Delete Todo ID:', tid);
       var $card = $btn.closest('.bptodo-card');
       var $row = $btn.closest('tr');
 
@@ -532,15 +520,11 @@ jQuery(document).ready(function($) {
    * Redirects to the edit page when clicking the edit button
    */
   function initEditTodo() {
-    console.log('[BPTodo] initEditTodo() called - binding .js-bptodo-edit click handler');
-
     $(document).on('click', '.js-bptodo-edit', function(e) {
-      console.log('[BPTodo] Edit button clicked!', this);
       e.preventDefault();
 
       var $btn = $(this);
       var todoId = $btn.data('todo-id');
-      console.log('[BPTodo] Todo ID:', todoId);
       var $card = $btn.closest('.bptodo-card');
       var context = $card.data('context') || 'member';
 
@@ -569,15 +553,11 @@ jQuery(document).ready(function($) {
    * Complete todo functionality
    */
   function initCompleteTodo() {
-    console.log('[BPTodo] initCompleteTodo() called - binding checkbox change handler');
-
     // Checkbox-based completion (modern cards)
     $(document).on('change', '.bptodo-checkbox__input', function(e) {
-      console.log('[BPTodo] Checkbox changed!', this);
       var $checkbox = $(this);
       var $card = $checkbox.closest('.bptodo-card');
       var tid = $checkbox.data('todo-id') || $card.data('todo-id');
-      console.log('[BPTodo] Checkbox Todo ID:', tid);
       var isCompleting = $checkbox.prop('checked');
 
       if (isCompleting) {
@@ -995,18 +975,33 @@ jQuery(document).ready(function($) {
     $(document).on('click', '.js-bptodo-add-new', function(e) {
       e.preventDefault();
 
-      // Try to find and open the add form
+      // Try to find and open the add form first
       var $form = $('.bptodo-form, #bptodo-add-form');
-      if ($form.length) {
+      if ($form.length && $form.is(':hidden')) {
         $form.slideDown(300);
         $form.find('input[type="text"]').first().focus();
-      } else {
-        // Trigger the existing add button if available
-        var $addBtn = $('.add-todo-trigger, #add-new-todo');
-        if ($addBtn.length) {
-          $addBtn.trigger('click');
-        }
+        return;
       }
+
+      // Otherwise redirect to the add page
+      var currentUrl = window.location.href;
+      var addUrl;
+
+      // Build add URL based on current context
+      if (currentUrl.indexOf('/groups/') !== -1) {
+        // Group context - go to group add page
+        addUrl = currentUrl.replace(/\/(list)?\/?(\?.*)?$/, '/add');
+      } else {
+        // Member context - go to member add page
+        addUrl = currentUrl.replace(/\/(list)?\/?(\?.*)?$/, '/add');
+      }
+
+      // Ensure we have a proper URL
+      if (addUrl === currentUrl) {
+        addUrl = currentUrl + (currentUrl.endsWith('/') ? 'add' : '/add');
+      }
+
+      window.location.href = addUrl;
     });
   }
 

@@ -9,10 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-$retention_settings = get_option( 'data-retention-settings', array() );
+$bptodo_retention_settings = get_option( 'data-retention-settings', array() );
 
-// Set defaults
-$defaults = array(
+// Set defaults.
+$bptodo_defaults = array(
 	'enable_retention'          => 'no',
 	'enable_group_retention'    => 'yes',
 	'enable_personal_retention' => 'yes',
@@ -23,7 +23,7 @@ $defaults = array(
 	'notification_email'        => get_option( 'admin_email' ),
 );
 
-$retention_settings = wp_parse_args( $retention_settings, $defaults );
+$bptodo_retention_settings = wp_parse_args( $bptodo_retention_settings, $bptodo_defaults );
 ?>
 
 <div class="wbcom-tab-content">
@@ -51,7 +51,7 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						<div class="wbcom-settings-section-options">
 							<label class="wb-switch">
 								<input type="checkbox" name="data-retention-settings[enable_retention]" id="bptodo-enable-retention" value="yes"
-								<?php checked( $retention_settings['enable_retention'], 'yes' ); ?>>
+								<?php checked( $bptodo_retention_settings['enable_retention'], 'yes' ); ?>>
 								<span class="wb-slider wb-round"></span>
 							</label>
 						</div>
@@ -67,12 +67,12 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 							<div style="display: flex; flex-direction: column; gap: 10px;">
 								<label>
 									<input type="checkbox" name="data-retention-settings[enable_group_retention]" value="yes"
-									<?php checked( $retention_settings['enable_group_retention'], 'yes' ); ?>>
+									<?php checked( $bptodo_retention_settings['enable_group_retention'], 'yes' ); ?>>
 									<?php esc_html_e( 'Group Tasks', 'wb-todo' ); ?>
 								</label>
 								<label>
 									<input type="checkbox" name="data-retention-settings[enable_personal_retention]" value="yes"
-									<?php checked( $retention_settings['enable_personal_retention'], 'yes' ); ?>>
+									<?php checked( $bptodo_retention_settings['enable_personal_retention'], 'yes' ); ?>>
 									<?php esc_html_e( 'Personal Tasks', 'wb-todo' ); ?>
 								</label>
 							</div>
@@ -89,13 +89,13 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						</div>
 						<div class="wbcom-settings-section-options">
 							<select name="data-retention-settings[cleanup_type]" id="bptodo-cleanup-type">
-								<option value="completed" <?php selected( $retention_settings['cleanup_type'], 'completed' ); ?>>
+								<option value="completed" <?php selected( $bptodo_retention_settings['cleanup_type'], 'completed' ); ?>>
 									<?php esc_html_e( 'Only Completed Tasks', 'wb-todo' ); ?>
 								</option>
-								<option value="all" <?php selected( $retention_settings['cleanup_type'], 'all' ); ?>>
+								<option value="all" <?php selected( $bptodo_retention_settings['cleanup_type'], 'all' ); ?>>
 									<?php esc_html_e( 'All Tasks (Completed & Pending)', 'wb-todo' ); ?>
 								</option>
-								<option value="pending" <?php selected( $retention_settings['cleanup_type'], 'pending' ); ?>>
+								<option value="pending" <?php selected( $bptodo_retention_settings['cleanup_type'], 'pending' ); ?>>
 									<?php esc_html_e( 'Only Pending Tasks', 'wb-todo' ); ?>
 								</option>
 							</select>
@@ -112,7 +112,7 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						</div>
 						<div class="wbcom-settings-section-options">
 							<input type="number" name="data-retention-settings[retention_days]" id="bptodo-retention-days"
-								value="<?php echo esc_attr( $retention_settings['retention_days'] ); ?>"
+								value="<?php echo esc_attr( $bptodo_retention_settings['retention_days'] ); ?>"
 								min="7" max="3650" step="1" style="width: 100px;">
 							<span style="margin-left: 10px;"><?php esc_html_e( 'days', 'wb-todo' ); ?></span>
 						</div>
@@ -131,7 +131,7 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						<div class="wbcom-settings-section-options">
 							<label class="wb-switch">
 								<input type="checkbox" name="data-retention-settings[permanent_delete]" id="bptodo-permanent-delete" value="yes"
-								<?php checked( $retention_settings['permanent_delete'], 'yes' ); ?>>
+								<?php checked( $bptodo_retention_settings['permanent_delete'], 'yes' ); ?>>
 								<span class="wb-slider wb-round"></span>
 							</label>
 						</div>
@@ -148,7 +148,7 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						<div class="wbcom-settings-section-options">
 							<label class="wb-switch">
 								<input type="checkbox" name="data-retention-settings[email_notification]" id="bptodo-email-notification" value="yes"
-								<?php checked( $retention_settings['email_notification'], 'yes' ); ?>>
+								<?php checked( $bptodo_retention_settings['email_notification'], 'yes' ); ?>>
 								<span class="wb-slider wb-round"></span>
 							</label>
 						</div>
@@ -164,7 +164,7 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 						</div>
 						<div class="wbcom-settings-section-options">
 							<input type="text" name="data-retention-settings[notification_email]" id="bptodo-notification-email"
-								value="<?php echo esc_attr( $retention_settings['notification_email'] ); ?>"
+								value="<?php echo esc_attr( $bptodo_retention_settings['notification_email'] ); ?>"
 								placeholder="<?php echo esc_attr( get_option( 'admin_email' ) ); ?>"
 								style="width: 100%; max-width: 500px;">
 						</div>
@@ -179,8 +179,8 @@ $retention_settings = wp_parse_args( $retention_settings, $defaults );
 								<p style="margin: 5px 0 0 0;"><?php esc_html_e( 'The cleanup process runs automatically once daily. Next scheduled run:', 'wb-todo' ); ?>
 									<strong>
 										<?php
-										$next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
-										echo $next_run ? esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $next_run ) ) : esc_html__( 'Not scheduled', 'wb-todo' );
+										$bptodo_next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
+										echo $bptodo_next_run ? esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $bptodo_next_run ) ) : esc_html__( 'Not scheduled', 'wb-todo' );
 										?>
 									</strong>
 								</p>

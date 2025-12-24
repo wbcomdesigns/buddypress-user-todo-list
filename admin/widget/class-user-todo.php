@@ -65,7 +65,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		$r = new WP_Query(
 			apply_filters(
-				'widget_bp_todo_args',
+				'bptodo_widget_args',
 				array(
 					'post_type'           => 'bp-todo',
 					'posts_per_page'      => $number,
@@ -182,11 +182,11 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', 'wpdocs_register_widgets' );
+add_action( 'widgets_init', 'bptodo_register_widgets' );
 
 /**
  * Register todo widget
  */
-function wpdocs_register_widgets() {
+function bptodo_register_widgets() {
 	register_widget( 'BP_ToDo_Member_ToDo_Widget' );
 }

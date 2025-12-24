@@ -132,10 +132,6 @@ class Bptodo_List {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bptodo-public.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-scripts.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bptodo-ajax.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-cpt.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-bptodo-globals.php';
@@ -239,8 +235,12 @@ class Bptodo_List {
 		/** Add BP Todo Category. */
 		$this->loader->add_action( 'wp_ajax_bptodo_add_todo_category_front', $plugin_public, 'bptodo_add_todo_category_front' );
 
-		// Register shortcode for displaying todos by category
+		// Register shortcode for displaying todos by category (legacy, kept for backward compatibility).
 		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_category_template' );
+
+		// Register unified shortcode with full parameter support.
+		// Usage: [bptodo_list user_id="all" category="work" status="incomplete" per_page="10"]
+		$this->loader->add_shortcode( 'bptodo_list', $plugin_public, 'bptodo_list_shortcode' );
 
 		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
 
@@ -261,6 +261,9 @@ class Bptodo_List {
 		$this->loader->add_action( 'wp_ajax_get_group_todo_report', $plugin_public, 'bptodo_display_group_todo_report' );
 
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_mark_notification_as_read_on_single' );
+
+		// Process todo form submissions early (before output starts) to allow redirects
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_process_form_submissions', 5 );
 
 		// Clear cache when todos are created, updated, or deleted
 		$this->loader->add_action( 'save_post_bp-todo', $plugin_public, 'bptodo_clear_cache_on_save', 10, 3 );

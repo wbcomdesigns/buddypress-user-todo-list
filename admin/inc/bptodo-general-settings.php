@@ -10,8 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $bptodo, $wp_roles;
-$all_roles = $wp_roles->get_names();
-unset( $all_roles['administrator'] );
+$bptodo_all_roles = $wp_roles->get_names();
+unset( $bptodo_all_roles['administrator'] );
 ?>
 <div class="wbcom-tab-content">
 	<div class="wbcom-welcome-main-wrapper">
@@ -123,9 +123,9 @@ unset( $all_roles['administrator'] );
 						</div>
 						<div class="wbcom-settings-section-options">
 							<select name="bptodo_user_roles[]" id="bptodo_user_roles" multiple="multiple" data-placeholder="<?php esc_html_e( 'Select user roles', 'wb-todo' ); ?>">
-								<?php foreach ( $all_roles as $role_id => $role_name ) : ?>
-									<option value="<?php echo esc_attr( $role_id ); ?>" <?php selected( ! empty( $bptodo->bptodo_user_roles ) && in_array( $role_id, $bptodo->bptodo_user_roles, true ) ); ?>>
-										<?php echo esc_html( translate_user_role( $role_name ) ); ?>
+								<?php foreach ( $bptodo_all_roles as $bptodo_role_id => $bptodo_role_name ) : ?>
+									<option value="<?php echo esc_attr( $bptodo_role_id ); ?>" <?php selected( ! empty( $bptodo->bptodo_user_roles ) && in_array( $bptodo_role_id, $bptodo->bptodo_user_roles, true ) ); ?>>
+										<?php echo esc_html( translate_user_role( $bptodo_role_name ) ); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>

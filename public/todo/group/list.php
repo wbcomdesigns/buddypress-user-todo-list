@@ -20,20 +20,22 @@ defined( 'ABSPATH' ) || exit;
  * @param WP_Query $query The WP_Query instance.
  * @return string Modified WHERE clause.
  */
-function bptodo_filter_primary_tasks_only( $where, $query ) {
-	global $wpdb;
+if ( ! function_exists( 'bptodo_filter_primary_tasks_only' ) ) {
+	function bptodo_filter_primary_tasks_only( $where, $query ) {
+		global $wpdb;
 
-	if ( isset( $query->query_vars['post_type'] ) && 'bp-todo' === $query->query_vars['post_type'] ) {
-		$where .= $wpdb->prepare(
-			" AND {$wpdb->posts}.ID IN (
-				SELECT pm.post_id FROM {$wpdb->postmeta} pm
-				WHERE pm.meta_key = %s AND pm.meta_value = pm.post_id
-			)",
-			'todo_primary_id'
-		);
+		if ( isset( $query->query_vars['post_type'] ) && 'bp-todo' === $query->query_vars['post_type'] ) {
+			$where .= $wpdb->prepare(
+				" AND {$wpdb->posts}.ID IN (
+					SELECT pm.post_id FROM {$wpdb->postmeta} pm
+					WHERE pm.meta_key = %s AND pm.meta_value = pm.post_id
+				)",
+				'todo_primary_id'
+			);
+		}
+
+		return $where;
 	}
-
-	return $where;
 }
 
 global $bptodo, $bp;

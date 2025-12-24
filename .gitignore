@@ -5,3 +5,6 @@ error_log
 
 *.json
 buddypress-user-todo-list.zip
+
+# Claude Code project context
+CLAUDE.md

@@ -98,10 +98,12 @@ $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 
 				<!-- Form Actions -->
 				<div class="bptodo-form-actions">
 					<?php wp_nonce_field( 'wp-bp-todo', 'save_new_todo_data_nonce' ); ?>
+					<!-- Hidden input ensures todo_create is submitted even when button is disabled by loading state -->
+					<input type="hidden" name="todo_create" value="1">
 					<button type="button" class="bptodo-btn bptodo-btn--secondary js-bptodo-cancel">
 						<?php esc_html_e( 'Cancel', 'wb-todo' ); ?>
 					</button>
-					<button type="submit" name="todo_create" class="bptodo-btn bptodo-btn--primary" id="bp-add-new-todo">
+					<button type="submit" class="bptodo-btn bptodo-btn--primary" id="bp-add-new-todo">
 						<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<polyline points="20 6 9 17 4 12"></polyline>
 						</svg>
@@ -145,11 +147,36 @@ $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 
 		// Form submission with loading state
 		var form = document.getElementById('bptodo-add-form');
 		if (form) {
-			form.addEventListener('submit', function() {
+			form.addEventListener('submit', function(e) {
+				// Check for required fields
+				var category = form.querySelector('[name="todo_cat"]');
+				var title = form.querySelector('[name="todo_title"]');
+
+				// If category is empty, show error
+				if (category && !category.value) {
+					if (window.BPTodo && window.BPTodo.toast) {
+						window.BPTodo.toast.error('<?php echo esc_js( __( 'Please select a category', 'wb-todo' ) ); ?>');
+					}
+					e.preventDefault();
+					return false;
+				}
+
+				// If title is empty, show error
+				if (title && !title.value.trim()) {
+					if (window.BPTodo && window.BPTodo.toast) {
+						window.BPTodo.toast.error('<?php echo esc_js( __( 'Please enter a title', 'wb-todo' ) ); ?>');
+					}
+					e.preventDefault();
+					return false;
+				}
+
+				// Show loading state on button
 				var submitBtn = form.querySelector('[type="submit"]');
 				if (submitBtn && window.BPTodo && window.BPTodo.loading) {
 					window.BPTodo.loading.button(submitBtn, '<?php echo esc_js( __( 'Creating...', 'wb-todo' ) ); ?>');
 				}
+
+				// Form will submit naturally (no preventDefault)
 			});
 		}
 	});

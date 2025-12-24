@@ -232,6 +232,11 @@ $current_user_id = get_current_user_id();
 			</button>
 		</div>
 
+		<?php
+		// Pagination settings.
+		$per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
+		?>
+
 		<!-- All Todos Panel -->
 		<div
 			class="bptodo-tab-panel"
@@ -247,9 +252,9 @@ $current_user_id = get_current_user_id();
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
 				?>
 			<?php else : ?>
-				<div class="bptodo-list bptodo-list--grid" role="list">
+				<div class="bptodo-list bptodo-list--grid js-bptodo-paginated-list" role="list" data-per-page="<?php echo esc_attr( $per_page ); ?>">
 					<?php
-					foreach ( $todos as $todo ) :
+					foreach ( $todos as $index => $todo ) :
 						// Determine if this is a group todo.
 						$todo_gp_id   = get_post_meta( $todo->ID, 'todo_group_id', true );
 						$is_group_todo = ! empty( $todo_gp_id );
@@ -261,10 +266,33 @@ $current_user_id = get_current_user_id();
 						// Include the card partial.
 						$context       = 'member';
 						$show_checkbox = true;
+						// Add data attribute for pagination.
+						$item_index = $index;
 						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
 					endforeach;
 					?>
 				</div>
+
+				<?php if ( count( $todos ) > $per_page ) : ?>
+					<!-- Pagination for All Todos -->
+					<div class="bptodo-pagination js-bptodo-pagination" data-target="bptodo-panel-all" data-total="<?php echo esc_attr( count( $todos ) ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>">
+						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--prev js-bptodo-page-prev" disabled>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="15 18 9 12 15 6"></polyline>
+							</svg>
+							<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+						</button>
+						<div class="bptodo-pagination__info">
+							<span class="js-bptodo-page-current">1</span> / <span class="js-bptodo-page-total"><?php echo esc_html( ceil( count( $todos ) / $per_page ) ); ?></span>
+						</div>
+						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--next js-bptodo-page-next">
+							<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="9 18 15 12 9 6"></polyline>
+							</svg>
+						</button>
+					</div>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 
@@ -284,9 +312,9 @@ $current_user_id = get_current_user_id();
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
 				?>
 			<?php else : ?>
-				<div class="bptodo-list bptodo-list--grid" role="list">
+				<div class="bptodo-list bptodo-list--grid js-bptodo-paginated-list" role="list" data-per-page="<?php echo esc_attr( $per_page ); ?>">
 					<?php
-					foreach ( $completed_todos as $todo ) :
+					foreach ( $completed_todos as $index => $todo ) :
 						$todo_gp_id    = get_post_meta( $todo->ID, 'todo_group_id', true );
 						$is_group_todo = ! empty( $todo_gp_id );
 
@@ -294,10 +322,32 @@ $current_user_id = get_current_user_id();
 						$can_delete    = ! $is_group_todo;
 						$context       = 'member';
 						$show_checkbox = true;
+						$item_index    = $index;
 						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
 					endforeach;
 					?>
 				</div>
+
+				<?php if ( count( $completed_todos ) > $per_page ) : ?>
+					<!-- Pagination for Completed Todos -->
+					<div class="bptodo-pagination js-bptodo-pagination" data-target="bptodo-panel-completed" data-total="<?php echo esc_attr( count( $completed_todos ) ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>">
+						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--prev js-bptodo-page-prev" disabled>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="15 18 9 12 15 6"></polyline>
+							</svg>
+							<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+						</button>
+						<div class="bptodo-pagination__info">
+							<span class="js-bptodo-page-current">1</span> / <span class="js-bptodo-page-total"><?php echo esc_html( ceil( count( $completed_todos ) / $per_page ) ); ?></span>
+						</div>
+						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--next js-bptodo-page-next">
+							<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<polyline points="9 18 15 12 9 6"></polyline>
+							</svg>
+						</button>
+					</div>
+				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 
@@ -305,7 +355,7 @@ $current_user_id = get_current_user_id();
 	<?php endif; ?>
 </div>
 
-<!-- Tab Switching JavaScript -->
+<!-- Tab Switching and Pagination JavaScript -->
 <script>
 (function() {
 	'use strict';
@@ -314,28 +364,138 @@ $current_user_id = get_current_user_id();
 		const tabs = document.querySelectorAll('.bptodo-tab');
 		const panels = document.querySelectorAll('.bptodo-tab-panel');
 
+		// Tab switching with keyboard support.
 		tabs.forEach(function(tab) {
 			tab.addEventListener('click', function() {
-				const targetId = 'bptodo-panel-' + this.dataset.tab;
+				switchTab(this);
+			});
 
-				// Update tabs.
-				tabs.forEach(function(t) {
-					t.classList.remove('bptodo-tab--active');
-					t.setAttribute('aria-selected', 'false');
-				});
-				this.classList.add('bptodo-tab--active');
-				this.setAttribute('aria-selected', 'true');
-
-				// Update panels.
-				panels.forEach(function(p) {
-					if (p.id === targetId) {
-						p.hidden = false;
+			// Keyboard navigation for tabs.
+			tab.addEventListener('keydown', function(e) {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					switchTab(this);
+				}
+				if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+					e.preventDefault();
+					const tabsArray = Array.from(tabs);
+					const currentIndex = tabsArray.indexOf(this);
+					let newIndex;
+					if (e.key === 'ArrowRight') {
+						newIndex = (currentIndex + 1) % tabsArray.length;
 					} else {
-						p.hidden = true;
+						newIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
 					}
-				});
+					tabsArray[newIndex].focus();
+					switchTab(tabsArray[newIndex]);
+				}
 			});
 		});
+
+		function switchTab(tab) {
+			const targetId = 'bptodo-panel-' + tab.dataset.tab;
+
+			// Update tabs.
+			tabs.forEach(function(t) {
+				t.classList.remove('bptodo-tab--active');
+				t.setAttribute('aria-selected', 'false');
+				t.setAttribute('tabindex', '-1');
+			});
+			tab.classList.add('bptodo-tab--active');
+			tab.setAttribute('aria-selected', 'true');
+			tab.setAttribute('tabindex', '0');
+
+			// Update panels.
+			panels.forEach(function(p) {
+				if (p.id === targetId) {
+					p.hidden = false;
+				} else {
+					p.hidden = true;
+				}
+			});
+		}
+
+		// Pagination functionality.
+		initPagination();
+
+		function initPagination() {
+			const paginationContainers = document.querySelectorAll('.js-bptodo-pagination');
+
+			paginationContainers.forEach(function(pagination) {
+				const targetId = pagination.dataset.target;
+				const panel = document.getElementById(targetId);
+				if (!panel) return;
+
+				const list = panel.querySelector('.js-bptodo-paginated-list');
+				if (!list) return;
+
+				const items = list.querySelectorAll('.bptodo-card');
+				const perPage = parseInt(pagination.dataset.perPage, 10) || 12;
+				const totalItems = items.length;
+				const totalPages = Math.ceil(totalItems / perPage);
+				let currentPage = 1;
+
+				const prevBtn = pagination.querySelector('.js-bptodo-page-prev');
+				const nextBtn = pagination.querySelector('.js-bptodo-page-next');
+				const currentSpan = pagination.querySelector('.js-bptodo-page-current');
+				const totalSpan = pagination.querySelector('.js-bptodo-page-total');
+
+				// Initial render.
+				showPage(1);
+
+				// Event listeners.
+				if (prevBtn) {
+					prevBtn.addEventListener('click', function() {
+						if (currentPage > 1) {
+							showPage(currentPage - 1);
+						}
+					});
+				}
+
+				if (nextBtn) {
+					nextBtn.addEventListener('click', function() {
+						if (currentPage < totalPages) {
+							showPage(currentPage + 1);
+						}
+					});
+				}
+
+				function showPage(page) {
+					currentPage = page;
+					const start = (page - 1) * perPage;
+					const end = start + perPage;
+
+					items.forEach(function(item, index) {
+						if (index >= start && index < end) {
+							item.style.display = '';
+							item.removeAttribute('hidden');
+						} else {
+							item.style.display = 'none';
+							item.setAttribute('hidden', '');
+						}
+					});
+
+					// Update UI.
+					if (currentSpan) currentSpan.textContent = page;
+					if (totalSpan) totalSpan.textContent = totalPages;
+
+					if (prevBtn) {
+						prevBtn.disabled = page <= 1;
+						prevBtn.classList.toggle('bptodo-pagination__btn--disabled', page <= 1);
+					}
+
+					if (nextBtn) {
+						nextBtn.disabled = page >= totalPages;
+						nextBtn.classList.toggle('bptodo-pagination__btn--disabled', page >= totalPages);
+					}
+
+					// Scroll to top of list.
+					if (page !== 1 || totalItems > perPage) {
+						list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				}
+			});
+		}
 	});
 })();
 </script>

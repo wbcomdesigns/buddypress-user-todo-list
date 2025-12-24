@@ -361,22 +361,27 @@
    BUTTON COMPONENT
    ========================================================================== */
 
-.bptodo-wrapper .bptodo-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: var(--bptodo-space-2);
-	padding: var(--bptodo-btn-padding-y) var(--bptodo-btn-padding-x);
-	font-family: inherit;
-	font-size: var(--bptodo-btn-font-size);
-	font-weight: var(--bptodo-font-medium);
-	line-height: 1;
-	text-decoration: none;
-	border: none;
-	border-radius: var(--bptodo-btn-radius);
-	cursor: pointer;
-	transition: var(--bptodo-transition-fast);
-	white-space: nowrap;
+/* Base button - strong overrides for theme independence */
+.bptodo-wrapper .bptodo-btn,
+.bptodo-wrapper button.bptodo-btn {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: var(--bptodo-space-2) !important;
+	padding: var(--bptodo-btn-padding-y) var(--bptodo-btn-padding-x) !important;
+	font-family: inherit !important;
+	font-size: var(--bptodo-btn-font-size) !important;
+	font-weight: var(--bptodo-font-medium) !important;
+	line-height: 1.4 !important;
+	text-decoration: none !important;
+	text-transform: none !important;
+	letter-spacing: normal !important;
+	border: none !important;
+	border-radius: var(--bptodo-btn-radius) !important;
+	cursor: pointer !important;
+	transition: var(--bptodo-transition-fast) !important;
+	white-space: nowrap !important;
+	box-shadow: none !important;
 }
 
 .bptodo-wrapper .bptodo-btn:focus {
@@ -390,31 +395,50 @@
 }
 
 /* Primary Button */
-.bptodo-wrapper .bptodo-btn--primary {
-	background: var(--bptodo-primary);
-	color: var(--bptodo-white);
+/* Primary Button - using !important to override theme styles */
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary,
+.bptodo-wrapper button.bptodo-btn--primary {
+	background: var(--bptodo-primary) !important;
+	background-color: var(--bptodo-primary) !important;
+	color: var(--bptodo-white) !important;
+	border: none !important;
 }
 
-.bptodo-wrapper .bptodo-btn--primary:hover:not(:disabled) {
-	background: var(--bptodo-primary-dark);
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--primary:hover:not(:disabled) {
+	background: var(--bptodo-primary-dark) !important;
+	background-color: var(--bptodo-primary-dark) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--primary:active:not(:disabled) {
-	background: var(--bptodo-primary-darker);
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--primary:active:not(:disabled) {
+	background: var(--bptodo-primary-darker) !important;
+	background-color: var(--bptodo-primary-darker) !important;
 }
 
 /* Secondary Button */
-.bptodo-wrapper .bptodo-btn--secondary {
-	background: var(--bptodo-gray-100);
-	color: var(--bptodo-text-primary);
+.bptodo-wrapper .bptodo-btn--secondary,
+.bptodo-wrapper button.bptodo-btn--secondary,
+.bptodo-wrapper a.bptodo-btn--secondary {
+	background: var(--bptodo-gray-100) !important;
+	background-color: var(--bptodo-gray-100) !important;
+	color: var(--bptodo-text-primary) !important;
+	border: 1px solid var(--bptodo-gray-200) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--secondary:hover:not(:disabled) {
-	background: var(--bptodo-gray-200);
+.bptodo-wrapper .bptodo-btn--secondary:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--secondary:hover:not(:disabled),
+.bptodo-wrapper a.bptodo-btn--secondary:hover {
+	background: var(--bptodo-gray-200) !important;
+	background-color: var(--bptodo-gray-200) !important;
+	border-color: var(--bptodo-gray-300) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--secondary:active:not(:disabled) {
-	background: var(--bptodo-gray-300);
+.bptodo-wrapper .bptodo-btn--secondary:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--secondary:active:not(:disabled),
+.bptodo-wrapper a.bptodo-btn--secondary:active {
+	background: var(--bptodo-gray-300) !important;
+	background-color: var(--bptodo-gray-300) !important;
 }
 
 /* Danger Button */
@@ -428,15 +452,27 @@
 }
 
 /* Ghost Button (icon only) */
-.bptodo-wrapper .bptodo-btn--ghost {
-	background: transparent;
-	color: var(--bptodo-text-secondary);
-	padding: var(--bptodo-space-2);
+.bptodo-wrapper .bptodo-btn--ghost,
+.bptodo-wrapper button.bptodo-btn--ghost {
+	background: transparent !important;
+	background-color: transparent !important;
+	color: var(--bptodo-text-secondary) !important;
+	padding: var(--bptodo-space-2) !important;
+	border: 1px solid transparent !important;
 }
 
-.bptodo-wrapper .bptodo-btn--ghost:hover:not(:disabled) {
-	background: var(--bptodo-gray-100);
-	color: var(--bptodo-text-primary);
+.bptodo-wrapper .bptodo-btn--ghost:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--ghost:hover:not(:disabled) {
+	background: var(--bptodo-gray-100) !important;
+	background-color: var(--bptodo-gray-100) !important;
+	color: var(--bptodo-text-primary) !important;
+	border-color: var(--bptodo-gray-200) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--ghost:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--ghost:active:not(:disabled) {
+	background: var(--bptodo-gray-200) !important;
+	background-color: var(--bptodo-gray-200) !important;
 }
 
 /* Button Sizes */
@@ -622,6 +658,161 @@
 	padding-top: var(--bptodo-space-4);
 	margin-top: var(--bptodo-space-4);
 	border-top: 1px solid var(--bptodo-gray-200);
+}
+
+/**
+ * Form Container
+ */
+.bptodo-wrapper .bptodo-form {
+	display: block;
+}
+
+/**
+ * Form Card Variant
+ * Card that contains a form
+ */
+.bptodo-wrapper .bptodo-card--form {
+	padding: var(--bptodo-space-6);
+}
+
+.bptodo-wrapper .bptodo-card--form::before {
+	display: none; /* No priority bar on form cards */
+}
+
+/**
+ * Form Group Label
+ */
+.bptodo-wrapper .bptodo-form-group__label {
+	display: block;
+	margin-bottom: var(--bptodo-space-2);
+	font-size: var(--bptodo-text-sm);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-text-primary);
+}
+
+.bptodo-wrapper .bptodo-form-group__required {
+	color: var(--bptodo-danger);
+	margin-right: var(--bptodo-space-1);
+}
+
+/**
+ * Form Group Input Wrapper
+ * Container for inputs with addons (like add category button)
+ */
+.bptodo-wrapper .bptodo-form-group__input-wrapper {
+	display: flex;
+	gap: var(--bptodo-space-2);
+	align-items: flex-start;
+}
+
+.bptodo-wrapper .bptodo-form-group__input-wrapper > .bptodo-select-wrapper,
+.bptodo-wrapper .bptodo-form-group__input-wrapper > .bptodo-input {
+	flex: 1;
+}
+
+/**
+ * Select Wrapper
+ */
+.bptodo-wrapper .bptodo-select-wrapper {
+	position: relative;
+	flex: 1;
+}
+
+/**
+ * Select Input
+ */
+.bptodo-wrapper .bptodo-input--select,
+.bptodo-wrapper select.bptodo-input {
+	display: block;
+	width: 100%;
+	padding: var(--bptodo-input-padding-y) var(--bptodo-input-padding-x) var(--bptodo-input-padding-y) var(--bptodo-space-10);
+	font-family: inherit;
+	font-size: var(--bptodo-input-font-size);
+	line-height: var(--bptodo-leading-normal);
+	color: var(--bptodo-text-primary);
+	background: var(--bptodo-input-bg);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: left var(--bptodo-space-3) center;
+	border: 1px solid var(--bptodo-input-border);
+	border-radius: var(--bptodo-input-radius);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	transition: var(--bptodo-transition-fast);
+}
+
+.bptodo-wrapper .bptodo-input--select:hover,
+.bptodo-wrapper select.bptodo-input:hover {
+	border-color: var(--bptodo-gray-400);
+}
+
+.bptodo-wrapper .bptodo-input--select:focus,
+.bptodo-wrapper select.bptodo-input:focus {
+	outline: none;
+	border-color: var(--bptodo-input-focus-border);
+	box-shadow: var(--bptodo-input-focus-ring);
+}
+
+/**
+ * Form Row (for side-by-side fields)
+ */
+.bptodo-wrapper .bptodo-form-row {
+	display: grid;
+	gap: var(--bptodo-space-4);
+	margin-bottom: var(--bptodo-space-4);
+}
+
+@media (min-width: 640px) {
+	.bptodo-wrapper .bptodo-form-row {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/**
+ * Full Width Form Group
+ */
+.bptodo-wrapper .bptodo-form-group--full {
+	grid-column: 1 / -1;
+}
+
+/**
+ * Form Group Addon
+ * Additional content like the add category row
+ */
+.bptodo-wrapper .bptodo-form-group__addon {
+	margin-top: var(--bptodo-space-3);
+}
+
+/**
+ * Input Group
+ * Input with button attached
+ */
+.bptodo-wrapper .bptodo-input-group {
+	display: flex;
+	gap: var(--bptodo-space-2);
+}
+
+.bptodo-wrapper .bptodo-input-group > .bptodo-input {
+	flex: 1;
+}
+
+/**
+ * Form Group Help Text
+ */
+.bptodo-wrapper .bptodo-form-group__help {
+	margin: var(--bptodo-space-2) 0 0 0;
+	font-size: var(--bptodo-text-sm);
+	color: var(--bptodo-text-muted);
+}
+
+/**
+ * Icon-only Button
+ */
+.bptodo-wrapper .bptodo-btn--icon {
+	padding: var(--bptodo-space-2) !important;
+	min-width: auto;
 }
 
 /* ==========================================================================
@@ -1080,6 +1271,18 @@
 	background: var(--bptodo-white);
 	color: var(--bptodo-text-primary);
 	box-shadow: var(--bptodo-shadow-sm);
+}
+
+/**
+ * Tab Panel
+ * Content area controlled by tabs
+ */
+.bptodo-wrapper .bptodo-tab-panel {
+	display: block;
+}
+
+.bptodo-wrapper .bptodo-tab-panel[hidden] {
+	display: none;
 }
 
 /* ==========================================================================

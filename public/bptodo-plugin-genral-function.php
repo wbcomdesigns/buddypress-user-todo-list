@@ -381,7 +381,10 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 					<h3 class="bptodo-report-title"><?php esc_html_e( 'Group Task Progress', 'wb-todo' ); ?></h3>
 					<a href="<?php echo esc_url( $group_todo_link ); ?>" class="bptodo-back-to-group">
 						<span class="dashicons dashicons-arrow-left-alt2"></span>
-						<?php printf( esc_html__( 'Back to %s', 'wb-todo' ), esc_html( $group->name ) ); ?>
+						<?php
+						/* translators: %s: Group name */
+						printf( esc_html__( 'Back to %s', 'wb-todo' ), esc_html( $group->name ) );
+						?>
 					</a>
 				</div>
 
@@ -439,7 +442,7 @@ if ( ! function_exists( 'bptodo_todo_user_report' ) ) {
 						<div class="bptodo-member-item <?php echo esc_attr( $status_class ); ?>">
 							<?php echo get_avatar( $member['user_id'], 40, '', '', array( 'class' => 'bptodo-member-avatar' ) ); ?>
 							<div class="bptodo-member-info">
-								<a href="<?php echo bptodo_get_member_url( $member['user_id'] ); ?>" class="bptodo-member-name">
+								<a href="<?php echo esc_url( bptodo_get_member_url( $member['user_id'] ) ); ?>" class="bptodo-member-name">
 									<?php echo esc_html( ucfirst( $member['name'] ) ); ?>
 								</a>
 								<span class="bptodo-member-status">

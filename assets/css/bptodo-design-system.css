@@ -19,6 +19,8 @@
 	--bptodo-primary: #3b82f6;
 	--bptodo-primary-hover: #2563eb;
 	--bptodo-primary-active: #1d4ed8;
+	--bptodo-primary-dark: #2563eb;
+	--bptodo-primary-darker: #1d4ed8;
 	--bptodo-primary-light: #eff6ff;
 	--bptodo-primary-rgb: 59, 130, 246;
 
@@ -37,6 +39,7 @@
 
 	--bptodo-danger: #ef4444;
 	--bptodo-danger-hover: #dc2626;
+	--bptodo-danger-dark: #dc2626;
 	--bptodo-danger-light: #fef2f2;
 	--bptodo-danger-rgb: 239, 68, 68;
 
@@ -85,6 +88,7 @@
 	--bptodo-text-primary: var(--bptodo-gray-900);
 	--bptodo-text-secondary: var(--bptodo-gray-600);
 	--bptodo-text-tertiary: var(--bptodo-gray-500);
+	--bptodo-text-muted: var(--bptodo-gray-400);
 	--bptodo-text-disabled: var(--bptodo-gray-400);
 	--bptodo-text-inverse: var(--bptodo-white);
 	--bptodo-text-link: var(--bptodo-primary);
@@ -182,9 +186,15 @@
 	--bptodo-z-dropdown: 100;
 	--bptodo-z-sticky: 200;
 	--bptodo-z-overlay: 300;
+	--bptodo-z-modal-backdrop: 350;
 	--bptodo-z-modal: 400;
 	--bptodo-z-toast: 500;
 	--bptodo-z-tooltip: 600;
+
+	/* -------------------------------------------------------------------------
+	   Transition Aliases
+	   ------------------------------------------------------------------------- */
+	--bptodo-transition-base: var(--bptodo-transition-normal);
 
 	/* -------------------------------------------------------------------------
 	   Component-Specific Tokens
@@ -195,7 +205,8 @@
 	--bptodo-card-radius: var(--bptodo-radius-lg);
 	--bptodo-card-shadow: var(--bptodo-shadow-sm);
 	--bptodo-card-shadow-hover: var(--bptodo-shadow-md);
-	--bptodo-card-border: 1px solid var(--bptodo-border-light);
+	--bptodo-card-bg: var(--bptodo-white);
+	--bptodo-card-border: var(--bptodo-border-light);
 
 	/* Inputs */
 	--bptodo-input-height: 2.5rem;       /* 40px */
@@ -204,8 +215,12 @@
 	--bptodo-input-padding-x: var(--bptodo-space-3);
 	--bptodo-input-padding-y: var(--bptodo-space-2);
 	--bptodo-input-radius: var(--bptodo-radius-md);
-	--bptodo-input-border: 1px solid var(--bptodo-border-default);
+	--bptodo-input-bg: var(--bptodo-white);
+	--bptodo-input-border: var(--bptodo-border-default);
 	--bptodo-input-border-focus: 2px solid var(--bptodo-primary);
+	--bptodo-input-focus-border: var(--bptodo-primary);
+	--bptodo-input-focus-ring: 0 0 0 3px rgba(var(--bptodo-primary-rgb), 0.15);
+	--bptodo-input-font-size: var(--bptodo-text-base);
 
 	/* Buttons */
 	--bptodo-btn-height: 2.5rem;
@@ -215,6 +230,7 @@
 	--bptodo-btn-padding-y: var(--bptodo-space-2);
 	--bptodo-btn-radius: var(--bptodo-radius-md);
 	--bptodo-btn-font-weight: var(--bptodo-font-medium);
+	--bptodo-btn-font-size: var(--bptodo-text-sm);
 
 	/* Checkbox */
 	--bptodo-checkbox-size: 1.25rem;     /* 20px */

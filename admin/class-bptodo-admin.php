@@ -188,8 +188,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			$localized_strings['paginate_next']       = __( 'Next', 'wb-todo' );
 			$localized_strings['paginate_previous']   = __( 'Previous', 'wb-todo' );
 			$localized_strings['search']              = __( 'Search', 'wb-todo' );
-			$localized_strings['show_entries']        =  sprintf(__( 'Show %s entries', 'wb-todo' ), '_MENU_' );
-			$localized_strings['pagination_info']     =  sprintf(__( "Showing %d to %d of %d entries", 'wb-todo' ), '_START_', '_END_', '_TOTAL_');
+			/* translators: %s: Number of entries selector */
+			$localized_strings['show_entries']        = sprintf( __( 'Show %s entries', 'wb-todo' ), '_MENU_' );
+			/* translators: 1: Start number, 2: End number, 3: Total entries */
+			$localized_strings['pagination_info']     = sprintf( __( 'Showing %1$d to %2$d of %3$d entries', 'wb-todo' ), '_START_', '_END_', '_TOTAL_' );
 			$localized_strings['pagination_empty_info']   =  __( "Showing 0 to 0 of 0 entries", 'wb-todo' );
 			
 
@@ -235,7 +237,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 			if ($tab !== null) {
 				// Sanitize the input by removing any HTML tags and trimming whitespace
-				$tab = strip_tags(trim($tab));
+				$tab = wp_strip_all_tags( trim( $tab ) );
 			} else {
 				// Default value if 'tab' parameter is not set
 				$tab = 'user-todo-list-welcome';
@@ -279,7 +281,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 			if ($current_tab !== null) {
 				// Sanitize the input by removing any HTML tags and trimming whitespace
-				$current_tab = strip_tags(trim($current_tab));
+				$current_tab = wp_strip_all_tags( trim( $current_tab ) );
 			} else {
 				// Default value if 'tab' parameter is not set
 				$current_tab = 'user-todo-list-welcome';
@@ -519,7 +521,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 			if ($wbcom_setting_page !== null) {
 				// Sanitize the input by removing any HTML tags and trimming whitespace
-				$wbcom_setting_page = strip_tags(trim($wbcom_setting_page));
+				$wbcom_setting_page = wp_strip_all_tags( trim( $wbcom_setting_page ) );
 			}
 
 			if ( in_array( $wbcom_setting_page, $wbcom_pages_array, true ) ) {

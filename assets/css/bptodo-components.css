@@ -361,22 +361,27 @@
    BUTTON COMPONENT
    ========================================================================== */
 
-.bptodo-wrapper .bptodo-btn {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: var(--bptodo-space-2);
-	padding: var(--bptodo-btn-padding-y) var(--bptodo-btn-padding-x);
-	font-family: inherit;
-	font-size: var(--bptodo-btn-font-size);
-	font-weight: var(--bptodo-font-medium);
-	line-height: 1;
-	text-decoration: none;
-	border: none;
-	border-radius: var(--bptodo-btn-radius);
-	cursor: pointer;
-	transition: var(--bptodo-transition-fast);
-	white-space: nowrap;
+/* Base button - strong overrides for theme independence */
+.bptodo-wrapper .bptodo-btn,
+.bptodo-wrapper button.bptodo-btn {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	gap: var(--bptodo-space-2) !important;
+	padding: var(--bptodo-btn-padding-y) var(--bptodo-btn-padding-x) !important;
+	font-family: inherit !important;
+	font-size: var(--bptodo-btn-font-size) !important;
+	font-weight: var(--bptodo-font-medium) !important;
+	line-height: 1.4 !important;
+	text-decoration: none !important;
+	text-transform: none !important;
+	letter-spacing: normal !important;
+	border: none !important;
+	border-radius: var(--bptodo-btn-radius) !important;
+	cursor: pointer !important;
+	transition: var(--bptodo-transition-fast) !important;
+	white-space: nowrap !important;
+	box-shadow: none !important;
 }
 
 .bptodo-wrapper .bptodo-btn:focus {
@@ -390,31 +395,50 @@
 }
 
 /* Primary Button */
-.bptodo-wrapper .bptodo-btn--primary {
-	background: var(--bptodo-primary);
-	color: var(--bptodo-white);
+/* Primary Button - using !important to override theme styles */
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary,
+.bptodo-wrapper button.bptodo-btn--primary {
+	background: var(--bptodo-primary) !important;
+	background-color: var(--bptodo-primary) !important;
+	color: var(--bptodo-white) !important;
+	border: none !important;
 }
 
-.bptodo-wrapper .bptodo-btn--primary:hover:not(:disabled) {
-	background: var(--bptodo-primary-dark);
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--primary:hover:not(:disabled) {
+	background: var(--bptodo-primary-dark) !important;
+	background-color: var(--bptodo-primary-dark) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--primary:active:not(:disabled) {
-	background: var(--bptodo-primary-darker);
+.bptodo-wrapper .bptodo-btn.bptodo-btn--primary:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--primary:active:not(:disabled) {
+	background: var(--bptodo-primary-darker) !important;
+	background-color: var(--bptodo-primary-darker) !important;
 }
 
 /* Secondary Button */
-.bptodo-wrapper .bptodo-btn--secondary {
-	background: var(--bptodo-gray-100);
-	color: var(--bptodo-text-primary);
+.bptodo-wrapper .bptodo-btn--secondary,
+.bptodo-wrapper button.bptodo-btn--secondary,
+.bptodo-wrapper a.bptodo-btn--secondary {
+	background: var(--bptodo-gray-100) !important;
+	background-color: var(--bptodo-gray-100) !important;
+	color: var(--bptodo-text-primary) !important;
+	border: 1px solid var(--bptodo-gray-200) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--secondary:hover:not(:disabled) {
-	background: var(--bptodo-gray-200);
+.bptodo-wrapper .bptodo-btn--secondary:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--secondary:hover:not(:disabled),
+.bptodo-wrapper a.bptodo-btn--secondary:hover {
+	background: var(--bptodo-gray-200) !important;
+	background-color: var(--bptodo-gray-200) !important;
+	border-color: var(--bptodo-gray-300) !important;
 }
 
-.bptodo-wrapper .bptodo-btn--secondary:active:not(:disabled) {
-	background: var(--bptodo-gray-300);
+.bptodo-wrapper .bptodo-btn--secondary:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--secondary:active:not(:disabled),
+.bptodo-wrapper a.bptodo-btn--secondary:active {
+	background: var(--bptodo-gray-300) !important;
+	background-color: var(--bptodo-gray-300) !important;
 }
 
 /* Danger Button */
@@ -428,15 +452,27 @@
 }
 
 /* Ghost Button (icon only) */
-.bptodo-wrapper .bptodo-btn--ghost {
-	background: transparent;
-	color: var(--bptodo-text-secondary);
-	padding: var(--bptodo-space-2);
+.bptodo-wrapper .bptodo-btn--ghost,
+.bptodo-wrapper button.bptodo-btn--ghost {
+	background: transparent !important;
+	background-color: transparent !important;
+	color: var(--bptodo-text-secondary) !important;
+	padding: var(--bptodo-space-2) !important;
+	border: 1px solid transparent !important;
 }
 
-.bptodo-wrapper .bptodo-btn--ghost:hover:not(:disabled) {
-	background: var(--bptodo-gray-100);
-	color: var(--bptodo-text-primary);
+.bptodo-wrapper .bptodo-btn--ghost:hover:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--ghost:hover:not(:disabled) {
+	background: var(--bptodo-gray-100) !important;
+	background-color: var(--bptodo-gray-100) !important;
+	color: var(--bptodo-text-primary) !important;
+	border-color: var(--bptodo-gray-200) !important;
+}
+
+.bptodo-wrapper .bptodo-btn--ghost:active:not(:disabled),
+.bptodo-wrapper button.bptodo-btn--ghost:active:not(:disabled) {
+	background: var(--bptodo-gray-200) !important;
+	background-color: var(--bptodo-gray-200) !important;
 }
 
 /* Button Sizes */
@@ -622,6 +658,161 @@
 	padding-top: var(--bptodo-space-4);
 	margin-top: var(--bptodo-space-4);
 	border-top: 1px solid var(--bptodo-gray-200);
+}
+
+/**
+ * Form Container
+ */
+.bptodo-wrapper .bptodo-form {
+	display: block;
+}
+
+/**
+ * Form Card Variant
+ * Card that contains a form
+ */
+.bptodo-wrapper .bptodo-card--form {
+	padding: var(--bptodo-space-6);
+}
+
+.bptodo-wrapper .bptodo-card--form::before {
+	display: none; /* No priority bar on form cards */
+}
+
+/**
+ * Form Group Label
+ */
+.bptodo-wrapper .bptodo-form-group__label {
+	display: block;
+	margin-bottom: var(--bptodo-space-2);
+	font-size: var(--bptodo-text-sm);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-text-primary);
+}
+
+.bptodo-wrapper .bptodo-form-group__required {
+	color: var(--bptodo-danger);
+	margin-left: var(--bptodo-space-1);
+}
+
+/**
+ * Form Group Input Wrapper
+ * Container for inputs with addons (like add category button)
+ */
+.bptodo-wrapper .bptodo-form-group__input-wrapper {
+	display: flex;
+	gap: var(--bptodo-space-2);
+	align-items: flex-start;
+}
+
+.bptodo-wrapper .bptodo-form-group__input-wrapper > .bptodo-select-wrapper,
+.bptodo-wrapper .bptodo-form-group__input-wrapper > .bptodo-input {
+	flex: 1;
+}
+
+/**
+ * Select Wrapper
+ */
+.bptodo-wrapper .bptodo-select-wrapper {
+	position: relative;
+	flex: 1;
+}
+
+/**
+ * Select Input
+ */
+.bptodo-wrapper .bptodo-input--select,
+.bptodo-wrapper select.bptodo-input {
+	display: block;
+	width: 100%;
+	padding: var(--bptodo-input-padding-y) var(--bptodo-space-10) var(--bptodo-input-padding-y) var(--bptodo-input-padding-x);
+	font-family: inherit;
+	font-size: var(--bptodo-input-font-size);
+	line-height: var(--bptodo-leading-normal);
+	color: var(--bptodo-text-primary);
+	background: var(--bptodo-input-bg);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right var(--bptodo-space-3) center;
+	border: 1px solid var(--bptodo-input-border);
+	border-radius: var(--bptodo-input-radius);
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	transition: var(--bptodo-transition-fast);
+}
+
+.bptodo-wrapper .bptodo-input--select:hover,
+.bptodo-wrapper select.bptodo-input:hover {
+	border-color: var(--bptodo-gray-400);
+}
+
+.bptodo-wrapper .bptodo-input--select:focus,
+.bptodo-wrapper select.bptodo-input:focus {
+	outline: none;
+	border-color: var(--bptodo-input-focus-border);
+	box-shadow: var(--bptodo-input-focus-ring);
+}
+
+/**
+ * Form Row (for side-by-side fields)
+ */
+.bptodo-wrapper .bptodo-form-row {
+	display: grid;
+	gap: var(--bptodo-space-4);
+	margin-bottom: var(--bptodo-space-4);
+}
+
+@media (min-width: 640px) {
+	.bptodo-wrapper .bptodo-form-row {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/**
+ * Full Width Form Group
+ */
+.bptodo-wrapper .bptodo-form-group--full {
+	grid-column: 1 / -1;
+}
+
+/**
+ * Form Group Addon
+ * Additional content like the add category row
+ */
+.bptodo-wrapper .bptodo-form-group__addon {
+	margin-top: var(--bptodo-space-3);
+}
+
+/**
+ * Input Group
+ * Input with button attached
+ */
+.bptodo-wrapper .bptodo-input-group {
+	display: flex;
+	gap: var(--bptodo-space-2);
+}
+
+.bptodo-wrapper .bptodo-input-group > .bptodo-input {
+	flex: 1;
+}
+
+/**
+ * Form Group Help Text
+ */
+.bptodo-wrapper .bptodo-form-group__help {
+	margin: var(--bptodo-space-2) 0 0 0;
+	font-size: var(--bptodo-text-sm);
+	color: var(--bptodo-text-muted);
+}
+
+/**
+ * Icon-only Button
+ */
+.bptodo-wrapper .bptodo-btn--icon {
+	padding: var(--bptodo-space-2) !important;
+	min-width: auto;
 }
 
 /* ==========================================================================
@@ -1082,6 +1273,18 @@
 	box-shadow: var(--bptodo-shadow-sm);
 }
 
+/**
+ * Tab Panel
+ * Content area controlled by tabs
+ */
+.bptodo-wrapper .bptodo-tab-panel {
+	display: block;
+}
+
+.bptodo-wrapper .bptodo-tab-panel[hidden] {
+	display: none;
+}
+
 /* ==========================================================================
    DROPDOWN MENU
    ========================================================================== */
@@ -1358,5 +1561,618 @@
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
+	}
+}
+
+/* ==========================================================================
+   PAGINATION
+   ========================================================================== */
+
+.bptodo-wrapper .bptodo-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--bptodo-space-2);
+	margin-top: var(--bptodo-space-6);
+	padding: var(--bptodo-space-4) 0;
+	flex-wrap: wrap;
+}
+
+.bptodo-wrapper .bptodo-pagination__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--bptodo-space-1);
+	padding: var(--bptodo-space-2) var(--bptodo-space-4);
+	font-size: var(--bptodo-text-sm);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-gray-700);
+	background: var(--bptodo-white);
+	border: 1px solid var(--bptodo-gray-300);
+	border-radius: var(--bptodo-radius-md);
+	text-decoration: none;
+	transition: all var(--bptodo-transition);
+	cursor: pointer;
+}
+
+.bptodo-wrapper .bptodo-pagination__btn:hover {
+	background: var(--bptodo-gray-50);
+	border-color: var(--bptodo-primary);
+	color: var(--bptodo-primary);
+}
+
+.bptodo-wrapper .bptodo-pagination__btn--disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.bptodo-wrapper .bptodo-pagination__btn svg {
+	width: 16px;
+	height: 16px;
+}
+
+.bptodo-wrapper .bptodo-pagination__numbers {
+	display: flex;
+	align-items: center;
+	gap: var(--bptodo-space-1);
+}
+
+.bptodo-wrapper .bptodo-pagination__num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 36px;
+	height: 36px;
+	padding: 0 var(--bptodo-space-2);
+	font-size: var(--bptodo-text-sm);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-gray-700);
+	background: var(--bptodo-white);
+	border: 1px solid var(--bptodo-gray-300);
+	border-radius: var(--bptodo-radius-md);
+	text-decoration: none;
+	transition: all var(--bptodo-transition);
+}
+
+.bptodo-wrapper .bptodo-pagination__num:hover {
+	background: var(--bptodo-gray-50);
+	border-color: var(--bptodo-primary);
+	color: var(--bptodo-primary);
+}
+
+.bptodo-wrapper .bptodo-pagination__num--current {
+	background: var(--bptodo-primary);
+	border-color: var(--bptodo-primary);
+	color: var(--bptodo-white);
+}
+
+.bptodo-wrapper .bptodo-pagination__ellipsis {
+	padding: 0 var(--bptodo-space-1);
+	color: var(--bptodo-gray-500);
+}
+
+.bptodo-wrapper .bptodo-pagination__info {
+	display: flex;
+	align-items: center;
+	gap: var(--bptodo-space-1);
+	padding: 0 var(--bptodo-space-4);
+	font-size: var(--bptodo-text-sm);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-gray-600);
+}
+
+/* ==========================================================================
+   SHORTCODE SPECIFIC STYLES
+   ========================================================================== */
+
+.bptodo-wrapper.bptodo-shortcode-wrapper {
+	padding: var(--bptodo-space-4);
+	background: var(--bptodo-white);
+	border-radius: var(--bptodo-radius-lg);
+	box-shadow: var(--bptodo-shadow-sm);
+}
+
+.bptodo-wrapper .bptodo-shortcode-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--bptodo-space-4);
+	padding-bottom: var(--bptodo-space-4);
+	border-bottom: 1px solid var(--bptodo-gray-200);
+}
+
+.bptodo-wrapper .bptodo-shortcode-title {
+	margin: 0;
+	font-size: var(--bptodo-text-xl);
+	font-weight: var(--bptodo-font-semibold);
+	color: var(--bptodo-gray-900);
+}
+
+.bptodo-wrapper .bptodo-shortcode-title .bptodo-count {
+	font-weight: var(--bptodo-font-normal);
+	color: var(--bptodo-gray-500);
+}
+
+.bptodo-wrapper .bptodo-filters {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--bptodo-space-4);
+	padding: var(--bptodo-space-3);
+	background: var(--bptodo-gray-50);
+	border-radius: var(--bptodo-radius-md);
+}
+
+.bptodo-wrapper .bptodo-filters__info {
+	font-size: var(--bptodo-text-sm);
+	color: var(--bptodo-gray-600);
+}
+
+/* Cards grid for shortcode */
+.bptodo-wrapper .bptodo-cards--shortcode {
+	display: grid;
+	gap: var(--bptodo-space-4);
+	grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+	.bptodo-wrapper .bptodo-cards--shortcode {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (min-width: 1024px) {
+	.bptodo-wrapper .bptodo-cards--shortcode {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+/* Notice styles */
+.bptodo-wrapper .bptodo-notice {
+	padding: var(--bptodo-space-4);
+	border-radius: var(--bptodo-radius-md);
+	font-size: var(--bptodo-text-sm);
+}
+
+.bptodo-wrapper .bptodo-notice--error {
+	background: var(--bptodo-danger-light, #fef2f2);
+	color: var(--bptodo-danger);
+	border: 1px solid var(--bptodo-danger);
+}
+
+.bptodo-wrapper .bptodo-notice--info {
+	background: var(--bptodo-primary-light, #eff6ff);
+	color: var(--bptodo-primary);
+	border: 1px solid var(--bptodo-primary);
+}
+
+/* Card author meta */
+.bptodo-wrapper .bptodo-card__author {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--bptodo-space-1);
+	font-size: var(--bptodo-text-xs);
+	color: var(--bptodo-gray-500);
+}
+
+.bptodo-wrapper .bptodo-card__author .bptodo-icon {
+	width: 14px;
+	height: 14px;
+}
+
+/* ==========================================================================
+   SHORTCODE CARD ENHANCEMENTS
+   Additional styles for the [bptodo_list] shortcode template
+   ========================================================================== */
+
+/**
+ * Card Checkbox Area
+ * Wrapper for the checkbox in card header
+ */
+.bptodo-wrapper .bptodo-card__checkbox {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+/**
+ * Direct Checkbox Input (for simpler markup)
+ */
+.bptodo-wrapper .bptodo-card__checkbox .bptodo-checkbox {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	cursor: pointer;
+	accent-color: var(--bptodo-primary);
+}
+
+/**
+ * Checkbox Label
+ */
+.bptodo-wrapper .bptodo-checkbox-label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	margin: 0;
+	cursor: pointer;
+}
+
+/**
+ * Card Title Wrapper
+ * Container for title and category
+ */
+.bptodo-wrapper .bptodo-card__title-wrap {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--bptodo-space-1);
+}
+
+/**
+ * Category Badge in Card
+ */
+.bptodo-wrapper .bptodo-card__category {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--bptodo-space-1) var(--bptodo-space-2);
+	font-size: var(--bptodo-text-xs);
+	font-weight: var(--bptodo-font-medium);
+	color: var(--bptodo-text-secondary);
+	background: var(--bptodo-gray-100);
+	border-radius: var(--bptodo-radius-sm);
+	max-width: fit-content;
+}
+
+/**
+ * Card Body
+ * Content/description area
+ */
+.bptodo-wrapper .bptodo-card__body {
+	flex: 1;
+	margin-bottom: var(--bptodo-space-3);
+}
+
+/**
+ * Card Actions
+ * Action buttons container
+ */
+.bptodo-wrapper .bptodo-card__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--bptodo-space-2);
+}
+
+/**
+ * Due Date Display
+ */
+.bptodo-wrapper .bptodo-card__due {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--bptodo-space-1);
+	padding: var(--bptodo-space-1) var(--bptodo-space-2);
+	font-size: var(--bptodo-text-xs);
+	font-weight: var(--bptodo-font-medium);
+	border-radius: var(--bptodo-radius-sm);
+	background: var(--bptodo-gray-100);
+	color: var(--bptodo-text-secondary);
+}
+
+/* Due Date Status Colors */
+.bptodo-wrapper .bptodo-due--overdue {
+	background: var(--bptodo-danger-light, #fef2f2);
+	color: var(--bptodo-danger);
+}
+
+.bptodo-wrapper .bptodo-due--today {
+	background: var(--bptodo-warning-light, #fffbeb);
+	color: var(--bptodo-warning);
+}
+
+.bptodo-wrapper .bptodo-due--tomorrow {
+	background: #fefce8;
+	color: #a16207;
+}
+
+.bptodo-wrapper .bptodo-due--future {
+	background: var(--bptodo-success-light, #f0fdf4);
+	color: var(--bptodo-success);
+}
+
+.bptodo-wrapper .bptodo-due--completed {
+	background: var(--bptodo-gray-100);
+	color: var(--bptodo-text-muted);
+}
+
+/**
+ * Priority Classes
+ * Standalone priority indicator classes
+ */
+.bptodo-wrapper .bptodo-priority--critical {
+	border-left: 4px solid var(--bptodo-priority-critical, #dc2626);
+}
+
+.bptodo-wrapper .bptodo-priority--high {
+	border-left: 4px solid var(--bptodo-priority-high, #f59e0b);
+}
+
+.bptodo-wrapper .bptodo-priority--normal {
+	border-left: 4px solid var(--bptodo-priority-normal, #3b82f6);
+}
+
+.bptodo-wrapper .bptodo-priority--low {
+	border-left: 4px solid var(--bptodo-gray-300);
+}
+
+/**
+ * Generic Icon Sizing
+ */
+.bptodo-wrapper .bptodo-icon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.bptodo-wrapper .bptodo-icon--sm {
+	width: 14px;
+	height: 14px;
+}
+
+.bptodo-wrapper .bptodo-icon--lg {
+	width: 20px;
+	height: 20px;
+}
+
+/* ==========================================================================
+   EMPTY STATE (Shortcode Variant)
+   ========================================================================== */
+
+.bptodo-wrapper .bptodo-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: var(--bptodo-space-12) var(--bptodo-space-4);
+	text-align: center;
+	background: var(--bptodo-gray-50);
+	border-radius: var(--bptodo-radius-lg);
+	border: 2px dashed var(--bptodo-gray-200);
+}
+
+.bptodo-wrapper .bptodo-empty-state__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	margin-bottom: var(--bptodo-space-4);
+	background: var(--bptodo-white);
+	border-radius: 50%;
+	box-shadow: var(--bptodo-shadow-sm);
+}
+
+.bptodo-wrapper .bptodo-empty-state__icon svg {
+	width: 40px;
+	height: 40px;
+	color: var(--bptodo-gray-400);
+}
+
+.bptodo-wrapper .bptodo-empty-state__title {
+	margin: 0 0 var(--bptodo-space-2) 0;
+	font-size: var(--bptodo-text-lg);
+	font-weight: var(--bptodo-font-semibold);
+	color: var(--bptodo-text-primary);
+}
+
+.bptodo-wrapper .bptodo-empty-state__text {
+	margin: 0;
+	font-size: var(--bptodo-text-base);
+	color: var(--bptodo-text-secondary);
+	max-width: 320px;
+}
+
+/* ==========================================================================
+   SCREEN READER TEXT (Accessibility Fallback)
+   WordPress provides this, but we add a fallback for non-WP themes
+   ========================================================================== */
+
+.bptodo-wrapper .screen-reader-text,
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ==========================================================================
+   COMPLETED TITLE STRIKETHROUGH
+   ========================================================================== */
+
+.bptodo-wrapper .bptodo-card__title--completed {
+	text-decoration: line-through;
+	color: var(--bptodo-text-muted);
+}
+
+/* ==========================================================================
+   ENHANCED FOCUS STYLES (Accessibility)
+   Visible focus indicators for keyboard navigation
+   ========================================================================== */
+
+.bptodo-wrapper .bptodo-card:focus,
+.bptodo-wrapper .bptodo-card:focus-within {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+}
+
+.bptodo-wrapper .bptodo-pagination__btn:focus,
+.bptodo-wrapper .bptodo-pagination__num:focus {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+	border-radius: var(--bptodo-radius-md);
+}
+
+.bptodo-wrapper .bptodo-card__checkbox .bptodo-checkbox:focus {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+}
+
+.bptodo-wrapper .bptodo-btn:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+	box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+/* Skip link for keyboard users */
+.bptodo-wrapper .bptodo-skip-link {
+	position: absolute;
+	top: -40px;
+	left: 0;
+	padding: var(--bptodo-space-2) var(--bptodo-space-4);
+	background: var(--bptodo-primary);
+	color: var(--bptodo-white);
+	z-index: 100;
+	transition: top 0.2s ease;
+}
+
+.bptodo-wrapper .bptodo-skip-link:focus {
+	top: 0;
+}
+
+/* ==========================================================================
+   SHORTCODE RESPONSIVE STYLES
+   Mobile-first responsive design for the shortcode
+   ========================================================================== */
+
+/* Base (Mobile 320px+) */
+.bptodo-wrapper.bptodo-shortcode-wrapper {
+	padding: var(--bptodo-space-3);
+}
+
+.bptodo-wrapper .bptodo-shortcode-header {
+	flex-direction: column;
+	gap: var(--bptodo-space-2);
+}
+
+.bptodo-wrapper .bptodo-shortcode-title {
+	font-size: var(--bptodo-text-lg);
+}
+
+.bptodo-wrapper .bptodo-filters {
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.bptodo-wrapper .bptodo-card__header {
+	flex-wrap: wrap;
+}
+
+.bptodo-wrapper .bptodo-card__footer {
+	flex-direction: column;
+	gap: var(--bptodo-space-3);
+}
+
+.bptodo-wrapper .bptodo-card__meta {
+	width: 100%;
+	flex-wrap: wrap;
+}
+
+.bptodo-wrapper .bptodo-card__actions {
+	width: 100%;
+	justify-content: flex-end;
+}
+
+/* Pagination mobile */
+.bptodo-wrapper .bptodo-pagination {
+	flex-direction: column;
+	gap: var(--bptodo-space-3);
+}
+
+.bptodo-wrapper .bptodo-pagination__numbers {
+	order: -1;
+}
+
+/* Small Tablet (640px+) */
+@media (min-width: 640px) {
+	.bptodo-wrapper.bptodo-shortcode-wrapper {
+		padding: var(--bptodo-space-4);
+	}
+
+	.bptodo-wrapper .bptodo-shortcode-header {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.bptodo-wrapper .bptodo-shortcode-title {
+		font-size: var(--bptodo-text-xl);
+	}
+
+	.bptodo-wrapper .bptodo-filters {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.bptodo-wrapper .bptodo-card__footer {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.bptodo-wrapper .bptodo-card__meta {
+		width: auto;
+	}
+
+	.bptodo-wrapper .bptodo-card__actions {
+		width: auto;
+	}
+
+	/* Pagination tablet */
+	.bptodo-wrapper .bptodo-pagination {
+		flex-direction: row;
+	}
+
+	.bptodo-wrapper .bptodo-pagination__numbers {
+		order: 0;
+	}
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+	.bptodo-wrapper .bptodo-card__header {
+		flex-wrap: nowrap;
+	}
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+	.bptodo-wrapper.bptodo-shortcode-wrapper {
+		padding: var(--bptodo-space-6);
+	}
+}
+
+/* Touch-friendly tap targets (44px minimum for mobile) */
+@media (max-width: 767px) {
+	.bptodo-wrapper .bptodo-btn--icon {
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	.bptodo-wrapper .bptodo-card__checkbox .bptodo-checkbox {
+		width: 24px;
+		height: 24px;
+	}
+
+	.bptodo-wrapper .bptodo-pagination__btn,
+	.bptodo-wrapper .bptodo-pagination__num {
+		min-height: 44px;
+		min-width: 44px;
 	}
 }
