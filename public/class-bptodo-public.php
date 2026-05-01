@@ -1283,6 +1283,19 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 						$temp['Task Summary']  = $todo->post_content;
 						$temp['Task Due Date'] = get_post_meta( $todo->ID, 'todo_due_date', true );
 						$temp['Task Status']   = get_post_meta( $todo->ID, 'todo_status', true );
+
+						/**
+						 * Filter the export data for each task.
+						 *
+						 * @param array   $temp  Task data array for CSV export.
+						 * @param WP_Post $todo  The todo post object.
+						 */
+						$temp = apply_filters( 'bptodo_modify_task_export_data', $temp, $todo );
+						
+						if ( ! is_array( $temp ) ) {
+							$temp = array();
+						}
+						
 						$tasks[ $key ]         = $temp;
 					}
 				}
