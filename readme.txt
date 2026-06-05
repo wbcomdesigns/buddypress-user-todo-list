@@ -4,7 +4,7 @@ Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
 Tested up to: 6.8.1
-Stable tag: 3.5.1
+Stable tag: 3.6.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -260,6 +260,11 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 8. **Mobile Responsive** - Fully responsive design works beautifully on all devices and screen sizes
 
 == Changelog ==
+
+= 3.6.0 =
+* Improvement: Rebuilt the admin settings screen on the modern Wbcom card-panel UI (sidebar navigation, Overview dashboard, cleaner forms). Same settings, same option keys.
+* Improvement: Replaced browser alert/confirm dialogs with accessible toast and modal notifications across the admin and member screens.
+* Security: Added an explicit capability check to the General settings save handler.
 
 = 3.5.1 =
 * Improvement: Enhanced task selector UI for better user experience

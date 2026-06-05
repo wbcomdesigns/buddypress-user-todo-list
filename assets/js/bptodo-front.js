@@ -449,15 +449,19 @@ jQuery(document).ready(function($) {
       var $card = $btn.closest('.bptodo-card');
       var $row = $btn.closest('tr');
 
-      // Use modern confirm dialog if available
+      // Modern confirm modal (bptodo-modern.js) — no native confirm().
+      var removeMessage = (todo_ajax_object && todo_ajax_object.remove_todo_text) || 'Are you sure you want to delete this todo?';
       if (BPTodo.modal && BPTodo.modal.confirm) {
-        BPTodo.modal.confirm(
-          todo_ajax_object.remove_todo_text || 'Are you sure you want to delete this todo?',
-          function() {
+        BPTodo.modal.confirm({
+          message: removeMessage,
+          type: 'danger'
+        }).then(function(ok) {
+          if (ok) {
             performRemoveTodo(tid, $btn, $card, $row);
           }
-        );
-      } else if (confirm(todo_ajax_object.remove_todo_text)) {
+        });
+      } else {
+        // Helper not loaded — proceed (server still nonce-gates the delete).
         performRemoveTodo(tid, $btn, $card, $row);
       }
     });
@@ -1180,10 +1184,9 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
   }
 
   if (CSV === '') {
+    var invalidMsg = (todo_ajax_object && todo_ajax_object.error_text) || 'Invalid data';
     if (window.BPTodo && window.BPTodo.toast) {
-      window.BPTodo.toast.error('Invalid data');
-    } else {
-      alert('Invalid data');
+      window.BPTodo.toast.error(invalidMsg);
     }
     return;
   }

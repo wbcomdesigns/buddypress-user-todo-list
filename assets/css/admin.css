@@ -1,0 +1,1263 @@
+/**
+ * Todo for BuddyPress & BuddyBoss — Admin Styles
+ *
+ * Card-based settings panel following the wp-plugin-development skill
+ * Part 6 pattern. All tokens scoped under --bptodo-admin-* so nothing
+ * leaks to other plugins on the same admin screen.
+ *
+ * @since 3.6.0
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   Design Tokens
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-admin {
+	/* Accent */
+	--bptodo-admin-accent: #2563eb;
+	--bptodo-admin-accent-hover: #1d4ed8;
+	--bptodo-admin-accent-light: #eff6ff;
+
+	/* Surfaces */
+	--bptodo-admin-white: #ffffff;
+	--bptodo-admin-surface-1: #f8fafc;
+	--bptodo-admin-surface-2: #f1f5f9;
+	--bptodo-admin-border: #e2e8f0;
+	--bptodo-admin-border-strong: #cbd5e1;
+
+	/* Text scale */
+	--bptodo-admin-text: #1e293b;
+	--bptodo-admin-text-2: #475569;
+	--bptodo-admin-text-3: #64748b;
+	--bptodo-admin-text-4: #374151;
+	--bptodo-admin-text-muted: #94a3b8;
+
+	/* Semantic */
+	--bptodo-admin-success: #16a34a;
+	--bptodo-admin-success-light: #dcfce7;
+	--bptodo-admin-warn: #f59e0b;
+	--bptodo-admin-warn-light: #fef9c3;
+	--bptodo-admin-danger: #dc2626;
+	--bptodo-admin-danger-dark: #b91c1c;
+	--bptodo-admin-danger-light: #fee2e2;
+
+	/* Radius / Shadow */
+	--bptodo-admin-radius: 8px;
+	--bptodo-admin-radius-sm: 6px;
+	--bptodo-admin-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+	--bptodo-admin-shadow-hover: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.04);
+
+	/* Spacing */
+	--bptodo-admin-gap-sm: 8px;
+	--bptodo-admin-gap-md: 16px;
+	--bptodo-admin-gap-lg: 20px;
+	--bptodo-admin-gap-xl: 32px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Page wrapper + page header
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-admin {
+	margin: 0 20px 0 0;
+	color: var(--bptodo-admin-text);
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.bptodo-admin h1,
+.bptodo-admin h2,
+.bptodo-admin h3,
+.bptodo-admin p {
+	margin: 0;
+	color: inherit;
+}
+
+.bptodo-admin a {
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--bptodo-admin-gap-md);
+	padding: 18px 0 14px;
+	margin: 0 0 18px;
+	border-bottom: 1px solid var(--bptodo-admin-border);
+}
+
+.bptodo-page-header__title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.bptodo-page-header__title h1 {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.2;
+	margin: 0;
+	padding: 0;
+}
+
+.bptodo-page-header__title .dashicons {
+	color: var(--bptodo-admin-accent);
+	width: 24px;
+	height: 24px;
+	font-size: 24px;
+}
+
+.bptodo-page-header__subtitle {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	margin: 2px 0 0;
+}
+
+.bptodo-page-header__actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.bptodo-version-pill {
+	display: inline-block;
+	padding: 4px 10px;
+	background: var(--bptodo-admin-accent);
+	color: #fff;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Two-column settings layout
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-settings-layout {
+	display: flex;
+	align-items: flex-start;
+	gap: 0;
+	margin-top: var(--bptodo-admin-gap-md);
+}
+
+.bptodo-settings-sidebar {
+	width: 240px;
+	flex-shrink: 0;
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	position: sticky;
+	top: 32px;
+	overflow: hidden;
+}
+
+.bptodo-settings-sidebar-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 16px 16px 14px;
+	border-bottom: 1px solid var(--bptodo-admin-surface-2);
+}
+
+.bptodo-settings-brand-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--bptodo-admin-radius-sm);
+	background: var(--bptodo-admin-accent);
+	color: #fff;
+	flex-shrink: 0;
+}
+
+.bptodo-settings-brand-icon .dashicons {
+	color: #fff;
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.bptodo-settings-brand-text {
+	min-width: 0;
+}
+
+.bptodo-settings-brand-name {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	line-height: 1.2;
+}
+
+.bptodo-settings-brand-sub {
+	margin: 2px 0 0;
+	font-size: 10px;
+	color: var(--bptodo-admin-text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	font-weight: 600;
+}
+
+.bptodo-settings-sidebar-nav {
+	padding: 8px;
+}
+
+.bptodo-snav-link {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 9px 10px;
+	border-radius: var(--bptodo-admin-radius-sm);
+	color: var(--bptodo-admin-text-2);
+	text-decoration: none;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.4;
+	transition: background 0.12s, color 0.12s;
+	margin-bottom: 1px;
+}
+
+.bptodo-snav-link .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	flex-shrink: 0;
+	color: var(--bptodo-admin-text-muted);
+	transition: color 0.12s;
+}
+
+.bptodo-snav-link:hover,
+.bptodo-snav-link:focus {
+	background: var(--bptodo-admin-surface-1);
+	color: var(--bptodo-admin-text);
+	box-shadow: none;
+}
+
+/* Mouse-focus only — keyboard users get a visible outline via the
+   .bptodo-snav-link:focus-visible rule below. */
+.bptodo-snav-link:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.bptodo-snav-link:hover .dashicons,
+.bptodo-snav-link:focus .dashicons {
+	color: var(--bptodo-admin-text-3);
+}
+
+.bptodo-snav-link:focus-visible {
+	outline: 2px solid var(--bptodo-admin-accent);
+	outline-offset: 2px;
+}
+
+.bptodo-snav-link--active,
+.bptodo-snav-link--active:hover,
+.bptodo-snav-link--active:focus {
+	background: var(--bptodo-admin-accent-light);
+	color: var(--bptodo-admin-accent);
+	font-weight: 600;
+}
+
+.bptodo-snav-link--active .dashicons {
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-snav-divider {
+	height: 1px;
+	background: var(--bptodo-admin-surface-2);
+	margin: 8px 0;
+}
+
+.bptodo-snav-section-label {
+	margin: 8px 0 4px 10px;
+	font-size: 10px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--bptodo-admin-text-muted);
+}
+
+.bptodo-settings-main {
+	flex: 1;
+	min-width: 0;
+	margin-left: var(--bptodo-admin-gap-lg);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Cards
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-card {
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	margin-bottom: var(--bptodo-admin-gap-lg);
+	overflow: hidden;
+}
+
+.bptodo-card__head {
+	padding: 14px 20px 12px;
+	border-bottom: 1px solid var(--bptodo-admin-border);
+	background: var(--bptodo-admin-surface-1);
+}
+
+.bptodo-card__title {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	margin: 0 0 2px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.bptodo-card__desc {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	margin: 0;
+	line-height: 1.5;
+}
+
+.bptodo-card__body {
+	padding: 20px;
+}
+
+.bptodo-card .form-table {
+	margin: 0;
+}
+
+.bptodo-card .form-table th {
+	padding: 14px 20px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--bptodo-admin-text-4);
+	width: 240px;
+	vertical-align: middle;
+}
+
+.bptodo-card .form-table td {
+	padding: 14px 20px;
+}
+
+.bptodo-card .form-table tr {
+	border-bottom: 1px solid var(--bptodo-admin-surface-2);
+}
+
+.bptodo-card .form-table tr:last-child {
+	border-bottom: none;
+}
+
+.bptodo-card .form-table .description {
+	margin: 6px 0 0;
+	color: var(--bptodo-admin-text-3);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.bptodo-card .form-table input[type="text"],
+.bptodo-card .form-table input[type="number"],
+.bptodo-card .form-table input[type="email"],
+.bptodo-card .form-table input[type="url"],
+.bptodo-card .form-table input[type="date"],
+.bptodo-card .form-table select {
+	padding: 8px 10px;
+	border: 1px solid var(--bptodo-admin-border-strong);
+	border-radius: var(--bptodo-admin-radius-sm);
+	font-size: 13px;
+	line-height: 1.4;
+	box-shadow: none;
+	background: var(--bptodo-admin-white);
+	color: var(--bptodo-admin-text);
+}
+
+.bptodo-card .form-table input[type="text"]:focus,
+.bptodo-card .form-table input[type="number"]:focus,
+.bptodo-card .form-table input[type="email"]:focus,
+.bptodo-card .form-table input[type="url"]:focus,
+.bptodo-card .form-table input[type="date"]:focus,
+.bptodo-card .form-table select:focus {
+	border-color: var(--bptodo-admin-accent);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Mouse-focus gets the subtle box-shadow ring (above). Keyboard-focus
+   also keeps the browser's default outline so screen-reader / keyboard
+   users get the strongest indicator. Only suppress the outline on
+   mouse click. */
+.bptodo-card .form-table input[type="text"]:focus:not(:focus-visible),
+.bptodo-card .form-table input[type="email"]:focus:not(:focus-visible),
+.bptodo-card .form-table input[type="number"]:focus:not(:focus-visible),
+.bptodo-card .form-table input[type="url"]:focus:not(:focus-visible),
+.bptodo-card .form-table input[type="date"]:focus:not(:focus-visible),
+.bptodo-card .form-table select:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.bptodo-card .form-table input.regular-text,
+.bptodo-card .form-table input.large-text {
+	width: 100%;
+	max-width: 480px;
+}
+
+.bptodo-card .form-table input.small-text {
+	width: 100px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Role chip grid (Permissions tab)
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-role-grid-wrap {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.bptodo-role-grid-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 0 0 12px;
+	margin-bottom: 12px;
+	border-bottom: 1px solid var(--bptodo-admin-surface-2);
+}
+
+.bptodo-role-grid-count {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--bptodo-admin-text-3);
+	letter-spacing: 0.02em;
+}
+
+.bptodo-role-grid-actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.bptodo-role-grid-sep {
+	color: var(--bptodo-admin-border-strong);
+}
+
+.bptodo-link {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--bptodo-admin-accent);
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.bptodo-link:hover,
+.bptodo-link:focus {
+	color: var(--bptodo-admin-accent-hover);
+	text-decoration: underline;
+}
+
+/* Mouse-focus only — keyboard users get a visible outline via the
+   .bptodo-link:focus-visible rule below. */
+.bptodo-link:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.bptodo-link:focus-visible {
+	outline: 2px solid var(--bptodo-admin-accent);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+.bptodo-role-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+.bptodo-role-chip {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	background: var(--bptodo-admin-surface-1);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius-sm);
+	cursor: pointer;
+	transition: background 0.12s, border-color 0.12s;
+	min-height: 40px;
+}
+
+.bptodo-role-chip:hover {
+	background: var(--bptodo-admin-white);
+	border-color: var(--bptodo-admin-border-strong);
+}
+
+.bptodo-role-chip input[type="checkbox"] {
+	margin: 0;
+	flex-shrink: 0;
+	accent-color: var(--bptodo-admin-accent);
+}
+
+.bptodo-role-chip__label {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--bptodo-admin-text-4);
+	line-height: 1.3;
+}
+
+.bptodo-role-chip:has(input:checked) {
+	background: var(--bptodo-admin-accent-light);
+	border-color: rgba(37, 99, 235, 0.35);
+}
+
+.bptodo-role-chip:has(input:checked) .bptodo-role-chip__label {
+	color: var(--bptodo-admin-accent);
+	font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Form helpers
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-inline-hint {
+	display: inline-block;
+	margin-left: 8px;
+	color: var(--bptodo-admin-text-3);
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.bptodo-save-bar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px 0 0;
+}
+
+/*
+ * When a save-bar sits at the bottom of a card (not inside a
+ * .bptodo-card__body wrapper), give it the same horizontal padding as
+ * form-table cells + a top separator so the buttons don't sit flush
+ * against the card border. Covers `<div class="bptodo-card"><form>...
+ * <div class="bptodo-save-bar">` and direct-child cases.
+ */
+.bptodo-card > .bptodo-save-bar,
+.bptodo-card > form > .bptodo-save-bar {
+	padding: 16px 20px 20px;
+	border-top: 1px solid var(--bptodo-admin-border);
+	background: var(--bptodo-admin-surface-1);
+}
+
+.bptodo-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 8px 16px;
+	border-radius: var(--bptodo-admin-radius-sm);
+	border: 1px solid transparent;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.4;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background 0.12s, border-color 0.12s, color 0.12s;
+	min-height: 36px;
+	box-shadow: none;
+}
+
+.bptodo-btn-primary {
+	background: var(--bptodo-admin-accent);
+	color: #fff;
+	border-color: var(--bptodo-admin-accent);
+}
+
+.bptodo-btn-primary:hover,
+.bptodo-btn-primary:focus {
+	background: var(--bptodo-admin-accent-hover);
+	border-color: var(--bptodo-admin-accent-hover);
+	color: #fff;
+}
+
+.bptodo-btn-secondary {
+	background: var(--bptodo-admin-white);
+	color: var(--bptodo-admin-text);
+	border-color: var(--bptodo-admin-border-strong);
+}
+
+.bptodo-btn-secondary:hover,
+.bptodo-btn-secondary:focus {
+	background: var(--bptodo-admin-surface-1);
+	color: var(--bptodo-admin-text);
+	border-color: var(--bptodo-admin-border-strong);
+}
+
+.bptodo-btn-danger {
+	background: var(--bptodo-admin-white);
+	color: var(--bptodo-admin-danger);
+	border-color: var(--bptodo-admin-danger-light);
+}
+
+.bptodo-btn-danger:hover,
+.bptodo-btn-danger:focus {
+	background: var(--bptodo-admin-danger);
+	color: #fff;
+	border-color: var(--bptodo-admin-danger);
+}
+
+.bptodo-btn:focus-visible {
+	outline: 2px solid var(--bptodo-admin-accent);
+	outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Overview — stat grid
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-stats-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: var(--bptodo-admin-gap-md);
+	margin: 0 0 var(--bptodo-admin-gap-lg);
+}
+
+.bptodo-stat {
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	padding: 18px;
+}
+
+.bptodo-stat__label {
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--bptodo-admin-text-muted);
+	margin: 0 0 6px;
+}
+
+.bptodo-stat__value {
+	font-size: 26px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	line-height: 1.1;
+}
+
+.bptodo-stat__trend {
+	margin: 4px 0 0;
+	font-size: 12px;
+	color: var(--bptodo-admin-text-3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Notices + empty states
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-notice {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 12px 16px;
+	border-radius: var(--bptodo-admin-radius-sm);
+	border: 1px solid var(--bptodo-admin-border);
+	background: var(--bptodo-admin-surface-1);
+	margin-bottom: var(--bptodo-admin-gap-md);
+	font-size: 13px;
+}
+
+.bptodo-notice--info {
+	background: var(--bptodo-admin-accent-light);
+	border-color: rgba(37, 99, 235, 0.2);
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-notice--warn {
+	background: var(--bptodo-admin-warn-light);
+	border-color: rgba(245, 158, 11, 0.3);
+	color: #92400e;
+}
+
+.bptodo-notice--success {
+	background: var(--bptodo-admin-success-light);
+	border-color: rgba(22, 163, 74, 0.2);
+	color: var(--bptodo-admin-success);
+}
+
+.bptodo-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0;
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	padding: 56px 32px;
+	text-align: center;
+}
+
+.bptodo-empty-state__icon {
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	width: 64px;
+	height: 64px;
+	margin: 0 auto 16px;
+	background: var(--bptodo-admin-accent-light);
+	color: var(--bptodo-admin-accent);
+	border-radius: 50%;
+	font-size: 32px;
+}
+
+.bptodo-empty-state__icon .dashicons {
+	width: 32px;
+	height: 32px;
+	font-size: 32px;
+	line-height: 1;
+	color: inherit;
+}
+
+.bptodo-empty-state__title {
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	margin: 0 0 6px;
+	line-height: 1.3;
+}
+
+.bptodo-empty-state__desc {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	margin: 0 auto 20px;
+	max-width: 440px;
+	line-height: 1.55;
+}
+
+.bptodo-empty-state__desc:last-child {
+	margin-bottom: 0;
+}
+
+.bptodo-empty-state .bptodo-btn {
+	margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Toast + confirm modal (JS-driven)
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-toast-host {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 100000;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	pointer-events: none;
+}
+
+.bptodo-toast {
+	background: var(--bptodo-admin-text);
+	color: #fff;
+	padding: 12px 16px;
+	border-radius: var(--bptodo-admin-radius-sm);
+	font-size: 13px;
+	font-weight: 500;
+	box-shadow: var(--bptodo-admin-shadow-hover);
+	min-width: 240px;
+	max-width: 360px;
+	pointer-events: auto;
+	transform: translateY(8px);
+	opacity: 0;
+	transition: opacity 0.2s, transform 0.2s;
+}
+
+.bptodo-toast--visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.bptodo-toast--success {
+	background: var(--bptodo-admin-success);
+}
+
+.bptodo-toast--error {
+	background: var(--bptodo-admin-danger);
+}
+
+.bptodo-confirm-backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.5);
+	z-index: 100001;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+}
+
+.bptodo-confirm {
+	background: var(--bptodo-admin-white);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+	max-width: 420px;
+	width: 100%;
+	padding: 24px;
+}
+
+.bptodo-confirm__title {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 8px;
+	color: var(--bptodo-admin-text);
+}
+
+.bptodo-confirm__desc {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	margin: 0 0 18px;
+	line-height: 1.5;
+}
+
+.bptodo-confirm__actions {
+	display: flex;
+	gap: 8px;
+	justify-content: flex-end;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive — exactly two media blocks per skill Part 7.5
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+	.bptodo-settings-layout {
+		flex-direction: column;
+	}
+
+	.bptodo-settings-sidebar {
+		width: 100%;
+		position: static;
+		top: auto;
+	}
+
+	.bptodo-settings-sidebar-nav {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 8px;
+	}
+
+	.bptodo-snav-link {
+		flex: 1 1 auto;
+		justify-content: center;
+	}
+
+	.bptodo-snav-divider,
+	.bptodo-snav-section-label {
+		display: none;
+	}
+
+	.bptodo-settings-main {
+		margin-left: 0;
+		margin-top: var(--bptodo-admin-gap-md);
+	}
+}
+
+@media (max-width: 640px) {
+	.bptodo-admin {
+		margin-right: 0;
+	}
+
+	.bptodo-page-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.bptodo-card .form-table th,
+	.bptodo-card .form-table td {
+		display: block;
+		width: 100%;
+		padding: 8px 16px;
+	}
+
+	.bptodo-card .form-table th {
+		padding-top: 16px;
+		padding-bottom: 4px;
+	}
+
+	.bptodo-stats-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   WB Plugins hub landing dashboard
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-hub-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: var(--bptodo-admin-gap-md);
+	margin: 0 0 var(--bptodo-admin-gap-lg);
+}
+
+.bptodo-hub-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 20px;
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	text-decoration: none;
+	color: var(--bptodo-admin-text);
+	transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+}
+
+.bptodo-hub-card:hover,
+.bptodo-hub-card:focus {
+	border-color: var(--bptodo-admin-accent);
+	box-shadow: var(--bptodo-admin-shadow-hover);
+	transform: translateY(-1px);
+	color: var(--bptodo-admin-text);
+	text-decoration: none;
+}
+
+/* Mouse-focus only — keyboard users get a visible outline via the
+   .bptodo-hub-card:focus-visible rule below. */
+.bptodo-hub-card:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.bptodo-hub-card:focus-visible {
+	outline: 2px solid var(--bptodo-admin-accent);
+	outline-offset: 2px;
+}
+
+.bptodo-hub-card__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	background: var(--bptodo-admin-accent-light);
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-hub-card__icon .dashicons {
+	width: 22px;
+	height: 22px;
+	font-size: 22px;
+	color: inherit;
+}
+
+.bptodo-hub-card__title {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	line-height: 1.2;
+}
+
+.bptodo-hub-card__subtitle {
+	font-size: 12px;
+	color: var(--bptodo-admin-text-3);
+	line-height: 1.4;
+}
+
+.bptodo-hub-card__cta {
+	margin-top: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding-top: 6px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-hub-card__cta .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+	transition: transform 0.12s;
+}
+
+.bptodo-hub-card:hover .bptodo-hub-card__cta .dashicons {
+	transform: translateX(2px);
+}
+
+/* ---------------------------------------------------------------------
+ * Settings notices ("Settings saved.", error banners, etc.)
+ *
+ * WP core's common.js hoists every .notice up to sit right after the
+ * first <h1> inside .wrap (or after .wp-header-end), regardless of
+ * where settings_errors() is called in PHP. With the notice's default
+ * styling the banner reads as a stray browser pill against our card
+ * panel below — flat, full-width, no chrome consistency.
+ *
+ * Scope styling to .bptodo-admin .notice so the banner picks up our
+ * radius + shadow + padding tokens and reads as part of the same UI.
+ * Reference: Basecamp card 9828831122.
+ * ------------------------------------------------------------------ */
+.bptodo-admin .notice {
+	border-radius: var( --bptodo-admin-radius );
+	box-shadow: var( --bptodo-admin-shadow );
+	padding: 12px 16px;
+	margin: 0 0 18px;
+	font-size: 14px;
+	line-height: 1.5;
+	border-width: 0 0 0 4px;
+	border-style: solid;
+}
+
+.bptodo-admin .notice p {
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Restore the dismiss button into the new padding rhythm. */
+.bptodo-admin .notice.is-dismissible {
+	padding-right: 38px;
+}
+
+.bptodo-admin .notice .notice-dismiss {
+	top: 8px;
+	right: 8px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   Toggle switch (wb-switch) — used by the settings tabs
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-admin .wb-switch {
+	position: relative;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
+	vertical-align: middle;
+}
+
+.bptodo-admin .wb-switch input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.bptodo-admin .wb-slider {
+	position: absolute;
+	cursor: pointer;
+	inset: 0;
+	background: var(--bptodo-admin-border-strong);
+	transition: background 0.18s;
+	border-radius: 999px;
+}
+
+.bptodo-admin .wb-slider::before {
+	position: absolute;
+	content: "";
+	height: 18px;
+	width: 18px;
+	left: 3px;
+	top: 3px;
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	transition: transform 0.18s;
+}
+
+.bptodo-admin .wb-switch input:checked + .wb-slider {
+	background: var(--bptodo-admin-accent);
+}
+
+.bptodo-admin .wb-switch input:checked + .wb-slider::before {
+	transform: translateX(20px);
+}
+
+.bptodo-admin .wb-switch input:focus-visible + .wb-slider {
+	outline: 2px solid var(--bptodo-admin-accent);
+	outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Status pills (Overview config snapshot)
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-status {
+	font-weight: 600;
+}
+
+.bptodo-status--on {
+	color: var(--bptodo-admin-success);
+}
+
+.bptodo-status--off {
+	color: var(--bptodo-admin-text-3);
+	font-weight: 400;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Form helpers specific to this plugin
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-checkline {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	font-size: 13px;
+	color: var(--bptodo-admin-text-4);
+}
+
+.bptodo-checkline:last-of-type {
+	margin-bottom: 0;
+}
+
+.bptodo-checkline input[type="checkbox"] {
+	accent-color: var(--bptodo-admin-accent);
+}
+
+.bptodo-card .form-table input.bptodo-input-narrow {
+	width: 100px;
+}
+
+.bptodo-card .form-table input.bptodo-input-wide {
+	width: 100%;
+	max-width: 480px;
+}
+
+.bptodo-input-suffix {
+	margin-left: 8px;
+	color: var(--bptodo-admin-text-3);
+	font-size: 13px;
+}
+
+/* select2 role picker sizing inside the card form-table */
+.bptodo-card .form-table .select2-container {
+	min-width: 320px;
+	max-width: 480px;
+}
+
+.bptodo-card .form-table .select2-container .select2-selection--multiple {
+	min-height: 38px;
+	border-color: var(--bptodo-admin-border-strong);
+	border-radius: var(--bptodo-admin-radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Action row (Overview quick actions)
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-action-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Card variants + inline empty state (Group tab no-Groups case)
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-card--spaced {
+	margin-top: var(--bptodo-admin-gap-lg);
+}
+
+.bptodo-card__lead {
+	margin: 0 0 8px;
+}
+
+.bptodo-card--empty {
+	border-style: dashed;
+	box-shadow: none;
+}
+
+.bptodo-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 48px 24px;
+}
+
+.bptodo-empty__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 56px;
+	height: 56px;
+	margin-bottom: 14px;
+	border-radius: 50%;
+	background: var(--bptodo-admin-accent-light);
+	color: var(--bptodo-admin-accent);
+}
+
+.bptodo-empty__icon .dashicons {
+	width: 28px;
+	height: 28px;
+	font-size: 28px;
+	color: inherit;
+}
+
+.bptodo-empty__title {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	margin: 0 0 6px;
+}
+
+.bptodo-empty__desc {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	margin: 0 auto 18px;
+	max-width: 420px;
+	line-height: 1.55;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Shortcode reference tables
+   ═══════════════════════════════════════════════════════════ */
+
+.bptodo-shortcode-table {
+	margin: 0;
+	border-radius: var(--bptodo-admin-radius-sm);
+	overflow: hidden;
+}
+
+.bptodo-shortcode-table code,
+.bptodo-card__body code {
+	background: var(--bptodo-admin-surface-2);
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-size: 12px;
+}
+
+.bptodo-shortcode-examples {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bptodo-shortcode-examples li {
+	padding: 6px 0;
+	border-bottom: 1px solid var(--bptodo-admin-surface-2);
+	font-size: 13px;
+	color: var(--bptodo-admin-text-2);
+}
+
+.bptodo-shortcode-examples li:last-child {
+	border-bottom: none;
+}

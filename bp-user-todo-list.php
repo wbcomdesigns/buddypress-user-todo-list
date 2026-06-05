@@ -3,7 +3,7 @@
  * Plugin Name: Todo for BuddyPress & BuddyBoss
  * Plugin URI: https://wbcomdesigns.com/contact/
  * Description: Complete todo and task management for BuddyPress and BuddyBoss communities.
- * Version: 3.5.1
+ * Version: 3.6.0
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -41,7 +41,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-    define( 'BPTODO_VERSION', '3.5.1' );
+    define( 'BPTODO_VERSION', '3.6.0' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -477,7 +477,11 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
      */
     function bptodo_enqueue_network_scripts() {
         if (is_network_admin()) {
-            wp_enqueue_script('bptodo-network-admin', plugin_dir_url(__FILE__) . 'admin/assets/js/bp-todo-list-admin.js', ['jquery'], BPTODO_VERSION, true);
+            // Modern toast/modal helper so the deactivate action can use it
+            // instead of native confirm()/alert(). Loaded as a dependency.
+            wp_enqueue_style('bptodo-modern-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system.min.css', [], BPTODO_VERSION);
+            wp_enqueue_script('bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern.min.js', ['jquery'], BPTODO_VERSION, true);
+            wp_enqueue_script('bptodo-network-admin', plugin_dir_url(__FILE__) . 'admin/assets/js/bp-todo-list-admin.js', ['jquery', 'bptodo-modern-js'], BPTODO_VERSION, true);
             wp_localize_script('bptodo-network-admin', 'bptodo_network_ajax', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('bptodo_network_nonce'),

@@ -138,9 +138,10 @@ class Bptodo_List {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/bptodo-plugin-genral-function.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/wbcom/wbcom-admin-settings.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-admin.php';
+
+		// Card-panel admin controller (replaces the legacy admin/wbcom/ wrapper).
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/admin/class-bptodo-admin-panel.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-feedback.php';
 
@@ -178,20 +179,33 @@ class Bptodo_List {
 	 */
 	private function define_admin_hooks() {
 
+		// Legacy admin service class. As of 3.6.0 its UI methods (menu,
+		// enqueue, settings-page render, notice suppression) are NO LONGER
+		// hooked — the new Bptodo_Admin_Panel owns the card-panel admin.
+		// We retain this class only for its non-UI logic: settings option
+		// registration + sanitizers (Group Todo, Data Retention, Shortcodes)
+		// and the custom General-tab save handler, which the new General view
+		// still posts to. The frontend asset loader (bptodo_variables) also
+		// lives here and stays wired.
 		$plugin_admin = new Bptodo_Admin( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 		$plugin_cpt   = new Bptodo_Cpt( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt_category' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bptodo_add_menu_page' );
+
+		// Settings registration (option groups + sanitizers) stays on the
+		// legacy class — preserves the exact option-save contract.
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_general_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_shortcode_settings' );
-		
+
+		// Custom General-tab save path (self-POST, nonce `bptodo`).
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
+
+		// Frontend asset loader (still owned by the legacy class).
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_variables' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
-		$this->loader->add_action( 'in_admin_header', $plugin_admin, 'bptodo_hide_all_admin_notices_from_setting_page' );
+
+		// New card-panel admin controller (menu + enqueue + render + hub).
+		$bptodo_panel = new Bptodo_Admin_Panel();
+		$bptodo_panel->register();
 	}
 
 	/**

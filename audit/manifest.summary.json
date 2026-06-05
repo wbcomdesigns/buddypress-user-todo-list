@@ -1,0 +1,26 @@
+{
+  "plugin": "buddypress-user-todo-list",
+  "name": "Todo for BuddyPress & BuddyBoss",
+  "version": "3.5.1",
+  "branch": "3.6.0",
+  "text_domain": "wb-todo",
+  "admin_ui_wrapper": "OLD",
+  "counts": {
+    "rest_endpoints": 0,
+    "ajax": 11,
+    "admin_pages": 6,
+    "settings": 6,
+    "shortcodes": 3,
+    "blocks": 0,
+    "post_types": 1,
+    "taxonomies": 1,
+    "tables": 0,
+    "cron": 2,
+    "wp_cli": 3,
+    "hooks_fired": 41
+  },
+  "primary_menu": { "slug": "user-todo-list-settings", "parent": "wbcomplugins", "hook": "admin_menu (Bptodo_Admin::bptodo_add_menu_page)" },
+  "detail": "audit/manifest.json",
+  "generated_at": "2026-06-05T00:00:00+00:00",
+  "schema_version": "v2.2"
+}
