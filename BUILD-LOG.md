@@ -165,3 +165,58 @@ across tabs. Documented intentionally; the existing per-tab save mechanisms were
   BuddyPress site.
 - Network "Network Deactivate" path only runs under `BPTODO_ENABLE_ADVANCED_MULTISITE` (off by
   default). Verify the modal helper loads on the network plugins screen if/when that flag is on.
+
+---
+
+## 2026-06-05 — Wiring-bug fix pass (WRAPPER-AUDIT findings #1, #2, #3)
+
+Three wiring defects from `WRAPPER-AUDIT.md` (Severity-Ranked Findings table). No behaviour change for
+end users; all three are dead/incorrect wiring removed or corrected.
+
+### #1 (Medium) — `Bptodo_Admin` constructor arity mismatch
+- **File:** `includes/class-bptodo.php:~190`
+- **Was:** `new Bptodo_Admin( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() )`
+- **Now:** `new Bptodo_Admin()`
+- **Why fix (a) not (b):** `Bptodo_Admin` has no `plugin_name` / `plugin_prefix` / `version`
+  properties and uses none of those values. Its only version reference is the `BPTODO_VERSION`
+  constant (and `BPTODO_PLUGIN_URL`) read directly inside `bptodo_variables()`. The constructor is
+  a genuine no-arg constructor, so the minimal correct fix is to stop passing the three unused
+  arguments (PHP was silently discarding them; strict static analysis flags it). Added a code
+  comment documenting why no args are passed.
+
+### #2 (Medium) — dead `register_setting` for the hyphen-keyed General option
+- **File:** `admin/class-bptodo-admin.php:~180` (`bptodo_register_general_settings()`)
+- **Removed:** `register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );`
+- **Why:** This registered a HYPHEN-keyed option `user-todo-list-settings` that is never written or
+  read. The General tab does not use the Settings API at all — it saves the UNDERSCORE key
+  `user_todo_list_settings` via the custom self-POST handler `bptodo_save_general_settings()`
+  (`update_option( 'user_todo_list_settings', ... )`) and reads it back through `Bptodo_Globals`.
+  Confirmed no `settings_fields( 'user-todo-list-settings' )` exists in any view, and there were no
+  matching `add_settings_section()` / `add_settings_field()` calls to remove (the docblock already
+  noted "no add_settings_section() callbacks are needed"). Updated the method docblock to record
+  that the General tab intentionally bypasses the Settings API. The Group Todo and Data Retention
+  `register_setting()` calls (with their sanitizers) are untouched.
+
+### #3 (Low) — orphan `hide_button` save
+- **File:** `admin/class-bptodo-admin.php:~260` (`bptodo_save_general_settings()`)
+- **Removed:** the `if ( isset( $_POST['bptodo_hide_button'] ) ) { $settings['hide_button'] = ... }`
+  branch.
+- **Why:** `bptodo_hide_button` is never rendered in `settings-general.php`, never mapped in
+  `Bptodo_Globals`, and never read anywhere in PHP or JS (grep confirmed the only two hits were
+  these two lines). It could never be set from the UI and had no consumer — a pure orphan write.
+  Removed the dead branch.
+
+### Verification
+- `php -l includes/class-bptodo.php` → No syntax errors detected.
+- `php -l admin/class-bptodo-admin.php` → No syntax errors detected.
+- WPCS (wpcs MCP `wpcs_check_file`) on both files, compared against the pre-edit `HEAD` copies:
+  - `includes/class-bptodo.php`: 30 errors before / 30 errors after — **0 new errors** (all
+    pre-existing: FileName convention, `dirname(__FILE__)`, trailing whitespace, brace spacing).
+  - `admin/class-bptodo-admin.php`: 21 errors + 3 warnings before / 21 errors + 3 warnings after —
+    **0 new errors** (all pre-existing: Yoda conditions, inline-comment full-stops,
+    `$_SERVER['REQUEST_URI']` sanitization, CDN/footer enqueue warnings).
+- Real General-tab option path confirmed intact: save `update_option( 'user_todo_list_settings', $settings )`
+  at `admin/class-bptodo-admin.php:282`; read `get_option( 'user_todo_list_settings' )` at
+  `inc/class-bptodo-globals.php:55`. No lingering `register_setting` / `settings_fields` for the
+  removed hyphen key.
+- Not committed / not pushed, per the brief.

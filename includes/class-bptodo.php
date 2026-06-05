@@ -187,7 +187,10 @@ class Bptodo_List {
 		// and the custom General-tab save handler, which the new General view
 		// still posts to. The frontend asset loader (bptodo_variables) also
 		// lives here and stays wired.
-		$plugin_admin = new Bptodo_Admin( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
+		// Bptodo_Admin's constructor takes no parameters and the class uses
+		// neither plugin_name/prefix nor version (it reads BPTODO_VERSION /
+		// BPTODO_PLUGIN_URL directly), so instantiate it with no arguments.
+		$plugin_admin = new Bptodo_Admin();
 		$plugin_cpt   = new Bptodo_Cpt( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt_category' );

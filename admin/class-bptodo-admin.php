@@ -165,7 +165,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		}
 
 		/**
-		 * Register the General / Group Todo / Data Retention option groups.
+		 * Register the Group Todo / Data Retention option groups.
 		 *
 		 * The card-panel views (includes/admin/views/) render the fields
 		 * directly, so no add_settings_section() callbacks are needed. The
@@ -173,11 +173,15 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * accepts the Group Todo + Data Retention saves with the SAME option
 		 * keys and sanitizers as before — preserving the save contract.
 		 *
+		 * Note: the General tab does NOT use the Settings API. It saves the
+		 * underscore-keyed `user_todo_list_settings` option via the custom
+		 * self-POST handler bptodo_save_general_settings(), so there is no
+		 * register_setting() for it here.
+		 *
 		 * @since 1.0.0
 		 * @access public
 		 */
 		public function bptodo_register_general_settings() {
-			register_setting( 'user-todo-list-settings', 'user-todo-list-settings' );
 			register_setting( 'group-todo-list-settings', 'group-todo-list-settings', array( $this, 'bptodo_sanitize_group_settings' ) );
 			register_setting( 'data-retention-settings', 'data-retention-settings', array( $this, 'bptodo_sanitize_retention_settings' ) );
 		}
@@ -256,9 +260,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				// Text fields
 				if ( isset( $_POST['bptodo_profile_menu_label'] ) ) {
 					$settings['profile_menu_label'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label'] ) );
-				}
-				if ( isset( $_POST['bptodo_hide_button'] ) ) {
-					$settings['hide_button'] = sanitize_text_field( wp_unslash( $_POST['bptodo_hide_button'] ) );
 				}
 				if ( isset( $_POST['bptodo_profile_menu_label_plural'] ) ) {
 					$settings['profile_menu_label_plural'] = sanitize_text_field( wp_unslash( $_POST['bptodo_profile_menu_label_plural'] ) );
