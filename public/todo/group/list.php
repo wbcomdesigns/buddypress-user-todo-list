@@ -333,7 +333,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					<?php endif; ?>
 
 					<!-- Clear Filters Button -->
-					<button type="button" id="bptodo-clear-filters" class="bptodo-clear-filters" aria-label="<?php esc_attr_e( 'Clear all filters', 'wb-todo' ); ?>">
+					<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" aria-label="<?php esc_attr_e( 'Clear all filters', 'wb-todo' ); ?>">
 						<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
 					</button>
 				</div>
