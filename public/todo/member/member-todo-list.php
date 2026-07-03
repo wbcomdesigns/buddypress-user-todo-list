@@ -19,93 +19,63 @@ $profile_menu_slug         = $bptodo->profile_menu_slug;
 $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 
-// Fetch todos with intelligent sorting.
-$args = array(
-	'post_type'      => 'bp-todo',
-	'post_status'    => 'publish',
-	'author'         => get_current_user_id(),
-	'posts_per_page' => apply_filters( 'bptodo_member_list_limit', 500 ),
-);
-$todos = get_posts( $args );
-
-// Sort todos: Incomplete first, then by priority (Critical > High > Normal), then by due date.
-usort(
-	$todos,
-	function ( $a, $b ) {
-		$a_status   = get_post_meta( $a->ID, 'todo_status', true );
-		$b_status   = get_post_meta( $b->ID, 'todo_status', true );
-		$a_priority = get_post_meta( $a->ID, 'todo_priority', true );
-		$b_priority = get_post_meta( $b->ID, 'todo_priority', true );
-		$a_due_date = get_post_meta( $a->ID, 'todo_due_date', true );
-		$b_due_date = get_post_meta( $b->ID, 'todo_due_date', true );
-
-		// Completed tasks go to bottom.
-		if ( 'complete' === $a_status && 'complete' !== $b_status ) {
-			return 1;
-		}
-		if ( 'complete' !== $a_status && 'complete' === $b_status ) {
-			return -1;
-		}
-
-		// Sort by priority.
-		$priority_map   = array(
-			'critical' => 3,
-			'high'     => 2,
-			'normal'   => 1,
-		);
-		$a_priority_val = isset( $priority_map[ $a_priority ] ) ? $priority_map[ $a_priority ] : 0;
-		$b_priority_val = isset( $priority_map[ $b_priority ] ) ? $priority_map[ $b_priority ] : 0;
-
-		if ( $a_priority_val !== $b_priority_val ) {
-			return $b_priority_val - $a_priority_val;
-		}
-
-		// Sort by due date (earliest first).
-		if ( empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-			return 1;
-		}
-		if ( ! empty( $a_due_date ) && empty( $b_due_date ) ) {
-			return -1;
-		}
-		if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-			$a_timestamp = strtotime( $a_due_date );
-			$b_timestamp = strtotime( $b_due_date );
-			if ( false !== $a_timestamp && false !== $b_timestamp ) {
-				return $a_timestamp - $b_timestamp;
-			}
-		}
-
-		// Fall back to post date (newest first).
-		return strtotime( $b->post_date ) - strtotime( $a->post_date );
-	}
-);
-
-// Calculate statistics.
-$all_todo_count     = count( $todos );
-$all_completed_todo = 0;
-$all_pending_todo   = 0;
-$pending_todos      = array();
-$completed_todos    = array();
-
-foreach ( $todos as $todo ) {
-	$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
-	if ( 'complete' === $todo_status ) {
-		$all_completed_todo++;
-		$completed_todos[] = $todo;
-	} else {
-		$all_pending_todo++;
-		$pending_todos[] = $todo;
-	}
-}
-
-$completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 100 ) / $all_todo_count, 1 ) : 0;
-
 // Determine current user permissions.
 $current_user_id = get_current_user_id();
+
+/*
+ * Server-side pagination (big-site readiness). The old code fetched up to
+ * a silent 500-task cap (apply_filters bptodo_member_list_limit) and
+ * paginated client-side, so anything past the cap was invisible and
+ * unmanageable. Each tab panel now runs one LIMIT/OFFSET query with the
+ * ordering pushed to SQL and meta batch-primed; counts come from a single
+ * aggregate COUNT query, so there is no cap at all.
+ */
+
+/**
+ * Filters the number of todos per page on the member list.
+ *
+ * @since 3.6.0
+ *
+ * @param int $per_page Todos per page.
+ */
+$per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
+
+$todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+$done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+
+// Aggregate counts (stats cards, tab badges, progress bar).
+$todo_counts        = bptodo_count_todos( array( 'author' => $current_user_id ) );
+$all_todo_count     = $todo_counts['total'];
+$all_completed_todo = $todo_counts['completed'];
+$all_pending_todo   = $todo_counts['pending'];
+
+// Current page of todos for each tab panel (meta batch-primed by WP_Query,
+// so the per-card todo_group_id / status reads below hit the cache).
+$all_result = bptodo_get_todos_page(
+	array(
+		'author'   => $current_user_id,
+		'page'     => $todo_page,
+		'per_page' => $per_page,
+	)
+);
+
+$completed_result = bptodo_get_todos_page(
+	array(
+		'author'   => $current_user_id,
+		'status'   => 'complete',
+		'page'     => $done_page,
+		'per_page' => $per_page,
+	)
+);
+
+$todos           = $all_result['todos'];
+$completed_todos = $completed_result['todos'];
+
+$completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 100 ) / $all_todo_count, 1 ) : 0;
 ?>
 
 <div class="bptodo-wrapper" id="bptodo-member-list">
-	<?php if ( empty( $todos ) ) : ?>
+	<?php if ( 0 === $all_todo_count ) : ?>
 		<?php
 		// Show empty state.
 		$context    = 'member';
@@ -263,9 +233,13 @@ $current_user_id = get_current_user_id();
 			<div class="bptodo-search-filters__info">
 				<span id="bptodo-results-count" class="bptodo-results-count">
 					<?php
+					$showing_start = min( $all_todo_count, ( ( $all_result['page'] - 1 ) * $all_result['per_page'] ) + 1 );
+					$showing_end   = min( $all_todo_count, $all_result['page'] * $all_result['per_page'] );
 					printf(
-						/* translators: %d: Number of todos */
-						esc_html( _n( 'Showing %d todo', 'Showing %d todos', $all_todo_count, 'wb-todo' ) ),
+						/* translators: 1: First item on page, 2: Last item on page, 3: Total todos */
+						esc_html__( 'Showing %1$d-%2$d of %3$d todos', 'wb-todo' ),
+						esc_html( $showing_start ),
+						esc_html( $showing_end ),
 						esc_html( $all_todo_count )
 					);
 					?>
@@ -318,11 +292,6 @@ $current_user_id = get_current_user_id();
 			</button>
 		</div>
 
-		<?php
-		// Pagination settings.
-		$per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
-		?>
-
 		<!-- All Todos Panel -->
 		<div
 			class="bptodo-tab-panel"
@@ -338,9 +307,9 @@ $current_user_id = get_current_user_id();
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
 				?>
 			<?php else : ?>
-				<div class="bptodo-list bptodo-list--grid js-bptodo-paginated-list" role="list" data-per-page="<?php echo esc_attr( $per_page ); ?>">
+				<div class="bptodo-list bptodo-list--grid" role="list">
 					<?php
-					foreach ( $todos as $index => $todo ) :
+					foreach ( $todos as $todo ) :
 						// Determine if this is a group todo.
 						$todo_gp_id   = get_post_meta( $todo->ID, 'todo_group_id', true );
 						$is_group_todo = ! empty( $todo_gp_id );
@@ -352,33 +321,21 @@ $current_user_id = get_current_user_id();
 						// Include the card partial.
 						$context       = 'member';
 						$show_checkbox = true;
-						// Add data attribute for pagination.
-						$item_index = $index;
 						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
 					endforeach;
 					?>
 				</div>
 
-				<?php if ( count( $todos ) > $per_page ) : ?>
-					<!-- Pagination for All Todos -->
-					<div class="bptodo-pagination js-bptodo-pagination" data-target="bptodo-panel-all" data-total="<?php echo esc_attr( count( $todos ) ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>">
-						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--prev js-bptodo-page-prev" disabled>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polyline points="15 18 9 12 15 6"></polyline>
-							</svg>
-							<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
-						</button>
-						<div class="bptodo-pagination__info">
-							<span class="js-bptodo-page-current">1</span> / <span class="js-bptodo-page-total"><?php echo esc_html( ceil( count( $todos ) / $per_page ) ); ?></span>
-						</div>
-						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--next js-bptodo-page-next">
-							<?php esc_html_e( 'Next', 'wb-todo' ); ?>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polyline points="9 18 15 12 9 6"></polyline>
-							</svg>
-						</button>
-					</div>
-				<?php endif; ?>
+				<?php
+				// Server-side pager for the All panel.
+				$pager = array(
+					'param'       => 'todo_page',
+					'current'     => $all_result['page'],
+					'total_pages' => $all_result['total_pages'],
+					'label'       => __( 'All todos pagination', 'wb-todo' ),
+				);
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+				?>
 			<?php endif; ?>
 		</div>
 
@@ -398,9 +355,9 @@ $current_user_id = get_current_user_id();
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
 				?>
 			<?php else : ?>
-				<div class="bptodo-list bptodo-list--grid js-bptodo-paginated-list" role="list" data-per-page="<?php echo esc_attr( $per_page ); ?>">
+				<div class="bptodo-list bptodo-list--grid" role="list">
 					<?php
-					foreach ( $completed_todos as $index => $todo ) :
+					foreach ( $completed_todos as $todo ) :
 						$todo_gp_id    = get_post_meta( $todo->ID, 'todo_group_id', true );
 						$is_group_todo = ! empty( $todo_gp_id );
 
@@ -408,32 +365,21 @@ $current_user_id = get_current_user_id();
 						$can_delete    = ! $is_group_todo;
 						$context       = 'member';
 						$show_checkbox = true;
-						$item_index    = $index;
 						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
 					endforeach;
 					?>
 				</div>
 
-				<?php if ( count( $completed_todos ) > $per_page ) : ?>
-					<!-- Pagination for Completed Todos -->
-					<div class="bptodo-pagination js-bptodo-pagination" data-target="bptodo-panel-completed" data-total="<?php echo esc_attr( count( $completed_todos ) ); ?>" data-per-page="<?php echo esc_attr( $per_page ); ?>">
-						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--prev js-bptodo-page-prev" disabled>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polyline points="15 18 9 12 15 6"></polyline>
-							</svg>
-							<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
-						</button>
-						<div class="bptodo-pagination__info">
-							<span class="js-bptodo-page-current">1</span> / <span class="js-bptodo-page-total"><?php echo esc_html( ceil( count( $completed_todos ) / $per_page ) ); ?></span>
-						</div>
-						<button type="button" class="bptodo-pagination__btn bptodo-pagination__btn--next js-bptodo-page-next">
-							<?php esc_html_e( 'Next', 'wb-todo' ); ?>
-							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<polyline points="9 18 15 12 9 6"></polyline>
-							</svg>
-						</button>
-					</div>
-				<?php endif; ?>
+				<?php
+				// Server-side pager for the Completed panel.
+				$pager = array(
+					'param'       => 'done_page',
+					'current'     => $completed_result['page'],
+					'total_pages' => $completed_result['total_pages'],
+					'label'       => __( 'Completed todos pagination', 'wb-todo' ),
+				);
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+				?>
 			<?php endif; ?>
 		</div>
 
@@ -501,86 +447,13 @@ $current_user_id = get_current_user_id();
 			});
 		}
 
-		// Pagination functionality.
-		initPagination();
-
-		function initPagination() {
-			const paginationContainers = document.querySelectorAll('.js-bptodo-pagination');
-
-			paginationContainers.forEach(function(pagination) {
-				const targetId = pagination.dataset.target;
-				const panel = document.getElementById(targetId);
-				if (!panel) return;
-
-				const list = panel.querySelector('.js-bptodo-paginated-list');
-				if (!list) return;
-
-				const items = list.querySelectorAll('.bptodo-card');
-				const perPage = parseInt(pagination.dataset.perPage, 10) || 12;
-				const totalItems = items.length;
-				const totalPages = Math.ceil(totalItems / perPage);
-				let currentPage = 1;
-
-				const prevBtn = pagination.querySelector('.js-bptodo-page-prev');
-				const nextBtn = pagination.querySelector('.js-bptodo-page-next');
-				const currentSpan = pagination.querySelector('.js-bptodo-page-current');
-				const totalSpan = pagination.querySelector('.js-bptodo-page-total');
-
-				// Initial render.
-				showPage(1);
-
-				// Event listeners.
-				if (prevBtn) {
-					prevBtn.addEventListener('click', function() {
-						if (currentPage > 1) {
-							showPage(currentPage - 1);
-						}
-					});
-				}
-
-				if (nextBtn) {
-					nextBtn.addEventListener('click', function() {
-						if (currentPage < totalPages) {
-							showPage(currentPage + 1);
-						}
-					});
-				}
-
-				function showPage(page) {
-					currentPage = page;
-					const start = (page - 1) * perPage;
-					const end = start + perPage;
-
-					items.forEach(function(item, index) {
-						if (index >= start && index < end) {
-							item.style.display = '';
-							item.removeAttribute('hidden');
-						} else {
-							item.style.display = 'none';
-							item.setAttribute('hidden', '');
-						}
-					});
-
-					// Update UI.
-					if (currentSpan) currentSpan.textContent = page;
-					if (totalSpan) totalSpan.textContent = totalPages;
-
-					if (prevBtn) {
-						prevBtn.disabled = page <= 1;
-						prevBtn.classList.toggle('bptodo-pagination__btn--disabled', page <= 1);
-					}
-
-					if (nextBtn) {
-						nextBtn.disabled = page >= totalPages;
-						nextBtn.classList.toggle('bptodo-pagination__btn--disabled', page >= totalPages);
-					}
-
-					// Scroll to top of list.
-					if (page !== 1 || totalItems > perPage) {
-						list.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					}
-				}
-			});
+		// Pagination is server-side (see the pagination partial); re-open
+		// the Completed tab after following a done_page pagination link.
+		if (new URLSearchParams(window.location.search).has('done_page')) {
+			const completedTab = document.getElementById('bptodo-tab-completed');
+			if (completedTab) {
+				switchTab(completedTab);
+			}
 		}
 	});
 })();
