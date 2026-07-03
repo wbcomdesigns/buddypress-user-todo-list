@@ -18,10 +18,13 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 
 			// Set up the extension settings.
 			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ?? '' ) );
+			// The group todo count is resolved at render time by
+			// bptodo_group_nav_has_count() (the group is not yet in context here).
+			// Do NOT bake the viewer's personal count into the label/count.
 			$args = array(
 				'slug'              => $profile_menu_slug,
-				'name'              => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',
-				'count'             => $bptodo->my_todo_items,
+				'name'              => esc_html( $bptodo->profile_menu_label_plural ),
+				'count'             => 0,
 				'enable_nav_item'   => true,
 			);
 
@@ -81,7 +84,12 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 			$todo_slug = sanitize_title( $bptodo->profile_menu_slug ?? 'todo' );
 			if ( 'groups' === $displayed_nav && $todo_slug === $nav_item->slug ) {
-				$count = $bptodo->my_todo_items;
+				// Count todos scoped to THIS group, not the viewer's personal count.
+				$group_id = bp_get_current_group_id();
+				if ( $group_id && function_exists( 'bptodo_count_todos' ) ) {
+					$stats = bptodo_count_todos( array( 'group_id' => $group_id ) );
+					$count = isset( $stats['total'] ) ? (int) $stats['total'] : 0;
+				}
 			}
 			return $count;
 		}

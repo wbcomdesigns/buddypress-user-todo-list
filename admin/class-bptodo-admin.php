@@ -288,7 +288,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				set_transient( 'bptodo_settings_saved', true, 30 );
 
 				// Redirect to prevent form resubmission
-				wp_safe_redirect( admin_url( 'admin.php?page=user-todo-list-settings&tab=user-todo-list-settings&settings-updated=true' ) );
+				wp_safe_redirect( admin_url( 'admin.php?page=user-todo-list-settings&tab=general&settings-updated=true' ) );
 				exit;
 			}
 		}
