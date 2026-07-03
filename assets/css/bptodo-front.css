@@ -3084,6 +3084,24 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     text-overflow: ellipsis;
 }
 
+/* Theme-enhanced selects: Reign/other themes may replace the task selector
+   with a Select2 / nice-select control that has its own search box. Keep the
+   enhanced control inside the flex row so opening it or typing in its search
+   field does not shift the View Progress layout. */
+.bptodo-task-selector .select2-container,
+.bptodo-task-selector .nice-select {
+    flex: 1 1 250px;
+    width: auto !important;
+    min-width: 250px;
+    max-width: 100%;
+}
+
+.bptodo-task-selector .select2-container .select2-selection__rendered {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 @media screen and (max-width: 600px) {
     .bptodo-task-selector {
         flex-direction: column;
