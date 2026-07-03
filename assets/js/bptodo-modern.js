@@ -506,9 +506,13 @@
 
 			const settings = Object.assign({}, defaults, options);
 
-			// Create modal
+			// Create modal.
+			// The modal is appended to <body>, outside any .bptodo-wrapper on the
+			// page, so it must carry the wrapper class itself - otherwise the
+			// .bptodo-wrapper-scoped button/confirm styles never apply and the
+			// footer buttons (e.g. Cancel/Delete) render unstyled.
 			const modal = document.createElement('div');
-			modal.className = 'bptodo-modal';
+			modal.className = 'bptodo-wrapper bptodo-modal';
 			modal.style.setProperty('--bptodo-modal-width', settings.width);
 			modal.setAttribute('role', 'dialog');
 			modal.setAttribute('aria-modal', 'true');
