@@ -3462,12 +3462,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     color: var(--bptodo-text-primary, #1d2327);
 }
 
-.media-router .media-menu-item {
+.media-router .media-menu-item.media-menu-item {
     color: var(--bptodo-text-secondary, #2271b1);
 }
 
-.media-router .media-menu-item.active,
-.media-router .media-menu-item.active:last-child {
+.media-router .media-menu-item.media-menu-item.active,
+.media-router .media-menu-item.media-menu-item.active:last-child {
     background: var(--bptodo-bg-card, #ffffff);
     color: var(--bptodo-text-primary, #1d2327);
     border-bottom: 1px solid var(--bptodo-bg-card, #ffffff);
