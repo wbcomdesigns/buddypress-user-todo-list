@@ -62,14 +62,24 @@ if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	 *
 	 * @return boolean
 	 */
-	add_filter( 'bptodo_exclude_modrator_view', 'bptodo_list_group_modrator' );
 	function bptodo_list_group_modrator() {
 		$group_todo_list_settings = get_option( 'group-todo-list-settings' );
 
 		// list_enable = 'yes' means moderators CAN add todos (ALLOW setting)
 		$can_list = ( ! empty( $group_todo_list_settings['list_enable'] ) && in_array( $group_todo_list_settings['list_enable'], array( 'yes', 'on' ), true ) ) ? true : false;
 
-		return $can_list;
+		/**
+		 * Filter whether group moderators can add/list group todos.
+		 *
+		 * Fired where the setting is evaluated so third-party overrides take
+		 * effect. Previously this hook name was only registered via
+		 * add_filter() and never applied, so overrides were silently ignored.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @param bool $can_list Whether moderators can add/list group todos.
+		 */
+		return apply_filters( 'bptodo_exclude_modrator_view', $can_list );
 	}
 }
 
@@ -100,9 +110,22 @@ function bptodo_report_view_enabled( $group_id, $current_user ) {
 
 	// view_enable = 'yes' means moderators CAN view reports (ALLOW setting)
 	$can_views = ( ! empty( $group_todo_list_settings['view_enable'] ) && in_array( $group_todo_list_settings['view_enable'], array( 'yes', 'on' ), true ) ) ? true : false;
-	return $can_views;
+
+	/**
+	 * Filter whether group moderators can view the group todo report.
+	 *
+	 * Fired where the setting is evaluated so third-party overrides take
+	 * effect. Previously this hook name was only registered via add_filter()
+	 * and never applied, so overrides were silently ignored.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param bool $can_views    Whether moderators can view the report.
+	 * @param int  $group_id     The group ID.
+	 * @param int  $current_user The user being checked.
+	 */
+	return apply_filters( 'bptodo_exclude_modrator_edit', $can_views, $group_id, $current_user );
 }
-add_filter( 'bptodo_exclude_modrator_edit', 'bptodo_report_view_enabled' );
 
 
 /**
