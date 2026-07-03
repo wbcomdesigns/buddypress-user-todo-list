@@ -653,6 +653,17 @@
 			const settings = Object.assign({}, defaults, options);
 
 			return new Promise((resolve) => {
+				// Guard: the Confirm/Cancel buttons close the modal, which fires
+				// onClose. Without this flag, onClose's resolve(false) settles the
+				// promise before the button's own resolve() runs, so Confirm always
+				// returned false (dead delete/destructive actions).
+				let settled = false;
+				const settle = function(result) {
+					if (settled) return;
+					settled = true;
+					resolve(result);
+				};
+
 				// Build content using safe DOM methods
 				const content = document.createElement('div');
 				content.className = 'bptodo-confirm';
@@ -681,20 +692,20 @@
 							text: settings.cancelText,
 							type: 'secondary',
 							onClick: () => {
+								settle(false);
 								this.close();
-								resolve(false);
 							}
 						},
 						{
 							text: settings.confirmText,
 							type: settings.type,
 							onClick: () => {
+								settle(true);
 								this.close();
-								resolve(true);
 							}
 						}
 					],
-					onClose: () => resolve(false)
+					onClose: () => settle(false)
 				});
 			});
 		}
