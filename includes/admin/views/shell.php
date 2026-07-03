@@ -88,7 +88,7 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 
 				<div class="bptodo-snav-divider" role="separator"></div>
 				<p class="bptodo-snav-section-label"><?php esc_html_e( 'Resources', 'wb-todo' ); ?></p>
-				<a href="https://docs.wbcomdesigns.com/docs/bp-user-todo-list/" class="bptodo-snav-link" target="_blank" rel="noopener noreferrer">
+				<a href="https://docs.wbcomdesigns.com/docs/buddypress-user-to-do-list/" class="bptodo-snav-link" target="_blank" rel="noopener noreferrer">
 					<span class="dashicons dashicons-book" aria-hidden="true"></span>
 					<?php esc_html_e( 'Documentation', 'wb-todo' ); ?>
 					<span class="dashicons dashicons-external bptodo-snav-link__ext" aria-hidden="true"></span>
