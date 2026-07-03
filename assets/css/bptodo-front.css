@@ -3306,12 +3306,16 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-wrapper .mce-panel.mce-toolbar-grp,
 .bptodo-wrapper .mce-toolbar-grp .mce-panel,
 .bptodo-wrapper .mce-panel.mce-menubar,
-.bptodo-wrapper .mce-panel.mce-statusbar {
+.bptodo-wrapper .mce-panel.mce-statusbar,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
     background: var(--bptodo-bg-surface-secondary, #f6f7f7);
     border-color: var(--bptodo-border-default, #dcdcde);
 }
 
-.bptodo-wrapper .mce-toolbar .mce-ico {
+.bptodo-wrapper .mce-toolbar .mce-ico,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:hover,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:focus {
     color: var(--bptodo-text-secondary, #50575e);
 }
 

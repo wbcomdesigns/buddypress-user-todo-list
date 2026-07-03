@@ -1305,6 +1305,7 @@
 	margin-bottom: var(--bptodo-space-6);
 }
 
+.buddypress .buddypress-wrap .bptodo-wrapper .bptodo-tab,
 .bptodo-wrapper .bptodo-tab {
 	flex: 1;
 	padding: var(--bptodo-space-2) var(--bptodo-space-4);
@@ -1323,6 +1324,7 @@
 	color: var(--bptodo-text-primary);
 }
 
+.buddypress .buddypress-wrap .bptodo-wrapper .bptodo-tab--active,
 .bptodo-wrapper .bptodo-tab--active {
 	background: var(--bptodo-bg-card);
 	color: var(--bptodo-text-primary);
