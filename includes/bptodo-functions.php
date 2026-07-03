@@ -145,6 +145,298 @@ if ( ! function_exists( 'bptodo_is_site_admin' ) ) {
 	}
 }
 
+if ( ! function_exists( 'bptodo_sorted_todos_clauses' ) ) {
+	/**
+	 * Apply the shared front-end todo ordering at the database level.
+	 *
+	 * Order: incomplete first, then priority (critical > high > normal),
+	 * then due date (earliest first, empty last), then newest first.
+	 * Only runs for queries flagged with the `bptodo_sorted` query var
+	 * (set by bptodo_get_todos_page()).
+	 *
+	 * @param array    $clauses The query clauses.
+	 * @param WP_Query $query   The current query.
+	 * @return array Modified clauses.
+	 * @since 3.6.0
+	 */
+	function bptodo_sorted_todos_clauses( $clauses, $query ) {
+		global $wpdb;
+
+		if ( ! $query->get( 'bptodo_sorted' ) ) {
+			return $clauses;
+		}
+
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} bptodo_status_mt ON ( bptodo_status_mt.post_id = {$wpdb->posts}.ID AND bptodo_status_mt.meta_key = 'todo_status' )";
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} bptodo_priority_mt ON ( bptodo_priority_mt.post_id = {$wpdb->posts}.ID AND bptodo_priority_mt.meta_key = 'todo_priority' )";
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} bptodo_due_mt ON ( bptodo_due_mt.post_id = {$wpdb->posts}.ID AND bptodo_due_mt.meta_key = 'todo_due_date' )";
+
+		if ( $query->get( 'bptodo_primary_only' ) ) {
+			$clauses['where'] .= " AND {$wpdb->posts}.ID IN ( SELECT pm.post_id FROM {$wpdb->postmeta} pm WHERE pm.meta_key = 'todo_primary_id' AND pm.meta_value = pm.post_id )";
+		}
+
+		$clauses['orderby'] = "( bptodo_status_mt.meta_value = 'complete' ) ASC, "
+			. "CASE bptodo_priority_mt.meta_value WHEN 'critical' THEN 1 WHEN 'high' THEN 2 WHEN 'normal' THEN 3 ELSE 4 END ASC, "
+			. "( bptodo_due_mt.meta_value IS NULL OR bptodo_due_mt.meta_value = '' ) ASC, "
+			. "bptodo_due_mt.meta_value ASC, "
+			. "{$wpdb->posts}.post_date DESC";
+
+		return $clauses;
+	}
+}
+
+if ( ! function_exists( 'bptodo_get_todos_page' ) ) {
+	/**
+	 * Fetch ONE page of todos with server-side LIMIT/OFFSET and total count.
+	 *
+	 * Replaces the old fetch-all patterns (posts_per_page => -1 / do-while
+	 * loops / hard caps) in the member and group list templates. Post meta
+	 * is batch-primed by WP_Query, so per-card get_post_meta() calls hit
+	 * the object cache instead of the database.
+	 *
+	 * @param array $args {
+	 *     Query arguments.
+	 *
+	 *     @type int    $author       Restrict to this author. Default 0 (any).
+	 *     @type int    $group_id     Restrict to this group (todo_group_id meta). Default 0 (any).
+	 *     @type string $status       '' (all), 'complete' or 'incomplete'. Default ''.
+	 *     @type bool   $primary_only Only primary todos (todo_primary_id = own ID). Default false.
+	 *     @type int    $page         Page number (1-based). Default 1.
+	 *     @type int    $per_page     Items per page. Default 12.
+	 * }
+	 * @return array {
+	 *     @type WP_Post[] $todos       The current page of todos.
+	 *     @type int       $total       Total matching todos.
+	 *     @type int       $total_pages Total pages.
+	 *     @type int       $page        Current page (1-based).
+	 *     @type int       $per_page    Items per page.
+	 * }
+	 * @since 3.6.0
+	 */
+	function bptodo_get_todos_page( $args = array() ) {
+		$defaults = array(
+			'author'       => 0,
+			'group_id'     => 0,
+			'status'       => '',
+			'primary_only' => false,
+			'page'         => 1,
+			'per_page'     => 12,
+		);
+		$args     = wp_parse_args( $args, $defaults );
+
+		$query_args = array(
+			'post_type'           => 'bp-todo',
+			'post_status'         => 'publish',
+			'posts_per_page'      => max( 1, (int) $args['per_page'] ),
+			'paged'               => max( 1, (int) $args['page'] ),
+			'ignore_sticky_posts' => true,
+			'bptodo_sorted'       => true,
+			'bptodo_primary_only' => (bool) $args['primary_only'],
+		);
+
+		if ( ! empty( $args['author'] ) ) {
+			$query_args['author'] = (int) $args['author'];
+		}
+
+		$meta_query = array();
+		if ( ! empty( $args['group_id'] ) ) {
+			$meta_query[] = array(
+				'key'     => 'todo_group_id',
+				'value'   => (int) $args['group_id'],
+				'compare' => '=',
+				'type'    => 'NUMERIC',
+			);
+		}
+		if ( 'complete' === $args['status'] ) {
+			$meta_query[] = array(
+				'key'   => 'todo_status',
+				'value' => 'complete',
+			);
+		} elseif ( 'incomplete' === $args['status'] ) {
+			$meta_query[] = array(
+				'relation' => 'OR',
+				array(
+					'key'     => 'todo_status',
+					'value'   => 'complete',
+					'compare' => '!=',
+				),
+				array(
+					'key'     => 'todo_status',
+					'compare' => 'NOT EXISTS',
+				),
+			);
+		}
+		if ( ! empty( $meta_query ) ) {
+			$query_args['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- postmeta is the plugin's storage model; query is paginated.
+		}
+
+		add_filter( 'posts_clauses', 'bptodo_sorted_todos_clauses', 10, 2 );
+		$query = new WP_Query( $query_args );
+		remove_filter( 'posts_clauses', 'bptodo_sorted_todos_clauses', 10 );
+
+		return array(
+			'todos'       => $query->posts,
+			'total'       => (int) $query->found_posts,
+			'total_pages' => (int) $query->max_num_pages,
+			'page'        => (int) $query_args['paged'],
+			'per_page'    => (int) $query_args['posts_per_page'],
+		);
+	}
+}
+
+if ( ! function_exists( 'bptodo_count_todos' ) ) {
+	/**
+	 * Count todos with a single aggregate query (no row fetch).
+	 *
+	 * Intentionally uncached: todo_status flips via AJAX meta updates that
+	 * do not fire save_post, so a TTL cache would show stale counts right
+	 * after a member completes a task. The query is a single indexed
+	 * aggregate and is run once per list view.
+	 *
+	 * @param array $args {
+	 *     @type int  $author       Restrict to this author. Default 0 (any).
+	 *     @type int  $group_id     Restrict to this group. Default 0 (any).
+	 *     @type bool $primary_only Only primary todos. Default false.
+	 * }
+	 * @return array { @type int $total @type int $completed @type int $pending }
+	 * @since 3.6.0
+	 */
+	function bptodo_count_todos( $args = array() ) {
+		global $wpdb;
+
+		$defaults = array(
+			'author'       => 0,
+			'group_id'     => 0,
+			'primary_only' => false,
+		);
+		$args     = wp_parse_args( $args, $defaults );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below.
+		$sql = "SELECT COUNT(p.ID) AS total, COALESCE( SUM( status_mt.meta_value = 'complete' ), 0 ) AS completed
+			FROM {$wpdb->posts} p
+			LEFT JOIN {$wpdb->postmeta} status_mt ON ( status_mt.post_id = p.ID AND status_mt.meta_key = 'todo_status' )
+			WHERE p.post_type = 'bp-todo' AND p.post_status = 'publish'";
+
+		$prepare_args = array();
+
+		if ( ! empty( $args['author'] ) ) {
+			$sql           .= ' AND p.post_author = %d';
+			$prepare_args[] = (int) $args['author'];
+		}
+		if ( ! empty( $args['group_id'] ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below.
+			$sql           .= " AND EXISTS ( SELECT 1 FROM {$wpdb->postmeta} gm WHERE gm.post_id = p.ID AND gm.meta_key = 'todo_group_id' AND gm.meta_value = %d )";
+			$prepare_args[] = (int) $args['group_id'];
+		}
+		if ( ! empty( $args['primary_only'] ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, no user input in this clause.
+			$sql .= " AND p.ID IN ( SELECT pm.post_id FROM {$wpdb->postmeta} pm WHERE pm.meta_key = 'todo_primary_id' AND pm.meta_value = pm.post_id )";
+		}
+
+		if ( ! empty( $prepare_args ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is built above with placeholders only.
+			$sql = $wpdb->prepare( $sql, $prepare_args );
+		}
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Single aggregate count, prepared above; see docblock for why it is uncached.
+		$row = $wpdb->get_row( $sql, ARRAY_A );
+
+		$total     = isset( $row['total'] ) ? (int) $row['total'] : 0;
+		$completed = isset( $row['completed'] ) ? (int) $row['completed'] : 0;
+
+		return array(
+			'total'     => $total,
+			'completed' => $completed,
+			'pending'   => max( 0, $total - $completed ),
+		);
+	}
+}
+
+if ( ! function_exists( 'bptodo_get_group_member_task_stats' ) ) {
+	/**
+	 * Per-member task stats for a group, aggregated and paginated in SQL.
+	 *
+	 * Replaces the old pattern of loading every group todo plus every group
+	 * member and cross-checking them with per-row get_post_meta() calls.
+	 * Members are ranked by completion percentage (lowest first) so the
+	 * members needing attention surface on page 1.
+	 *
+	 * @param int $group_id Group ID.
+	 * @param int $per_page Members per page.
+	 * @param int $page     Page number (1-based).
+	 * @return array {
+	 *     @type array[] $members       Page of rows: user_id, total_tasks, completed_tasks,
+	 *                                  pending_tasks, completion_percentage, status.
+	 *     @type int     $total_members Total members with at least one task.
+	 *     @type int     $completed     Members who completed all their tasks.
+	 * }
+	 * @since 3.6.0
+	 */
+	function bptodo_get_group_member_task_stats( $group_id, $per_page = 15, $page = 1 ) {
+		global $wpdb, $bp;
+
+		$group_id = absint( $group_id );
+		$per_page = max( 1, (int) $per_page );
+		$page     = max( 1, (int) $page );
+		$offset   = ( $page - 1 ) * $per_page;
+
+		$members_table = isset( $bp->groups->table_name_members ) ? $bp->groups->table_name_members : $wpdb->prefix . 'bp_groups_members';
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below.
+		$base_sql = "FROM {$wpdb->posts} p
+			INNER JOIN {$wpdb->postmeta} gm ON ( gm.post_id = p.ID AND gm.meta_key = 'todo_group_id' AND gm.meta_value = %d )
+			INNER JOIN {$members_table} m ON ( m.user_id = p.post_author AND m.group_id = %d AND m.is_confirmed = 1 AND m.is_banned = 0 )
+			LEFT JOIN {$wpdb->postmeta} st ON ( st.post_id = p.ID AND st.meta_key = 'todo_status' )
+			WHERE p.post_type = 'bp-todo' AND p.post_status = 'publish'
+			GROUP BY p.post_author";
+
+		// Summary: how many members have tasks, and how many completed everything.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Built from the safe base SQL above.
+		$summary_sql = 'SELECT COUNT(*) AS total_members, COALESCE( SUM( t.is_complete ), 0 ) AS completed_members FROM (
+			SELECT p.post_author, ( COALESCE( SUM( st.meta_value = \'complete\' ), 0 ) = COUNT(*) ) AS is_complete ' . $base_sql . ' ) t';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Aggregate stats, prepared here; uncached because todo_status flips via meta updates.
+		$summary = $wpdb->get_row( $wpdb->prepare( $summary_sql, $group_id, $group_id ), ARRAY_A );
+
+		// Page of member rows, worst completion percentage first.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Built from the safe base SQL above.
+		$page_sql = 'SELECT p.post_author AS user_id, COUNT(*) AS total_tasks,
+			COALESCE( SUM( st.meta_value = \'complete\' ), 0 ) AS completed_tasks ' . $base_sql
+			. ' ORDER BY ( COALESCE( SUM( st.meta_value = \'complete\' ), 0 ) / COUNT(*) ) ASC, p.post_author ASC LIMIT %d OFFSET %d';
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Paginated aggregate, prepared here.
+		$rows = $wpdb->get_results( $wpdb->prepare( $page_sql, $group_id, $group_id, $per_page, $offset ), ARRAY_A );
+
+		$members = array();
+		if ( ! empty( $rows ) ) {
+			// Batch-prime user objects for the page (display names, avatars).
+			cache_users( wp_list_pluck( $rows, 'user_id' ) );
+
+			foreach ( $rows as $row ) {
+				$total_tasks     = (int) $row['total_tasks'];
+				$completed_tasks = (int) $row['completed_tasks'];
+				$user            = get_userdata( (int) $row['user_id'] );
+
+				$members[] = array(
+					'user_id'               => (int) $row['user_id'],
+					'name'                  => $user ? $user->display_name : '',
+					'total_tasks'           => $total_tasks,
+					'completed_tasks'       => $completed_tasks,
+					'pending_tasks'         => $total_tasks - $completed_tasks,
+					'completion_percentage' => $total_tasks > 0 ? (int) round( ( $completed_tasks / $total_tasks ) * 100 ) : 0,
+					'status'                => ( $completed_tasks === $total_tasks ) ? 'complete' : 'incomplete',
+					'completed_date'        => '',
+				);
+			}
+		}
+
+		return array(
+			'members'       => $members,
+			'total_members' => isset( $summary['total_members'] ) ? (int) $summary['total_members'] : 0,
+			'completed'     => isset( $summary['completed_members'] ) ? (int) $summary['completed_members'] : 0,
+		);
+	}
+}
+
 /**
  * Check if a user is assigned to a specific task.
  *
