@@ -12,32 +12,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Filter to get only primary tasks (where todo_primary_id equals the post's own ID).
- * This performs the filtering at database level instead of loading all tasks into memory.
- *
- * @param string   $where The WHERE clause of the query.
- * @param WP_Query $query The WP_Query instance.
- * @return string Modified WHERE clause.
- */
-if ( ! function_exists( 'bptodo_filter_primary_tasks_only' ) ) {
-	function bptodo_filter_primary_tasks_only( $where, $query ) {
-		global $wpdb;
-
-		if ( isset( $query->query_vars['post_type'] ) && 'bp-todo' === $query->query_vars['post_type'] ) {
-			$where .= $wpdb->prepare(
-				" AND {$wpdb->posts}.ID IN (
-					SELECT pm.post_id FROM {$wpdb->postmeta} pm
-					WHERE pm.meta_key = %s AND pm.meta_value = pm.post_id
-				)",
-				'todo_primary_id'
-			);
-		}
-
-		return $where;
-	}
-}
-
 global $bptodo, $bp;
 
 // Get plugin settings.
@@ -70,118 +44,70 @@ if ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_use
 	}
 }
 
-// Build query arguments.
-$args = array(
-	'post_type'      => 'bp-todo',
-	'post_status'    => 'publish',
-	'posts_per_page' => 100,
-	'paged'          => 1,
-	'meta_query'     => array(
-		array(
-			'key'     => 'todo_group_id',
-			'value'   => $group_id,
-			'compare' => '=',
-			'type'    => 'NUMERIC',
-		),
-	),
-);
+/*
+ * Server-side pagination (big-site readiness). The old code fetched EVERY
+ * group todo in a do-while loop (100 per round trip) and only paginated
+ * client-side. Each tab panel now runs one LIMIT/OFFSET query; counts come
+ * from a single aggregate COUNT query.
+ */
 
-// Query logic based on user type.
+/**
+ * Filters the number of todos per page on the group list.
+ *
+ * @since 3.6.0
+ *
+ * @param int $per_page Todos per page.
+ * @param int $group_id The group ID.
+ */
+$per_page = apply_filters( 'bptodo_group_list_per_page', 12, $group_id );
+
+$todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+$done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+
+// Scope: admin non-members see all PRIMARY tasks; members see their own tasks.
+$scope_args = array( 'group_id' => $group_id );
 if ( $is_admin_non_member ) {
-	// Admin non-member: Get only PRIMARY tasks (filtered at database level).
-	add_filter( 'posts_where', 'bptodo_filter_primary_tasks_only', 10, 2 );
+	$scope_args['primary_only'] = true;
 } else {
-	// Regular member or admin who is a group member: Get only their own tasks.
-	$args['author'] = $current_user_id;
+	$scope_args['author'] = $current_user_id;
 }
 
-// Fetch all todos with pagination.
-$all_todos = array();
-do {
-	$todos      = get_posts( $args );
-	$all_todos  = array_merge( $all_todos, $todos );
-	$args['paged']++;
-} while ( count( $todos ) === $args['posts_per_page'] );
+// Aggregate counts (stats cards, tab badges, progress bar).
+$todo_counts        = bptodo_count_todos( $scope_args );
+$all_todo_count     = $todo_counts['total'];
+$all_completed_todo = $todo_counts['completed'];
+$all_pending_todo   = $todo_counts['pending'];
 
-// Remove the filter after query completes.
-if ( $is_admin_non_member ) {
-	remove_filter( 'posts_where', 'bptodo_filter_primary_tasks_only', 10 );
-}
-
-// Sort todos: Incomplete first, then by priority, then by due date.
-usort(
-	$all_todos,
-	function ( $a, $b ) {
-		$a_status   = get_post_meta( $a->ID, 'todo_status', true );
-		$b_status   = get_post_meta( $b->ID, 'todo_status', true );
-		$a_priority = get_post_meta( $a->ID, 'todo_priority', true );
-		$b_priority = get_post_meta( $b->ID, 'todo_priority', true );
-		$a_due_date = get_post_meta( $a->ID, 'todo_due_date', true );
-		$b_due_date = get_post_meta( $b->ID, 'todo_due_date', true );
-
-		// Completed tasks go to bottom.
-		if ( 'complete' === $a_status && 'complete' !== $b_status ) {
-			return 1;
-		}
-		if ( 'complete' !== $a_status && 'complete' === $b_status ) {
-			return -1;
-		}
-
-		// Sort by priority.
-		$priority_map   = array(
-			'critical' => 3,
-			'high'     => 2,
-			'normal'   => 1,
-		);
-		$a_priority_val = isset( $priority_map[ $a_priority ] ) ? $priority_map[ $a_priority ] : 0;
-		$b_priority_val = isset( $priority_map[ $b_priority ] ) ? $priority_map[ $b_priority ] : 0;
-
-		if ( $a_priority_val !== $b_priority_val ) {
-			return $b_priority_val - $a_priority_val;
-		}
-
-		// Sort by due date.
-		if ( empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-			return 1;
-		}
-		if ( ! empty( $a_due_date ) && empty( $b_due_date ) ) {
-			return -1;
-		}
-		if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-			$a_timestamp = strtotime( $a_due_date );
-			$b_timestamp = strtotime( $b_due_date );
-			if ( false !== $a_timestamp && false !== $b_timestamp ) {
-				return $a_timestamp - $b_timestamp;
-			}
-		}
-
-		return strtotime( $b->post_date ) - strtotime( $a->post_date );
-	}
+// Current page of todos for each tab panel (meta batch-primed by WP_Query).
+$all_result = bptodo_get_todos_page(
+	array_merge(
+		$scope_args,
+		array(
+			'page'     => $todo_page,
+			'per_page' => $per_page,
+		)
+	)
 );
 
-// Calculate statistics.
-$all_todo_count     = count( $all_todos );
-$all_completed_todo = 0;
-$all_pending_todo   = 0;
-$pending_todos      = array();
-$completed_todos    = array();
+$completed_result = bptodo_get_todos_page(
+	array_merge(
+		$scope_args,
+		array(
+			'status'   => 'complete',
+			'page'     => $done_page,
+			'per_page' => $per_page,
+		)
+	)
+);
 
-foreach ( $all_todos as $todo ) {
-	$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
-	if ( 'complete' === $todo_status ) {
-		$all_completed_todo++;
-		$completed_todos[] = $todo;
-	} else {
-		$all_pending_todo++;
-		$pending_todos[] = $todo;
-	}
-}
+$all_todos       = $all_result['todos'];
+$completed_todos = $completed_result['todos'];
 
 $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 100 ) / $all_todo_count, 1 ) : 0;
 ?>
 
 <div class="bptodo-wrapper" id="bptodo-group-list">
-	<?php if ( empty( $all_todos ) ) : ?>
+	<?php if ( 0 === $all_todo_count ) : ?>
 		<?php
 		$context    = 'group';
 		$filter     = '';
@@ -343,9 +269,13 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 			<div class="bptodo-search-filters__info">
 				<span id="bptodo-results-count" class="bptodo-results-count">
 					<?php
+					$showing_start = min( $all_todo_count, ( ( $all_result['page'] - 1 ) * $all_result['per_page'] ) + 1 );
+					$showing_end   = min( $all_todo_count, $all_result['page'] * $all_result['per_page'] );
 					printf(
-						/* translators: %d: Number of todos */
-						esc_html( _n( 'Showing %d todo', 'Showing %d todos', $all_todo_count, 'wb-todo' ) ),
+						/* translators: 1: First item on page, 2: Last item on page, 3: Total todos */
+						esc_html__( 'Showing %1$d-%2$d of %3$d todos', 'wb-todo' ),
+						esc_html( $showing_start ),
+						esc_html( $showing_end ),
 						esc_html( $all_todo_count )
 					);
 					?>
@@ -423,6 +353,17 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				endforeach;
 				?>
 			</div>
+
+			<?php
+			// Server-side pager for the All panel.
+			$pager = array(
+				'param'       => 'todo_page',
+				'current'     => $all_result['page'],
+				'total_pages' => $all_result['total_pages'],
+				'label'       => __( 'All todos pagination', 'wb-todo' ),
+			);
+			include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+			?>
 		</div>
 
 		<!-- Completed Todos Panel -->
@@ -454,6 +395,17 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					endforeach;
 					?>
 				</div>
+
+				<?php
+				// Server-side pager for the Completed panel.
+				$pager = array(
+					'param'       => 'done_page',
+					'current'     => $completed_result['page'],
+					'total_pages' => $completed_result['total_pages'],
+					'label'       => __( 'Completed todos pagination', 'wb-todo' ),
+				);
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+				?>
 			<?php endif; ?>
 		</div>
 
@@ -470,22 +422,35 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 		const tabs = document.querySelectorAll('#bptodo-group-list .bptodo-tab');
 		const panels = document.querySelectorAll('#bptodo-group-list .bptodo-tab-panel');
 
+		function activateTab(tab) {
+			const targetId = 'bptodo-panel-' + tab.dataset.tab;
+
+			tabs.forEach(function(t) {
+				t.classList.remove('bptodo-tab--active');
+				t.setAttribute('aria-selected', 'false');
+			});
+			tab.classList.add('bptodo-tab--active');
+			tab.setAttribute('aria-selected', 'true');
+
+			panels.forEach(function(p) {
+				p.hidden = (p.id !== targetId);
+			});
+		}
+
 		tabs.forEach(function(tab) {
 			tab.addEventListener('click', function() {
-				const targetId = 'bptodo-panel-' + this.dataset.tab;
-
-				tabs.forEach(function(t) {
-					t.classList.remove('bptodo-tab--active');
-					t.setAttribute('aria-selected', 'false');
-				});
-				this.classList.add('bptodo-tab--active');
-				this.setAttribute('aria-selected', 'true');
-
-				panels.forEach(function(p) {
-					p.hidden = (p.id !== targetId);
-				});
+				activateTab(this);
 			});
 		});
+
+		// Re-open the Completed tab after following a server-side
+		// done_page pagination link.
+		if (new URLSearchParams(window.location.search).has('done_page')) {
+			const completedTab = document.getElementById('bptodo-tab-completed');
+			if (completedTab) {
+				activateTab(completedTab);
+			}
+		}
 	});
 })();
 </script>
