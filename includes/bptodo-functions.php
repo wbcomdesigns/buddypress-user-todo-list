@@ -200,7 +200,7 @@ if ( ! function_exists( 'bptodo_sorted_todos_clauses' ) ) {
 		$clauses['orderby'] = "( bptodo_status_mt.meta_value = 'complete' ) ASC, "
 			. "CASE bptodo_priority_mt.meta_value WHEN 'critical' THEN 1 WHEN 'high' THEN 2 WHEN 'normal' THEN 3 ELSE 4 END ASC, "
 			. "( bptodo_due_mt.meta_value IS NULL OR bptodo_due_mt.meta_value = '' ) ASC, "
-			. "bptodo_due_mt.meta_value ASC, "
+			. 'bptodo_due_mt.meta_value ASC, '
 			. "{$wpdb->posts}.post_date DESC";
 
 		return $clauses;
@@ -316,6 +316,8 @@ if ( ! function_exists( 'bptodo_count_todos' ) ) {
 	 * aggregate and is run once per list view.
 	 *
 	 * @param array $args {
+	 *     Count arguments.
+	 *
 	 *     @type int  $author       Restrict to this author. Default 0 (any).
 	 *     @type int  $group_id     Restrict to this group. Default 0 (any).
 	 *     @type bool $primary_only Only primary todos. Default false.

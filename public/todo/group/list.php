@@ -59,7 +59,7 @@ if ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_use
  * @param int $per_page Todos per page.
  * @param int $group_id The group ID.
  */
-$per_page = apply_filters( 'bptodo_group_list_per_page', 12, $group_id );
+$bptodo_per_page = apply_filters( 'bptodo_group_list_per_page', 12, $group_id );
 
 $todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
 $done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
@@ -84,7 +84,7 @@ $all_result = bptodo_get_todos_page(
 		$scope_args,
 		array(
 			'page'     => $todo_page,
-			'per_page' => $per_page,
+			'per_page' => $bptodo_per_page,
 		)
 	)
 );
@@ -95,7 +95,7 @@ $completed_result = bptodo_get_todos_page(
 		array(
 			'status'   => 'complete',
 			'page'     => $done_page,
-			'per_page' => $per_page,
+			'per_page' => $bptodo_per_page,
 		)
 	)
 );

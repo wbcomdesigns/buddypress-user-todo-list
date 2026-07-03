@@ -38,7 +38,7 @@ $current_user_id = get_current_user_id();
  *
  * @param int $per_page Todos per page.
  */
-$per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
+$bptodo_per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
 
 $todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
 $done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
@@ -55,7 +55,7 @@ $all_result = bptodo_get_todos_page(
 	array(
 		'author'   => $current_user_id,
 		'page'     => $todo_page,
-		'per_page' => $per_page,
+		'per_page' => $bptodo_per_page,
 	)
 );
 
@@ -64,7 +64,7 @@ $completed_result = bptodo_get_todos_page(
 		'author'   => $current_user_id,
 		'status'   => 'complete',
 		'page'     => $done_page,
-		'per_page' => $per_page,
+		'per_page' => $bptodo_per_page,
 	)
 );
 
