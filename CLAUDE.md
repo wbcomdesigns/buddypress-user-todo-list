@@ -41,4 +41,7 @@
 ## Recent changes
 | Date | Type | Description | Files |
 |---|---|---|---|
+| 2026-07-03 | bug-fix | Sanitize profile_menu_slug at source (multi-word labels broke group tab/subnav/assets); slug-derived URLs fixed | inc/class-bptodo-globals.php, public/class-bptodo-groups-extension-tab.php, public/todo/group/{add,overview}.php |
+| 2026-07-03 | bug-fix | Dark mode: BuddyX --bx-color-* token cascade, [data-bx-mode] dark selectors (BuddyX 5.1+/Reign 8), retokenized group overview/report CSS, datepicker + core/vendor UI (wp_editor, wplink, media modal, Select2) token compat | assets/css/bptodo-design-system*.css, assets/css/bptodo-front*.css |
+| 2026-07-03 | bug-fix | Confirm modal now carries bptodo-wrapper class (Cancel/Delete buttons were unstyled); Clear filters button uses ghost component; docs URL corrected | assets/js/bptodo-modern*.js, public/todo/group/list.php, public/todo/member/member-todo-list.php, includes/admin/views/shell.php |
 | 2026-06-05 | onboard | Generated audit/ manifest + reports + graph; wrote READ-FIRST CLAUDE.md | audit/*, CLAUDE.md |
