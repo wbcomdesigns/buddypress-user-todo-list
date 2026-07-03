@@ -374,6 +374,40 @@ if ( ! function_exists( 'bptodo_count_todos' ) ) {
 	}
 }
 
+if ( ! function_exists( 'bptodo_filter_group_member_ids' ) ) {
+	/**
+	 * Reduce a list of user IDs to the ones who are confirmed, unbanned
+	 * members of a group — in a single query.
+	 *
+	 * @param int   $group_id Group ID.
+	 * @param int[] $user_ids User IDs to check.
+	 * @return int[] Subset of $user_ids that are current group members.
+	 * @since 3.6.0
+	 */
+	function bptodo_filter_group_member_ids( $group_id, $user_ids ) {
+		global $wpdb, $bp;
+
+		$group_id = absint( $group_id );
+		$user_ids = array_filter( array_map( 'absint', (array) $user_ids ) );
+
+		if ( ! $group_id || empty( $user_ids ) ) {
+			return array();
+		}
+
+		$members_table = isset( $bp->groups->table_name_members ) ? $bp->groups->table_name_members : $wpdb->prefix . 'bp_groups_members';
+		$placeholders  = implode( ', ', array_fill( 0, count( $user_ids ), '%d' ) );
+
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is safe, placeholders built above, values prepared here.
+		$sql = $wpdb->prepare(
+			"SELECT user_id FROM {$members_table} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0 AND user_id IN ( {$placeholders} )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			array_merge( array( $group_id ), $user_ids )
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Single membership lookup, prepared above.
+		return array_map( 'intval', (array) $wpdb->get_col( $sql ) );
+	}
+}
+
 if ( ! function_exists( 'bptodo_get_group_member_task_stats' ) ) {
 	/**
 	 * Per-member task stats for a group, aggregated and paginated in SQL.
