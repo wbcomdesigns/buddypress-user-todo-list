@@ -578,6 +578,11 @@
 	box-shadow: var(--bptodo-input-focus-ring);
 }
 
+.bptodo-wrapper .bptodo-input:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+}
+
 .bptodo-wrapper .bptodo-input:disabled {
 	background: var(--bptodo-gray-100);
 	cursor: not-allowed;
@@ -753,6 +758,12 @@
 	outline: none;
 	border-color: var(--bptodo-input-focus-border);
 	box-shadow: var(--bptodo-input-focus-ring);
+}
+
+.bptodo-wrapper .bptodo-input--select:focus-visible,
+.bptodo-wrapper select.bptodo-input:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
 }
 
 /**
@@ -2283,6 +2294,11 @@
 	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+.bptodo-wrapper .bptodo-search-input:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+}
+
 .bptodo-wrapper .bptodo-search-icon {
 	position: absolute;
 	right: 12px;
@@ -2324,6 +2340,11 @@
 	outline: none;
 	border-color: var(--bptodo-primary);
 	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.bptodo-wrapper .bptodo-filter-select:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
 }
 
 /* Results Info */

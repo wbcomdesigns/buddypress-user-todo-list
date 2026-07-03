@@ -60,7 +60,7 @@ unset( $bptodo_all_roles['administrator'] );
 				<th scope="row"><?php esc_html_e( 'Enable for members', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="bptodo_enable_todo_member" id="bptodo-enable-todo-tab-member" <?php checked( 'yes', $bptodo->enable_todo_member ); ?>>
+						<input type="checkbox" name="bptodo_enable_todo_member" id="bptodo-enable-todo-tab-member" aria-label="<?php esc_attr_e( 'Enable for members', 'wb-todo' ); ?>" <?php checked( 'yes', $bptodo->enable_todo_member ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
 					<p class="description"><?php esc_html_e( 'Adds a To-do tab to every member profile.', 'wb-todo' ); ?></p>
@@ -70,7 +70,7 @@ unset( $bptodo_all_roles['administrator'] );
 				<th scope="row"><?php esc_html_e( 'Member-created categories', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="bptodo_allow_user_add_category" id="bptodo-allow-user-add-todo-category" <?php checked( 'yes', $bptodo->allow_user_add_category ); ?>>
+						<input type="checkbox" name="bptodo_allow_user_add_category" id="bptodo-allow-user-add-todo-category" aria-label="<?php esc_attr_e( 'Member-created categories', 'wb-todo' ); ?>" <?php checked( 'yes', $bptodo->allow_user_add_category ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
 					<p class="description"><?php esc_html_e( 'Lets members create their own to-do categories.', 'wb-todo' ); ?></p>
@@ -104,7 +104,7 @@ unset( $bptodo_all_roles['administrator'] );
 				<th scope="row"><?php esc_html_e( 'Send notification', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="bptodo_send_notification" id="bptodo-send-todo-due-date-bp-notification" <?php checked( 'yes', $bptodo->send_notification ); ?>>
+						<input type="checkbox" name="bptodo_send_notification" id="bptodo-send-todo-due-date-bp-notification" aria-label="<?php esc_attr_e( 'Send notification', 'wb-todo' ); ?>" <?php checked( 'yes', $bptodo->send_notification ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
 					<p class="description"><?php esc_html_e( 'Sends a BuddyPress notification when a task due date arrives.', 'wb-todo' ); ?></p>
@@ -114,7 +114,7 @@ unset( $bptodo_all_roles['administrator'] );
 				<th scope="row"><?php esc_html_e( 'Send email', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="bptodo_send_mail" id="bptodo-send-todo-due-date-mail" <?php checked( 'yes', $bptodo->send_mail ); ?>>
+						<input type="checkbox" name="bptodo_send_mail" id="bptodo-send-todo-due-date-mail" aria-label="<?php esc_attr_e( 'Send email', 'wb-todo' ); ?>" <?php checked( 'yes', $bptodo->send_mail ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
 					<p class="description"><?php esc_html_e( 'Sends an email reminder when a task due date arrives.', 'wb-todo' ); ?></p>
@@ -124,7 +124,7 @@ unset( $bptodo_all_roles['administrator'] );
 				<th scope="row"><?php esc_html_e( 'Require due date', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="bptodo_req_duedate" id="bptodo-req-todo-due-date" <?php checked( 'yes', $bptodo->req_duedate ); ?>>
+						<input type="checkbox" name="bptodo_req_duedate" id="bptodo-req-todo-due-date" aria-label="<?php esc_attr_e( 'Require due date', 'wb-todo' ); ?>" <?php checked( 'yes', $bptodo->req_duedate ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
 					<p class="description"><?php esc_html_e( 'Makes the due date mandatory when creating a task.', 'wb-todo' ); ?></p>

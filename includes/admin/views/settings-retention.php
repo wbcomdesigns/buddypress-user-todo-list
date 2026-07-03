@@ -47,7 +47,7 @@ $bptodo_next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
 				<th scope="row"><?php esc_html_e( 'Enable auto-cleanup', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="data-retention-settings[enable_retention]" id="bptodo-enable-retention" value="yes"
+						<input type="checkbox" name="data-retention-settings[enable_retention]" id="bptodo-enable-retention" value="yes" aria-label="<?php esc_attr_e( 'Enable auto-cleanup', 'wb-todo' ); ?>"
 							<?php checked( $bptodo_retention_settings['enable_retention'], 'yes' ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
@@ -106,7 +106,7 @@ $bptodo_next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
 				<th scope="row"><?php esc_html_e( 'Permanent delete', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="data-retention-settings[permanent_delete]" id="bptodo-permanent-delete" value="yes"
+						<input type="checkbox" name="data-retention-settings[permanent_delete]" id="bptodo-permanent-delete" value="yes" aria-label="<?php esc_attr_e( 'Permanent delete', 'wb-todo' ); ?>"
 							<?php checked( $bptodo_retention_settings['permanent_delete'], 'yes' ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>
@@ -117,7 +117,7 @@ $bptodo_next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
 				<th scope="row"><?php esc_html_e( 'Email notifications', 'wb-todo' ); ?></th>
 				<td>
 					<label class="wb-switch">
-						<input type="checkbox" name="data-retention-settings[email_notification]" id="bptodo-email-notification" value="yes"
+						<input type="checkbox" name="data-retention-settings[email_notification]" id="bptodo-email-notification" value="yes" aria-label="<?php esc_attr_e( 'Email notifications', 'wb-todo' ); ?>"
 							<?php checked( $bptodo_retention_settings['email_notification'], 'yes' ); ?>>
 						<span class="wb-slider wb-round"></span>
 					</label>

@@ -54,7 +54,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
 				<div class="bp_todo_categories">
-					<select name="todo_cat" id="bp_todo_categories" required>
+					<select name="todo_cat" id="bp_todo_categories" aria-label="<?php esc_attr_e( 'Category', 'wb-todo' ); ?>" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) && ! empty( $todo_cats ) ) { ?>
 							<?php foreach ( $todo_cats as $cat ) { ?>
@@ -71,7 +71,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
 						<?php  /* translators: %1$s */ ?>
-						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
+						<input type="text" id="todo-category-name" aria-label="<?php echo esc_attr( sprintf( esc_html__( 'New %1$s category name', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 					</div>
@@ -82,7 +82,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 		<tr>
 			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
 			<td>
-				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
+				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" aria-label="<?php esc_attr_e( 'Title', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
 			</td>
 		</tr>
 
@@ -103,14 +103,14 @@ if ( 'yes' === $bptodo->req_duedate ) {
 		<tr>
 			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
 			<td>
-				<input type="date" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="date" aria-label="<?php esc_attr_e( 'Due Date', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
 		<tr>
 			<td><?php esc_html_e( 'Priority', 'wb-todo' ); ?></td>
 			<td>
-				<select name="todo_priority" id="bp_todo_priority">
+				<select name="todo_priority" id="bp_todo_priority" aria-label="<?php esc_attr_e( 'Priority', 'wb-todo' ); ?>">
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
 					<option value="high" <?php selected( $todo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>

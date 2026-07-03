@@ -246,9 +246,27 @@ table.bptodo-add-todo-tbl select {
     color: #000 !important;
 }
 
-a:focus,
-button:focus {
-    outline: none !important;
+/* Suppress the outline for mouse focus only, and only inside the
+   plugin's own containers - a plugin stylesheet must not strip focus
+   indication site-wide. Keyboard users get an explicit outline via the
+   :focus-visible rules below. */
+.bptodo-wrapper a:focus:not(:focus-visible),
+.bptodo-wrapper button:focus:not(:focus-visible),
+.bptodo-group-report-wrapper a:focus:not(:focus-visible),
+.bptodo-group-report-wrapper button:focus:not(:focus-visible),
+.bptodo-modal a:focus:not(:focus-visible),
+.bptodo-modal button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.bptodo-wrapper a:focus-visible,
+.bptodo-wrapper button:focus-visible,
+.bptodo-group-report-wrapper a:focus-visible,
+.bptodo-group-report-wrapper button:focus-visible,
+.bptodo-modal a:focus-visible,
+.bptodo-modal button:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 .bptodo-form-add input[type="text"],
@@ -290,6 +308,11 @@ textarea {
 
 #bp_todo_categories:focus {
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+#bp_todo_categories:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 /* Add button */
@@ -1073,6 +1096,11 @@ New UI
     background: #cddef5;
 }
 
+.option-input:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
+}
+
 .option-input:checked {
     background: #0285ff;
 }
@@ -1406,6 +1434,14 @@ Edit popup
     border-color: #5897fb;
     box-shadow: 0 0 0 3px rgba(88, 151, 251, 0.1);
     outline: none;
+}
+
+.bptodo-modal table.bptodo-add-todo-tbl select:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="text"]:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="date"]:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl .bptodo-text-input:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 /* Category dropdown specific */
@@ -3068,6 +3104,11 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     outline: none;
     border-color: var(--bptodo-primary);
     box-shadow: 0 0 0 1px var(--bptodo-primary);
+}
+
+.bptodo-task-dropdown:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 #task-selector {

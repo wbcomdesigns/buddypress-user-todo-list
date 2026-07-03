@@ -31,7 +31,7 @@ $bptodo_group_settings = get_option( 'group-todo-list-settings', array() );
 					<th scope="row"><?php esc_html_e( 'Enable for groups', 'wb-todo' ); ?></th>
 					<td>
 						<label class="wb-switch">
-							<input type="checkbox" name="group-todo-list-settings[enable_todo_tab_group]" id="bptodo-enable-todo-tab-group" value="yes"
+							<input type="checkbox" name="group-todo-list-settings[enable_todo_tab_group]" id="bptodo-enable-todo-tab-group" value="yes" aria-label="<?php esc_attr_e( 'Enable for groups', 'wb-todo' ); ?>"
 								<?php checked( isset( $bptodo_group_settings['enable_todo_tab_group'] ) ? $bptodo_group_settings['enable_todo_tab_group'] : 'no', 'yes' ); ?>>
 							<span class="wb-slider wb-round"></span>
 						</label>
@@ -51,7 +51,7 @@ $bptodo_group_settings = get_option( 'group-todo-list-settings', array() );
 					<th scope="row"><?php esc_html_e( 'Lock list for moderators', 'wb-todo' ); ?></th>
 					<td>
 						<label class="wb-switch">
-							<input type="checkbox" name="group-todo-list-settings[mod_enable]" id="bptodo-on-moderator" value="yes"
+							<input type="checkbox" name="group-todo-list-settings[mod_enable]" id="bptodo-on-moderator" value="yes" aria-label="<?php esc_attr_e( 'Lock list for moderators', 'wb-todo' ); ?>"
 								<?php checked( isset( $bptodo_group_settings['mod_enable'] ) ? $bptodo_group_settings['mod_enable'] : 'no', 'yes' ); ?>>
 							<span class="wb-slider wb-round"></span>
 						</label>
@@ -62,7 +62,7 @@ $bptodo_group_settings = get_option( 'group-todo-list-settings', array() );
 					<th scope="row"><?php esc_html_e( 'Moderators can add tasks', 'wb-todo' ); ?></th>
 					<td>
 						<label class="wb-switch">
-							<input type="checkbox" name="group-todo-list-settings[list_enable]" id="bptodo-list-moderator" value="yes"
+							<input type="checkbox" name="group-todo-list-settings[list_enable]" id="bptodo-list-moderator" value="yes" aria-label="<?php esc_attr_e( 'Moderators can add tasks', 'wb-todo' ); ?>"
 								<?php checked( isset( $bptodo_group_settings['list_enable'] ) ? $bptodo_group_settings['list_enable'] : 'no', 'yes' ); ?>>
 							<span class="wb-slider wb-round"></span>
 						</label>
@@ -73,7 +73,7 @@ $bptodo_group_settings = get_option( 'group-todo-list-settings', array() );
 					<th scope="row"><?php esc_html_e( 'Moderators can view report', 'wb-todo' ); ?></th>
 					<td>
 						<label class="wb-switch">
-							<input type="checkbox" name="group-todo-list-settings[view_enable]" id="bptodo-view-moderator" value="yes"
+							<input type="checkbox" name="group-todo-list-settings[view_enable]" id="bptodo-view-moderator" value="yes" aria-label="<?php esc_attr_e( 'Moderators can view report', 'wb-todo' ); ?>"
 								<?php checked( isset( $bptodo_group_settings['view_enable'] ) ? $bptodo_group_settings['view_enable'] : 'no', 'yes' ); ?>>
 							<span class="wb-slider wb-round"></span>
 						</label>
