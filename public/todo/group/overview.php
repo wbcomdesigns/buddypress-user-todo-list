@@ -34,8 +34,9 @@ if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
 // Check if user is admin or mod
 $can_modify = bp_group_is_admin() || bp_group_is_mod();
 
-// Get group permalink for admin links
-$admin_link = bptodo_get_group_url( $group ) . 'todo/';
+// Get group permalink for admin links (use the configured, sanitized todo slug).
+global $bptodo;
+$admin_link = bptodo_get_group_url( $group ) . trailingslashit( $bptodo->profile_menu_slug ?? 'todo' );
 
 // Pagination
 $tasks_per_page = 15; // Show 15 tasks per page

@@ -71,7 +71,7 @@ $profile_menu_label = $bptodo->profile_menu_label;
 $profile_menu_slug  = $bptodo->profile_menu_slug;
 $bptodo_req         = 'yes' === $bptodo->req_duedate ? 'required' : '';
 $displayed_uid      = get_current_user_id();
-$form_post_link     = bptodo_get_group_url() . strtolower( $profile_menu_label ) . '/list';
+$form_post_link     = bptodo_get_group_url() . $profile_menu_slug . '/list';
 $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 
 // Form processing is now handled earlier by bptodo_process_form_submissions()

@@ -56,7 +56,13 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
 			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
-			$this->profile_menu_slug         = apply_filters( 'bptodo_profile_menu_slug', strtolower( $this->profile_menu_label ) );
+			/*
+			 * The slug must be a valid URL/nav slug. Labels like "Student's Todo"
+			 * or "Todo for Student" previously produced slugs with spaces and
+			 * apostrophes, which broke BP nav registration, subnav rendering and
+			 * asset loading. sanitize_title() converts them to hyphenated slugs.
+			 */
+			$this->profile_menu_slug         = apply_filters( 'bptodo_profile_menu_slug', sanitize_title( $this->profile_menu_label ) );
 			$this->enable_todo_member        = ( isset( $settings['enable_todo_member'] ) && $settings['enable_todo_member'] === 'yes' ) ? 'yes' : 'no';
 			$this->allow_user_add_category   = ( isset( $settings['allow_user_add_category'] ) && $settings['allow_user_add_category'] === 'yes' ) ? 'yes' : 'no';
 			$this->send_notification         = ( isset( $settings['send_notification'] ) && $settings['send_notification'] === 'yes' ) ? 'yes' : 'no';

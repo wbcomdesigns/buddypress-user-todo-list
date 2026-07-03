@@ -78,8 +78,9 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 		 * @return int Modified count.
 		 */
 		public function bptodo_group_nav_has_count( $count, $nav_item, $displayed_nav ) {
-			if ( 'groups' === $displayed_nav && 'todo' === $nav_item->slug ) {
-				global $bptodo;
+			global $bptodo;
+			$todo_slug = sanitize_title( $bptodo->profile_menu_slug ?? 'todo' );
+			if ( 'groups' === $displayed_nav && $todo_slug === $nav_item->slug ) {
 				$count = $bptodo->my_todo_items;
 			}
 			return $count;
