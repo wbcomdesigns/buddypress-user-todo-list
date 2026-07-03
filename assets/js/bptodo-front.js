@@ -299,7 +299,15 @@ jQuery(document).ready(function($) {
    */
   function initDatepicker() {
     if ($.fn.datepicker) {
-      $('.todo_due_date').datepicker({
+      // The markup uses <input type="date">, which shows the browser's own
+      // native date picker. Binding jQuery UI datepicker on top produced TWO
+      // pickers on one click. Convert to a text input so only the themed
+      // jQuery UI picker (with the minDate rule) renders.
+      $('.todo_due_date').each(function() {
+        if (this.type === 'date') {
+          this.type = 'text';
+        }
+      }).datepicker({
         dateFormat: 'yy-mm-dd',
         minDate: 0
       });

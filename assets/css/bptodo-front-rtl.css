@@ -3549,3 +3549,230 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     background: var(--bptodo-primary, #5897fb);
     color: #ffffff;
 }
+
+/* ==========================================================================
+   Dark-mode: body-appended widgets (Select2 dropdown, TinyMCE menus, wp.media
+   modal) are rendered OUTSIDE .bptodo-wrapper and their vendor stylesheets
+   (select2.min.css, wp-mediaelement, tinymce skin) are enqueued AFTER the
+   plugin CSS, so their hardcoded light backgrounds win the cascade at equal
+   specificity. Re-assert the plugin's dark values under the theme dark-scope
+   root selector, which out-specifies the single-class vendor rules regardless
+   of load order. Keep in sync across all three dark triggers.
+   ========================================================================== */
+:root[data-bx-mode="dark"] .select2-dropdown,
+.dark-mode .select2-dropdown {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-search--dropdown .select2-search__field,
+.dark-mode .select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: var(--bptodo-bg-input, #181d24);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option,
+.dark-mode .select2-container--default .select2-results__option {
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option--highlighted,
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
+.dark-mode .select2-container--default .select2-results__option--highlighted,
+.dark-mode .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: var(--bptodo-primary, #2271b1);
+    color: #ffffff;
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--multiple,
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--single,
+.dark-mode .select2-container--default .select2-selection--multiple,
+.dark-mode .select2-container--default .select2-selection--single {
+    background-color: var(--bptodo-bg-input, #181d24);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--multiple .select2-selection__choice,
+.dark-mode .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* TinyMCE floating format/heading menus (appended to <body>) */
+:root[data-bx-mode="dark"] .mce-menu,
+:root[data-bx-mode="dark"] .mce-floatpanel,
+.dark-mode .mce-menu,
+.dark-mode .mce-floatpanel {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item .mce-ico,
+.dark-mode .mce-menu .mce-text,
+.dark-mode .mce-menu .mce-menu-item .mce-text,
+.dark-mode .mce-menu .mce-menu-item .mce-ico {
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:hover,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item.mce-selected,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:focus,
+.dark-mode .mce-menu .mce-menu-item:hover,
+.dark-mode .mce-menu .mce-menu-item.mce-selected,
+.dark-mode .mce-menu .mce-menu-item:focus {
+    background-color: var(--bptodo-primary, #2271b1);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:hover .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item.mce-selected .mce-text,
+.dark-mode .mce-menu .mce-menu-item:hover .mce-text,
+.dark-mode .mce-menu .mce-menu-item.mce-selected .mce-text {
+    color: #ffffff;
+}
+
+/* wp.media modal (Add Media, appended to <body>) */
+:root[data-bx-mode="dark"] .media-modal .media-modal-content,
+:root[data-bx-mode="dark"] .media-modal .media-frame,
+:root[data-bx-mode="dark"] .media-modal .media-frame-content,
+.dark-mode .media-modal .media-modal-content,
+.dark-mode .media-modal .media-frame,
+.dark-mode .media-modal .media-frame-content {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-frame-menu,
+:root[data-bx-mode="dark"] .media-modal .media-menu,
+:root[data-bx-mode="dark"] .media-modal .media-frame-router,
+:root[data-bx-mode="dark"] .media-modal .media-frame-toolbar,
+.dark-mode .media-modal .media-frame-menu,
+.dark-mode .media-modal .media-menu,
+.dark-mode .media-modal .media-frame-router,
+.dark-mode .media-modal .media-frame-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item,
+.dark-mode .media-modal .media-menu .media-menu-item {
+    background-color: transparent;
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item.active,
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item:hover,
+.dark-mode .media-modal .media-menu .media-menu-item.active,
+.dark-mode .media-modal .media-menu .media-menu-item:hover {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* Inner toolbar (the "Insert into page" bar at the modal bottom) ships white. */
+:root[data-bx-mode="dark"] .media-modal .media-toolbar,
+.dark-mode .media-modal .media-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-sidebar,
+:root[data-bx-mode="dark"] .media-modal .attachments-browser .media-toolbar,
+.dark-mode .media-modal .media-sidebar,
+.dark-mode .media-modal .attachments-browser .media-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-modal-title,
+:root[data-bx-mode="dark"] .media-modal .media-frame-title h1,
+.dark-mode .media-modal .media-modal-title,
+.dark-mode .media-modal .media-frame-title h1 {
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root[data-bx-mode="auto"] .select2-dropdown {
+        background-color: var(--bptodo-bg-card, #1a2028);
+        border-color: var(--bptodo-border-default, #363d48);
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+
+    :root[data-bx-mode="auto"] .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: var(--bptodo-bg-input, #181d24);
+        border-color: var(--bptodo-border-default, #363d48);
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+
+    :root[data-bx-mode="auto"] .select2-container--default .select2-results__option {
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+
+    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--multiple,
+    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--single {
+        background-color: var(--bptodo-bg-input, #181d24);
+        border-color: var(--bptodo-border-default, #363d48);
+    }
+
+    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+        border-color: var(--bptodo-border-default, #363d48);
+        color: var(--bptodo-text-primary, #ffffff);
+    }
+
+    :root[data-bx-mode="auto"] .mce-menu,
+    :root[data-bx-mode="auto"] .mce-floatpanel {
+        background-color: var(--bptodo-bg-card, #1a2028);
+        border-color: var(--bptodo-border-default, #363d48);
+    }
+
+    :root[data-bx-mode="auto"] .mce-menu .mce-text,
+    :root[data-bx-mode="auto"] .mce-menu .mce-menu-item .mce-ico {
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+
+    :root[data-bx-mode="auto"] .media-modal .media-modal-content,
+    :root[data-bx-mode="auto"] .media-modal .media-frame,
+    :root[data-bx-mode="auto"] .media-modal .media-frame-content {
+        background-color: var(--bptodo-bg-card, #1a2028);
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+}
+
+/* Editor chrome inside the form: Add Media button + Visual/Code tabs.
+   These carry WordPress core light styles; theme them in dark mode. */
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-media-buttons .button,
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tools,
+.dark-mode .bptodo-wrapper .wp-media-buttons .button,
+.dark-mode .bptodo-wrapper .wp-editor-tools {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor,
+.dark-mode .bptodo-wrapper .wp-editor-tabs .wp-switch-editor {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor.switch-tmce[aria-pressed="true"],
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .switch-tmce.active,
+.dark-mode .bptodo-wrapper .wp-editor-tabs .wp-switch-editor.switch-tmce[aria-pressed="true"] {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-primary, #ffffff);
+    border-bottom-color: var(--bptodo-bg-card, #1a2028);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root[data-bx-mode="auto"] .bptodo-wrapper .wp-media-buttons .button,
+    :root[data-bx-mode="auto"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor {
+        background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+        border-color: var(--bptodo-border-default, #363d48);
+        color: var(--bptodo-text-secondary, #c5c8cd);
+    }
+}
