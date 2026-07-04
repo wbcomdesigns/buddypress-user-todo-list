@@ -67,7 +67,21 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 					'group' => 'settings',
 				),
 			);
-			return apply_filters( 'bptodo_admin_tabs', $tabs );
+
+			$tabs = apply_filters( 'bptodo_admin_tabs', $tabs );
+
+			/*
+			 * Discover — ecosystem cross-promotion (read-only display view).
+			 * Appended AFTER the `bptodo_admin_tabs` filter so a third-party
+			 * tab-removal filter can never accidentally drop it.
+			 */
+			$tabs['discover'] = array(
+				'label' => __( 'Discover', 'wb-todo' ),
+				'icon'  => 'dashicons-products',
+				'group' => 'discover',
+			);
+
+			return $tabs;
 		}
 
 		/**
@@ -273,6 +287,7 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 				'group'      => 'settings-group',
 				'retention'  => 'settings-retention',
 				'shortcodes' => 'settings-shortcodes',
+				'discover'   => 'discover',
 			);
 			$view     = isset( $view_map[ $active ] ) ? $view_map[ $active ] : 'overview';
 

@@ -1271,3 +1271,78 @@
 .bptodo-shortcode-examples li:last-child {
 	border-bottom: none;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Discover: ecosystem cross-promotion cards
+   ═══════════════════════════════════════════════════════════ */
+.bptodo-discover-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: var(--bptodo-admin-gap-md);
+}
+
+.bptodo-discover-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 10px;
+	padding: var(--bptodo-admin-gap-lg);
+	background: var(--bptodo-admin-white);
+	border: 1px solid var(--bptodo-admin-border);
+	border-radius: var(--bptodo-admin-radius);
+	box-shadow: var(--bptodo-admin-shadow);
+	transition: box-shadow 0.12s, border-color 0.12s, transform 0.12s;
+}
+
+.bptodo-discover-card:hover {
+	border-color: var(--bptodo-admin-border-strong);
+	box-shadow: var(--bptodo-admin-shadow-hover);
+	transform: translateY(-1px);
+}
+
+.bptodo-discover-card__logo {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+}
+
+.bptodo-discover-card__logo img {
+	width: 52px;
+	height: 52px;
+	display: block;
+	border-radius: var(--bptodo-admin-radius-sm);
+}
+
+.bptodo-discover-card__title {
+	font-size: 15px;
+	font-weight: 700;
+	color: var(--bptodo-admin-text);
+	line-height: 1.2;
+	margin: 0;
+}
+
+.bptodo-discover-card__desc {
+	font-size: 13px;
+	color: var(--bptodo-admin-text-3);
+	line-height: 1.5;
+	margin: 0;
+	flex: 1 1 auto;
+}
+
+.bptodo-discover-card__cta {
+	margin-top: 4px;
+}
+
+.bptodo-discover-card__cta .dashicons {
+	width: 14px;
+	height: 14px;
+	font-size: 14px;
+}
+
+@media (max-width: 640px) {
+	.bptodo-discover-grid {
+		grid-template-columns: 1fr;
+	}
+}

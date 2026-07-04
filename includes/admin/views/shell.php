@@ -67,6 +67,7 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 				$bptodo_printed_groups = array();
 				$bptodo_group_labels   = array(
 					'settings' => esc_html__( 'Settings', 'wb-todo' ),
+					'discover' => esc_html__( 'More Tools', 'wb-todo' ),
 				);
 				foreach ( $bptodo_tabs as $bptodo_slug => $bptodo_tab ) {
 					$bptodo_group = isset( $bptodo_tab['group'] ) ? $bptodo_tab['group'] : 'main';
