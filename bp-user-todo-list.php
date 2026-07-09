@@ -79,14 +79,32 @@ add_action( 'plugins_loaded', 'bptodo_check_plugin_update' );
 function bptodo_check_plugin_update() {
     $installed_version = get_option( 'bptodo_version', '0.0.0' );
 
-    // Check if this is a new installation or upgrade
     if ( version_compare( $installed_version, BPTODO_VERSION, '<' ) ) {
-        // Run upgrade routine
-        bptodo_upgrade_routine( $installed_version );
-
-        // Update version in database
+        // Persist the new version FIRST so that if a one-off upgrade task fails, this
+        // routine (and its side effects) can never re-run on every request and wedge
+        // the site. Then defer the actual upgrade work to 'init', when BuddyPress email
+        // post types + taxonomies are registered (plugins_loaded is too early - creating
+        // the email posts there previously failed term assignment and triggered a delete
+        // that could fatal via other plugins hooking wp_delete_post).
         update_option( 'bptodo_version', BPTODO_VERSION );
+        update_option( 'bptodo_pending_upgrade_from', $installed_version );
     }
+
+    if ( false !== get_option( 'bptodo_pending_upgrade_from', false ) ) {
+        add_action( 'init', 'bptodo_run_pending_upgrade', 20 );
+    }
+}
+
+/**
+ * Run the deferred one-off upgrade tasks exactly once, on init.
+ */
+function bptodo_run_pending_upgrade() {
+    $from = get_option( 'bptodo_pending_upgrade_from', false );
+    if ( false === $from ) {
+        return;
+    }
+    delete_option( 'bptodo_pending_upgrade_from' );
+    bptodo_upgrade_routine( $from );
 }
 
 /**
