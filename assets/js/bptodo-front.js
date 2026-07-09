@@ -960,7 +960,9 @@ jQuery(document).ready(function($) {
       var priorityValue = $priorityFilter.val();
       var categoryValue = $categoryFilter.length ? $categoryFilter.val() : '';
       var visibleCount = 0;
-      var hasActiveFilters = searchText || statusValue !== 'all' || priorityValue !== 'all' || categoryValue;
+      // The filter selects use an empty value ("") for their "All" option, so
+      // treat both "" and the legacy "all" as "no filter applied".
+      var hasActiveFilters = searchText || ( statusValue && statusValue !== 'all' ) || ( priorityValue && priorityValue !== 'all' ) || categoryValue;
 
       // Show/hide clear button
       if (hasActiveFilters) {
@@ -987,10 +989,10 @@ jQuery(document).ready(function($) {
         }
 
         var matchesSearch = !searchText || title.indexOf(searchText) !== -1 || content.indexOf(searchText) !== -1;
-        var matchesStatus = statusValue === 'all' ||
+        var matchesStatus = !statusValue || statusValue === 'all' ||
                            (statusValue === 'complete' && isComplete) ||
                            (statusValue === 'incomplete' && !isComplete);
-        var matchesPriority = priorityValue === 'all' || priority === priorityValue;
+        var matchesPriority = !priorityValue || priorityValue === 'all' || priority === priorityValue;
         var matchesCategory = !categoryValue || category === categoryValue.toLowerCase();
 
         if (matchesSearch && matchesStatus && matchesPriority && matchesCategory) {
