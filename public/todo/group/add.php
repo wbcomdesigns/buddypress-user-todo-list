@@ -57,6 +57,30 @@ if ( ! empty( $group_members['members'] ) ) {
 	}
 }
 
+// Modern layout (4.0): render the Interactivity add form (with member
+// assignment) and stop. The classic form below runs only in legacy mode.
+if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'group' ) ) {
+	$bptodo_members = array();
+	if ( ! empty( $group_members['members'] ) ) {
+		foreach ( $group_members['members'] as $bptodo_member ) {
+			$bptodo_members[] = array(
+				'id'   => (int) $bptodo_member->ID,
+				'name' => $bptodo_member->display_name,
+			);
+		}
+	}
+	$bptodo_list_url = trailingslashit( bptodo_get_group_url( $bp->groups->current_group ) . $bptodo->profile_menu_slug ) . 'list';
+	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		array(
+			'scope'    => 'group',
+			'group_id' => (int) $group_id,
+			'list_url' => $bptodo_list_url,
+			'members'  => $bptodo_members,
+		)
+	);
+	return;
+}
+
 // Get categories.
 $todo_cats = get_terms(
 	array(

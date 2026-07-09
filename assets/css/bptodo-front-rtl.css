@@ -2815,7 +2815,14 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   flex-wrap: wrap;
 }
 
-.bptodo-filter-btn {
+/*
+ * Scoped through .bptodo-member-filters (specificity 0,3,1) so we beat
+ * BuddyPress core's `.buddypress .buddypress-wrap button` (0,2,1). A mere tie
+ * is not enough here: buddypress.min.css loads AFTER this sheet, so an
+ * equal-specificity rule would lose on cascade order and force a white
+ * background - jarring in dark mode.
+ */
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2830,12 +2837,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   transition: all 0.2s ease;
 }
 
-.bptodo-filter-btn:hover {
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn:hover {
   border-color: var(--bptodo-primary);
   color: var(--bptodo-primary);
 }
 
-.bptodo-filter-btn.active {
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn.active {
   background: var(--bptodo-primary);
   border-color: var(--bptodo-primary);
   color: #fff;

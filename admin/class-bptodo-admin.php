@@ -90,13 +90,13 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				}
 
 				// Modern Design System CSS (loaded first as foundation).
-				wp_enqueue_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), BPTODO_VERSION );
+				wp_enqueue_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), bptodo_asset_ver( 'assets/css/bptodo-design-system' . $suffix . '.css' ) );
 
 				// Modern Component CSS.
-				wp_enqueue_style( 'bptodo-components', BPTODO_PLUGIN_URL . 'assets/css/bptodo-components' . $suffix . '.css', array( 'bptodo-design-system' ), BPTODO_VERSION );
+				wp_enqueue_style( 'bptodo-components', BPTODO_PLUGIN_URL . 'assets/css/bptodo-components' . $suffix . '.css', array( 'bptodo-design-system' ), bptodo_asset_ver( 'assets/css/bptodo-components' . $suffix . '.css' ) );
 
 				// Legacy frontend CSS (for backward compatibility with existing customizations).
-				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front' . $suffix . '.css', array( 'bptodo-components' ), BPTODO_VERSION );
+				wp_enqueue_style( 'bptodo-front-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-front' . $suffix . '.css', array( 'bptodo-components' ), bptodo_asset_ver( 'assets/css/bptodo-front' . $suffix . '.css' ) );
 
 				// Select2 for multi-select dropdowns.
 				wp_enqueue_style( 'select2-css', BPTODO_PLUGIN_URL . 'assets/css/select2.min.css', array(), BPTODO_VERSION );
@@ -114,10 +114,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				wp_enqueue_script( 'select2-js', BPTODO_PLUGIN_URL . 'assets/js/select2.full.min.js', array( 'jquery' ), BPTODO_VERSION, true );
 
 				// Modern UX Module (toast, loading, modal).
-				wp_enqueue_script( 'bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern' . $suffix . '.js', array( 'jquery' ), BPTODO_VERSION, true );
+				wp_enqueue_script( 'bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern' . $suffix . '.js', array( 'jquery' ), bptodo_asset_ver( 'assets/js/bptodo-modern' . $suffix . '.js' ), true );
 
 				// Main frontend JavaScript.
-				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front' . $suffix . '.js', array( 'jquery', 'bptodo-modern-js' ), BPTODO_VERSION, true );
+				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front' . $suffix . '.js', array( 'jquery', 'bptodo-modern-js' ), bptodo_asset_ver( 'assets/js/bptodo-front' . $suffix . '.js' ), true );
 
 				$localized_strings = $this->bp_todo_get_localized_strings();
 

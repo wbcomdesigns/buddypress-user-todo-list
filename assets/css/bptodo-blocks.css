@@ -327,13 +327,16 @@
 .bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
 .bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
 
-/* Actions — revealed on hover / keyboard focus */
+/*
+ * Row actions. Kept subtle but always present (touch devices have no hover),
+ * and de-emphasised until the row is hovered/focused on pointer devices.
+ */
 .bptodo-item__act {
 	display: flex;
 	align-items: center;
-	gap: 4px;
+	gap: 6px;
 	flex: 0 0 auto;
-	opacity: 0;
+	opacity: 0.7;
 	transition: opacity 0.12s ease;
 }
 
@@ -342,29 +345,50 @@
 	opacity: 1;
 }
 
-.bptodo-iconbtn {
-	padding: 6px 10px;
+/*
+ * Icon/text action buttons (Edit, Delete, Yes/No).
+ *
+ * BuddyPress core styles every <button> inside .buddypress-wrap
+ * (`.buddypress .buddypress-wrap button`, specificity 0,2,1) with a flat grey
+ * default. We match the codebase convention used for .bptodo-btn in
+ * bptodo-components.css - `.bptodo-wrapper button.<class>` (also 0,2,1) - so our
+ * rule ties on specificity and wins on load order.
+ */
+.bptodo-wrapper button.bptodo-iconbtn {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
 	font: inherit;
-	font-size: 0.82rem;
+	font-size: 0.8rem;
 	font-weight: 600;
+	line-height: 1;
 	color: var( --bpt-muted );
-	background: transparent;
-	border: 0;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
 	border-radius: 8px;
 	cursor: pointer;
-	transition: color 0.12s ease, background 0.12s ease;
+	text-decoration: none;
+	transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease;
 }
 
-.bptodo-iconbtn:hover {
+.bptodo-wrapper button.bptodo-iconbtn:hover {
+	color: var( --bpt-text, inherit );
 	background: var( --bpt-surface-2 );
-	color: var( --bptodo-text, inherit );
+	border-color: var( --bpt-muted );
 }
 
-.bptodo-iconbtn--danger:hover {
+.bptodo-wrapper button.bptodo-iconbtn--danger {
 	color: var( --bpt-critical );
+	border-color: color-mix( in srgb, var( --bpt-critical ) 35%, var( --bpt-border ) );
 }
 
-.bptodo-iconbtn:focus-visible {
+.bptodo-wrapper button.bptodo-iconbtn--danger:hover {
+	color: #fff;
+	background: var( --bpt-critical );
+	border-color: var( --bpt-critical );
+}
+
+.bptodo-wrapper button.bptodo-iconbtn:focus-visible {
 	outline: 2px solid var( --bpt-accent );
 	outline-offset: 1px;
 }
@@ -614,6 +638,63 @@
 	margin: 0;
 	color: var( --bpt-critical );
 	font-size: 0.85rem;
+}
+
+.bptodo-field__hint {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var( --bpt-muted );
+}
+
+/* Group add: member assignment chips. */
+.bptodo-assignees {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.bptodo-assignee {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px 6px 8px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 999px;
+	cursor: pointer;
+	font-size: 0.85rem;
+	line-height: 1;
+	transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.bptodo-assignee:hover {
+	border-color: var( --bpt-muted );
+}
+
+.bptodo-assignee:has( .bptodo-assignee__cb:checked ) {
+	border-color: var( --bpt-accent );
+	background: color-mix( in srgb, var( --bpt-accent ) 10%, transparent );
+}
+
+.bptodo-assignee:focus-within {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+.bptodo-assignee__cb {
+	margin: 0;
+	accent-color: var( --bpt-accent );
+}
+
+.bptodo-assignee__avatar {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.bptodo-assignee__name {
+	font-weight: 500;
 }
 
 @media ( max-width: 600px ) {

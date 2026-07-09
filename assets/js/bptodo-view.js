@@ -209,6 +209,20 @@ const { state, actions } = store( 'bptodo', {
 			getContext().fDue = event.target.value;
 		},
 
+		// Toggle a group member in the assignee list (group add form).
+		toggleAssignee( event ) {
+			const ctx = getContext();
+			const id = event.target.value;
+			const list = Array.isArray( ctx.fAssignees ) ? ctx.fAssignees.slice() : [];
+			const idx = list.indexOf( id );
+			if ( event.target.checked && idx === -1 ) {
+				list.push( id );
+			} else if ( ! event.target.checked && idx !== -1 ) {
+				list.splice( idx, 1 );
+			}
+			ctx.fAssignees = list;
+		},
+
 		*submitFull( event ) {
 			event.preventDefault();
 			const ctx = getContext();
@@ -219,15 +233,21 @@ const { state, actions } = store( 'bptodo', {
 			}
 			ctx.submitting = true;
 			ctx.formError = '';
-			const base = ctx.scope === 'group' && ctx.groupId ? `/groups/${ ctx.groupId }/todos` : '/todos';
+			const isGroup = ctx.scope === 'group' && ctx.groupId;
+			const base = isGroup ? `/groups/${ ctx.groupId }/todos` : '/todos';
+			const payload = {
+				title,
+				description: ctx.fDesc || '',
+				category: ctx.fCat || '',
+				priority: ctx.fPriority || 'normal',
+				due_date: ctx.fDue || '',
+			};
+			if ( isGroup ) {
+				// Empty selection means "everyone" (server treats [] / ['all'] alike).
+				payload.assignees = ctx.fAssignees && ctx.fAssignees.length ? ctx.fAssignees : [ 'all' ];
+			}
 			try {
-				yield bptodoApi( base, 'POST', {
-					title,
-					description: ctx.fDesc || '',
-					category: ctx.fCat || '',
-					priority: ctx.fPriority || 'normal',
-					due_date: ctx.fDue || '',
-				} );
+				yield bptodoApi( base, 'POST', payload );
 				window.location.href = ctx.listUrl || window.location.href;
 			} catch ( err ) {
 				ctx.submitting = false;

@@ -31,6 +31,23 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 		protected static $state_booted = false;
 
 		/**
+		 * Asset version string.
+		 *
+		 * In local/debug environments this returns the file's modification time so
+		 * every CSS/JS edit busts the browser cache during development. In
+		 * production it returns BPTODO_VERSION (bumped per release).
+		 *
+		 * @param string $rel_path Path relative to the plugin root (e.g. 'assets/css/bptodo-blocks.css').
+		 * @return string
+		 */
+		protected static function asset_ver( $rel_path ) {
+			if ( function_exists( 'bptodo_asset_ver' ) ) {
+				return bptodo_asset_ver( $rel_path );
+			}
+			return BPTODO_VERSION;
+		}
+
+		/**
 		 * Register the interactivity view script module (once).
 		 *
 		 * @return void
@@ -43,7 +60,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				self::MODULE_ID,
 				BPTODO_PLUGIN_URL . 'assets/js/bptodo-view.js',
 				array( '@wordpress/interactivity' ),
-				BPTODO_VERSION
+				self::asset_ver( 'assets/js/bptodo-view.js' )
 			);
 		}
 
@@ -59,13 +76,13 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 			if ( ! wp_style_is( 'bptodo-design-system', 'registered' ) ) {
-				wp_register_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), BPTODO_VERSION );
+				wp_register_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), self::asset_ver( 'assets/css/bptodo-design-system' . $suffix . '.css' ) );
 			}
 			if ( ! wp_style_is( 'bptodo-components', 'registered' ) ) {
-				wp_register_style( 'bptodo-components', BPTODO_PLUGIN_URL . 'assets/css/bptodo-components' . $suffix . '.css', array( 'bptodo-design-system' ), BPTODO_VERSION );
+				wp_register_style( 'bptodo-components', BPTODO_PLUGIN_URL . 'assets/css/bptodo-components' . $suffix . '.css', array( 'bptodo-design-system' ), self::asset_ver( 'assets/css/bptodo-components' . $suffix . '.css' ) );
 			}
 			if ( ! wp_style_is( 'bptodo-blocks', 'registered' ) ) {
-				wp_register_style( 'bptodo-blocks', BPTODO_PLUGIN_URL . 'assets/css/bptodo-blocks.css', array( 'bptodo-design-system' ), BPTODO_VERSION );
+				wp_register_style( 'bptodo-blocks', BPTODO_PLUGIN_URL . 'assets/css/bptodo-blocks.css', array( 'bptodo-design-system' ), self::asset_ver( 'assets/css/bptodo-blocks.css' ) );
 			}
 
 			wp_enqueue_style( 'bptodo-design-system' );
@@ -348,6 +365,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					'scope'    => 'member',
 					'group_id' => 0,
 					'list_url' => '',
+					'members'  => array(),
 				)
 			);
 
@@ -364,6 +382,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 
 			$categories = Bptodo_Categories::all();
 
+			$is_group = ( 'group' === $args['scope'] && ! empty( $args['members'] ) );
+
 			$context = array(
 				'scope'      => $args['scope'],
 				'groupId'    => (int) $args['group_id'],
@@ -372,6 +392,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'fCat'       => '',
 				'fPriority'  => 'normal',
 				'fDue'       => '',
+				'fAssignees' => array(),
 				'listUrl'    => $args['list_url'],
 				'submitting' => false,
 				'formError'  => '',
@@ -418,6 +439,22 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 							<input type="date" id="bptodo-add-due" class="bptodo-input" data-wp-on--change="actions.setFDue" />
 						</div>
 					</div>
+
+					<?php if ( $is_group ) : ?>
+						<div class="bptodo-field">
+							<span class="bptodo-field__label"><?php esc_html_e( 'Assign to members', 'wb-todo' ); ?></span>
+							<div class="bptodo-assignees" role="group" aria-label="<?php esc_attr_e( 'Assign to members', 'wb-todo' ); ?>">
+								<?php foreach ( $args['members'] as $bptodo_member ) : ?>
+									<label class="bptodo-assignee">
+										<input type="checkbox" class="bptodo-assignee__cb" value="<?php echo esc_attr( $bptodo_member['id'] ); ?>" data-wp-on--change="actions.toggleAssignee" />
+										<?php echo get_avatar( (int) $bptodo_member['id'], 28, '', $bptodo_member['name'], array( 'class' => 'bptodo-assignee__avatar' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_avatar returns a safe core-built <img>. ?>
+										<span class="bptodo-assignee__name"><?php echo esc_html( $bptodo_member['name'] ); ?></span>
+									</label>
+								<?php endforeach; ?>
+							</div>
+							<p class="bptodo-field__hint"><?php esc_html_e( 'Leave all unchecked to assign to everyone in the group.', 'wb-todo' ); ?></p>
+						</div>
+					<?php endif; ?>
 
 					<p class="bptodo-addform__error" role="alert" data-wp-bind--hidden="!context.formError" data-wp-text="context.formError"></p>
 

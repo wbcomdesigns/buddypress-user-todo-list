@@ -491,6 +491,35 @@ if ( ! function_exists( 'bptodo_is_user_assigned_to_task' ) ) {
 		return false;
 	}
 }
+if ( ! function_exists( 'bptodo_asset_ver' ) ) {
+	/**
+	 * Version string for a plugin-owned asset.
+	 *
+	 * On local/debug environments this returns the file's modification time so
+	 * every CSS/JS edit busts the browser cache during development. In production
+	 * it returns BPTODO_VERSION (bumped per release). Shared by the modern
+	 * renderer and the legacy admin/front enqueue so cache-busting behaves the
+	 * same everywhere.
+	 *
+	 * @since 4.0.0
+	 * @param string $rel_path Path relative to the plugin root (e.g. 'assets/css/bptodo-front.min.css').
+	 * @return string
+	 */
+	function bptodo_asset_ver( $rel_path ) {
+		$is_dev = ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+			|| ( function_exists( 'wp_get_environment_type' ) && 'local' === wp_get_environment_type() );
+
+		if ( $is_dev && defined( 'BPTODO_PLUGIN_PATH' ) ) {
+			$abs = BPTODO_PLUGIN_PATH . ltrim( $rel_path, '/' );
+			if ( is_readable( $abs ) ) {
+				return (string) filemtime( $abs );
+			}
+		}
+
+		return defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '4.0.0';
+	}
+}
+
 if ( ! function_exists( 'bptodo_layout_mode' ) ) {
 	/**
 	 * The effective frontend layout mode: 'modern' (default) or 'legacy'.
