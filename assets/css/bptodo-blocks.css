@@ -542,3 +542,88 @@
 		--bpt-muted: rgba( 127, 127, 127, 0.9 );
 	}
 }
+
+/* ---- Full add form (the Add page) ---- */
+.bptodo-addform {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 22px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+.bptodo-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.bptodo-field__label {
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: var( --bpt-muted );
+}
+
+.bptodo-req {
+	color: var( --bpt-critical );
+}
+
+.bptodo-app .bptodo-input,
+.bptodo-app .bptodo-select,
+.bptodo-app .bptodo-textarea {
+	width: 100%;
+	padding: 11px 13px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 10px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bptodo-app .bptodo-input:focus,
+.bptodo-app .bptodo-select:focus,
+.bptodo-app .bptodo-textarea:focus {
+	outline: none;
+	border-color: var( --bpt-accent );
+	box-shadow: 0 0 0 3px color-mix( in srgb, var( --bpt-accent ) 16%, transparent );
+}
+
+.bptodo-textarea {
+	resize: vertical;
+	min-height: 96px;
+	line-height: 1.5;
+}
+
+.bptodo-field-grid {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 14px;
+}
+
+.bptodo-addform__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	padding-top: 4px;
+}
+
+.bptodo-addform__error {
+	margin: 0;
+	color: var( --bpt-critical );
+	font-size: 0.85rem;
+}
+
+@media ( max-width: 600px ) {
+	.bptodo-field-grid {
+		grid-template-columns: 1fr;
+	}
+	.bptodo-addform__actions {
+		flex-direction: column-reverse;
+	}
+	.bptodo-addform__actions .bptodo-btn {
+		width: 100%;
+	}
+}

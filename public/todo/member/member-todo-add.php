@@ -30,6 +30,18 @@ $displayed_uid      = bp_displayed_user_id();
 $form_post_link     = bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug . '/add/';
 $bptodo_req         = 'yes' === $bptodo->req_duedate ? 'required' : '';
 $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 'on' ), true );
+
+// Modern layout (4.0): render the Interactivity add form and stop.
+if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'member' ) ) {
+	$bptodo_list_url = trailingslashit( bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug ) . 'list';
+	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		array(
+			'scope'    => 'member',
+			'list_url' => $bptodo_list_url,
+		)
+	);
+	return;
+}
 ?>
 
 <div class="bptodo-wrapper" id="bptodo-member-add">

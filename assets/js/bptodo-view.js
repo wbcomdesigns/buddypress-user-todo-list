@@ -134,6 +134,7 @@ const { state, actions } = store( 'bptodo', {
 			const todo = getContext().todo;
 			todo.editTitle = todo.title;
 			todo.editPriority = todo.priority;
+			todo.editDue = todo.due_date || '';
 			todo.editing = true;
 		},
 
@@ -149,6 +150,10 @@ const { state, actions } = store( 'bptodo', {
 			getContext().todo.editPriority = event.target.value;
 		},
 
+		setEditDue( event ) {
+			getContext().todo.editDue = event.target.value;
+		},
+
 		*saveEdit( event ) {
 			event.preventDefault();
 			const todo = getContext().todo;
@@ -160,10 +165,13 @@ const { state, actions } = store( 'bptodo', {
 				const updated = yield bptodoApi( `/todos/${ todo.id }`, 'PATCH', {
 					title,
 					priority: todo.editPriority,
+					due_date: todo.editDue || '',
 				} );
 				todo.title = updated.title;
 				todo.priority = updated.priority;
 				todo.priority_label = updated.priority_label;
+				todo.due_date = updated.due_date;
+				todo.due_human = updated.due_human;
 				todo.editing = false;
 			} catch ( err ) {}
 		},
@@ -182,6 +190,49 @@ const { state, actions } = store( 'bptodo', {
 				ctx.page = 1;
 				yield actions.reload();
 			} catch ( err ) {}
+		},
+
+		// Full add form (the Add page).
+		setFTitle( event ) {
+			getContext().fTitle = event.target.value;
+		},
+		setFDesc( event ) {
+			getContext().fDesc = event.target.value;
+		},
+		setFCat( event ) {
+			getContext().fCat = event.target.value;
+		},
+		setFPriority( event ) {
+			getContext().fPriority = event.target.value;
+		},
+		setFDue( event ) {
+			getContext().fDue = event.target.value;
+		},
+
+		*submitFull( event ) {
+			event.preventDefault();
+			const ctx = getContext();
+			const title = ( ctx.fTitle || '' ).trim();
+			if ( ! title ) {
+				ctx.formError = state.i18n.titleRequired;
+				return;
+			}
+			ctx.submitting = true;
+			ctx.formError = '';
+			const base = ctx.scope === 'group' && ctx.groupId ? `/groups/${ ctx.groupId }/todos` : '/todos';
+			try {
+				yield bptodoApi( base, 'POST', {
+					title,
+					description: ctx.fDesc || '',
+					category: ctx.fCat || '',
+					priority: ctx.fPriority || 'normal',
+					due_date: ctx.fDue || '',
+				} );
+				window.location.href = ctx.listUrl || window.location.href;
+			} catch ( err ) {
+				ctx.submitting = false;
+				ctx.formError = state.i18n.error;
+			}
 		},
 
 		*reload() {
