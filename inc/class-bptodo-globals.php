@@ -87,7 +87,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			// Generate cache key based on user and group context
 			$cache_key = 'bptodo_count_' . $user_id;
-			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+			if ( function_exists( 'bp_is_group' ) && bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
 				$cache_key .= '_group_' . absint( bp_get_current_group_id() );
 			}
 
@@ -103,7 +103,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$prepare_args = [ $user_id ];
 
 			// Add meta query for group filtering if needed
-			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+			if ( function_exists( 'bp_is_group' ) && bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
 				$group_id       = absint( bp_get_current_group_id() );
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below
 				$sql           .= " AND EXISTS (SELECT 1 FROM {$wpdb->postmeta} pm WHERE pm.post_id = p.ID AND pm.meta_key = 'todo_group_id' AND pm.meta_value = %d)";

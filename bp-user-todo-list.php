@@ -120,13 +120,34 @@ function bptodo_upgrade_routine( $from_version ) {
 /**
  * Include needed files.
  */
+/**
+ * Instantiate the settings globals on every request (standalone-safe).
+ *
+ * $bptodo must exist even without BuddyPress so the frontend blocks/renderer and admin
+ * can read the plugin's labels and settings. setup_globals() is BuddyPress-guarded; when
+ * BuddyPress is present it re-runs on bp_init for full group context.
+ */
+add_action( 'init', 'bptodo_init_globals', 1 );
+function bptodo_init_globals() {
+    global $bptodo;
+    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+        $bptodo = new Bptodo_Globals();
+        $bptodo->setup_globals();
+    }
+}
+
+/**
+ * Load the BuddyPress group extension - only when BuddyPress/BuddyBoss is active.
+ */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
 function run_wp_bptodo_list() {
-    // Initialize globals first before loading group extension
     global $bptodo;
-    $bptodo = new Bptodo_Globals();
+    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+        $bptodo = new Bptodo_Globals();
+        $bptodo->setup_globals();
+    }
 
-    // Now load group extension which depends on $bptodo
+    // Group extension depends on $bptodo and BuddyPress groups.
     $include_files = array(
         'public/class-bptodo-groups-extension-tab.php',
     );
@@ -198,9 +219,21 @@ function bptodo_grant_upload_cap_on_todo_pages( $allcaps, $caps, $args ) {
 add_filter( 'user_has_cap', 'bptodo_grant_upload_cap_on_todo_pages', 10, 3 );
 
 /**
+ * Whether BuddyPress or BuddyBoss Platform is active.
+ *
+ * Since 4.0 the plugin works standalone (personal todos for any WordPress user);
+ * BuddyPress/BuddyBoss is an optional enhancement (profile tab + group todos).
+ *
+ * @return bool
+ */
+function bptodo_is_bp_active() {
+	return function_exists( 'buddypress' ) || class_exists( 'BuddyPress' );
+}
+
+/**
  * Check if the Todo List plugin should be active on the current subsite.
  */
-function bptodo_check_buddypress_subsite_activation() {    
+function bptodo_check_buddypress_subsite_activation() {
     // Ensure this is a multisite installation
         if ( is_multisite() ) {        
         $deactivate = false;
@@ -239,12 +272,14 @@ function bptodo_check_buddypress_subsite_activation() {
                 unset( $_GET['activate'] );
             }
         }
-    } else {
-        if ( ! class_exists( 'BuddyPress' ) ) {
-            deactivate_plugins( plugin_basename( __FILE__ ) );
+    	} else {
+		// BuddyPress is optional (since 4.0): personal todos work standalone, so we no
+		// longer deactivate when it is absent - we surface a dismissible notice that the
+		// group and profile-tab features are unavailable until BuddyPress/BuddyBoss is active.
+		if ( ! bptodo_is_bp_active() ) {
 			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
 		}
-    }
+	}
 }
 add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
 
@@ -295,9 +330,8 @@ function bptodo_show_buddypress_required_notice() {
  */
 function bptodo_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' );
-	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
-	/* Translators: 1) BuddyPress Member Todo List 2) BuddyPress  */
-	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
+	/* Translators: %s: plugin name. */
+	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
 }
 
 /**
