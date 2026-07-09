@@ -272,9 +272,13 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 == Changelog ==
 
 = 3.6.0 =
-* Improvement: Rebuilt the admin settings screen on the modern Wbcom card-panel UI (sidebar navigation, Overview dashboard, cleaner forms). Same settings, same option keys.
-* Improvement: Replaced browser alert/confirm dialogs with accessible toast and modal notifications across the admin and member screens.
-* Security: Added an explicit capability check to the General settings save handler.
+* Improve  - Rebuilt the admin settings screen on the modern Wbcom card-panel UI (sidebar navigation, Overview dashboard, cleaner forms). Same settings, same option keys.
+* Improve  - Replaced browser alert/confirm dialogs with accessible toast and modal notifications across the admin and member screens.
+* Improve  - Load the frontend CSS and JavaScript only on todo screens and pages that use a todo shortcode, instead of on every page.
+* Fix      - Member list filters and search no longer clear the whole list when applied.
+* Fix      - Fixed a PHP 8 fatal error in the list loading placeholder.
+* Security - Added an explicit capability check to the General settings save handler.
+* Dev      - Added admin/demo-tasks.json so the wp bptodo generate command creates varied demo data.
 
 = 3.5.1 =
 * Improvement: Enhanced task selector UI for better user experience
