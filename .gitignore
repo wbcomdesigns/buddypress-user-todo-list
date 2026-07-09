@@ -17,3 +17,8 @@ CLAUDE.md
 !audit/manifest.json
 !audit/manifest.summary.json
 dist/
+
+# Essential JSON that must ship despite the broad *.json ignore above.
+!admin/demo-tasks.json
+!blocks/
+!blocks/**
