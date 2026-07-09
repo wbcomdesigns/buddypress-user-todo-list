@@ -4,80 +4,16 @@ Display todos anywhere on your WordPress site using shortcodes. Perfect for dash
 
 ## 📝 Available Shortcodes
 
-1. [Todo by Category](#todo-by-category) - Display todos from specific category
-2. [User Todo List](#user-todo-list) - Show current user's todos
-3. [All Todos](#all-todos) - Display all site todos (admin only)
+1. [User Todo List](#user-todo-list) — `[bptodo_list]` — the primary shortcode with filtering, sorting, and pagination
+2. [Todo by Category](#todo-by-category) — `[bptodo_by_category]` — legacy category-only shortcode, kept for backward compatibility
 
----
-
-## 🎯 Todo by Category
-
-Display todos from a specific category anywhere on your site.
-
-### Basic Usage
-
-```
-[bptodo_by_category category="5"]
-```
-
-### Parameters
-
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `category` | Yes | - | Category ID to display |
-| `user_id` | No | Current user | Specific user's todos |
-| `limit` | No | -1 (all) | Number of todos to show |
-| `status` | No | all | Filter by status |
-
-### Examples
-
-**Show category 5 todos:**
-```
-[bptodo_by_category category="5"]
-```
-
-**Show only 10 todos:**
-```
-[bptodo_by_category category="5" limit="10"]
-```
-
-**Show specific user's todos:**
-```
-[bptodo_by_category category="5" user_id="15"]
-```
-
-**Show only incomplete todos:**
-```
-[bptodo_by_category category="5" status="incomplete"]
-```
-
-**Show only completed todos:**
-```
-[bptodo_by_category category="5" status="completed"]
-```
-
-### Finding Category IDs
-
-**Method 1: Admin Panel**
-1. Go to `WordPress Admin > Todos > Categories`
-2. Hover over category name
-3. Look at URL: `?tag_ID=5` (5 is the ID)
-
-**Method 2: Edit Category**
-1. Edit any todo
-2. Look at category dropdown
-3. Inspect element to see option value
-
-**Method 3: WP-CLI**
-```bash
-wp term list bp_todo_category --fields=term_id,name
-```
+> **Looking for `[bptodo_all]`?** There is no separate "all todos" shortcode. Use `[bptodo_list user_id="all"]` (admin only) — it renders every user's todos with the same filtering and pagination as the standard list.
 
 ---
 
 ## 👤 User Todo List
 
-Display current logged-in user's todos.
+`[bptodo_list]` is the main shortcode. It displays the current user's todos by default, with full filtering, sorting, and pagination. Site admins can widen it to any user or to everyone.
 
 ### Basic Usage
 
@@ -87,88 +23,86 @@ Display current logged-in user's todos.
 
 ### Parameters
 
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `user_id` | No | Current user | Show specific user's todos |
-| `category` | No | all | Filter by category |
-| `status` | No | all | Filter by status |
-| `show_add` | No | true | Show "Add New" button |
-| `show_export` | No | true | Show export button |
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `user_id` | `0` | User to show tasks for. `0` = current user, a numeric ID for a specific user, or `all` for everyone (**admin only**). |
+| `category` | `""` | Filter by category **slug or ID**. |
+| `status` | `all` | Filter by status: `all`, `complete`, or `incomplete`. |
+| `priority` | `all` | Filter by priority: `all`, `critical`, `high`, or `normal`. |
+| `per_page` | `10` | Number of items per page. |
+| `orderby` | `due_date` | Sort field: `due_date`, `date`, `title`, or `priority`. |
+| `order` | `ASC` | Sort direction: `ASC` or `DESC`. |
+| `show_add` | `no` | Show the "Add New" button: `yes` or `no`. |
+
+> Visitors who are not logged in see the plugin's logged-out notice, not the list.
 
 ### Examples
 
-**Basic list:**
+**Current user's todos:**
 ```
 [bptodo_list]
 ```
 
-**Specific user:**
+**All incomplete todos across the site (admin only):**
 ```
-[bptodo_list user_id="25"]
-```
-
-**Filter by category:**
-```
-[bptodo_list category="5"]
+[bptodo_list user_id="all" status="incomplete"]
 ```
 
-**Show only incomplete:**
+**A specific user's todos, read-only (no add button):**
 ```
-[bptodo_list status="incomplete"]
-```
-
-**Hide action buttons:**
-```
-[bptodo_list show_add="false" show_export="false"]
+[bptodo_list user_id="15" show_add="no"]
 ```
 
-**Read-only view:**
+**High-priority work tasks, 20 per page:**
 ```
-[bptodo_list show_add="false" show_export="false" user_id="10"]
+[bptodo_list category="work" priority="high" per_page="20"]
 ```
+
+**Completed tasks, newest first:**
+```
+[bptodo_list status="complete" orderby="date" order="DESC"]
+```
+
+**With the add-new button visible:**
+```
+[bptodo_list show_add="yes"]
+```
+
+### Finding Category IDs / Slugs
+
+**Method 1: Admin Panel**
+1. Go to `WordPress Admin > Todos > Categories`.
+2. Hover over a category name.
+3. The URL shows the ID: `?tag_ID=5` (5 is the ID). The slug is in the "Slug" column.
+
+**Method 2: WP-CLI**
+```bash
+wp term list todo_category --fields=term_id,slug,name
+```
+
+Both an ID (`category="5"`) and a slug (`category="work"`) are accepted.
 
 ---
 
-## 📊 All Todos (Admin)
+## 🏷️ Todo by Category
 
-Display all todos from all users. **Admin only!**
+`[bptodo_by_category]` is a **legacy** shortcode kept for backward compatibility. It displays todos from a single category and accepts **only** the `category` parameter.
 
-### Basic Usage
+> For any filtering beyond a single category (status, priority, user, sorting, pagination), use `[bptodo_list]` instead — e.g. `[bptodo_list category="5" status="incomplete"]`.
+
+### Usage
 
 ```
-[bptodo_all]
+[bptodo_by_category category="5"]
 ```
 
 ### Parameters
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
-| `limit` | No | 50 | Number to show |
-| `orderby` | No | date | Sort field |
-| `order` | No | DESC | Sort direction |
-| `status` | No | all | Filter by status |
+| `category` | Yes | — | Category ID (or slug) to display |
 
-### Examples
-
-**Recent 50 todos:**
-```
-[bptodo_all]
-```
-
-**Show 100 todos:**
-```
-[bptodo_all limit="100"]
-```
-
-**Sort by title:**
-```
-[bptodo_all orderby="title" order="ASC"]
-```
-
-**Only incomplete:**
-```
-[bptodo_all status="incomplete"]
-```
+Logged-out visitors see the plugin's logged-out notice.
 
 ---
 
@@ -176,55 +110,28 @@ Display all todos from all users. **Admin only!**
 
 ### Custom CSS
 
-Add custom styling in your theme or Customizer:
+The shortcode markup is token-driven and inherits the plugin's design system. To layer your own styles, target the plugin containers:
 
 ```css
-/* Todo list container */
+/* List container */
 .bptodo-shortcode-list {
     background: #f5f5f5;
     padding: 20px;
     border-radius: 8px;
 }
 
-/* Individual todo item */
-.bptodo-item {
-    background: white;
-    padding: 15px;
+/* Individual todo card */
+.bptodo-card {
     margin-bottom: 10px;
-    border-left: 3px solid #0073aa;
-}
-
-/* Completed todos */
-.bptodo-item.completed {
-    opacity: 0.6;
-    border-left-color: #46b450;
-}
-
-/* High priority */
-.bptodo-item.priority-high {
-    border-left-color: #dc3232;
-}
-
-/* Due date display */
-.bptodo-due-date {
-    color: #666;
-    font-size: 0.9em;
-}
-
-/* Overdue items */
-.bptodo-item.overdue {
-    background: #fff5f5;
-    border-left-color: #dc3232;
 }
 ```
 
 ### Theme Integration
 
-**Add to page template:**
+**Render from a template file:**
 
 ```php
 <?php
-// In your theme template file
 if ( shortcode_exists( 'bptodo_list' ) ) {
     echo do_shortcode( '[bptodo_list]' );
 }
@@ -237,102 +144,46 @@ if ( shortcode_exists( 'bptodo_list' ) ) {
 
 ### Personal Dashboard Page
 
-Create a custom page with user's todos:
-
 ```
-<h2>My Tasks</h2>
-[bptodo_list status="incomplete" show_export="false"]
+<h2>My Open Tasks</h2>
+[bptodo_list status="incomplete"]
 
-<h2>Completed Tasks</h2>
-[bptodo_list status="completed" limit="10"]
+<h2>Recently Completed</h2>
+[bptodo_list status="complete" per_page="10" orderby="date" order="DESC"]
 ```
 
-### Category-Specific Landing Pages
+### Category Landing Page
 
-**Work Tasks Page:**
 ```
 <h1>Work Tasks</h1>
-<p>Your professional todo list</p>
-[bptodo_by_category category="3"]
+[bptodo_list category="work" status="incomplete"]
 ```
 
-**Personal Goals Page:**
+### Team Overview (admin)
+
 ```
-<h1>Personal Goals</h1>
-<p>Track your personal development</p>
-[bptodo_by_category category="5"]
-```
-
-### Team Overview Page
-
-**For team leaders:**
-```
-<h2>Team Member Tasks</h2>
-
-<h3>John's Tasks</h3>
-[bptodo_list user_id="15" status="incomplete" show_add="false"]
-
-<h3>Sarah's Tasks</h3>
-[bptodo_list user_id="22" status="incomplete" show_add="false"]
+<h2>Everyone's Open Tasks</h2>
+[bptodo_list user_id="all" status="incomplete" per_page="25"]
 ```
 
-### Public Task Board
+### Read-only View of One Member
 
-**Show completed work:**
 ```
-<h2>Recently Completed Projects</h2>
-[bptodo_all status="completed" limit="20" orderby="date" order="DESC"]
-```
-
-### Widget Areas
-
-**Add to sidebar:**
-
-```php
-// In functions.php or custom plugin
-add_action( 'widgets_init', function() {
-    register_sidebar( array(
-        'name' => 'Todo Sidebar',
-        'id' => 'todo-sidebar',
-        'before_widget' => '<div class="widget">',
-        'after_widget' => '</div>',
-    ) );
-} );
-
-// In sidebar.php
-if ( is_user_logged_in() ) {
-    echo do_shortcode( '[bptodo_list limit="5"]' );
-}
+[bptodo_list user_id="22" status="incomplete" show_add="no"]
 ```
 
 ---
 
 ## 🔒 Access Control
 
-### Login Requirements
+Shortcodes respect WordPress login status. Logged-out visitors see the plugin's built-in notice.
 
-Shortcodes respect WordPress login status:
-
-```php
-// Wrap shortcode with login check
-if ( is_user_logged_in() ) {
-    echo do_shortcode( '[bptodo_list]' );
-} else {
-    echo '<p>Please <a href="/wp-login.php">login</a> to view your todos.</p>';
-}
-```
-
-### Role-Based Display
+- `user_id="all"` and viewing **another** user's todos both require the current user to be a site admin (`manage_options`). Non-admins are silently scoped back to their own todos.
 
 ```php
-// Show only to subscribers
-if ( current_user_can( 'subscriber' ) ) {
-    echo do_shortcode( '[bptodo_list]' );
-}
-
-// Show different views by role
-if ( current_user_can( 'administrator' ) ) {
-    echo do_shortcode( '[bptodo_all]' );
+// Show an admin-wide view to admins, a personal view to everyone else.
+if ( current_user_can( 'manage_options' ) ) {
+    echo do_shortcode( '[bptodo_list user_id="all"]' );
 } else {
     echo do_shortcode( '[bptodo_list]' );
 }
@@ -342,55 +193,33 @@ if ( current_user_can( 'administrator' ) ) {
 
 ## 🎛️ Advanced Customization
 
-### Custom Shortcode
-
-Create your own shortcode wrapper:
+### Custom Shortcode Wrapper
 
 ```php
-// Add to functions.php
+// Add to functions.php — a pre-filtered wrapper around [bptodo_list].
 function my_custom_todo_shortcode( $atts ) {
     if ( ! is_user_logged_in() ) {
-        return '<p>Please login to view todos.</p>';
+        return '<p>Please log in to view todos.</p>';
     }
 
-    // Get current user's incomplete todos from category 5
-    $atts = shortcode_atts( array(
-        'category' => '5',
-        'status' => 'incomplete',
-        'user_id' => get_current_user_id()
-    ), $atts );
+    $atts = shortcode_atts(
+        array(
+            'category' => 'work',
+            'status'   => 'incomplete',
+        ),
+        $atts,
+        'my_todos'
+    );
 
     return do_shortcode( sprintf(
-        '[bptodo_by_category category="%s" status="%s" user_id="%s"]',
-        $atts['category'],
-        $atts['status'],
-        $atts['user_id']
+        '[bptodo_list category="%s" status="%s"]',
+        esc_attr( $atts['category'] ),
+        esc_attr( $atts['status'] )
     ) );
 }
 add_shortcode( 'my_todos', 'my_custom_todo_shortcode' );
 
-// Usage: [my_todos]
-```
-
-### Conditional Display
-
-```php
-// Show different todos based on day
-function daily_todo_shortcode() {
-    $day = date( 'w' ); // 0-6, Sunday-Saturday
-
-    if ( $day == 1 ) {
-        // Monday - Work tasks
-        return do_shortcode( '[bptodo_by_category category="3"]' );
-    } elseif ( $day == 6 || $day == 0 ) {
-        // Weekend - Personal tasks
-        return do_shortcode( '[bptodo_by_category category="5"]' );
-    } else {
-        // Weekdays - All tasks
-        return do_shortcode( '[bptodo_list]' );
-    }
-}
-add_shortcode( 'daily_todos', 'daily_todo_shortcode' );
+// Usage: [my_todos]  or  [my_todos category="5"]
 ```
 
 ---
@@ -399,85 +228,25 @@ add_shortcode( 'daily_todos', 'daily_todo_shortcode' );
 
 ### Shortcode displays as text
 
-**Problem:** `[bptodo_list]` shows literally on page
+**Problem:** `[bptodo_list]` shows literally on the page.
 
-**Causes:**
-- Plugin not activated
-- Typed in wrong field (not content editor)
-- Theme/page builder conflicts
-
-**Solutions:**
-1. Verify plugin is active
-2. Use Text editor, not visual
-3. For page builders, use shortcode widget/element
+**Causes & fixes:**
+- Plugin not activated → activate it.
+- Typed into the wrong field → use the content editor / a Shortcode block, not a title field.
+- Page-builder conflict → use the builder's dedicated shortcode widget/element.
 
 ### No todos showing
 
 **Check:**
-1. User has todos created
-2. Category ID is correct
-3. User is logged in (if required)
-4. Permissions are correct
-5. Filter status matches
-
-### Styling issues
-
-**Solutions:**
-1. Add custom CSS (see styling section)
-2. Check theme CSS conflicts
-3. Use browser inspector to identify issues
-4. Wrap in custom div with class:
-   ```
-   <div class="my-todo-wrapper">
-   [bptodo_list]
-   </div>
-   ```
+1. The target user actually has todos.
+2. The `category` ID/slug is correct.
+3. The viewer is logged in.
+4. The `status` / `priority` filters aren't excluding everything.
+5. For `user_id="all"` or another user's ID, the viewer is an admin.
 
 ### Performance with large lists
 
-**If slow loading:**
-1. Use `limit` parameter
-2. Add pagination (custom development)
-3. Filter by status
-4. Use caching plugin
-5. Consider AJAX loading
-
----
-
-## 📚 Complete Examples
-
-### Member Dashboard
-
-```html
-<div class="todo-dashboard">
-    <div class="todo-stats">
-        <!-- Custom stats widget here -->
-    </div>
-
-    <div class="todo-urgent">
-        <h3>🔥 Urgent Tasks</h3>
-        [bptodo_list status="incomplete" limit="5"]
-    </div>
-
-    <div class="todo-recent">
-        <h3>✅ Recently Completed</h3>
-        [bptodo_list status="completed" limit="5"]
-    </div>
-</div>
-```
-
-### Project Page
-
-```html
-<h1>Project Alpha Tasks</h1>
-<p>All tasks related to Project Alpha</p>
-
-<h2>🎯 Active Tasks</h2>
-[bptodo_by_category category="8" status="incomplete"]
-
-<h2>✅ Completed Tasks</h2>
-[bptodo_by_category category="8" status="completed" limit="20"]
-```
+`[bptodo_list]` paginates server-side via `per_page`, so large datasets stay fast. Lower `per_page` for lighter pages; combine with `status` / `category` to narrow the set.
 
 ---
 

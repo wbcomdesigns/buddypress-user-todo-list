@@ -63,15 +63,24 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			// Use minified versions in production, non-minified in development.
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-			if (
-				isset( $_SERVER['REQUEST_URI'] ) &&
-				(
-					strpos( sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ), $profile_menu_slug ) !== false ||
-					isset( $post->post_type ) ||
-					( isset( $post->post_content ) && ( has_shortcode( $post->post_content, 'bptodo_by_category' ) ||
-					has_shortcode( $post->post_content, 'ld_dashboard' ) ) )
-				)
-			) {
+			/*
+			 * Only load the frontend assets where a todo template actually renders:
+			 *   1. The member or group "Todo" BuddyPress tab. Both use the same
+			 *      profile menu slug, so its presence in the request URI covers the
+			 *      member list, the member add/edit screen, and the group tab.
+			 *   2. A page/post that embeds one of the todo shortcodes.
+			 * Anything else (every other singular page) is skipped so the plugin
+			 * adds no CSS/JS weight site-wide.
+			 */
+			$bptodo_request_uri   = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+			$bptodo_is_todo_tab   = '' !== $profile_menu_slug && false !== strpos( $bptodo_request_uri, $profile_menu_slug );
+			$bptodo_has_shortcode = isset( $post->post_content ) && (
+				has_shortcode( $post->post_content, 'bptodo_list' ) ||
+				has_shortcode( $post->post_content, 'bptodo_by_category' ) ||
+				has_shortcode( $post->post_content, 'ld_dashboard' )
+			);
+
+			if ( $bptodo_is_todo_tab || $bptodo_has_shortcode ) {
 				// Legacy jQuery UI for datepicker (still needed for date inputs).
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
 

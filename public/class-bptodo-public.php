@@ -1304,50 +1304,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 		}
 
-		/**
-		 * Bptodo_edit_form_popup
-		 *
-		 * @return void
-		 */
-		public function bptodo_edit_form_popup() {
-			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
-				$todo_id        = isset( $_POST['t_id'] ) ? sanitize_text_field( wp_unslash( $_POST['t_id'] ) ) : '';
-				$todo_guid        = isset( $_POST['gu_id'] ) ? sanitize_text_field( wp_unslash( $_POST['gu_id'] ) ) : '';
-
-				$component_type = isset( $_POST['component'] ) ? sanitize_text_field( wp_unslash( $_POST['component'] ) ) : '';
-					ob_start();
-				if ( 'member' == $component_type ) {
-					include BPTODO_PLUGIN_PATH . 'public/todo/member/member-todo-edit.php';
-				} elseif ( 'group' == $component_type ) {
-					include BPTODO_PLUGIN_PATH . 'public/todo/group/edit.php';
-				}
-					$todo_edit = ob_get_clean();					
-					echo $todo_edit; //phpcs:ignore
-					\_WP_Editors::enqueue_scripts();
-					print_footer_scripts();
-					\_WP_Editors::editor_js();
-					exit();
-			}
-		}
-		
-
-		/**
-		 * Bptodo_add_div_edit_form
-		 *
-		 * @return void
-		 */
-		public function bptodo_add_div_edit_form() {
-
-			echo '<div class="bptodo-modal modal" data-modal="trigger">
-                    <div class="content-wrapper bptodo_edit_form_popup">
-                    <button class="close"></button>
-					<div class="edit_form_popup">
-					</div>
-						</div>
-                    </div>';
-
-		}
-
 		public function bptodo_update_form_popup() {
 			if ( isset( $_POST['ajax_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ajax_nonce'] ) ), 'bptodo-todo-nonce' ) ) {
 				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore

@@ -25,8 +25,7 @@
     { "action": "bptodo_complete_todo", "handler": "public/class-bptodo-public.php::bptodo_complete_todo", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Mark a todo complete." },
     { "action": "bptodo_undo_complete_todo", "handler": "public/class-bptodo-public.php::bptodo_undo_complete_todo", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Revert a completed todo to active." },
     { "action": "bptodo_add_todo_category_front", "handler": "public/class-bptodo-public.php::bptodo_add_todo_category_front", "nonce": "bptodo-todo-nonce", "capability": "logged-in member (gated by allow_user_add_category setting)", "purpose": "Create a todo category from the frontend." },
-    { "action": "bptodo_edit_form_popup", "handler": "public/class-bptodo-public.php::bptodo_edit_form_popup", "nonce": "bptodo-todo-nonce (ajax_nonce)", "capability": "logged-in member", "purpose": "Return the edit-todo form markup for a popup." },
-    { "action": "bptodo_update_form_popup", "handler": "public/class-bptodo-public.php::bptodo_update_form_popup", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Persist edits from the popup edit form." },
+    { "action": "bptodo_update_form_popup", "handler": "public/class-bptodo-public.php::bptodo_update_form_popup", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Persist edits from the full-page edit form (submitted via AJAX)." },
     { "action": "bptodo_get_todo_card_html", "handler": "public/class-bptodo-public.php::bptodo_get_todo_card_html", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Return rendered todo-card HTML (used to refresh list after AJAX ops)." },
     { "action": "get_group_todo_report", "handler": "public/class-bptodo-public.php::bptodo_display_group_todo_report", "nonce": "bptodo-todo-nonce (ajax_nonce)", "capability": "logged-in group member/moderator", "purpose": "Return a group todo member report (GET-driven)." },
     { "action": "bptodo_network_deactivate", "handler": "bp-user-todo-list.php::bptodo_handle_network_deactivation", "nonce": "bptodo_network_nonce", "capability": "manage_network_plugins", "purpose": "Network-wide deactivation (only when BPTODO_ENABLE_ADVANCED_MULTISITE is defined true; off by default)." },
@@ -50,7 +49,7 @@
   ],
   "shortcodes": [
     { "tag": "bptodo_by_category", "handler": "public/class-bptodo-public.php::bptodo_by_category_template", "attrs": ["category"] },
-    { "tag": "bptodo_list", "handler": "public/class-bptodo-public.php::bptodo_list_shortcode", "attrs": [] },
+    { "tag": "bptodo_list", "handler": "public/class-bptodo-public.php::bptodo_list_shortcode", "attrs": ["user_id", "category", "status", "priority", "per_page", "orderby", "order", "show_add"] },
     { "tag": "wbcom_admin_setting_header", "handler": "admin/wbcom/wbcom-admin-settings.php::wbcom_admin_setting_header_html", "attrs": [] }
   ],
   "blocks": [],

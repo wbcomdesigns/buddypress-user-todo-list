@@ -259,10 +259,6 @@ class Bptodo_List {
 		// Usage: [bptodo_list user_id="all" category="work" status="incomplete" per_page="10"]
 		$this->loader->add_shortcode( 'bptodo_list', $plugin_public, 'bptodo_list_shortcode' );
 
-		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
-
-		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );		
-
 		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
 
 		// AJAX handler for getting individual todo card HTML (for smooth card updates)

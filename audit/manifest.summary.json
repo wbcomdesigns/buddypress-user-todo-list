@@ -7,7 +7,7 @@
   "admin_ui_wrapper": "OLD",
   "counts": {
     "rest_endpoints": 0,
-    "ajax": 11,
+    "ajax": 10,
     "admin_pages": 6,
     "settings": 6,
     "shortcodes": 3,

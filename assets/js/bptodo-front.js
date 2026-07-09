@@ -60,44 +60,13 @@ jQuery(document).ready(function($) {
   }
 
   /**
-   * Edit popup functionality
+   * Edit form submission.
+   *
+   * The edit form (#bptodo_edit_form_popup) is rendered as a full page at
+   * /add?args=ID and submitted via AJAX to bptodo_update_form_popup; on success
+   * the affected card is refreshed in place with a success toast.
    */
-  function initEditPopup() {
-    $(document).on('click', '.trigger', function() {
-      var tid = $(this).data('tid');
-      var guid = $(this).data('guid');
-      var component_type = $(this).data('type');
-
-      // Show loading in popup
-      $('.edit_form_popup').html('<div class="bptodo-loading"><div class="bptodo-spinner"></div></div>');
-
-      $.ajax({
-        url: ajaxurl,
-        type: 'post',
-        data: {
-          action: 'bptodo_edit_form_popup',
-          t_id: tid,
-          gu_id: guid,
-          component: component_type,
-          ajax_nonce: todo_ajax_object.ajax_nonce,
-        },
-        success: function(response) {
-          $('.edit_form_popup').html(response);
-        },
-        error: function() {
-          if (BPTodo.toast) {
-            BPTodo.toast.error(todo_ajax_object.error_text || 'Failed to load form');
-          }
-        }
-      });
-    });
-
-    // Update todo on popup submit
-    $('.bptodo_edit_form_popup_class').on('click', '#todo_update, #group_todo_update', function(e) {
-      e.preventDefault();
-      $('#bptodo_edit_form_popup').trigger('submit');
-    });
-
+  function initEditFormSubmit() {
     $(document).on('submit', '#bptodo_edit_form_popup', function(e) {
       e.preventDefault();
 
@@ -129,13 +98,6 @@ jQuery(document).ready(function($) {
           ajax_nonce: todo_ajax_object.ajax_nonce,
         },
         success: function(response) {
-          // Close modal
-          var modal = document.querySelector('[data-modal=trigger]');
-          if (modal) {
-            modal.classList.remove('open');
-          }
-          $('.bptodo-modal').removeClass('bptodo-modal--open');
-
           // Show success toast
           if (BPTodo.toast) {
             BPTodo.toast.success(todo_ajax_object.todo_updated_text || 'Todo updated successfully');
@@ -243,7 +205,6 @@ jQuery(document).ready(function($) {
         if ($newContent.length > 0) {
           $wrapper.html($newContent.html());
           initAccordion();
-          initModalEvents();
         }
       },
       error: function() {
@@ -364,30 +325,25 @@ jQuery(document).ready(function($) {
    * Category management
    */
   function initCategoryManagement() {
-    // Toggle category row
+    // Toggle the "new category" row on the edit form. The trigger markup uses
+    // <span class="add-cat-icon">; older markup used a Font Awesome <i>, so
+    // handle both icon styles here.
     $(document).on('click', '.add-todo-category', function() {
       $('.add-todo-cat-row').slideToggle('slow');
-      var $icon = $(this).find('i');
-      if ($icon.hasClass('fa-plus')) {
-        $icon.removeClass('fa-plus').addClass('fa-minus');
-      } else {
-        $icon.removeClass('fa-minus').addClass('fa-plus');
-      }
-    });
 
-    // Popup category toggle
-    $('.edit_form_popup').on('click', '.add-todo-category', function() {
-      $('.add-todo-cat-row').slideToggle('slow');
       var $span = $(this).find('span');
-      if ($span.hasClass('add-cat-icon')) {
-        $span.removeClass('add-cat-icon').addClass('remove-cat-icon');
-      } else {
-        $span.removeClass('remove-cat-icon').addClass('add-cat-icon');
+      if ($span.length) {
+        $span.toggleClass('add-cat-icon remove-cat-icon');
+      }
+
+      var $icon = $(this).find('i');
+      if ($icon.length) {
+        $icon.toggleClass('fa-plus fa-minus');
       }
     });
 
     // Add category
-    function addCategory(context) {
+    function addCategory() {
       var name = $('#todo-category-name').val();
       var $btn = $('#add-todo-cat');
       var btn_text = $btn.html();
@@ -437,11 +393,7 @@ jQuery(document).ready(function($) {
     }
 
     $(document).on('click', '#add-todo-cat', function() {
-      addCategory('document');
-    });
-
-    $('.edit_form_popup').on('click', '#add-todo-cat', function() {
-      addCategory('popup');
+      addCategory();
     });
   }
 
@@ -930,39 +882,6 @@ jQuery(document).ready(function($) {
     });
   }
 
-  /**
-   * Modal events initialization
-   */
-  function initModalEvents() {
-    var buttons = document.querySelectorAll('.trigger[data-modal-trigger]');
-    buttons.forEach(function(button) {
-      button.addEventListener('click', function() {
-        var modal = document.querySelector('[data-modal=trigger]');
-        if (!modal) return;
-
-        var contentWrapper = modal.querySelector('.content-wrapper');
-        var close = modal.querySelector('.close');
-
-        if (close) {
-          close.addEventListener('click', function() {
-            modal.classList.remove('open');
-          });
-        }
-
-        modal.addEventListener('click', function() {
-          modal.classList.remove('open');
-        });
-
-        if (contentWrapper) {
-          contentWrapper.addEventListener('click', function(e) {
-            e.stopPropagation();
-          });
-        }
-
-        modal.classList.toggle('open');
-      });
-    });
-  }
 
   /**
    * Task selector dropdown
@@ -1147,7 +1066,7 @@ jQuery(document).ready(function($) {
 
   // Initialize all modules
   initTabs();
-  initEditPopup();
+  initEditFormSubmit();
   initAccordion();
   initDatepicker();
   initExport();
@@ -1158,7 +1077,6 @@ jQuery(document).ready(function($) {
   initSelect2();
   initDataTable();
   initGroupReport();
-  initModalEvents();
   initTaskSelector();
   initAddNewButton();
   initSearchFilter();
