@@ -157,6 +157,9 @@ class Bptodo_List {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-categories.php';
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-todo-repository.php';
 
+		// REST API — thin adapter over the domain layer (bptodo/v1).
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/rest/class-bptodo-rest-controller.php';
+
 		$this->loader = new Bptodo_List_Loader();
 
 	}
@@ -232,6 +235,10 @@ class Bptodo_List {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		// Register the bptodo/v1 REST API (thin adapter over the domain layer).
+		$bptodo_rest = new Bptodo_REST_Controller();
+		$this->loader->add_action( 'rest_api_init', $bptodo_rest, 'register_routes' );
 
 		$this->loader->add_action( 'bp_init', $plugin_public, 'bptodo_register_templates_pack', 5 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_add_todo_tabs_in_groups', 10 );
