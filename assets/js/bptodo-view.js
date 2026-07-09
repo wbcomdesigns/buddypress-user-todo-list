@@ -12,6 +12,28 @@
 import { store, getContext } from '@wordpress/interactivity';
 
 const { state, actions } = store( 'bptodo', {
+	state: {
+		// Progress bar width (root context).
+		get progressWidth() {
+			const stats = getContext().stats;
+			return ( stats && stats.progress ? stats.progress : 0 ) + '%';
+		},
+		// Per-card derived visibility (evaluated in each item's context).
+		get showEditBtn() {
+			const todo = getContext().todo;
+			return todo.can_edit && ! todo.confirming && ! todo.editing;
+		},
+		get showDeleteBtn() {
+			const todo = getContext().todo;
+			return todo.can_delete && ! todo.confirming && ! todo.editing;
+		},
+		get showConfirm() {
+			return getContext().todo.confirming === true;
+		},
+		get isEditing() {
+			return getContext().todo.editing === true;
+		},
+	},
 	actions: {
 		setDraft( event ) {
 			getContext().draftTitle = event.target.value;
@@ -81,13 +103,19 @@ const { state, actions } = store( 'bptodo', {
 			}
 		},
 
-		*deleteTodo() {
+		// Accessible inline delete confirmation (no window.confirm).
+		askDelete() {
+			getContext().todo.confirming = true;
+		},
+
+		cancelDelete() {
+			getContext().todo.confirming = false;
+		},
+
+		*confirmDelete() {
 			const ctx = getContext();
 			const todo = ctx.todo;
-			// eslint-disable-next-line no-alert
-			if ( ! window.confirm( state.i18n.confirmDelete ) ) {
-				return;
-			}
+			todo.confirming = false;
 			try {
 				yield bptodoApi( `/todos/${ todo.id }`, 'DELETE' );
 				ctx.todos = ctx.todos.filter( ( item ) => item.id !== todo.id );
@@ -98,6 +126,45 @@ const { state, actions } = store( 'bptodo', {
 					ctx.page -= 1;
 					yield actions.reload();
 				}
+			} catch ( err ) {}
+		},
+
+		// Inline edit (title + priority) via PATCH.
+		startEdit() {
+			const todo = getContext().todo;
+			todo.editTitle = todo.title;
+			todo.editPriority = todo.priority;
+			todo.editing = true;
+		},
+
+		cancelEdit() {
+			getContext().todo.editing = false;
+		},
+
+		setEditTitle( event ) {
+			getContext().todo.editTitle = event.target.value;
+		},
+
+		setEditPriority( event ) {
+			getContext().todo.editPriority = event.target.value;
+		},
+
+		*saveEdit( event ) {
+			event.preventDefault();
+			const todo = getContext().todo;
+			const title = ( todo.editTitle || '' ).trim();
+			if ( ! title ) {
+				return;
+			}
+			try {
+				const updated = yield bptodoApi( `/todos/${ todo.id }`, 'PATCH', {
+					title,
+					priority: todo.editPriority,
+				} );
+				todo.title = updated.title;
+				todo.priority = updated.priority;
+				todo.priority_label = updated.priority_label;
+				todo.editing = false;
 			} catch ( err ) {}
 		},
 

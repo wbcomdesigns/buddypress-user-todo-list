@@ -1,281 +1,544 @@
 /**
- * Styles for the modern Interactivity-powered todo blocks.
+ * Modern todo list — Interactivity-powered blocks + shortcode/tab renderer.
  *
- * Token-driven (inherits the plugin design system + theme tokens) so it looks native
- * in BuddyX / Reign / block themes and adapts to dark mode. Used by the my-todos and
- * group-todos blocks, and by the shortcode/tab renderer in modern mode.
+ * A clean, list-first design that adapts to the active theme (BuddyX / Reign / block
+ * themes) and dark mode via design tokens, with a subtle brand fallback.
  *
  * @package bp-user-todo-list
  * @since   4.0.0
  */
 
 .bptodo-app {
-	--bptodo-gap: var( --bptodo-space-4, 16px );
+	--bpt-accent: var( --reign-accent-color, var( --bx-color-accent, var( --bptodo-theme-primary, #6366f1 ) ) );
+	--bpt-accent-hover: var( --reign-accent-hover-color, var( --bx-color-button-bg-hover, var( --bptodo-theme-primary-hover, #4f46e5 ) ) );
+	--bpt-surface: var( --bptodo-theme-bg, var( --bx-color-bg-elevated, #fff ) );
+	--bpt-surface-2: color-mix( in srgb, currentColor 4%, transparent );
+	--bpt-border: color-mix( in srgb, currentColor 12%, transparent );
+	--bpt-muted: color-mix( in srgb, currentColor 55%, transparent );
+	--bpt-critical: #ef4444;
+	--bpt-high: #f59e0b;
+	--bpt-normal: #64748b;
+	--bpt-done: #10b981;
+	--bpt-radius: 14px;
+	--bpt-gap: 14px;
+
 	display: flex;
 	flex-direction: column;
-	gap: var( --bptodo-gap );
+	gap: var( --bpt-gap );
 	container-type: inline-size;
+	color: var( --bptodo-text, inherit );
 }
 
-/* Ensure Interactivity's data-wp-bind--hidden actually hides, even when a theme
-   sets an explicit display on divs (which would override the UA [hidden] rule). */
+.bptodo-app *,
+.bptodo-app *::before,
+.bptodo-app *::after {
+	box-sizing: border-box;
+}
+
 .bptodo-app [hidden] {
 	display: none !important;
 }
 
-/* Stat cards */
-.bptodo-app .bptodo-stats {
-	display: grid;
-	grid-template-columns: repeat( 4, 1fr );
-	gap: var( --bptodo-space-3, 12px );
-}
-
-.bptodo-app .bptodo-stat {
+/* ---- Summary + progress ---- */
+.bptodo-summary {
 	display: flex;
 	flex-direction: column;
-	gap: 2px;
-	padding: var( --bptodo-space-4, 16px );
-	background: var( --bptodo-theme-bg, var( --bptodo-surface, #fff ) );
-	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.08 ) );
-	border-radius: var( --bptodo-radius, 10px );
+	gap: 10px;
+	padding: 16px 18px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
 }
 
-.bptodo-app .bptodo-stat__num {
-	font-size: 1.5rem;
-	font-weight: 700;
-	line-height: 1.1;
+.bptodo-summary__nums {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	align-items: baseline;
+	font-size: 0.9rem;
+	color: var( --bpt-muted );
+}
+
+.bptodo-summary__nums b {
+	font-size: 1.15rem;
 	color: var( --bptodo-text, inherit );
 }
 
-.bptodo-app .bptodo-stat__label {
-	font-size: 0.8rem;
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+.bptodo-summary__stat--done b {
+	color: var( --bpt-done );
 }
 
-.bptodo-app .bptodo-stats.is-busy {
-	opacity: 0.55;
-	transition: opacity 0.15s ease;
+.bptodo-summary__pct {
+	margin-inline-start: auto;
+	font-weight: 600;
+	color: var( --bpt-accent );
 }
 
-/* Quick add + toolbar */
-.bptodo-app .bptodo-quickadd {
+.bptodo-summary__pct b {
+	color: var( --bpt-accent );
+}
+
+.bptodo-summary__track {
+	height: 8px;
+	border-radius: 9999px;
+	background: var( --bpt-surface-2 );
+	overflow: hidden;
+}
+
+.bptodo-summary__fill {
+	display: block;
+	height: 100%;
+	border-radius: 9999px;
+	background: linear-gradient( 90deg, var( --bpt-accent ), var( --bpt-done ) );
+	transition: width 0.4s cubic-bezier( 0.4, 0, 0.2, 1 );
+}
+
+/* ---- Quick add ---- */
+.bptodo-add {
 	display: flex;
-	gap: var( --bptodo-space-2, 8px );
+	align-items: center;
+	gap: 10px;
+	padding: 6px 8px 6px 14px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 9999px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.bptodo-app .bptodo-quickadd__input {
+.bptodo-add:focus-within {
+	border-color: var( --bpt-accent );
+	box-shadow: 0 0 0 3px color-mix( in srgb, var( --bpt-accent ) 18%, transparent );
+}
+
+.bptodo-add__plus {
+	font-size: 1.35rem;
+	line-height: 1;
+	color: var( --bpt-accent );
+}
+
+.bptodo-add__input {
 	flex: 1;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	font: inherit;
+	color: inherit;
+	padding: 10px 0;
 }
 
-.bptodo-app .bptodo-toolbar {
+.bptodo-add__input:focus {
+	outline: none;
+}
+
+/* ---- Filters ---- */
+.bptodo-filters {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var( --bptodo-space-2, 8px );
+	gap: 10px;
 	align-items: center;
 }
 
-.bptodo-app .bptodo-toolbar__search {
-	flex: 1 1 200px;
-}
-
-.bptodo-app .bptodo-input,
-.bptodo-app .bptodo-select {
-	padding: 8px 12px;
+.bptodo-filter {
+	padding: 9px 12px;
 	font: inherit;
-	color: var( --bptodo-text, inherit );
-	background: var( --bptodo-theme-bg, #fff );
-	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.15 ) );
-	border-radius: var( --bptodo-radius-sm, 8px );
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 10px;
 	min-height: 40px;
 }
 
-.bptodo-app .bptodo-input:focus-visible,
-.bptodo-app .bptodo-select:focus-visible {
-	outline: 2px solid var( --bptodo-theme-primary, #3b82f6 );
+.bptodo-filter--search {
+	flex: 1 1 220px;
+}
+
+.bptodo-filter:focus-visible {
+	outline: 2px solid var( --bpt-accent );
 	outline-offset: 1px;
 }
 
-.bptodo-app .bptodo-count {
+.bptodo-count {
 	margin: 0;
-	font-size: 0.85rem;
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+	font-size: 0.8rem;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var( --bpt-muted );
 }
 
-/* List + cards */
-.bptodo-app .bptodo-list {
-	display: grid;
-	grid-template-columns: repeat( 3, 1fr );
-	gap: var( --bptodo-space-3, 12px );
+/* ---- List ---- */
+.bptodo-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+	overflow: hidden;
 }
 
-.bptodo-app .bptodo-card {
+.bptodo-list[aria-busy="true"] {
+	opacity: 0.6;
+}
+
+.bptodo-item {
+	position: relative;
+	border-bottom: 1px solid var( --bpt-border );
+	transition: background 0.12s ease;
+}
+
+.bptodo-item:last-child {
+	border-bottom: 0;
+}
+
+.bptodo-item::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: 3px;
+	background: var( --bpt-normal );
+	opacity: 0;
+	transition: opacity 0.12s ease;
+}
+
+.bptodo-item[data-priority="critical"]::before { background: var( --bpt-critical ); }
+.bptodo-item[data-priority="high"]::before { background: var( --bpt-high ); }
+.bptodo-item[data-priority="normal"]::before { background: var( --bpt-normal ); }
+.bptodo-item[data-priority]::before { opacity: 1; }
+
+.bptodo-item__row {
 	display: flex;
-	gap: var( --bptodo-space-3, 12px );
-	padding: var( --bptodo-space-4, 16px );
-	background: var( --bptodo-theme-bg, #fff );
-	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.08 ) );
-	border-top: 3px solid var( --bptodo-theme-primary, #3b82f6 );
-	border-radius: var( --bptodo-radius, 10px );
+	align-items: center;
+	gap: 14px;
+	padding: 14px 18px;
 }
 
-.bptodo-app .bptodo-card--completed {
-	opacity: 0.62;
+.bptodo-item:hover {
+	background: var( --bpt-surface-2 );
 }
 
-.bptodo-app .bptodo-card--completed .bptodo-card__title {
-	text-decoration: line-through;
+/* Custom round checkbox */
+.bptodo-check {
+	position: relative;
+	flex: 0 0 auto;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
 }
 
-.bptodo-app .bptodo-card__body {
+.bptodo-check input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+	margin: 0;
+}
+
+.bptodo-check__box {
+	display: block;
+	width: 22px;
+	height: 22px;
+	border: 2px solid var( --bpt-border );
+	border-radius: 50%;
+	transition: all 0.15s ease;
+}
+
+.bptodo-check__box::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 8px;
+	inset-block-start: 4px;
+	width: 5px;
+	height: 10px;
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+	transform: rotate( 45deg ) scale( 0 );
+	transition: transform 0.15s ease;
+}
+
+.bptodo-check input:checked + .bptodo-check__box {
+	background: var( --bpt-done );
+	border-color: var( --bpt-done );
+}
+
+.bptodo-check input:checked + .bptodo-check__box::after {
+	transform: rotate( 45deg ) scale( 1 );
+}
+
+.bptodo-check input:focus-visible + .bptodo-check__box {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 2px;
+}
+
+/* Title + meta */
+.bptodo-item__main {
 	flex: 1;
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
-	gap: var( --bptodo-space-2, 8px );
+	gap: 3px;
 }
 
-.bptodo-app .bptodo-card__title {
-	margin: 0;
-	font-size: 1rem;
+.bptodo-item__title {
 	font-weight: 600;
-	color: var( --bptodo-text, inherit );
+	line-height: 1.35;
 	word-break: break-word;
 }
 
-.bptodo-app .bptodo-card__meta {
+.bptodo-item.is-done .bptodo-item__title {
+	text-decoration: line-through;
+	color: var( --bpt-muted );
+}
+
+.bptodo-item__sub {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var( --bptodo-space-2, 8px );
+	gap: 10px;
 	align-items: center;
-}
-
-.bptodo-app .bptodo-badge {
-	display: inline-block;
-	padding: 2px 10px;
-	font-size: 0.72rem;
-	font-weight: 600;
-	border-radius: 9999px;
-	background: var( --bptodo-badge-bg, rgba( 0, 0, 0, 0.06 ) );
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.6 ) );
-}
-
-.bptodo-app .bptodo-card__due {
 	font-size: 0.8rem;
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
 }
 
-.bptodo-app .bptodo-card__check {
-	flex: 0 0 auto;
+.bptodo-item__prio {
+	position: relative;
+	padding-inline-start: 14px;
+	font-weight: 600;
+	color: var( --bpt-normal );
 }
 
-.bptodo-app .bptodo-checkbox__input {
-	width: 20px;
-	height: 20px;
-	cursor: pointer;
+.bptodo-item__prio::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block-start: 50%;
+	transform: translateY( -50% );
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: currentColor;
 }
 
-.bptodo-app .bptodo-card__actions {
+.bptodo-item[data-priority="critical"] .bptodo-item__prio { color: var( --bpt-critical ); }
+.bptodo-item[data-priority="high"] .bptodo-item__prio { color: var( --bpt-high ); }
+
+.bptodo-item__due {
+	color: var( --bpt-muted );
+}
+
+.bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
+.bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
+
+/* Actions — revealed on hover / keyboard focus */
+.bptodo-item__act {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
+	gap: 4px;
+	flex: 0 0 auto;
+	opacity: 0;
+	transition: opacity 0.12s ease;
+}
+
+.bptodo-item:hover .bptodo-item__act,
+.bptodo-item:focus-within .bptodo-item__act {
+	opacity: 1;
+}
+
+.bptodo-iconbtn {
+	padding: 6px 10px;
+	font: inherit;
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: var( --bpt-muted );
+	background: transparent;
+	border: 0;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: color 0.12s ease, background 0.12s ease;
+}
+
+.bptodo-iconbtn:hover {
+	background: var( --bpt-surface-2 );
+	color: var( --bptodo-text, inherit );
+}
+
+.bptodo-iconbtn--danger:hover {
+	color: var( --bpt-critical );
+}
+
+.bptodo-iconbtn:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+.bptodo-confirm {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.bptodo-confirm__text {
+	font-size: 0.8rem;
+	color: var( --bpt-muted );
+}
+
+/* Inline edit */
+.bptodo-item__edit {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	padding: 12px 18px;
+	background: var( --bpt-surface-2 );
+}
+
+.bptodo-item__edit .bptodo-input {
+	flex: 1 1 200px;
+	min-width: 0;
+	padding: 9px 12px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 8px;
+}
+
+.bptodo-item__edit .bptodo-select {
+	padding: 9px 12px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 8px;
+}
+
+.bptodo-item__edit .bptodo-input:focus-visible,
+.bptodo-item__edit .bptodo-select:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
 }
 
 /* Buttons */
-.bptodo-app .bptodo-btn {
+.bptodo-btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	gap: 6px;
 	min-height: 40px;
-	padding: 8px 16px;
+	padding: 9px 18px;
 	font: inherit;
 	font-weight: 600;
 	line-height: 1;
 	cursor: pointer;
 	border: 1px solid transparent;
-	border-radius: var( --bptodo-radius-sm, 8px );
+	border-radius: 10px;
 	text-decoration: none;
+	transition: background 0.12s ease, transform 0.06s ease;
 }
 
-.bptodo-app .bptodo-btn--primary {
-	background: var( --bptodo-theme-primary, #3b82f6 );
+.bptodo-btn:active {
+	transform: translateY( 1px );
+}
+
+.bptodo-btn--primary {
+	background: var( --bpt-accent );
 	color: #fff;
 }
 
-.bptodo-app .bptodo-btn--primary:hover {
-	background: var( --bptodo-theme-primary-hover, #2563eb );
+.bptodo-btn--primary:hover {
+	background: var( --bpt-accent-hover );
 }
 
-.bptodo-app .bptodo-btn--ghost {
+.bptodo-btn--ghost {
 	background: transparent;
-	border-color: var( --bptodo-border, rgba( 0, 0, 0, 0.15 ) );
-	color: var( --bptodo-text, inherit );
+	border-color: var( --bpt-border );
+	color: inherit;
 }
 
-.bptodo-app .bptodo-btn--ghost:hover {
-	background: var( --bptodo-badge-bg, rgba( 0, 0, 0, 0.05 ) );
+.bptodo-btn--ghost:hover {
+	background: var( --bpt-surface-2 );
 }
 
-.bptodo-app .bptodo-btn--sm {
-	min-height: 32px;
-	padding: 6px 12px;
+.bptodo-btn--sm {
+	min-height: 34px;
+	padding: 7px 14px;
 	font-size: 0.85rem;
+	border-radius: 8px;
 }
 
-.bptodo-app .bptodo-btn:focus-visible {
-	outline: 2px solid var( --bptodo-theme-primary, #3b82f6 );
+.bptodo-btn:focus-visible {
+	outline: 2px solid var( --bpt-accent );
 	outline-offset: 2px;
 }
 
-.bptodo-app .bptodo-btn[disabled] {
-	opacity: 0.5;
+.bptodo-btn[disabled] {
+	opacity: 0.45;
 	cursor: not-allowed;
 }
 
 /* Empty + pager */
-.bptodo-app .bptodo-empty {
-	padding: var( --bptodo-space-6, 32px );
+.bptodo-empty {
+	padding: 48px 24px;
 	text-align: center;
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+	color: var( --bpt-muted );
+	background: var( --bpt-surface );
+	border: 1px dashed var( --bpt-border );
+	border-radius: var( --bpt-radius );
 }
 
-.bptodo-app .bptodo-pager {
+.bptodo-empty p {
+	margin: 0;
+}
+
+.bptodo-pager {
 	display: flex;
-	gap: var( --bptodo-space-3, 12px );
+	gap: 14px;
 	align-items: center;
 	justify-content: center;
 }
 
-.bptodo-app .bptodo-pager__info {
+.bptodo-pager__info {
 	font-size: 0.9rem;
-	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.6 ) );
+	color: var( --bpt-muted );
 }
 
 .bptodo-app--loggedout {
-	padding: var( --bptodo-space-6, 32px );
+	padding: 40px 24px;
 	text-align: center;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+/* Actions always visible on touch (no hover) */
+@media ( hover: none ) {
+	.bptodo-item__act {
+		opacity: 1;
+	}
 }
 
 /* Responsive */
-@container ( max-width: 900px ) {
-	.bptodo-app .bptodo-list {
-		grid-template-columns: repeat( 2, 1fr );
+@media ( max-width: 600px ) {
+	.bptodo-summary__pct {
+		margin-inline-start: 0;
 	}
-	.bptodo-app .bptodo-stats {
-		grid-template-columns: repeat( 2, 1fr );
-	}
-}
-
-@media ( max-width: 640px ) {
-	.bptodo-app .bptodo-list {
-		grid-template-columns: 1fr;
-	}
-	.bptodo-app .bptodo-stats {
-		grid-template-columns: repeat( 2, 1fr );
-	}
-	.bptodo-app .bptodo-toolbar {
+	.bptodo-filters {
 		flex-direction: column;
 		align-items: stretch;
 	}
-	.bptodo-app .bptodo-toolbar .bptodo-select {
+	.bptodo-item__row {
+		flex-wrap: wrap;
+	}
+	.bptodo-item__act {
+		opacity: 1;
 		width: 100%;
+		justify-content: flex-end;
+	}
+}
+
+/* Graceful fallback where color-mix is unsupported */
+@supports not ( color: color-mix( in srgb, #000 10%, transparent ) ) {
+	.bptodo-app {
+		--bpt-surface-2: rgba( 127, 127, 127, 0.08 );
+		--bpt-border: rgba( 127, 127, 127, 0.22 );
+		--bpt-muted: rgba( 127, 127, 127, 0.9 );
 	}
 }
