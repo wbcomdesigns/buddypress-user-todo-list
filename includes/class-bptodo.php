@@ -149,6 +149,14 @@ class Bptodo_List {
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/bptodo-functions.php';
 
+		// Domain layer — the single source of truth for the todo store, shared by REST,
+		// the legacy AJAX handlers, blocks, CLI and templates. Loaded before anything
+		// that queries or writes todos.
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-todo.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-permissions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-categories.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-todo-repository.php';
+
 		$this->loader = new Bptodo_List_Loader();
 
 	}

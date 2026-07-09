@@ -236,72 +236,32 @@ if ( ! function_exists( 'bptodo_get_todos_page' ) ) {
 	 * @since 3.6.0
 	 */
 	function bptodo_get_todos_page( $args = array() ) {
-		$defaults = array(
-			'author'       => 0,
-			'group_id'     => 0,
-			'status'       => '',
-			'primary_only' => false,
-			'page'         => 1,
-			'per_page'     => 12,
+		// Backward-compatible wrapper over the domain repository (the single query
+		// authority). The historic signature used status '' for "all"; map it, then
+		// delegate. Return shape ($todos as WP_Post[]) is preserved for existing callers.
+		$args = wp_parse_args(
+			$args,
+			array(
+				'status' => '',
+			)
 		);
-		$args     = wp_parse_args( $args, $defaults );
-
-		$query_args = array(
-			'post_type'           => 'bp-todo',
-			'post_status'         => 'publish',
-			'posts_per_page'      => max( 1, (int) $args['per_page'] ),
-			'paged'               => max( 1, (int) $args['page'] ),
-			'ignore_sticky_posts' => true,
-			'bptodo_sorted'       => true,
-			'bptodo_primary_only' => (bool) $args['primary_only'],
-		);
-
-		if ( ! empty( $args['author'] ) ) {
-			$query_args['author'] = (int) $args['author'];
+		if ( '' === $args['status'] ) {
+			$args['status'] = 'all';
 		}
 
-		$meta_query = array();
-		if ( ! empty( $args['group_id'] ) ) {
-			$meta_query[] = array(
-				'key'     => 'todo_group_id',
-				'value'   => (int) $args['group_id'],
-				'compare' => '=',
-				'type'    => 'NUMERIC',
-			);
-		}
-		if ( 'complete' === $args['status'] ) {
-			$meta_query[] = array(
-				'key'   => 'todo_status',
-				'value' => 'complete',
-			);
-		} elseif ( 'incomplete' === $args['status'] ) {
-			$meta_query[] = array(
-				'relation' => 'OR',
-				array(
-					'key'     => 'todo_status',
-					'value'   => 'complete',
-					'compare' => '!=',
-				),
-				array(
-					'key'     => 'todo_status',
-					'compare' => 'NOT EXISTS',
-				),
-			);
-		}
-		if ( ! empty( $meta_query ) ) {
-			$query_args['meta_query'] = $meta_query; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- postmeta is the plugin's storage model; query is paginated.
-		}
+		$result = Bptodo_Todo_Repository::query( $args );
 
-		add_filter( 'posts_clauses', 'bptodo_sorted_todos_clauses', 10, 2 );
-		$query = new WP_Query( $query_args );
-		remove_filter( 'posts_clauses', 'bptodo_sorted_todos_clauses', 10 );
+		$posts = array();
+		foreach ( $result['items'] as $todo ) {
+			$posts[] = $todo->post();
+		}
 
 		return array(
-			'todos'       => $query->posts,
-			'total'       => (int) $query->found_posts,
-			'total_pages' => (int) $query->max_num_pages,
-			'page'        => (int) $query_args['paged'],
-			'per_page'    => (int) $query_args['posts_per_page'],
+			'todos'       => $posts,
+			'total'       => (int) $result['total'],
+			'total_pages' => (int) $result['total_pages'],
+			'page'        => (int) $result['page'],
+			'per_page'    => (int) $result['per_page'],
 		);
 	}
 }
