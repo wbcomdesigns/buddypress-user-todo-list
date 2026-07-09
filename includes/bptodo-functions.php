@@ -491,3 +491,61 @@ if ( ! function_exists( 'bptodo_is_user_assigned_to_task' ) ) {
 		return false;
 	}
 }
+if ( ! function_exists( 'bptodo_layout_mode' ) ) {
+	/**
+	 * The effective frontend layout mode: 'modern' (default) or 'legacy'.
+	 *
+	 * Modern = block/REST/Interactivity. Legacy = the classic templates + jQuery.
+	 * Auto-falls back to legacy when the Interactivity/block runtime is unavailable
+	 * (e.g. WordPress < 6.5), so the modern default never hard-breaks an older site.
+	 *
+	 * @since 4.0.0
+	 * @param string $context Optional caller context ('member', 'group', 'shortcode').
+	 * @return string 'modern'|'legacy'.
+	 */
+	function bptodo_layout_mode( $context = '' ) {
+		$modern_supported = function_exists( 'wp_interactivity_state' )
+			&& function_exists( 'wp_interactivity_process_directives' )
+			&& function_exists( 'register_block_type' );
+
+		if ( ! $modern_supported ) {
+			return 'legacy';
+		}
+
+		$settings = get_option( 'user_todo_list_settings' );
+		$mode     = ! empty( $settings['bptodo_layout_mode'] ) ? $settings['bptodo_layout_mode'] : 'modern';
+		$mode     = ( 'legacy' === $mode ) ? 'legacy' : 'modern';
+
+		/**
+		 * Filter the effective todo layout mode.
+		 *
+		 * @param string $mode    'modern'|'legacy'.
+		 * @param string $context Caller context.
+		 */
+		return apply_filters( 'bptodo_layout_mode', $mode, $context );
+	}
+}
+
+if ( ! function_exists( 'bptodo_render_todos' ) ) {
+	/**
+	 * Render the modern todo list for a non-block context (shortcode / BP tab).
+	 *
+	 * Returns processed Interactivity markup, or '' in legacy mode (the caller then
+	 * renders its classic template).
+	 *
+	 * @since 4.0.0
+	 * @param array  $args    Renderer args (see Bptodo_Renderer::render()).
+	 * @param string $context Caller context.
+	 * @return string
+	 */
+	function bptodo_render_todos( $args = array(), $context = '' ) {
+		if ( 'legacy' === bptodo_layout_mode( $context ) || ! class_exists( 'Bptodo_Renderer' ) ) {
+			return '';
+		}
+		$html = Bptodo_Renderer::render( $args );
+		if ( function_exists( 'wp_interactivity_process_directives' ) ) {
+			$html = wp_interactivity_process_directives( $html );
+		}
+		return $html;
+	}
+}

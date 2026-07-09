@@ -24,6 +24,25 @@ $groups_link = bptodo_get_group_url( $bp->groups->current_group );
 $admin_link  = trailingslashit( $groups_link . $profile_menu_slug );
 $group_id    = $bp->groups->current_group->id ? $bp->groups->current_group->id : 0;
 
+// Modern layout (4.0): render the Interactivity/REST group list and stop. The classic
+// template below runs only in legacy mode.
+if ( $group_id && function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'group' ) ) {
+	$bptodo_modern_group = bptodo_render_todos(
+		array(
+			'scope'      => 'group',
+			'group_id'   => (int) $group_id,
+			'per_page'   => (int) apply_filters( 'bptodo_group_list_per_page', 12, $group_id ),
+			'show_add'   => true,
+			'show_stats' => true,
+		),
+		'group'
+	);
+	if ( '' !== $bptodo_modern_group ) {
+		echo $bptodo_modern_group; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		return;
+	}
+}
+
 // Permission checks.
 $current_user_id  = get_current_user_id();
 $is_site_admin    = bptodo_is_site_admin();

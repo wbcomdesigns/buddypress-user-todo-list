@@ -146,6 +146,15 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			$viewer   = get_current_user_id();
 			$is_group = ( 'group' === $args['scope'] && $args['group_id'] );
 
+			// Scope enforcement (SSR must match the REST permission model): a viewer may
+			// only widen to 'all' or another user's todos if allowed; otherwise fall back
+			// to their own list.
+			if ( 'all' === $args['user_id'] || ( ! empty( $args['user_id'] ) && is_numeric( $args['user_id'] ) && (int) $args['user_id'] !== $viewer ) ) {
+				if ( ! Bptodo_Permissions::can_view_scope( $args['user_id'], $viewer ) ) {
+					$args['user_id'] = 0;
+				}
+			}
+
 			// Resolve the query author for member/all scopes.
 			$author = $viewer;
 			if ( 'all' === $args['user_id'] ) {

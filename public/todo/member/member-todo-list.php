@@ -22,6 +22,25 @@ $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
 // Determine current user permissions.
 $current_user_id = get_current_user_id();
 
+// Modern layout (4.0): render the Interactivity/REST list and stop. The classic
+// template below runs only in legacy mode (or when modern is unsupported).
+if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'member' ) ) {
+	$bptodo_modern_list = bptodo_render_todos(
+		array(
+			'scope'      => 'member',
+			'user_id'    => 0,
+			'per_page'   => (int) apply_filters( 'bptodo_member_list_per_page', 12 ),
+			'show_add'   => true,
+			'show_stats' => true,
+		),
+		'member'
+	);
+	if ( '' !== $bptodo_modern_list ) {
+		echo $bptodo_modern_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		return;
+	}
+}
+
 /*
  * Server-side pagination (big-site readiness). The old code fetched up to
  * a silent 500-task cap (apply_filters bptodo_member_list_limit) and

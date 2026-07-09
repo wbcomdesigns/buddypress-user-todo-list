@@ -1482,6 +1482,28 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				'bptodo_list'
 			);
 
+			// Modern layout: render via the Interactivity/REST stack. Falls through to
+			// the legacy template below when layout mode is 'legacy'.
+			if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'shortcode' ) ) {
+				$bptodo_modern = bptodo_render_todos(
+					array(
+						'scope'    => 'member',
+						'user_id'  => $atts['user_id'],
+						'status'   => $atts['status'],
+						'priority' => $atts['priority'],
+						'category' => $atts['category'],
+						'orderby'  => $atts['orderby'],
+						'order'    => $atts['order'],
+						'per_page' => (int) $atts['per_page'],
+						'show_add' => in_array( $atts['show_add'], array( 'yes', 'true', '1', 'on' ), true ),
+					),
+					'shortcode'
+				);
+				if ( '' !== $bptodo_modern ) {
+					return $bptodo_modern;
+				}
+			}
+
 			// Validate user is logged in for non-public access.
 			if ( ! is_user_logged_in() ) {
 				ob_start();
