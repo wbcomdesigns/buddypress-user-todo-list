@@ -1,0 +1,281 @@
+/**
+ * Styles for the modern Interactivity-powered todo blocks.
+ *
+ * Token-driven (inherits the plugin design system + theme tokens) so it looks native
+ * in BuddyX / Reign / block themes and adapts to dark mode. Used by the my-todos and
+ * group-todos blocks, and by the shortcode/tab renderer in modern mode.
+ *
+ * @package bp-user-todo-list
+ * @since   4.0.0
+ */
+
+.bptodo-app {
+	--bptodo-gap: var( --bptodo-space-4, 16px );
+	display: flex;
+	flex-direction: column;
+	gap: var( --bptodo-gap );
+	container-type: inline-size;
+}
+
+/* Ensure Interactivity's data-wp-bind--hidden actually hides, even when a theme
+   sets an explicit display on divs (which would override the UA [hidden] rule). */
+.bptodo-app [hidden] {
+	display: none !important;
+}
+
+/* Stat cards */
+.bptodo-app .bptodo-stats {
+	display: grid;
+	grid-template-columns: repeat( 4, 1fr );
+	gap: var( --bptodo-space-3, 12px );
+}
+
+.bptodo-app .bptodo-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: var( --bptodo-space-4, 16px );
+	background: var( --bptodo-theme-bg, var( --bptodo-surface, #fff ) );
+	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.08 ) );
+	border-radius: var( --bptodo-radius, 10px );
+}
+
+.bptodo-app .bptodo-stat__num {
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.1;
+	color: var( --bptodo-text, inherit );
+}
+
+.bptodo-app .bptodo-stat__label {
+	font-size: 0.8rem;
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+}
+
+.bptodo-app .bptodo-stats.is-busy {
+	opacity: 0.55;
+	transition: opacity 0.15s ease;
+}
+
+/* Quick add + toolbar */
+.bptodo-app .bptodo-quickadd {
+	display: flex;
+	gap: var( --bptodo-space-2, 8px );
+}
+
+.bptodo-app .bptodo-quickadd__input {
+	flex: 1;
+}
+
+.bptodo-app .bptodo-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --bptodo-space-2, 8px );
+	align-items: center;
+}
+
+.bptodo-app .bptodo-toolbar__search {
+	flex: 1 1 200px;
+}
+
+.bptodo-app .bptodo-input,
+.bptodo-app .bptodo-select {
+	padding: 8px 12px;
+	font: inherit;
+	color: var( --bptodo-text, inherit );
+	background: var( --bptodo-theme-bg, #fff );
+	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.15 ) );
+	border-radius: var( --bptodo-radius-sm, 8px );
+	min-height: 40px;
+}
+
+.bptodo-app .bptodo-input:focus-visible,
+.bptodo-app .bptodo-select:focus-visible {
+	outline: 2px solid var( --bptodo-theme-primary, #3b82f6 );
+	outline-offset: 1px;
+}
+
+.bptodo-app .bptodo-count {
+	margin: 0;
+	font-size: 0.85rem;
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+}
+
+/* List + cards */
+.bptodo-app .bptodo-list {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: var( --bptodo-space-3, 12px );
+}
+
+.bptodo-app .bptodo-card {
+	display: flex;
+	gap: var( --bptodo-space-3, 12px );
+	padding: var( --bptodo-space-4, 16px );
+	background: var( --bptodo-theme-bg, #fff );
+	border: 1px solid var( --bptodo-border, rgba( 0, 0, 0, 0.08 ) );
+	border-top: 3px solid var( --bptodo-theme-primary, #3b82f6 );
+	border-radius: var( --bptodo-radius, 10px );
+}
+
+.bptodo-app .bptodo-card--completed {
+	opacity: 0.62;
+}
+
+.bptodo-app .bptodo-card--completed .bptodo-card__title {
+	text-decoration: line-through;
+}
+
+.bptodo-app .bptodo-card__body {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var( --bptodo-space-2, 8px );
+}
+
+.bptodo-app .bptodo-card__title {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var( --bptodo-text, inherit );
+	word-break: break-word;
+}
+
+.bptodo-app .bptodo-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var( --bptodo-space-2, 8px );
+	align-items: center;
+}
+
+.bptodo-app .bptodo-badge {
+	display: inline-block;
+	padding: 2px 10px;
+	font-size: 0.72rem;
+	font-weight: 600;
+	border-radius: 9999px;
+	background: var( --bptodo-badge-bg, rgba( 0, 0, 0, 0.06 ) );
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.6 ) );
+}
+
+.bptodo-app .bptodo-card__due {
+	font-size: 0.8rem;
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+}
+
+.bptodo-app .bptodo-card__check {
+	flex: 0 0 auto;
+}
+
+.bptodo-app .bptodo-checkbox__input {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.bptodo-app .bptodo-card__actions {
+	display: flex;
+	align-items: flex-start;
+}
+
+/* Buttons */
+.bptodo-app .bptodo-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 40px;
+	padding: 8px 16px;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: var( --bptodo-radius-sm, 8px );
+	text-decoration: none;
+}
+
+.bptodo-app .bptodo-btn--primary {
+	background: var( --bptodo-theme-primary, #3b82f6 );
+	color: #fff;
+}
+
+.bptodo-app .bptodo-btn--primary:hover {
+	background: var( --bptodo-theme-primary-hover, #2563eb );
+}
+
+.bptodo-app .bptodo-btn--ghost {
+	background: transparent;
+	border-color: var( --bptodo-border, rgba( 0, 0, 0, 0.15 ) );
+	color: var( --bptodo-text, inherit );
+}
+
+.bptodo-app .bptodo-btn--ghost:hover {
+	background: var( --bptodo-badge-bg, rgba( 0, 0, 0, 0.05 ) );
+}
+
+.bptodo-app .bptodo-btn--sm {
+	min-height: 32px;
+	padding: 6px 12px;
+	font-size: 0.85rem;
+}
+
+.bptodo-app .bptodo-btn:focus-visible {
+	outline: 2px solid var( --bptodo-theme-primary, #3b82f6 );
+	outline-offset: 2px;
+}
+
+.bptodo-app .bptodo-btn[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Empty + pager */
+.bptodo-app .bptodo-empty {
+	padding: var( --bptodo-space-6, 32px );
+	text-align: center;
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.55 ) );
+}
+
+.bptodo-app .bptodo-pager {
+	display: flex;
+	gap: var( --bptodo-space-3, 12px );
+	align-items: center;
+	justify-content: center;
+}
+
+.bptodo-app .bptodo-pager__info {
+	font-size: 0.9rem;
+	color: var( --bptodo-text-muted, rgba( 0, 0, 0, 0.6 ) );
+}
+
+.bptodo-app--loggedout {
+	padding: var( --bptodo-space-6, 32px );
+	text-align: center;
+}
+
+/* Responsive */
+@container ( max-width: 900px ) {
+	.bptodo-app .bptodo-list {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+	.bptodo-app .bptodo-stats {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+}
+
+@media ( max-width: 640px ) {
+	.bptodo-app .bptodo-list {
+		grid-template-columns: 1fr;
+	}
+	.bptodo-app .bptodo-stats {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+	.bptodo-app .bptodo-toolbar {
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.bptodo-app .bptodo-toolbar .bptodo-select {
+		width: 100%;
+	}
+}

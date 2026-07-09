@@ -231,6 +231,24 @@ function bptodo_is_bp_active() {
 }
 
 /**
+ * Register the modern Gutenberg blocks (Interactivity-powered, REST-backed).
+ *
+ * The personal 'My Todos' block works standalone; the group block loads only when
+ * BuddyPress/BuddyBoss is active.
+ */
+add_action( 'init', 'bptodo_register_blocks' );
+function bptodo_register_blocks() {
+	if ( ! function_exists( 'register_block_type' ) ) {
+		return;
+	}
+	register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' );
+
+	if ( bptodo_is_bp_active() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
+		register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
+	}
+}
+
+/**
  * Check if the Todo List plugin should be active on the current subsite.
  */
 function bptodo_check_buddypress_subsite_activation() {

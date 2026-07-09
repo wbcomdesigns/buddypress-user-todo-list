@@ -204,22 +204,43 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 		public function prepare_for_response( $viewer_id = 0 ) {
 			$viewer_id = $viewer_id ? (int) $viewer_id : get_current_user_id();
 
+			$priority = $this->priority();
+
 			return array(
-				'id'          => $this->id(),
-				'title'       => $this->post->post_title,
-				'description' => $this->post->post_content,
-				'status'      => $this->status(),
-				'priority'    => $this->priority(),
-				'due_date'    => $this->due_date(),
-				'due_human'   => $this->due_human(),
-				'category'    => $this->category(),
-				'group_id'    => $this->group_id(),
-				'author'      => $this->author(),
-				'is_owner'    => $this->author_id() === $viewer_id,
-				'can_edit'    => Bptodo_Permissions::can_edit( $this, $viewer_id ),
-				'can_delete'  => Bptodo_Permissions::can_delete( $this, $viewer_id ),
-				'permalink'   => get_permalink( $this->id() ),
+				'id'             => $this->id(),
+				'title'          => $this->post->post_title,
+				'description'    => $this->post->post_content,
+				'status'         => $this->status(),
+				'is_complete'    => $this->is_complete(),
+				'priority'       => $priority,
+				'priority_label' => self::priority_label( $priority ),
+				'due_date'       => $this->due_date(),
+				'due_human'      => $this->due_human(),
+				'category'       => $this->category(),
+				'group_id'       => $this->group_id(),
+				'author'         => $this->author(),
+				'is_owner'       => $this->author_id() === $viewer_id,
+				'can_edit'       => Bptodo_Permissions::can_edit( $this, $viewer_id ),
+				'can_delete'     => Bptodo_Permissions::can_delete( $this, $viewer_id ),
+				'permalink'      => get_permalink( $this->id() ),
 			);
+		}
+
+		/**
+		 * Translated label for a priority value.
+		 *
+		 * @param string $priority Priority.
+		 * @return string
+		 */
+		public static function priority_label( $priority ) {
+			switch ( $priority ) {
+				case 'critical':
+					return __( 'Critical', 'wb-todo' );
+				case 'high':
+					return __( 'High', 'wb-todo' );
+				default:
+					return __( 'Normal', 'wb-todo' );
+			}
 		}
 	}
 }

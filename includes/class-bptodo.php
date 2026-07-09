@@ -160,6 +160,9 @@ class Bptodo_List {
 		// REST API — thin adapter over the domain layer (bptodo/v1).
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/rest/class-bptodo-rest-controller.php';
 
+		// Modern SSR renderer (Interactivity API) — shared by blocks, shortcode and tabs.
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/render/class-bptodo-renderer.php';
+
 		$this->loader = new Bptodo_List_Loader();
 
 	}
