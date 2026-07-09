@@ -55,7 +55,7 @@ $type  = isset( $type ) ? $type : 'card';
 				<div class="bptodo-skeleton bptodo-skeleton--circle" style="width: 24px; height: 24px;"></div>
 				<div style="flex: 1;">
 					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( rand( 60, 90 ) ); ?>%; margin-bottom: 4px;"></div>
-					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( rand( 30, 50 ) ); %>%; height: 12px;"></div>
+					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( rand( 30, 50 ) ); ?>%; height: 12px;"></div>
 				</div>
 			</div>
 		<?php endfor; ?>
