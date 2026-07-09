@@ -6,7 +6,7 @@
 
 ## Quick reference
 - **Main file**: `bp-user-todo-list.php`
-- **Version**: `3.5.1`  (dev branch `3.6.0`)
+- **Version**: `4.0.0`  (dev branch `3.6.0`)
 - **Namespace**: none — prefixed procedural functions + `Bptodo_*` classes
 - **Text domain**: `wb-todo`
 - **Prefixes**: functions `bptodo_*`, options `user_todo_list_settings` / `group-todo-list-settings` / `data-retention-settings`, CPT `bp-todo`, taxonomy `todo_category`, AJAX `bptodo_*`
@@ -41,6 +41,7 @@
 ## Recent changes
 | Date | Type | Description | Files |
 |---|---|---|---|
+| 2026-07-09 | architecture | 4.0.0 modernization: layered domain (includes/domain: Repository/Permissions/Categories/Todo DTO) is the single source of truth; legacy AJAX/CLI + a new bptodo/v1 REST API + SSR blocks all delegate to it. WP Interactivity API frontend (assets/js/bptodo-view.js) with data-wp-each SSR; my-todos + group-todos blocks; Bptodo_Renderer shared by blocks/shortcode/tabs. BuddyPress now OPTIONAL (standalone personal todos). Layout toggle bptodo_layout_mode() modern(default)/legacy + auto-fallback on WP<6.5. See docs/architecture/BLOCK-REST-MIGRATION-PLAN.md | includes/{domain,rest,render}/, blocks/, assets/js/bptodo-view.js, assets/css/bptodo-blocks.css, bp-user-todo-list.php |
 | 2026-07-09 | bug-fix | Full-functionality browser sweep found + fixed two shipped bugs: (1) member-list filters/search blanked the whole list ("0 of 0") because filterTodos() compared to 'all' while the selects use value="" - now treats "" as neutral; (2) PHP 8 fatal in the list loading skeleton (ASP `%>` close tag). Verified member CRUD, group todos+assignment, shortcode, responsive 390px, dark mode, subscriber scope (user_id="all" correctly denied for non-admins) | assets/js/bptodo-front.js(+min), public/todo/partials/loading-state.php |
 | 2026-07-09 | build | Hardened the dist zip flow: exclude audit/.autovap/.claude/**/*.md/gruntfile.js/screenshots from the WP.org zip, sync package.json to 3.6.0 (was building a 3.5.1-named zip), untrack dist/. A pristine-zip PHP lint is the cheap gate that caught the loading-state fatal | gruntfile.js, package.json, .gitignore |
 | 2026-07-09 | perf | Frontend assets now load only where a todo template renders (member/group Todo tab via slug in URI, or a page with a todo shortcode); removed the `isset($post->post_type)` catch-all that loaded CSS/JS on nearly every singular page. Added missing `bptodo_list` to the shortcode gate. Verified: 5 assets on todo tab + `[bptodo_list]` page, 0 on Shop | admin/class-bptodo-admin.php |

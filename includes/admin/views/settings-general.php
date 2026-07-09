@@ -135,6 +135,17 @@ unset( $bptodo_all_roles['administrator'] );
 
 	<div class="bptodo-save-bar">
 		<?php wp_nonce_field( 'bptodo', 'bptodo-general-settings-nonce' ); ?>
-		<input type="submit" name="bptodo-save-settings" class="button button-primary bptodo-btn bptodo-btn-primary" value="<?php esc_attr_e( 'Save Settings', 'wb-todo' ); ?>">
+					<tr>
+				<th scope="row"><label for="bptodo-layout-mode"><?php esc_html_e( 'Frontend layout', 'wb-todo' ); ?></label></th>
+				<td>
+					<?php $bptodo_mode = function_exists( 'bptodo_layout_mode' ) ? bptodo_layout_mode() : 'modern'; ?>
+					<select name="bptodo_layout_mode" id="bptodo-layout-mode">
+						<option value="modern" <?php selected( $bptodo_mode, 'modern' ); ?>><?php esc_html_e( 'Modern (blocks + REST, faster)', 'wb-todo' ); ?></option>
+						<option value="legacy" <?php selected( $bptodo_mode, 'legacy' ); ?>><?php esc_html_e( 'Classic (legacy templates)', 'wb-todo' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'Modern uses blocks and the REST API for a faster, no-reload list. Switch to Classic if a theme or plugin conflict appears.', 'wb-todo' ); ?></p>
+				</td>
+			</tr>
+			<input type="submit" name="bptodo-save-settings" class="button button-primary bptodo-btn bptodo-btn-primary" value="<?php esc_attr_e( 'Save Settings', 'wb-todo' ); ?>">
 	</div>
 </form>

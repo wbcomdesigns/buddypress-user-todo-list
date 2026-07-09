@@ -4,7 +4,7 @@ Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
 Tested up to: 6.8.1
-Stable tag: 3.6.0
+Stable tag: 4.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -269,7 +269,28 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 7. **Data Retention Settings** - Automated cleanup configuration with flexible retention periods and delete options
 8. **Mobile Responsive** - Fully responsive design works beautifully on all devices and screen sizes
 
+== Upgrade Notice ==
+
+= 4.0.0 =
+Major update: the todo list now uses blocks + REST for a faster, richer experience and works without BuddyPress. Your data is unchanged. If a theme or plugin conflict appears, switch to the Classic layout in the plugin settings.
+
 == Changelog ==
+
+= 4.0.0 =
+
+Major release: a modern, REST-backed, block-first todo experience that also works without BuddyPress. Existing data is unchanged.
+
+* New      - Works standalone: personal todos for any logged-in WordPress user, with no BuddyPress required.
+* New      - "My Todos" and "Group Todos" blocks (WordPress Interactivity API) - add, complete, filter and paginate with no page reloads.
+* New      - REST API (bptodo/v1) for todos, completion, stats, categories and group todos.
+* New      - Inline quick-add on the modern list.
+* Improve  - Rebuilt on a single domain layer (repository + permissions) shared by the REST API, blocks and the classic UI.
+* Improve  - Modern layout is the default; a Legacy toggle keeps the classic templates, and the plugin auto-falls back to Legacy on WordPress below 6.5.
+* Improve  - Filtering and search now run server-side and cover every page, not just the current one.
+* Improve  - Frontend assets load only on todo screens and pages that use a todo block or shortcode.
+* Fix      - BuddyPress is no longer required; the plugin shows a dismissible notice instead of deactivating.
+* Dev      - New hooks: the bptodo_layout_mode filter and bptodo_todo_created/updated/completed/deleted actions.
+
 
 = 3.6.0 =
 * Improve  - Rebuilt the admin settings screen on the modern Wbcom card-panel UI (sidebar navigation, Overview dashboard, cleaner forms). Same settings, same option keys.

@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Todo for BuddyPress & BuddyBoss
  * Plugin URI: https://wbcomdesigns.com/contact/
- * Description: Complete todo and task management for BuddyPress and BuddyBoss communities.
- * Version: 3.6.0
+ * Description: Personal and team todo lists for WordPress. Works standalone, and adds a member profile tab plus group todos when BuddyPress or BuddyBoss is active.
+ * Version: 4.0.0
  * Author: Wbcom Designs
  * Author URI: http://wbcomdesigns.com
  * License: GPLv2+
@@ -41,7 +41,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-    define( 'BPTODO_VERSION', '3.6.0' );
+    define( 'BPTODO_VERSION', '4.0.0' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {

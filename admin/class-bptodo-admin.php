@@ -281,6 +281,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				$settings['send_mail']               = isset( $_POST['bptodo_send_mail'] ) ? 'yes' : 'no';
 				$settings['req_duedate']             = isset( $_POST['bptodo_req_duedate'] ) ? 'yes' : 'no';
 
+				// Frontend layout mode (modern blocks/REST vs classic templates).
+				$settings['bptodo_layout_mode'] = ( isset( $_POST['bptodo_layout_mode'] ) && 'legacy' === $_POST['bptodo_layout_mode'] ) ? 'legacy' : 'modern';
+
 				// Multi-select
 				if ( isset( $_POST['bptodo_user_roles'] ) ) {
 					$settings['bptodo_user_roles'] = map_deep( wp_unslash( $_POST['bptodo_user_roles'] ), 'sanitize_text_field' );
