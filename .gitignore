@@ -16,3 +16,4 @@ CLAUDE.md
 !audit/**
 !audit/manifest.json
 !audit/manifest.summary.json
+dist/

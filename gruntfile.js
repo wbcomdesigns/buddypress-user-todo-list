@@ -161,18 +161,30 @@ module.exports = function ( grunt ) {
 						'!.github/**',
 						'!.gitignore',
 						'!.gitattributes',
+						// Internal dev tooling / docs - never ship to WP.org.
+						'!audit/**',
 						'!docs/**',
-						'!*.md',
+						'!.autovap/**',
+						'!.claude/**',
+						'!**/*.md',            // all markdown, at any depth (readme.txt/license.txt still ship).
+						'!gruntfile.js',       // lowercase - the real filename (case-sensitive on Linux/SVN).
 						'!Gruntfile.js',
 						'!package.json',
 						'!package-lock.json',
 						'!composer.json',
 						'!composer.lock',
 						'!phpcs.xml',
+						'!phpcs.xml.dist',
 						'!phpunit.xml',
+						'!phpunit.xml.dist',
 						'!.editorconfig',
+						'!.eslintrc*',
+						'!.stylelintrc*',
 						'!.DS_Store',
 						'!*.zip',
+						// WP.org serves screenshots from the SVN /assets dir, not the plugin zip.
+						'!screenshot-*.png',
+						'!**/*.map',
 						'!tests/**',
 						'!bin/**',
 						'!vendor/bin/**'

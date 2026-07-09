@@ -3306,12 +3306,16 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-wrapper .mce-panel.mce-toolbar-grp,
 .bptodo-wrapper .mce-toolbar-grp .mce-panel,
 .bptodo-wrapper .mce-panel.mce-menubar,
-.bptodo-wrapper .mce-panel.mce-statusbar {
+.bptodo-wrapper .mce-panel.mce-statusbar,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
     background: var(--bptodo-bg-surface-secondary, #f6f7f7);
     border-color: var(--bptodo-border-default, #dcdcde);
 }
 
-.bptodo-wrapper .mce-toolbar .mce-ico {
+.bptodo-wrapper .mce-toolbar .mce-ico,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:hover,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:focus {
     color: var(--bptodo-text-secondary, #50575e);
 }
 
@@ -3458,12 +3462,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     color: var(--bptodo-text-primary, #1d2327);
 }
 
-.media-router .media-menu-item {
+.media-router .media-menu-item.media-menu-item {
     color: var(--bptodo-text-secondary, #2271b1);
 }
 
-.media-router .media-menu-item.active,
-.media-router .media-menu-item.active:last-child {
+.media-router .media-menu-item.media-menu-item.active,
+.media-router .media-menu-item.media-menu-item.active:last-child {
     background: var(--bptodo-bg-card, #ffffff);
     color: var(--bptodo-text-primary, #1d2327);
     border-bottom: 1px solid var(--bptodo-bg-card, #ffffff);
@@ -3694,54 +3698,6 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     color: var(--bptodo-text-primary, #ffffff);
 }
 
-@media (prefers-color-scheme: dark) {
-    :root[data-bx-mode="auto"] .select2-dropdown {
-        background-color: var(--bptodo-bg-card, #1a2028);
-        border-color: var(--bptodo-border-default, #363d48);
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
-
-    :root[data-bx-mode="auto"] .select2-container--default .select2-search--dropdown .select2-search__field {
-        background-color: var(--bptodo-bg-input, #181d24);
-        border-color: var(--bptodo-border-default, #363d48);
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
-
-    :root[data-bx-mode="auto"] .select2-container--default .select2-results__option {
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
-
-    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--multiple,
-    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--single {
-        background-color: var(--bptodo-bg-input, #181d24);
-        border-color: var(--bptodo-border-default, #363d48);
-    }
-
-    :root[data-bx-mode="auto"] .select2-container--default .select2-selection--multiple .select2-selection__choice {
-        background-color: var(--bptodo-bg-surface-secondary, #2b323c);
-        border-color: var(--bptodo-border-default, #363d48);
-        color: var(--bptodo-text-primary, #ffffff);
-    }
-
-    :root[data-bx-mode="auto"] .mce-menu,
-    :root[data-bx-mode="auto"] .mce-floatpanel {
-        background-color: var(--bptodo-bg-card, #1a2028);
-        border-color: var(--bptodo-border-default, #363d48);
-    }
-
-    :root[data-bx-mode="auto"] .mce-menu .mce-text,
-    :root[data-bx-mode="auto"] .mce-menu .mce-menu-item .mce-ico {
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
-
-    :root[data-bx-mode="auto"] .media-modal .media-modal-content,
-    :root[data-bx-mode="auto"] .media-modal .media-frame,
-    :root[data-bx-mode="auto"] .media-modal .media-frame-content {
-        background-color: var(--bptodo-bg-card, #1a2028);
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
-}
-
 /* Editor chrome inside the form: Add Media button + Visual/Code tabs.
    These carry WordPress core light styles; theme them in dark mode. */
 :root[data-bx-mode="dark"] .bptodo-wrapper .wp-media-buttons .button,
@@ -3766,13 +3722,4 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     background-color: var(--bptodo-bg-card, #1a2028);
     color: var(--bptodo-text-primary, #ffffff);
     border-bottom-color: var(--bptodo-bg-card, #1a2028);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root[data-bx-mode="auto"] .bptodo-wrapper .wp-media-buttons .button,
-    :root[data-bx-mode="auto"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor {
-        background-color: var(--bptodo-bg-surface-secondary, #2b323c);
-        border-color: var(--bptodo-border-default, #363d48);
-        color: var(--bptodo-text-secondary, #c5c8cd);
-    }
 }

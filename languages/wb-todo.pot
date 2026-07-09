@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-09 06:01:30+00:00\n"
+"POT-Creation-Date: 2026-07-09 08:32:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,56 +24,56 @@ msgstr ""
 "X-Textdomain-Support: yes\n"
 "X-Generator: grunt-wp-i18n 1.0.4\n"
 
-#: admin/class-bptodo-admin.php:124
+#: admin/class-bptodo-admin.php:133
 #. translators: %1$s
 msgid "My %1$s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:125
+#: admin/class-bptodo-admin.php:134
 msgid "Category name is required."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:126
+#: admin/class-bptodo-admin.php:135
 msgid "Undo Complete"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:127
+#: admin/class-bptodo-admin.php:136
 msgid "Are you sure you want to delete this task?"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:129
+#: admin/class-bptodo-admin.php:138
 msgid "Saving..."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:130
+#: admin/class-bptodo-admin.php:139
 msgid "Task updated successfully!"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:131
+#: admin/class-bptodo-admin.php:140
 msgid "Task completed!"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:132
+#: admin/class-bptodo-admin.php:141
 msgid "Task deleted successfully."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:133
+#: admin/class-bptodo-admin.php:142
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:152
+#: admin/class-bptodo-admin.php:161
 msgid "No data available in table"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:153
+#: admin/class-bptodo-admin.php:162
 msgid "First"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:154
+#: admin/class-bptodo-admin.php:163
 msgid "Last"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:155
+#: admin/class-bptodo-admin.php:164
 #: public/todo/bptodo-shortcode-template.php:439
 #: public/todo/bptodo-shortcode-template.php:446
 #: public/todo/group/overview.php:373 public/todo/partials/pagination.php:100
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:156
+#: admin/class-bptodo-admin.php:165
 #: public/todo/bptodo-shortcode-template.php:399
 #: public/todo/bptodo-shortcode-template.php:406
 #: public/todo/group/overview.php:341 public/todo/partials/pagination.php:59
@@ -89,21 +89,21 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:157
+#: admin/class-bptodo-admin.php:166
 msgid "Search"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:159
+#: admin/class-bptodo-admin.php:168
 #. translators: %s: Number of entries selector
 msgid "Show %s entries"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:161
+#: admin/class-bptodo-admin.php:170
 #. translators: 1: Start number, 2: End number, 3: Total entries
 msgid "Showing %1$d to %2$d of %3$d entries"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:162
+#: admin/class-bptodo-admin.php:171
 msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
 
@@ -1436,7 +1436,7 @@ msgid "Add a new %1$s in your list"
 msgstr ""
 
 #: public/class-bptodo-public.php:1066 public/class-bptodo-public.php:1177
-#: public/class-bptodo-public.php:1377
+#: public/class-bptodo-public.php:1333
 msgid "Unauthorized"
 msgstr ""
 
@@ -1472,49 +1472,49 @@ msgstr ""
 msgid "View: %s"
 msgstr ""
 
-#: public/class-bptodo-public.php:1458
+#: public/class-bptodo-public.php:1414
 msgid "To Do Mail"
 msgstr ""
 
-#: public/class-bptodo-public.php:1459
+#: public/class-bptodo-public.php:1415
 msgid "Yes"
 msgstr ""
 
-#: public/class-bptodo-public.php:1460
+#: public/class-bptodo-public.php:1416
 msgid "No"
 msgstr ""
 
-#: public/class-bptodo-public.php:1470
+#: public/class-bptodo-public.php:1426
 msgid "Get email alerts when task due dates are near."
 msgstr ""
 
-#: public/class-bptodo-public.php:1476
+#: public/class-bptodo-public.php:1432
 #. translators: accessibility text
 msgid "Yes, send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1482
+#: public/class-bptodo-public.php:1438
 #. translators: accessibility text
 msgid "No, do not send email"
 msgstr ""
 
-#: public/class-bptodo-public.php:1516
+#: public/class-bptodo-public.php:1472
 msgid "Disable todos tab?"
 msgstr ""
 
-#: public/class-bptodo-public.php:1615
+#: public/class-bptodo-public.php:1571
 msgid "Please log in to view todos."
 msgstr ""
 
-#: public/class-bptodo-public.php:1902 public/todo/group/edit.php:29
+#: public/class-bptodo-public.php:1858 public/todo/group/edit.php:29
 msgid "Invalid todo ID."
 msgstr ""
 
-#: public/class-bptodo-public.php:1908
+#: public/class-bptodo-public.php:1864
 msgid "Todo not found."
 msgstr ""
 
-#: public/class-bptodo-public.php:1924
+#: public/class-bptodo-public.php:1880
 msgid "Unauthorized."
 msgstr ""
 
