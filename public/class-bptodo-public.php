@@ -547,7 +547,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			if( $is_admin || $can_views ){
 				$sub_nav[] = array_merge(
 					array(
-						'name'            => esc_html__( 'Group Overview', 'wb-todo' ),
+						'name'            => esc_html__( 'Overview', 'wb-todo' ),
 						'slug'            => 'overview',
 						'screen_function' => array( $this, 'bind_bp_groups_page' ),
 						'position'        => 0,
