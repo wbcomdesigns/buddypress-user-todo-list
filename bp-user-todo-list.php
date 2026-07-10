@@ -272,6 +272,23 @@ function bptodo_register_blocks() {
 }
 
 /**
+ * Load the modern list styles inside the block editor.
+ *
+ * The blocks are server-rendered via ServerSideRender, whose REST render pass
+ * enqueues the design-system/components/blocks styles on the REST request - not
+ * on the editor page - so the editor preview shows unstyled markup. `enqueue_block_assets`
+ * runs inside the editor iframe (and the front end); we gate to the editor because
+ * the front end already enqueues these on demand from Bptodo_Renderer::render().
+ */
+add_action( 'enqueue_block_assets', 'bptodo_enqueue_block_editor_styles' );
+function bptodo_enqueue_block_editor_styles() {
+	if ( ! is_admin() || ! class_exists( 'Bptodo_Renderer' ) ) {
+		return;
+	}
+	Bptodo_Renderer::enqueue_styles();
+}
+
+/**
  * Check if the Todo List plugin should be active on the current subsite.
  */
 function bptodo_check_buddypress_subsite_activation() {

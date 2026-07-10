@@ -108,6 +108,11 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below
 				$sql           .= " AND EXISTS (SELECT 1 FROM {$wpdb->postmeta} pm WHERE pm.post_id = p.ID AND pm.meta_key = 'todo_group_id' AND pm.meta_value = %d)";
 				$prepare_args[] = $group_id;
+			} else {
+				// Personal ("My Todos") badge must match the personal list, which excludes
+				// group todos - otherwise the count (e.g. 26) disagrees with the rows (20).
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, no user input in this clause.
+				$sql .= " AND NOT EXISTS (SELECT 1 FROM {$wpdb->postmeta} gx WHERE gx.post_id = p.ID AND gx.meta_key = 'todo_group_id')";
 			}
 
 			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Caching is handled above, SQL is built dynamically with prepare()

@@ -882,7 +882,7 @@
 .bptodo-toast-container {
 	position: fixed;
 	top: var(--bptodo-space-4);
-	right: var(--bptodo-space-4);
+	inset-inline-end: var(--bptodo-space-4);
 	z-index: var(--bptodo-z-toast);
 	display: flex;
 	flex-direction: column;
@@ -890,6 +890,17 @@
 	max-width: 400px;
 	width: calc(100% - var(--bptodo-space-8));
 	pointer-events: none;
+}
+
+/* Clear the WP admin bar so toasts are never tucked behind it. */
+.admin-bar .bptodo-toast-container {
+	top: calc(32px + var(--bptodo-space-4));
+}
+
+@media screen and (max-width: 782px) {
+	.admin-bar .bptodo-toast-container {
+		top: calc(46px + var(--bptodo-space-4));
+	}
 }
 
 @media (min-width: 640px) {

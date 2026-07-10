@@ -358,9 +358,10 @@ if ( ! function_exists( 'bptodo_count_todos' ) ) {
 		global $wpdb;
 
 		$defaults = array(
-			'author'       => 0,
-			'group_id'     => 0,
-			'primary_only' => false,
+			'author'        => 0,
+			'group_id'      => 0,
+			'primary_only'  => false,
+			'exclude_group' => false,
 		);
 		$args     = wp_parse_args( $args, $defaults );
 
@@ -384,6 +385,12 @@ if ( ! function_exists( 'bptodo_count_todos' ) ) {
 		if ( ! empty( $args['primary_only'] ) ) {
 			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, no user input in this clause.
 			$sql .= " AND p.ID IN ( SELECT pm.post_id FROM {$wpdb->postmeta} pm WHERE pm.meta_key = 'todo_primary_id' AND pm.meta_value = pm.post_id )";
+		}
+		if ( empty( $args['group_id'] ) && ! empty( $args['exclude_group'] ) ) {
+			// Personal/member stat cards must match the personal list, which excludes
+			// group todos (any post carrying a todo_group_id).
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, no user input in this clause.
+			$sql .= " AND NOT EXISTS ( SELECT 1 FROM {$wpdb->postmeta} gx WHERE gx.post_id = p.ID AND gx.meta_key = 'todo_group_id' )";
 		}
 
 		if ( ! empty( $prepare_args ) ) {

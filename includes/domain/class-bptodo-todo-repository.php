@@ -47,6 +47,9 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		 *     @type string $category     Category slug or term ID. Default '' (any).
 		 *     @type string $search       Free-text search over title/content. Default ''.
 		 *     @type bool   $primary_only Only primary todos. Default false.
+		 *     @type bool   $exclude_group Exclude todos that belong to a group (todo_group_id set),
+		 *                                 so group todos do not leak into a member's personal list.
+		 *                                 Default false. Ignored when $group_id is set.
 		 *     @type int    $page         Page (1-based). Default 1.
 		 *     @type int    $per_page     Per page. Default 12.
 		 *     @type string $orderby      'smart'|'due_date'|'date'|'title'|'priority'. Default 'smart'.
@@ -58,17 +61,18 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 			$a = wp_parse_args(
 				$args,
 				array(
-					'author'       => 0,
-					'group_id'     => 0,
-					'status'       => 'all',
-					'priority'     => 'all',
-					'category'     => '',
-					'search'       => '',
-					'primary_only' => false,
-					'page'         => 1,
-					'per_page'     => 12,
-					'orderby'      => 'smart',
-					'order'        => 'ASC',
+					'author'        => 0,
+					'group_id'      => 0,
+					'status'        => 'all',
+					'priority'      => 'all',
+					'category'      => '',
+					'search'        => '',
+					'primary_only'  => false,
+					'exclude_group' => false,
+					'page'          => 1,
+					'per_page'      => 12,
+					'orderby'       => 'smart',
+					'order'         => 'ASC',
 				)
 			);
 
@@ -94,6 +98,14 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 					'value'   => (int) $a['group_id'],
 					'compare' => '=',
 					'type'    => 'NUMERIC',
+				);
+			} elseif ( ! empty( $a['exclude_group'] ) ) {
+				// Personal/member scope: a group todo (primary owned by its creator, or a
+				// per-assignee copy) must never appear in a member's own list - it lives on
+				// the group Todos tab. Exclude anything carrying a todo_group_id.
+				$meta_query[] = array(
+					'key'     => Bptodo_Todo::META_GROUP_ID,
+					'compare' => 'NOT EXISTS',
 				);
 			}
 			if ( 'complete' === $a['status'] ) {

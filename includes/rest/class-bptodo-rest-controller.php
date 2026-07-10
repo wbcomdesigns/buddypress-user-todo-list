@@ -333,15 +333,16 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 
 			$result = Bptodo_Todo_Repository::query(
 				array(
-					'author'   => $author,
-					'status'   => $request->get_param( 'status' ),
-					'priority' => $request->get_param( 'priority' ),
-					'category' => (string) $request->get_param( 'category' ),
-					'search'   => (string) $request->get_param( 'search' ),
-					'orderby'  => $request->get_param( 'orderby' ),
-					'order'    => $request->get_param( 'order' ),
-					'per_page' => (int) $request->get_param( 'per_page' ),
-					'page'     => (int) $request->get_param( 'page' ),
+					'author'        => $author,
+					'exclude_group' => true,
+					'status'        => $request->get_param( 'status' ),
+					'priority'      => $request->get_param( 'priority' ),
+					'category'      => (string) $request->get_param( 'category' ),
+					'search'        => (string) $request->get_param( 'search' ),
+					'orderby'       => $request->get_param( 'orderby' ),
+					'order'         => $request->get_param( 'order' ),
+					'per_page'      => (int) $request->get_param( 'per_page' ),
+					'page'          => (int) $request->get_param( 'page' ),
 				)
 			);
 
@@ -483,6 +484,9 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 				$args['group_id']     = $group_id;
 				$args['primary_only'] = true;
 				unset( $args['author'] );
+			} else {
+				// Personal stats mirror the personal list: exclude group todos.
+				$args['exclude_group'] = true;
 			}
 			return rest_ensure_response( Bptodo_Todo_Repository::stats( $args ) );
 		}

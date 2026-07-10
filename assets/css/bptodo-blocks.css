@@ -165,6 +165,16 @@
 	color: var( --bpt-muted );
 }
 
+/* Shown in place of the inline quick-add when a due date is mandatory. */
+.bptodo-add-hint {
+	margin: 0 0 var( --bpt-space-3, 0.75rem );
+	padding: var( --bpt-space-2, 0.5rem ) var( --bpt-space-3, 0.75rem );
+	font-size: 0.85rem;
+	color: var( --bpt-muted );
+	background: var( --bpt-surface-2, rgba( 127, 127, 127, 0.08 ) );
+	border-radius: var( --bpt-radius, 8px );
+}
+
 /* ---- List ---- */
 .bptodo-list {
 	list-style: none;

@@ -206,8 +206,10 @@
 	--bptodo-z-overlay: 300;
 	--bptodo-z-modal-backdrop: 350;
 	--bptodo-z-modal: 400;
-	--bptodo-z-toast: 500;
-	--bptodo-z-tooltip: 600;
+	/* Toast sits above sticky theme headers and just under the WP admin bar
+	   (99999); paired with an admin-bar top offset so it is never hidden. */
+	--bptodo-z-toast: 99990;
+	--bptodo-z-tooltip: 99991;
 
 	/* -------------------------------------------------------------------------
 	   Transition Aliases

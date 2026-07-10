@@ -233,6 +233,12 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				? Bptodo_Permissions::can_create_group_todo( (int) $args['group_id'], false, $viewer )
 				: Bptodo_Permissions::can_create( $viewer );
 
+			// The inline quick-add only submits a title. When a due date is mandatory
+			// (`req_duedate`) it can never satisfy the rule and every submit 400s, so
+			// hide it and steer users to the full Add form (which has the due field).
+			$bptodo_due_required = self::due_required();
+			$bptodo_show_quick   = (bool) $args['show_add'] && $bptodo_can_add && ! $bptodo_due_required;
+
 			$query_args = array(
 				'status'   => $args['status'],
 				'priority' => $args['priority'],
@@ -252,8 +258,16 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					)
 				);
 			} else {
-				$query_args['author'] = $author;
-				$stats                = Bptodo_Todo_Repository::stats( $author ? array( 'author' => $author ) : array() );
+				$query_args['author']        = $author;
+				$query_args['exclude_group'] = true;
+				$stats                       = Bptodo_Todo_Repository::stats(
+					$author
+						? array(
+							'author'        => $author,
+							'exclude_group' => true,
+						)
+						: array( 'exclude_group' => true )
+				);
 			}
 
 			$result = Bptodo_Todo_Repository::query( $query_args );
@@ -279,7 +293,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'todos'       => $todos,
 				'stats'       => $stats,
 				'isBusy'      => false,
-				'showAdd'     => (bool) $args['show_add'] && $bptodo_can_add,
+				'showAdd'     => $bptodo_show_quick,
 				'draftTitle'  => '',
 				'canCreate'   => $bptodo_can_add,
 				'isFirstPage' => 1 >= (int) $result['page'],
@@ -326,6 +340,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						/>
 						<button type="submit" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
 					</form>
+				<?php elseif ( $bptodo_can_add && $bptodo_due_required && $args['show_add'] ) : ?>
+					<p class="bptodo-add-hint"><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'A due date is required. Use the Add %s form to set one.', 'wb-todo' ), strtolower( $label_singular ) ) ); ?></p>
 				<?php endif; ?>
 
 				<div class="bptodo-filters">
