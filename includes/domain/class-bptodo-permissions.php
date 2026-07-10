@@ -182,13 +182,12 @@ if ( ! class_exists( 'Bptodo_Permissions' ) ) {
 			if ( ! $group_id || ! $user_id || ! self::is_bp_active() ) {
 				return false;
 			}
-			if ( $assigning ) {
-				return self::is_group_manager( $user_id, $group_id );
-			}
-			// Any confirmed member can create; managers always can.
-			if ( function_exists( 'groups_is_user_member' ) && groups_is_user_member( $user_id, $group_id ) ) {
-				return true;
-			}
+			// Creating a group todo fans a copy out to members (an empty assignee
+			// list means everyone), so it always requires a group manager
+			// (admin/mod) or a site admin - matching the legacy group Add flow and
+			// the documented behaviour. The $assigning flag is kept for callers but
+			// no longer relaxes the check.
+			unset( $assigning );
 			return self::is_group_manager( $user_id, $group_id );
 		}
 

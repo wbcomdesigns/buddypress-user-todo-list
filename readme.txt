@@ -11,85 +11,56 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wb-todo
 Domain Path: /languages
 
-Transform your BuddyPress or BuddyBoss community into a powerful task management platform. Members can create personal todos, collaborate on group tasks, and track progress with comprehensive reporting.
+A modern to-do and task manager for WordPress. Every logged-in user gets a private task list they manage without page reloads. BuddyPress and BuddyBoss are optional and add profile tabs and group to-dos.
 
 == Description ==
 
-**Todo for BuddyPress & BuddyBoss** is a complete task management solution designed specifically for BuddyPress and BuddyBoss communities. Whether you're running an online course platform, membership site, corporate intranet, or social network, this plugin empowers your members to stay organized and productive.
+**Todo for BuddyPress & BuddyBoss** is a task manager for any WordPress site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list: add, complete, edit, filter, search and paginate, all through a fast no-reload interface built on the WordPress Interactivity API and REST.
 
-= Why Choose This Plugin? =
+BuddyPress or BuddyBoss is completely optional. When either is active, the plugin also adds a To-do tab on member profiles and group to-dos with member assignment and progress reporting. When neither is active, everything else still works as a standalone personal task app.
 
-**For Community Managers:**
-Keep your members engaged and accountable with structured task management. Track group progress, monitor completion rates, and ensure everyone stays on track with their commitments.
+= What you get =
 
-**For Members:**
-Never miss a deadline again. Create personal todos, receive timely reminders, and manage group assignments all from your profile. Export tasks to CSV for offline tracking.
+**A modern personal to-do list (no BuddyPress needed)**
+* Place it anywhere with the "My Todos" block or the [bptodo_list] shortcode.
+* Inline quick-add: type a task and press Enter.
+* Complete, undo, edit (title, details, priority, due date) and delete right in the list, with no page reloads.
+* Expandable task details, search, and filters for status, priority and category.
+* Server-side filtering, search and pagination that cover every task, not just the current page.
+* Private by design: to-dos have no public page, no archive, and never appear in site search.
 
-**For Developers:**
-Extend functionality with comprehensive hooks and filters. Full documentation included for easy customization and integration with other plugins.
+**Categories, priorities and reminders**
+* Organize tasks with custom categories; optionally let members create their own.
+* Priority levels (Critical, High, Normal) with clear visual indicators.
+* Due dates with optional email reminders, and an optional "require a due date" rule.
 
-= Core Features =
+**With BuddyPress or BuddyBoss (optional)**
+* A To-do tab on every member profile.
+* Group to-dos: assign a task to specific members or the whole group, each member gets their own copy.
+* Group overview: per-member completion progress with All, Completed and Pending filters.
+* BuddyPress notifications and email reminders when a due date arrives.
+* Site admins get read-only oversight of group tasks.
 
-**Personal Task Management**
-* Create unlimited personal todos with rich text descriptions
-* Set due dates with automatic reminders via email and BuddyPress notifications
-* Organize tasks by custom categories
-* Mark tasks complete with timestamp tracking
-* Export todo lists to CSV format for reporting
-* Visual priority indicators (Critical, High, Normal)
+**Modern by default, classic on demand**
+* The modern block/REST interface is the default. A one-click Classic layout keeps the older templates if you hit a theme or plugin conflict.
+* The plugin auto-falls back to Classic on WordPress below 6.5.
+* Switching layout never changes your data.
 
-**Group Collaboration**
-* Group admins and moderators can assign tasks to members
-* Assign to all members or select specific individuals
-* Each member gets their own copy to manage independently
-* Track who completed tasks and when
-* Seamless integration with BuddyPress group navigation
+**Automated data retention**
+* Optional cleanup of old completed tasks on a schedule, with configurable retention periods and trash-or-delete.
 
-**Advanced Group Reporting**
-* Real-time completion statistics and progress tracking
-* Visual member progress grid with avatars and status badges
-* Filter by completion status (All, Completed, Pending)
-* Task-specific view to see who completed individual assignments
-* Overall group progress with percentage indicators
-* Pagination for large groups with hundreds of members
-
-**Site Admin Features**
-* Read-only access to all group tasks for oversight
-* View tasks in groups you're not a member of
-* Comprehensive settings panel with granular controls
-* Customizable labels and menu slugs
-* User permission management
-
-**Automated Data Retention**
-* Keep your database clean with automatic cleanup of old completed tasks
-* Configurable retention periods from 30 days to never
-* Separate settings for group and personal todos
-* Choose between trash or permanent deletion
-* Manual cleanup option with email notifications to admins
-* Daily automated cleanup via WP-Cron
-
-**Smart Notifications**
-* BuddyPress native email system integration
-* Customizable email templates from WordPress admin
-* Members control their own notification preferences
-* Automatic reminders before due dates
-* Group assignment notifications
-
-**Developer-Friendly**
-* 15+ action hooks for extending functionality
-* 10+ filter hooks for customization
-* Complete template hierarchy for theme overrides
-* Comprehensive developer documentation included
-* Translation ready with POT file
+**Developer-friendly**
+* REST API (bptodo/v1) for todos, completion, stats, categories and group todos.
+* "My Todos" and "Group Todos" dynamic blocks.
+* A single domain layer (repository + permissions) shared by the REST API, blocks and the classic UI.
+* Action and filter hooks, translation ready with a POT file, and RTL support.
 
 = Perfect For =
 
-* Online Learning Communities - Assign homework and track student progress
-* Membership Sites - Keep members engaged with structured tasks
-* Corporate Intranets - Team collaboration and project management
-* Social Networks - Personal productivity within your community
-* Non-Profit Organizations - Volunteer task coordination
-* Co-Working Spaces - Shared goals and accountability
+* Any WordPress site that needs a simple, private per-user task list
+* Membership sites and online courses - assignments and checklists
+* Teams and intranets - shared goals and accountability
+* BuddyPress and BuddyBoss communities - personal and group task management
 
 = Premium Support =
 

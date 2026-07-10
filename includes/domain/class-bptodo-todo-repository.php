@@ -38,6 +38,8 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		 * so REST, SSR and the shortcode share one filtered query path.
 		 *
 		 * @param array $args {
+		 *     Optional. Query arguments.
+		 *
 		 *     @type int    $author       Author ID. Default 0 (any).
 		 *     @type int    $group_id     Group ID (todo_group_id). Default 0 (any).
 		 *     @type string $status       'all'|'complete'|'incomplete'. Default 'all'.
@@ -133,9 +135,9 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 				);
 			}
 
-			$smart          = ( 'smart' === $a['orderby'] );
-			$use_primary    = (bool) $a['primary_only'];
-			$order          = ( 'DESC' === strtoupper( (string) $a['order'] ) ) ? 'DESC' : 'ASC';
+			$smart       = ( 'smart' === $a['orderby'] );
+			$use_primary = (bool) $a['primary_only'];
+			$order       = ( 'DESC' === strtoupper( (string) $a['order'] ) ) ? 'DESC' : 'ASC';
 
 			if ( $smart ) {
 				// Preserve the historic "incomplete first, by priority, by due date" ordering
@@ -386,7 +388,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 				update_post_meta( $todo->id(), Bptodo_Todo::META_DUE_DATE, sanitize_text_field( wp_unslash( $data['due_date'] ) ) );
 			}
 			if ( array_key_exists( 'category', $data ) && '' !== (string) $data['category'] ) {
-				wp_set_object_terms( $todo->id(), $data['category'], Bptodo_Todo::TAXONOMY );
+				wp_set_object_terms( $todo->id(), self::resolve_category_terms( $data['category'] ), Bptodo_Todo::TAXONOMY );
 			}
 
 			$fresh = Bptodo_Todo::from_id( $todo->id() );
@@ -450,9 +452,33 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 			return true;
 		}
 
-		/* --------------------------------------------------------------------- */
-		/* Internal helpers                                                       */
-		/* --------------------------------------------------------------------- */
+		// Internal helpers.
+
+		/**
+		 * Resolve a category value to EXISTING term IDs only.
+		 *
+		 * Writing a todo must never create new taxonomy terms - that would let any
+		 * user who can edit a todo bypass the `allow_user_add_category` gate. New
+		 * categories are created only through the dedicated /categories endpoint
+		 * (Bptodo_Categories::create), which enforces the permission. A value that
+		 * matches no existing term (by id, slug or name) resolves to an empty set,
+		 * which clears the category rather than inventing one.
+		 *
+		 * @param mixed $value Category id, slug or name.
+		 * @return int[] Existing term IDs (0 or 1 element).
+		 */
+		protected static function resolve_category_terms( $value ) {
+			$value = is_scalar( $value ) ? trim( (string) $value ) : '';
+			if ( '' === $value ) {
+				return array();
+			}
+			$field = is_numeric( $value ) ? 'term_id' : 'slug';
+			$term  = get_term_by( $field, $value, Bptodo_Todo::TAXONOMY );
+			if ( ! $term ) {
+				$term = get_term_by( 'name', $value, Bptodo_Todo::TAXONOMY );
+			}
+			return $term ? array( (int) $term->term_id ) : array();
+		}
 
 		/**
 		 * Apply the shared "core" meta + category that every create path writes.
@@ -468,7 +494,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 			update_post_meta( $post_id, Bptodo_Todo::META_MAIL_SENT, 'no' );
 			update_post_meta( $post_id, Bptodo_Todo::META_NOTIF_SENT, 'no' );
 			if ( isset( $data['category'] ) && '' !== (string) $data['category'] ) {
-				wp_set_object_terms( $post_id, $data['category'], Bptodo_Todo::TAXONOMY );
+				wp_set_object_terms( $post_id, self::resolve_category_terms( $data['category'] ), Bptodo_Todo::TAXONOMY );
 			}
 		}
 
@@ -499,7 +525,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 					'exclude_admins_mods' => false,
 				)
 			);
-			$ids = array();
+			$ids     = array();
 			if ( ! empty( $members['members'] ) ) {
 				foreach ( $members['members'] as $member ) {
 					$ids[] = (int) $member->ID;

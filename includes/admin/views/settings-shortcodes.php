@@ -2,7 +2,7 @@
 /**
  * Settings tab: Shortcodes (informational reference).
  *
- * No form — this tab only documents the available shortcodes. The
+ * No form - this tab only documents the available shortcodes. The
  * `user-todo-list-shortcodes` option group stays registered in
  * Bptodo_Admin::bptodo_register_shortcode_settings() so the option key
  * is preserved, but nothing on this page writes it.
@@ -16,6 +16,15 @@ defined( 'ABSPATH' ) || exit;
 global $bptodo;
 $bptodo_plural = isset( $bptodo->profile_menu_label_plural ) ? $bptodo->profile_menu_label_plural : __( 'Todos', 'wb-todo' );
 ?>
+<div class="bptodo-card">
+	<div class="bptodo-card__head">
+		<p class="bptodo-card__title"><?php esc_html_e( 'Place a to-do list on any page', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__desc">
+			<?php esc_html_e( 'This plugin works on any WordPress site, with or without BuddyPress. To show a personal to-do list on a page, add the "My Todos" block in the block editor, or use the [bptodo_list] shortcode below. When BuddyPress or BuddyBoss is active it also adds a To-do tab on member profiles and group to-dos - no block or shortcode needed for those.', 'wb-todo' ); ?>
+		</p>
+	</div>
+</div>
+
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
 		<p class="bptodo-card__title"><code>[bptodo_list]</code></p>
@@ -74,7 +83,7 @@ $bptodo_plural = isset( $bptodo->profile_menu_label_plural ) ? $bptodo->profile_
 				<tr>
 					<td><code>show_add</code></td>
 					<td><code>no</code></td>
-					<td><?php esc_html_e( 'Show the "Add New" button: "yes" or "no".', 'wb-todo' ); ?></td>
+					<td><?php esc_html_e( 'Show the inline quick-add field: "yes" or "no". Set to "yes" on a standalone page so visitors can add tasks.', 'wb-todo' ); ?></td>
 				</tr>
 			</tbody>
 		</table>
@@ -87,10 +96,10 @@ $bptodo_plural = isset( $bptodo->profile_menu_label_plural ) ? $bptodo->profile_
 	</div>
 	<div class="bptodo-card__body">
 		<ul class="bptodo-shortcode-examples">
-			<li><code>[bptodo_list]</code> — <?php esc_html_e( "the current user's tasks", 'wb-todo' ); ?></li>
-			<li><code>[bptodo_list user_id="all" status="incomplete"]</code> — <?php esc_html_e( 'all incomplete tasks (admin only)', 'wb-todo' ); ?></li>
-			<li><code>[bptodo_list category="work" priority="high" per_page="20"]</code> — <?php esc_html_e( 'high-priority work tasks, 20 per page', 'wb-todo' ); ?></li>
-			<li><code>[bptodo_list show_add="yes"]</code> — <?php esc_html_e( 'with the add button visible', 'wb-todo' ); ?></li>
+			<li><code>[bptodo_list]</code> - <?php esc_html_e( "the current user's tasks", 'wb-todo' ); ?></li>
+			<li><code>[bptodo_list user_id="all" status="incomplete"]</code> - <?php esc_html_e( 'all incomplete tasks (admin only)', 'wb-todo' ); ?></li>
+			<li><code>[bptodo_list category="work" priority="high" per_page="20"]</code> - <?php esc_html_e( 'high-priority work tasks, 20 per page', 'wb-todo' ); ?></li>
+			<li><code>[bptodo_list show_add="yes"]</code> - <?php esc_html_e( 'with the add button visible', 'wb-todo' ); ?></li>
 		</ul>
 	</div>
 </div>
@@ -98,7 +107,7 @@ $bptodo_plural = isset( $bptodo->profile_menu_label_plural ) ? $bptodo->profile_
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
 		<p class="bptodo-card__title"><code>[bptodo_by_category]</code></p>
-		<p class="bptodo-card__desc"><?php esc_html_e( 'Legacy shortcode, still supported for backward compatibility.', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__desc"><?php esc_html_e( 'Shorthand for [bptodo_list category="..."]. Renders the same modern list, filtered to one category.', 'wb-todo' ); ?></p>
 	</div>
 	<div class="bptodo-card__body">
 		<p><code>[bptodo_by_category category="CATEGORY_ID"]</code></p>

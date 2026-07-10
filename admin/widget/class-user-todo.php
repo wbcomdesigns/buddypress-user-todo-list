@@ -56,12 +56,13 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		}
 
 		$title  = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$title  = $instance['link_title'] ? '<a href="' . get_post_type_archive_link( 'bp-todo' ) . '">' . $title . '</a>' : $title;
+		$title  = ( ! empty( $instance['link_title'] ) && function_exists( 'bptodo_get_standalone_todos_url' ) ) ? '<a href="' . esc_url( bptodo_get_standalone_todos_url() ) . '">' . $title . '</a>' : $title;
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number ) {
 			$number = 5;
 		}
-		$user_id = bp_loggedin_user_id();
+		// Works with or without BuddyPress (standalone).
+			$user_id = function_exists( 'bp_loggedin_user_id' ) ? bp_loggedin_user_id() : get_current_user_id();
 
 		$r = new WP_Query(
 			apply_filters(
@@ -88,7 +89,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			<ul>
 			<?php foreach ( $r->posts as $recent_todo ) : ?>
 				<?php
-				$post_title   = get_the_title( $recent_todo->ID );
+				$post_title    = get_the_title( $recent_todo->ID );
 				$todo_priority = get_post_meta( $recent_todo->ID, 'todo_priority', true );
 				$todo_due_date = get_post_meta( $recent_todo->ID, 'todo_due_date', true );
 				if ( ! empty( $todo_priority ) ) {

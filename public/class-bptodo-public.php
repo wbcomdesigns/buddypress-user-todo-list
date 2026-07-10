@@ -190,7 +190,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 	}
 
 
-
 		/**
 		 * Add Todo items to the BuddyPress admin bar.
 		 *
@@ -423,43 +422,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			}
 			
 			return $action;
-		}
-		
-
-		function bptodo_mark_notification_as_read_on_single() {
-			if ( ! isset( $_GET['referer'] ) || empty( $_GET['referer'] ) ) {
-				return ;
-			}
-			global $post;
-			$current_user_id = get_current_user_id();
-			if( isset( $_GET['referer'] ) && 'user_due_notification' === $_GET['referer'] ){
-				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}" ) ) {
-					BP_Notifications_Notification::update(
-						array( 'is_new' => false ),
-						array(
-							'component_action'  => 'bptodo_due_date_action',
-							'user_id'           => $current_user_id,
-							'item_id' => $post->ID,
-						)
-					);
-	
-				}
-			}
-
-			if( isset( $_GET['referer'] ) && 'user_group_notification' === $_GET['referer'] ){
-				if ( bp_verify_nonce_request( "mark-as-read-notification-{$current_user_id}" ) ) {
-					BP_Notifications_Notification::update(
-						array( 'is_new' => false ),
-						array(
-							'component_action'  => 'bptodo_group_todo_notifications_action',
-							'user_id'           => $current_user_id,
-							'item_id' 			=> $post->ID,
-						)
-					);
-	
-				}
-			}
-			
 		}
 
 		/**
@@ -1102,7 +1064,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 
-
 		/**
 		 * Actions performed to undo complete a todo.
 		 *
@@ -1425,6 +1386,24 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$atts,
 				'bptodo_by_category'
 			);
+
+			// Modern layout: this is just [bptodo_list category="..."]. Reuse the
+			// shared renderer (same code path as the My Todos block and
+			// [bptodo_list]) instead of the legacy template, so there is one
+			// source of truth for the list UI.
+			if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'shortcode' ) ) {
+				$bptodo_modern = bptodo_render_todos(
+					array(
+						'scope'    => 'member',
+						'category' => $atts['category'],
+						'show_add' => false,
+					),
+					'shortcode'
+				);
+				if ( '' !== $bptodo_modern ) {
+					return $bptodo_modern;
+				}
+			}
 
 			ob_start();
 			if ( is_user_logged_in() ) {

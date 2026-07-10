@@ -197,6 +197,19 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			$viewer   = get_current_user_id();
 			$is_group = ( 'group' === $args['scope'] && $args['group_id'] );
 
+			// Group scope: SSR must match the REST permission model (auth_group_member).
+			// Only group members can see a group's todos; site admins get read-only
+			// oversight. Without this a group-todos block/shortcode placed on any page
+			// would leak the first page of a group's tasks to logged-in non-members.
+			if ( $is_group ) {
+				$bptodo_gid         = (int) $args['group_id'];
+				$bptodo_is_member   = function_exists( 'groups_is_user_member' ) && groups_is_user_member( $viewer, $bptodo_gid );
+				$bptodo_can_oversee = current_user_can( 'manage_options' );
+				if ( ! $bptodo_is_member && ! $bptodo_can_oversee ) {
+					return '<div class="bptodo-app bptodo-app--denied"><p>' . esc_html__( 'You do not have access to this group\'s todos.', 'wb-todo' ) . '</p></div>';
+				}
+			}
+
 			// Scope enforcement (SSR must match the REST permission model): a viewer may
 			// only widen to 'all' or another user's todos if allowed; otherwise fall back
 			// to their own list.
@@ -213,6 +226,12 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			} elseif ( ! empty( $args['user_id'] ) && is_numeric( $args['user_id'] ) ) {
 				$author = (int) $args['user_id'];
 			}
+
+			// Who may add: group scope requires a group manager (matches the legacy
+			// group Add flow); member/all scope uses the personal create permission.
+			$bptodo_can_add = $is_group
+				? Bptodo_Permissions::can_create_group_todo( (int) $args['group_id'], false, $viewer )
+				: Bptodo_Permissions::can_create( $viewer );
 
 			$query_args = array(
 				'status'   => $args['status'],
@@ -260,9 +279,9 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'todos'       => $todos,
 				'stats'       => $stats,
 				'isBusy'      => false,
-				'showAdd'     => (bool) $args['show_add'] && Bptodo_Permissions::can_create( $viewer ),
+				'showAdd'     => (bool) $args['show_add'] && $bptodo_can_add,
 				'draftTitle'  => '',
-				'canCreate'   => Bptodo_Permissions::can_create( $viewer ),
+				'canCreate'   => $bptodo_can_add,
 				'isFirstPage' => 1 >= (int) $result['page'],
 				'isLastPage'  => (int) $result['page'] >= (int) $result['total_pages'],
 				'singlePage'  => (int) $result['total_pages'] <= 1,
