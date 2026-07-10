@@ -337,25 +337,38 @@
 .bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
 .bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
 
-/* "Details" toggle - reveals the task's description inline. */
-.bptodo-wrapper button.bptodo-item__more {
-	padding: 0;
+/*
+ * "Details" toggle - reveals the task's description inline.
+ * Scoped to `.bptodo-app.bptodo-wrapper` (0,3,1) so it EXCEEDS BuddyPress
+ * core's `.buddypress .buddypress-wrap button { background:#fff }` (0,2,1)
+ * regardless of stylesheet load order - a plain 0,2,1 tie let BP's opaque
+ * white win on some pages, showing a white box behind the toggle in dark
+ * mode. Same pattern as the filter-btn / iconbtn fixes.
+ */
+.bptodo-app.bptodo-wrapper button.bptodo-item__more {
+	padding: 4px 8px;
+	margin-inline-start: -8px; /* offset the new padding so text stays aligned */
 	font: inherit;
 	font-size: 0.8rem;
 	font-weight: 600;
 	color: var( --bpt-accent );
 	background: transparent;
 	border: 0;
+	border-radius: 6px;
 	cursor: pointer;
 }
 
-.bptodo-wrapper button.bptodo-item__more::after {
+.bptodo-app.bptodo-wrapper button.bptodo-item__more:hover {
+	background: var( --bpt-surface-2 );
+}
+
+.bptodo-app.bptodo-wrapper button.bptodo-item__more::after {
 	content: " \25be"; /* caret down */
 	display: inline-block;
 	transition: transform 0.12s ease;
 }
 
-.bptodo-wrapper button.bptodo-item__more.is-open::after {
+.bptodo-app.bptodo-wrapper button.bptodo-item__more.is-open::after {
 	transform: rotate( 180deg );
 }
 
@@ -709,8 +722,13 @@
 	gap: 8px;
 }
 
-/* `.bptodo-wrapper button.` beats BuddyPress core's `.buddypress-wrap button`. */
-.bptodo-wrapper button.bptodo-linkbtn {
+/*
+ * Scoped to `.bptodo-app.bptodo-wrapper` (0,3,1) so it EXCEEDS BuddyPress
+ * core's `.buddypress .buddypress-wrap button { background:#fff }` (0,2,1) on
+ * every load order - a plain 0,2,1 tie let BP's white win, rendering the
+ * "+ New" category button as a white box in dark mode.
+ */
+.bptodo-app.bptodo-wrapper button.bptodo-linkbtn {
 	padding: 2px 4px;
 	font: inherit;
 	font-size: 0.8rem;
@@ -722,7 +740,7 @@
 	cursor: pointer;
 }
 
-.bptodo-wrapper button.bptodo-linkbtn:hover {
+.bptodo-app.bptodo-wrapper button.bptodo-linkbtn:hover {
 	text-decoration: underline;
 }
 

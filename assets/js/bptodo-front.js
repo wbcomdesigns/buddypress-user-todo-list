@@ -222,7 +222,18 @@ jQuery(document).ready(function($) {
    * Category accordion functionality
    */
   function initAccordion() {
-    var acc = document.getElementsByClassName('bptodo-item');
+    // The modern Interactivity list reuses `.bptodo-item` for todo rows. The
+    // legacy category accordion must NOT touch those: it sets an inline
+    // `max-height` on the element's next sibling, which on the modern layout
+    // clips the expanded "Details" note and overlaps the following row.
+    // Scope to legacy items only (those NOT inside the modern `.bptodo-app`).
+    var all = document.getElementsByClassName('bptodo-item');
+    var acc = [];
+    for (var j = 0; j < all.length; j++) {
+      if (!all[j].closest || !all[j].closest('.bptodo-app')) {
+        acc.push(all[j]);
+      }
+    }
     if (acc.length === 0) return;
 
     // Open first accordion by default
