@@ -260,14 +260,13 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 
 == Screenshots ==
 
-1. **Admin Settings Panel** - Comprehensive settings dashboard with customizable labels, permissions, and notification controls
-2. **Member Todo Dashboard** - Clean, organized view of personal todos with priority indicators and completion tracking
-3. **Todo List View** - All todos organized by due date (Past, Today, Tomorrow, Future) with visual status indicators
-4. **Create Todo Form** - Intuitive form with rich text editor, categories, due date picker, and priority selection
-5. **Group Todo Overview** - Real-time progress tracking with member grid, completion statistics, and filtering options
-6. **Group Task Assignment** - Easy interface for assigning tasks to all members or selected individuals
-7. **Data Retention Settings** - Automated cleanup configuration with flexible retention periods and delete options
-8. **Mobile Responsive** - Fully responsive design works beautifully on all devices and screen sizes
+1. Modern to-do list - the personal list with a progress summary, inline quick-add, search and filters, and priority and due-date indicators. Complete, edit, filter and paginate with no page reloads.
+2. Add a to-do - the full add form with description, category (including an inline "+ New" category creator), priority and due date.
+3. Task details and inline editing - expand a task to read its details, and edit the title, details, priority and due date right in the list.
+4. Group task assignment - assign a group task to specific members (chips with avatars) or leave everyone selected to assign the whole group.
+5. Group overview - per-member completion progress with a task selector and All / Completed / Pending filters.
+6. Dark mode - the modern list adapts automatically to the theme's dark mode.
+7. Admin settings - switch between the Modern and Classic layout, and control labels, roles, member-created categories and due-date reminders.
 
 == Upgrade Notice ==
 

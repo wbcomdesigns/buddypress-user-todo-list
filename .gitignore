@@ -16,6 +16,9 @@ CLAUDE.md
 !audit/**
 !audit/manifest.json
 !audit/manifest.summary.json
+# Website docs are tracked despite the broad *.json ignore (docs_config.json).
+!docs/website/
+!docs/website/**
 dist/
 
 # Essential JSON that must ship despite the broad *.json ignore above.
