@@ -56,6 +56,38 @@ if ( ! function_exists( 'bptodo_get_group_url' ) ) {
 	}
 }
 
+if ( ! function_exists( 'bptodo_get_todo_view_url' ) ) {
+	/**
+	 * Person-specific / group-scoped URL for viewing a todo.
+	 *
+	 * Todos are private, permission-scoped data - they have NO public single
+	 * page. This returns the appropriate To-do tab (the owner's member profile
+	 * tab, or the group's tab for a group todo) so reminder emails,
+	 * notifications, the REST response and widgets link somewhere the recipient
+	 * is actually allowed to see the item, instead of a public CPT permalink.
+	 *
+	 * @since 4.0.0
+	 * @param int $todo_id Todo post ID.
+	 * @return string
+	 */
+	function bptodo_get_todo_view_url( $todo_id ) {
+		$todo_id = (int) $todo_id;
+		if ( ! $todo_id ) {
+			return '';
+		}
+		global $bptodo;
+		$slug = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo';
+
+		$group_id = (int) get_post_meta( $todo_id, 'todo_group_id', true );
+		if ( $group_id && function_exists( 'bptodo_get_group_url' ) ) {
+			return trailingslashit( bptodo_get_group_url( $group_id ) . $slug );
+		}
+
+		$author = (int) get_post_field( 'post_author', $todo_id );
+		return trailingslashit( bptodo_get_member_url( $author ) . $slug );
+	}
+}
+
 if ( ! function_exists( 'bptodo_list_group_modrator' ) ) {
 	/**
 	 *  Add or exclude group modtaros in average percentage calculation.

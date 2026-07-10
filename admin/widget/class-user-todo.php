@@ -111,7 +111,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				}
 				?>
 			<li>
-				<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
+				<a href="<?php echo esc_url( bptodo_get_todo_view_url( $recent_todo->ID ) ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
 				<div class="widget-bptodo-list-meta">
 					<div class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></div>
 					<span class="post-date"><?php echo esc_html( $todo_due_date ); ?></span>

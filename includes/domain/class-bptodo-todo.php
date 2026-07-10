@@ -222,7 +222,7 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 				'is_owner'       => $this->author_id() === $viewer_id,
 				'can_edit'       => Bptodo_Permissions::can_edit( $this, $viewer_id ),
 				'can_delete'     => Bptodo_Permissions::can_delete( $this, $viewer_id ),
-				'permalink'      => get_permalink( $this->id() ),
+				'permalink'      => function_exists( 'bptodo_get_todo_view_url' ) ? bptodo_get_todo_view_url( $this->id() ) : '',
 			);
 		}
 

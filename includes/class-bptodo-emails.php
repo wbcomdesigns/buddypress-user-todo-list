@@ -343,7 +343,7 @@ Thank you!', 'wb-todo' ),
 		}
 
 		$todo_title = $todo->post_title;
-		$todo_url   = get_permalink( $todo_id );
+		$todo_url   = bptodo_get_todo_view_url( $todo_id );
 
 		// Get dynamic label
 		global $bptodo;
@@ -418,7 +418,7 @@ Thank you!', 'wb-todo' ),
 		}
 
 		$todo_title = $todo->post_title;
-		$todo_url   = get_permalink( $todo_id );
+		$todo_url   = bptodo_get_todo_view_url( $todo_id );
 
 		// Get dynamic label
 		global $bptodo;

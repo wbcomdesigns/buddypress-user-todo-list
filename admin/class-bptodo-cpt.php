@@ -54,25 +54,32 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'not_found_in_trash' => esc_html__( 'No Todo Item Found In Trash', 'wb-todo' ),
 			);
 
+			/*
+			 * Todos are PRIVATE, permission-scoped data (personal + group tasks).
+			 * They must NOT be public WordPress pages: no single permalink, no
+			 * archive, not in site search, not publicly queryable. All legitimate
+			 * viewing happens through the To-do tab / block / shortcode / REST,
+			 * each of which enforces per-user/per-group permissions. `show_ui`
+			 * stays on so site admins can still manage items in wp-admin.
+			 */
 			$args = array(
 				'labels'              => $labels,
-				'public'              => true,
+				'public'              => false,
 				'menu_icon'           => 'dashicons-edit',
-				'publicly_queryable'  => true,
-				'exclude_from_search' => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
 				'show_ui'             => true,
 				'show_in_menu'        => true,
-				'query_var'           => true,
-				'rewrite'             => array(
-					'slug'       => sanitize_title( 'todo' ),
-					'with_front' => false,
-				),
+				'show_in_admin_bar'   => false,
+				'show_in_nav_menus'   => false,
+				'query_var'           => false,
+				'rewrite'             => false,
 				'capability_type'     => 'post',
 				'capabilities'        => array(
 					'create_posts' => false,
 				),
 				'map_meta_cap'        => true,
-				'has_archive'         => true,
+				'has_archive'         => false,
 				'hierarchical'        => false,
 				'menu_position'       => null,
 				'supports'            => array( 'title', 'editor', 'author', 'thumbnail' ),
@@ -101,14 +108,16 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'not_found'         => esc_html__( 'No Todo Item Categories Found', 'wb-todo' ),
 				'menu_name'         => esc_html__( 'Categories', 'wb-todo' ),
 			);
+			// Private taxonomy - admin management only, no public term archives.
 			$tax_args   = array(
-				'hierarchical'      => true,
-				'labels'            => $tax_labels,
-				'show_ui'           => true,
-				'show_admin_column' => true,
-				'public'            => true,
-				'query_var'         => true,
-				'rewrite'           => array( 'slug' => 'todo_category' ),
+				'hierarchical'       => true,
+				'labels'             => $tax_labels,
+				'show_ui'            => true,
+				'show_admin_column'  => true,
+				'public'             => false,
+				'publicly_queryable' => false,
+				'query_var'          => false,
+				'rewrite'            => false,
 			);
 			register_taxonomy( 'todo_category', array( 'bp-todo' ), $tax_args );
 

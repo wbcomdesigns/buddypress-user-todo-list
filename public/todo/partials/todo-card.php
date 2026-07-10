@@ -135,7 +135,7 @@ $nonce = wp_create_nonce( 'bptodo_nonce' );
 
 		<h3 class="bptodo-card__title">
 			<?php if ( $can_edit ) : ?>
-				<a href="<?php echo esc_url( get_permalink( $todo_id ) ); ?>">
+				<a href="<?php echo esc_url( bptodo_get_todo_view_url( $todo_id ) ); ?>">
 					<?php echo esc_html( $todo_title ); ?>
 				</a>
 			<?php else : ?>

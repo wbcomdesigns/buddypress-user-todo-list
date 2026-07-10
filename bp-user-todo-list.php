@@ -105,6 +105,11 @@ function bptodo_run_pending_upgrade() {
     }
     delete_option( 'bptodo_pending_upgrade_from' );
     bptodo_upgrade_routine( $from );
+
+    // The bp-todo CPT/taxonomy became private in 4.0.0 (no public single pages,
+    // archive or term URLs). Flush once so the stale /todo/ and /todo_category/
+    // rewrite rules are dropped and those URLs stop resolving to todo data.
+    flush_rewrite_rules();
 }
 
 /**

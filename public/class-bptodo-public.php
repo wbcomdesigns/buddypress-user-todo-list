@@ -372,7 +372,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo = get_post( $item_id );
 				if ( ! empty( $todo ) ) {
 					$todo_title = $todo->post_title;
-					$todo_link  = get_permalink( $item_id );
+					$todo_link  = bptodo_get_todo_view_url( $item_id );
 					/* Translators: 1) Get a Plural Label Name 2) Display the To do title name*/
 					$custom_title = sprintf( esc_html__( '%1$s due date arrived for task: %2$s', 'wb-todo' ), esc_html( $profile_menu_label ), esc_html( $todo_title ) );
 					$custom_link  = $todo_link;
@@ -1031,7 +1031,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$todo               = get_post( $tid );
 				$todo_title         = $todo->post_title;
 				$todo_edit_url      = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-				$todo_view_url      = get_permalink( $tid );
+				$todo_view_url      = bptodo_get_todo_view_url( $tid );
 				$todo_status        = get_post_meta( $todo->ID, 'todo_status', true );
 				$todo_priority      = get_post_meta( $todo->ID, 'todo_priority', true );
 				$curr_date          = date_create( gmdate('Y-m-d') );
