@@ -38,9 +38,10 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 * @access  public
 		 */
 		public function bptodo_create_cpt() {
-			if ( ! class_exists( 'BuddyPress' ) ) {
-				return false;
-			}
+			// The todo CPT is the storage for BOTH standalone (personal, no
+			// BuddyPress) and BuddyPress/BuddyBoss group todos. It must register
+			// regardless of BuddyPress so the plugin works stand-alone via the
+			// "My Todos" block or the [bptodo_list] shortcode on any page.
 			$labels = array(
 				'name'               => esc_html__( 'Todo Items', 'wb-todo' ),
 				'singular_name'      => esc_html__( 'Todo Item', 'wb-todo' ),
@@ -109,7 +110,7 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 				'menu_name'         => esc_html__( 'Categories', 'wb-todo' ),
 			);
 			// Private taxonomy - admin management only, no public term archives.
-			$tax_args   = array(
+			$tax_args = array(
 				'hierarchical'       => true,
 				'labels'             => $tax_labels,
 				'show_ui'            => true,

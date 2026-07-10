@@ -40,14 +40,14 @@ if ( ! function_exists( 'bptodo_get_group_url' ) ) {
 			// Older BuddyPress/BuddyBoss
 			return bp_get_group_permalink( $group_id_or_obj );
 		} else {
-			// Fallback - try to get group object
-			if ( is_numeric( $group_id_or_obj ) ) {
+			// Fallback - try to get group object (only if BuddyPress groups exist).
+			if ( is_numeric( $group_id_or_obj ) && function_exists( 'groups_get_group' ) ) {
 				$group = groups_get_group( $group_id_or_obj );
 			} else {
 				$group = $group_id_or_obj;
 			}
 
-			if ( ! empty( $group->slug ) ) {
+			if ( is_object( $group ) && ! empty( $group->slug ) ) {
 				return home_url( '/groups/' . $group->slug . '/' );
 			}
 
@@ -78,13 +78,50 @@ if ( ! function_exists( 'bptodo_get_todo_view_url' ) ) {
 		global $bptodo;
 		$slug = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo';
 
+		// Group todo -> the group's To-do tab (only when BuddyPress groups exist).
 		$group_id = (int) get_post_meta( $todo_id, 'todo_group_id', true );
-		if ( $group_id && function_exists( 'bptodo_get_group_url' ) ) {
+		if ( $group_id && function_exists( 'groups_get_group' ) && function_exists( 'bptodo_get_group_url' ) ) {
 			return trailingslashit( bptodo_get_group_url( $group_id ) . $slug );
 		}
 
-		$author = (int) get_post_field( 'post_author', $todo_id );
-		return trailingslashit( bptodo_get_member_url( $author ) . $slug );
+		// Personal todo -> the owner's profile To-do tab (only when BuddyPress
+		// member URLs are available).
+		if ( function_exists( 'bp_members_get_user_url' ) || function_exists( 'bp_core_get_user_domain' ) ) {
+			$author = (int) get_post_field( 'post_author', $todo_id );
+			return trailingslashit( bptodo_get_member_url( $author ) . $slug );
+		}
+
+		// Standalone (no BuddyPress): the configured Todos page.
+		return bptodo_get_standalone_todos_url();
+	}
+}
+
+if ( ! function_exists( 'bptodo_get_standalone_todos_url' ) ) {
+	/**
+	 * URL of the standalone Todos page (where the "My Todos" block or the
+	 * [bptodo_list] shortcode is placed). Used when BuddyPress is not active, so
+	 * links (reminder emails, "view" links) go to a page the user can actually
+	 * open. Site owners set the page in Settings; a filter allows overriding.
+	 *
+	 * @since 4.0.0
+	 * @return string
+	 */
+	function bptodo_get_standalone_todos_url() {
+		$page_id  = 0;
+		$settings = get_option( 'user_todo_list_settings' );
+		if ( ! empty( $settings['standalone_page'] ) ) {
+			$page_id = (int) $settings['standalone_page'];
+		}
+		$url = $page_id ? get_permalink( $page_id ) : home_url( '/' );
+
+		/**
+		 * Filters the standalone (no-BuddyPress) Todos page URL.
+		 *
+		 * @since 4.0.0
+		 * @param string $url     The resolved URL.
+		 * @param int    $page_id The configured page ID (0 if unset).
+		 */
+		return apply_filters( 'bptodo_standalone_todos_url', $url, $page_id );
 	}
 }
 

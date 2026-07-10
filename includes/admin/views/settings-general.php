@@ -141,6 +141,25 @@ unset( $bptodo_all_roles['administrator'] );
 						<p class="description"><?php esc_html_e( 'Modern uses blocks and the REST API for a faster, no-reload list. Switch to Classic if a theme or plugin conflict appears.', 'wb-todo' ); ?></p>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row"><label for="bptodo-standalone-page"><?php esc_html_e( 'Todos page', 'wb-todo' ); ?></label></th>
+					<td>
+						<?php
+						$bptodo_settings_opt  = get_option( 'user_todo_list_settings' );
+						$bptodo_standalone_id = ! empty( $bptodo_settings_opt['standalone_page'] ) ? (int) $bptodo_settings_opt['standalone_page'] : 0;
+						wp_dropdown_pages(
+							array(
+								'name'              => 'bptodo_standalone_page',
+								'id'                => 'bptodo-standalone-page',
+								'selected'          => (int) $bptodo_standalone_id,
+								'show_option_none'  => esc_html__( '- Select a page -', 'wb-todo' ),
+								'option_none_value' => '0',
+							)
+						);
+						?>
+						<p class="description"><?php esc_html_e( 'The page that holds the "My Todos" block or the [bptodo_list] shortcode. Used for links (such as reminder emails) when BuddyPress is not active. Not needed if BuddyPress profile tabs are in use.', 'wb-todo' ); ?></p>
+					</td>
+				</tr>
 		</table>
 	</div>
 

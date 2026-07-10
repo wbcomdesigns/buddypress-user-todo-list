@@ -284,6 +284,10 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				// Frontend layout mode (modern blocks/REST vs classic templates).
 				$settings['bptodo_layout_mode'] = ( isset( $_POST['bptodo_layout_mode'] ) && 'legacy' === $_POST['bptodo_layout_mode'] ) ? 'legacy' : 'modern';
 
+				// Standalone Todos page (the page holding the My Todos block or
+				// [bptodo_list] shortcode) used for links when BuddyPress is inactive.
+				$settings['standalone_page'] = isset( $_POST['bptodo_standalone_page'] ) ? absint( wp_unslash( $_POST['bptodo_standalone_page'] ) ) : 0;
+
 				// Multi-select
 				if ( isset( $_POST['bptodo_user_roles'] ) ) {
 					$settings['bptodo_user_roles'] = map_deep( wp_unslash( $_POST['bptodo_user_roles'] ), 'sanitize_text_field' );
