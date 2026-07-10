@@ -646,6 +646,43 @@
 	color: var( --bpt-muted );
 }
 
+/* Category field: label row with an inline "+ New" creator. */
+.bptodo-field__labelrow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+/* `.bptodo-wrapper button.` beats BuddyPress core's `.buddypress-wrap button`. */
+.bptodo-wrapper button.bptodo-linkbtn {
+	padding: 2px 4px;
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var( --bpt-accent );
+	background: transparent;
+	border: 0;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.bptodo-wrapper button.bptodo-linkbtn:hover {
+	text-decoration: underline;
+}
+
+.bptodo-newcat {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.bptodo-newcat .bptodo-input {
+	flex: 1 1 140px;
+	min-width: 0;
+}
+
 /* Group add: member assignment chips. */
 .bptodo-assignees {
 	display: flex;

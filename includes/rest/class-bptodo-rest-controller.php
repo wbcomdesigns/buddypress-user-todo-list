@@ -377,8 +377,31 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 			return rest_ensure_response( $todo->prepare_for_response( get_current_user_id() ) );
 		}
 
+		/**
+		 * Enforce the `req_duedate` setting on create (server-side authority for
+		 * the modern form's client-side check).
+		 *
+		 * @param WP_REST_Request $request Request.
+		 * @return WP_Error|null Error when a required due date is missing.
+		 */
+		protected function require_due_error( $request ) {
+			$settings = get_option( 'user_todo_list_settings' );
+			if ( empty( $settings['req_duedate'] ) || 'yes' !== $settings['req_duedate'] ) {
+				return null;
+			}
+			$due = trim( (string) $request->get_param( 'due_date' ) );
+			if ( '' === $due ) {
+				return new WP_Error( 'bptodo_due_required', __( 'A due date is required.', 'wb-todo' ), array( 'status' => 400 ) );
+			}
+			return null;
+		}
+
 		/** @param WP_REST_Request $request Request. @return WP_REST_Response|WP_Error */
 		public function create_todo( $request ) {
+			$due_error = $this->require_due_error( $request );
+			if ( $due_error ) {
+				return $due_error;
+			}
 			$todo = Bptodo_Todo_Repository::create( $this->extract_writable( $request ), get_current_user_id() );
 			if ( is_wp_error( $todo ) ) {
 				return $todo;
@@ -388,6 +411,10 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 
 		/** @param WP_REST_Request $request Request. @return WP_REST_Response|WP_Error */
 		public function create_group_todo( $request ) {
+			$due_error = $this->require_due_error( $request );
+			if ( $due_error ) {
+				return $due_error;
+			}
 			$assignees = $request->get_param( 'assignees' );
 			$todo      = Bptodo_Todo_Repository::assign_to_group(
 				$this->extract_writable( $request ),

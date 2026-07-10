@@ -9,7 +9,7 @@
  * @since   4.0.0
  */
 
-import { store, getContext } from '@wordpress/interactivity';
+import { store, getContext, withScope } from '@wordpress/interactivity';
 
 const { state, actions } = store( 'bptodo', {
 	state: {
@@ -44,9 +44,15 @@ const { state, actions } = store( 'bptodo', {
 			ctx.search = event.target.value;
 			ctx.page = 1;
 			clearTimeout( ctx._searchTimer );
-			ctx._searchTimer = setTimeout( () => {
-				actions.reload();
-			}, 350 );
+			// withScope() preserves the Interactivity context across the async
+			// setTimeout boundary; without it getContext() inside reload() is
+			// undefined and the debounced search throws + never filters.
+			ctx._searchTimer = setTimeout(
+				withScope( () => {
+					actions.reload();
+				} ),
+				350
+			);
 		},
 
 		setStatus( event ) {
@@ -209,6 +215,52 @@ const { state, actions } = store( 'bptodo', {
 			getContext().fDue = event.target.value;
 		},
 
+		// Inline "+ New" category creator (honors allow_user_add_category).
+		setNewCat( event ) {
+			getContext().fNewCat = event.target.value;
+		},
+
+		toggleAddCat() {
+			const ctx = getContext();
+			ctx.addingCat = ! ctx.addingCat;
+			ctx.fNewCat = '';
+		},
+
+		newCatKeydown( event ) {
+			if ( 'Enter' === event.key ) {
+				// Stop the keystroke from submitting the whole add form.
+				event.preventDefault();
+				actions.addCategory();
+			}
+		},
+
+		*addCategory() {
+			const ctx = getContext();
+			const name = ( ctx.fNewCat || '' ).trim();
+			if ( ! name ) {
+				return;
+			}
+			try {
+				const term = yield bptodoApi( '/categories', 'POST', { name } );
+				if ( term && term.slug ) {
+					// Append to the client-side option list.
+					const exists = ( ctx.newCats || [] ).some( ( c ) => c.slug === term.slug );
+					if ( ! exists ) {
+						ctx.newCats = [ ...( ctx.newCats || [] ), { slug: term.slug, name: term.name } ];
+					}
+					// Let the new <option> render before selecting it, otherwise the
+					// controlled <select> value is set before the node exists.
+					yield new Promise( ( resolve ) => setTimeout( resolve, 0 ) );
+					ctx.fCat = term.slug;
+				}
+				ctx.fNewCat = '';
+				ctx.addingCat = false;
+				ctx.formError = '';
+			} catch ( err ) {
+				ctx.formError = state.i18n.error;
+			}
+		},
+
 		// Toggle a group member in the assignee list (group add form).
 		toggleAssignee( event ) {
 			const ctx = getContext();
@@ -229,6 +281,11 @@ const { state, actions } = store( 'bptodo', {
 			const title = ( ctx.fTitle || '' ).trim();
 			if ( ! title ) {
 				ctx.formError = state.i18n.titleRequired;
+				return;
+			}
+			// Honor the "Require due date" setting (req_duedate).
+			if ( ctx.requireDue && ! ( ctx.fDue || '' ).trim() ) {
+				ctx.formError = state.i18n.dueRequired;
 				return;
 			}
 			ctx.submitting = true;

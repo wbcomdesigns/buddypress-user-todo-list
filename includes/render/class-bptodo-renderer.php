@@ -48,6 +48,36 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 		}
 
 		/**
+		 * The configured entity labels, so the modern layout honors the site
+		 * owner's "Todo label" setting (e.g. Task, Goal) instead of hardcoding.
+		 *
+		 * @return array { @type string $singular, @type string $plural }.
+		 */
+		protected static function labels() {
+			global $bptodo;
+			$singular = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label ) )
+				? $bptodo->profile_menu_label
+				: __( 'Todo', 'wb-todo' );
+			$plural   = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label_plural ) )
+				? $bptodo->profile_menu_label_plural
+				: __( 'Todos', 'wb-todo' );
+			return array(
+				'singular' => $singular,
+				'plural'   => $plural,
+			);
+		}
+
+		/**
+		 * Whether a due date is mandatory (the `req_duedate` setting).
+		 *
+		 * @return bool
+		 */
+		protected static function due_required() {
+			global $bptodo;
+			return ( is_object( $bptodo ) && isset( $bptodo->req_duedate ) && 'yes' === $bptodo->req_duedate );
+		}
+
+		/**
 		 * Register the interactivity view script module (once).
 		 *
 		 * @return void
@@ -113,6 +143,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						'deleted'       => __( 'Task deleted.', 'wb-todo' ),
 						'added'         => __( 'Task added.', 'wb-todo' ),
 						'titleRequired' => __( 'Please enter a title.', 'wb-todo' ),
+						'dueRequired'   => __( 'Please set a due date.', 'wb-todo' ),
 					),
 				)
 			);
@@ -122,6 +153,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 		 * Render the todo list.
 		 *
 		 * @param array $args {
+		 *     Optional. Render options.
+		 *
 		 *     @type string $scope    'member'|'group'|'all'. Default 'member'.
 		 *     @type int    $user_id  0 = current user; numeric; 'all' for admin.
 		 *     @type int    $group_id Group ID for group scope.
@@ -211,21 +244,21 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			}
 
 			$context = array(
-				'scope'      => $args['scope'],
-				'userId'     => (string) $args['user_id'],
-				'groupId'    => (int) $args['group_id'],
-				'status'     => $args['status'],
-				'priority'   => $args['priority'],
-				'category'   => (string) $args['category'],
-				'search'     => '',
-				'orderby'    => $args['orderby'],
-				'order'      => $args['order'],
-				'page'       => (int) $result['page'],
-				'perPage'    => (int) $result['per_page'],
-				'totalPages' => (int) $result['total_pages'],
-				'total'      => (int) $result['total'],
-				'todos'      => $todos,
-				'stats'      => $stats,
+				'scope'       => $args['scope'],
+				'userId'      => (string) $args['user_id'],
+				'groupId'     => (int) $args['group_id'],
+				'status'      => $args['status'],
+				'priority'    => $args['priority'],
+				'category'    => (string) $args['category'],
+				'search'      => '',
+				'orderby'     => $args['orderby'],
+				'order'       => $args['order'],
+				'page'        => (int) $result['page'],
+				'perPage'     => (int) $result['per_page'],
+				'totalPages'  => (int) $result['total_pages'],
+				'total'       => (int) $result['total'],
+				'todos'       => $todos,
+				'stats'       => $stats,
 				'isBusy'      => false,
 				'showAdd'     => (bool) $args['show_add'] && Bptodo_Permissions::can_create( $viewer ),
 				'draftTitle'  => '',
@@ -235,7 +268,10 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'singlePage'  => (int) $result['total_pages'] <= 1,
 			);
 
-			$categories = Bptodo_Categories::all();
+			$categories     = Bptodo_Categories::all();
+			$bptodo_labels  = self::labels();
+			$label_singular = $bptodo_labels['singular'];
+			$label_plural   = $bptodo_labels['plural'];
 
 			ob_start();
 			?>
@@ -264,7 +300,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						<input
 							type="text"
 							class="bptodo-add__input"
-							placeholder="<?php esc_attr_e( 'Add a task and press Enter…', 'wb-todo' ); ?>"
+							placeholder="<?php echo esc_attr( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Add a %s and press Enter…', 'wb-todo' ), strtolower( $label_singular ) ) ); ?>"
 							data-wp-bind--value="context.draftTitle"
 							data-wp-on--input="actions.setDraft"
 							aria-label="<?php esc_attr_e( 'New task title', 'wb-todo' ); ?>"
@@ -296,7 +332,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					<?php endif; ?>
 				</div>
 
-				<p class="bptodo-count"><span data-wp-text="context.total"><?php echo esc_html( $result['total'] ); ?></span> <?php esc_html_e( 'todos', 'wb-todo' ); ?></p>
+				<p class="bptodo-count"><span data-wp-text="context.total"><?php echo esc_html( $result['total'] ); ?></span> <?php echo esc_html( strtolower( $label_plural ) ); ?></p>
 
 				<ul class="bptodo-list" role="list" data-wp-bind--aria-busy="context.isBusy">
 					<template data-wp-each--todo="context.todos" data-wp-each-key="context.todo.id">
@@ -339,7 +375,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				</ul>
 
 				<div class="bptodo-empty" data-wp-bind--hidden="context.total">
-					<p><?php esc_html_e( 'Nothing here yet. Add your first task above.', 'wb-todo' ); ?></p>
+					<p><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Nothing here yet. Add your first %s above.', 'wb-todo' ), strtolower( $label_singular ) ) ); ?></p>
 				</div>
 
 				<nav class="bptodo-pager" data-wp-bind--hidden="context.singlePage" aria-label="<?php esc_attr_e( 'Todo pagination', 'wb-todo' ); ?>">
@@ -380,9 +416,12 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				wp_enqueue_script_module( self::MODULE_ID );
 			}
 
-			$categories = Bptodo_Categories::all();
-
-			$is_group = ( 'group' === $args['scope'] && ! empty( $args['members'] ) );
+			$categories     = Bptodo_Categories::all();
+			$is_group       = ( 'group' === $args['scope'] && ! empty( $args['members'] ) );
+			$bptodo_labels  = self::labels();
+			$label_singular = $bptodo_labels['singular'];
+			$require_due    = self::due_required();
+			$can_add_cat    = Bptodo_Categories::user_can_add();
 
 			$context = array(
 				'scope'      => $args['scope'],
@@ -393,6 +432,10 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'fPriority'  => 'normal',
 				'fDue'       => '',
 				'fAssignees' => array(),
+				'fNewCat'    => '',
+				'addingCat'  => false,
+				'newCats'    => array(),
+				'requireDue' => (bool) $require_due,
 				'listUrl'    => $args['list_url'],
 				'submitting' => false,
 				'formError'  => '',
@@ -413,15 +456,31 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					</div>
 
 					<div class="bptodo-field-grid">
-						<?php if ( ! empty( $categories ) ) : ?>
+						<?php if ( ! empty( $categories ) || $can_add_cat ) : ?>
 							<div class="bptodo-field">
-								<label class="bptodo-field__label" for="bptodo-add-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></label>
-								<select id="bptodo-add-cat" class="bptodo-select" data-wp-on--change="actions.setFCat">
+								<span class="bptodo-field__labelrow">
+									<label class="bptodo-field__label" for="bptodo-add-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></label>
+									<?php if ( $can_add_cat ) : ?>
+										<button type="button" class="bptodo-linkbtn" data-wp-on--click="actions.toggleAddCat" data-wp-bind--hidden="context.addingCat"><?php esc_html_e( '+ New', 'wb-todo' ); ?></button>
+									<?php endif; ?>
+								</span>
+								<select id="bptodo-add-cat" class="bptodo-select" data-wp-bind--value="context.fCat" data-wp-on--change="actions.setFCat" data-wp-bind--hidden="context.addingCat">
 									<option value=""><?php esc_html_e( 'None', 'wb-todo' ); ?></option>
 									<?php foreach ( $categories as $bptodo_cat ) : ?>
 										<option value="<?php echo esc_attr( $bptodo_cat['slug'] ); ?>"><?php echo esc_html( $bptodo_cat['name'] ); ?></option>
 									<?php endforeach; ?>
+									<?php // Client-side: categories the member creates via "+ New" are appended here. ?>
+									<template data-wp-each--cat="context.newCats" data-wp-each-key="context.cat.slug">
+										<option data-wp-bind--value="context.cat.slug" data-wp-text="context.cat.name"></option>
+									</template>
 								</select>
+								<?php if ( $can_add_cat ) : ?>
+									<span class="bptodo-newcat" data-wp-bind--hidden="!context.addingCat">
+										<input type="text" class="bptodo-input" placeholder="<?php esc_attr_e( 'New category name', 'wb-todo' ); ?>" data-wp-bind--value="context.fNewCat" data-wp-on--input="actions.setNewCat" data-wp-on--keydown="actions.newCatKeydown" aria-label="<?php esc_attr_e( 'New category name', 'wb-todo' ); ?>" />
+										<button type="button" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm" data-wp-on--click="actions.addCategory"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
+										<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.toggleAddCat"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></button>
+									</span>
+								<?php endif; ?>
 							</div>
 						<?php endif; ?>
 
@@ -435,8 +494,14 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						</div>
 
 						<div class="bptodo-field">
-							<label class="bptodo-field__label" for="bptodo-add-due"><?php esc_html_e( 'Due date', 'wb-todo' ); ?></label>
-							<input type="date" id="bptodo-add-due" class="bptodo-input" data-wp-on--change="actions.setFDue" />
+							<label class="bptodo-field__label" for="bptodo-add-due">
+								<?php esc_html_e( 'Due date', 'wb-todo' ); ?>
+								<?php
+								if ( $require_due ) :
+									?>
+									<span class="bptodo-req" aria-hidden="true">*</span><?php endif; ?>
+							</label>
+							<input type="date" id="bptodo-add-due" class="bptodo-input" <?php echo $require_due ? 'required' : ''; ?> data-wp-on--change="actions.setFDue" />
 						</div>
 					</div>
 
@@ -460,7 +525,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 
 					<div class="bptodo-addform__actions">
 						<a class="bptodo-btn bptodo-btn--ghost" data-wp-bind--href="context.listUrl"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></a>
-						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php esc_html_e( 'Create task', 'wb-todo' ); ?></button>
+						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php echo esc_html( sprintf( /* translators: %s: singular todo label. */ __( 'Create %s', 'wb-todo' ), $label_singular ) ); ?></button>
 					</div>
 				</form>
 			</div>
