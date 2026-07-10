@@ -327,6 +327,40 @@
 .bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
 .bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
 
+/* "Details" toggle - reveals the task's description inline. */
+.bptodo-wrapper button.bptodo-item__more {
+	padding: 0;
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var( --bpt-accent );
+	background: transparent;
+	border: 0;
+	cursor: pointer;
+}
+
+.bptodo-wrapper button.bptodo-item__more::after {
+	content: " \25be"; /* caret down */
+	display: inline-block;
+	transition: transform 0.12s ease;
+}
+
+.bptodo-wrapper button.bptodo-item__more.is-open::after {
+	transform: rotate( 180deg );
+}
+
+.bptodo-item__note {
+	margin: 6px 0 0;
+	padding: 8px 12px;
+	font-size: 0.86rem;
+	line-height: 1.5;
+	color: var( --bpt-muted );
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	background: var( --bpt-surface-2 );
+	border-radius: 8px;
+}
+
 /*
  * Row actions. Kept subtle but always present (touch devices have no hover),
  * and de-emphasised until the row is hovered/focused on pointer devices.
@@ -438,6 +472,17 @@
 .bptodo-item__edit .bptodo-select:focus-visible {
 	outline: 2px solid var( --bpt-accent );
 	outline-offset: 1px;
+}
+
+/* Title + details span the full width of the inline edit row. */
+.bptodo-item__edit .bptodo-item__editfull {
+	flex: 1 1 100%;
+}
+
+.bptodo-item__edit textarea.bptodo-item__editfull {
+	resize: vertical;
+	min-height: 52px;
+	line-height: 1.5;
 }
 
 /* Buttons */

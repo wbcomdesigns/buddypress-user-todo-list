@@ -347,7 +347,9 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 									<span class="bptodo-item__sub">
 										<span class="bptodo-item__prio" data-wp-text="context.todo.priority_label"></span>
 										<span class="bptodo-item__due" data-wp-bind--data-due="context.todo.due_human.state" data-wp-text="context.todo.due_human.text"></span>
+										<button type="button" class="bptodo-item__more" data-wp-bind--hidden="!context.todo.description" data-wp-on--click="actions.toggleDetails" data-wp-bind--aria-expanded="context.todo.detailsOpen" data-wp-class--is-open="context.todo.detailsOpen"><?php esc_html_e( 'Details', 'wb-todo' ); ?></button>
 									</span>
+									<p class="bptodo-item__note" data-wp-bind--hidden="!context.todo.detailsOpen" data-wp-text="context.todo.description"></p>
 								</span>
 								<span class="bptodo-item__act">
 									<button type="button" class="bptodo-iconbtn" data-wp-on--click="actions.startEdit" data-wp-bind--hidden="!state.showEditBtn"><?php esc_html_e( 'Edit', 'wb-todo' ); ?></button>
@@ -360,7 +362,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 								</span>
 							</div>
 							<form class="bptodo-item__edit" data-wp-bind--hidden="!state.isEditing" data-wp-on--submit="actions.saveEdit">
-								<input type="text" class="bptodo-input" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'wb-todo' ); ?>" />
+								<input type="text" class="bptodo-input bptodo-item__editfull" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'wb-todo' ); ?>" />
+								<textarea class="bptodo-input bptodo-textarea bptodo-item__editfull" rows="2" placeholder="<?php esc_attr_e( 'Details (optional)', 'wb-todo' ); ?>" data-wp-bind--value="context.todo.editDesc" data-wp-on--input="actions.setEditDesc" aria-label="<?php esc_attr_e( 'Edit details', 'wb-todo' ); ?>"></textarea>
 								<select class="bptodo-select" data-wp-bind--value="context.todo.editPriority" data-wp-on--change="actions.setEditPriority" aria-label="<?php esc_attr_e( 'Edit priority', 'wb-todo' ); ?>">
 									<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
 									<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>

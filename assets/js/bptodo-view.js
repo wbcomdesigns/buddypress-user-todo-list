@@ -118,6 +118,12 @@ const { state, actions } = store( 'bptodo', {
 			getContext().todo.confirming = false;
 		},
 
+		// Expand/collapse a todo's details (description) inline in the list.
+		toggleDetails() {
+			const todo = getContext().todo;
+			todo.detailsOpen = ! todo.detailsOpen;
+		},
+
 		*confirmDelete() {
 			const ctx = getContext();
 			const todo = ctx.todo;
@@ -135,10 +141,11 @@ const { state, actions } = store( 'bptodo', {
 			} catch ( err ) {}
 		},
 
-		// Inline edit (title + priority) via PATCH.
+		// Inline edit (title + details + priority + due) via PATCH.
 		startEdit() {
 			const todo = getContext().todo;
 			todo.editTitle = todo.title;
+			todo.editDesc = todo.description || '';
 			todo.editPriority = todo.priority;
 			todo.editDue = todo.due_date || '';
 			todo.editing = true;
@@ -150,6 +157,10 @@ const { state, actions } = store( 'bptodo', {
 
 		setEditTitle( event ) {
 			getContext().todo.editTitle = event.target.value;
+		},
+
+		setEditDesc( event ) {
+			getContext().todo.editDesc = event.target.value;
 		},
 
 		setEditPriority( event ) {
@@ -170,10 +181,12 @@ const { state, actions } = store( 'bptodo', {
 			try {
 				const updated = yield bptodoApi( `/todos/${ todo.id }`, 'PATCH', {
 					title,
+					description: todo.editDesc || '',
 					priority: todo.editPriority,
 					due_date: todo.editDue || '',
 				} );
 				todo.title = updated.title;
+				todo.description = updated.description;
 				todo.priority = updated.priority;
 				todo.priority_label = updated.priority_label;
 				todo.due_date = updated.due_date;
