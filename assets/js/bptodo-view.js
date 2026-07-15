@@ -102,10 +102,12 @@ const { state, actions } = store( 'bptodo', {
 			try {
 				yield bptodoApi( `/todos/${ todo.id }/complete`, makeComplete ? 'POST' : 'DELETE' );
 				yield actions.refreshStats();
+				notify( 'success', makeComplete ? state.i18n.completed : state.i18n.reopened );
 			} catch ( err ) {
 				// Roll back on failure.
 				todo.is_complete = ! makeComplete;
 				todo.status = makeComplete ? 'incomplete' : 'complete';
+				notify( 'error', state.i18n.error );
 			}
 		},
 
@@ -138,7 +140,10 @@ const { state, actions } = store( 'bptodo', {
 					ctx.page -= 1;
 					yield actions.reload();
 				}
-			} catch ( err ) {}
+				notify( 'success', state.i18n.deleted );
+			} catch ( err ) {
+				notify( 'error', state.i18n.error );
+			}
 		},
 
 		// Inline edit (title + details + priority + due) via PATCH.
@@ -192,7 +197,10 @@ const { state, actions } = store( 'bptodo', {
 				todo.due_date = updated.due_date;
 				todo.due_human = updated.due_human;
 				todo.editing = false;
-			} catch ( err ) {}
+				notify( 'success', state.i18n.updated );
+			} catch ( err ) {
+				notify( 'error', state.i18n.error );
+			}
 		},
 
 		*quickAdd( event ) {
@@ -208,7 +216,10 @@ const { state, actions } = store( 'bptodo', {
 				ctx.draftTitle = '';
 				ctx.page = 1;
 				yield actions.reload();
-			} catch ( err ) {}
+				notify( 'success', state.i18n.added );
+			} catch ( err ) {
+				notify( 'error', state.i18n.error );
+			}
 		},
 
 		// Full add form (the Add page).
@@ -269,8 +280,10 @@ const { state, actions } = store( 'bptodo', {
 				ctx.fNewCat = '';
 				ctx.addingCat = false;
 				ctx.formError = '';
+				notify( 'success', state.i18n.categoryAdded );
 			} catch ( err ) {
 				ctx.formError = state.i18n.error;
+				notify( 'error', state.i18n.error );
 			}
 		},
 
@@ -318,10 +331,13 @@ const { state, actions } = store( 'bptodo', {
 			}
 			try {
 				yield bptodoApi( base, 'POST', payload );
+				// Success navigates away to the list, so no toast here (it would
+				// unmount before paint); the destination list shows the row.
 				window.location.href = ctx.listUrl || window.location.href;
 			} catch ( err ) {
 				ctx.submitting = false;
 				ctx.formError = state.i18n.error;
+				notify( 'error', state.i18n.error );
 			}
 		},
 
@@ -372,6 +388,27 @@ const { state, actions } = store( 'bptodo', {
 		},
 	},
 } );
+
+/**
+ * Surface a toast for a completed (or failed) action.
+ *
+ * The toast system lives in the global BPTodo.toast (bptodo-modern.js) which is
+ * enqueued alongside this module. This module is a buildless ES module, so we
+ * reach it via the window global and guard defensively in case it is absent.
+ *
+ * @param {string} type 'success' | 'error'.
+ * @param {string} msg  Message to display.
+ * @return {void}
+ */
+function notify( type, msg ) {
+	if ( ! msg ) {
+		return;
+	}
+	const toast = window.BPTodo && window.BPTodo.toast;
+	if ( toast && typeof toast[ type ] === 'function' ) {
+		toast[ type ]( msg );
+	}
+}
 
 /**
  * Minimal REST helper bound to the plugin namespace + REST nonce.

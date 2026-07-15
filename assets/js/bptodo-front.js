@@ -948,7 +948,13 @@ jQuery(document).ready(function($) {
   }
 
   /**
-   * Search and Filter functionality for shortcode todo list
+   * Search and Filter functionality for the legacy todo list layout.
+   *
+   * Runs on all three legacy surfaces: the [bptodo_list] shortcode
+   * (.bptodo-cards--shortcode) and the member/group Task tabs
+   * (.bptodo-list--grid). The two templates use slightly different card
+   * markup and different "All" option values, so the selectors below are
+   * intentionally broad and the reset uses selectedIndex (see clear handler).
    */
   function initSearchFilter() {
     var $searchInput = $('#bptodo-search-input');
@@ -956,7 +962,11 @@ jQuery(document).ready(function($) {
     var $priorityFilter = $('#bptodo-filter-priority');
     var $categoryFilter = $('#bptodo-filter-category');
     var $clearBtn = $('#bptodo-clear-filters');
-    var $cards = $('.bptodo-cards--shortcode .bptodo-card');
+    // Match cards in BOTH the shortcode grid and the member/group grid. The
+    // old '.bptodo-cards--shortcode .bptodo-card' selector was empty on
+    // member/group pages, which broke search + every filter there.
+    var $cardsContainer = $('.bptodo-cards--shortcode, .bptodo-list--grid');
+    var $cards = $cardsContainer.find('.bptodo-card').not('.bptodo-card--form, .bptodo-card--skeleton');
     var $resultsCount = $('#bptodo-results-count');
     var searchTimeout;
 
@@ -982,13 +992,27 @@ jQuery(document).ready(function($) {
         $clearBtn.hide();
       }
 
-      $cards.each(function() {
+      // The member/group layouts split todos across "All"/"Completed" tab
+      // panels; only the active (non-[hidden]) panel should be filtered so the
+      // count is accurate and cards in the other tab aren't faded out. The
+      // shortcode has no tab panels, so all cards count as active there.
+      var $scopedCards = $cards.filter(function() {
+        var $panel = $(this).closest('.bptodo-tab-panel');
+        return 0 === $panel.length || ! $panel.prop('hidden');
+      });
+
+      $scopedCards.each(function() {
         var $card = $(this);
         var title = $card.find('.bptodo-card__title').text().toLowerCase();
-        var content = $card.find('.bptodo-card__content').text().toLowerCase();
+        // Description lives in .bptodo-card__description on both templates
+        // (shortcode wraps it in .bptodo-card__body, member/group in
+        // .bptodo-card__content), so target the description directly.
+        var content = $card.find('.bptodo-card__description, .bptodo-card__content').text().toLowerCase();
         var isComplete = $card.hasClass('bptodo-card--completed');
         var priority = '';
-        var category = $card.find('.bptodo-badge--category').text().toLowerCase().trim();
+        // Category badge: .bptodo-card__category (shortcode) or
+        // .bptodo-badge--category (member/group shared card partial).
+        var category = $card.find('.bptodo-badge--category, .bptodo-card__category').text().toLowerCase().trim();
 
         // Get priority from class
         if ($card.hasClass('bptodo-card--priority-critical') || $card.hasClass('bptodo-priority--critical')) {
@@ -1015,7 +1039,7 @@ jQuery(document).ready(function($) {
       });
 
       // Update results count
-      var totalCount = $cards.length;
+      var totalCount = $scopedCards.length;
       var countText = visibleCount + ' of ' + totalCount + ' items';
       if (hasActiveFilters) {
         countText = 'Showing ' + countText + ' (filtered)';
@@ -1035,7 +1059,11 @@ jQuery(document).ready(function($) {
               '<div class="bptodo-no-results__title">' + (window.todo_ajax_object && window.todo_ajax_object.no_results_text ? window.todo_ajax_object.no_results_text : 'No matching todos found') + '</div>' +
               '<p>Try adjusting your search or filters</p>' +
               '</div>';
-            $('.bptodo-cards--shortcode').after(noResultsHtml);
+            // Insert after the actual cards container (member/group pages have
+            // no .bptodo-cards--shortcode), then re-query so .show() below acts
+            // on the real element instead of a stale empty set.
+            $cardsContainer.last().after(noResultsHtml);
+            $noResults = $('.bptodo-no-results');
           }
           $noResults.show();
         } else {
@@ -1057,13 +1085,20 @@ jQuery(document).ready(function($) {
       $categoryFilter.on('change', filterTodos);
     }
 
-    // Clear filters button
+    // Clear filters button. Reset each select to its FIRST option (the "All"
+    // choice) via selectedIndex rather than a hard-coded value: the shortcode
+    // template uses value="all" while member/group use value="", so neither
+    // .val('all') nor .val('') resets both without blanking the other.
     $clearBtn.on('click', function() {
       $searchInput.val('');
-      $statusFilter.val('all');
-      $priorityFilter.val('all');
+      if ($statusFilter.length) {
+        $statusFilter.prop('selectedIndex', 0);
+      }
+      if ($priorityFilter.length) {
+        $priorityFilter.prop('selectedIndex', 0);
+      }
       if ($categoryFilter.length) {
-        $categoryFilter.val('');
+        $categoryFilter.prop('selectedIndex', 0);
       }
       filterTodos();
     });
