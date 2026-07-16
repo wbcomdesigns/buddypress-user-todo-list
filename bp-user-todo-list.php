@@ -1,11 +1,13 @@
 <?php
 /**
  * Plugin Name: Todo for BuddyPress & BuddyBoss
- * Plugin URI: https://wbcomdesigns.com/contact/
+ * Plugin URI: https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/
  * Description: Personal and team todo lists for WordPress. Works standalone, and adds a member profile tab plus group todos when BuddyPress or BuddyBoss is active.
  * Version: 4.0.0
  * Author: Wbcom Designs
- * Author URI: http://wbcomdesigns.com
+ * Author URI: https://wbcomdesigns.com
+ * Requires at least: 6.5
+ * Requires PHP: 7.4
  * License: GPLv2+
  * Text Domain: wb-todo
  *

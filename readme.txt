@@ -17,7 +17,7 @@ A modern to-do and task manager for WordPress. Every logged-in user gets a priva
 
 **Todo for BuddyPress & BuddyBoss** is a task manager for any WordPress site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list: add, complete, edit, filter, search and paginate, all through a fast no-reload interface built on the WordPress Interactivity API and REST.
 
-BuddyPress or BuddyBoss is completely optional. When either is active, the plugin also adds a To-do tab on member profiles and group to-dos with member assignment and progress reporting. When neither is active, everything else still works as a standalone personal task app.
+On a single site, BuddyPress or BuddyBoss is optional. When either is active, the plugin also adds a To-do tab on member profiles and group to-dos with member assignment and progress reporting. When neither is active, the personal task list still works as a standalone app. Email reminders, data retention and multisite all need BuddyPress or BuddyBoss active.
 
 = What you get =
 
@@ -32,7 +32,8 @@ BuddyPress or BuddyBoss is completely optional. When either is active, the plugi
 **Categories, priorities and reminders**
 * Organize tasks with custom categories; optionally let members create their own.
 * Priority levels (Critical, High, Normal) with clear visual indicators.
-* Due dates with optional email reminders, and an optional "require a due date" rule.
+* Due dates, and an optional "require a due date" rule.
+* Email reminders before a task is due (these use the BuddyPress email system, so they need BuddyPress or BuddyBoss active).
 
 **With BuddyPress or BuddyBoss (optional)**
 * A To-do tab on every member profile.
@@ -47,11 +48,12 @@ BuddyPress or BuddyBoss is completely optional. When either is active, the plugi
 * Switching layout never changes your data.
 
 **Automated data retention**
-* Optional cleanup of old completed tasks on a schedule, with configurable retention periods and trash-or-delete.
+* Optional cleanup of old completed tasks on a schedule, with configurable retention periods and trash-or-delete. Requires BuddyPress or BuddyBoss active.
 
 **Developer-friendly**
 * REST API (bptodo/v1) for todos, completion, stats, categories and group todos.
 * "My Todos" and "Group Todos" dynamic blocks.
+* WP-CLI commands to seed demo tasks and run cleanup.
 * A single domain layer (repository + permissions) shared by the REST API, blocks and the classic UI.
 * Action and filter hooks, translation ready with a POT file, and RTL support.
 
@@ -68,35 +70,27 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 
 = Documentation =
 
-Comprehensive guides included in the plugin directory:
-
-* **USER-GUIDE.md** - Complete walkthrough of all features, settings, and usage instructions
-* **DEVELOPER-GUIDE.md** - Technical documentation with hooks, filters, database structure, and code examples
-
-= Live Demo =
-
-See the plugin in action before installing. Visit our demo site to explore all features with sample data.
+* **[Documentation and Support](https://docs.wbcomdesigns.com/)** - Setup walkthrough, settings reference, and usage guides
+* The Settings > Shortcodes tab documents every shortcode and parameter inside the plugin itself
 
 = Translations =
 
 * English (default)
-* French - Credits to Jean Pierre Michaud
 * Ready for translation in your language with included POT file
 * RTL language support included
 
 = Links =
 
-* [Plugin Homepage](https://wbcomdesigns.com/downloads/buddypress-user-todo-list/)
-* [Live Demo](https://demos.wbcomdesigns.com/wbcomplugins/)
-* [Documentation & Support](https://wbcomdesigns.com/helpdesk/article-categories/bp-user-todo-list/)
-* [GitHub Repository](https://github.com/wbcomdesigns/buddypress-user-todo-list/)
+* [Plugin Homepage](https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/)
+* [Documentation](https://docs.wbcomdesigns.com/)
+* [Support](https://wbcomdesigns.com/support/)
 * [Request Features](https://wbcomdesigns.com/contact/)
 
 = Compatibility =
 
 * WordPress 6.5 and higher
 * PHP 7.4 and higher (8.0+ recommended)
-* BuddyPress 12.0+ or BuddyBoss Platform - optional, for profile tabs and group to-dos
+* BuddyPress 12.0+ or BuddyBoss Platform - optional on a single site, for profile tabs, group to-dos, email reminders and data retention. Required on multisite.
 * Works with the block editor and classic editor
 * Tested with popular themes including BuddyX, Reign and Youzify
 
@@ -127,7 +121,7 @@ Task lists keep your members and teams organized, but a productive community nee
 3. Search for "Todo for BuddyPress"
 4. Click "Install Now" on the Todo for BuddyPress & BuddyBoss plugin
 5. After installation, click "Activate"
-6. Go to User Todo List > Settings to configure the plugin
+6. Go to WB Plugins > Todo Lists to configure the plugin
 7. Customize labels, permissions, and notification settings
 8. Add the "My Todos" block or the [bptodo_list] shortcode to a page so users can manage their tasks. With BuddyPress or BuddyBoss active, a To-do tab also appears on member profiles automatically
 
@@ -138,31 +132,33 @@ Task lists keep your members and teams organized, but a productive community nee
 3. Navigate to Plugins > Add New > Upload Plugin
 4. Choose the downloaded ZIP file and click "Install Now"
 5. After installation, click "Activate Plugin"
-6. Configure settings at User Todo List > Settings
+6. Configure settings at WB Plugins > Todo Lists
 
 = Post-Installation Setup =
 
 After activating the plugin, we recommend:
 
-1. Visit **User Todo List > Settings > General Settings** to customize todo labels
+1. Visit **WB Plugins > Todo Lists > General** to customize todo labels
 2. Enable or disable email notifications based on your community needs
-3. Configure group settings if you want to enable group task management
-4. Create initial categories at **User Todo List > Add New Category**
-5. Test the functionality by creating a personal todo from your profile
-6. Review the USER-GUIDE.md file included in the plugin directory for detailed instructions
+3. Configure group settings under the **Group Todo** tab if you want group task management
+4. Create initial categories at **Todo Items > Categories**
+5. Add the "My Todos" block or the [bptodo_list] shortcode to a page, then test by creating a task
+6. See the [documentation](https://docs.wbcomdesigns.com/) for detailed instructions
 
 = Requirements =
 
 * WordPress 6.5 or higher
 * PHP 7.4 or higher
 * MySQL 5.7 or higher (8.0+ recommended)
-* BuddyPress 12.0+ or BuddyBoss Platform - optional, only needed for profile tabs and group to-dos
+* BuddyPress 12.0+ or BuddyBoss Platform - optional on single sites, and needed for profile tabs, group to-dos, email reminders and data retention. Required on multisite.
 
 == Frequently Asked Questions ==
 
 = Is BuddyPress required for this plugin? =
 
-No. The plugin works on any WordPress site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list. BuddyPress and BuddyBoss are optional: when either is active, the plugin also adds a To-do tab on member profiles and group to-dos.
+Not on a single site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list. BuddyPress and BuddyBoss are optional: when either is active, the plugin also adds a To-do tab on member profiles and group to-dos.
+
+Two things to know. On a WordPress multisite network, BuddyPress is still required (see the multisite question below). And email reminders and automated data retention both run through BuddyPress, so they need BuddyPress or BuddyBoss active even on a single site.
 
 = How do I use it without BuddyPress? =
 
@@ -182,11 +178,11 @@ When a group admin or moderator creates a group todo, they can assign it to all 
 
 = Can I customize the "Todo" label? =
 
-Yes! Navigate to User Todo List > Settings > General Settings. You can customize both the singular label (e.g., "Task") and plural label (e.g., "Tasks"), as well as the URL slug for the todo section.
+Yes. Navigate to WB Plugins > Todo Lists > General. You can customize both the singular label (e.g., "Task") and plural label (e.g., "Tasks"), as well as the URL slug for the todo section.
 
 = How do email notifications work? =
 
-The plugin uses BuddyPress's native email system. Members receive automatic reminders before their tasks are due. Members can control their own notification preferences from their profile settings, and site admins can customize email templates from Settings > BuddyPress > Emails.
+The plugin uses BuddyPress's native email system, so email reminders need BuddyPress or BuddyBoss active. Members receive automatic reminders before their tasks are due. Members can control their own notification preferences from their profile settings, and site admins can customize email templates from Settings > BuddyPress > Emails.
 
 = Can members create their own categories? =
 
@@ -194,7 +190,7 @@ This is configurable by site admins. In the General Settings, you can choose to 
 
 = Will old completed tasks slow down my database? =
 
-No! The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. This keeps your database optimized.
+The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. It runs on a scheduled job and needs BuddyPress or BuddyBoss active. You can also run it on demand with WP-CLI: wp bptodo cleanup.
 
 = Can site admins view all group todos? =
 
@@ -202,11 +198,11 @@ Yes! Site administrators have read-only access to all group tasks, even in group
 
 = Does this plugin work with multisite? =
 
-Yes, the plugin supports WordPress multisite installations. You can activate it network-wide or on individual sites within your network.
+Yes, with one condition: on a multisite network BuddyPress is required, unlike on a single site where it is optional. Activate BuddyPress network-wide, or on the site set as BP_ROOT_BLOG, and then activate this plugin there. If BuddyPress is not available on a site in the network, the plugin deactivates itself and explains why.
 
 = Can I display todos on other pages? =
 
-Yes. Add the "My Todos" block in the block editor, or use the [bptodo_list] shortcode on any page or post. Add show_add="yes" to include the quick-add field, and filter with attributes like [bptodo_list category="work" priority="high"]. The Settings > Shortcodes tab lists every parameter.
+Yes. Add the "My Todos" block in the block editor, or use the [bptodo_list] shortcode on any page or post. Add show_add="yes" to include the quick-add field, and filter with attributes like [bptodo_list category="work" priority="high"]. There is also a [bptodo_by_category category="work"] shortcode for a single category, and a "Group Todos" block. The Settings > Shortcodes tab lists every parameter.
 
 = Is the plugin translation ready? =
 
@@ -215,14 +211,13 @@ Yes! The plugin is fully translation ready with an included POT file. It also in
 = Where can I get support? =
 
 We offer comprehensive support through multiple channels:
-* [Support Portal](https://wbcomdesigns.com/helpdesk/article-categories/bp-user-todo-list/) - Submit tickets and browse knowledge base
-* [Documentation](https://wbcomdesigns.com/downloads/buddypress-user-todo-list/) - Detailed guides and tutorials
-* [GitHub](https://github.com/wbcomdesigns/buddypress-user-todo-list/) - Report bugs and request features
-* USER-GUIDE.md and DEVELOPER-GUIDE.md files included in the plugin directory
+* [Documentation](https://docs.wbcomdesigns.com/) - Free guides for every Wbcom plugin
+* [Support](https://wbcomdesigns.com/support/) - Get help from our team
+* [Contact us](https://wbcomdesigns.com/contact/) - Report bugs and request features
 
 = Can I customize the plugin? =
 
-Yes! The plugin includes 15+ action hooks and 10+ filter hooks for developers to extend functionality. Complete documentation is provided in the DEVELOPER-GUIDE.md file. You can also override templates by copying them to your theme's buddypress/todo/ directory.
+Yes. The plugin fires a broad set of action and filter hooks for developers, and ships a REST API (bptodo/v1) plus a shared domain layer you can build against. Classic-layout templates can be overridden by copying them into a todo/ directory in your theme.
 
 = Will this work with my theme? =
 
@@ -279,7 +274,7 @@ Major release: a modern, block-first, REST-backed to-do experience that works on
 * Fix      - Member list filters and search no longer clear the whole list when applied.
 * Fix      - Fixed a PHP 8 fatal error in the list loading placeholder.
 * Security - Added an explicit capability check to the General settings save handler.
-* Dev      - Added admin/demo-tasks.json so the wp bptodo generate command creates varied demo data.
+* Dev      - Added admin/demo-tasks.json so the wp bptodo generate member-todos command creates varied sample data.
 
 = 3.5.1 =
 * Improvement: Enhanced task selector UI for better user experience
