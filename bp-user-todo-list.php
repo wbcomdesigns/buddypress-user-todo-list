@@ -21,16 +21,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Load plugin textdomain.
  */
-add_action( 'plugins_loaded', 'bptodo_load_textdomain' );
+// init, not plugins_loaded: loading a text domain before init triggers
+// _load_textdomain_just_in_time on WordPress 6.7+.
+add_action( 'init', 'bptodo_load_textdomain' );
 function bptodo_load_textdomain() {
-    $domain = 'wb-todo';
-    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-    // Try to load from wp-content/languages/plugins first (for WordPress.org translations)
-    load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $domain . '-' . $locale . '.mo' );
-
-    // Then load from plugin's languages folder as fallback
-    load_plugin_textdomain( $domain, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+    // load_plugin_textdomain() already checks wp-content/languages/plugins first
+    // (the WordPress.org language pack) and falls back to the bundled file, so
+    // both paths work from this one call.
+    load_plugin_textdomain( 'wb-todo', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 // Constants used in the plugin.

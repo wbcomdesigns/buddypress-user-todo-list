@@ -178,10 +178,10 @@ class Bptodo_List {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Bptodo_List_I18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		// The text domain is loaded by bptodo_load_textdomain() on init in the main
+		// plugin file. Bptodo_List_I18n was unedited boilerplate that loaded the
+		// domain "plugin-name", which no string in this plugin uses, and it ran on
+		// plugins_loaded (too early for WordPress 6.7+). Nothing to wire here.
 	}
 
 	/**
