@@ -48,8 +48,24 @@ module.exports = function ( grunt ) {
 					options: {
 						cwd: '.', // Directory of files to internationalize.
 						domainPath: 'languages/', // Where to save the POT file.
-						exclude: [ 'node_modules/*', 'options/framework/*' ], // List of files or directories to ignore.
-						mainFile: 'index.php', // Main project file.
+						// Third-party libraries carry no translatable strings, and the
+						// unminified DataTables source is large enough to exhaust the PHP
+						// parser's memory limit - which fails the build rather than just
+						// wasting time. Keep every vendored lib listed here.
+						exclude: [
+							'node_modules/*',
+							'options/framework/*',
+							'assets/js/datatables.js',
+							'assets/js/datatables.min.js',
+							'assets/js/select2.full.min.js',
+							'assets/js/tempust.js',
+							'assets/css/datatables.css',
+							'assets/css/datatables.min.css',
+							'assets/css/select2.css',
+							'assets/css/select2.min.css',
+							'assets/css/jquery-ui.css'
+						], // List of files or directories to ignore.
+						mainFile: 'bp-user-todo-list.php', // Main project file.
 						potFilename: 'wb-todo.pot', // Name of the POT file.
 						potHeaders: { // Headers to add to the generated POT file.
 							poedit: true, // Includes common Poedit headers.
@@ -204,9 +220,17 @@ module.exports = function ( grunt ) {
 	);
 
 	// register tasks
-	grunt.registerTask( 'default', [ 'checktextdomain', 'makepot' ] );
-	grunt.registerTask( 'build', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss' ] );
+	// NOTE: build and release deliberately do NOT run makepot.
+	//
+	// The shipped POT is generated with `wp i18n make-pot` (see .wbcom-i18n.json
+	// and the rest of the free series, which all do the same). grunt-wp-i18n finds
+	// 49 fewer strings than wp-cli on this plugin - it misses the admin panel, the
+	// settings views and every Discover description - so letting it run here would
+	// silently replace a complete POT with an incomplete one, and those strings
+	// would never reach a translator. The `makepot` target is kept for manual use.
+	grunt.registerTask( 'default', [ 'checktextdomain' ] );
+	grunt.registerTask( 'build', [ 'checktextdomain', 'uglify', 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'css', [ 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'js', [ 'uglify' ] );
-	grunt.registerTask( 'release', [ 'checktextdomain', 'makepot', 'uglify', 'cssmin', 'rtlcss', 'clean:dist', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
+	grunt.registerTask( 'release', [ 'checktextdomain', 'uglify', 'cssmin', 'rtlcss', 'clean:dist', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
 };
