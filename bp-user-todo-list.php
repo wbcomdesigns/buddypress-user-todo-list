@@ -7,7 +7,7 @@
  * Author: Wbcom Designs
  * Author URI: https://wbcomdesigns.com
  * Requires at least: 6.5
- * Requires PHP: 7.4
+ * Requires PHP: 8.0
  * License: GPLv2+
  * Text Domain: wb-todo
  * Domain Path: /languages
@@ -272,7 +272,7 @@ function bptodo_is_bp_active() {
  * profile layers must stay out of the way there. Personal todos are unaffected: they
  * are plain CPT posts and work on every site.
  *
- * @since 4.0.1
+ * @since 4.0.0
  * @return bool
  */
 function bptodo_is_bp_root_blog() {
@@ -296,7 +296,7 @@ function bptodo_is_bp_root_blog() {
  *
  * Needs BuddyPress/BuddyBoss active AND a blog where BuddyPress serves its screens.
  *
- * @since 4.0.1
+ * @since 4.0.0
  * @return bool
  */
 function bptodo_bp_features_available() {
@@ -346,7 +346,7 @@ function bptodo_enqueue_block_editor_styles() {
  * - it only explains, via a dismissible notice, when the group/profile layer is not
  * available here so the site owner is not left wondering where those tabs went.
  *
- * Before 4.0.1 the multisite branch self-deactivated the plugin whenever BuddyPress was
+ * Before 4.0.0 the multisite branch self-deactivated the plugin whenever BuddyPress was
  * not network-active, or the current blog was not BP_ROOT_BLOG. That killed personal
  * todos on every subsite of every multisite network, which contradicts standalone mode.
  */
@@ -466,7 +466,7 @@ bptodo_run();
  *
  * This is NOT a BuddyPress feature: it is a scheduled cleanup of old `bp-todo` posts
  * driven by the `data-retention-settings` option, and it contains no BuddyPress calls.
- * Until 4.0.1 it was loaded behind the same bp_is_active() gate as the email
+ * Until 4.0.0 it was loaded behind the same bp_is_active() gate as the email
  * integration, so standalone sites got no cleanup cron at all even though the setting
  * was visible and saveable in the admin. It must load on every request so the cron job
  * stays scheduled (the class self-registers on include).

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Todo for BuddyPress & BuddyBoss 4.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/buddypress-user-todo-list\n"
-"POT-Creation-Date: 2026-07-16T13:55:56+00:00\n"
+"POT-Creation-Date: 2026-07-17T10:20:38+00:00\n"
 "PO-Revision-Date: 2026-07-16T11:32:30+00:00\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,8 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: bp-user-todo-list.php admin/class-bptodo-feedback.php:269
-#: bp-user-todo-list.php:352 bp-user-todo-list.php:365
-#: bp-user-todo-list.php:378 bp-user-todo-list.php:390
+#: bp-user-todo-list.php:383 bp-user-todo-list.php:395
 #: includes/admin/class-bptodo-admin-panel.php:126
 #: includes/admin/views/shell.php:32
 #. Plugin Name of the plugin
@@ -51,122 +50,122 @@ msgstr "Wbcom Designs"
 msgid "https://wbcomdesigns.com"
 msgstr "https://wbcomdesigns.com"
 
-#: admin/class-bptodo-admin.php:134
+#: admin/class-bptodo-admin.php:140
 #. translators: %1$s
 #, php-format
 msgid "My %1$s"
 msgstr "I miei %1$s"
 
-#: admin/class-bptodo-admin.php:135
+#: admin/class-bptodo-admin.php:141
 #: includes/domain/class-bptodo-categories.php:80
 msgid "Category name is required."
 msgstr "Il nome della categoria è obbligatorio."
 
-#: admin/class-bptodo-admin.php:136
+#: admin/class-bptodo-admin.php:142
 msgid "Undo Complete"
 msgstr "Annulla il completamento"
 
-#: admin/class-bptodo-admin.php:137
+#: admin/class-bptodo-admin.php:143
 #: includes/render/class-bptodo-renderer.php:139
 msgid "Are you sure you want to delete this task?"
 msgstr "Sei sicuro che vuoi eliminare questa attività?"
 
-#: admin/class-bptodo-admin.php:139
+#: admin/class-bptodo-admin.php:145
 msgid "Saving..."
 msgstr "Salvataggio in corso..."
 
-#: admin/class-bptodo-admin.php:140
+#: admin/class-bptodo-admin.php:146
 msgid "Task updated successfully!"
 msgstr "Attività aggiornata con successo!"
 
-#: admin/class-bptodo-admin.php:141
+#: admin/class-bptodo-admin.php:147
 msgid "Task completed!"
 msgstr "Attività completata!"
 
-#: admin/class-bptodo-admin.php:142
+#: admin/class-bptodo-admin.php:148
 msgid "Task deleted successfully."
 msgstr "Attività eliminata con successo."
 
-#: admin/class-bptodo-admin.php:143
+#: admin/class-bptodo-admin.php:149
 #: includes/render/class-bptodo-renderer.php:143
 msgid "Task marked incomplete."
 msgstr "Attività contrassegnata come incompleta."
 
-#: admin/class-bptodo-admin.php:144
+#: admin/class-bptodo-admin.php:150
 #: includes/render/class-bptodo-renderer.php:141
 msgid "Something went wrong. Please try again."
 msgstr "Qualcosa è andato storto. Per favore riprova."
 
-#: admin/class-bptodo-admin.php:146
+#: admin/class-bptodo-admin.php:152
 msgid "Could not update the task. Please try again."
 msgstr "Non è stato possibile aggiornare l'attività. Riprova."
 
-#: admin/class-bptodo-admin.php:147
+#: admin/class-bptodo-admin.php:153
 msgid "Could not delete the task. Please try again."
 msgstr "Non è stato possibile eliminare l'attività. Riprova."
 
-#: admin/class-bptodo-admin.php:148
+#: admin/class-bptodo-admin.php:154
 msgid "Could not update the task status. Please try again."
 msgstr "Non è stato possibile aggiornare lo stato dell'attività. Riprova."
 
-#: admin/class-bptodo-admin.php:149
+#: admin/class-bptodo-admin.php:155
 msgid "Could not refresh the list. Please reload the page."
 msgstr "Impossibile aggiornare l'elenco. Ricarica la pagina."
 
-#: admin/class-bptodo-admin.php:150
+#: admin/class-bptodo-admin.php:156
 #: includes/render/class-bptodo-renderer.php:147
 msgid "Category added."
 msgstr "Categoria aggiunta."
 
-#: admin/class-bptodo-admin.php:151
+#: admin/class-bptodo-admin.php:157
 msgid "There is no data to export."
 msgstr "Non ci sono dati da esportare."
 
-#: admin/class-bptodo-admin.php:153 bp-user-todo-list.php:420
+#: admin/class-bptodo-admin.php:159 bp-user-todo-list.php:425
 msgid "Export"
 msgstr "Esporta"
 
-#: admin/class-bptodo-admin.php:154
+#: admin/class-bptodo-admin.php:160
 msgid "Export completed."
 msgstr "Esportazione completata."
 
-#: admin/class-bptodo-admin.php:155
+#: admin/class-bptodo-admin.php:161
 msgid "Export failed. Please try again."
 msgstr "Esportazione non riuscita. Riprova."
 
-#: admin/class-bptodo-admin.php:157
+#: admin/class-bptodo-admin.php:163
 msgid "No matching todos found"
 msgstr "Nessun Todo trovato"
 
-#: admin/class-bptodo-admin.php:158
+#: admin/class-bptodo-admin.php:164
 msgid "Try adjusting your search or filters"
 msgstr "Prova ad aggiustare la ricerca o i filtri"
 
-#: admin/class-bptodo-admin.php:160
+#: admin/class-bptodo-admin.php:166
 #. translators: %1$d: number of visible items. %2$d: total number of items.
 #, php-format
 msgid "%1$d of %2$d items"
 msgstr "%1$d di %2$d elementi"
 
-#: admin/class-bptodo-admin.php:162
+#: admin/class-bptodo-admin.php:168
 #. translators: %1$d: number of visible items after filtering. %2$d: total number of items.
 #, php-format
 msgid "Showing %1$d of %2$d items (filtered)"
 msgstr "Visualizzazione di %1$d di %2$d elementi (filtrati)"
 
-#: admin/class-bptodo-admin.php:181
+#: admin/class-bptodo-admin.php:186
 msgid "No data available in table"
 msgstr "Nessun dato disponibile nella tabella"
 
-#: admin/class-bptodo-admin.php:182
+#: admin/class-bptodo-admin.php:187
 msgid "First"
 msgstr "Prima"
 
-#: admin/class-bptodo-admin.php:183
+#: admin/class-bptodo-admin.php:188
 msgid "Last"
 msgstr "Ultima"
 
-#: admin/class-bptodo-admin.php:184
+#: admin/class-bptodo-admin.php:189
 #: includes/render/class-bptodo-renderer.php:432
 #: public/todo/bptodo-shortcode-template.php:439
 #: public/todo/bptodo-shortcode-template.php:446
@@ -175,7 +174,7 @@ msgstr "Ultima"
 msgid "Next"
 msgstr "Successivo"
 
-#: admin/class-bptodo-admin.php:185
+#: admin/class-bptodo-admin.php:190
 #: includes/render/class-bptodo-renderer.php:430
 #: public/todo/bptodo-shortcode-template.php:399
 #: public/todo/bptodo-shortcode-template.php:406
@@ -184,23 +183,23 @@ msgstr "Successivo"
 msgid "Previous"
 msgstr "Precedente"
 
-#: admin/class-bptodo-admin.php:186
+#: admin/class-bptodo-admin.php:191
 msgid "Search"
 msgstr "Cerca"
 
-#: admin/class-bptodo-admin.php:188
+#: admin/class-bptodo-admin.php:193
 #. translators: %s: Number of entries selector
 #, php-format
 msgid "Show %s entries"
 msgstr "Mostra %s voci"
 
-#: admin/class-bptodo-admin.php:190
+#: admin/class-bptodo-admin.php:195
 #. translators: 1: Start number, 2: End number, 3: Total entries
 #, php-format
 msgid "Showing %1$d to %2$d of %3$d entries"
 msgstr "Mostrando %1$d a %2$d di %3$d voci"
 
-#: admin/class-bptodo-admin.php:191
+#: admin/class-bptodo-admin.php:196
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Mostrando 0 a 0 di 0 voci"
 
@@ -435,37 +434,26 @@ msgstr "Per favore, accedi per visualizzare i To-do del gruppo."
 msgid "Please log in to view your todos."
 msgstr "Per favore, accedi per visualizzare i tuoi To-do."
 
-#: bp-user-todo-list.php:187 includes/admin/views/shell.php:69
+#: bp-user-todo-list.php:197 includes/admin/views/shell.php:69
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: bp-user-todo-list.php:188
+#: bp-user-todo-list.php:198
 msgid "Support"
 msgstr "Supporto"
 
-#: bp-user-todo-list.php:351
-#. Translators: %s.
-#, php-format
-msgid "%1$s is only active on the subsite defined by BP_ROOT_BLOG."
-msgstr "%1$s è attivo solo sul sottosito definito da BP_ROOT_BLOG."
-
-#: bp-user-todo-list.php:364
-#. Translators: %s.
-#, php-format
-msgid "%1$s can only be activated on the BuddyPress root blog."
-msgstr "%1$s può essere attivato solo sul blog root di BuddyPress."
-
-#: bp-user-todo-list.php:377
-#. Translators: %s.
+#: bp-user-todo-list.php:382
+#. Translators: %s: plugin name.
 #, php-format
 msgid ""
-"%1$s requires BuddyPress to be active on this subsite. The plugin has been "
-"deactivated."
+"%s: personal todo lists are active on this site. Group todos and the member "
+"profile tab are only available on the BuddyPress root blog."
 msgstr ""
-"%1$s richiede che BuddyPress sia attivo su questo sottosito. Il plugin è "
-"stato disattivato."
+"%s: gli elenchi di todo personali sono attivi su questo sito. I todo di "
+"gruppo e la scheda del profilo del membro sono disponibili solo sul blog "
+"principale di BuddyPress."
 
-#: bp-user-todo-list.php:392
+#: bp-user-todo-list.php:397
 #. Translators: %s: plugin name.
 #, php-format
 msgid ""
@@ -476,27 +464,27 @@ msgstr ""
 "BuddyPress o BuddyBoss Platform per abilitare anche i To-do di gruppo e la "
 "scheda del profilo del membro."
 
-#: bp-user-todo-list.php:561 bp-user-todo-list.php:582
+#: bp-user-todo-list.php:578 bp-user-todo-list.php:599
 msgid "Network Deactivate"
 msgstr "Disattiva in Rete"
 
-#: bp-user-todo-list.php:583
+#: bp-user-todo-list.php:600
 msgid "Are you sure you want to deactivate this plugin across all sites?"
 msgstr "Sei sicuro di voler disattivare questo plugin su tutti i siti?"
 
-#: bp-user-todo-list.php:584
+#: bp-user-todo-list.php:601
 msgid "There was an error with the request."
 msgstr "Si è verificato un errore con la richiesta."
 
-#: bp-user-todo-list.php:585
+#: bp-user-todo-list.php:602
 msgid "Error"
 msgstr "Errore"
 
-#: bp-user-todo-list.php:600
+#: bp-user-todo-list.php:617
 msgid "Insufficient permissions"
 msgstr "Permessi insufficienti"
 
-#: bp-user-todo-list.php:607
+#: bp-user-todo-list.php:624
 msgid "Plugin deactivated across all sites"
 msgstr "Plugin disattivato su tutti i siti"
 
@@ -581,10 +569,6 @@ msgstr "Annulla"
 msgid "Select user roles"
 msgstr "Seleziona i ruoli utente"
 
-#: includes/admin/views/discover.php:24
-msgid "BuddyX"
-msgstr "BuddyX"
-
 #: includes/admin/views/discover.php:27
 msgid ""
 "A free, fast community theme for BuddyPress, BuddyBoss and PeepSo with a "
@@ -592,10 +576,6 @@ msgid ""
 msgstr ""
 "Un tema di comunità gratuito e veloce per BuddyPress, BuddyBoss e PeepSo "
 "con un layout moderno e modalità scura."
-
-#: includes/admin/views/discover.php:31
-msgid "BuddyNext"
-msgstr "BuddyNext"
 
 #: includes/admin/views/discover.php:34
 msgid ""
@@ -605,10 +585,6 @@ msgstr ""
 "Lo stack completo della comunità: feed di attività, spazi dei membri, "
 "profili e messaggistica privata su WordPress."
 
-#: includes/admin/views/discover.php:38
-msgid "Jetonomy"
-msgstr "Jetonomy"
-
 #: includes/admin/views/discover.php:41
 msgid ""
 "Self-moderating forums and Q&A boards that stay fast well beyond 100,000 "
@@ -617,25 +593,13 @@ msgstr ""
 "Forum auto-moderati e bacheche di domande e risposte che rimangono veloci "
 "anche oltre 100.000 argomenti."
 
-#: includes/admin/views/discover.php:45
-msgid "Mediaverse"
-msgstr "Mediaverse"
-
 #: includes/admin/views/discover.php:48
 msgid "A photo and video hub with albums, reactions, following, and private chat."
 msgstr "Un hub di foto e video con album, reazioni, seguimento e chat privata."
 
-#: includes/admin/views/discover.php:52
-msgid "Eventonomy"
-msgstr "Eventonomy"
-
 #: includes/admin/views/discover.php:55
 msgid "Run community events with RSVPs, calendars, and front-end submissions."
 msgstr "Esegui eventi della comunità con RSVP, calendari e invii front-end."
-
-#: includes/admin/views/discover.php:59
-msgid "WB Gamification"
-msgstr "WB Gamification"
 
 #: includes/admin/views/discover.php:62
 msgid ""
@@ -645,10 +609,6 @@ msgstr ""
 "Ricompensa i membri con punti, badge e classifiche per mantenere alto "
 "l'impegno."
 
-#: includes/admin/views/discover.php:66
-msgid "Listora"
-msgstr "Listora"
-
 #: includes/admin/views/discover.php:69
 msgid ""
 "Searchable directories with ten listing types, ratings, maps, and front-end "
@@ -656,10 +616,6 @@ msgid ""
 msgstr ""
 "Directory ricercabili con dieci tipi di annunci, valutazioni, mappe e invii "
 "front-end."
-
-#: includes/admin/views/discover.php:73
-msgid "WP Career Board"
-msgstr "WP Career Board"
 
 #: includes/admin/views/discover.php:76
 msgid ""
@@ -669,10 +625,6 @@ msgstr ""
 "Aggiungi un pannello di lavoro con annunci front-end, candidature e profili "
 "dei datori di lavoro."
 
-#: includes/admin/views/discover.php:80
-msgid "Learnomy"
-msgstr "Learnomy"
-
 #: includes/admin/views/discover.php:83
 msgid ""
 "Create, sell, and auto-grade online courses, then hand out certificates "
@@ -681,27 +633,36 @@ msgstr ""
 "Crea, vendi e valuta automaticamente i corsi online, quindi distribuisci "
 "automaticamente i certificati."
 
-#: includes/admin/views/discover.php:93
+#: includes/admin/views/discover.php:90
+msgid ""
+"A free service marketplace with vendor dashboards, an 11-status order flow, "
+"and Stripe or PayPal built in."
+msgstr ""
+"Un marketplace di servizi gratuito con dashboard per i venditori, un flusso "
+"di ordini a 11 stati e Stripe o PayPal integrati."
+
+#: includes/admin/views/discover.php:100
 msgid "More Free Tools from Wbcom Designs"
 msgstr "Altri Strumenti Gratuiti da Wbcom Designs"
 
-#: includes/admin/views/discover.php:94
+#: includes/admin/views/discover.php:101
+#, fuzzy
 msgid ""
 "Todo Lists keeps your members and teams on task. These free tools from "
 "Wbcom Designs give you the rest of the community around it: the theme and "
-"network itself, forums, media, events, gamification, directories, jobs, and "
-"courses."
+"network itself, forums, media, events, gamification, directories, jobs, "
+"courses, and services."
 msgstr ""
-"Todo Lists mantiene i tuoi membri e team in pista. Questi strumenti "
-"gratuiti da Wbcom Designs ti forniscono il resto della comunità: il tema e "
-"la rete stessa, forum, media, eventi, gamificazione, directory, lavori e "
-"corsi."
+"Todo Lists mantiene i tuoi membri e i tuoi team concentrati sul lavoro. "
+"Questi strumenti gratuiti da Wbcom Designs ti danno il resto della comunità "
+"intorno a esso: il tema e la rete stessa, forum, media, eventi, "
+"gamificazione, directory, lavori, corsi e servizi."
 
-#: includes/admin/views/discover.php:110
+#: includes/admin/views/discover.php:117
 msgid "Get it free"
 msgstr "Scarica gratuitamente"
 
-#: includes/admin/views/discover.php:115
+#: includes/admin/views/discover.php:122
 #. translators: %s: product name.
 #, php-format
 msgid "%s (opens in a new tab)"
@@ -2746,6 +2707,60 @@ msgstr "elenco"
 msgctxt "block keyword"
 msgid "checklist"
 msgstr "checklist"
+
+#, php-format
+#~ msgid "%1$s is only active on the subsite defined by BP_ROOT_BLOG."
+#~ msgstr "%1$s è attivo solo sul sottosito definito da BP_ROOT_BLOG."
+
+#, php-format
+#~ msgid "%1$s can only be activated on the BuddyPress root blog."
+#~ msgstr "%1$s può essere attivato solo sul blog root di BuddyPress."
+
+#, php-format
+#~ msgid ""
+#~ "%1$s requires BuddyPress to be active on this subsite. The plugin has been "
+#~ "deactivated."
+#~ msgstr ""
+#~ "%1$s richiede che BuddyPress sia attivo su questo sottosito. Il plugin è "
+#~ "stato disattivato."
+
+#~ msgid "BuddyX"
+#~ msgstr "BuddyX"
+
+#~ msgid "BuddyNext"
+#~ msgstr "BuddyNext"
+
+#~ msgid "Jetonomy"
+#~ msgstr "Jetonomy"
+
+#~ msgid "Mediaverse"
+#~ msgstr "Mediaverse"
+
+#~ msgid "Eventonomy"
+#~ msgstr "Eventonomy"
+
+#~ msgid "WB Gamification"
+#~ msgstr "WB Gamification"
+
+#~ msgid "Listora"
+#~ msgstr "Listora"
+
+#~ msgid "WP Career Board"
+#~ msgstr "WP Career Board"
+
+#~ msgid "Learnomy"
+#~ msgstr "Learnomy"
+
+#~ msgid ""
+#~ "Todo Lists keeps your members and teams on task. These free tools from "
+#~ "Wbcom Designs give you the rest of the community around it: the theme and "
+#~ "network itself, forums, media, events, gamification, directories, jobs, and "
+#~ "courses."
+#~ msgstr ""
+#~ "Todo Lists mantiene i tuoi membri e team in pista. Questi strumenti "
+#~ "gratuiti da Wbcom Designs ti forniscono il resto della comunità: il tema e "
+#~ "la rete stessa, forum, media, eventi, gamificazione, directory, lavori e "
+#~ "corsi."
 
 #~ msgid "total"
 #~ msgstr "totale"

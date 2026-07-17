@@ -33,6 +33,56 @@
 - **Release build** via `grunt` (`gruntfile.js`). Distribution zip lives in `dist/`.
 - Settings are read through `Bptodo_Globals`; after admin save the global `$bptodo` is rebuilt in-place.
 
+## Bundled third-party libraries
+
+**RULE (owner decision, non-negotiable):** WordPress.org requires that every minified/compiled
+file we distribute ships its human-readable source alongside it. So: **drop what WordPress core
+already bundles; ship the unminified source for the rest.** Never add a `.min.*` vendor file
+without its source sibling in the same directory. The `.min` files are upstream artifacts and
+must stay byte-identical - do not re-minify them, and never regenerate a "source" from a min
+file. If you cannot obtain the source for the exact bundled build, stop and escalate rather
+than ship a mismatched source.
+
+To refresh any of these, re-download from the URL below and keep the min + source in lockstep.
+
+| File | Library / version | Upstream URL |
+|---|---|---|
+| `assets/js/datatables.min.js` + `assets/js/datatables.js` | DataTables **downloader-builder combined build**: JSZip 2.5.0, pdfmake 0.1.36, DataTables 1.13.2, AutoFill 2.5.2, Buttons 2.3.4, Column visibility 2.3.4, HTML5 export 2.3.4, Print view 2.3.4, ColReorder 1.6.1, DateTime 1.3.0, FixedColumns 4.2.1, FixedHeader 3.3.1, KeyTable 2.8.1, Responsive 2.4.0, RowGroup 1.3.0, RowReorder 1.3.2, Scroller 2.1.0, SearchBuilder 1.4.0, SearchPanes 2.1.1, Select 1.6.0, StateRestore 1.2.1 | `https://cdn.datatables.net/v/dt/jszip-2.5.0/pdfmake-0.1.36/dt-1.13.2/af-2.5.2/b-2.3.4/b-colvis-2.3.4/b-html5-2.3.4/b-print-2.3.4/cr-1.6.1/date-1.3.0/fc-4.2.1/fh-3.3.1/kt-2.8.1/r-2.4.0/rg-1.3.0/rr-1.3.2/sc-2.1.0/sb-1.4.0/sp-2.1.1/sl-1.6.0/sr-1.2.1/datatables.js` (swap the trailing filename for `.css` / `.min.*`) |
+| `assets/css/datatables.min.css` + `assets/css/datatables.css` | same combined build as above | same base URL, `datatables.css` |
+| `assets/css/select2.min.css` + `assets/css/select2.css` | Select2 4.1.0-rc.0 (min verified identical to upstream) | `https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.css` |
+| `assets/js/select2.full.min.js` | Select2 4.1.0-rc.0 - **NON-COMPLIANT, no source shipped** | see warning below |
+| `assets/css/jquery-ui.css` | jQuery UI 1.12.1 base theme - **already unminified, and locally patched** | do NOT replace with stock upstream; see note below |
+
+### jQuery UI
+Core registers the jQuery UI **scripts** (`jquery-ui-datepicker` etc.) and the plugin correctly
+uses those handles - it bundles no jQuery UI JS. Core ships **no jQuery UI stylesheet**, so the
+theme CSS has to come from the plugin. `assets/css/jquery-ui.css` was previously misnamed
+`jquery-ui.min.css` despite never being minified (1282 lines of readable CSS); it was renamed so
+the name tells the truth and stops tripping "minified file with no source" review checks.
+
+It is **locally patched** vs stock 1.12.1 base (tabs padding/panel rules changed; the
+`.ui-widget` `font-family: Arial` override deliberately removed so jQuery UI does not force a
+font on the active theme). Do not overwrite it with an upstream download. It is required: it
+supplies the datepicker's structural CSS (`.ui-datepicker { width: 17em }`, table layout,
+absolutely-positioned arrows) and the `images/ui-icons_*.png` sprites - the plugin's own
+token-driven overrides in `bptodo-front.css` only restyle it, they do not replace it. Keep it in
+`assets/css/` so the relative `images/` paths keep resolving.
+
+### WARNING: `select2.full.min.js` has no matching source
+The bundled file (73,075 bytes) carries a `Select2 4.1.0-rc.0` banner but is a **custom build**:
+it has 40 AMD `define()` modules where every published 4.1.0-rc.0 artifact has 43, missing
+`select2/dropdown/attachContainer`, `select2/dropdown/stopPropagation` and
+`select2/selection/stopPropagation`. It matches nothing on cdnjs, unpkg, jsDelivr or the GitHub
+tag (all 76,768 bytes), and no other 4.0.x/4.1.x release matches either. Shipping the official
+4.1.0-rc.0 source next to it would be a lie, so no source was added and **this file remains a
+WP.org violation**.
+
+To resolve, replace the pair with the official dist (`select2.full.min.js` + `select2.full.js`
+from `https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/`). The official build is a
+superset (adds back 3 optional decorator modules), and the plugin only ever calls
+`.select2({ placeholder, allowClear })`, so the risk is low - but it does change the shipped min,
+which needs owner sign-off and a browser re-test of the group-member picker and admin roles field.
+
 ## Onboarding findings (top, see wppqa SUMMARY)
 1. Rule 10 violations: `alert()`/`confirm()` in `admin/assets/js/bp-todo-list-admin.js` (41,51,54,58) and `assets/js/bptodo-front.js` (454,460,1186) — replace with the toast/modal in `assets/js/bptodo-modern.js`.
 2. `Bptodo_Admin::bptodo_save_general_settings` (admin.php:441) lacks an inline `current_user_can('manage_options')` (relies on menu gating) — add for defense in depth. Same for `wbcom_addons_cards` (wbcom-admin-settings.php:40).
@@ -41,6 +91,7 @@
 ## Recent changes
 | Date | Type | Description | Files |
 |---|---|---|---|
+| 2026-07-17 | build | WP.org "minified code must ship its source" compliance for bundled vendor libs (see "Bundled third-party libraries" above for the rule + refresh URLs). (1) Added `assets/js/datatables.js` + `assets/css/datatables.css` - the DataTables downloader-builder combined SOURCE at the exact builder path from the min's banner (20 libs, JSZip 2.5.0 / pdfmake 0.1.36 / DataTables 1.13.2 / ...); verified faithful by composition (bundled min and this source both carry the pdfmake+vfs_fonts double font blob; the CDN's own min carries one, so the CDN min - not our file - is the odd one out). (2) Added `assets/css/select2.css` (4.1.0-rc.0; the bundled `select2.min.css` is byte-identical to upstream ignoring whitespace). (3) `jquery-ui.min.css` -> `jquery-ui.css`: it was NEVER minified (1282 lines of readable CSS) so it was not a violation, just a misleading name; kept (core ships no jQuery UI stylesheet and it supplies the datepicker's structural CSS + icon sprites) and NOT replaced with upstream (locally patched). Core's `jquery-ui-datepicker` script handle was already in use. (4) Removed `assets/js/pdfobject.min.js` + its enqueue - PDFObject 2.1.1 had ZERO references anywhere and was loading site-wide on every frontend page. All `.min` files byte-identical; only `select2.full.min.js` remains without source (custom 40-vs-43-module build, matches no published artifact - escalated, see WARNING above). Zip 2.52 -> 3.43 MiB. Browser-verified: legacy datepicker renders correctly (arrows/sprites/layout intact), 0 console errors. | assets/js/datatables.js, assets/css/datatables.css, assets/css/select2.css, assets/css/jquery-ui.css, admin/class-bptodo-admin.php, CLAUDE.md |
 | 2026-07-15 | bug-fix | QA re-bounce fixes (2 cards). (1) Legacy layout search/filter was dead on member/group Task tabs: `$cards` only matched `.bptodo-cards--shortcode`, so member/group (`.bptodo-list--grid`) filtered nothing; widened the selector, read `.bptodo-card__description` + both category classes, scoped filtering to the ACTIVE `.bptodo-tab-panel:not([hidden])` (fixes the "10 of 24" count + stops fading the other tab's cards), fixed Clear to reset via `prop('selectedIndex',0)` (shortcode uses value="all", member/group value="" - neither literal reset both), and re-query `.bptodo-no-results` after insert (stale ref). Browser-verified on member Task tab in legacy mode: priority=High -> 1 of 12, search filters, 0-match shows no-results, Clear resets to All Status/All Priorities. (2) Modern Interactivity actions completed silently - `BPTodo.toast` existed but was never called from bptodo-view.js; added a guarded `notify()` and wired success/error toasts into toggleComplete/confirmDelete/saveEdit/quickAdd/addCategory/submitFull (+2 i18n keys: updated, categoryAdded). Verified toast API renders on the modern list. demo-tasks.json card = already resolved (tracked in 892576a, ships in zip); QA tested a stale checkout. | assets/js/bptodo-front.js(+min), assets/js/bptodo-view.js, includes/render/class-bptodo-renderer.php |
 | 2026-07-10 | security | Fresh end-to-end audit fixes. (1) Widget standalone fatal: admin/widget/class-user-todo.php called bp_loggedin_user_id() + get_post_type_archive_link('bp-todo') unguarded while the widget registers without BP - guarded both. (2) Group-create authorization regression: modern group quick-add let ANY member fan a task to the whole group (renderer gated show_add by personal can_create, and can_create_group_todo returned true for any member on empty-assignee create). Now can_create_group_todo always requires a group manager (matches legacy + docs), and the renderer's group show_add/canCreate uses it. (3) SSR group leak: Bptodo_Renderer::render() for scope=group had no membership check (REST did) - a group-todos block on any page exposed the first page to non-members; added an auth_group_member-equivalent guard (members + manage_options oversight). (4) Category term bypass: Repository create/update passed the raw category to wp_set_object_terms (created arbitrary terms, bypassing allow_user_add_category) - new resolve_category_terms() assigns EXISTING terms only. Verified: non-manager group create -> 403, manager -> 200; non-member group render -> denied. | admin/widget/class-user-todo.php, includes/domain/class-bptodo-permissions.php, includes/render/class-bptodo-renderer.php, includes/domain/class-bptodo-todo-repository.php |
 | 2026-07-10 | cleanup | Removed dead code the private-CPT change made unreachable: the single/archive template_include loader + pre_get_posts archive query (bptodo_template_loader, bp_todo_post_type_archive, bptodo_get_template_loader_default_file/_files), the single-page group report (bptodo_todo_user_report + bptodo_enable_report_view) and its orphaned stats helpers (bptodo_get_user_average_todos, bpto_completed_todo_count), inc/templates/{single,archive}-bp-todo.php, and bptodo_mark_notification_as_read_on_single (dead + an unguarded bp_verify_nonce_request reachable via ?referer=). Kept the generic bp_todo_locate_template/bp_todo_get_template override helpers. | public/bptodo-plugin-genral-function.php, public/class-bptodo-public.php, includes/class-bptodo.php, inc/templates/* |

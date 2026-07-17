@@ -5,7 +5,7 @@ Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
 Tested up to: 7.0
 Stable tag: 4.0.0
-Requires PHP: 7.4
+Requires PHP: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wb-todo
@@ -89,7 +89,7 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 = Compatibility =
 
 * WordPress 6.5 and higher
-* PHP 7.4 and higher (8.0+ recommended)
+* PHP 8.0 and higher
 * BuddyPress 12.0+ or BuddyBoss Platform - optional, for profile tabs, group to-dos and email reminders.
 * Works with the block editor and classic editor
 * Tested with popular themes including BuddyX, Reign and Youzify
@@ -148,7 +148,7 @@ After activating the plugin, we recommend:
 = Requirements =
 
 * WordPress 6.5 or higher
-* PHP 7.4 or higher
+* PHP 8.0 or higher
 * MySQL 5.7 or higher (8.0+ recommended)
 * BuddyPress 12.0+ or BuddyBoss Platform - optional, and needed for profile tabs, group to-dos and email reminders.
 

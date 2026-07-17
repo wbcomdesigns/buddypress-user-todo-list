@@ -81,8 +81,14 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			);
 
 			if ( $bptodo_is_todo_tab || $bptodo_has_shortcode ) {
-				// Legacy jQuery UI for datepicker (still needed for date inputs).
-				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.min.css', array(), BPTODO_VERSION );
+				/*
+				 * jQuery UI theme CSS for the datepicker. WordPress core registers the
+				 * jQuery UI *scripts* (see 'jquery-ui-datepicker' below) but ships no
+				 * jQuery UI stylesheet, so the theme has to come from the plugin. This
+				 * file is unminified source and is locally patched - do not swap it for
+				 * a stock upstream build. See CLAUDE.md "Bundled third-party libraries".
+				 */
+				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.css', array(), BPTODO_VERSION );
 
 				// Font Awesome for legacy icons.
 				if ( ! wp_style_is( 'wb-font-awesome', 'enqueued' ) ) {
@@ -166,7 +172,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 			}
 
 			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );
-			wp_enqueue_script( 'bptodo-js-pdfobject', BPTODO_PLUGIN_URL . 'assets/js/pdfobject.min.js', array( 'jquery' ), BPTODO_VERSION );
 		}
 
 		/**
