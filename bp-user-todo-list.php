@@ -1,13 +1,16 @@
 <?php
 /**
  * Plugin Name: Todo for BuddyPress & BuddyBoss
- * Plugin URI: https://wbcomdesigns.com/contact/
- * Description: Complete todo and task management for BuddyPress and BuddyBoss communities.
- * Version: 3.5.1
+ * Plugin URI: https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/
+ * Description: Personal and team todo lists for WordPress. Works standalone, and adds a member profile tab plus group todos when BuddyPress or BuddyBoss is active.
+ * Version: 4.0.0
  * Author: Wbcom Designs
- * Author URI: http://wbcomdesigns.com
+ * Author URI: https://wbcomdesigns.com
+ * Requires at least: 6.5
+ * Requires PHP: 7.4
  * License: GPLv2+
  * Text Domain: wb-todo
+ * Domain Path: /languages
  *
  * @link              www.wbcomdesigns.com
  * @since             1.0.0
@@ -19,16 +22,14 @@ defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 /**
  * Load plugin textdomain.
  */
-add_action( 'plugins_loaded', 'bptodo_load_textdomain' );
+// init, not plugins_loaded: loading a text domain before init triggers
+// _load_textdomain_just_in_time on WordPress 6.7+.
+add_action( 'init', 'bptodo_load_textdomain' );
 function bptodo_load_textdomain() {
-    $domain = 'wb-todo';
-    $locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-
-    // Try to load from wp-content/languages/plugins first (for WordPress.org translations)
-    load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $domain . '-' . $locale . '.mo' );
-
-    // Then load from plugin's languages folder as fallback
-    load_plugin_textdomain( $domain, false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+    // load_plugin_textdomain() already checks wp-content/languages/plugins first
+    // (the WordPress.org language pack) and falls back to the bundled file, so
+    // both paths work from this one call.
+    load_plugin_textdomain( 'wb-todo', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 // Constants used in the plugin.
@@ -41,7 +42,7 @@ if ( ! defined( 'BPTODO_PLUGIN_URL' ) ) {
 }
 
 if ( ! defined( 'BPTODO_VERSION' ) ) {
-    define( 'BPTODO_VERSION', '3.5.1' );
+    define( 'BPTODO_VERSION', '4.0.0' );
 }
 
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
@@ -79,14 +80,37 @@ add_action( 'plugins_loaded', 'bptodo_check_plugin_update' );
 function bptodo_check_plugin_update() {
     $installed_version = get_option( 'bptodo_version', '0.0.0' );
 
-    // Check if this is a new installation or upgrade
     if ( version_compare( $installed_version, BPTODO_VERSION, '<' ) ) {
-        // Run upgrade routine
-        bptodo_upgrade_routine( $installed_version );
-
-        // Update version in database
+        // Persist the new version FIRST so that if a one-off upgrade task fails, this
+        // routine (and its side effects) can never re-run on every request and wedge
+        // the site. Then defer the actual upgrade work to 'init', when BuddyPress email
+        // post types + taxonomies are registered (plugins_loaded is too early - creating
+        // the email posts there previously failed term assignment and triggered a delete
+        // that could fatal via other plugins hooking wp_delete_post).
         update_option( 'bptodo_version', BPTODO_VERSION );
+        update_option( 'bptodo_pending_upgrade_from', $installed_version );
     }
+
+    if ( false !== get_option( 'bptodo_pending_upgrade_from', false ) ) {
+        add_action( 'init', 'bptodo_run_pending_upgrade', 20 );
+    }
+}
+
+/**
+ * Run the deferred one-off upgrade tasks exactly once, on init.
+ */
+function bptodo_run_pending_upgrade() {
+    $from = get_option( 'bptodo_pending_upgrade_from', false );
+    if ( false === $from ) {
+        return;
+    }
+    delete_option( 'bptodo_pending_upgrade_from' );
+    bptodo_upgrade_routine( $from );
+
+    // The bp-todo CPT/taxonomy became private in 4.0.0 (no public single pages,
+    // archive or term URLs). Flush once so the stale /todo/ and /todo_category/
+    // rewrite rules are dropped and those URLs stop resolving to todo data.
+    flush_rewrite_rules();
 }
 
 /**
@@ -120,13 +144,34 @@ function bptodo_upgrade_routine( $from_version ) {
 /**
  * Include needed files.
  */
+/**
+ * Instantiate the settings globals on every request (standalone-safe).
+ *
+ * $bptodo must exist even without BuddyPress so the frontend blocks/renderer and admin
+ * can read the plugin's labels and settings. setup_globals() is BuddyPress-guarded; when
+ * BuddyPress is present it re-runs on bp_init for full group context.
+ */
+add_action( 'init', 'bptodo_init_globals', 1 );
+function bptodo_init_globals() {
+    global $bptodo;
+    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+        $bptodo = new Bptodo_Globals();
+        $bptodo->setup_globals();
+    }
+}
+
+/**
+ * Load the BuddyPress group extension - only when BuddyPress/BuddyBoss is active.
+ */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
 function run_wp_bptodo_list() {
-    // Initialize globals first before loading group extension
     global $bptodo;
-    $bptodo = new Bptodo_Globals();
+    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+        $bptodo = new Bptodo_Globals();
+        $bptodo->setup_globals();
+    }
 
-    // Now load group extension which depends on $bptodo
+    // Group extension depends on $bptodo and BuddyPress groups.
     $include_files = array(
         'public/class-bptodo-groups-extension-tab.php',
     );
@@ -148,20 +193,106 @@ function bptodo_admin_page_link( $links ) {
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
 
 /**
- * Allow subscribers to upload media files.
+ * Allow subscribers to upload media files only on BuddyPress todo pages.
+ *
+ * Uses user_has_cap filter to dynamically grant upload capability
+ * instead of permanently modifying the subscriber role.
+ *
+ * @param array $allcaps All capabilities of the user.
+ * @param array $caps    Required capabilities.
+ * @param array $args    Arguments (capability being checked, user ID, etc).
+ * @return array Modified capabilities.
  */
-function bptodo_media_button_subscriber() {
-    $subscriber = get_role( 'subscriber' );
-    if ( ! empty( $subscriber ) ) {
-        $subscriber->add_cap( 'upload_files' );
-    }
+function bptodo_grant_upload_cap_on_todo_pages( $allcaps, $caps, $args ) {
+	// Only process upload_files capability checks.
+	if ( ! in_array( 'upload_files', $caps, true ) ) {
+		return $allcaps;
+	}
+
+	// User already has the capability.
+	if ( ! empty( $allcaps['upload_files'] ) ) {
+		return $allcaps;
+	}
+
+	// Check if we're on a BuddyPress todo page.
+	$is_todo_page = false;
+
+	if ( function_exists( 'bp_is_user' ) && bp_is_user() ) {
+		// Check if on member todo tab.
+		$current_component = function_exists( 'bp_current_component' ) ? bp_current_component() : '';
+		$todo_slug         = 'todo'; // Default slug.
+
+		// Get custom slug from settings if available.
+		$settings = get_option( 'user_todo_list_settings' );
+		if ( ! empty( $settings['profile_menu_label'] ) ) {
+			$todo_slug = sanitize_title( $settings['profile_menu_label'] );
+		}
+
+		if ( $current_component === $todo_slug ) {
+			$is_todo_page = true;
+		}
+	}
+
+	// Grant capability only on todo pages.
+	if ( $is_todo_page ) {
+		$allcaps['upload_files'] = true;
+	}
+
+	return $allcaps;
 }
-add_action( 'init', 'bptodo_media_button_subscriber' );
+add_filter( 'user_has_cap', 'bptodo_grant_upload_cap_on_todo_pages', 10, 3 );
+
+/**
+ * Whether BuddyPress or BuddyBoss Platform is active.
+ *
+ * Since 4.0 the plugin works standalone (personal todos for any WordPress user);
+ * BuddyPress/BuddyBoss is an optional enhancement (profile tab + group todos).
+ *
+ * @return bool
+ */
+function bptodo_is_bp_active() {
+	return function_exists( 'buddypress' ) || class_exists( 'BuddyPress' );
+}
+
+/**
+ * Register the modern Gutenberg blocks (Interactivity-powered, REST-backed).
+ *
+ * The personal 'My Todos' block works standalone; the group block loads only when
+ * BuddyPress/BuddyBoss is active.
+ */
+add_action( 'init', 'bptodo_register_blocks' );
+function bptodo_register_blocks() {
+	if ( ! function_exists( 'register_block_type' ) ) {
+		return;
+	}
+	register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' );
+
+	if ( bptodo_is_bp_active() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
+		register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
+	}
+}
+
+/**
+ * Load the modern list styles inside the block editor.
+ *
+ * The blocks are server-rendered via ServerSideRender, whose REST render pass
+ * enqueues the design-system/components/blocks styles on the REST request - not
+ * on the editor page - so the editor preview shows unstyled markup. `enqueue_block_assets`
+ * runs inside the editor iframe (and the front end); we gate to the editor because
+ * the front end already enqueues these on demand from Bptodo_Renderer::render().
+ */
+add_action( 'enqueue_block_assets', 'bptodo_enqueue_block_editor_styles' );
+function bptodo_enqueue_block_editor_styles() {
+	if ( ! is_admin() || ! class_exists( 'Bptodo_Renderer' ) ) {
+		return;
+	}
+	Bptodo_Renderer::enqueue_styles();
+}
 
 /**
  * Check if the Todo List plugin should be active on the current subsite.
  */
-function bptodo_check_buddypress_subsite_activation() {    
+function bptodo_check_buddypress_subsite_activation() {
     // Ensure this is a multisite installation
         if ( is_multisite() ) {        
         $deactivate = false;
@@ -193,18 +324,21 @@ function bptodo_check_buddypress_subsite_activation() {
         // Deactivate the plugin if necessary
         if ( $deactivate ) {
             deactivate_plugins( plugin_basename( __FILE__ ) );
-            $activate = filter_input( INPUT_GET, 'activate', FILTER_SANITIZE_STRING );
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking if activate param exists
+            $activate = isset( $_GET['activate'] ) ? sanitize_text_field( wp_unslash( $_GET['activate'] ) ) : '';
             // Prevent the activation message from showing up after deactivation
-            if ( isset( $activate ) ) { 
-                unset( $activate );
+            if ( ! empty( $activate ) ) {
+                unset( $_GET['activate'] );
             }
         }
-    } else {
-        if ( ! class_exists( 'BuddyPress' ) ) {
-            deactivate_plugins( plugin_basename( __FILE__ ) );
+    	} else {
+		// BuddyPress is optional (since 4.0): personal todos work standalone, so we no
+		// longer deactivate when it is absent - we surface a dismissible notice that the
+		// group and profile-tab features are unavailable until BuddyPress/BuddyBoss is active.
+		if ( ! bptodo_is_bp_active() ) {
 			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
 		}
-    }
+	}
 }
 add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
 
@@ -255,9 +389,8 @@ function bptodo_show_buddypress_required_notice() {
  */
 function bptodo_plugin_admin_notice() {
 	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' );
-	$bp_plugin     = esc_html__( 'BuddyPress', 'wb-todo' );
-	/* Translators: 1) BuddyPress Member Todo List 2) BuddyPress  */
-	echo '<div class="error"><p>' . sprintf( esc_html__( '%1$s is ineffective now as it requires %2$s to be installed and active.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>', '<strong>' . esc_html( $bp_plugin ) . '</strong>' ) . '</p></div>';
+	/* Translators: %s: plugin name. */
+	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
 }
 
 /**
@@ -437,10 +570,21 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
      */
     function bptodo_enqueue_network_scripts() {
         if (is_network_admin()) {
-            wp_enqueue_script('bptodo-network-admin', plugin_dir_url(__FILE__) . 'admin/assets/js/bp-todo-list-admin.js', ['jquery'], BPTODO_VERSION, true);
+            // Modern toast/modal helper so the deactivate action can use it
+            // instead of native confirm()/alert(). Loaded as a dependency.
+            wp_enqueue_style('bptodo-modern-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system.min.css', [], BPTODO_VERSION);
+            wp_enqueue_script('bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern.min.js', ['jquery'], BPTODO_VERSION, true);
+            bptodo_localize_modern_i18n();
+            wp_enqueue_script('bptodo-network-admin', plugin_dir_url(__FILE__) . 'admin/assets/js/bp-todo-list-admin.js', ['jquery', 'bptodo-modern-js'], BPTODO_VERSION, true);
             wp_localize_script('bptodo-network-admin', 'bptodo_network_ajax', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('bptodo_network_nonce'),
+                'i18n' => [
+                    'confirmTitle'   => __('Network Deactivate', 'wb-todo'),
+                    'confirmMessage' => __('Are you sure you want to deactivate this plugin across all sites?', 'wb-todo'),
+                    'requestError'   => __('There was an error with the request.', 'wb-todo'),
+                    'genericError'   => __('Error', 'wb-todo'),
+                ],
             ]);
         }
     }

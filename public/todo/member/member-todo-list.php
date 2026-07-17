@@ -1,863 +1,479 @@
 <?php
 /**
- * Exit if accessed directly.
+ * Member Todo List Template
+ *
+ * Modern card-based layout for displaying member's todos.
+ * Uses the design system and reusable partials.
  *
  * @package bp-user-todo-list
+ * @since 3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 global $bp, $bptodo;
+
+// Get plugin settings.
 $profile_menu_slug         = $bptodo->profile_menu_slug;
 $profile_menu_label        = $bptodo->profile_menu_label;
 $profile_menu_label_plural = $bptodo->profile_menu_label_plural;
-$class                     = 'todo-completed';
 
-// List of Todo Items with intelligent sorting.
-// Limit to prevent memory issues - can be increased via filter if needed
-$args  = array(
-	'post_type'      => 'bp-todo',
-	'post_status'    => 'publish',
-	'author'         => get_current_user_id(),
-	'posts_per_page' => apply_filters( 'bptodo_member_list_limit', 500 ),
-);
-$todos = get_posts( $args );
+// Determine current user permissions.
+$current_user_id = get_current_user_id();
 
-// Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first) + Status (incomplete first)
-usort( $todos, function( $a, $b ) {
-	$a_status   = get_post_meta( $a->ID, 'todo_status', true );
-	$b_status   = get_post_meta( $b->ID, 'todo_status', true );
-	$a_priority = get_post_meta( $a->ID, 'todo_priority', true );
-	$b_priority = get_post_meta( $b->ID, 'todo_priority', true );
-	$a_due_date = get_post_meta( $a->ID, 'todo_due_date', true );
-	$b_due_date = get_post_meta( $b->ID, 'todo_due_date', true );
-
-	// 1. Completed tasks always go to bottom
-	if ( $a_status === 'complete' && $b_status !== 'complete' ) {
-		return 1;
+// Modern layout (4.0): render the Interactivity/REST list and stop. The classic
+// template below runs only in legacy mode (or when modern is unsupported).
+if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'member' ) ) {
+	$bptodo_modern_list = bptodo_render_todos(
+		array(
+			'scope'      => 'member',
+			'user_id'    => 0,
+			'per_page'   => (int) apply_filters( 'bptodo_member_list_per_page', 12 ),
+			'show_add'   => true,
+			'show_stats' => true,
+		),
+		'member'
+	);
+	if ( '' !== $bptodo_modern_list ) {
+		echo $bptodo_modern_list; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		return;
 	}
-	if ( $a_status !== 'complete' && $b_status === 'complete' ) {
-		return -1;
-	}
-
-	// 2. Sort by priority (Critical=3, High=2, Normal=1, Empty=0)
-	$priority_map = array( 'critical' => 3, 'high' => 2, 'normal' => 1 );
-	$a_priority_val = isset( $priority_map[ $a_priority ] ) ? $priority_map[ $a_priority ] : 0;
-	$b_priority_val = isset( $priority_map[ $b_priority ] ) ? $priority_map[ $b_priority ] : 0;
-
-	if ( $a_priority_val !== $b_priority_val ) {
-		return $b_priority_val - $a_priority_val; // Higher priority first
-	}
-
-	// 3. Sort by due date (earliest first, empty dates last)
-	if ( empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-		return 1;
-	}
-	if ( ! empty( $a_due_date ) && empty( $b_due_date ) ) {
-		return -1;
-	}
-	if ( ! empty( $a_due_date ) && ! empty( $b_due_date ) ) {
-		$a_timestamp = strtotime( $a_due_date );
-		$b_timestamp = strtotime( $b_due_date );
-		// Handle invalid dates gracefully
-		if ( false === $a_timestamp || false === $b_timestamp ) {
-			return 0;
-		}
-		return $a_timestamp - $b_timestamp;
-	}
-
-	// 4. If all else equal, sort by post date (newest first)
-	return strtotime( $b->post_date ) - strtotime( $a->post_date );
-} );
-
-$todo_list          = array();
-$all_todo_count     = 0;
-$all_completed_todo = 0;
-$all_remaining_todo = 0;
-$completed_todo_ids = array();
-foreach ( $todos as $todo ) {
-	$curr_date = date_create( gmdate('Y-m-d') );
-	$due_date    = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-	$todo_status = get_post_meta( $todo->ID, 'todo_status', true );
-	$diff        = date_diff( $curr_date, $due_date );
-	$diff_days   = $diff->format( '%R%a' );
-
-	if ( $diff_days < 0 ) {
-		$todo_list['past'][] = $todo->ID;
-	} elseif ( 0 === $diff_days ) {
-		$todo_list['today'][] = $todo->ID;
-		if ( 'complete' !== $todo_status ) {
-			$all_remaining_todo++;
-		}
-	} elseif ( 1 === $diff_days ) {
-		$todo_list['tomorrow'][] = $todo->ID;
-		if ( 'complete' !== $todo_status ) {
-			$all_remaining_todo++;
-		}
-	} else {
-		$todo_list['future'][] = $todo->ID;
-		if ( 'complete' !== $todo_status ) {
-			$all_remaining_todo++;
-		}
-	}
-
-	if ( 'complete' === $todo_status ) {
-		$all_completed_todo++;
-		array_push( $completed_todo_ids, $todo->ID );
-	}
-
-	$all_todo_count++;
-}
-if ( $all_todo_count > 0 ) {
-	$avg_rating = ( $all_completed_todo * 100 ) / $all_todo_count;
 }
 
-$completed_todo_args    = array(
-	'post_type'      => 'bp-todo',
-	'post_status'    => 'publish',
-	'author'         => get_current_user_id(),
-	'include'        => $completed_todo_ids,
-	'posts_per_page' => apply_filters( 'bptodo_completed_list_limit', 500 ),
+/*
+ * Server-side pagination (big-site readiness). The old code fetched up to
+ * a silent 500-task cap (apply_filters bptodo_member_list_limit) and
+ * paginated client-side, so anything past the cap was invisible and
+ * unmanageable. Each tab panel now runs one LIMIT/OFFSET query with the
+ * ordering pushed to SQL and meta batch-primed; counts come from a single
+ * aggregate COUNT query, so there is no cap at all.
+ */
+
+/**
+ * Filters the number of todos per page on the member list.
+ *
+ * @since 3.6.0
+ *
+ * @param int $per_page Todos per page.
+ */
+$bptodo_per_page = apply_filters( 'bptodo_member_list_per_page', 12 );
+
+$todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+$done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+
+// Aggregate counts (stats cards, tab badges, progress bar).
+$todo_counts        = bptodo_count_todos( array( 'author' => $current_user_id ) );
+$all_todo_count     = $todo_counts['total'];
+$all_completed_todo = $todo_counts['completed'];
+$all_pending_todo   = $todo_counts['pending'];
+
+// Current page of todos for each tab panel (meta batch-primed by WP_Query,
+// so the per-card todo_group_id / status reads below hit the cache).
+$all_result = bptodo_get_todos_page(
+	array(
+		'author'   => $current_user_id,
+		'page'     => $todo_page,
+		'per_page' => $bptodo_per_page,
+	)
 );
-$completed_todos    = get_posts( $completed_todo_args );
-$bp_template_option = bp_get_option( '_bp_theme_package_id' );
-if ( empty( $todos ) ) {
-	if ( 'nouveau' === $bp_template_option ) { ?>
-		<div id="message" class="info bp-feedback bp-messages bp-template-notice">
-			<span class="bp-icon" aria-hidden="true"></span>
-						<div id="message" class="info">
-			<?php } ?>
-				<p>
-					<?php /* Translators: Display plural label name  */ ?>
-						<?php echo sprintf( esc_html__( 'Sorry, no %1$s found.', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
-				</p>
+
+$completed_result = bptodo_get_todos_page(
+	array(
+		'author'   => $current_user_id,
+		'status'   => 'complete',
+		'page'     => $done_page,
+		'per_page' => $bptodo_per_page,
+	)
+);
+
+$todos           = $all_result['todos'];
+$completed_todos = $completed_result['todos'];
+
+$completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 100 ) / $all_todo_count, 1 ) : 0;
+?>
+
+<div class="bptodo-wrapper" id="bptodo-member-list">
+	<?php if ( 0 === $all_todo_count ) : ?>
+		<?php
+		// Show empty state.
+		$context    = 'member';
+		$filter     = '';
+		$can_create = true;
+		include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
+		?>
+	<?php else : ?>
+		<!-- Page Header with Stats -->
+		<div class="bptodo-page-header">
+			<h2 class="bptodo-page-title">
+				<?php
+				printf(
+					/* translators: %s: Todo label */
+					esc_html__( 'My %s', 'wb-todo' ),
+					esc_html( $profile_menu_label_plural )
+				);
+				?>
+			</h2>
+			<div class="bptodo-page-actions">
+				<?php echo esc_html( list_todo_tab_function_to_show_title() ); ?>
 			</div>
 		</div>
-		<?php } else { ?>
-	<section class="bptodo-adming-setting">
-		<div class="bptodo-admin-settings-block">
-			<div class="bptodo-progress-section">
-				<h5><?php printf( esc_html__( '%s Progress', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></h5>
-				<div class="task-progress-task-count-wrap">
-					<div class="task-progress-task-count">
-						<span class="task_breaker-total-tasks"><?php echo esc_html( $all_todo_count ); ?></span>
-							<?php
-							if ( $all_todo_count <= 1 ) {
-								echo esc_html( $profile_menu_label );
-							} else {
-								echo esc_html( $profile_menu_label_plural );
-							}
-							?>
-					</div>
-					</div>
-					<div class="bptodo-light-grey">
-						<span><b><?php echo esc_html( round( $avg_rating, 2 ) ) . '% '; ?></b><?php esc_html_e( 'Completed', 'wb-todo' ); ?></span>
-						<div class="bptodo-color" style="height:24px;width:<?php echo esc_attr( $avg_rating ); ?>%">
-						</div>
-					</div>
+
+		<!-- Progress Stats -->
+		<div class="bptodo-stats">
+			<div class="bptodo-stat-card">
+				<div class="bptodo-stat-card__icon">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+						<polyline points="14 2 14 8 20 8"></polyline>
+						<line x1="16" y1="13" x2="8" y2="13"></line>
+						<line x1="16" y1="17" x2="8" y2="17"></line>
+						<polyline points="10 9 9 9 8 9"></polyline>
+					</svg>
 				</div>
-				<div id="bptodo-tabs">
-					
-					<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
+				<div class="bptodo-stat-card__content">
+					<p class="bptodo-stat-card__value"><?php echo esc_html( $all_todo_count ); ?></p>
+					<p class="bptodo-stat-card__label">
+						<?php echo esc_html( $all_todo_count === 1 ? $profile_menu_label : $profile_menu_label_plural ); ?>
+					</p>
+				</div>
+			</div>
 
-					<div id="bptodo-todos">
-						<div id="bptodo-task-tabs">
-							<div class="bptodo-task-tabs-head">
-								<ul class="bptodo-task-tabs-btn">
-									<li class="all-bp-todo-list-tab">
-										<a href="#bptodo-all">
-											<span class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/all-list.svg" /></span>  
-											<span><?php /* translators: %s: */ echo sprintf( esc_html__( 'All %1$s', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></span>
-											<span class="bpdoto-count-tab bp_all_todo_count"><?php echo esc_html( $all_todo_count ); ?></span>
-										</a>
-									</li>
-									<li class="all-bp-todo-list-tab-completed">
-										<a href="#bptodo-completed">
-											<span class="bptodo-btn-icon"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/check-complete.svg" /></span>
-											<span><?php esc_html_e( 'Completed', 'wb-todo' ); ?></span>
-											<span class="bpdoto-count-tab bp_completed_todo_count"><?php echo esc_html( $all_completed_todo ); ?></span>
-										</a>
-									</li>
-								</ul>
-								<div class="all-bp-todo-list-export"><?php echo esc_html( list_todo_tab_function_to_show_title() ); ?></div>
-							</div>
-							<div id="bptodo-all">
-								<div class="bptodo-admin-row">
-									
-										<div class="todo-panel">
-											<div class="todo-detail">
-												<div class="bp-todo-reminder">
-													<div class="todo-header">
-														<ul class="todo-header-head">
-															<li class="bptodo-check"></li>
-															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
-															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
-															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-															<li class="bptodo-task"><?php echo esc_html( $profile_menu_label ); ?></li>
-															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
-														</ul>
-													</div>
-													<div class="todo-header-list">
-														<!-- PAST TASKS -->
-														<?php
-														if ( ! empty( $todo_list['past'] ) ) {
-															$count = 1;
-															foreach ( $todo_list['past'] as $tid ) {
-																?>
-																<?php
-																$todo          = get_post( $tid );
-																$todo_title    = $todo->post_title;
-																$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-																$todo_view_url = get_permalink( $tid );
+			<div class="bptodo-stat-card">
+				<div class="bptodo-stat-card__icon" style="background: var(--bptodo-warning-light); color: var(--bptodo-warning);">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="12" cy="12" r="10"></circle>
+						<polyline points="12 6 12 12 16 14"></polyline>
+					</svg>
+				</div>
+				<div class="bptodo-stat-card__content">
+					<p class="bptodo-stat-card__value"><?php echo esc_html( $all_pending_todo ); ?></p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></p>
+				</div>
+			</div>
 
-																$todo_status    = get_post_meta( $todo->ID, 'todo_status', true );
-																$todo_priority  = get_post_meta( $todo->ID, 'todo_priority', true );
-																$due_date_str   = $due_date_td_class = '';
-																$curr_date      = date_create( gmdate('Y-m-d') );
-																$due_date       = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-																$diff           = date_diff( $curr_date, $due_date );
-																$diff_days      = $diff->format( '%R%a' );
-																$priority_class = '';
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
+			<div class="bptodo-stat-card">
+				<div class="bptodo-stat-card__icon" style="background: var(--bptodo-success-light); color: var(--bptodo-success);">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+						<polyline points="22 4 12 14.01 9 11.01"></polyline>
+					</svg>
+				</div>
+				<div class="bptodo-stat-card__content">
+					<p class="bptodo-stat-card__value"><?php echo esc_html( $all_completed_todo ); ?></p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></p>
+				</div>
+			</div>
 
-																$todo           = get_post( $tid );
-																$todo_cat       = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id    = 0;
-																$disabled       = '';
-																$todo_gp_id     = get_post_meta( $tid, 'todo_group_id', true );
-																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
-																	$todo_cat_id = $todo_cat[0]->term_id;
-																}
-																if ( $diff_days < 0 ) {
-																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
-																	$due_date_td_class = 'bptodo-expired';
-																	$disabled          = 'disabled';
-																} elseif ( 0 === $diff_days ) {
-																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-																	$due_date_td_class = 'bptodo-expires-today';
-																} else {
-																	if ( 1 === $diff_days ) {
-																		$day_string = __( 'day', 'wb-todo' );
-																	} else {
-																		$day_string = __( 'days', 'wb-todo' );
-																	}
-																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
-																	// $all_remaining_todo++;
-																}
-																$bptodo_row_complete = '';
-																if ( 'complete' === $todo_status ) {
-																	$due_date_str      = esc_html__( 'Completed', 'wb-todo' );
-																	$due_date_td_class = '';
-																	$all_completed_todo++;
-																	$bptodo_row_complete = 'completed';
-																}
-																if ( ! empty( $todo_priority ) ) {
-																	if ( 'critical' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-critical';
-																		$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-																	} elseif ( 'high' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-high';
-																		$priority_text  = esc_html__( 'High', 'wb-todo' );
-																	} else {
-																		$priority_class = 'bptodo-priority-normal';
-																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-																	}
-																}
-																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
-																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete . $due_date_td_class ); ?> <?php echo esc_attr( $group_todo ); ?>">
-																<?php
-																$checked       = '';
-																$checked_class = 'todo-uncomplete';
-																if ( 'complete' == $todo_status ) {
-																	$checked       = 'checked';
-																	$checked_class = 'todo-complete';
-																}
-																?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox 
-																<?php
-																if ( $due_date_td_class ) {
-																	echo esc_attr( $disabled ); }
-																?>
-															" 
-																<?php
-																echo esc_attr( $checked );
-																if ( $due_date_td_class ) {
-																	echo esc_attr( $disabled );
-																}
-																?>
-															 />
-															</label>																
-															</li>
-															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
-															<li class="bptodo-cat">
-																<span class="bptodo-cat-mobile-title">Category</span>
-																<span class="bptodo-cat-text">
-																<?php
-																foreach ( $todo_cats as $todo_cat ) {
-																	if ( $todo_cat_id == $todo_cat->term_id ) {
-																		echo esc_html( $todo_cat->name );
-																	}
-																}
-																?>
-																</span>
-															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							$group_url = bptodo_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;										
-																		
-																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
-																	} else{
-																		echo esc_html( $todo_title ); 
-																	}
-																?>
-															</li>
-															<li class="bp-to-do-actions">
-																<ul class="bp-to-do-actions-list">
-																<?php if ( ! empty( $todo_gp_id ) ) { /* Group todo - show View button */ ?>
-																	<li><a href="<?php echo esc_url( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>
-																<?php } else { /* Personal todo - show Remove and Edit buttons */ ?>
-																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
-																	<?php if ( 'complete' !== $todo_status ) { ?>
-																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" data-type="member" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																	<?php } ?>
-																<?php } ?>
-																</ul>
-															</li>
-														</ul>
-														<?php } ?>
+			<div class="bptodo-stat-card">
+				<div class="bptodo-stat-card__icon" style="background: var(--bptodo-primary-light); color: var(--bptodo-primary);">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<line x1="12" y1="20" x2="12" y2="10"></line>
+						<line x1="18" y1="20" x2="18" y2="4"></line>
+						<line x1="6" y1="20" x2="6" y2="16"></line>
+					</svg>
+				</div>
+				<div class="bptodo-stat-card__content">
+					<p class="bptodo-stat-card__value"><?php echo esc_html( $completion_percentage ); ?>%</p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Progress', 'wb-todo' ); ?></p>
+				</div>
+			</div>
+		</div>
 
-														<?php } ?>
-														<!-- TASKS FOR TODAY -->
-														<?php if ( ! empty( $todo_list['today'] ) ) { ?>
-															<?php $count = 1; ?>
-															<?php foreach ( $todo_list['today'] as $tid ) { ?>
-																<?php
-																$todo          = get_post( $tid );
-																$todo_title    = $todo->post_title;
-																$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-																$todo_view_url = get_permalink( $tid );
-																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
-																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
-																$due_date_str  = $due_date_td_class  = '';
-																$curr_date     = date_create( gmdate('Y-m-d') );
-																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-																$diff          = date_diff( $curr_date, $due_date );
-																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
-																$todo          = get_post( $tid );
-																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id   = 0;
-																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );																
-																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
-																	$todo_cat_id = $todo_cat[0]->term_id;
-																}
-																if ( $diff_days < 0 ) {
-																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
-																	$due_date_td_class = 'bptodo-expired';
-																} elseif ( 0 === $diff_days ) {
-																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-																	$due_date_td_class = 'bptodo-expires-today';
-																	$all_remaining_todo++;
-																} else {
-																	if ( 1 === $diff_days ) {
-																		$day_string = __( 'day', 'wb-todo' );
-																	} else {
-																		$day_string = __( 'days', 'wb-todo' );
-																	}
-																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
-																	$all_remaining_todo++;
-																}
-																$bptodo_row_complete = '';
-																if ( 'complete' === $todo_status ) {
-																	$due_date_str      = esc_html__( 'Completed', 'wb-todo' );
-																	$due_date_td_class = '';
-																	$all_completed_todo++;
-																	$bptodo_row_complete = 'completed';
-																}
-																if ( ! empty( $todo_priority ) ) {
-																	if ( 'critical' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-critical';
-																		$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-																	} elseif ( 'high' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-high';
-																		$priority_text  = esc_html__( 'High', 'wb-todo' );
-																	} else {
-																		$priority_class = 'bptodo-priority-normal';
-																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-																	}
-																}
-																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
-																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
-																<?php
-																$checked       = '';
-																$checked_class = 'todo-uncomplete';
-																if ( 'complete' == $todo_status ) {
-																	$checked       = 'checked';
-																	$checked_class = 'todo-complete';
-																}
-																?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
-															</li>
-															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
-															<li class="bptodo-cat">
-																<span class="bptodo-cat-mobile-title">Category</span>
-																<span class="bptodo-cat-text">
-																<?php
-																foreach ( $todo_cats as $todo_cat ) {
-																	if ( $todo_cat_id == $todo_cat->term_id ) {
-																		echo esc_html( $todo_cat->name );
-																	}
-																}
-																?>
-																</span>
-															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							$group_url = bptodo_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
-																		
-																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
-																	} else{
-																		echo esc_html( $todo_title ); 
-																	}
-																?>
-															</li>
-															<li class="bp-to-do-actions" >
-																<ul class="bp-to-do-actions-list">
-																	<?php if ( ! empty( $todo_gp_id ) ) { /* Group todo - show View button */ ?>
-																	<li><a href="<?php echo esc_url( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>
-																	<?php } else { /* Personal todo - show Remove and Edit buttons */ ?>
-																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
-																	<?php if ( 'complete' !== $todo_status ) { ?>
-																	<li><button data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																	<?php } ?>
-																	<?php } ?>
-																</ul>
-															</li>
-														</ul>
-														<?php } ?>
+		<!-- Progress Bar -->
+		<div class="bptodo-progress" style="margin-bottom: var(--bptodo-space-6);">
+			<div class="bptodo-progress__bar" style="width: <?php echo esc_attr( $completion_percentage ); ?>%;"></div>
+		</div>
 
-														<?php } ?>
-														<!-- TASKS FOR TOMORROW -->
-														<?php
-														if ( ! empty( $todo_list['tomorrow'] ) ) {
-															$count = 1;
+		<?php do_action( 'bptodo_add_extra_tab_content_before_defaults', $profile_menu_label ); ?>
 
-															foreach ( $todo_list['tomorrow'] as $tid ) {
+		<!-- Search & Filters Bar -->
+		<?php
+		// Get categories for filter dropdown.
+		$todo_categories = get_terms(
+			array(
+				'taxonomy'   => 'bptodo_category',
+				'hide_empty' => false,
+			)
+		);
+		?>
+		<div class="bptodo-search-filters">
+			<div class="bptodo-search-filters__row">
+				<!-- Search Input -->
+				<div class="bptodo-search-filters__search">
+					<input
+						type="text"
+						id="bptodo-search-input"
+						class="bptodo-input bptodo-search-input"
+						placeholder="<?php esc_attr_e( 'Search todos...', 'wb-todo' ); ?>"
+						aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>"
+					>
+					<svg class="bptodo-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<circle cx="11" cy="11" r="8"></circle>
+						<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+					</svg>
+				</div>
 
-																$todo          = get_post( $tid );
-																$todo_title    = $todo->post_title;
-																$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-																$todo_view_url = get_permalink( $tid );
+				<!-- Filter Dropdowns -->
+				<div class="bptodo-search-filters__filters">
+					<!-- Status Filter -->
+					<select id="bptodo-filter-status" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Status', 'wb-todo' ); ?></option>
+						<option value="incomplete"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></option>
+						<option value="complete"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+					</select>
 
-																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
-																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
-																$due_date_str  = $due_date_td_class = '';
-																$curr_date     = date_create( gmdate('Y-m-d') );
-																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-																$diff          = date_diff( $curr_date, $due_date );
-																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
-																$todo          = get_post( $tid );
-																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id   = 0;
-																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );
-																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
-																	$todo_cat_id = $todo_cat[0]->term_id;
-																}
-																if ( $diff_days < 0 ) {
-																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
-																	$due_date_td_class = 'bptodo-expired';
-																} elseif ( 0 === $diff_days ) {
-																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-																	$due_date_td_class = 'bptodo-expires-today';
-																	$all_remaining_todo++;
-																} else {
-																	if ( 1 === $diff_days ) {
-																		$day_string = __( 'day', 'wb-todo' );
-																	} else {
-																		$day_string = __( 'days', 'wb-todo' );
-																	}
-																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
-																	$all_remaining_todo++;
-																}
-																$bptodo_row_complete = '';
-																if ( 'complete' === $todo_status ) {
-																	$due_date_str      = esc_html__( 'Completed', 'wb-todo' );
-																	$due_date_td_class = '';
-																	$all_completed_todo++;
-																	$bptodo_row_complete = 'completed';
-																}
+					<!-- Priority Filter -->
+					<select id="bptodo-filter-priority" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Priorities', 'wb-todo' ); ?></option>
+						<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
+						<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
+						<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+					</select>
 
-																if ( ! empty( $todo_priority ) ) {
-																	if ( 'critical' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-critical';
-																		$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-																	} elseif ( 'high' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-high';
-																		$priority_text  = esc_html__( 'High', 'wb-todo' );
-																	} else {
-																		$priority_class = 'bptodo-priority-normal';
-																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-																	}
-																}
-																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
-																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
-																<?php
-																$checked       = '';
-																$checked_class = 'todo-uncomplete';
-																if ( 'complete' == $todo_status ) {
-																	$checked       = 'checked';
-																	$checked_class = 'todo-complete';
-																}
-																?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
-															</li>	
-															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $todo_title ); ?></li>
-															<li class="bptodo-cat">
-																<span class="bptodo-cat-mobile-title">Category</span>
-																<span class="bptodo-cat-text">
-																<?php
-																foreach ( $todo_cats as $todo_cat ) {
-																	if ( $todo_cat_id == $todo_cat->term_id ) {
-																		echo esc_html( $todo_cat->name );
-																	}
-																}
-																?>
-																</span>
-															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																<?php
-																	if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																							$group_url = bptodo_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;									
-																		
-																		echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
-																	} else{
-																		echo esc_html( $todo_title ); 
-																	}
-																?>
-															</li>
-															<li class="bp-to-do-actions">
-																<ul class="bp-to-do-actions-list">
-																<?php if ( ! empty( $todo_gp_id ) ) { /* Group todo - show View button */ ?>
-																	<li><a href="<?php echo esc_url( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>
-																<?php } else { /* Personal todo - show Remove and Edit buttons */ ?>
-																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s ', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
-																	<?php if ( 'complete' !== $todo_status ) { ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																	<?php } ?>
-																<?php } ?>
-																</ul>
-															</li>
-														</ul>
-														<?php } ?>
+					<!-- Category Filter -->
+					<?php if ( ! empty( $todo_categories ) && ! is_wp_error( $todo_categories ) ) : ?>
+					<select id="bptodo-filter-category" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
+						<option value=""><?php esc_html_e( 'All Categories', 'wb-todo' ); ?></option>
+						<?php foreach ( $todo_categories as $category ) : ?>
+							<option value="<?php echo esc_attr( $category->slug ); ?>"><?php echo esc_html( $category->name ); ?></option>
+						<?php endforeach; ?>
+					</select>
+					<?php endif; ?>
 
-														<?php } ?>
+					<!-- Clear Filters Button -->
+					<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" aria-label="<?php esc_attr_e( 'Clear all filters', 'wb-todo' ); ?>">
+						<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
+					</button>
+				</div>
+			</div>
 
-														<!-- TASKS FOR SAMEDAY. -->
-														<?php if ( ! empty( $todo_list['future'] ) ) { ?>
-															<?php $count = 1; ?>
-															<?php foreach ( $todo_list['future'] as $tid ) { ?>
-																<?php
-																$todo          = get_post( $tid );
-																$todo_title    = $todo->post_title;
-																$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-																$todo_view_url = get_permalink( $tid );
-																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
-																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
-																$due_date_str  = $due_date_td_class    = '';
-																$date_value    = get_post_meta( $todo->ID, 'todo_due_date', true );
-																$curr_date     = date_create( gmdate('Y-m-d') );
-																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-																$diff          = date_diff( $curr_date, $due_date );
-																$diff_days     = $diff->format( '%R%a' );
-																$todo_cats = get_terms(array(
-																	'taxonomy'   => 'todo_category',
-																	'orderby'    => 'name',
-																	'hide_empty' => false,
-																));
-																$todo          = get_post( $tid );
-																$todo_cat      = wp_get_object_terms( $tid, 'todo_category' );
-																$todo_cat_id   = 0;																
-																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );																
-																if ( ! empty( $todo_cat ) && is_array( $todo_cat ) ) {
-																	$todo_cat_id = $todo_cat[0]->term_id;
-																}
-																if ( $diff_days < 0 ) {
-																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
-																	$due_date_td_class = 'bptodo-expired';
-																} elseif ( 0 === $diff_days ) {
-																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-																	$due_date_td_class = 'bptodo-expires-today';
-																	$all_remaining_todo++;
-																} else {
-																	if ( 1 === $diff_days ) {
-																		$day_string = __( 'day', 'wb-todo' );
-																	} else {
-																		$day_string = __( 'days', 'wb-todo' );
-																	}
-																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
-																	$all_remaining_todo++;
-																}
-																$bptodo_row_complete = '';
-																if ( 'complete' === $todo_status ) {
-																	$due_date_str      = esc_html__( 'Completed', 'wb-todo' );
-																	$due_date_td_class = '';
-																	$all_completed_todo++;
-																	$bptodo_row_complete = 'completed';
-																}
-																if ( ! empty( $todo_priority ) ) {
-																	if ( 'critical' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-critical';
-																		$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-																	} elseif ( 'high' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-high';
-																		$priority_text  = esc_html__( 'High', 'wb-todo' );
-																	} else {
-																		$priority_class = 'bptodo-priority-normal';
-																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-																	}
-																}																
-																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
-																?>
-														<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">													
-																<?php
-																$checked       = '';
-																$checked_class = 'todo-uncomplete';
-																if ( 'complete' == $todo_status ) {
-																	$checked       = 'checked';
-																	$checked_class = 'todo-complete';
-																}
-																?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
-															</li>
-															<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-															<li  class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span>
-																							   <?php
-																								if ( '' == $date_value || empty( $date_value ) ) {
-																									echo '-';
-																								} else {
-																									echo esc_html( $due_date_str );
-																								}
-																								?>
-															</li>
-															<li class="bptodo-cat">
-																<span class="bptodo-cat-mobile-title">Category</span>
-																<span class="bptodo-cat-text">
-																<?php
-																foreach ( $todo_cats as $todo_cat ) {
-																	if ( $todo_cat_id == $todo_cat->term_id ) {
-																		echo esc_html( $todo_cat->name );
-																	}
-																}
-																?>
-																</span>
-															</li>
-															<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																<?php
-																if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																								if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
-																		$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
-																	} else {
-																		$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
-																	}								
-																	
-																	echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
-																} else{
-																	echo esc_html( $todo_title ); 
-																}
-																?>
-															</li>
-															<li class="bp-to-do-actions">
-																<ul class="bp-to-do-actions-list">
-																<?php if ( ! empty( $todo_gp_id ) ) { /* Group todo - show View button */ ?>
-																	<li><a href="<?php echo esc_url( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>
-																<?php } else { /* Personal todo - show Remove and Edit buttons */ ?>
-																	<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
-																	<?php if ( 'complete' !== $todo_status ) { ?>
-																	<li><button  data-tid="<?php echo esc_attr( $tid ); ?>" class="trigger" data-modal-trigger="trigger" data-type = 'member' title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/edit.svg" /></button></li>
-																	<?php } ?>
-																<?php } ?>
-																</ul>
-															</li>
-																	</ul>
-														<?php } ?>
+			<!-- Results Info -->
+			<div class="bptodo-search-filters__info">
+				<span id="bptodo-results-count" class="bptodo-results-count">
+					<?php
+					$showing_start = min( $all_todo_count, ( ( $all_result['page'] - 1 ) * $all_result['per_page'] ) + 1 );
+					$showing_end   = min( $all_todo_count, $all_result['page'] * $all_result['per_page'] );
+					printf(
+						/* translators: 1: First item on page, 2: Last item on page, 3: Total todos */
+						esc_html__( 'Showing %1$d-%2$d of %3$d todos', 'wb-todo' ),
+						esc_html( $showing_start ),
+						esc_html( $showing_end ),
+						esc_html( $all_todo_count )
+					);
+					?>
+				</span>
+			</div>
+		</div>
 
-														<?php } ?>
-													</div>
-												</div>
-											</div>
+		<!-- No Results Message (hidden by default) -->
+		<div class="bptodo-no-results" id="bptodo-no-results" style="display: none;">
+			<svg class="bptodo-no-results__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="11" cy="11" r="8"></circle>
+				<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+				<line x1="8" y1="8" x2="14" y2="14"></line>
+				<line x1="14" y1="8" x2="8" y2="14"></line>
+			</svg>
+			<p class="bptodo-no-results__text"><?php esc_html_e( 'No todos match your search criteria.', 'wb-todo' ); ?></p>
+		</div>
 
-										</div>
-								</div>
-							</div>
-							<div id="bptodo-completed">
-								<div id="bptodo-all">
-									<div class="bptodo-admin-row">
-										<div class="todo-panel">
-											<div class="todo-detail">
-												<div class="bp-todo-reminder">
-													<div class="todo-header">
-														<ul class="todo-header-head">
-															<li class="bptodo-check"></li>
-															<li class="bptodo-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></li>
-															<li class="bptodo-date"><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></li>
-															<li class="bptodo-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></li>
-															<li class="bptodo-task"><?php echo esc_html( $profile_menu_label ); ?></li>
-															<li class="bptodo-actions"><?php esc_html_e( 'Actions', 'wb-todo' ); ?></li>
-														</ul>
-													</div>
-													<div class="todo-header-list">
-														<?php if ( ! empty( $completed_todo_ids ) ) { ?>
-															<?php
-															foreach ( $completed_todo_ids as $tid ) {
-																$todo          = get_post( $tid );
-																$todo_title    = $todo->post_title;
-																$todo_edit_url = bp_core_get_userlink( bp_displayed_user_id(), false, true ) . $profile_menu_slug . '/add?args=' . $tid;
-																$todo_view_url = get_permalink( $tid );
-																$todo_status   = get_post_meta( $todo->ID, 'todo_status', true );
-																$todo_priority = get_post_meta( $todo->ID, 'todo_priority', true );
-																$due_date_str  = $due_date_td_class = '';
-																$curr_date     = date_create( gmdate('Y-m-d') );
-																$due_date      = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
-																$diff          = date_diff( $curr_date, $due_date );
-																$diff_days     = $diff->format( '%R%a' );
-																$todo_gp_id    = get_post_meta( $tid, 'todo_group_id', true );
-																if ( $diff_days < 0 ) {
-																	/* Translators: Number of expiry days */
-																	$due_date_str      = sprintf( esc_html__( 'Expired!', 'wb-todo' ), abs( $diff_days ) );
-																	$due_date_td_class = 'bptodo-expired';
-																} elseif ( 0 === $diff_days ) {
-																	$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
-																	$due_date_td_class = 'bptodo-expires-today';
-																	$all_remaining_todo++;
-																} else {
-																	if ( 1 === $diff_days ) {
-																		$day_string = __( 'day', 'wb-todo' );
-																	} else {
-																		$day_string = __( 'days', 'wb-todo' );
-																	}
-																	/* Translators: Number of left days */
-																	$due_date_str = sprintf( esc_html__( '%1$d %2$s left', 'wb-todo' ), abs( $diff_days ), $day_string );
-																	$all_remaining_todo++;
-																}
-																$bptodo_row_complete = '';
-																if ( 'complete' === $todo_status ) {
-																	$due_date_str      = esc_html__( 'Completed', 'wb-todo' );
-																	$due_date_td_class = '';
-																	$all_completed_todo++;
-																	$bptodo_row_complete = 'completed';
-																}
-																if ( ! empty( $todo_priority ) ) {
-																	if ( 'critical' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-critical';
-																		$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-																	} elseif ( 'high' === $todo_priority ) {
-																		$priority_class = 'bptodo-priority-high';
-																		$priority_text  = esc_html__( 'High', 'wb-todo' );
-																	} else {
-																		$priority_class = 'bptodo-priority-normal';
-																		$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-																	}
-																}
-																$group_todo = isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ? 'todo-group-list' : '';
-																?>
-															<ul id="bptodo-row-<?php echo esc_attr( $tid ); ?>" class="todo-header-list-row <?php echo esc_attr( $bptodo_row_complete ); ?> <?php echo esc_attr( $group_todo ); ?>">
-																<?php
-																$checked       = '';
-																$checked_class = 'todo-uncomplete';
-																if ( 'complete' == $todo_status ) {
-																	$checked       = 'checked';
-																	$checked_class = 'todo-complete';
-																}
-																?>
-															<li id="bptodo-complete-li-<?php echo esc_attr( $tid ); ?>" class="bptodo-complete-todo bptodo-check <?php echo esc_attr( $checked_class ); ?>" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php /* translators: %s: */ echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>">
-															<label><input type="checkbox" class="option-input checkbox" <?php echo esc_attr( $checked ); ?> /></label>																
-															</li>	
-																<li class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></li>
-																<li class="bptodo-date <?php echo ( 'complete' === $due_date_td_class ) ? esc_attr( $class ) : ''; ?><?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>"><span>Due Date</span><?php echo esc_html( $due_date_str ); ?></li>
-																<li class="bptodo-cat <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																	<span class="bptodo-cat-mobile-title">Category</span>
-																	<span class="bptodo-cat-text">
-																		<?php
-																		foreach ( $todo_cats as $todo_cat ) {
-																			if ( $todo_cat_id == $todo_cat->term_id ) {
-																				echo esc_html( $todo_cat->name );
-																			}
-																		}
-																		?>
-																	</span>
-																<li class="bptodo-task <?php echo ( 'complete' === $todo_status ) ? esc_attr( $class ) : ''; ?>">
-																	<?php
-																		if( isset( $todo_gp_id ) && ! empty( $todo_gp_id ) ){																						if( function_exists( 'buddypress' ) && isset( buddypress()->buddyboss ) ) {
-																				$group_url = bp_get_group_permalink( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
-																			} else {
-																				$group_url = bp_get_group_url( groups_get_group( $todo_gp_id ) ) . $profile_menu_slug;
-																			}							
-																			
-																			echo '<a href="'. esc_attr( $group_url ) .'" target="_blank">'. esc_html( $todo_title ) .'</a>';
-																		} else{
-																			echo esc_html( $todo_title ); 
-																		}
-																	?>
-																</li>
-																<li class="bp-to-do-actions">
-																	<ul class="bp-to-do-actions-list">
-																	<?php if ( ! empty( $todo_gp_id ) ) { /* Group todo - show View button */ ?>
-																		<li><a href="<?php echo esc_url( $todo_view_url ); ?>" title="<?php echo sprintf( esc_html__( 'View: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/eye.svg" /></a></li>
-																	<?php } else { /* Personal todo - show Remove button */ ?>
-																		<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><img src="<?php echo esc_attr( BPTODO_PLUGIN_URL ); ?>assets/css/images/trash-alt.svg" /></a></li>
-																	<?php } ?>
-																	</ul>
-																</li>
-															</ul>
-															<?php } ?>
-															<?php } else { ?>
-															<div class="info bp-feedback">
-																<span class="bp-icon" aria-hidden="true"></span>
-																<p class="text"><?php echo esc_html__( 'Completed Todo Not found', 'wb-todo' ); ?></p>
-															</div>
-																<?php } ?>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<?php do_action( 'bptodo_add_extra_tab_content_after_defaults', $profile_menu_label ); ?>
-					</div>
-				</section>
+		<!-- Tab Navigation -->
+		<div class="bptodo-tabs" role="tablist">
+			<button
+				type="button"
+				class="bptodo-tab bptodo-tab--active"
+				role="tab"
+				aria-selected="true"
+				aria-controls="bptodo-panel-all"
+				id="bptodo-tab-all"
+				data-tab="all"
+			>
 				<?php
-		} ?>
+				printf(
+					/* translators: %s: Todo label */
+					esc_html__( 'All %s', 'wb-todo' ),
+					esc_html( $profile_menu_label_plural )
+				);
+				?>
+				<span class="bptodo-badge bptodo-badge--category"><?php echo esc_html( $all_todo_count ); ?></span>
+			</button>
+			<button
+				type="button"
+				class="bptodo-tab"
+				role="tab"
+				aria-selected="false"
+				aria-controls="bptodo-panel-completed"
+				id="bptodo-tab-completed"
+				data-tab="completed"
+			>
+				<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+				<span class="bptodo-badge bptodo-badge--category"><?php echo esc_html( $all_completed_todo ); ?></span>
+			</button>
+		</div>
+
+		<!-- All Todos Panel -->
+		<div
+			class="bptodo-tab-panel"
+			role="tabpanel"
+			id="bptodo-panel-all"
+			aria-labelledby="bptodo-tab-all"
+		>
+			<?php if ( empty( $todos ) ) : ?>
+				<?php
+				$context    = 'member';
+				$filter     = '';
+				$can_create = true;
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
+				?>
+			<?php else : ?>
+				<div class="bptodo-list bptodo-list--grid" role="list">
+					<?php
+					foreach ( $todos as $todo ) :
+						// Determine if this is a group todo.
+						$todo_gp_id   = get_post_meta( $todo->ID, 'todo_group_id', true );
+						$is_group_todo = ! empty( $todo_gp_id );
+
+						// Set permissions based on todo ownership.
+						$can_edit   = ! $is_group_todo; // Can only edit personal todos.
+						$can_delete = ! $is_group_todo; // Can only delete personal todos.
+
+						// Include the card partial.
+						$context       = 'member';
+						$show_checkbox = true;
+						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
+					endforeach;
+					?>
+				</div>
+
+				<?php
+				// Server-side pager for the All panel.
+				$pager = array(
+					'param'       => 'todo_page',
+					'current'     => $all_result['page'],
+					'total_pages' => $all_result['total_pages'],
+					'label'       => __( 'All todos pagination', 'wb-todo' ),
+				);
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+				?>
+			<?php endif; ?>
+		</div>
+
+		<!-- Completed Todos Panel -->
+		<div
+			class="bptodo-tab-panel"
+			role="tabpanel"
+			id="bptodo-panel-completed"
+			aria-labelledby="bptodo-tab-completed"
+			hidden
+		>
+			<?php if ( empty( $completed_todos ) ) : ?>
+				<?php
+				$context    = 'member';
+				$filter     = 'complete';
+				$can_create = false;
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
+				?>
+			<?php else : ?>
+				<div class="bptodo-list bptodo-list--grid" role="list">
+					<?php
+					foreach ( $completed_todos as $todo ) :
+						$todo_gp_id    = get_post_meta( $todo->ID, 'todo_group_id', true );
+						$is_group_todo = ! empty( $todo_gp_id );
+
+						$can_edit      = false; // Completed todos can't be edited.
+						$can_delete    = ! $is_group_todo;
+						$context       = 'member';
+						$show_checkbox = true;
+						include BPTODO_PLUGIN_PATH . 'public/todo/partials/todo-card.php';
+					endforeach;
+					?>
+				</div>
+
+				<?php
+				// Server-side pager for the Completed panel.
+				$pager = array(
+					'param'       => 'done_page',
+					'current'     => $completed_result['page'],
+					'total_pages' => $completed_result['total_pages'],
+					'label'       => __( 'Completed todos pagination', 'wb-todo' ),
+				);
+				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
+				?>
+			<?php endif; ?>
+		</div>
+
+		<?php do_action( 'bptodo_add_extra_tab_content_after_defaults', $profile_menu_label ); ?>
+	<?php endif; ?>
+</div>
+
+<!-- Tab Switching and Pagination JavaScript -->
+<script>
+(function() {
+	'use strict';
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const tabs = document.querySelectorAll('.bptodo-tab');
+		const panels = document.querySelectorAll('.bptodo-tab-panel');
+
+		// Tab switching with keyboard support.
+		tabs.forEach(function(tab) {
+			tab.addEventListener('click', function() {
+				switchTab(this);
+			});
+
+			// Keyboard navigation for tabs.
+			tab.addEventListener('keydown', function(e) {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					switchTab(this);
+				}
+				if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+					e.preventDefault();
+					const tabsArray = Array.from(tabs);
+					const currentIndex = tabsArray.indexOf(this);
+					let newIndex;
+					if (e.key === 'ArrowRight') {
+						newIndex = (currentIndex + 1) % tabsArray.length;
+					} else {
+						newIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
+					}
+					tabsArray[newIndex].focus();
+					switchTab(tabsArray[newIndex]);
+				}
+			});
+		});
+
+		function switchTab(tab) {
+			const targetId = 'bptodo-panel-' + tab.dataset.tab;
+
+			// Update tabs.
+			tabs.forEach(function(t) {
+				t.classList.remove('bptodo-tab--active');
+				t.setAttribute('aria-selected', 'false');
+				t.setAttribute('tabindex', '-1');
+			});
+			tab.classList.add('bptodo-tab--active');
+			tab.setAttribute('aria-selected', 'true');
+			tab.setAttribute('tabindex', '0');
+
+			// Update panels.
+			panels.forEach(function(p) {
+				if (p.id === targetId) {
+					p.hidden = false;
+				} else {
+					p.hidden = true;
+				}
+			});
+		}
+
+		// Pagination is server-side (see the pagination partial); re-open
+		// the Completed tab after following a done_page pagination link.
+		if (new URLSearchParams(window.location.search).has('done_page')) {
+			const completedTab = document.getElementById('bptodo-tab-completed');
+			if (completedTab) {
+				switchTab(completedTab);
+			}
+		}
+	});
+})();
+</script>

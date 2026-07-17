@@ -309,27 +309,29 @@ class BPTODO_CLI_Commands {
 	 * @return int|false Post ID on success, false on failure.
 	 */
 	private function create_todo( $user_id, $template ) {
-		$todo_id = wp_insert_post(
+		// Create through the domain layer (single authority).
+		$todo = Bptodo_Todo_Repository::create(
 			array(
-				'post_title'   => $template['title'],
-				'post_content' => $template['description'],
-				'post_type'    => 'bp-todo',
-				'post_status'  => 'publish',
-				'post_author'  => $user_id,
-			)
+				'title'       => $template['title'],
+				'description' => $template['description'],
+				'priority'    => isset( $template['priority'] ) ? $template['priority'] : 'normal',
+				'due_date'    => isset( $template['due_date'] ) ? $template['due_date'] : '',
+			),
+			$user_id
 		);
 
-		if ( is_wp_error( $todo_id ) ) {
+		if ( is_wp_error( $todo ) ) {
 			return false;
 		}
 
-		// Add meta data
-		update_post_meta( $todo_id, 'todo_status', $template['status'] );
-		update_post_meta( $todo_id, 'todo_priority', $template['priority'] );
-		update_post_meta( $todo_id, 'todo_due_date', $template['due_date'] );
+		$todo_id = $todo->id();
+
+		if ( isset( $template['status'] ) && 'complete' === $template['status'] ) {
+			Bptodo_Todo_Repository::set_status( $todo_id, 'complete', $user_id );
+		}
 
 		if ( ! empty( $template['groupid'] ) ) {
-			update_post_meta( $todo_id, 'todo_group_id', $template['groupid'] );
+			update_post_meta( $todo_id, 'todo_group_id', (int) $template['groupid'] );
 		}
 
 		return $todo_id;

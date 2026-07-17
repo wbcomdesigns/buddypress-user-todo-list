@@ -34,94 +34,39 @@ if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
 // Check if user is admin or mod
 $can_modify = bp_group_is_admin() || bp_group_is_mod();
 
-// Get group permalink for admin links
-$admin_link = bptodo_get_group_url( $group ) . 'todo/';
+// Get group permalink for admin links (use the configured, sanitized todo slug).
+global $bptodo;
+$admin_link = bptodo_get_group_url( $group ) . trailingslashit( $bptodo->profile_menu_slug ?? 'todo' );
 
-// Pagination
-$tasks_per_page = 15; // Show 15 tasks per page
-$current_page = isset($_GET['overview_page']) ? absint($_GET['overview_page']) : 1;
-$current_page = max(1, $current_page); // Ensure at least page 1
+// Pagination for members.
+$members_per_page = apply_filters( 'bptodo_group_overview_members_per_page', 15, $group_id );
+$current_page     = isset( $_GET['overview_page'] ) ? absint( $_GET['overview_page'] ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
+$current_page     = max( 1, $current_page );
 
-// First, get ALL todos to calculate group-wide stats
-$stats_args = array(
-    'post_type'      => 'bp-todo',
-    'post_status'    => 'publish',
-    'posts_per_page' => -1, // Get all
-    'meta_query'     => array(
-        'relation' => 'AND',
-        array(
-            'key'     => 'todo_group_id',
-            'value'   => $group_id,
-            'compare' => '=',
-            'type'    => 'NUMERIC',
-        ),
-    ),
+// Group-wide totals via ONE aggregate query (no row fetch).
+// Every group todo (primary + associated) carries todo_group_id, so this
+// matches the old "primary + its associated todos" total exactly.
+$group_counts           = bptodo_count_todos( array( 'group_id' => $group_id ) );
+$group_total_tasks      = $group_counts['total'];
+$group_completed_tasks  = $group_counts['completed'];
+
+$group_completion_percentage = $group_total_tasks > 0 ? round( ( $group_completed_tasks / $group_total_tasks ) * 100 ) : 0;
+
+// Task selector: bounded page of PRIMARY todos only (was posts_per_page => -1).
+// Meta is batch-primed by the query, sorting happens in SQL.
+$selector_limit  = apply_filters( 'bptodo_group_overview_task_selector_limit', 100, $group_id );
+$selector_result = bptodo_get_todos_page(
+    array(
+        'group_id'     => $group_id,
+        'primary_only' => true,
+        'page'         => 1,
+        'per_page'     => $selector_limit,
+    )
 );
-
-$all_todos_for_stats = get_posts($stats_args);
-
-// Filter to only include primary todos
-$all_todos_for_stats = array_filter($all_todos_for_stats, function($todo) {
-    $primary_id = get_post_meta($todo->ID, 'todo_primary_id', true);
-    return !empty($primary_id) && $todo->ID == $primary_id;
-});
-
-$group_total_tasks = 0;
-$group_completed_tasks = 0;
-
-// Intelligent sorting: Priority (Critical > High > Normal) + Due Date (earliest first)
-usort($all_todos_for_stats, function($a, $b) {
-    $a_priority = get_post_meta($a->ID, 'todo_priority', true);
-    $b_priority = get_post_meta($b->ID, 'todo_priority', true);
-    $a_due_date = get_post_meta($a->ID, 'todo_due_date', true);
-    $b_due_date = get_post_meta($b->ID, 'todo_due_date', true);
-
-    // Priority levels
-    $priority_order = array('critical' => 1, 'high' => 2, 'normal' => 3);
-    $a_priority_val = isset($priority_order[$a_priority]) ? $priority_order[$a_priority] : 3;
-    $b_priority_val = isset($priority_order[$b_priority]) ? $priority_order[$b_priority] : 3;
-
-    if ($a_priority_val !== $b_priority_val) {
-        return $a_priority_val - $b_priority_val;
-    }
-
-    // Then by due date
-    if ($a_due_date && $b_due_date) {
-        return strtotime($a_due_date) - strtotime($b_due_date);
-    }
-    return $a_due_date ? -1 : 1;
-});
-
-// Calculate group-wide statistics from ALL todos
-foreach ($all_todos_for_stats as $todo) {
-    $associated_todos = get_post_meta($todo->ID, 'botodo_associated_todo', true);
-    if (empty($associated_todos)) {
-        $associated_todos = array();
-    }
-
-    $task_total = 1 + count($associated_todos); // Primary + associated
-    $task_completed = 0;
-
-    // Check primary
-    if (get_post_meta($todo->ID, 'todo_status', true) === 'complete') {
-        $task_completed++;
-    }
-
-    // Check associated
-    foreach ($associated_todos as $assoc_id) {
-        if (get_post_meta($assoc_id, 'todo_status', true) === 'complete') {
-            $task_completed++;
-        }
-    }
-
-    $group_total_tasks += $task_total;
-    $group_completed_tasks += $task_completed;
-}
-
-$group_completion_percentage = $group_total_tasks > 0 ? round(($group_completed_tasks / $group_total_tasks) * 100) : 0;
+$selector_tasks  = $selector_result['todos'];
 
 // Check if specific task is selected
-$selected_task_id = isset($_GET['task_id']) ? absint($_GET['task_id']) : 0;
+$selected_task_id = isset($_GET['task_id']) ? absint($_GET['task_id']) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only view arg.
 $selected_task = null;
 
 if ($selected_task_id > 0) {
@@ -133,119 +78,110 @@ if ($selected_task_id > 0) {
     }
 }
 
-// Get all group members and their task completion status
-$group_members = groups_get_group_members(array(
-    'group_id' => $group_id,
-    'exclude_admins_mods' => false,
-));
+if ( $selected_task_id > 0 && $selected_task ) {
+    /*
+     * Selected-task view: bounded by the assignees of ONE task.
+     * Batch-prime the primary + associated posts (posts, meta) in two
+     * queries instead of get_post()/get_post_meta() per row.
+     */
+    $associated_todos = get_post_meta( $selected_task->ID, 'botodo_associated_todo', true );
+    if ( empty( $associated_todos ) || ! is_array( $associated_todos ) ) {
+        $associated_todos = array();
+    }
 
-$member_stats = array();
+    $task_post_ids = array_merge( array( $selected_task->ID ), array_map( 'absint', $associated_todos ) );
+    _prime_post_caches( $task_post_ids, false, true );
 
-if (!empty($group_members['members'])) {
-    foreach ($group_members['members'] as $member) {
-        $member_id = $member->ID;
-        $total_assigned = 0;
-        $completed = 0;
-        $completed_date = '';
-
-        if ($selected_task_id > 0 && $selected_task) {
-            // Check only the selected task for this member
-            $todo = $selected_task;
-
-            // Check if this is the primary todo (member is creator)
-            if ($todo->post_author == $member_id) {
-                $total_assigned = 1;
-                if (get_post_meta($todo->ID, 'todo_status', true) === 'complete') {
-                    $completed = 1;
-                    $completed_date = get_post_meta($todo->ID, 'todo_completed_date', true);
-                }
-            } else {
-                // Check associated todos
-                $associated_todos = get_post_meta($todo->ID, 'botodo_associated_todo', true);
-                if (!empty($associated_todos)) {
-                    foreach ($associated_todos as $assoc_id) {
-                        $assoc_post = get_post($assoc_id);
-                        if ($assoc_post && $assoc_post->post_author == $member_id) {
-                            $total_assigned = 1;
-                            if (get_post_meta($assoc_id, 'todo_status', true) === 'complete') {
-                                $completed = 1;
-                                $completed_date = get_post_meta($assoc_id, 'todo_completed_date', true);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            // Check all tasks for this member (overall view)
-            foreach ($all_todos_for_stats as $todo) {
-                // Check if this is the primary todo (member is creator)
-                if ($todo->post_author == $member_id) {
-                    $total_assigned++;
-                    if (get_post_meta($todo->ID, 'todo_status', true) === 'complete') {
-                        $completed++;
-                    }
-                } else {
-                    // Check associated todos
-                    $associated_todos = get_post_meta($todo->ID, 'botodo_associated_todo', true);
-                    if (!empty($associated_todos)) {
-                        foreach ($associated_todos as $assoc_id) {
-                            $assoc_post = get_post($assoc_id);
-                            if ($assoc_post && $assoc_post->post_author == $member_id) {
-                                $total_assigned++;
-                                if (get_post_meta($assoc_id, 'todo_status', true) === 'complete') {
-                                    $completed++;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($total_assigned > 0) {
-            $completion_percentage = round(($completed / $total_assigned) * 100);
-            $member_stats[] = array(
-                'user_id' => $member_id,
-                'name' => $member->display_name,
-                'total_tasks' => $total_assigned,
-                'completed_tasks' => $completed,
-                'pending_tasks' => $total_assigned - $completed,
-                'completion_percentage' => $completion_percentage,
-                'status' => ($completed === $total_assigned) ? 'complete' : 'incomplete',
-                'completed_date' => $completed_date,
-            );
+    // Resolve assignee posts and authors from the primed cache.
+    $assignee_posts = array();
+    foreach ( $task_post_ids as $task_post_id ) {
+        $task_post = get_post( $task_post_id );
+        if ( $task_post && 'bp-todo' === $task_post->post_type ) {
+            $assignee_posts[] = $task_post;
         }
     }
+
+    // Keep only assignees who are still confirmed, unbanned group members.
+    $assignee_ids = array_map( 'absint', wp_list_pluck( $assignee_posts, 'post_author' ) );
+    $member_ids   = bptodo_filter_group_member_ids( $group_id, $assignee_ids );
+    cache_users( $member_ids );
+
+    $member_stats = array();
+    foreach ( $assignee_posts as $task_post ) {
+        $member_id = (int) $task_post->post_author;
+        if ( ! in_array( $member_id, $member_ids, true ) ) {
+            continue;
+        }
+
+        $member_user  = get_userdata( $member_id );
+        $is_completed = ( 'complete' === get_post_meta( $task_post->ID, 'todo_status', true ) );
+
+        $member_stats[] = array(
+            'user_id'               => $member_id,
+            'name'                  => $member_user ? $member_user->display_name : '',
+            'total_tasks'           => 1,
+            'completed_tasks'       => $is_completed ? 1 : 0,
+            'pending_tasks'         => $is_completed ? 0 : 1,
+            'completion_percentage' => $is_completed ? 100 : 0,
+            'status'                => $is_completed ? 'complete' : 'incomplete',
+            'completed_date'        => $is_completed ? get_post_meta( $task_post->ID, 'todo_completed_date', true ) : '',
+        );
+    }
+
+    // Sort by completion percentage (lowest first - those who need attention)
+    usort($member_stats, function($a, $b) {
+        return $a['completion_percentage'] - $b['completion_percentage'];
+    });
+
+    /**
+     * Filters the member stats before pagination (selected-task view).
+     *
+     * @since 3.5.0
+     *
+     * @param array $member_stats     Array of member statistics.
+     * @param int   $group_id         The group ID.
+     * @param int   $selected_task_id The selected task ID (0 for all tasks).
+     */
+    $member_stats = apply_filters( 'bptodo_group_overview_member_stats', $member_stats, $group_id, $selected_task_id );
+
+    $total_members_with_tasks = count($member_stats);
+    $completed_members = count(array_filter($member_stats, function($m) { return $m['status'] === 'complete'; }));
+    $pending_members = $total_members_with_tasks - $completed_members;
+
+    $total_pages = (int) ceil($total_members_with_tasks / $members_per_page);
+    $offset = ($current_page - 1) * $members_per_page;
+    $paginated_members = array_slice($member_stats, $offset, $members_per_page);
+} else {
+    /*
+     * Overall view: per-member stats aggregated, ranked and paginated in
+     * SQL (was: load ALL group todos, loop ALL group members and issue
+     * get_post_meta()/get_post() per associated todo).
+     */
+    $member_stats_result = bptodo_get_group_member_task_stats( $group_id, $members_per_page, $current_page );
+
+    /**
+     * Filters the member stats for the current page (overall view).
+     *
+     * Since 3.6.0 member stats are aggregated and paginated in SQL, so
+     * this filter receives the CURRENT PAGE of rows rather than the full
+     * member list.
+     *
+     * @since 3.5.0
+     * @since 3.6.0 Receives the current page of rows only.
+     *
+     * @param array $member_stats     Array of member statistics (current page).
+     * @param int   $group_id         The group ID.
+     * @param int   $selected_task_id The selected task ID (0 for all tasks).
+     */
+    $paginated_members = apply_filters( 'bptodo_group_overview_member_stats', $member_stats_result['members'], $group_id, $selected_task_id );
+
+    $total_members_with_tasks = $member_stats_result['total_members'];
+    $completed_members        = $member_stats_result['completed'];
+    $pending_members          = $total_members_with_tasks - $completed_members;
+
+    $total_pages = (int) ceil( $total_members_with_tasks / $members_per_page );
+    $offset      = ( $current_page - 1 ) * $members_per_page;
 }
-
-// Sort by completion percentage (lowest first - those who need attention)
-usort($member_stats, function($a, $b) {
-    return $a['completion_percentage'] - $b['completion_percentage'];
-});
-
-/**
- * Filters the member stats before pagination.
- *
- * @since 3.5.0
- *
- * @param array $member_stats     Array of member statistics.
- * @param int   $group_id         The group ID.
- * @param int   $selected_task_id The selected task ID (0 for all tasks).
- */
-$member_stats = apply_filters( 'bptodo_group_overview_member_stats', $member_stats, $group_id, $selected_task_id );
-
-// Pagination for members
-$members_per_page = apply_filters( 'bptodo_group_overview_members_per_page', 15, $group_id );
-$current_page = isset($_GET['overview_page']) ? absint($_GET['overview_page']) : 1;
-$current_page = max(1, $current_page);
-
-$total_members_with_tasks = count($member_stats);
-$completed_members = count(array_filter($member_stats, function($m) { return $m['status'] === 'complete'; }));
-$pending_members = $total_members_with_tasks - $completed_members;
-
-$total_pages = ceil($total_members_with_tasks / $members_per_page);
-$offset = ($current_page - 1) * $members_per_page;
-$paginated_members = array_slice($member_stats, $offset, $members_per_page);
 
 $base_url = $admin_link . 'overview/';
 ?>
@@ -259,8 +195,8 @@ $base_url = $admin_link . 'overview/';
             <option value="<?php echo esc_url($base_url); ?>" <?php selected($selected_task_id, 0); ?>>
                 <?php esc_html_e('Overall Progress (All Tasks)', 'wb-todo'); ?>
             </option>
-            <?php if (!empty($all_todos_for_stats)) : ?>
-                <?php foreach ($all_todos_for_stats as $task) : ?>
+            <?php if (!empty($selector_tasks)) : ?>
+                <?php foreach ($selector_tasks as $task) : ?>
                     <option value="<?php echo esc_url(add_query_arg('task_id', $task->ID, $base_url)); ?>" <?php selected($selected_task_id, $task->ID); ?>>
                         <?php echo esc_html($task->post_title); ?>
                     </option>
@@ -274,6 +210,7 @@ $base_url = $admin_link . 'overview/';
         <h3 class="bptodo-report-title">
             <?php
             if ($selected_task && $selected_task_id > 0) {
+                /* translators: %s: the task title. */
                 printf(esc_html__('Task Progress: %s', 'wb-todo'), esc_html($selected_task->post_title));
             } else {
                 esc_html_e('Group Task Progress', 'wb-todo');
@@ -292,18 +229,30 @@ $base_url = $admin_link . 'overview/';
                 ?>
                 <span class="bptodo-completion-percentage"><?php echo esc_html($task_completion_percentage); ?>%</span>
                 <span class="bptodo-completion-details">
-                    <?php echo esc_html($completed_members); ?>
-                    <?php esc_html_e('of', 'wb-todo'); ?>
-                    <?php echo esc_html($total_members_with_tasks); ?>
-                    <?php esc_html_e('members completed', 'wb-todo'); ?>
+                    <?php
+                    // One sentence, one gettext call: the old markup emitted
+                    // {n} + _e('of') + {n} + _e('members completed') as separate
+                    // fragments, which freezes English word order and leaves "of"
+                    // untranslatable in isolation.
+                    printf(
+                        /* translators: %1$d: number of members who completed the task. %2$d: total members assigned the task. */
+                        esc_html( _n( '%1$d of %2$d member completed', '%1$d of %2$d members completed', $total_members_with_tasks, 'wb-todo' ) ),
+                        (int) $completed_members,
+                        (int) $total_members_with_tasks
+                    );
+                    ?>
                 </span>
             <?php } else { ?>
                 <span class="bptodo-completion-percentage"><?php echo esc_html($group_completion_percentage); ?>%</span>
                 <span class="bptodo-completion-details">
-                    <?php echo esc_html($group_completed_tasks); ?>
-                    <?php esc_html_e('of', 'wb-todo'); ?>
-                    <?php echo esc_html($group_total_tasks); ?>
-                    <?php esc_html_e('tasks completed', 'wb-todo'); ?>
+                    <?php
+                    printf(
+                        /* translators: %1$d: number of completed tasks. %2$d: total number of tasks. */
+                        esc_html( _n( '%1$d of %2$d task completed', '%1$d of %2$d tasks completed', $group_total_tasks, 'wb-todo' ) ),
+                        (int) $group_completed_tasks,
+                        (int) $group_total_tasks
+                    );
+                    ?>
                 </span>
             <?php } ?>
         </div>
@@ -352,7 +301,15 @@ $base_url = $admin_link . 'overview/';
                                 <?php if ($member['status'] === 'complete') : ?>
                                     <span class="bptodo-status-badge bptodo-status-done">
                                         <span class="dashicons dashicons-yes"></span>
-                                        <?php esc_html_e($selected_task_id > 0 ? 'Completed' : 'All Complete', 'wb-todo'); ?>
+                                        <?php
+                                        // Each branch must be its own literal gettext call - the POT
+                                        // scanner cannot extract a string from a ternary argument.
+                                        if ($selected_task_id > 0) {
+                                            esc_html_e('Completed', 'wb-todo');
+                                        } else {
+                                            esc_html_e('All Complete', 'wb-todo');
+                                        }
+                                        ?>
                                     </span>
                                     <?php if ($selected_task_id > 0 && !empty($member['completed_date'])) : ?>
                                         <span class="bptodo-member-time">
@@ -362,13 +319,29 @@ $base_url = $admin_link . 'overview/';
                                 <?php else : ?>
                                     <span class="bptodo-status-badge bptodo-status-pending">
                                         <span class="dashicons dashicons-clock"></span>
-                                        <?php esc_html_e($selected_task_id > 0 ? 'Pending' : 'Incomplete', 'wb-todo'); ?>
+                                        <?php
+                                        // Literal per branch - see the note on the Completed badge above.
+                                        if ($selected_task_id > 0) {
+                                            esc_html_e('Pending', 'wb-todo');
+                                        } else {
+                                            esc_html_e('Incomplete', 'wb-todo');
+                                        }
+                                        ?>
                                     </span>
                                 <?php endif; ?>
                                 <?php if ($selected_task_id == 0) : ?>
                                     <span class="bptodo-member-time">
-                                        <?php echo esc_html($member['completed_tasks']); ?> / <?php echo esc_html($member['total_tasks']); ?> <?php esc_html_e('tasks', 'wb-todo'); ?>
-                                        (<?php echo esc_html($member['completion_percentage']); ?>%)
+                                        <?php
+                                        // Single translatable sentence rather than
+                                        // {n} / {n} + _e('tasks') + (pct%) fragments.
+                                        printf(
+                                            /* translators: %1$d: tasks this member completed. %2$d: tasks assigned to them. %3$d: completion percentage. */
+                                            esc_html__( '%1$d / %2$d tasks (%3$d%%)', 'wb-todo' ),
+                                            (int) $member['completed_tasks'],
+                                            (int) $member['total_tasks'],
+                                            (int) $member['completion_percentage']
+                                        );
+                                        ?>
                                     </span>
                                 <?php endif; ?>
                             </span>
@@ -391,6 +364,7 @@ $base_url = $admin_link . 'overview/';
                 $start = $offset + 1;
                 $end = min($offset + $members_per_page, $total_members_with_tasks);
                 printf(
+                    /* translators: %1$d: first member shown on this page. %2$d: last member shown. %3$d: total number of members. */
                     esc_html__('Showing %1$d-%2$d of %3$d members', 'wb-todo'),
                     $start,
                     $end,

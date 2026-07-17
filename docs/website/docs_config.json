@@ -1,0 +1,6 @@
+{
+  "product": "Todo for BuddyPress & BuddyBoss",
+  "slug": "bptodo",
+  "version": "4.0.0",
+  "description": "Personal and group to-do lists for BuddyPress and BuddyBoss. Modern block/REST/Interactivity frontend by default, with a one-click classic layout fallback."
+}

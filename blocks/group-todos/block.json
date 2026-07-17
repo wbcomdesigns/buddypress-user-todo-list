@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "bptodo/group-todos",
+	"version": "4.0.0",
+	"title": "Group Todos",
+	"category": "widgets",
+	"icon": "groups",
+	"description": "Shared todos for a BuddyPress/BuddyBoss group — create, assign, complete and filter without page reloads.",
+	"keywords": [ "todo", "task", "group", "team" ],
+	"textdomain": "wb-todo",
+	"supports": {
+		"interactivity": true,
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"groupId": { "type": "number", "default": 0 },
+		"perPage": { "type": "number", "default": 10 },
+		"showAdd": { "type": "boolean", "default": true },
+		"showStats": { "type": "boolean", "default": true }
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js"
+}

@@ -132,25 +132,36 @@ class Bptodo_List {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bptodo-public.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-scripts.php';
-
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bptodo-ajax.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-cpt.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'inc/class-bptodo-globals.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/bptodo-plugin-genral-function.php';
 
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/wbcom/wbcom-admin-settings.php';
-
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-admin.php';
+
+		// Card-panel admin controller (replaces the legacy admin/wbcom/ wrapper).
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/admin/class-bptodo-admin-panel.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-bptodo-feedback.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/widget/class-user-todo.php';
 		
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/bptodo-functions.php';
+
+		// Domain layer — the single source of truth for the todo store, shared by REST,
+		// the legacy AJAX handlers, blocks, CLI and templates. Loaded before anything
+		// that queries or writes todos.
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-todo.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-permissions.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-categories.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/domain/class-bptodo-todo-repository.php';
+
+		// REST API — thin adapter over the domain layer (bptodo/v1).
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/rest/class-bptodo-rest-controller.php';
+
+		// Modern SSR renderer (Interactivity API) — shared by blocks, shortcode and tabs.
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/render/class-bptodo-renderer.php';
 
 		$this->loader = new Bptodo_List_Loader();
 
@@ -167,10 +178,10 @@ class Bptodo_List {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Bptodo_List_I18n();
-
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
-
+		// The text domain is loaded by bptodo_load_textdomain() on init in the main
+		// plugin file. Bptodo_List_I18n was unedited boilerplate that loaded the
+		// domain "plugin-name", which no string in this plugin uses, and it ran on
+		// plugins_loaded (too early for WordPress 6.7+). Nothing to wire here.
 	}
 
 	/**
@@ -182,20 +193,36 @@ class Bptodo_List {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Bptodo_Admin( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
+		// Legacy admin service class. As of 3.6.0 its UI methods (menu,
+		// enqueue, settings-page render, notice suppression) are NO LONGER
+		// hooked — the new Bptodo_Admin_Panel owns the card-panel admin.
+		// We retain this class only for its non-UI logic: settings option
+		// registration + sanitizers (Group Todo, Data Retention, Shortcodes)
+		// and the custom General-tab save handler, which the new General view
+		// still posts to. The frontend asset loader (bptodo_variables) also
+		// lives here and stays wired.
+		// Bptodo_Admin's constructor takes no parameters and the class uses
+		// neither plugin_name/prefix nor version (it reads BPTODO_VERSION /
+		// BPTODO_PLUGIN_URL directly), so instantiate it with no arguments.
+		$plugin_admin = new Bptodo_Admin();
 		$plugin_cpt   = new Bptodo_Cpt( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt' );
 		$this->loader->add_action( 'init', $plugin_cpt, 'bptodo_create_cpt_category' );
-		$this->loader->add_action( 'admin_menu', $plugin_admin, 'bptodo_add_menu_page' );
+
+		// Settings registration (option groups + sanitizers) stays on the
+		// legacy class — preserves the exact option-save contract.
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_general_settings' );
 		$this->loader->add_action( 'admin_init', $plugin_admin, 'bptodo_register_shortcode_settings' );
-		
+
+		// Custom General-tab save path (self-POST, nonce `bptodo`).
 		$this->loader->add_action( 'plugins_loaded', $plugin_admin, 'bptodo_save_general_settings' );
+
+		// Frontend asset loader (still owned by the legacy class).
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_admin, 'bptodo_variables' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'bptodo_admin_variables' );
-		$this->loader->add_action( 'in_admin_header', $plugin_admin, 'bptodo_hide_all_admin_notices_from_setting_page' );
+
+		// New card-panel admin controller (menu + enqueue + render + hub).
+		$bptodo_panel = new Bptodo_Admin_Panel();
+		$bptodo_panel->register();
 	}
 
 	/**
@@ -211,6 +238,10 @@ class Bptodo_List {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		// Register the bptodo/v1 REST API (thin adapter over the domain layer).
+		$bptodo_rest = new Bptodo_REST_Controller();
+		$this->loader->add_action( 'rest_api_init', $bptodo_rest, 'register_routes' );
 
 		$this->loader->add_action( 'bp_init', $plugin_public, 'bptodo_register_templates_pack', 5 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_add_todo_tabs_in_groups', 10 );
@@ -239,14 +270,17 @@ class Bptodo_List {
 		/** Add BP Todo Category. */
 		$this->loader->add_action( 'wp_ajax_bptodo_add_todo_category_front', $plugin_public, 'bptodo_add_todo_category_front' );
 
-		// Register shortcode for displaying todos by category
+		// Register shortcode for displaying todos by category (legacy, kept for backward compatibility).
 		$this->loader->add_shortcode( 'bptodo_by_category', $plugin_public, 'bptodo_by_category_template' );
 
-		$this->loader->add_action( 'wp_ajax_bptodo_edit_form_popup', $plugin_public, 'bptodo_edit_form_popup' );		
-
-		$this->loader->add_action( 'wp_footer', $plugin_public, 'bptodo_add_div_edit_form' );		
+		// Register unified shortcode with full parameter support.
+		// Usage: [bptodo_list user_id="all" category="work" status="incomplete" per_page="10"]
+		$this->loader->add_shortcode( 'bptodo_list', $plugin_public, 'bptodo_list_shortcode' );
 
 		$this->loader->add_action( 'wp_ajax_bptodo_update_form_popup', $plugin_public, 'bptodo_update_form_popup' );
+
+		// AJAX handler for getting individual todo card HTML (for smooth card updates)
+		$this->loader->add_action( 'wp_ajax_bptodo_get_todo_card_html', $plugin_public, 'bptodo_get_todo_card_html' );
 
 		$this->loader->add_action( 'bp_members_notification_settings_before_submit', $plugin_public, 'bptodo_before_submit_in_mail' );
 
@@ -260,7 +294,8 @@ class Bptodo_List {
 		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_assignment_email', 10, 2 );
 		$this->loader->add_action( 'wp_ajax_get_group_todo_report', $plugin_public, 'bptodo_display_group_todo_report' );
 
-		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_mark_notification_as_read_on_single' );
+		// Process todo form submissions early (before output starts) to allow redirects
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_process_form_submissions', 5 );
 
 		// Clear cache when todos are created, updated, or deleted
 		$this->loader->add_action( 'save_post_bp-todo', $plugin_public, 'bptodo_clear_cache_on_save', 10, 3 );

@@ -70,6 +70,12 @@ class Bptodo_List_Deactivator {
 		 * Perform your deactivation actions here.
 		 */
 
+		// Clean up: Remove upload_files capability from subscriber role if it was added by older versions.
+		$subscriber = get_role( 'subscriber' );
+		if ( ! empty( $subscriber ) && $subscriber->has_cap( 'upload_files' ) ) {
+			$subscriber->remove_cap( 'upload_files' );
+		}
+
 	}
 
 	/**

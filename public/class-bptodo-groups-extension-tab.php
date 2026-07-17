@@ -17,11 +17,14 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 
 			// Set up the extension settings.
-			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ) );
+			$profile_menu_slug = sanitize_title( strtolower( $bptodo->profile_menu_slug ?? '' ) );
+			// The group todo count is resolved at render time by
+			// bptodo_group_nav_has_count() (the group is not yet in context here).
+			// Do NOT bake the viewer's personal count into the label/count.
 			$args = array(
 				'slug'              => $profile_menu_slug,
-				'name'              => esc_html( $bptodo->profile_menu_label_plural ) . ' <span>' . $bptodo->my_todo_items . '</span>',
-				'count'             => $bptodo->my_todo_items,
+				'name'              => esc_html( $bptodo->profile_menu_label_plural ),
+				'count'             => 0,
 				'enable_nav_item'   => true,
 			);
 
@@ -78,9 +81,22 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 		 * @return int Modified count.
 		 */
 		public function bptodo_group_nav_has_count( $count, $nav_item, $displayed_nav ) {
-			if ( 'groups' === $displayed_nav && 'todo' === $nav_item->slug ) {
-				global $bptodo;
-				$count = $bptodo->my_todo_items;
+			global $bptodo;
+			$todo_slug = sanitize_title( $bptodo->profile_menu_slug ?? 'todo' );
+			if ( 'groups' === $displayed_nav && $todo_slug === $nav_item->slug ) {
+				// Count DISTINCT group todos (primaries) scoped to THIS group, not the
+				// viewer's personal count and not the per-assignee fan-out copies. The
+				// group Todos tab lists primary_only rows, so the badge must match.
+				$group_id = bp_get_current_group_id();
+				if ( $group_id && function_exists( 'bptodo_count_todos' ) ) {
+					$stats = bptodo_count_todos(
+						array(
+							'group_id'     => $group_id,
+							'primary_only' => true,
+						)
+					);
+					$count = isset( $stats['total'] ) ? (int) $stats['total'] : 0;
+				}
 			}
 			return $count;
 		}
@@ -94,7 +110,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 
 			?>
-			<nav class="bp-navs bp-subnavs no-ajax group-subnav" id="subnav" role="navigation" aria-label="Group administration menu">
+			<nav class="bp-navs bp-subnavs no-ajax group-subnav" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group administration menu', 'wb-todo' ); ?>">
 				<ul class="subnav">
 					<?php
 					global $groups_template;

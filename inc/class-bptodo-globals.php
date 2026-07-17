@@ -38,8 +38,9 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 		 * @author   Wbcom Designs
 		 */
 		public function __construct() {
-			$this->setup_globals();
-			add_action( 'wp', [$this, 'setup_globals']);
+			// Setup globals on 'bp_init' so they're available for bp_setup_nav.
+			// Priority 5 ensures this runs before nav setup (default priority 10).
+			add_action( 'bp_init', [ $this, 'setup_globals' ], 5 );
 		}
 
 		/**
@@ -55,7 +56,13 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
 			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
-			$this->profile_menu_slug         = apply_filters( 'wbbptodo_slug', strtolower( $this->profile_menu_label ) );
+			/*
+			 * The slug must be a valid URL/nav slug. Labels like "Student's Todo"
+			 * or "Todo for Student" previously produced slugs with spaces and
+			 * apostrophes, which broke BP nav registration, subnav rendering and
+			 * asset loading. sanitize_title() converts them to hyphenated slugs.
+			 */
+			$this->profile_menu_slug         = apply_filters( 'bptodo_profile_menu_slug', sanitize_title( $this->profile_menu_label ) );
 			$this->enable_todo_member        = ( isset( $settings['enable_todo_member'] ) && $settings['enable_todo_member'] === 'yes' ) ? 'yes' : 'no';
 			$this->allow_user_add_category   = ( isset( $settings['allow_user_add_category'] ) && $settings['allow_user_add_category'] === 'yes' ) ? 'yes' : 'no';
 			$this->send_notification         = ( isset( $settings['send_notification'] ) && $settings['send_notification'] === 'yes' ) ? 'yes' : 'no';
@@ -80,7 +87,7 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 
 			// Generate cache key based on user and group context
 			$cache_key = 'bptodo_count_' . $user_id;
-			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+			if ( function_exists( 'bp_is_group' ) && bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
 				$cache_key .= '_group_' . absint( bp_get_current_group_id() );
 			}
 
@@ -96,14 +103,19 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			$prepare_args = [ $user_id ];
 
 			// Add meta query for group filtering if needed
-			if ( bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
+			if ( function_exists( 'bp_is_group' ) && bp_is_group() && function_exists( 'bp_get_current_group_id' ) ) {
 				$group_id       = absint( bp_get_current_group_id() );
 				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, values are prepared below
 				$sql           .= " AND EXISTS (SELECT 1 FROM {$wpdb->postmeta} pm WHERE pm.post_id = p.ID AND pm.meta_key = 'todo_group_id' AND pm.meta_value = %d)";
 				$prepare_args[] = $group_id;
+			} else {
+				// Personal ("My Todos") badge must match the personal list, which excludes
+				// group todos - otherwise the count (e.g. 26) disagrees with the rows (20).
+				// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table names are safe, no user input in this clause.
+				$sql .= " AND NOT EXISTS (SELECT 1 FROM {$wpdb->postmeta} gx WHERE gx.post_id = p.ID AND gx.meta_key = 'todo_group_id')";
 			}
 
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Caching is handled above
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- Caching is handled above, SQL is built dynamically with prepare()
 			$count = $wpdb->get_var( $wpdb->prepare( $sql, $prepare_args ) );
 
 			// Cache for 5 minutes

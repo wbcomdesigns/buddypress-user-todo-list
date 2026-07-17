@@ -246,9 +246,27 @@ table.bptodo-add-todo-tbl select {
     color: #000 !important;
 }
 
-a:focus,
-button:focus {
-    outline: none !important;
+/* Suppress the outline for mouse focus only, and only inside the
+   plugin's own containers - a plugin stylesheet must not strip focus
+   indication site-wide. Keyboard users get an explicit outline via the
+   :focus-visible rules below. */
+.bptodo-wrapper a:focus:not(:focus-visible),
+.bptodo-wrapper button:focus:not(:focus-visible),
+.bptodo-group-report-wrapper a:focus:not(:focus-visible),
+.bptodo-group-report-wrapper button:focus:not(:focus-visible),
+.bptodo-modal a:focus:not(:focus-visible),
+.bptodo-modal button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.bptodo-wrapper a:focus-visible,
+.bptodo-wrapper button:focus-visible,
+.bptodo-group-report-wrapper a:focus-visible,
+.bptodo-group-report-wrapper button:focus-visible,
+.bptodo-modal a:focus-visible,
+.bptodo-modal button:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 .bptodo-form-add input[type="text"],
@@ -290,6 +308,11 @@ textarea {
 
 #bp_todo_categories:focus {
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+#bp_todo_categories:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 /* Add button */
@@ -1073,6 +1096,11 @@ New UI
     background: #cddef5;
 }
 
+.option-input:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
+}
+
 .option-input:checked {
     background: #0285ff;
 }
@@ -1408,6 +1436,14 @@ Edit popup
     outline: none;
 }
 
+.bptodo-modal table.bptodo-add-todo-tbl select:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="text"]:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl input[type="date"]:focus-visible,
+.bptodo-modal table.bptodo-add-todo-tbl .bptodo-text-input:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
+}
+
 /* Category dropdown specific */
 .bptodo-modal table.bptodo-add-todo-tbl select#bp_todo_categories {
     flex: 1;
@@ -1549,9 +1585,72 @@ Edit popup
     padding: 0px;
 }
 
+/* jQuery UI datepicker - token-driven so it follows the active theme and
+   dark mode (the widget is appended to <body>, outside .bptodo-wrapper). */
 #ui-datepicker-div {
-    background: #fff;
-    box-shadow: 0 0 1px;
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-secondary, #374151);
+    border: 1px solid var(--bptodo-border-default, #e5e7eb);
+    border-radius: var(--bptodo-radius-lg, 8px);
+    box-shadow: var(--bptodo-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+    padding: var(--bptodo-space-2, 8px);
+    z-index: var(--bptodo-z-dropdown, 100) !important;
+}
+
+#ui-datepicker-div .ui-datepicker-header {
+    background: var(--bptodo-bg-surface-secondary, #f9fafb);
+    color: var(--bptodo-text-primary, #111827);
+    border: none;
+    border-radius: var(--bptodo-radius-md, 6px);
+}
+
+#ui-datepicker-div .ui-datepicker-title {
+    color: var(--bptodo-text-primary, #111827);
+}
+
+#ui-datepicker-div .ui-datepicker-prev,
+#ui-datepicker-div .ui-datepicker-next {
+    cursor: pointer;
+    border-radius: var(--bptodo-radius-sm, 4px);
+}
+
+#ui-datepicker-div .ui-datepicker-prev.ui-state-hover,
+#ui-datepicker-div .ui-datepicker-next.ui-state-hover {
+    background: var(--bptodo-bg-hover, #f9fafb);
+    border-color: var(--bptodo-border-default, #e5e7eb);
+}
+
+#ui-datepicker-div th {
+    color: var(--bptodo-text-muted, #9ca3af);
+}
+
+#ui-datepicker-div td .ui-state-default {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--bptodo-text-secondary, #374151);
+    text-align: center;
+    border-radius: var(--bptodo-radius-sm, 4px);
+}
+
+#ui-datepicker-div td .ui-state-hover {
+    background: var(--bptodo-bg-hover, #f9fafb);
+    border-color: var(--bptodo-border-default, #e5e7eb);
+    color: var(--bptodo-text-primary, #111827);
+}
+
+#ui-datepicker-div td .ui-state-active {
+    background: var(--bptodo-primary, #3b82f6);
+    border-color: var(--bptodo-primary, #3b82f6);
+    color: #ffffff;
+}
+
+#ui-datepicker-div td.ui-datepicker-today .ui-state-default:not(.ui-state-active) {
+    border-color: var(--bptodo-primary, #3b82f6);
+    color: var(--bptodo-primary, #3b82f6);
+}
+
+#ui-datepicker-div .ui-state-disabled .ui-state-default {
+    color: var(--bptodo-text-disabled, #9ca3af);
 }
 
 /* Youzify */
@@ -1907,7 +2006,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-report-overview {
     margin: 25px 0;
     padding: 20px 0;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid var(--bptodo-border-light);
 }
 
 .bptodo-completion-summary {
@@ -1921,34 +2020,34 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-completion-percentage {
     font-size: 2.5em;
     font-weight: 700;
-    color: #0073aa;
+    color: var(--bptodo-primary);
     line-height: 1;
 }
 
 .bptodo-completion-details {
     font-size: 1em;
-    color: #666;
+    color: var(--bptodo-text-secondary);
 }
 
 /* Progress Bar */
 .bptodo-progress-bar {
     width: 100%;
     height: 8px;
-    background: #e5e5e5;
+    background: var(--bptodo-bg-surface-tertiary);
     border-radius: 4px;
     overflow: hidden;
 }
 
 .bptodo-progress-fill {
     height: 100%;
-    background: #46b450;
+    background: var(--bptodo-success);
     transition: width 0.3s ease;
 }
 
 .bptodo-progress-text {
     display: block;
     text-align: center;
-    color: #666;
+    color: var(--bptodo-text-secondary);
     font-size: 14px;
 }
 
@@ -1961,7 +2060,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     font-size: 1.1em;
     font-weight: 600;
     margin: 0 0 20px;
-    color: #333;
+    color: var(--bptodo-text-primary);
 }
 
 /* Member Grid - 3 Column Layout */
@@ -1977,23 +2076,23 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     align-items: flex-start;
     gap: 12px;
     padding: 15px;
-    background: #fff;
-    border: 1px solid #e5e5e5;
+    background: var(--bptodo-bg-card);
+    border: 1px solid var(--bptodo-border-light);
     border-radius: 4px;
     transition: all 0.2s ease;
 }
 
 .bptodo-member-item:hover {
-    border-color: #0073aa;
+    border-color: var(--bptodo-primary);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .bptodo-member-item.status-complete .bptodo-member-avatar {
-    border: 2px solid #46b450;
+    border: 2px solid var(--bptodo-success);
 }
 
 .bptodo-member-item.status-incomplete .bptodo-member-avatar {
-    border: 2px solid #ff9800;
+    border: 2px solid var(--bptodo-warning);
 }
 
 .bptodo-member-avatar {
@@ -2011,7 +2110,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 .bptodo-member-name {
     font-weight: 600;
-    color: #333;
+    color: var(--bptodo-text-primary);
     font-size: 0.95em;
     text-decoration: none;
     overflow: hidden;
@@ -2020,7 +2119,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-member-name:hover {
-    color: #0073aa;
+    color: var(--bptodo-primary);
 }
 
 .bptodo-member-status {
@@ -2041,18 +2140,18 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-status-done {
-    background: #e8f5e9;
-    color: #2e7d32;
+    background: var(--bptodo-success-light);
+    color: var(--bptodo-success-hover);
 }
 
 .bptodo-status-pending {
-    background: #fff3e0;
-    color: #e65100;
+    background: var(--bptodo-warning-light);
+    color: var(--bptodo-warning-hover);
 }
 
 .bptodo-member-time {
     font-size: 12px;
-    color: #666;
+    color: var(--bptodo-text-secondary);
 }
 
 .bptodo-status-badge .dashicons {
@@ -2117,7 +2216,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   display: flex;
   gap: 0;
   margin: 20px 0 30px 0;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--bptodo-border-light);
   background: transparent;
 }
 
@@ -2125,7 +2224,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   padding: 10px 20px;
   text-decoration: none;
   text-align: center;
-  color: #666;
+  color: var(--bptodo-text-secondary);
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
@@ -2144,12 +2243,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-view-switcher .bptodo-view-btn:hover {
-  color: #0073aa;
+  color: var(--bptodo-primary);
 }
 
 .bptodo-view-switcher .bptodo-view-btn.active {
-  color: #0073aa;
-  border-bottom-color: #0073aa;
+  color: var(--bptodo-primary);
+  border-bottom-color: var(--bptodo-primary);
   font-weight: 600;
 }
 
@@ -2169,13 +2268,13 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-group-task-card {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--bptodo-border-light);
   padding: 25px 0;
   transition: background 0.2s ease;
 }
 
 .bptodo-group-task-card:hover {
-  background: #fafafa;
+  background: var(--bptodo-bg-surface-secondary);
 }
 
 .bptodo-task-header {
@@ -2190,13 +2289,13 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-task-title a {
-  color: #333;
+  color: var(--bptodo-text-primary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .bptodo-task-title a:hover {
-  color: #007cba;
+  color: var(--bptodo-primary);
 }
 
 .bptodo-task-meta {
@@ -2227,28 +2326,28 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-priority-badge.bptodo-priority-critical {
-  background: #dc3232;
+  background: var(--bptodo-danger);
   color: #fff;
 }
 
 .bptodo-priority-badge.bptodo-priority-high {
-  background: #ff9800;
+  background: var(--bptodo-warning);
   color: #fff;
 }
 
 .bptodo-priority-badge.bptodo-priority-normal {
-  background: #46b450;
+  background: var(--bptodo-success);
   color: #fff;
 }
 
 .bptodo-due-date-badge {
-  background: #f0f0f1;
-  color: #666;
+  background: var(--bptodo-bg-surface-secondary);
+  color: var(--bptodo-text-secondary);
 }
 
 .bptodo-category-badge {
-  background: #e5f5ff;
-  color: #0073aa;
+  background: var(--bptodo-info-light);
+  color: var(--bptodo-primary);
 }
 
 /* ========================================
@@ -2275,18 +2374,18 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 .bptodo-completion-text strong {
   font-size: 1.3em;
-  color: #007cba;
+  color: var(--bptodo-primary);
 }
 
 .bptodo-completion-count {
-  color: #666;
+  color: var(--bptodo-text-secondary);
   font-size: 0.95em;
 }
 
 .bptodo-progress-bar {
   width: 100%;
   height: 25px;
-  background: #e0e0e0;
+  background: var(--bptodo-bg-surface-tertiary);
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -2294,7 +2393,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 .bptodo-progress-fill {
   height: 100%;
-  background: linear-gradient(-90deg, #46b450 0%, #3ea843 100%);
+  background: var(--bptodo-success);
   border-radius: 12px;
   transition: width 0.5s ease;
   min-width: 2%;
@@ -2306,7 +2405,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-member-breakdown {
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--bptodo-border-light);
 }
 
 .bptodo-toggle-members {
@@ -2316,18 +2415,18 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   padding: 6px 12px;
   background: transparent;
   border: none;
-  border-bottom: 1px dashed #ccc;
+  border-bottom: 1px dashed var(--bptodo-border-default);
   cursor: pointer;
   font-size: 0.9em;
   font-weight: 500;
-  color: #0073aa;
+  color: var(--bptodo-primary);
   transition: all 0.2s ease;
   width: auto;
 }
 
 .bptodo-toggle-members:hover {
-  color: #005a87;
-  border-bottom-color: #005a87;
+  color: var(--bptodo-primary-hover);
+  border-bottom-color: var(--bptodo-primary-hover);
 }
 
 .bptodo-toggle-members .dashicons {
@@ -2347,7 +2446,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   align-items: center;
   gap: 12px;
   padding: 12px 0;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--bptodo-border-light);
   transition: opacity 0.2s ease;
 }
 
@@ -2370,12 +2469,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-member-name a {
-  color: #333;
+  color: var(--bptodo-text-primary);
   text-decoration: none;
 }
 
 .bptodo-member-name a:hover {
-  color: #007cba;
+  color: var(--bptodo-primary);
   text-decoration: underline;
 }
 
@@ -2388,11 +2487,11 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-member-item.completed .bptodo-member-status {
-  color: #46b450;
+  color: var(--bptodo-success);
 }
 
 .bptodo-member-item.incomplete .bptodo-member-status {
-  color: #ff9800;
+  color: var(--bptodo-warning);
 }
 
 .bptodo-member-status .dashicons {
@@ -2404,11 +2503,11 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-member-item.completed .dashicons {
-  color: #46b450;
+  color: var(--bptodo-success);
 }
 
 .bptodo-member-item.incomplete .dashicons {
-  color: #ff9800;
+  color: var(--bptodo-warning);
 }
 
 /* ========================================
@@ -2419,7 +2518,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   gap: 10px;
   margin-top: 20px;
   padding-top: 15px;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid var(--bptodo-border-light);
   flex-wrap: wrap;
 }
 
@@ -2444,9 +2543,9 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-no-tasks {
   text-align: center;
   padding: 40px 20px;
-  background: #f9f9f9;
+  background: var(--bptodo-bg-surface-secondary);
   border-radius: 8px;
-  color: #666;
+  color: var(--bptodo-text-secondary);
 }
 
 .bptodo-no-tasks p {
@@ -2463,12 +2562,12 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   }
 
   .bptodo-view-switcher .bptodo-view-btn {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--bptodo-border-default);
   }
 
   .bptodo-view-switcher .bptodo-view-btn.active {
-    border-right: 3px solid #007cba;
-    border-bottom: 1px solid #ddd;
+    border-right: 3px solid var(--bptodo-primary);
+    border-bottom: 1px solid var(--bptodo-border-default);
   }
 
   .bptodo-task-meta {
@@ -2539,7 +2638,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   padding: 15px 0;
   background: transparent;
   border: none;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--bptodo-border-light);
   margin-bottom: 0;
   transition: all 0.2s ease;
 }
@@ -2549,11 +2648,11 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-member-item.status-complete .bptodo-member-avatar {
-  border: 2px solid #46b450;
+  border: 2px solid var(--bptodo-success);
 }
 
 .bptodo-member-item.status-incomplete .bptodo-member-avatar {
-  border: 2px solid #ff9800;
+  border: 2px solid var(--bptodo-warning);
 }
 
 .bptodo-member-avatar {
@@ -2573,21 +2672,25 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-member-name {
   font-weight: 600;
   font-size: 1.05em;
-  color: #333;
+  color: var(--bptodo-text-primary);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .bptodo-member-name:hover {
-  color: #007cba;
+  color: var(--bptodo-primary);
   text-decoration: underline;
 }
 
 .bptodo-member-status {
   display: flex;
-  align-items: center;
+  /* Stack badge + task-count under the member name and align them to the
+     inline start, so they line up with the name instead of centering in the
+     info column (the earlier centered rule mismatched the column layout). */
+  flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
-  flex-wrap: wrap;
+  text-align: start;
 }
 
 .bptodo-status-badge {
@@ -2609,18 +2712,18 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-status-badge.bptodo-status-done {
-  background: #46b450;
+  background: var(--bptodo-success);
   color: #fff;
 }
 
 .bptodo-status-badge.bptodo-status-pending {
-  background: #ff9800;
+  background: var(--bptodo-warning);
   color: #fff;
 }
 
 .bptodo-member-time {
   font-size: 0.9em;
-  color: #666;
+  color: var(--bptodo-text-secondary);
   font-style: italic;
 }
 
@@ -2656,7 +2759,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid var(--bptodo-border-light);
   flex-wrap: wrap;
   gap: 15px;
 }
@@ -2672,7 +2775,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   align-items: center;
   gap: 5px;
   padding: 6px 12px;
-  color: #0073aa;
+  color: var(--bptodo-primary);
   text-decoration: none;
   font-size: 0.95em;
   font-weight: 500;
@@ -2681,8 +2784,8 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-back-to-group:hover {
-  color: #005a87;
-  border-bottom-color: #005a87;
+  color: var(--bptodo-primary-hover);
+  border-bottom-color: var(--bptodo-primary-hover);
 }
 
 .bptodo-back-to-group .dashicons {
@@ -2716,29 +2819,36 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
   flex-wrap: wrap;
 }
 
-.bptodo-filter-btn {
+/*
+ * Scoped through .bptodo-member-filters (specificity 0,3,1) so we beat
+ * BuddyPress core's `.buddypress .buddypress-wrap button` (0,2,1). A mere tie
+ * is not enough here: buddypress.min.css loads AFTER this sheet, so an
+ * equal-specificity rule would lose on cascade order and force a white
+ * background - jarring in dark mode.
+ */
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
   background: transparent;
-  border: 1px solid #ddd;
+  border: 1px solid var(--bptodo-border-default);
   border-radius: 4px;
-  color: #666;
+  color: var(--bptodo-text-secondary);
   font-size: 0.9em;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.bptodo-filter-btn:hover {
-  border-color: #0073aa;
-  color: #0073aa;
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn:hover {
+  border-color: var(--bptodo-primary);
+  color: var(--bptodo-primary);
 }
 
-.bptodo-filter-btn.active {
-  background: #0073aa;
-  border-color: #0073aa;
+.bptodo-group-report-wrapper .bptodo-member-filters button.bptodo-filter-btn.active {
+  background: var(--bptodo-primary);
+  border-color: var(--bptodo-primary);
   color: #fff;
 }
 
@@ -2790,11 +2900,11 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     font-size: 1.6em;
     font-weight: 600;
     margin: 0 0 10px;
-    color: #333;
+    color: var(--bptodo-text-primary);
 }
 
 .bptodo-overview-description {
-    color: #666;
+    color: var(--bptodo-text-secondary);
     margin: 0;
     font-size: 1em;
 }
@@ -2803,7 +2913,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-group-progress-section {
     margin-bottom: 40px;
     padding: 25px;
-    background: #f9f9f9;
+    background: var(--bptodo-bg-surface-secondary);
     border-radius: 8px;
 }
 
@@ -2817,7 +2927,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-stat-item {
     text-align: center;
     padding: 15px;
-    background: #fff;
+    background: var(--bptodo-bg-card);
     border-radius: 6px;
 }
 
@@ -2825,7 +2935,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: block;
     font-size: 2em;
     font-weight: 700;
-    color: #0073aa;
+    color: var(--bptodo-primary);
     line-height: 1;
     margin-bottom: 8px;
 }
@@ -2833,7 +2943,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-stat-label {
     display: block;
     font-size: 0.9em;
-    color: #666;
+    color: var(--bptodo-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
@@ -2841,14 +2951,14 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-group-progress-bar {
     width: 100%;
     height: 12px;
-    background: #e0e0e0;
+    background: var(--bptodo-bg-surface-tertiary);
     border-radius: 6px;
     overflow: hidden;
 }
 
 .bptodo-group-progress-fill {
     height: 100%;
-    background: linear-gradient(-90deg, #46b450 0%, #5dca63 100%);
+    background: var(--bptodo-success);
     transition: width 0.3s ease;
 }
 
@@ -2870,7 +2980,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-pagination {
     margin-top: 40px;
     padding-top: 30px;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--bptodo-border-light);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2879,7 +2989,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-pagination-info {
-    color: #666;
+    color: var(--bptodo-text-secondary);
     font-size: 0.95em;
 }
 
@@ -2894,7 +3004,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    background: #0073aa;
+    background: var(--bptodo-primary);
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
@@ -2904,7 +3014,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-page-btn:hover {
-    background: #005a87;
+    background: var(--bptodo-primary-hover);
     color: #fff;
 }
 
@@ -2921,9 +3031,9 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     min-width: 36px;
     height: 36px;
     padding: 0 8px;
-    background: #fff;
-    border: 1px solid #ddd;
-    color: #333;
+    background: var(--bptodo-bg-card);
+    border: 1px solid var(--bptodo-border-default);
+    color: var(--bptodo-text-primary);
     text-decoration: none;
     border-radius: 4px;
     font-size: 0.9em;
@@ -2931,21 +3041,21 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-page-num:hover {
-    background: #f5f5f5;
-    border-color: #999;
-    color: #333;
+    background: var(--bptodo-bg-surface-secondary);
+    border-color: var(--bptodo-gray-400);
+    color: var(--bptodo-text-primary);
 }
 
 .bptodo-page-num.active {
-    background: #0073aa;
-    border-color: #0073aa;
+    background: var(--bptodo-primary);
+    border-color: var(--bptodo-primary);
     color: #fff;
     font-weight: 600;
 }
 
 .bptodo-page-dots {
     padding: 0 8px;
-    color: #999;
+    color: var(--bptodo-text-muted);
 }
 
 @media screen and (max-width: 600px) {
@@ -2975,7 +3085,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .bptodo-task-selector {
     margin-bottom: 25px;
     padding: 20px;
-    background: #f9f9f9;
+    background: var(--bptodo-bg-surface-secondary);
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -2985,7 +3095,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 .bptodo-task-selector label {
     font-weight: 600;
-    color: #333;
+    color: var(--bptodo-text-primary);
     margin: 0;
     white-space: nowrap;
 }
@@ -2994,17 +3104,22 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     flex: 1;
     min-width: 250px;
     padding: 10px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--bptodo-border-default);
     border-radius: 4px;
     font-size: 1em;
-    background: #fff;
+    background: var(--bptodo-bg-card);
     transition: border-color 0.2s ease;
 }
 
 .bptodo-task-dropdown:focus {
     outline: none;
-    border-color: #0073aa;
-    box-shadow: 0 0 0 1px #0073aa;
+    border-color: var(--bptodo-primary);
+    box-shadow: 0 0 0 1px var(--bptodo-primary);
+}
+
+.bptodo-task-dropdown:focus-visible {
+    outline: 2px solid var(--bptodo-primary, #3b82f6);
+    outline-offset: 2px;
 }
 
 #task-selector {
@@ -3018,6 +3133,24 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 #task-selector option {
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Theme-enhanced selects: Reign/other themes may replace the task selector
+   with a Select2 / nice-select control that has its own search box. Keep the
+   enhanced control inside the flex row so opening it or typing in its search
+   field does not shift the View Progress layout. */
+.bptodo-task-selector .select2-container,
+.bptodo-task-selector .nice-select {
+    flex: 1 1 250px;
+    width: auto !important;
+    min-width: 250px;
+    max-width: 100%;
+}
+
+.bptodo-task-selector .select2-container .select2-selection__rendered {
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
@@ -3039,8 +3172,8 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    background: #f0f0f1;
-    color: #646970;
+    background: var(--bptodo-bg-surface-secondary);
+    color: var(--bptodo-text-secondary);
     padding: 3px 8px;
     border-radius: 3px;
     font-size: 0.85em;
@@ -3056,8 +3189,8 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 /* Read-only notice for single task pages */
 .bptodo-readonly-notice {
-    background: #e7f3ff;
-    border-right: 4px solid #0073aa;
+    background: var(--bptodo-info-light);
+    border-right: 4px solid var(--bptodo-primary);
     padding: 12px 15px;
     margin-bottom: 20px;
     display: flex;
@@ -3067,7 +3200,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 }
 
 .bptodo-readonly-notice .dashicons {
-    color: #0073aa;
+    color: var(--bptodo-primary);
     font-size: 20px;
     width: 20px;
     height: 20px;
@@ -3075,7 +3208,7 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 
 .bptodo-readonly-notice p {
     margin: 0;
-    color: #0073aa;
+    color: var(--bptodo-primary);
     font-weight: 500;
 }
 
@@ -3112,4 +3245,492 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
         margin-top: 5px;
         width: fit-content;
     }
+}
+
+/* ========================================
+   Core & Vendor UI - Design Token Compat
+   wp_editor chrome, TinyMCE popups, the wplink dialog, the wp.media modal
+   and Select2 are rendered by core/vendor stylesheets with hardcoded light
+   colors. These overrides re-express their chrome with design tokens: in
+   light mode the values match the core palette, in dark mode (Reign/BuddyX)
+   the tokens flip and the popups follow the site theme. Several of these
+   elements are appended to <body>, outside .bptodo-wrapper, so tokens are
+   read from :root / body.
+   ======================================== */
+
+/* --- wp_editor chrome (Description field) --- */
+.bptodo-wrapper .wp-editor-wrap .wp-editor-tools {
+    background: transparent;
+}
+
+.bptodo-wrapper .wp-editor-container {
+    background: var(--bptodo-bg-input, #ffffff);
+    border: 1px solid var(--bptodo-border-default, #dcdcde);
+    border-radius: var(--bptodo-radius-md, 6px);
+    overflow: hidden;
+}
+
+.bptodo-wrapper .wp-editor-container textarea.wp-editor-area {
+    background: var(--bptodo-bg-input, #ffffff);
+    color: var(--bptodo-text-secondary, #374151);
+    border: none;
+}
+
+.bptodo-wrapper .wp-switch-editor {
+    background: var(--bptodo-bg-surface-secondary, #f6f7f7);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-secondary, #646970);
+}
+
+.bptodo-wrapper .html-active .switch-html,
+.bptodo-wrapper .tmce-active .switch-tmce {
+    background: var(--bptodo-bg-input, #f0f0f1);
+    border-bottom-color: var(--bptodo-bg-input, #f0f0f1);
+    color: var(--bptodo-text-primary, #50575e);
+}
+
+.bptodo-wrapper .wp-media-buttons .button {
+    background: var(--bptodo-bg-card, #f6f7f7);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-secondary, #2271b1);
+}
+
+.bptodo-wrapper .wp-media-buttons .button:hover,
+.bptodo-wrapper .wp-media-buttons .button:focus {
+    background: var(--bptodo-bg-hover, #f0f0f1);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-primary, #0a4b78);
+}
+
+.bptodo-wrapper .quicktags-toolbar {
+    background: var(--bptodo-bg-surface-secondary, #f6f7f7);
+    border-bottom: 1px solid var(--bptodo-border-default, #dcdcde);
+}
+
+.bptodo-wrapper .quicktags-toolbar input.button.button-small {
+    background: var(--bptodo-bg-card, #f6f7f7);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-secondary, #50575e);
+}
+
+/* TinyMCE toolbar chrome inside the plugin form */
+.bptodo-wrapper .mce-panel.mce-toolbar-grp,
+.bptodo-wrapper .mce-toolbar-grp .mce-panel,
+.bptodo-wrapper .mce-panel.mce-menubar,
+.bptodo-wrapper .mce-panel.mce-statusbar,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn.mce-listbox {
+    background: var(--bptodo-bg-surface-secondary, #f6f7f7);
+    border-color: var(--bptodo-border-default, #dcdcde);
+}
+
+.bptodo-wrapper .mce-toolbar .mce-ico,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:hover,
+.bptodo-wrapper .mce-toolbar .mce-btn-group .mce-btn button:focus {
+    color: var(--bptodo-text-secondary, #50575e);
+}
+
+.bptodo-wrapper .mce-toolbar .mce-btn button {
+    color: var(--bptodo-text-secondary, #50575e);
+}
+
+.bptodo-wrapper .mce-toolbar .mce-btn:hover,
+.bptodo-wrapper .mce-toolbar .mce-btn:focus {
+    background: var(--bptodo-bg-hover, #f0f0f1);
+    border-color: var(--bptodo-border-default, #dcdcde);
+}
+
+.bptodo-wrapper .mce-toolbar .mce-btn.mce-active,
+.bptodo-wrapper .mce-toolbar .mce-btn.mce-active:hover {
+    background: var(--bptodo-bg-hover, #f0f0f1);
+    border-color: var(--bptodo-border-default, #dcdcde);
+}
+
+.bptodo-wrapper .mce-path .mce-path-item {
+    color: var(--bptodo-text-muted, #646970);
+}
+
+/* TinyMCE floating panels/menus (appended to <body>) */
+.mce-menu,
+.mce-floatpanel {
+    background: var(--bptodo-bg-card, #ffffff);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    box-shadow: var(--bptodo-shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+}
+
+.mce-menu .mce-menu-item .mce-text,
+.mce-menu .mce-menu-item .mce-ico {
+    color: var(--bptodo-text-secondary, #50575e);
+}
+
+.mce-menu .mce-menu-item:hover .mce-text,
+.mce-menu .mce-menu-item:hover .mce-ico,
+.mce-menu .mce-menu-item.mce-selected .mce-text,
+.mce-menu .mce-menu-item.mce-selected .mce-ico {
+    color: #ffffff;
+}
+
+.mce-menu .mce-menu-item:hover,
+.mce-menu .mce-menu-item.mce-selected {
+    background: var(--bptodo-primary, #2271b1);
+}
+
+/* --- wplink dialog ("Insert/edit link" popup, appended to <body>) --- */
+#wp-link-wrap {
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-secondary, #3c434a);
+    border-radius: var(--bptodo-radius-lg, 8px);
+    overflow: hidden;
+}
+
+#link-modal-title {
+    background: var(--bptodo-bg-surface-secondary, #ffffff);
+    border-bottom: 1px solid var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-primary, #1d2327);
+}
+
+#wp-link-wrap #link-selector {
+    background: var(--bptodo-bg-card, #ffffff);
+}
+
+#wp-link-wrap label,
+#wp-link-wrap .link-target {
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+#wp-link-wrap input[type="text"],
+#wp-link-wrap input[type="search"] {
+    background: var(--bptodo-bg-input, #ffffff);
+    border-color: var(--bptodo-border-default, #8c8f94);
+    color: var(--bptodo-text-secondary, #2c3338);
+}
+
+#wp-link .query-results {
+    background: var(--bptodo-bg-card, #ffffff);
+    border-color: var(--bptodo-border-default, #dcdcde);
+}
+
+#wp-link li {
+    background: transparent;
+    border-bottom-color: var(--bptodo-border-light, #f0f0f1);
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+#wp-link li:hover {
+    background: var(--bptodo-bg-hover, #f0f0f1);
+}
+
+#wp-link li .item-title {
+    color: var(--bptodo-text-primary, #1d2327);
+}
+
+#wp-link li .item-info {
+    color: var(--bptodo-text-muted, #646970);
+}
+
+#wp-link-wrap .submitbox {
+    background: var(--bptodo-bg-surface-secondary, #ffffff);
+    border-top: 1px solid var(--bptodo-border-default, #dcdcde);
+}
+
+/* --- wp.media modal (Add Media, appended to <body>) --- */
+.media-modal-content {
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+.media-modal-content .media-frame {
+    background: var(--bptodo-bg-card, #ffffff);
+}
+
+.media-frame-menu,
+.media-frame .media-menu {
+    background: var(--bptodo-bg-surface-secondary, #f6f7f7);
+    border-left-color: var(--bptodo-border-default, #c3c4c7);
+}
+
+.media-menu .media-menu-item {
+    color: var(--bptodo-text-secondary, #2271b1);
+}
+
+.media-menu .media-menu-item.active {
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-primary, #1d2327);
+}
+
+.media-frame-title,
+.media-frame-router,
+.media-frame-content,
+.media-frame-toolbar .media-toolbar {
+    background: var(--bptodo-bg-card, #ffffff);
+    border-color: var(--bptodo-border-default, #dcdcde);
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+.media-frame-title h1,
+.media-frame h2,
+.media-frame h3 {
+    color: var(--bptodo-text-primary, #1d2327);
+}
+
+.media-router .media-menu-item.media-menu-item {
+    color: var(--bptodo-text-secondary, #2271b1);
+}
+
+.media-router .media-menu-item.media-menu-item.active,
+.media-router .media-menu-item.media-menu-item.active:last-child {
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-primary, #1d2327);
+    border-bottom: 1px solid var(--bptodo-bg-card, #ffffff);
+}
+
+.media-sidebar {
+    background: var(--bptodo-bg-surface-secondary, #f6f7f7);
+    border-right-color: var(--bptodo-border-default, #dcdcde);
+}
+
+.media-sidebar h2,
+.media-sidebar .setting span,
+.media-sidebar .setting .name,
+.attachment-details .setting span,
+.attachment-details .setting .name,
+.media-frame label,
+.media-frame .instructions {
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+.media-frame input[type="text"],
+.media-frame input[type="search"],
+.media-frame input[type="url"],
+.media-frame textarea,
+.media-frame select {
+    background: var(--bptodo-bg-input, #ffffff);
+    border-color: var(--bptodo-border-default, #8c8f94);
+    color: var(--bptodo-text-secondary, #2c3338);
+}
+
+.media-frame .attachment .thumbnail {
+    background: var(--bptodo-bg-surface-secondary, #f0f0f1);
+}
+
+.media-frame .uploader-inline {
+    background: var(--bptodo-bg-card, #ffffff);
+    color: var(--bptodo-text-secondary, #3c434a);
+}
+
+.media-frame .uploader-inline .upload-ui h2 {
+    color: var(--bptodo-text-primary, #1d2327);
+}
+
+/* --- Select2 (selection control + body-appended dropdown) --- */
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+    background: var(--bptodo-bg-input, #ffffff);
+    border-color: var(--bptodo-border-default, #aaaaaa);
+    color: var(--bptodo-text-secondary, #444444);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--bptodo-text-secondary, #444444);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: var(--bptodo-bg-surface-secondary, #e4e4e4);
+    border-color: var(--bptodo-border-default, #aaaaaa);
+    color: var(--bptodo-text-primary, #444444);
+}
+
+.select2-dropdown {
+    background: var(--bptodo-bg-card, #ffffff);
+    border-color: var(--bptodo-border-default, #aaaaaa);
+    color: var(--bptodo-text-secondary, #444444);
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-container--default .select2-search--inline .select2-search__field {
+    background: var(--bptodo-bg-input, #ffffff);
+    border-color: var(--bptodo-border-default, #aaaaaa);
+    color: var(--bptodo-text-secondary, #444444);
+}
+
+.select2-container--default .select2-results__option[aria-selected="true"],
+.select2-container--default .select2-results__option--selected {
+    background: var(--bptodo-bg-hover, #dddddd);
+    color: var(--bptodo-text-primary, #444444);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background: var(--bptodo-primary, #5897fb);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Dark-mode: body-appended widgets (Select2 dropdown, TinyMCE menus, wp.media
+   modal) are rendered OUTSIDE .bptodo-wrapper and their vendor stylesheets
+   (select2.min.css, wp-mediaelement, tinymce skin) are enqueued AFTER the
+   plugin CSS, so their hardcoded light backgrounds win the cascade at equal
+   specificity. Re-assert the plugin's dark values under the theme dark-scope
+   root selector, which out-specifies the single-class vendor rules regardless
+   of load order. Keep in sync across all three dark triggers.
+   ========================================================================== */
+:root[data-bx-mode="dark"] .select2-dropdown,
+.dark-mode .select2-dropdown {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-search--dropdown .select2-search__field,
+.dark-mode .select2-container--default .select2-search--dropdown .select2-search__field {
+    background-color: var(--bptodo-bg-input, #181d24);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option,
+.dark-mode .select2-container--default .select2-results__option {
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option--highlighted,
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
+.dark-mode .select2-container--default .select2-results__option--highlighted,
+.dark-mode .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+    background-color: var(--bptodo-primary, #2271b1);
+    color: #ffffff;
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--multiple,
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--single,
+.dark-mode .select2-container--default .select2-selection--multiple,
+.dark-mode .select2-container--default .select2-selection--single {
+    background-color: var(--bptodo-bg-input, #181d24);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .select2-container--default .select2-selection--multiple .select2-selection__choice,
+.dark-mode .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* TinyMCE floating format/heading menus (appended to <body>) */
+:root[data-bx-mode="dark"] .mce-menu,
+:root[data-bx-mode="dark"] .mce-floatpanel,
+.dark-mode .mce-menu,
+.dark-mode .mce-floatpanel {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item .mce-ico,
+.dark-mode .mce-menu .mce-text,
+.dark-mode .mce-menu .mce-menu-item .mce-text,
+.dark-mode .mce-menu .mce-menu-item .mce-ico {
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:hover,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item.mce-selected,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:focus,
+.dark-mode .mce-menu .mce-menu-item:hover,
+.dark-mode .mce-menu .mce-menu-item.mce-selected,
+.dark-mode .mce-menu .mce-menu-item:focus {
+    background-color: var(--bptodo-primary, #2271b1);
+}
+
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item:hover .mce-text,
+:root[data-bx-mode="dark"] .mce-menu .mce-menu-item.mce-selected .mce-text,
+.dark-mode .mce-menu .mce-menu-item:hover .mce-text,
+.dark-mode .mce-menu .mce-menu-item.mce-selected .mce-text {
+    color: #ffffff;
+}
+
+/* wp.media modal (Add Media, appended to <body>) */
+:root[data-bx-mode="dark"] .media-modal .media-modal-content,
+:root[data-bx-mode="dark"] .media-modal .media-frame,
+:root[data-bx-mode="dark"] .media-modal .media-frame-content,
+.dark-mode .media-modal .media-modal-content,
+.dark-mode .media-modal .media-frame,
+.dark-mode .media-modal .media-frame-content {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-frame-menu,
+:root[data-bx-mode="dark"] .media-modal .media-menu,
+:root[data-bx-mode="dark"] .media-modal .media-frame-router,
+:root[data-bx-mode="dark"] .media-modal .media-frame-toolbar,
+.dark-mode .media-modal .media-frame-menu,
+.dark-mode .media-modal .media-menu,
+.dark-mode .media-modal .media-frame-router,
+.dark-mode .media-modal .media-frame-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item,
+.dark-mode .media-modal .media-menu .media-menu-item {
+    background-color: transparent;
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item.active,
+:root[data-bx-mode="dark"] .media-modal .media-menu .media-menu-item:hover,
+.dark-mode .media-modal .media-menu .media-menu-item.active,
+.dark-mode .media-modal .media-menu .media-menu-item:hover {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* Inner toolbar (the "Insert into page" bar at the modal bottom) ships white. */
+:root[data-bx-mode="dark"] .media-modal .media-toolbar,
+.dark-mode .media-modal .media-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-sidebar,
+:root[data-bx-mode="dark"] .media-modal .attachments-browser .media-toolbar,
+.dark-mode .media-modal .media-sidebar,
+.dark-mode .media-modal .attachments-browser .media-toolbar {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-modal-title,
+:root[data-bx-mode="dark"] .media-modal .media-frame-title h1,
+.dark-mode .media-modal .media-modal-title,
+.dark-mode .media-modal .media-frame-title h1 {
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* Editor chrome inside the form: Add Media button + Visual/Code tabs.
+   These carry WordPress core light styles; theme them in dark mode. */
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-media-buttons .button,
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tools,
+.dark-mode .bptodo-wrapper .wp-media-buttons .button,
+.dark-mode .bptodo-wrapper .wp-editor-tools {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor,
+.dark-mode .bptodo-wrapper .wp-editor-tabs .wp-switch-editor {
+    background-color: var(--bptodo-bg-surface-secondary, #2b323c);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .wp-switch-editor.switch-tmce[aria-pressed="true"],
+:root[data-bx-mode="dark"] .bptodo-wrapper .wp-editor-tabs .switch-tmce.active,
+.dark-mode .bptodo-wrapper .wp-editor-tabs .wp-switch-editor.switch-tmce[aria-pressed="true"] {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-primary, #ffffff);
+    border-bottom-color: var(--bptodo-bg-card, #1a2028);
 }

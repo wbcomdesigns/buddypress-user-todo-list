@@ -1,0 +1,820 @@
+/**
+ * Modern todo list — Interactivity-powered blocks + shortcode/tab renderer.
+ *
+ * A clean, list-first design that adapts to the active theme (BuddyX / Reign / block
+ * themes) and dark mode via design tokens, with a subtle brand fallback.
+ *
+ * @package bp-user-todo-list
+ * @since   4.0.0
+ */
+
+.bptodo-app {
+	--bpt-accent: var( --reign-accent-color, var( --bx-color-accent, var( --bptodo-theme-primary, #6366f1 ) ) );
+	--bpt-accent-hover: var( --reign-accent-hover-color, var( --bx-color-button-bg-hover, var( --bptodo-theme-primary-hover, #4f46e5 ) ) );
+	--bpt-surface: var( --bptodo-theme-bg, var( --bx-color-bg-elevated, #fff ) );
+	--bpt-surface-2: color-mix( in srgb, currentColor 4%, transparent );
+	--bpt-border: color-mix( in srgb, currentColor 12%, transparent );
+	--bpt-muted: color-mix( in srgb, currentColor 55%, transparent );
+	--bpt-critical: #ef4444;
+	--bpt-high: #f59e0b;
+	--bpt-normal: #64748b;
+	--bpt-done: #10b981;
+	--bpt-radius: 14px;
+	--bpt-gap: 14px;
+
+	display: flex;
+	flex-direction: column;
+	gap: var( --bpt-gap );
+	container-type: inline-size;
+	color: var( --bptodo-text, inherit );
+}
+
+.bptodo-app *,
+.bptodo-app *::before,
+.bptodo-app *::after {
+	box-sizing: border-box;
+}
+
+.bptodo-app [hidden] {
+	display: none !important;
+}
+
+/* ---- Summary + progress ---- */
+.bptodo-summary {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 16px 18px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+.bptodo-summary__nums {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	align-items: baseline;
+	font-size: 0.9rem;
+	color: var( --bpt-muted );
+}
+
+.bptodo-summary__nums b {
+	font-size: 1.15rem;
+	color: var( --bptodo-text, inherit );
+}
+
+.bptodo-summary__stat--done b {
+	color: var( --bpt-done );
+}
+
+.bptodo-summary__pct {
+	margin-inline-start: auto;
+	font-weight: 600;
+	color: var( --bpt-accent );
+}
+
+.bptodo-summary__pct b {
+	color: var( --bpt-accent );
+}
+
+.bptodo-summary__track {
+	height: 8px;
+	border-radius: 9999px;
+	background: var( --bpt-surface-2 );
+	overflow: hidden;
+}
+
+.bptodo-summary__fill {
+	display: block;
+	height: 100%;
+	border-radius: 9999px;
+	background: linear-gradient( 90deg, var( --bpt-accent ), var( --bpt-done ) );
+	transition: width 0.4s cubic-bezier( 0.4, 0, 0.2, 1 );
+}
+
+/* ---- Quick add ---- */
+.bptodo-add {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 6px 8px 6px 14px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 9999px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bptodo-add:focus-within {
+	border-color: var( --bpt-accent );
+	box-shadow: 0 0 0 3px color-mix( in srgb, var( --bpt-accent ) 18%, transparent );
+}
+
+.bptodo-add__plus {
+	font-size: 1.35rem;
+	line-height: 1;
+	color: var( --bpt-accent );
+}
+
+.bptodo-add__input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	font: inherit;
+	color: inherit;
+	padding: 10px 0;
+}
+
+.bptodo-add__input:focus {
+	outline: none;
+}
+
+/* ---- Filters ---- */
+.bptodo-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+}
+
+.bptodo-filter {
+	padding: 9px 12px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 10px;
+	min-height: 40px;
+}
+
+.bptodo-filter--search {
+	flex: 1 1 220px;
+}
+
+.bptodo-filter:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+.bptodo-count {
+	margin: 0;
+	font-size: 0.8rem;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var( --bpt-muted );
+}
+
+/* Shown in place of the inline quick-add when a due date is mandatory. */
+.bptodo-add-hint {
+	margin: 0 0 var( --bpt-space-3, 0.75rem );
+	padding: var( --bpt-space-2, 0.5rem ) var( --bpt-space-3, 0.75rem );
+	font-size: 0.85rem;
+	color: var( --bpt-muted );
+	background: var( --bpt-surface-2, rgba( 127, 127, 127, 0.08 ) );
+	border-radius: var( --bpt-radius, 8px );
+}
+
+/* ---- List ---- */
+.bptodo-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+	overflow: hidden;
+}
+
+.bptodo-list[aria-busy="true"] {
+	opacity: 0.6;
+}
+
+.bptodo-item {
+	position: relative;
+	border-bottom: 1px solid var( --bpt-border );
+	transition: background 0.12s ease;
+}
+
+.bptodo-item:last-child {
+	border-bottom: 0;
+}
+
+.bptodo-item::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: 3px;
+	background: var( --bpt-normal );
+	opacity: 0;
+	transition: opacity 0.12s ease;
+}
+
+.bptodo-item[data-priority="critical"]::before { background: var( --bpt-critical ); }
+.bptodo-item[data-priority="high"]::before { background: var( --bpt-high ); }
+.bptodo-item[data-priority="normal"]::before { background: var( --bpt-normal ); }
+.bptodo-item[data-priority]::before { opacity: 1; }
+
+.bptodo-item__row {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 18px;
+}
+
+.bptodo-item:hover {
+	background: var( --bpt-surface-2 );
+}
+
+/* Custom round checkbox */
+.bptodo-check {
+	position: relative;
+	flex: 0 0 auto;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
+
+.bptodo-check input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+	margin: 0;
+}
+
+.bptodo-check__box {
+	display: block;
+	width: 22px;
+	height: 22px;
+	border: 2px solid var( --bpt-border );
+	border-radius: 50%;
+	transition: all 0.15s ease;
+}
+
+.bptodo-check__box::after {
+	content: "";
+	position: absolute;
+	inset-inline-start: 8px;
+	inset-block-start: 4px;
+	width: 5px;
+	height: 10px;
+	border: solid #fff;
+	border-width: 0 2px 2px 0;
+	transform: rotate( 45deg ) scale( 0 );
+	transition: transform 0.15s ease;
+}
+
+.bptodo-check input:checked + .bptodo-check__box {
+	background: var( --bpt-done );
+	border-color: var( --bpt-done );
+}
+
+.bptodo-check input:checked + .bptodo-check__box::after {
+	transform: rotate( 45deg ) scale( 1 );
+}
+
+.bptodo-check input:focus-visible + .bptodo-check__box {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 2px;
+}
+
+/* Title + meta */
+.bptodo-item__main {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.bptodo-item__title {
+	font-weight: 600;
+	line-height: 1.35;
+	word-break: break-word;
+}
+
+.bptodo-item.is-done .bptodo-item__title {
+	text-decoration: line-through;
+	color: var( --bpt-muted );
+}
+
+.bptodo-item__sub {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+	font-size: 0.8rem;
+}
+
+.bptodo-item__prio {
+	position: relative;
+	padding-inline-start: 14px;
+	font-weight: 600;
+	color: var( --bpt-normal );
+}
+
+.bptodo-item__prio::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: 0;
+	inset-block-start: 50%;
+	transform: translateY( -50% );
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.bptodo-item[data-priority="critical"] .bptodo-item__prio { color: var( --bpt-critical ); }
+.bptodo-item[data-priority="high"] .bptodo-item__prio { color: var( --bpt-high ); }
+
+.bptodo-item__due {
+	color: var( --bpt-muted );
+}
+
+.bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
+.bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
+
+/*
+ * "Details" toggle - reveals the task's description inline.
+ * Scoped to `.bptodo-app.bptodo-wrapper` (0,3,1) so it EXCEEDS BuddyPress
+ * core's `.buddypress .buddypress-wrap button { background:#fff }` (0,2,1)
+ * regardless of stylesheet load order - a plain 0,2,1 tie let BP's opaque
+ * white win on some pages, showing a white box behind the toggle in dark
+ * mode. Same pattern as the filter-btn / iconbtn fixes.
+ */
+.bptodo-app.bptodo-wrapper button.bptodo-item__more {
+	padding: 4px 8px;
+	margin-inline-start: -8px; /* offset the new padding so text stays aligned */
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var( --bpt-accent );
+	background: transparent;
+	border: 0;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.bptodo-app.bptodo-wrapper button.bptodo-item__more:hover {
+	background: var( --bpt-surface-2 );
+}
+
+.bptodo-app.bptodo-wrapper button.bptodo-item__more::after {
+	content: " \25be"; /* caret down */
+	display: inline-block;
+	transition: transform 0.12s ease;
+}
+
+.bptodo-app.bptodo-wrapper button.bptodo-item__more.is-open::after {
+	transform: rotate( 180deg );
+}
+
+.bptodo-item__note {
+	margin: 6px 0 0;
+	padding: 8px 12px;
+	font-size: 0.86rem;
+	line-height: 1.5;
+	color: var( --bpt-muted );
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	background: var( --bpt-surface-2 );
+	border-radius: 8px;
+}
+
+/*
+ * Row actions. Kept subtle but always present (touch devices have no hover),
+ * and de-emphasised until the row is hovered/focused on pointer devices.
+ */
+.bptodo-item__act {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+	opacity: 0.7;
+	transition: opacity 0.12s ease;
+}
+
+.bptodo-item:hover .bptodo-item__act,
+.bptodo-item:focus-within .bptodo-item__act {
+	opacity: 1;
+}
+
+/*
+ * Icon/text action buttons (Edit, Delete, Yes/No).
+ *
+ * BuddyPress core styles every <button> inside .buddypress-wrap
+ * (`.buddypress .buddypress-wrap button`, specificity 0,2,1) with a flat grey
+ * default. We match the codebase convention used for .bptodo-btn in
+ * bptodo-components.css - `.bptodo-wrapper button.<class>` (also 0,2,1) - so our
+ * rule ties on specificity and wins on load order.
+ */
+.bptodo-wrapper button.bptodo-iconbtn {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 12px;
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	line-height: 1;
+	color: var( --bpt-muted );
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 8px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+.bptodo-wrapper button.bptodo-iconbtn:hover {
+	color: var( --bpt-text, inherit );
+	background: var( --bpt-surface-2 );
+	border-color: var( --bpt-muted );
+}
+
+.bptodo-wrapper button.bptodo-iconbtn--danger {
+	color: var( --bpt-critical );
+	border-color: color-mix( in srgb, var( --bpt-critical ) 35%, var( --bpt-border ) );
+}
+
+.bptodo-wrapper button.bptodo-iconbtn--danger:hover {
+	color: #fff;
+	background: var( --bpt-critical );
+	border-color: var( --bpt-critical );
+}
+
+.bptodo-wrapper button.bptodo-iconbtn:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+.bptodo-confirm {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.bptodo-confirm__text {
+	font-size: 0.8rem;
+	color: var( --bpt-muted );
+}
+
+/* Inline edit */
+.bptodo-item__edit {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+	padding: 12px 18px;
+	background: var( --bpt-surface-2 );
+}
+
+.bptodo-item__edit .bptodo-input {
+	flex: 1 1 200px;
+	min-width: 0;
+	padding: 9px 12px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 8px;
+}
+
+.bptodo-item__edit .bptodo-select {
+	padding: 9px 12px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 8px;
+}
+
+.bptodo-item__edit .bptodo-input:focus-visible,
+.bptodo-item__edit .bptodo-select:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+/* Title + details span the full width of the inline edit row. */
+.bptodo-item__edit .bptodo-item__editfull {
+	flex: 1 1 100%;
+}
+
+.bptodo-item__edit textarea.bptodo-item__editfull {
+	resize: vertical;
+	min-height: 52px;
+	line-height: 1.5;
+}
+
+/* Buttons */
+.bptodo-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-height: 40px;
+	padding: 9px 18px;
+	font: inherit;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	text-decoration: none;
+	transition: background 0.12s ease, transform 0.06s ease;
+}
+
+.bptodo-btn:active {
+	transform: translateY( 1px );
+}
+
+.bptodo-btn--primary {
+	background: var( --bpt-accent );
+	color: #fff;
+}
+
+.bptodo-btn--primary:hover {
+	background: var( --bpt-accent-hover );
+}
+
+.bptodo-btn--ghost {
+	background: transparent;
+	border-color: var( --bpt-border );
+	color: inherit;
+}
+
+.bptodo-btn--ghost:hover {
+	background: var( --bpt-surface-2 );
+}
+
+.bptodo-btn--sm {
+	min-height: 34px;
+	padding: 7px 14px;
+	font-size: 0.85rem;
+	border-radius: 8px;
+}
+
+.bptodo-btn:focus-visible {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 2px;
+}
+
+.bptodo-btn[disabled] {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+/* Empty + pager */
+.bptodo-empty {
+	padding: 48px 24px;
+	text-align: center;
+	color: var( --bpt-muted );
+	background: var( --bpt-surface );
+	border: 1px dashed var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+.bptodo-empty p {
+	margin: 0;
+}
+
+.bptodo-pager {
+	display: flex;
+	gap: 14px;
+	align-items: center;
+	justify-content: center;
+}
+
+.bptodo-pager__info {
+	font-size: 0.9rem;
+	color: var( --bpt-muted );
+}
+
+.bptodo-app--loggedout {
+	padding: 40px 24px;
+	text-align: center;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+/* Actions always visible on touch (no hover) */
+@media ( hover: none ) {
+	.bptodo-item__act {
+		opacity: 1;
+	}
+}
+
+/* Responsive */
+@media ( max-width: 600px ) {
+	.bptodo-summary__pct {
+		margin-inline-start: 0;
+	}
+	.bptodo-filters {
+		flex-direction: column;
+		align-items: stretch;
+	}
+	.bptodo-item__row {
+		flex-wrap: wrap;
+	}
+	.bptodo-item__act {
+		opacity: 1;
+		width: 100%;
+		justify-content: flex-end;
+	}
+}
+
+/* Graceful fallback where color-mix is unsupported */
+@supports not ( color: color-mix( in srgb, #000 10%, transparent ) ) {
+	.bptodo-app {
+		--bpt-surface-2: rgba( 127, 127, 127, 0.08 );
+		--bpt-border: rgba( 127, 127, 127, 0.22 );
+		--bpt-muted: rgba( 127, 127, 127, 0.9 );
+	}
+}
+
+/* ---- Full add form (the Add page) ---- */
+.bptodo-addform {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 22px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: var( --bpt-radius );
+}
+
+.bptodo-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.bptodo-field__label {
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: var( --bpt-muted );
+}
+
+.bptodo-req {
+	color: var( --bpt-critical );
+}
+
+.bptodo-app .bptodo-input,
+.bptodo-app .bptodo-select,
+.bptodo-app .bptodo-textarea {
+	width: 100%;
+	padding: 11px 13px;
+	font: inherit;
+	color: inherit;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 10px;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bptodo-app .bptodo-input:focus,
+.bptodo-app .bptodo-select:focus,
+.bptodo-app .bptodo-textarea:focus {
+	outline: none;
+	border-color: var( --bpt-accent );
+	box-shadow: 0 0 0 3px color-mix( in srgb, var( --bpt-accent ) 16%, transparent );
+}
+
+.bptodo-textarea {
+	resize: vertical;
+	min-height: 96px;
+	line-height: 1.5;
+}
+
+.bptodo-field-grid {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 14px;
+}
+
+.bptodo-addform__actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	padding-top: 4px;
+}
+
+.bptodo-addform__error {
+	margin: 0;
+	color: var( --bpt-critical );
+	font-size: 0.85rem;
+}
+
+.bptodo-field__hint {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var( --bpt-muted );
+}
+
+/* Category field: label row with an inline "+ New" creator. */
+.bptodo-field__labelrow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+/*
+ * Scoped to `.bptodo-app.bptodo-wrapper` (0,3,1) so it EXCEEDS BuddyPress
+ * core's `.buddypress .buddypress-wrap button { background:#fff }` (0,2,1) on
+ * every load order - a plain 0,2,1 tie let BP's white win, rendering the
+ * "+ New" category button as a white box in dark mode.
+ */
+.bptodo-app.bptodo-wrapper button.bptodo-linkbtn {
+	padding: 2px 4px;
+	font: inherit;
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var( --bpt-accent );
+	background: transparent;
+	border: 0;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.bptodo-app.bptodo-wrapper button.bptodo-linkbtn:hover {
+	text-decoration: underline;
+}
+
+.bptodo-newcat {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	align-items: center;
+}
+
+.bptodo-newcat .bptodo-input {
+	flex: 1 1 140px;
+	min-width: 0;
+}
+
+/* Group add: member assignment chips. */
+.bptodo-assignees {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.bptodo-assignee {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px 6px 8px;
+	background: var( --bpt-surface );
+	border: 1px solid var( --bpt-border );
+	border-radius: 999px;
+	cursor: pointer;
+	font-size: 0.85rem;
+	line-height: 1;
+	transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.bptodo-assignee:hover {
+	border-color: var( --bpt-muted );
+}
+
+.bptodo-assignee:has( .bptodo-assignee__cb:checked ) {
+	border-color: var( --bpt-accent );
+	background: color-mix( in srgb, var( --bpt-accent ) 10%, transparent );
+}
+
+.bptodo-assignee:focus-within {
+	outline: 2px solid var( --bpt-accent );
+	outline-offset: 1px;
+}
+
+.bptodo-assignee__cb {
+	margin: 0;
+	accent-color: var( --bpt-accent );
+}
+
+.bptodo-assignee__avatar {
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.bptodo-assignee__name {
+	font-weight: 500;
+}
+
+@media ( max-width: 600px ) {
+	.bptodo-field-grid {
+		grid-template-columns: 1fr;
+	}
+	.bptodo-addform__actions {
+		flex-direction: column-reverse;
+	}
+	.bptodo-addform__actions .bptodo-btn {
+		width: 100%;
+	}
+}

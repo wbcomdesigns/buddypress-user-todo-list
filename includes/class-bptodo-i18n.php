@@ -31,12 +31,20 @@ class Bptodo_List_I18n {
 	/**
 	 * Load the plugin text domain for translation.
 	 *
+	 * NOTE: this method is currently DEAD CODE - Bptodo_List::set_locale() no
+	 * longer wires it up, because the domain is loaded by bptodo_load_textdomain()
+	 * on init:10 in the main plugin file (the correct timing for WordPress 6.7+;
+	 * this class ran on plugins_loaded, which is too early). The domain below was
+	 * left at the unedited boilerplate value 'plugin-name', which no string in this
+	 * plugin uses; corrected to 'wb-todo' so the file cannot reintroduce a wrong
+	 * domain if it is ever re-wired. This whole class is a candidate for removal.
+	 *
 	 * @since    1.0.0
 	 */
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'plugin-name',
+			'wb-todo',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

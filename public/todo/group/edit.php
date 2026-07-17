@@ -21,8 +21,18 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
+// Get todo_id from URL parameter
+$todo_id = isset( $_GET['args'] ) ? absint( $_GET['args'] ) : 0;
+
+// Validate todo_id exists
+if ( empty( $todo_id ) ) {
+	bp_core_add_message( __( 'Invalid todo ID.', 'wb-todo' ), 'error' );
+	bp_core_redirect( bptodo_get_group_url() );
+	exit;
+}
+
 // If the group ID is not available, attempt to use the group ID stored in the post meta
-if ( empty( $group_id ) && isset( $todo_id ) ) {
+if ( empty( $group_id ) && ! empty( $todo_id ) ) {
 	$group_id = get_post_meta( $todo_id, 'todo_group_id', true );
 }
 
@@ -71,7 +81,7 @@ $todos = get_posts( $args );
 
 $form_post_link = add_query_arg(
 	'args',
-	$todos[0]->ID,
+	$todo_id,
 	$admin_link . '/list'
 );
 
@@ -121,7 +131,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
 			<td>
 				<div class="bp_todo_categories">
-					<select name="todo_cat" id="bp_todo_categories" required>
+					<select name="todo_cat" id="bp_todo_categories" aria-label="<?php esc_attr_e( 'Category', 'wb-todo' ); ?>" required>
 						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 						<?php if ( isset( $todo_cats ) ) { ?>
 							<?php foreach ( $todo_cats as $todo_cat ) { ?>
@@ -138,7 +148,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
 						<?php /* Translators: Display the plural label name */ ?>
-						<input type="text" id="todo-category-name" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
+						<input type="text" id="todo-category-name" aria-label="<?php echo esc_attr( sprintf( esc_html__( 'New %1$s category name', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( $add_cat_nonce ); ?>">
 						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
@@ -150,7 +160,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 		<tr>
 			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
 			<td>
-				<input type="text" name="todo_title" value="<?php echo esc_html( $todo->post_title ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" required class="bptodo-text-input">
+				<input type="text" name="todo_title" value="<?php echo esc_html( $todo->post_title ); ?>" aria-label="<?php esc_attr_e( 'Title', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" required class="bptodo-text-input">
 			</td>
 		</tr>
 
@@ -171,14 +181,14 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 		<tr>
 			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
 			<td>
-				<input type="date" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="date" id="datepick" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" aria-label="<?php esc_attr_e( 'Due Date', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" <?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
 		<tr>
 			<td><?php esc_html_e( 'Priority', 'wb-todo' ); ?></td>
 			<td>
-				<select name="todo_priority" id="bp_todo_priority">
+				<select name="todo_priority" id="bp_todo_priority" aria-label="<?php esc_attr_e( 'Priority', 'wb-todo' ); ?>">
 					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
 					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
 					<option value="high" <?php selected( $todo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>

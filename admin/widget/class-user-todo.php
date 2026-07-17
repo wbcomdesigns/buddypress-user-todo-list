@@ -56,16 +56,17 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		}
 
 		$title  = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$title  = $instance['link_title'] ? '<a href="' . get_post_type_archive_link( 'bp-todo' ) . '">' . $title . '</a>' : $title;
+		$title  = ( ! empty( $instance['link_title'] ) && function_exists( 'bptodo_get_standalone_todos_url' ) ) ? '<a href="' . esc_url( bptodo_get_standalone_todos_url() ) . '">' . $title . '</a>' : $title;
 		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
 		if ( ! $number ) {
 			$number = 5;
 		}
-		$user_id = bp_loggedin_user_id();
+		// Works with or without BuddyPress (standalone).
+			$user_id = function_exists( 'bp_loggedin_user_id' ) ? bp_loggedin_user_id() : get_current_user_id();
 
 		$r = new WP_Query(
 			apply_filters(
-				'widget_bp_todo_args',
+				'bptodo_widget_args',
 				array(
 					'post_type'           => 'bp-todo',
 					'posts_per_page'      => $number,
@@ -88,7 +89,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			<ul>
 			<?php foreach ( $r->posts as $recent_todo ) : ?>
 				<?php
-				$post_title   = get_the_title( $recent_todo->ID );
+				$post_title    = get_the_title( $recent_todo->ID );
 				$todo_priority = get_post_meta( $recent_todo->ID, 'todo_priority', true );
 				$todo_due_date = get_post_meta( $recent_todo->ID, 'todo_due_date', true );
 				if ( ! empty( $todo_priority ) ) {
@@ -111,12 +112,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				}
 				?>
 			<li>
-				<a href="<?php the_permalink( $recent_todo->ID ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
-				<?php
-					$show_date = '';
-				if ( $show_date ) :
-					?>
-				<?php endif; ?>
+				<a href="<?php echo esc_url( bptodo_get_todo_view_url( $recent_todo->ID ) ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
 				<div class="widget-bptodo-list-meta">
 					<div class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></div>
 					<span class="post-date"><?php echo esc_html( $todo_due_date ); ?></span>
@@ -187,11 +183,11 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	}
 }
 
-add_action( 'widgets_init', 'wpdocs_register_widgets' );
+add_action( 'widgets_init', 'bptodo_register_widgets' );
 
 /**
  * Register todo widget
  */
-function wpdocs_register_widgets() {
+function bptodo_register_widgets() {
 	register_widget( 'BP_ToDo_Member_ToDo_Widget' );
 }

@@ -1,0 +1,276 @@
+{
+  "$schema": "https://wpmediaverse.com/schemas/wp-plugin-manifest-v2.json",
+  "plugin": {
+    "slug": "buddypress-user-todo-list",
+    "name": "Todo for BuddyPress & BuddyBoss",
+    "version": "4.0.0",
+    "namespace": "(none - prefixed procedural + Bptodo_* classes)",
+    "main_file": "bp-user-todo-list.php",
+    "text_domain": "wb-todo",
+    "extends": null,
+    "extension_hook_consumed": null,
+    "extension_hook_fired": null
+  },
+  "admin_ui_wrapper": {
+    "classification": "NEW",
+    "evidence": "The legacy admin/wbcom/ wrapper directory (class Wbcom_Admin_Settings) has been DELETED - it no longer exists on disk. The current admin surface is the card-panel pattern: includes/admin/class-bptodo-admin-panel.php (class Bptodo_Admin_Panel) registers the shared 'wbcomplugins' hub menu (:113, only when no sibling registered it first) plus one 'Todo Lists' submenu (:124), and renders through includes/admin/views/shell.php with sidebar tabs from Bptodo_Admin_Panel::get_tabs() (:42-85). takeover_hub_landing() at admin_menu@999 (:96) reclaims the hub landing from any legacy-wrapper sibling. The legacy Bptodo_Admin class is retained for non-UI logic only (register_setting, sanitizers, the custom General-tab save handler, frontend asset enqueue).",
+    "wrapper_file": "includes/admin/views/shell.php",
+    "wrapper_assets": ["assets/css/admin.css", "assets/js/admin.js"],
+    "wrapper_templates": [
+      "includes/admin/views/shell.php",
+      "includes/admin/views/hub.php",
+      "includes/admin/views/overview.php",
+      "includes/admin/views/settings-general.php",
+      "includes/admin/views/settings-group.php",
+      "includes/admin/views/settings-retention.php",
+      "includes/admin/views/settings-shortcodes.php",
+      "includes/admin/views/discover.php"
+    ]
+  },
+  "rest": {
+    "namespace": "bptodo/v1",
+    "endpoints": [
+      { "route": "/todos", "methods": ["GET"], "callback": "Bptodo_REST_Controller::get_todos", "permission_callback": "auth_logged_in", "registered_at": "includes/rest/class-bptodo-rest-controller.php:33", "args": "collection_args()", "purpose": "List todos in the requested scope (personal or filtered)." },
+      { "route": "/todos", "methods": ["POST"], "callback": "Bptodo_REST_Controller::create_todo", "permission_callback": "auth_can_create", "registered_at": "includes/rest/class-bptodo-rest-controller.php:33", "args": "writable_args(true)", "purpose": "Create a personal todo. Enforces req_duedate (400 bptodo_due_required)." },
+      { "route": "/todos/(?P<id>\\d+)", "methods": ["GET"], "callback": "Bptodo_REST_Controller::get_todo", "permission_callback": "auth_can_view", "registered_at": "includes/rest/class-bptodo-rest-controller.php:52", "args": "id (path)", "purpose": "Fetch a single todo the caller may view." },
+      { "route": "/todos/(?P<id>\\d+)", "methods": ["PUT", "PATCH"], "callback": "Bptodo_REST_Controller::update_todo", "permission_callback": "auth_can_edit", "registered_at": "includes/rest/class-bptodo-rest-controller.php:52", "args": "writable_args(false)", "purpose": "Update a todo (inline edit: title, description, due_date, priority, category)." },
+      { "route": "/todos/(?P<id>\\d+)", "methods": ["DELETE"], "callback": "Bptodo_REST_Controller::delete_todo", "permission_callback": "auth_can_delete", "registered_at": "includes/rest/class-bptodo-rest-controller.php:52", "args": "id (path)", "purpose": "Delete a todo." },
+      { "route": "/todos/(?P<id>\\d+)/complete", "methods": ["POST"], "callback": "Bptodo_REST_Controller::complete_todo", "permission_callback": "auth_can_complete", "registered_at": "includes/rest/class-bptodo-rest-controller.php:75", "args": "id (path)", "purpose": "Mark a todo complete." },
+      { "route": "/todos/(?P<id>\\d+)/complete", "methods": ["DELETE"], "callback": "Bptodo_REST_Controller::uncomplete_todo", "permission_callback": "auth_can_complete", "registered_at": "includes/rest/class-bptodo-rest-controller.php:75", "args": "id (path)", "purpose": "Revert a completed todo to active." },
+      { "route": "/todos/stats", "methods": ["GET"], "callback": "Bptodo_REST_Controller::get_stats", "permission_callback": "auth_logged_in", "registered_at": "includes/rest/class-bptodo-rest-controller.php:92", "args": "user_id, group_id", "purpose": "Aggregate counts for the list header." },
+      { "route": "/categories", "methods": ["GET"], "callback": "Bptodo_REST_Controller::get_categories", "permission_callback": "auth_logged_in", "registered_at": "includes/rest/class-bptodo-rest-controller.php:106", "args": "(none)", "purpose": "List todo_category terms for the filter + add-form selects." },
+      { "route": "/categories", "methods": ["POST"], "callback": "Bptodo_REST_Controller::create_category", "permission_callback": "auth_can_add_category", "registered_at": "includes/rest/class-bptodo-rest-controller.php:106", "args": "name (required)", "purpose": "Create a category from the frontend (gated by allow_user_add_category)." },
+      { "route": "/groups/(?P<group_id>\\d+)/todos", "methods": ["GET"], "callback": "Bptodo_REST_Controller::get_group_todos", "permission_callback": "auth_group_member", "registered_at": "includes/rest/class-bptodo-rest-controller.php:129", "args": "collection_args()", "purpose": "List a BuddyPress group's todos (members only)." },
+      { "route": "/groups/(?P<group_id>\\d+)/todos", "methods": ["POST"], "callback": "Bptodo_REST_Controller::create_group_todo", "permission_callback": "auth_can_create_group_todo", "registered_at": "includes/rest/class-bptodo-rest-controller.php:129", "args": "writable_args(true) + assignees[] (sanitize_assignees)", "purpose": "Create a group todo and fan it out to assignees. Requires a group manager." }
+    ],
+    "registered_on": "rest_api_init -> Bptodo_REST_Controller::register_routes (wired includes/class-bptodo.php:244)",
+    "nonce": "wp_rest (X-WP-Nonce; exposed to the Interactivity store as state.nonce, includes/render/class-bptodo-renderer.php:137)",
+    "note": "Added in 4.0.0. A thin adapter over includes/domain/ (Bptodo_Todo_Repository / Bptodo_Permissions / Bptodo_Categories) - no business logic in the controller. Backs the blocks + Interactivity frontend and any future client. 6 register_rest_route calls -> 12 method endpoints."
+  },
+  "ajax": [
+    { "action": "bptodo_export_my_tasks", "handler": "public/class-bptodo-public.php::bptodo_export_my_tasks", "nonce": "bptodo-export-todo (security_nonce)", "capability": "logged-in member (own tasks)", "purpose": "Export current user's todos to PDF/print.", "registered_at": "includes/class-bptodo.php:259" },
+    { "action": "bptodo_remove_todo", "handler": "public/class-bptodo-public.php::bptodo_remove_todo", "nonce": "bptodo-todo-nonce", "capability": "logged-in member (own/permitted todo)", "purpose": "Delete a todo task.", "registered_at": "includes/class-bptodo.php:262" },
+    { "action": "bptodo_complete_todo", "handler": "public/class-bptodo-public.php::bptodo_complete_todo", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Mark a todo complete.", "registered_at": "includes/class-bptodo.php:265" },
+    { "action": "bptodo_undo_complete_todo", "handler": "public/class-bptodo-public.php::bptodo_undo_complete_todo", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Revert a completed todo to active.", "registered_at": "includes/class-bptodo.php:268" },
+    { "action": "bptodo_add_todo_category_front", "handler": "public/class-bptodo-public.php::bptodo_add_todo_category_front", "nonce": "bptodo-add-todo-category", "capability": "logged-in member (gated by allow_user_add_category)", "purpose": "Create a todo category from the frontend (legacy layout).", "registered_at": "includes/class-bptodo.php:271" },
+    { "action": "bptodo_update_form_popup", "handler": "public/class-bptodo-public.php::bptodo_update_form_popup", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Persist edits from the full-page edit form (submitted via AJAX).", "registered_at": "includes/class-bptodo.php:280" },
+    { "action": "bptodo_get_todo_card_html", "handler": "public/class-bptodo-public.php::bptodo_get_todo_card_html", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Return rendered todo-card HTML (used to refresh list after AJAX ops).", "registered_at": "includes/class-bptodo.php:283" },
+    { "action": "get_group_todo_report", "handler": "public/class-bptodo-public.php::bptodo_display_group_todo_report", "nonce": "bptodo-todo-nonce (ajax_nonce)", "capability": "logged-in group member/moderator", "purpose": "Return a group todo member report (GET-driven).", "registered_at": "includes/class-bptodo.php:295" },
+    { "action": "bptodo_network_deactivate", "handler": "bp-user-todo-list.php::bptodo_handle_network_deactivation", "nonce": "bptodo_network_nonce", "capability": "manage_network_plugins (bp-user-todo-list.php:594)", "purpose": "Network-wide deactivation (only when BPTODO_ENABLE_ADVANCED_MULTISITE is defined true; off by default).", "registered_at": "bp-user-todo-list.php:586" }
+  ],
+  "admin_pages": [
+    { "title": "WB Plugins", "slug": "wbcomplugins", "parent": null, "capability": "manage_options (filter bptodo_admin_capability)", "source": "includes/admin/class-bptodo-admin-panel.php:113 (Bptodo_Admin_Panel::add_menu, hooked on admin_menu)", "note": "Shared Wbcom hub top-level menu; only added when $GLOBALS['admin_page_hooks']['wbcomplugins'] is empty (no sibling Wbcom plugin registered it first). Landing renders Bptodo_Admin_Panel::render_hub (includes/admin/views/hub.php); takeover_hub_landing() at admin_menu@999 (:96) reclaims the landing from a legacy-wrapper sibling." },
+    { "title": "Todo Lists", "slug": "user-todo-list-settings", "parent": "wbcomplugins", "capability": "manage_options (filter bptodo_admin_capability)", "source": "includes/admin/class-bptodo-admin-panel.php:124", "note": "The plugin's only settings page. Single card-panel page (includes/admin/views/shell.php) with a sidebar tab nav; slug kept identical to the legacy page so bookmarks still work (MENU_SLUG, :32)." }
+  ],
+  "admin_tabs": [
+    { "key": "overview", "label": "Overview", "group": "main", "view": "includes/admin/views/overview.php", "source": "includes/admin/class-bptodo-admin-panel.php:44" },
+    { "key": "general", "label": "General", "group": "settings", "view": "includes/admin/views/settings-general.php", "source": "includes/admin/class-bptodo-admin-panel.php:49" },
+    { "key": "group", "label": "Group Todo", "group": "settings", "view": "includes/admin/views/settings-group.php", "source": "includes/admin/class-bptodo-admin-panel.php:54" },
+    { "key": "retention", "label": "Data Retention", "group": "settings", "view": "includes/admin/views/settings-retention.php", "source": "includes/admin/class-bptodo-admin-panel.php:59" },
+    { "key": "shortcodes", "label": "Shortcodes", "group": "settings", "view": "includes/admin/views/settings-shortcodes.php", "source": "includes/admin/class-bptodo-admin-panel.php:64" },
+    { "key": "discover", "label": "Discover", "group": "discover", "view": "includes/admin/views/discover.php", "source": "includes/admin/class-bptodo-admin-panel.php:78", "note": "Appended AFTER the bptodo_admin_tabs filter so a third-party tab-removal filter cannot drop it." }
+  ],
+  "settings": [
+    { "key": "user_todo_list_settings", "group": "(no register_setting - custom self-POST handler)", "type": "array", "default": "set in activator (includes/class-bptodo-activator.php:97)", "controls": "profile_menu_label, profile_menu_label_plural, standalone_page, hide_button, enable_todo_member, allow_user_add_category, send_notification, send_mail, req_duedate, bptodo_user_roles[]. Read by Bptodo_Globals (inc/class-bptodo-globals.php:55); written by Bptodo_Admin::bptodo_save_general_settings (admin/class-bptodo-admin.php:258, nonce 'bptodo' + current_user_can('manage_options') at :263). Deliberately NOT registered via register_setting - see admin/class-bptodo-admin.php:185-188." },
+    { "key": "group-todo-list-settings", "group": "group-todo-list-settings (Group Todo tab)", "type": "array", "default": "set in activator (includes/class-bptodo-activator.php:119)", "controls": "enable_todo_tab_group, mod_enable, list_enable, view_enable. Registered admin/class-bptodo-admin.php:194; sanitized by bptodo_sanitize_group_settings." },
+    { "key": "data-retention-settings", "group": "data-retention-settings (Data Retention tab)", "type": "array", "default": "retention_days=90, cleanup_type=completed, notification_email=admin_email", "controls": "enable_retention, enable_group_retention, enable_personal_retention, permanent_delete, email_notification, cleanup_type, retention_days (min 7), notification_email. Registered admin/class-bptodo-admin.php:195; sanitized by bptodo_sanitize_retention_settings (:206). Read by Bptodo_Data_Retention (includes/class-bptodo-data-retention.php:36,75)." },
+    { "key": "user-todo-list-shortcodes", "group": "user-todo-list-shortcodes (Shortcodes tab)", "type": "array", "default": "", "controls": "Shortcodes reference tab is documentation-only; register_setting kept for back-compat (admin/class-bptodo-admin.php:249)." },
+    { "key": "bptodo_version", "group": "(internal)", "type": "string", "default": "0.0.0", "controls": "Upgrade-routine version tracking (bp-user-todo-list.php:82)." },
+    { "key": "bptodo_pending_upgrade_from", "group": "(internal)", "type": "string|false", "default": "false", "controls": "Deferred upgrade marker, set on activation and consumed by the upgrade routine (bp-user-todo-list.php:95,104)." },
+    { "key": "bptodo_cleanup_log", "group": "(internal)", "type": "array", "default": "[]", "controls": "Data-retention cron run log (includes/class-bptodo-data-retention.php:361)." }
+  ],
+  "shortcodes": [
+    { "tag": "bptodo_by_category", "handler": "public/class-bptodo-public.php::bptodo_by_category_template", "attrs": ["category"], "registered_at": "includes/class-bptodo.php:274", "note": "Category-only list. Since 4.0 it delegates to Bptodo_Renderer in modern mode (scope=member, show_add=false); public/class-bptodo-public.php:1382." },
+    { "tag": "bptodo_list", "handler": "public/class-bptodo-public.php::bptodo_list_shortcode", "attrs": ["user_id", "category", "status", "priority", "per_page", "orderby", "order", "show_add"], "registered_at": "includes/class-bptodo.php:278", "note": "Defaults: user_id=0 (current user; numeric ID, or 'all' for admins), category='', status=all, priority=all, per_page=10, orderby=due_date, order=ASC, show_add=no. Renders through Bptodo_Renderer (public/class-bptodo-public.php:1449)." }
+  ],
+  "blocks": [
+    { "name": "bptodo/my-todos", "title": "My Todos", "api_version": 3, "category": "widgets", "icon": "editor-ul", "block_json": "blocks/my-todos/block.json", "render": "blocks/my-todos/render.php (SSR via Bptodo_Renderer)", "editor_script": "blocks/my-todos/index.js", "supports": { "interactivity": true, "html": false, "align": ["wide", "full"] }, "attributes": ["perPage (number, 10)", "status (string, all)", "priority (string, all)", "showAdd (boolean, true)", "showStats (boolean, true)"], "registered_at": "bp-user-todo-list.php:269", "note": "The default standalone entry point - works with no BuddyPress." },
+    { "name": "bptodo/group-todos", "title": "Group Todos", "api_version": 3, "category": "widgets", "icon": "groups", "block_json": "blocks/group-todos/block.json", "render": "blocks/group-todos/render.php (SSR via Bptodo_Renderer)", "editor_script": "blocks/group-todos/index.js", "supports": { "interactivity": true, "html": false, "align": ["wide", "full"] }, "attributes": ["groupId (number, 0)", "perPage (number, 10)", "showAdd (boolean, true)", "showStats (boolean, true)"], "registered_at": "bp-user-todo-list.php:272", "note": "Only registered when BuddyPress/BuddyBoss is active. SSR enforces group membership (Bptodo_Renderer)." }
+  ],
+  "post_types": [
+    { "name": "bp-todo", "registered_at": "admin/class-bptodo-cpt.php:88 (Bptodo_Cpt::bptodo_create_cpt, on init)", "public": false, "publicly_queryable": false, "exclude_from_search": true, "has_archive": false, "show_ui": true, "query_var": false, "rewrite": false, "capability_type": "post", "capabilities": { "create_posts": false }, "map_meta_cap": true, "supports": ["title", "editor", "author", "thumbnail"], "purpose": "Stores individual todo tasks (one post per task); metadata in postmeta (todo_due_date, todo_status, todo_priority, todo_group_id, todo_user_id, etc.).", "note": "PRIVATE since 4.0 (admin/class-bptodo-cpt.php:58-87): todos are permission-scoped data with no public single URL, no archive, and excluded from site search. Registers regardless of BuddyPress so standalone personal todos work." }
+  ],
+  "taxonomies": [
+    { "name": "todo_category", "post_type": "bp-todo", "hierarchical": true, "show_ui": true, "show_admin_column": true, "public": false, "publicly_queryable": false, "query_var": false, "rewrite": false, "registered_at": "admin/class-bptodo-cpt.php:123 (Bptodo_Cpt::bptodo_create_cpt_category)", "capabilities": {}, "note": "Private - admin management only, no public term archives. Seeds an 'Uncategorized' term on first registration (:133-139)." }
+  ],
+  "tables": [],
+  "capabilities": [
+    { "cap": "upload_files", "default_roles": ["dynamically granted to subscribers on todo pages"], "registered_at": "bp-user-todo-list.php:244 (user_has_cap filter -> bptodo_grant_upload_cap_on_todo_pages, defined :207)", "enforced_at": ["bp-user-todo-list.php:207-244"], "enforcement_count": 1, "meta": false, "requires_context": "on a BuddyPress member todo page only (bp_is_user() + component matches the todo slug)" },
+    { "cap": "manage_options", "default_roles": ["administrator"], "registered_at": "(WP core)", "enforced_at": ["includes/admin/class-bptodo-admin-panel.php:105 (filter bptodo_admin_capability, applied to both menu registrations)", "admin/class-bptodo-admin.php:263 (bptodo_save_general_settings)", "admin/class-bptodo-feedback.php:290", "includes/bptodo-functions.php:236", "includes/render/class-bptodo-renderer.php:210 (group oversight)", "public/todo/bptodo-shortcode-template.php:34"], "enforcement_count": 6, "meta": false, "requires_context": "none" },
+    { "cap": "manage_network_plugins", "default_roles": ["super admin"], "registered_at": "(WP core)", "enforced_at": ["bp-user-todo-list.php:594"], "enforcement_count": 1, "meta": false, "requires_context": "multisite + BPTODO_ENABLE_ADVANCED_MULTISITE" },
+    { "cap": "activate_plugins", "default_roles": ["administrator"], "registered_at": "(WP core)", "enforced_at": ["includes/class-bptodo-activator.php:230", "includes/class-bptodo-deactivator.php:161"], "enforcement_count": 2, "meta": false, "requires_context": "activation/deactivation routines" },
+    { "cap": "edit_others_posts", "default_roles": ["editor", "administrator"], "registered_at": "(WP core)", "enforced_at": ["public/class-bptodo-public.php:839", "public/class-bptodo-public.php:1215", "public/class-bptodo-public.php:1794"], "enforcement_count": 3, "meta": false, "requires_context": "legacy AJAX edit/delete of another member's todo (group admin/mod also allowed)" }
+  ],
+  "services": [
+    { "key": "Bptodo_List", "class": "Bptodo_List", "added": "1.0.0", "note": "Main orchestrator (includes/class-bptodo.php); wires loader." },
+    { "key": "Bptodo_List_Loader", "class": "Bptodo_List_Loader", "added": "1.0.0", "note": "Hook collector/dispatcher (includes/class-bptodo-loader.php)." },
+    { "key": "Bptodo_Globals", "class": "Bptodo_Globals", "added": "1.0.0", "note": "Global settings object ($bptodo); reads user_todo_list_settings (inc/class-bptodo-globals.php)." },
+    { "key": "Bptodo_Admin", "class": "Bptodo_Admin", "added": "1.0.0", "note": "Non-UI admin logic since 4.0: register_setting, sanitizers, the custom General-tab save handler, frontend asset enqueue (admin/class-bptodo-admin.php)." },
+    { "key": "Bptodo_Admin_Panel", "class": "Bptodo_Admin_Panel", "added": "3.6.0", "note": "Card-panel admin surface: hub + Todo Lists menu, sidebar tabs, enqueue, notice suppression, hub-landing takeover (includes/admin/class-bptodo-admin-panel.php)." },
+    { "key": "Bptodo_Public", "class": "Bptodo_Public", "added": "1.0.0", "note": "Legacy frontend rendering + all member/group AJAX handlers (public/class-bptodo-public.php)." },
+    { "key": "Bptodo_Todo_Repository", "class": "Bptodo_Todo_Repository", "added": "4.0.0", "note": "Domain layer - single source of truth for todo CRUD/query; fires the bptodo_todo_* lifecycle hooks (includes/domain/class-bptodo-todo-repository.php)." },
+    { "key": "Bptodo_Permissions", "class": "Bptodo_Permissions", "added": "4.0.0", "note": "Domain layer - all view/edit/delete/complete/create authorization, incl. group-manager gating (includes/domain/class-bptodo-permissions.php)." },
+    { "key": "Bptodo_Categories", "class": "Bptodo_Categories", "added": "4.0.0", "note": "Domain layer - todo_category term listing/creation behind allow_user_add_category (includes/domain/class-bptodo-categories.php)." },
+    { "key": "Bptodo_Todo", "class": "Bptodo_Todo", "added": "4.0.0", "note": "Domain layer - todo DTO / REST serialization (includes/domain/class-bptodo-todo.php)." },
+    { "key": "Bptodo_REST_Controller", "class": "Bptodo_REST_Controller", "added": "4.0.0", "note": "bptodo/v1 REST API - thin adapter over the domain layer (includes/rest/class-bptodo-rest-controller.php)." },
+    { "key": "Bptodo_Renderer", "class": "Bptodo_Renderer", "added": "4.0.0", "note": "Shared SSR + Interactivity renderer used by blocks, shortcodes and BP tabs; boots the wp_interactivity_state('bptodo') store (includes/render/class-bptodo-renderer.php)." },
+    { "key": "Bptodo_Cpt", "class": "Bptodo_Cpt", "added": "1.0.0", "note": "Registers the private bp-todo CPT + todo_category taxonomy (admin/class-bptodo-cpt.php)." },
+    { "key": "Bptodo_Emails", "class": "Bptodo_Emails", "added": "3.x", "note": "BuddyPress email integration (due-date + assignment notifications)." },
+    { "key": "Bptodo_Data_Retention", "class": "Bptodo_Data_Retention", "added": "3.x", "note": "Daily cleanup cron + retention policy (includes/class-bptodo-data-retention.php)." },
+    { "key": "Group_Extension_Todo", "class": "Group_Extension_Todo", "added": "1.0.0", "note": "BP_Group_Extension tab (public/class-bptodo-groups-extension-tab.php)." },
+    { "key": "BP_ToDo_Member_ToDo_Widget", "class": "BP_ToDo_Member_ToDo_Widget", "added": "1.0.0", "note": "Member todo WP_Widget (admin/widget/class-user-todo.php); BP-guarded so it is safe standalone." },
+    { "key": "BuddyPress_TO_DO_Feedback", "class": "BuddyPress_TO_DO_Feedback", "added": "3.x", "note": "Deactivation feedback prompt (admin/class-bptodo-feedback.php)." },
+    { "key": "BPTODO_CLI_Commands", "class": "BPTODO_CLI_Commands", "added": "3.x", "note": "WP-CLI generators + cleanup (admin/class-bptodo-cli-commands.php)." },
+    { "key": "Bptodo_List_Activator", "class": "Bptodo_List_Activator", "added": "1.0.0", "note": "Activation routine + default option seeding (includes/class-bptodo-activator.php)." },
+    { "key": "Bptodo_List_Deactivator", "class": "Bptodo_List_Deactivator", "added": "1.0.0", "note": "Deactivation routine (includes/class-bptodo-deactivator.php)." },
+    { "key": "Bptodo_List_I", "class": "Bptodo_List_I", "added": "1.0.0", "note": "i18n loader (includes/class-bptodo-i18n.php)." }
+  ],
+  "hooks_fired": [
+    { "name": "bptodo_todo_created", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:279", "consumed_by": [] },
+    { "name": "bptodo_todo_updated", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:407", "consumed_by": [] },
+    { "name": "bptodo_todo_completed", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:431", "consumed_by": [] },
+    { "name": "bptodo_todo_uncompleted", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:436", "consumed_by": [] },
+    { "name": "bptodo_todo_deleted", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:463", "consumed_by": [] },
+    { "name": "bptodo_group_todo_submit", "type": "action", "args_count": 2, "args_signature": [], "where": "includes/domain/class-bptodo-todo-repository.php:364", "consumed_by": ["Bptodo_Public::bptodo_group_member_notification (includes/class-bptodo.php:293)", "Bptodo_Public::bptodo_group_member_assignment_email (includes/class-bptodo.php:294)"] },
+    { "name": "bptodo_add_field_before_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-add.php:81", "consumed_by": [] },
+    { "name": "bptodo_add_field_after_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-add.php:98", "consumed_by": [] },
+    { "name": "bptodo_change_submit_button_action", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/member/member-todo-add.php:139", "consumed_by": [] },
+    { "name": "bptodo_add_field_before_edit_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-edit.php:52", "consumed_by": [] },
+    { "name": "bptodo_add_field_after_edit_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-edit.php:138", "consumed_by": [] },
+    { "name": "bptodo_change_todo_edit_button_action", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/member/member-todo-edit.php:136", "consumed_by": [] },
+    { "name": "bptodo_add_extra_tab_content_before_defaults", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/member/member-todo-list.php:188, public/todo/group/list.php:224", "consumed_by": [] },
+    { "name": "bptodo_add_extra_tab_content_after_defaults", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/member/member-todo-list.php:405, public/todo/group/list.php:431", "consumed_by": [] },
+    { "name": "bp_group_todo_add_field_before_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/group/add.php:140", "consumed_by": [] },
+    { "name": "bp_group_todo_add_field_after_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/group/add.php:157", "consumed_by": [] },
+    { "name": "bp_group_todo_change_submit_button_action", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/group/add.php:199", "consumed_by": [] },
+    { "name": "bp_group_todo_add_field_before_edit_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/group/edit.php:129", "consumed_by": [] },
+    { "name": "bp_group_todo_add_field_after_edit_default_listing", "type": "action", "args_count": 1, "args_signature": [], "where": "public/todo/group/edit.php:224", "consumed_by": [] },
+    { "name": "bp_group_todo_change_todo_edit_button_action", "type": "action", "args_count": 0, "args_signature": [], "where": "public/todo/group/edit.php:221", "consumed_by": [] },
+    { "name": "eab-buddypress-group_events-before_events", "type": "action", "args_count": 0, "args_signature": [], "where": "public/class-bptodo-public.php:539", "consumed_by": [] },
+    { "name": "bptodo-buddypress-group_events-after_events", "type": "action", "args_count": 0, "args_signature": [], "where": "public/class-bptodo-public.php:549", "consumed_by": [] },
+    { "name": "bptodo_layout_mode", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/bptodo-functions.php:630 (bptodo_layout_mode() - modern default / legacy, auto-fallback on WP<6.5)", "consumed_by": [] },
+    { "name": "bptodo_standalone_todos_url", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/bptodo-functions.php:124 (bptodo_get_standalone_todos_url(), 4.0.0)", "consumed_by": [] },
+    { "name": "bptodo_exclude_modrator_view", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/bptodo-functions.php:151 (bptodo_list_group_modrator() - fired since 3.6.0; was registered-but-never-applied)", "consumed_by": [] },
+    { "name": "alter_bptodo_if_moderator_modification_enabled", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/bptodo-functions.php:168 (group moderation gating)", "consumed_by": [] },
+    { "name": "bptodo_exclude_modrator_edit", "type": "filter", "args_count": 3, "args_signature": [], "where": "includes/bptodo-functions.php:196 (bptodo_report_view_enabled() - fired since 3.6.0; was registered-but-never-applied)", "consumed_by": [] },
+    { "name": "bptodo_admin_tabs", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/admin/class-bptodo-admin-panel.php:71 (sidebar tab registry; 'discover' is appended after this filter)", "consumed_by": [] },
+    { "name": "bptodo_admin_capability", "type": "filter", "args_count": 1, "args_signature": [], "where": "includes/admin/class-bptodo-admin-panel.php:105 (capability for both admin menu registrations)", "consumed_by": [] },
+    { "name": "bptodo_member_list_per_page", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-list.php:32,60 (server-side page size since 3.6.0; replaced the removed bptodo_member_list_limit cap)", "consumed_by": [] },
+    { "name": "bptodo_group_list_per_page", "type": "filter", "args_count": 2, "args_signature": [], "where": "public/todo/group/list.php:34,81 (server-side page size, 3.6.0)", "consumed_by": [] },
+    { "name": "bptodo_group_edit_limit", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/group/edit.php:70 (group edit query)", "consumed_by": [] },
+    { "name": "bptodo_group_overview_member_stats", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/group/overview.php:145,176", "consumed_by": [] },
+    { "name": "bptodo_group_overview_members_per_page", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/group/overview.php:42 (group overview pagination)", "consumed_by": [] },
+    { "name": "bptodo_group_overview_task_selector_limit", "type": "filter", "args_count": 2, "args_signature": [], "where": "public/todo/group/overview.php:57 (task selector bound, 3.6.0)", "consumed_by": [] },
+    { "name": "bptodo_admin_mod_gorup_report_view", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:1634 (group report, moderator)", "consumed_by": [] },
+    { "name": "bptodo_export_limit", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:1148 (bptodo_export_my_tasks)", "consumed_by": [] },
+    { "name": "bptodo_modify_task_export_data", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:1176 (export builder)", "consumed_by": [] },
+    { "name": "bptodo_due_date_batch_size", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:82 (due-date notification cron)", "consumed_by": [] },
+    { "name": "bptodo_notification_cron_schedule_interval", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:348 (every_six_hours interval)", "consumed_by": [] },
+    { "name": "bptodo_change_submit_button", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-add.php:108", "consumed_by": [] },
+    { "name": "bptodo_change_todo_edit_button", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/member/member-todo-edit.php:122", "consumed_by": [] },
+    { "name": "bp_group_todo_change_submit_button", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/group/add.php:167", "consumed_by": [] },
+    { "name": "bp_group_todo_change_todo_edit_button", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/todo/group/edit.php:207", "consumed_by": [] },
+    { "name": "bptodo_profile_menu_slug", "type": "filter", "args_count": 1, "args_signature": [], "where": "inc/class-bptodo-globals.php:65 (profile tab slug)", "consumed_by": [] },
+    { "name": "bp_todo_locate_template", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/bptodo-plugin-genral-function.php:38 (template locator)", "consumed_by": [] },
+    { "name": "bp_core_template_plugin", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:532,890,942 (BP template loader)", "consumed_by": [] },
+    { "name": "widget_title", "type": "filter", "args_count": 1, "args_signature": [], "where": "admin/widget/class-user-todo.php:58 (member widget)", "consumed_by": [] },
+    { "name": "plugin_locale", "type": "filter", "args_count": 2, "args_signature": [], "where": "bp-user-todo-list.php:27 (textdomain load)", "consumed_by": [] }
+  ],
+  "interactivity": [
+    {
+      "store": "bptodo",
+      "module_id": "Bptodo_Renderer::MODULE_ID",
+      "module_src": "assets/js/bptodo-view.js",
+      "deps": ["@wordpress/interactivity"],
+      "registered_at": "includes/render/class-bptodo-renderer.php:89 (wp_register_script_module)",
+      "enqueued_at": "includes/render/class-bptodo-renderer.php:197,457 (wp_enqueue_script_module)",
+      "state_booted_at": "includes/render/class-bptodo-renderer.php:133 (wp_interactivity_state)",
+      "state_keys": ["restRoot (rest_url('bptodo/v1'))", "nonce (wp_rest)", "i18n.{confirmDelete,saving,error,completed,reopened,deleted,added,updated,categoryAdded}"],
+      "regions": ["includes/render/class-bptodo-renderer.php:316 (list region, data-wp-interactive=\"bptodo\")", "includes/render/class-bptodo-renderer.php:487 (app root, data-wp-interactive + data-wp-context)"],
+      "consumers": ["blocks/my-todos/render.php", "blocks/group-todos/render.php", "[bptodo_list] / [bptodo_by_category]", "BP member To-do tab + group Todo tab (modern layout)"],
+      "note": "SSR-first with data-wp-each; falls back to the legacy jQuery layout when bptodo_layout_mode() returns 'legacy' or WP < 6.5 (includes/bptodo-functions.php:612-630)."
+    }
+  ],
+  "ui_activation": [],
+  "static_analysis": {
+    "dead_listeners": [],
+    "cap_context_mismatches": [],
+    "extensibility_gaps": [],
+    "js_only_activation": [],
+    "rest_hang_risks": [],
+    "visual_required_no_enforcement": [],
+    "grid_track_overflow_risks": [],
+    "hook_signature_drift": [],
+    "adapter_undefined_calls": [],
+    "registry_bypasses": [],
+    "suppressed_baseline_inventory": { "stub_class_missing": { "count": 0, "action": "" }, "stub_const_missing": { "count": 0, "action": "" }, "undef_var_risk": { "count": 0, "action": "" }, "real_type_debt": { "count": 0, "action": "" }, "phpcs_excludes": { "count": 0, "action": "" } },
+    "registry_strategy": [],
+    "nonce_no_cap_triage": {
+      "summary": "Carried over from the 2026-06-05 wppqa baseline and re-checked against shipped code on 2026-07-16 (structural rescan only - no new wppqa run, so the baseline's line numbers have drifted with the 4.0 refactor and need re-anchoring on the next wppqa run). Member-facing AJAX/form handlers in public/class-bptodo-public.php remain FALSE POSITIVES: logged-in member self-service operations on their own todos, correctly nonce-protected, with NO wp_ajax_nopriv registrations so login is required. Activator/deactivator flags run only inside register_activation_hook/register_deactivation_hook (WP already gates with activate_plugins, and both re-check current_user_can('activate_plugins') at activator:230 / deactivator:161) - FALSE POSITIVES. BOTH previously-open real findings are now CLOSED: admin/class-bptodo-admin.php:263 now carries an inline current_user_can('manage_options') guard inside bptodo_save_general_settings(); the wbcom_addons_cards finding is moot because admin/wbcom/ was deleted in the card-panel migration.",
+      "false_positives": ["public/class-bptodo-public.php (member self-service AJAX/form handlers)", "includes/class-bptodo-activator.php (activation-only flags)", "includes/class-bptodo-deactivator.php (deactivation-only flags)"],
+      "real_findings": []
+    }
+  },
+  "buddypress_integration": { "enabled_when": "OPTIONAL since 4.0 - bptodo_is_buddypress_active() (bp-user-todo-list.php:250). The plugin works standalone (personal todos via the My Todos block / [bptodo_list]); BuddyPress/BuddyBoss adds the member profile tab + group todos.", "manager": "Group_Extension_Todo + Bptodo_Public + Bptodo_Emails", "sub_classes": ["Group_Extension_Todo", "Bptodo_Emails"] },
+  "frontend_assets": {
+    "js": ["assets/js/bptodo-view.js (script module, @wordpress/interactivity - modern layout)", "assets/js/bptodo-front.js (+.min - legacy layout)", "assets/js/bptodo-modern.js (+.min - toast/modal)", "assets/js/select2.full.min.js", "assets/js/datatables.min.js", "assets/js/tempust.js", "assets/js/pdfobject.min.js"],
+    "css": ["assets/css/bptodo-design-system.css (+.min/-rtl)", "assets/css/bptodo-components.css (+.min/-rtl)", "assets/css/bptodo-blocks.css (modern layout)", "assets/css/bptodo-front.css (+.min/-rtl - legacy layout)", "assets/css/select2.min.css", "assets/css/jquery-ui.min.css", "assets/css/datatables.min.css"],
+    "admin": ["assets/css/admin.css", "assets/js/admin.js", "admin/assets/js/bp-todo-list-admin.js (network-admin only)"],
+    "note": "Frontend assets are gated to todo surfaces only (member/group Todo tab slug in URI, or a page carrying a todo shortcode/block) - admin/class-bptodo-admin.php. Versioning via bptodo_asset_ver() (filemtime on local/WP_DEBUG, BPTODO_VERSION in production)."
+  },
+  "cron": [
+    { "hook": "bptodo_daily_cleanup", "interval": "daily", "handler": "Bptodo_Data_Retention::run_cleanup", "registered_at": "includes/class-bptodo-data-retention.php:22", "scheduled_at": "includes/class-bptodo-data-retention.php:45,67", "purpose": "Apply data-retention policy (delete/trash old todos)." },
+    { "hook": "bptodo_todo_notification", "interval": "every_six_hours (custom; registered via cron_schedules at public/class-bptodo-public.php:32,347)", "handler": "Bptodo_Public::bptodo_manage_todo_due_date", "registered_at": "includes/class-bptodo.php:250", "scheduled_at": "public/class-bptodo-public.php:66", "purpose": "Send due-date reminder emails/notifications." }
+  ],
+  "wp_cli": [
+    { "command": "bptodo generate member-todos", "handler": "BPTODO_CLI_Commands::member_todos", "registered_at": "bp-user-todo-list.php:484", "purpose": "Seed demo member todos (source data admin/demo-tasks.json)." },
+    { "command": "bptodo generate group-todos", "handler": "BPTODO_CLI_Commands::group_todos", "registered_at": "bp-user-todo-list.php:485", "purpose": "Seed demo group todos." },
+    { "command": "bptodo cleanup", "handler": "BPTODO_CLI_Commands::cleanup", "registered_at": "bp-user-todo-list.php:486", "purpose": "Manually trigger retention cleanup." }
+  ],
+  "storage_drivers": [],
+  "security": {
+    "uploads_gate": "user_has_cap filter grants upload_files to subscribers only on BuddyPress member todo pages (bp-user-todo-list.php:207-244)",
+    "signing_entry_points": [],
+    "always_sign_filter": null,
+    "rate_limit_middleware": null,
+    "nonces": ["bptodo-todo-nonce", "bptodo-export-todo", "bptodo-add-todo-category", "bptodo_nonce", "wp-bp-todo", "bptodo (general settings)", "bptodo_network_nonce", "wb-todo-feedback-nonce", "wp_rest (REST + Interactivity store)", "bp_settings_notifications"]
+  },
+  "ci_guards": { "script": null, "url_emission_regex": null, "storage_internal_marker": null, "phpstan_level": null },
+  "coding_rules": [],
+  "build_commands": { "release": "grunt (gruntfile.js) / npm run release", "ci_local": null },
+  "category_sources": {
+    "rest": ["includes/rest/**/*.php", "includes/class-bptodo.php"],
+    "ajax": ["includes/class-bptodo.php", "public/**/*.php", "bp-user-todo-list.php"],
+    "admin_pages": ["includes/admin/**/*.php"],
+    "admin_tabs": ["includes/admin/class-bptodo-admin-panel.php", "includes/admin/views/*.php"],
+    "settings": ["admin/class-bptodo-admin.php", "includes/class-bptodo-activator.php", "inc/**/*.php", "bp-user-todo-list.php"],
+    "shortcodes": ["includes/class-bptodo.php", "public/class-bptodo-public.php"],
+    "blocks": ["blocks/*/block.json", "bp-user-todo-list.php"],
+    "post_types": ["admin/class-bptodo-cpt.php"],
+    "taxonomies": ["admin/class-bptodo-cpt.php"],
+    "tables": ["includes/**/*.php"],
+    "capabilities": ["**/*.php"],
+    "services": ["includes/**/*.php", "admin/**/*.php", "public/**/*.php", "inc/**/*.php"],
+    "hooks_fired": ["**/*.php"],
+    "interactivity": ["includes/render/class-bptodo-renderer.php", "assets/js/bptodo-view.js", "blocks/*/render.php"],
+    "cron": ["includes/class-bptodo-data-retention.php", "public/class-bptodo-public.php", "includes/class-bptodo.php"],
+    "wp_cli": ["bp-user-todo-list.php", "admin/class-bptodo-cli-commands.php"],
+    "security": ["**/*.php"]
+  },
+  "coverage_notes": {
+    "shortcodes": "manifest=2 vs grep=4 (50% gap, ACCEPTED). 2 grep hits are noise: includes/class-bptodo-loader.php:153 is the add_shortcode() method DEFINITION and :201 is the loader's dispatch call - neither registers a shortcode tag. 2 distinct tags is correct. The third tag listed until 2026-07-16 (wbcom_admin_setting_header) was removed with the admin/wbcom/ wrapper directory.",
+    "admin_pages": "manifest=2 vs grep=2 (0% gap). One add_menu_page (conditional hub) + one add_submenu_page, both in includes/admin/class-bptodo-admin-panel.php. The 4 extra pages listed until 2026-07-16 (Our Plugins / Our Themes / Support / the duplicate same-slug hub submenu) came from the deleted admin/wbcom/ wrapper.",
+    "rest": "manifest=12 endpoints vs grep=6 register_rest_route calls (EXPECTED, not a gap). Each of /todos, /todos/{id}, /todos/{id}/complete, /categories and /groups/{id}/todos registers multiple method handlers in one call; /todos/{id} registers 3 (GET, EDITABLE=PUT|PATCH, DELETE). 6 routes -> 12 method endpoints.",
+    "cron": "manifest=2 vs grep=3 wp_schedule_event hits (33% gap, ACCEPTED). bptodo_daily_cleanup is scheduled at two sites (data-retention.php:45 and :67, activate-vs-runtime guards) but is 1 distinct cron hook. 2 distinct cron hooks total.",
+    "hooks_fired": "49 distinct hooks (22 actions + 27 filters) from 26 do_action + 33 apply_filters call sites. Multi-site hooks collapse to one entry each: bptodo_member_list_per_page x2, bptodo_group_list_per_page x2, bptodo_group_overview_member_stats x2, bp_core_template_plugin x3, bptodo_add_extra_tab_content_before/after_defaults x2 each."
+  },
+  "generated": {
+    "at": "2026-07-16T10:28:05+00:00",
+    "from": "manual structural rescan (grep/glob against shipped code)",
+    "branch": "3.6.0",
+    "scan_scope": "full_rescan",
+    "scan_path": ".",
+    "php_file_count": 53,
+    "schema_version": "v2.2"
+  }
+}

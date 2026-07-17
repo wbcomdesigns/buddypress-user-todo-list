@@ -1,0 +1,26 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "bptodo/my-todos",
+	"version": "4.0.0",
+	"title": "My Todos",
+	"category": "widgets",
+	"icon": "editor-ul",
+	"description": "A personal todo list for the logged-in user — add, complete, filter and paginate without page reloads.",
+	"keywords": [ "todo", "task", "list", "checklist" ],
+	"textdomain": "wb-todo",
+	"supports": {
+		"interactivity": true,
+		"html": false,
+		"align": [ "wide", "full" ]
+	},
+	"attributes": {
+		"perPage": { "type": "number", "default": 10 },
+		"status": { "type": "string", "default": "all" },
+		"priority": { "type": "string", "default": "all" },
+		"showAdd": { "type": "boolean", "default": true },
+		"showStats": { "type": "boolean", "default": true }
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js"
+}

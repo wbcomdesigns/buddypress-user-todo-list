@@ -1,0 +1,605 @@
+/**
+ * BuddyPress User Todo List - Design System
+ *
+ * A theme-independent design system with CSS custom properties.
+ * All component styles should reference these tokens.
+ *
+ * @package bp-user-todo-list
+ * @since 3.6.0
+ */
+
+/* ==========================================================================
+   CSS Custom Properties (Design Tokens)
+   ========================================================================== */
+
+:root {
+	/* -------------------------------------------------------------------------
+	   Theme Color Inheritance
+	   Cascade: Reign → BuddyX/BuddyX Pro (--bx-color-*) → BuddyX legacy alias →
+	   BuddyBoss → Fallback.
+	   BuddyX 5.1+ and Reign 8 flip their own tokens under
+	   :root[data-bx-mode="dark"], so these inherit dark values automatically.
+	   ------------------------------------------------------------------------- */
+	--bptodo-theme-primary: var(--reign-accent-color, var(--bx-color-accent, var(--color-theme-primary, var(--bb-rl-background-brand-primary-color, #3b82f6))));
+	--bptodo-theme-primary-hover: var(--reign-accent-hover-color, var(--bx-color-button-bg-hover, var(--color-theme-primary, var(--bb-rl-background-brand-primary-hover-color, #2563eb))));
+	--bptodo-theme-bg: var(--reign-site-sections-bg-color, var(--bx-color-bg-elevated, var(--bb-rl-background-color, #ffffff)));
+	--bptodo-theme-bg-secondary: var(--reign-site-secondary-bg-color, var(--bx-color-bg-muted, var(--bb-rl-background-secondary-color, #f9fafb)));
+	--bptodo-theme-text: var(--reign-site-body-text-color, var(--bx-color-fg, var(--bb-body-text-color, #374151)));
+	--bptodo-theme-text-heading: var(--reign-site-headings-color, var(--bx-color-h4, #111827));
+	--bptodo-theme-border: var(--reign-site-border-color, var(--bx-color-border, var(--bb-content-border-color, #e5e7eb)));
+
+	/* -------------------------------------------------------------------------
+	   Colors - Primary Palette (using theme inheritance)
+	   ------------------------------------------------------------------------- */
+	--bptodo-primary: var(--bptodo-theme-primary);
+	--bptodo-primary-hover: var(--bptodo-theme-primary-hover);
+	--bptodo-primary-active: #1d4ed8;
+	--bptodo-primary-dark: var(--bptodo-theme-primary-hover);
+	--bptodo-primary-darker: #1d4ed8;
+	--bptodo-primary-light: #eff6ff;
+	--bptodo-primary-rgb: 59, 130, 246;
+
+	/* -------------------------------------------------------------------------
+	   Colors - Semantic
+	   ------------------------------------------------------------------------- */
+	--bptodo-success: #10b981;
+	--bptodo-success-hover: #059669;
+	--bptodo-success-light: #ecfdf5;
+	--bptodo-success-rgb: 16, 185, 129;
+
+	--bptodo-warning: #f59e0b;
+	--bptodo-warning-hover: #d97706;
+	--bptodo-warning-light: #fffbeb;
+	--bptodo-warning-rgb: 245, 158, 11;
+
+	--bptodo-danger: #ef4444;
+	--bptodo-danger-hover: #dc2626;
+	--bptodo-danger-dark: #dc2626;
+	--bptodo-danger-light: #fef2f2;
+	--bptodo-danger-rgb: 239, 68, 68;
+
+	--bptodo-info: #3b82f6;
+	--bptodo-info-light: #eff6ff;
+
+	/* -------------------------------------------------------------------------
+	   Colors - Priority
+	   ------------------------------------------------------------------------- */
+	--bptodo-priority-critical: #dc2626;
+	--bptodo-priority-critical-bg: #fef2f2;
+	--bptodo-priority-high: #f59e0b;
+	--bptodo-priority-high-bg: #fffbeb;
+	--bptodo-priority-normal: #10b981;
+	--bptodo-priority-normal-bg: #ecfdf5;
+
+	/* -------------------------------------------------------------------------
+	   Colors - Neutrals (Grays) - Static fallbacks
+	   ------------------------------------------------------------------------- */
+	--bptodo-white: #ffffff;
+	--bptodo-gray-50: #f9fafb;
+	--bptodo-gray-100: #f3f4f6;
+	--bptodo-gray-200: #e5e7eb;
+	--bptodo-gray-300: #d1d5db;
+	--bptodo-gray-400: #9ca3af;
+	--bptodo-gray-500: #6b7280;
+	--bptodo-gray-600: #4b5563;
+	--bptodo-gray-700: #374151;
+	--bptodo-gray-800: #1f2937;
+	--bptodo-gray-900: #111827;
+	--bptodo-black: #000000;
+
+	/* -------------------------------------------------------------------------
+	   Colors - Backgrounds (using theme inheritance)
+	   ------------------------------------------------------------------------- */
+	--bptodo-bg-page: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-card: var(--bptodo-theme-bg);
+	--bptodo-bg-input: var(--bptodo-theme-bg);
+	--bptodo-bg-hover: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-active: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-disabled: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-surface: var(--bptodo-theme-bg);
+	--bptodo-bg-surface-secondary: var(--bptodo-theme-bg-secondary);
+	--bptodo-bg-surface-tertiary: var(--reign-site-tertiary-bg-color, var(--bptodo-gray-100));
+
+	/* -------------------------------------------------------------------------
+	   Colors - Text (using theme inheritance)
+	   ------------------------------------------------------------------------- */
+	--bptodo-text-primary: var(--bptodo-theme-text-heading);
+	--bptodo-text-secondary: var(--bptodo-theme-text);
+	--bptodo-text-tertiary: var(--bptodo-theme-text);
+	--bptodo-text-muted: var(--bptodo-gray-400);
+	--bptodo-text-disabled: var(--bptodo-gray-400);
+	--bptodo-text-inverse: var(--bptodo-white);
+	--bptodo-text-link: var(--bptodo-primary);
+	--bptodo-text-link-hover: var(--bptodo-primary-hover);
+
+	/* -------------------------------------------------------------------------
+	   Colors - Borders (using theme inheritance)
+	   ------------------------------------------------------------------------- */
+	--bptodo-border-light: var(--bptodo-theme-border);
+	--bptodo-border-default: var(--bptodo-theme-border);
+	--bptodo-border-focus: var(--bptodo-primary);
+
+	/* -------------------------------------------------------------------------
+	   Spacing Scale
+	   ------------------------------------------------------------------------- */
+	--bptodo-space-0: 0;
+	--bptodo-space-1: 0.25rem;  /* 4px */
+	--bptodo-space-2: 0.5rem;   /* 8px */
+	--bptodo-space-3: 0.75rem;  /* 12px */
+	--bptodo-space-4: 1rem;     /* 16px */
+	--bptodo-space-5: 1.25rem;  /* 20px */
+	--bptodo-space-6: 1.5rem;   /* 24px */
+	--bptodo-space-8: 2rem;     /* 32px */
+	--bptodo-space-10: 2.5rem;  /* 40px */
+	--bptodo-space-12: 3rem;    /* 48px */
+	--bptodo-space-16: 4rem;    /* 64px */
+
+	/* -------------------------------------------------------------------------
+	   Typography - Font Family
+	   ------------------------------------------------------------------------- */
+	--bptodo-font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--bptodo-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+	/* -------------------------------------------------------------------------
+	   Typography - Font Size Scale
+	   ------------------------------------------------------------------------- */
+	--bptodo-text-xs: 0.75rem;    /* 12px */
+	--bptodo-text-sm: 0.875rem;   /* 14px */
+	--bptodo-text-base: 1rem;     /* 16px */
+	--bptodo-text-lg: 1.125rem;   /* 18px */
+	--bptodo-text-xl: 1.25rem;    /* 20px */
+	--bptodo-text-2xl: 1.5rem;    /* 24px */
+	--bptodo-text-3xl: 1.875rem;  /* 30px */
+
+	/* -------------------------------------------------------------------------
+	   Typography - Line Height
+	   ------------------------------------------------------------------------- */
+	--bptodo-leading-none: 1;
+	--bptodo-leading-tight: 1.25;
+	--bptodo-leading-snug: 1.375;
+	--bptodo-leading-normal: 1.5;
+	--bptodo-leading-relaxed: 1.625;
+
+	/* -------------------------------------------------------------------------
+	   Typography - Font Weight
+	   ------------------------------------------------------------------------- */
+	--bptodo-font-normal: 400;
+	--bptodo-font-medium: 500;
+	--bptodo-font-semibold: 600;
+	--bptodo-font-bold: 700;
+
+	/* -------------------------------------------------------------------------
+	   Border Radius
+	   ------------------------------------------------------------------------- */
+	--bptodo-radius-none: 0;
+	--bptodo-radius-sm: 0.25rem;   /* 4px */
+	--bptodo-radius-md: 0.375rem;  /* 6px */
+	--bptodo-radius-lg: 0.5rem;    /* 8px */
+	--bptodo-radius-xl: 0.75rem;   /* 12px */
+	--bptodo-radius-2xl: 1rem;     /* 16px */
+	--bptodo-radius-full: 9999px;
+
+	/* -------------------------------------------------------------------------
+	   Shadows
+	   ------------------------------------------------------------------------- */
+	--bptodo-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	--bptodo-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+	--bptodo-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+	--bptodo-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	--bptodo-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+	--bptodo-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+	--bptodo-shadow-focus: 0 0 0 3px rgba(var(--bptodo-primary-rgb), 0.3);
+
+	/* -------------------------------------------------------------------------
+	   Transitions
+	   ------------------------------------------------------------------------- */
+	--bptodo-transition-fast: 100ms ease;
+	--bptodo-transition-normal: 150ms ease;
+	--bptodo-transition-slow: 300ms ease;
+	--bptodo-transition-slower: 500ms ease;
+
+	/* -------------------------------------------------------------------------
+	   Z-Index Scale
+	   ------------------------------------------------------------------------- */
+	--bptodo-z-dropdown: 100;
+	--bptodo-z-sticky: 200;
+	--bptodo-z-overlay: 300;
+	--bptodo-z-modal-backdrop: 350;
+	--bptodo-z-modal: 400;
+	/* Toast sits above sticky theme headers and just under the WP admin bar
+	   (99999); paired with an admin-bar top offset so it is never hidden. */
+	--bptodo-z-toast: 99990;
+	--bptodo-z-tooltip: 99991;
+
+	/* -------------------------------------------------------------------------
+	   Transition Aliases
+	   ------------------------------------------------------------------------- */
+	--bptodo-transition-base: var(--bptodo-transition-normal);
+
+	/* -------------------------------------------------------------------------
+	   Component-Specific Tokens
+	   ------------------------------------------------------------------------- */
+
+	/* Cards */
+	--bptodo-card-padding: var(--bptodo-space-4);
+	--bptodo-card-radius: var(--bptodo-radius-lg);
+	--bptodo-card-shadow: var(--bptodo-shadow-sm);
+	--bptodo-card-shadow-hover: var(--bptodo-shadow-md);
+	--bptodo-card-bg: var(--bptodo-bg-card);
+	--bptodo-card-border: var(--bptodo-border-light);
+
+	/* Inputs */
+	--bptodo-input-height: 2.5rem;       /* 40px */
+	--bptodo-input-height-sm: 2rem;      /* 32px */
+	--bptodo-input-height-lg: 3rem;      /* 48px */
+	--bptodo-input-padding-x: var(--bptodo-space-3);
+	--bptodo-input-padding-y: var(--bptodo-space-2);
+	--bptodo-input-radius: var(--bptodo-radius-md);
+	--bptodo-input-bg: var(--bptodo-bg-input);
+	--bptodo-input-border: var(--bptodo-border-default);
+	--bptodo-input-border-focus: 2px solid var(--bptodo-primary);
+	--bptodo-input-focus-border: var(--bptodo-primary);
+	--bptodo-input-focus-ring: 0 0 0 3px rgba(var(--bptodo-primary-rgb), 0.15);
+	--bptodo-input-font-size: var(--bptodo-text-base);
+
+	/* Buttons */
+	--bptodo-btn-height: 2.5rem;
+	--bptodo-btn-height-sm: 2rem;
+	--bptodo-btn-height-lg: 3rem;
+	--bptodo-btn-padding-x: var(--bptodo-space-4);
+	--bptodo-btn-padding-y: var(--bptodo-space-2);
+	--bptodo-btn-radius: var(--bptodo-radius-md);
+	--bptodo-btn-font-weight: var(--bptodo-font-medium);
+	--bptodo-btn-font-size: var(--bptodo-text-sm);
+
+	/* Checkbox */
+	--bptodo-checkbox-size: 1.25rem;     /* 20px */
+	--bptodo-checkbox-radius: var(--bptodo-radius-sm);
+
+	/* Modal */
+	--bptodo-modal-width: 32rem;         /* 512px */
+	--bptodo-modal-width-sm: 24rem;      /* 384px */
+	--bptodo-modal-width-lg: 42rem;      /* 672px */
+	--bptodo-modal-padding: var(--bptodo-space-6);
+	--bptodo-modal-radius: var(--bptodo-radius-xl);
+	--bptodo-modal-shadow: var(--bptodo-shadow-xl);
+	--bptodo-modal-backdrop: rgba(0, 0, 0, 0.5);
+
+	/* Toast */
+	--bptodo-toast-width: 20rem;         /* 320px */
+	--bptodo-toast-padding: var(--bptodo-space-4);
+	--bptodo-toast-radius: var(--bptodo-radius-lg);
+	--bptodo-toast-shadow: var(--bptodo-shadow-lg);
+
+	/* Progress Bar */
+	--bptodo-progress-height: 0.5rem;    /* 8px */
+	--bptodo-progress-radius: var(--bptodo-radius-full);
+
+	/* Badge */
+	--bptodo-badge-padding-x: var(--bptodo-space-2);
+	--bptodo-badge-padding-y: var(--bptodo-space-1);
+	--bptodo-badge-radius: var(--bptodo-radius-full);
+	--bptodo-badge-font-size: var(--bptodo-text-xs);
+	--bptodo-badge-font-weight: var(--bptodo-font-medium);
+
+	/* -------------------------------------------------------------------------
+	   Layout
+	   ------------------------------------------------------------------------- */
+	--bptodo-container-max: 1200px;
+	--bptodo-sidebar-width: 280px;
+	--bptodo-header-height: 64px;
+}
+
+/* ==========================================================================
+   Dark Mode Overrides
+   Matched dark contexts:
+   - body.dark-mode                  → legacy Reign (< 8.0) body class
+   - :root[data-bx-mode="dark"]      → BuddyX 5.1+ / BuddyX Pro / Reign 8 explicit dark
+   - :root[data-bx-mode="auto"] + OS dark → same themes in "auto" mode (media query below)
+   Values cascade Reign token → BuddyX token → static dark fallback.
+   NOTE: keep the declarations in the auto media-query block below in sync.
+   ========================================================================== */
+
+.dark-mode,
+:root[data-bx-mode="dark"] {
+	/* Native form controls (date inputs, scrollbars) render dark too. */
+	color-scheme: dark;
+
+	/* Background colors - theme dark values with static fallbacks */
+	--bptodo-white: var(--reign-site-sections-bg-color, var(--bx-color-bg-elevated, #1a2028));
+	--bptodo-gray-50: var(--reign-site-secondary-bg-color, var(--bx-color-bg-muted, #1f2530));
+	--bptodo-gray-100: var(--reign-site-secondary-bg-color, var(--bx-color-bg-muted, #2b323c));
+	--bptodo-gray-200: var(--reign-form-border-color, var(--bx-color-border, #363d48));
+	--bptodo-gray-300: var(--reign-form-border-color, var(--bx-color-border-strong, #454d59));
+	--bptodo-gray-400: #6b7280;
+	--bptodo-gray-500: #9ca3af;
+	--bptodo-gray-600: #d1d5db;
+	--bptodo-gray-700: #e5e7eb;
+	--bptodo-gray-800: #f3f4f6;
+	--bptodo-gray-900: var(--reign-site-headings-color, var(--bx-color-h4, #ffffff));
+
+	/* Override backgrounds for dark mode */
+	--bptodo-bg-card: var(--reign-site-sections-bg-color, var(--bx-color-bg-elevated, #1a2028));
+	--bptodo-bg-input: var(--reign-form-background-color, var(--bx-color-bg-subtle, #181d24));
+	--bptodo-bg-page: var(--reign-site-secondary-bg-color, var(--bx-color-bg, #2b323c));
+	--bptodo-bg-hover: var(--reign-site-secondary-bg-color, var(--bx-color-bg-muted, #2b323c));
+	--bptodo-bg-surface: var(--reign-site-sections-bg-color, var(--bx-color-bg-elevated, #1a2028));
+	--bptodo-bg-surface-secondary: var(--reign-site-secondary-bg-color, var(--bx-color-bg-muted, #2b323c));
+
+	/* Override text colors for dark mode */
+	--bptodo-text-primary: var(--reign-site-headings-color, var(--bx-color-h4, #ffffff));
+	--bptodo-text-secondary: var(--reign-site-body-text-color, var(--bx-color-fg, #c5c8cd));
+	--bptodo-text-tertiary: var(--reign-site-body-text-color, var(--bx-color-fg-muted, #9ca3af));
+	--bptodo-text-muted: var(--bx-color-fg-subtle, #6b7280);
+
+	/* Override border colors for dark mode */
+	--bptodo-border-light: var(--reign-site-border-color, var(--bx-color-divider, #262e38));
+	--bptodo-border-default: var(--reign-form-border-color, var(--bx-color-border, #363d48));
+
+	/* Card specific overrides */
+	--bptodo-card-bg: var(--reign-site-sections-bg-color, var(--bx-color-bg-elevated, #1a2028));
+	--bptodo-card-border: var(--reign-site-border-color, var(--bx-color-border, #262e38));
+
+	/* Status badge light colors - darker versions for dark mode */
+	--bptodo-success-light: rgba(16, 185, 129, 0.15);
+	--bptodo-warning-light: rgba(245, 158, 11, 0.15);
+	--bptodo-danger-light: rgba(239, 68, 68, 0.15);
+	--bptodo-info-light: rgba(59, 130, 246, 0.15);
+	--bptodo-primary-light: rgba(var(--bptodo-primary-rgb), 0.15);
+
+	/* Shadow adjustments for dark mode */
+	--bptodo-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3);
+	--bptodo-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+	--bptodo-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   Base Reset (Scoped to plugin)
+   ========================================================================== */
+
+.bptodo-wrapper,
+.bptodo-wrapper *,
+.bptodo-wrapper *::before,
+.bptodo-wrapper *::after {
+	box-sizing: border-box;
+}
+
+.bptodo-wrapper {
+	font-family: var(--bptodo-font-sans);
+	font-size: var(--bptodo-text-base);
+	line-height: var(--bptodo-leading-normal);
+	color: var(--bptodo-text-primary);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove default margins from common elements within plugin */
+.bptodo-wrapper h1,
+.bptodo-wrapper h2,
+.bptodo-wrapper h3,
+.bptodo-wrapper h4,
+.bptodo-wrapper h5,
+.bptodo-wrapper h6,
+.bptodo-wrapper p,
+.bptodo-wrapper ul,
+.bptodo-wrapper ol {
+	margin: 0;
+}
+
+/* Reset list styles */
+.bptodo-wrapper ul,
+.bptodo-wrapper ol {
+	padding: 0;
+	list-style: none;
+}
+
+/* Reset button styles */
+.bptodo-wrapper button {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	cursor: pointer;
+	border: none;
+	background: none;
+	padding: 0;
+	margin: 0;
+}
+
+/* Reset link styles */
+.bptodo-wrapper a {
+	color: var(--bptodo-text-link);
+	text-decoration: none;
+	transition: color var(--bptodo-transition-fast);
+}
+
+.bptodo-wrapper a:hover {
+	color: var(--bptodo-text-link-hover);
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+/* Visually Hidden (for accessibility) */
+.bptodo-sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Focus Visible */
+.bptodo-focus-visible:focus-visible {
+	outline: 2px solid var(--bptodo-primary);
+	outline-offset: 2px;
+}
+
+/* Truncate Text */
+.bptodo-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Flex Utilities */
+.bptodo-flex {
+	display: flex;
+}
+
+.bptodo-flex-col {
+	flex-direction: column;
+}
+
+.bptodo-items-center {
+	align-items: center;
+}
+
+.bptodo-justify-between {
+	justify-content: space-between;
+}
+
+.bptodo-justify-center {
+	justify-content: center;
+}
+
+.bptodo-gap-1 { gap: var(--bptodo-space-1); }
+.bptodo-gap-2 { gap: var(--bptodo-space-2); }
+.bptodo-gap-3 { gap: var(--bptodo-space-3); }
+.bptodo-gap-4 { gap: var(--bptodo-space-4); }
+.bptodo-gap-6 { gap: var(--bptodo-space-6); }
+.bptodo-gap-8 { gap: var(--bptodo-space-8); }
+
+/* Grid Utilities */
+.bptodo-grid {
+	display: grid;
+}
+
+/* Spacing Utilities */
+.bptodo-mt-2 { margin-top: var(--bptodo-space-2); }
+.bptodo-mt-4 { margin-top: var(--bptodo-space-4); }
+.bptodo-mt-6 { margin-top: var(--bptodo-space-6); }
+.bptodo-mb-2 { margin-bottom: var(--bptodo-space-2); }
+.bptodo-mb-4 { margin-bottom: var(--bptodo-space-4); }
+.bptodo-mb-6 { margin-bottom: var(--bptodo-space-6); }
+
+.bptodo-p-2 { padding: var(--bptodo-space-2); }
+.bptodo-p-4 { padding: var(--bptodo-space-4); }
+.bptodo-p-6 { padding: var(--bptodo-space-6); }
+
+/* Text Utilities */
+.bptodo-text-sm { font-size: var(--bptodo-text-sm); }
+.bptodo-text-base { font-size: var(--bptodo-text-base); }
+.bptodo-text-lg { font-size: var(--bptodo-text-lg); }
+.bptodo-text-xl { font-size: var(--bptodo-text-xl); }
+
+.bptodo-font-medium { font-weight: var(--bptodo-font-medium); }
+.bptodo-font-semibold { font-weight: var(--bptodo-font-semibold); }
+.bptodo-font-bold { font-weight: var(--bptodo-font-bold); }
+
+.bptodo-text-secondary { color: var(--bptodo-text-secondary); }
+.bptodo-text-tertiary { color: var(--bptodo-text-tertiary); }
+
+/* Animation Keyframes */
+@keyframes bptodo-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes bptodo-fade-out {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes bptodo-slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes bptodo-slide-down {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes bptodo-scale-in {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes bptodo-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes bptodo-pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+@keyframes bptodo-progress {
+	from {
+		width: 100%;
+	}
+	to {
+		width: 0%;
+	}
+}
+
+/* Animation Classes */
+.bptodo-animate-fade-in {
+	animation: bptodo-fade-in var(--bptodo-transition-normal) ease-out;
+}
+
+.bptodo-animate-slide-up {
+	animation: bptodo-slide-up var(--bptodo-transition-normal) ease-out;
+}
+
+.bptodo-animate-scale-in {
+	animation: bptodo-scale-in var(--bptodo-transition-normal) ease-out;
+}
+
+.bptodo-animate-spin {
+	animation: bptodo-spin 1s linear infinite;
+}
+
+.bptodo-animate-pulse {
+	animation: bptodo-pulse 2s ease-in-out infinite;
+}
