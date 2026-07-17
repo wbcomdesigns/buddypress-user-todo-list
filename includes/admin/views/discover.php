@@ -83,6 +83,13 @@ $bptodo_ecosystem = array(
 		'desc' => __( 'Create, sell, and auto-grade online courses, then hand out certificates automatically.', 'wb-todo' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/learnomy/',
 	),
+	array(
+		'name' => __( 'WP Sell Services', 'wb-todo' ),
+		'logo' => 'wp-sell-services.svg',
+		'icon' => 'cart',
+		'desc' => __( 'A free service marketplace with vendor dashboards, an 11-status order flow, and Stripe or PayPal built in.', 'wb-todo' ),
+		'url'  => 'https://wbcomdesigns.com/downloads/wp-sell-services/',
+	),
 );
 
 $bptodo_ecosystem_dir = defined( 'BPTODO_PLUGIN_PATH' ) ? BPTODO_PLUGIN_PATH . 'assets/images/ecosystem/' : '';
@@ -91,7 +98,7 @@ $bptodo_ecosystem_dir = defined( 'BPTODO_PLUGIN_PATH' ) ? BPTODO_PLUGIN_PATH . '
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
 		<p class="bptodo-card__title"><?php esc_html_e( 'More Free Tools from Wbcom Designs', 'wb-todo' ); ?></p>
-		<p class="bptodo-card__desc"><?php esc_html_e( 'Todo Lists keeps your members and teams on task. These free tools from Wbcom Designs give you the rest of the community around it: the theme and network itself, forums, media, events, gamification, directories, jobs, and courses.', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__desc"><?php esc_html_e( 'Todo Lists keeps your members and teams on task. These free tools from Wbcom Designs give you the rest of the community around it: the theme and network itself, forums, media, events, gamification, directories, jobs, courses, and services.', 'wb-todo' ); ?></p>
 	</div>
 	<div class="bptodo-card__body">
 		<div class="bptodo-discover-grid">

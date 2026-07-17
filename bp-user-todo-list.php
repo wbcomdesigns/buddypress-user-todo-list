@@ -166,6 +166,15 @@ function bptodo_init_globals() {
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
 function run_wp_bptodo_list() {
     global $bptodo;
+
+    // With BP_ENABLE_MULTIBLOG off, bp_loaded still fires on every subsite of a network
+    // where BuddyPress is network-active, but groups only have screens on BP_ROOT_BLOG.
+    // Keep the group layer off elsewhere (this used to be enforced by deactivating the
+    // whole plugin on non-root subsites - see bptodo_check_buddypress_subsite_activation).
+    if ( ! bptodo_is_bp_root_blog() ) {
+        return;
+    }
+
     if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
         $bptodo = new Bptodo_Globals();
         $bptodo->setup_globals();
@@ -255,10 +264,50 @@ function bptodo_is_bp_active() {
 }
 
 /**
+ * Whether the current site is a blog where BuddyPress itself runs.
+ *
+ * BuddyPress serves its member profiles and groups from a single blog - BP_ROOT_BLOG -
+ * unless BP_ENABLE_MULTIBLOG is on, in which case it runs everywhere. On any other
+ * subsite there are no BP profile/group URLs to hang our tabs off, so the group and
+ * profile layers must stay out of the way there. Personal todos are unaffected: they
+ * are plain CPT posts and work on every site.
+ *
+ * @since 4.0.1
+ * @return bool
+ */
+function bptodo_is_bp_root_blog() {
+	if ( ! is_multisite() ) {
+		return true;
+	}
+
+	if ( defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ) {
+		return true;
+	}
+
+	// BP_ROOT_BLOG is always defined by this point (BuddyPress defines it, and this
+	// plugin falls back to 1 above), so there is no is_main_site() branch to take.
+	return defined( 'BP_ROOT_BLOG' )
+		? (int) get_current_blog_id() === (int) BP_ROOT_BLOG
+		: is_main_site();
+}
+
+/**
+ * Whether the BuddyPress-dependent layer (profile tab + group todos) can run here.
+ *
+ * Needs BuddyPress/BuddyBoss active AND a blog where BuddyPress serves its screens.
+ *
+ * @since 4.0.1
+ * @return bool
+ */
+function bptodo_bp_features_available() {
+	return bptodo_is_bp_active() && bptodo_is_bp_root_blog();
+}
+
+/**
  * Register the modern Gutenberg blocks (Interactivity-powered, REST-backed).
  *
- * The personal 'My Todos' block works standalone; the group block loads only when
- * BuddyPress/BuddyBoss is active.
+ * The personal 'My Todos' block works standalone; the group block loads only where the
+ * BuddyPress layer is available (BP active, on the BP root blog).
  */
 add_action( 'init', 'bptodo_register_blocks' );
 function bptodo_register_blocks() {
@@ -267,7 +316,7 @@ function bptodo_register_blocks() {
 	}
 	register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' );
 
-	if ( bptodo_is_bp_active() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
+	if ( bptodo_bp_features_available() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
 		register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
 	}
 }
@@ -290,92 +339,47 @@ function bptodo_enqueue_block_editor_styles() {
 }
 
 /**
- * Check if the Todo List plugin should be active on the current subsite.
+ * Surface the availability of the BuddyPress layer on the current site.
+ *
+ * Since 4.0 BuddyPress is OPTIONAL: personal todos are plain CPT posts and work on any
+ * WordPress site, single or multisite. This check therefore never deactivates the plugin
+ * - it only explains, via a dismissible notice, when the group/profile layer is not
+ * available here so the site owner is not left wondering where those tabs went.
+ *
+ * Before 4.0.1 the multisite branch self-deactivated the plugin whenever BuddyPress was
+ * not network-active, or the current blog was not BP_ROOT_BLOG. That killed personal
+ * todos on every subsite of every multisite network, which contradicts standalone mode.
  */
 function bptodo_check_buddypress_subsite_activation() {
-    // Ensure this is a multisite installation
-        if ( is_multisite() ) {        
-        $deactivate = false;
-        // If we're in the network admin, check for network-wide BuddyPress activation
-        if ( is_network_admin() ) {
-            if ( ! is_plugin_active_for_network( 'buddypress/bp-loader.php' ) ) {
-                // BuddyPress is not network-activated, deactivate the plugin
-                $deactivate = true;
-                add_action( 'network_admin_notices', 'bptodo_show_buddypress_root_blog_notice' );
-            }
-        } else {
-            // Check if BP_ROOT_BLOG is defined
-            if ( defined( 'BP_ROOT_BLOG' ) ) {
-                if ( get_current_blog_id() != BP_ROOT_BLOG ) {
-                    // This subsite is not the one defined by BP_ROOT_BLOG, deactivate plugin
-                    $deactivate = true;
-                    add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
-                }
-            } else {
-                // BP_ROOT_BLOG is not defined, so only activate on the main site
-                if ( ! is_main_site() && ! is_plugin_active( 'buddypress/bp-loader.php' ) ) {
-                    // BuddyPress is not active on this subsite, deactivate the plugin
-                    $deactivate = true;
-                    add_action( 'admin_notices', 'bptodo_show_buddypress_required_notice' );
-                }
-            }
-        }
+	if ( is_multisite() && is_network_admin() ) {
+		// Nothing site-specific to report from the network screens.
+		return;
+	}
 
-        // Deactivate the plugin if necessary
-        if ( $deactivate ) {
-            deactivate_plugins( plugin_basename( __FILE__ ) );
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking if activate param exists
-            $activate = isset( $_GET['activate'] ) ? sanitize_text_field( wp_unslash( $_GET['activate'] ) ) : '';
-            // Prevent the activation message from showing up after deactivation
-            if ( ! empty( $activate ) ) {
-                unset( $_GET['activate'] );
-            }
-        }
-    	} else {
-		// BuddyPress is optional (since 4.0): personal todos work standalone, so we no
-		// longer deactivate when it is absent - we surface a dismissible notice that the
-		// group and profile-tab features are unavailable until BuddyPress/BuddyBoss is active.
-		if ( ! bptodo_is_bp_active() ) {
-			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
-		}
+	if ( ! bptodo_is_bp_active() ) {
+		add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
+		return;
+	}
+
+	// BuddyPress is active, but this subsite is not where it serves its screens, so the
+	// group/profile layer stays off here (bptodo_bp_features_available()). Personal
+	// todos keep working.
+	if ( ! bptodo_is_bp_root_blog() ) {
+		add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
 	}
 }
 add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
 
 /**
- * Admin notice when BP_ROOT_BLOG is defined and the plugin is activated on the wrong subsite.
+ * Notice: BuddyPress is active on the network but not on this subsite's blog.
+ *
+ * Informational and dismissible - the plugin stays active and personal todos still work.
  */
-function bptodo_show_bp_root_blog_notice() {    
-    echo '<div class="error"><p>';
+function bptodo_show_bp_root_blog_notice() {
+	echo '<div class="notice notice-info is-dismissible"><p>';
 	printf(
-		// Translators: %s.
-		esc_html__( '%1$s is only active on the subsite defined by BP_ROOT_BLOG.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
-	);
-	echo '</p></div>';
-}
-
-/**
- * Show admin notice to inform the user that Todo List can only be activated on the BuddyPress root blog.
- */
-function bptodo_show_buddypress_root_blog_notice() {   
-    echo '<div class="error"><p>';
-	printf(
-		// Translators: %s.
-		esc_html__( '%1$s can only be activated on the BuddyPress root blog.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
-	);
-	echo '</p></div>';
-}
-
-/**
- * Show admin notice to inform the user that BuddyPress is required for the Todo List plugin.
- */
-function bptodo_show_buddypress_required_notice() {    
-    echo '<div class="error"><p>';
-	printf(
-		// Translators: %s.
-		esc_html__( '%1$s requires BuddyPress to be active on this subsite. The plugin has been deactivated.', 'wb-todo' ),
+		/* Translators: %s: plugin name. */
+		esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'wb-todo' ),
 		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
 	);
 	echo '</p></div>';
@@ -458,8 +462,25 @@ function bptodo_run() {
 bptodo_run();
 
 /**
- * Initialize BuddyPress Email integration and Data Retention
- * Load after BuddyPress is fully initialized
+ * Load the data retention / cleanup layer.
+ *
+ * This is NOT a BuddyPress feature: it is a scheduled cleanup of old `bp-todo` posts
+ * driven by the `data-retention-settings` option, and it contains no BuddyPress calls.
+ * Until 4.0.1 it was loaded behind the same bp_is_active() gate as the email
+ * integration, so standalone sites got no cleanup cron at all even though the setting
+ * was visible and saveable in the admin. It must load on every request so the cron job
+ * stays scheduled (the class self-registers on include).
+ */
+add_action( 'plugins_loaded', 'bptodo_load_data_retention', 20 );
+function bptodo_load_data_retention() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
+}
+
+/**
+ * Load the BuddyPress email integration.
+ *
+ * This one genuinely needs BuddyPress: it registers BP email types and sends through
+ * bp_send_email(). The class self-instantiates on bp_loaded.
  */
 add_action( 'plugins_loaded', 'bptodo_load_bp_integrations', 20 );
 function bptodo_load_bp_integrations() {
@@ -467,12 +488,7 @@ function bptodo_load_bp_integrations() {
 		return;
 	}
 
-	// Load email integration
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
-
-	// Load data retention functionality
-	// This must be loaded on every request to ensure cron jobs are properly scheduled
-	require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
 }
 
 /**

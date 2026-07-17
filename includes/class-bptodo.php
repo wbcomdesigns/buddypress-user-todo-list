@@ -85,8 +85,9 @@ class Bptodo_List {
 		$this->plugin_name   = 'wb-todo';
 		$this->plugin_prefix = 'bptodo_';
 
+		// No set_locale() step: the text domain is loaded by bptodo_load_textdomain() on
+		// init in the main plugin file, which is the correct timing for WordPress 6.7+.
 		$this->load_dependencies();
-		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -97,7 +98,6 @@ class Bptodo_List {
 	 * Include the following files that make up the plugin:
 	 *
 	 * - Plugin_Name_Loader. Orchestrates the hooks of the plugin.
-	 * - Plugin_Name_i18n. Defines internationalization functionality.
 	 * - Plugin_Name_Admin. Defines all hooks for the admin area.
 	 * - Plugin_Name_Public. Defines all hooks for the public side of the site.
 	 *
@@ -114,12 +114,6 @@ class Bptodo_List {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bptodo-loader.php';
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bptodo-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
@@ -165,23 +159,6 @@ class Bptodo_List {
 
 		$this->loader = new Bptodo_List_Loader();
 
-	}
-
-	/**
-	 * Define the locale for this plugin for internationalization.
-	 *
-	 * Uses the Plugin_Name_i18n class in order to set the domain and to register the hook
-	 * with WordPress.
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 */
-	private function set_locale() {
-
-		// The text domain is loaded by bptodo_load_textdomain() on init in the main
-		// plugin file. Bptodo_List_I18n was unedited boilerplate that loaded the
-		// domain "plugin-name", which no string in this plugin uses, and it ran on
-		// plugins_loaded (too early for WordPress 6.7+). Nothing to wire here.
 	}
 
 	/**

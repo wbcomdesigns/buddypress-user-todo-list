@@ -17,7 +17,7 @@ A modern to-do and task manager for WordPress. Every logged-in user gets a priva
 
 **Todo for BuddyPress & BuddyBoss** is a task manager for any WordPress site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list: add, complete, edit, filter, search and paginate, all through a fast no-reload interface built on the WordPress Interactivity API and REST.
 
-On a single site, BuddyPress or BuddyBoss is optional. When either is active, the plugin also adds a To-do tab on member profiles and group to-dos with member assignment and progress reporting. When neither is active, the personal task list still works as a standalone app. Email reminders, data retention and multisite all need BuddyPress or BuddyBoss active.
+BuddyPress or BuddyBoss is optional, on single sites and on multisite alike. When either is active, the plugin also adds a To-do tab on member profiles and group to-dos with member assignment and progress reporting. When neither is active, the personal task list still works as a standalone app. Email reminders need BuddyPress or BuddyBoss active; data retention does not.
 
 = What you get =
 
@@ -48,7 +48,7 @@ On a single site, BuddyPress or BuddyBoss is optional. When either is active, th
 * Switching layout never changes your data.
 
 **Automated data retention**
-* Optional cleanup of old completed tasks on a schedule, with configurable retention periods and trash-or-delete. Requires BuddyPress or BuddyBoss active.
+* Optional cleanup of old completed tasks on a schedule, with configurable retention periods and trash-or-delete. Works with or without BuddyPress.
 
 **Developer-friendly**
 * REST API (bptodo/v1) for todos, completion, stats, categories and group todos.
@@ -90,7 +90,7 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 
 * WordPress 6.5 and higher
 * PHP 7.4 and higher (8.0+ recommended)
-* BuddyPress 12.0+ or BuddyBoss Platform - optional on a single site, for profile tabs, group to-dos, email reminders and data retention. Required on multisite.
+* BuddyPress 12.0+ or BuddyBoss Platform - optional, for profile tabs, group to-dos and email reminders.
 * Works with the block editor and classic editor
 * Tested with popular themes including BuddyX, Reign and Youzify
 
@@ -150,7 +150,7 @@ After activating the plugin, we recommend:
 * WordPress 6.5 or higher
 * PHP 7.4 or higher
 * MySQL 5.7 or higher (8.0+ recommended)
-* BuddyPress 12.0+ or BuddyBoss Platform - optional on single sites, and needed for profile tabs, group to-dos, email reminders and data retention. Required on multisite.
+* BuddyPress 12.0+ or BuddyBoss Platform - optional, and needed for profile tabs, group to-dos and email reminders.
 
 == Frequently Asked Questions ==
 
@@ -158,7 +158,7 @@ After activating the plugin, we recommend:
 
 Not on a single site. Add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets their own private to-do list. BuddyPress and BuddyBoss are optional: when either is active, the plugin also adds a To-do tab on member profiles and group to-dos.
 
-Two things to know. On a WordPress multisite network, BuddyPress is still required (see the multisite question below). And email reminders and automated data retention both run through BuddyPress, so they need BuddyPress or BuddyBoss active even on a single site.
+One thing to know. Email reminders run through BuddyPress, so they need BuddyPress or BuddyBoss active. Everything else, including automated data retention, works standalone on single sites and on multisite.
 
 = How do I use it without BuddyPress? =
 
@@ -190,7 +190,7 @@ This is configurable by site admins. In the General Settings, you can choose to 
 
 = Will old completed tasks slow down my database? =
 
-The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. It runs on a scheduled job and needs BuddyPress or BuddyBoss active. You can also run it on demand with WP-CLI: wp bptodo cleanup.
+The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. It runs on a scheduled job and works with or without BuddyPress. You can also run it on demand with WP-CLI: wp bptodo cleanup.
 
 = Can site admins view all group todos? =
 
@@ -198,7 +198,9 @@ Yes! Site administrators have read-only access to all group tasks, even in group
 
 = Does this plugin work with multisite? =
 
-Yes, with one condition: on a multisite network BuddyPress is required, unlike on a single site where it is optional. Activate BuddyPress network-wide, or on the site set as BP_ROOT_BLOG, and then activate this plugin there. If BuddyPress is not available on a site in the network, the plugin deactivates itself and explains why.
+Yes, on any site in the network, with or without BuddyPress. Personal task lists work everywhere.
+
+The group to-dos and the member profile tab follow BuddyPress: they appear on the site where BuddyPress serves its profiles and groups, which is the site set as BP_ROOT_BLOG (or every site, if you run BuddyPress with BP_ENABLE_MULTIBLOG). On other sites in the network you get the personal task list, and a notice explains that the group and profile features live on the BuddyPress site.
 
 = Can I display todos on other pages? =
 
