@@ -163,6 +163,7 @@ module.exports = function ( grunt ) {
 						'!.gitattributes',
 						// Internal dev tooling / docs - never ship to WP.org.
 						'!audit/**',
+						'!.wbcom-i18n.json',
 						'!docs/**',
 						'!.autovap/**',
 						'!.claude/**',
