@@ -13,6 +13,16 @@
 ( function ( $ ) {
 	'use strict';
 
+	// Translated strings come from the `bptodo_network_ajax.i18n` array that
+	// bptodo_enqueue_network_scripts() localizes onto this handle
+	// (bp-user-todo-list.php). The literals below are English mirrors of those
+	// __() values and are only used if the localize call is missing; every key
+	// read here MUST exist in that PHP array or the fallback wins on all locales.
+	function ni( key, fallback ) {
+		var dict = window.bptodo_network_ajax && window.bptodo_network_ajax.i18n;
+		return ( dict && dict[ key ] ) || fallback;
+	}
+
 	function notify( message, type ) {
 		if ( window.BPTodo && window.BPTodo.toast && window.BPTodo.toast[ type ] ) {
 			window.BPTodo.toast[ type ]( message );
@@ -47,11 +57,11 @@
 					notify( response.data.message, 'success' );
 					window.location.reload();
 				} else {
-					notify( ( response.data && response.data.message ) || 'Error', 'error' );
+					notify( ( response.data && response.data.message ) || ni( 'genericError', 'Error' ), 'error' );
 				}
 			},
 			error: function () {
-				notify( 'There was an error with the request.', 'error' );
+				notify( ni( 'requestError', 'There was an error with the request.' ), 'error' );
 			},
 		} );
 	}
@@ -60,18 +70,19 @@
 		$( '.bptodo-network-deactivate' ).on( 'click', function ( e ) {
 			e.preventDefault();
 
-			var message = 'Are you sure you want to deactivate this plugin across all sites?';
+			var title = ni( 'confirmTitle', 'Network Deactivate' );
+			var message = ni( 'confirmMessage', 'Are you sure you want to deactivate this plugin across all sites?' );
 
 			if ( window.BPTodo && window.BPTodo.modal && window.BPTodo.modal.confirm ) {
 				window.BPTodo.modal.confirm( {
-					title: 'Network Deactivate',
+					title: title,
 					message: message,
 					type: 'danger',
 				} ).then( function ( ok ) {
 					if ( ok ) { runDeactivate(); }
 				} );
 			} else if ( window.bptodoConfirm ) {
-				window.bptodoConfirm( { title: 'Network Deactivate', message: message, tone: 'danger' } ).then( function ( ok ) {
+				window.bptodoConfirm( { title: title, message: message, tone: 'danger' } ).then( function ( ok ) {
 					if ( ok ) { runDeactivate(); }
 				} );
 			} else {

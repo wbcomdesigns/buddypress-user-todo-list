@@ -319,9 +319,16 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				<?php if ( $args['show_stats'] ) : ?>
 					<div class="bptodo-summary">
 						<div class="bptodo-summary__nums">
-							<span class="bptodo-summary__stat"><b data-wp-text="context.stats.total"><?php echo esc_html( $stats['total'] ); ?></b> <?php esc_html_e( 'total', 'wb-todo' ); ?></span>
-							<span class="bptodo-summary__stat bptodo-summary__stat--pending"><b data-wp-text="context.stats.pending"><?php echo esc_html( $stats['pending'] ); ?></b> <?php esc_html_e( 'pending', 'wb-todo' ); ?></span>
-							<span class="bptodo-summary__stat bptodo-summary__stat--done"><b data-wp-text="context.stats.completed"><?php echo esc_html( $stats['completed'] ); ?></b> <?php esc_html_e( 'done', 'wb-todo' ); ?></span>
+							<?php
+							// The count must stay its own node for the data-wp-text binding, so
+							// the label is necessarily a separate fragment here. Give each one a
+							// gettext context - "total"/"pending"/"done" are ambiguous alone and
+							// several languages need different words than the adjectives used
+							// elsewhere in the UI.
+							?>
+							<span class="bptodo-summary__stat"><b data-wp-text="context.stats.total"><?php echo esc_html( $stats['total'] ); ?></b> <?php echo esc_html( _x( 'total', 'todo count stat label', 'wb-todo' ) ); ?></span>
+							<span class="bptodo-summary__stat bptodo-summary__stat--pending"><b data-wp-text="context.stats.pending"><?php echo esc_html( $stats['pending'] ); ?></b> <?php echo esc_html( _x( 'pending', 'todo count stat label', 'wb-todo' ) ); ?></span>
+							<span class="bptodo-summary__stat bptodo-summary__stat--done"><b data-wp-text="context.stats.completed"><?php echo esc_html( $stats['completed'] ); ?></b> <?php echo esc_html( _x( 'done', 'todo count stat label', 'wb-todo' ) ); ?></span>
 							<span class="bptodo-summary__pct"><b data-wp-text="context.stats.progress"><?php echo esc_html( $stats['progress'] ); ?></b>%</span>
 						</div>
 						<div class="bptodo-summary__track">

@@ -30,7 +30,17 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 	if ( ! empty( $todo_list[ $category ] ) ) { ?>
 		<div class="bptodo-admin-row">
 			<div>
-				<button class="bptodo-item"><?php echo esc_html( strtoupper( $label ), 'wb-todo' ); ?></button>
+				<?php
+				// $label arrives already translated from the call site. Uppercase it
+				// for the section header the way the design expects, multibyte-safe so
+				// accented locales are not mangled (esc_html() takes no text domain -
+				// the old esc_html( ..., 'wb-todo' ) silently discarded that argument
+				// and never translated anything).
+				$bptodo_label_upper = function_exists( 'mb_strtoupper' )
+					? mb_strtoupper( $label, 'UTF-8' )
+					: strtoupper( $label );
+				?>
+				<button class="bptodo-item"><?php echo esc_html( $bptodo_label_upper ); ?></button>
 				<div class="bptodo-panel">
 					<div class="todo-detail">
 						<table class="bp-todo-reminder">
@@ -38,6 +48,7 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 								<tr>
 									<th><?php esc_html_e( 'Sr. No.', 'wb-todo' ); ?></th>
 									<th><?php echo esc_html( $profile_menu_label ); ?></th>
+									<?php /* translators: %s: the configured todo label (singular), e.g. "Task". */ ?>
 									<th><?php printf( esc_html__( '%s Description', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></th>
 									<th><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></th>
 									<th><?php esc_html_e( 'Mark Complete', 'wb-todo' ); ?></th>
@@ -62,11 +73,11 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 									$diff_days        = $diff->format( '%R%a' );
 
 									if ( $diff_days < 0 ) {
-										 /* translators: %s */
+										/* translators: %d: number of days since the due date passed. */
 										$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 										$due_date_td_class = 'bptodo-expired';
 									} elseif ( 0 === $diff_days ) {
-										$due_date_str      = esc_html_e( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
+										$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
 										$due_date_td_class = 'bptodo-expires-today';
 									} else {
 										$label_lowercase = strtolower( $profile_menu_label );
@@ -75,7 +86,7 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 									}
 
 									if ( 'complete' === $todo_status ) {
-										$due_date_str      = esc_html_e( 'Completed!', 'wb-todo' );
+										$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
 										$due_date_td_class = '';
 									}
 									?>
@@ -202,10 +213,10 @@ if ( ! empty( $atts['category'] ) ) {
 				<div class="bptodo-admin-settings-block">
 					<div id="bptodo-settings-tbl">
 						<?php
-						bptodo_display_todo_tasks( $todo_list, 'past', 'PAST', $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'today', 'TODAY', $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'tomorrow', 'TOMORROW', $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'future', 'FUTURE', $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'past', _x( 'Past', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'today', _x( 'Today', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'tomorrow', _x( 'Tomorrow', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'future', _x( 'Future', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
 						?>
 					</div>
 				</div>

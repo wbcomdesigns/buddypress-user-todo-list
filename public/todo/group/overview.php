@@ -210,6 +210,7 @@ $base_url = $admin_link . 'overview/';
         <h3 class="bptodo-report-title">
             <?php
             if ($selected_task && $selected_task_id > 0) {
+                /* translators: %s: the task title. */
                 printf(esc_html__('Task Progress: %s', 'wb-todo'), esc_html($selected_task->post_title));
             } else {
                 esc_html_e('Group Task Progress', 'wb-todo');
@@ -228,18 +229,30 @@ $base_url = $admin_link . 'overview/';
                 ?>
                 <span class="bptodo-completion-percentage"><?php echo esc_html($task_completion_percentage); ?>%</span>
                 <span class="bptodo-completion-details">
-                    <?php echo esc_html($completed_members); ?>
-                    <?php esc_html_e('of', 'wb-todo'); ?>
-                    <?php echo esc_html($total_members_with_tasks); ?>
-                    <?php esc_html_e('members completed', 'wb-todo'); ?>
+                    <?php
+                    // One sentence, one gettext call: the old markup emitted
+                    // {n} + _e('of') + {n} + _e('members completed') as separate
+                    // fragments, which freezes English word order and leaves "of"
+                    // untranslatable in isolation.
+                    printf(
+                        /* translators: %1$d: number of members who completed the task. %2$d: total members assigned the task. */
+                        esc_html( _n( '%1$d of %2$d member completed', '%1$d of %2$d members completed', $total_members_with_tasks, 'wb-todo' ) ),
+                        (int) $completed_members,
+                        (int) $total_members_with_tasks
+                    );
+                    ?>
                 </span>
             <?php } else { ?>
                 <span class="bptodo-completion-percentage"><?php echo esc_html($group_completion_percentage); ?>%</span>
                 <span class="bptodo-completion-details">
-                    <?php echo esc_html($group_completed_tasks); ?>
-                    <?php esc_html_e('of', 'wb-todo'); ?>
-                    <?php echo esc_html($group_total_tasks); ?>
-                    <?php esc_html_e('tasks completed', 'wb-todo'); ?>
+                    <?php
+                    printf(
+                        /* translators: %1$d: number of completed tasks. %2$d: total number of tasks. */
+                        esc_html( _n( '%1$d of %2$d task completed', '%1$d of %2$d tasks completed', $group_total_tasks, 'wb-todo' ) ),
+                        (int) $group_completed_tasks,
+                        (int) $group_total_tasks
+                    );
+                    ?>
                 </span>
             <?php } ?>
         </div>
@@ -288,7 +301,15 @@ $base_url = $admin_link . 'overview/';
                                 <?php if ($member['status'] === 'complete') : ?>
                                     <span class="bptodo-status-badge bptodo-status-done">
                                         <span class="dashicons dashicons-yes"></span>
-                                        <?php esc_html_e($selected_task_id > 0 ? 'Completed' : 'All Complete', 'wb-todo'); ?>
+                                        <?php
+                                        // Each branch must be its own literal gettext call - the POT
+                                        // scanner cannot extract a string from a ternary argument.
+                                        if ($selected_task_id > 0) {
+                                            esc_html_e('Completed', 'wb-todo');
+                                        } else {
+                                            esc_html_e('All Complete', 'wb-todo');
+                                        }
+                                        ?>
                                     </span>
                                     <?php if ($selected_task_id > 0 && !empty($member['completed_date'])) : ?>
                                         <span class="bptodo-member-time">
@@ -298,13 +319,29 @@ $base_url = $admin_link . 'overview/';
                                 <?php else : ?>
                                     <span class="bptodo-status-badge bptodo-status-pending">
                                         <span class="dashicons dashicons-clock"></span>
-                                        <?php esc_html_e($selected_task_id > 0 ? 'Pending' : 'Incomplete', 'wb-todo'); ?>
+                                        <?php
+                                        // Literal per branch - see the note on the Completed badge above.
+                                        if ($selected_task_id > 0) {
+                                            esc_html_e('Pending', 'wb-todo');
+                                        } else {
+                                            esc_html_e('Incomplete', 'wb-todo');
+                                        }
+                                        ?>
                                     </span>
                                 <?php endif; ?>
                                 <?php if ($selected_task_id == 0) : ?>
                                     <span class="bptodo-member-time">
-                                        <?php echo esc_html($member['completed_tasks']); ?> / <?php echo esc_html($member['total_tasks']); ?> <?php esc_html_e('tasks', 'wb-todo'); ?>
-                                        (<?php echo esc_html($member['completion_percentage']); ?>%)
+                                        <?php
+                                        // Single translatable sentence rather than
+                                        // {n} / {n} + _e('tasks') + (pct%) fragments.
+                                        printf(
+                                            /* translators: %1$d: tasks this member completed. %2$d: tasks assigned to them. %3$d: completion percentage. */
+                                            esc_html__( '%1$d / %2$d tasks (%3$d%%)', 'wb-todo' ),
+                                            (int) $member['completed_tasks'],
+                                            (int) $member['total_tasks'],
+                                            (int) $member['completion_percentage']
+                                        );
+                                        ?>
                                     </span>
                                 <?php endif; ?>
                             </span>
@@ -327,6 +364,7 @@ $base_url = $admin_link . 'overview/';
                 $start = $offset + 1;
                 $end = min($offset + $members_per_page, $total_members_with_tasks);
                 printf(
+                    /* translators: %1$d: first member shown on this page. %2$d: last member shown. %3$d: total number of members. */
                     esc_html__('Showing %1$d-%2$d of %3$d members', 'wb-todo'),
                     $start,
                     $end,

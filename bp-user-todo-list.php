@@ -10,6 +10,7 @@
  * Requires PHP: 7.4
  * License: GPLv2+
  * Text Domain: wb-todo
+ * Domain Path: /languages
  *
  * @link              www.wbcomdesigns.com
  * @since             1.0.0
@@ -573,10 +574,17 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
             // instead of native confirm()/alert(). Loaded as a dependency.
             wp_enqueue_style('bptodo-modern-css', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system.min.css', [], BPTODO_VERSION);
             wp_enqueue_script('bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern.min.js', ['jquery'], BPTODO_VERSION, true);
+            bptodo_localize_modern_i18n();
             wp_enqueue_script('bptodo-network-admin', plugin_dir_url(__FILE__) . 'admin/assets/js/bp-todo-list-admin.js', ['jquery', 'bptodo-modern-js'], BPTODO_VERSION, true);
             wp_localize_script('bptodo-network-admin', 'bptodo_network_ajax', [
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('bptodo_network_nonce'),
+                'i18n' => [
+                    'confirmTitle'   => __('Network Deactivate', 'wb-todo'),
+                    'confirmMessage' => __('Are you sure you want to deactivate this plugin across all sites?', 'wb-todo'),
+                    'requestError'   => __('There was an error with the request.', 'wb-todo'),
+                    'genericError'   => __('Error', 'wb-todo'),
+                ],
             ]);
         }
     }

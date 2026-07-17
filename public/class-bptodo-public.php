@@ -302,14 +302,17 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 
 				// Check and display the appropriate message based on due date and status.
 				if ( 'complete' === $todo_status ) {
-					$output = esc_html_e('Completed!', 'wb-todo');
+					// esc_html_e() echoes and returns null - it printed here (in the
+					// wrong place) and left $output empty, so the Status column
+					// rendered blank. esc_html__() returns the string to echo below.
+					$output = esc_html__('Completed!', 'wb-todo');
 				} elseif ( $diff_days < 0 ) {
-					/* translators: %d */
+					/* translators: %d: number of days since the due date passed. */
 					$output = sprintf(esc_html__('Expired %d days ago!', 'wb-todo'), abs($diff_days));
 				} elseif ( 0 === $diff_days ) {
-					$output = esc_html_e('Today is the last day to complete. Hurry Up!', 'wb-todo');
+					$output = esc_html__('Today is the last day to complete. Hurry Up!', 'wb-todo');
 				} else {
-					/* translators: %d */
+					/* translators: %d: number of days remaining until the due date. */
 					$output = sprintf(esc_html__('%d days left to complete the task!', 'wb-todo'), abs($diff_days));
 				}
 			}
@@ -1044,7 +1047,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				if ( 'complete' !== $todo_status ) {
 
 					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-edit"></i></a></li>
-					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-check"></i></a></li>';
+					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-check"></i></a></li>';
 				} else {
 					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><i class="fa fa-undo"></i></a></li>';
 				}
@@ -1660,12 +1663,21 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 									$member_todo_status  = get_post_meta( $assoc_todo, 'todo_status', true );
 									$todo_author_id      = get_post_field( 'post_author', $assoc_todo );
 									$member_todo_time    = get_post_meta( $assoc_todo, 'todo_complete_time', true );
-									$member_todo_time    = $member_todo_time ? human_time_diff( current_time( 'timestamp' ), $member_todo_time ) . ' ago' : '-';									
+									$member_todo_time    = $member_todo_time
+									/* translators: %s: human-readable time difference, e.g. "2 hours". */
+									? sprintf( esc_html__( '%s ago', 'wb-todo' ), human_time_diff( current_time( 'timestamp' ), $member_todo_time ) )
+									: '-';
 									if ( in_array( $todo_author_id, $group_members_ids ) ) {
 										$author_name = get_the_author_meta( 'display_name', $todo_author_id );
 										$row = array(
 											'Members'      => ucfirst( $author_name ),
-											'Status'       => $member_todo_status,
+											// The stored postmeta ('complete'/'incomplete') is a data
+											// value, not UI text - map it to a translated label. The
+											// report DataTable renders this column verbatim and never
+											// compares it, so translating the value is safe.
+											'Status'       => ( 'complete' === $member_todo_status )
+												? esc_html__( 'Completed', 'wb-todo' )
+												: esc_html__( 'Pending', 'wb-todo' ),
 											'Time'         => $member_todo_time,
 										);
 										$todos_table_data[] = $row;

@@ -97,7 +97,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 					id="todo-category-name"
 					class="bptodo-input"
 					aria-label="<?php echo esc_attr( sprintf( /* translators: %s: Todo label */ __( 'New %s category name', 'wb-todo' ), $profile_menu_label ) ); ?>"
-					placeholder="<?php echo esc_attr( sprintf( __( 'New %s category', 'wb-todo' ), $profile_menu_label ) ); ?>"
+					placeholder="<?php echo esc_attr( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'New %s category', 'wb-todo' ), $profile_menu_label ) ); ?>"
 				>
 				<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 				<button type="button" id="add-todo-cat" class="bptodo-btn bptodo-btn--secondary">

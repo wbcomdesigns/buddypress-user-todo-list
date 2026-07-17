@@ -240,6 +240,7 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 == Upgrade Notice ==
 
 = 4.0.0 =
+
 Major update: the todo list now uses blocks + REST for a faster, richer experience and works without BuddyPress. Your data is unchanged. If a theme or plugin conflict appears, switch to the Classic layout in the plugin settings.
 
 == Changelog ==
@@ -254,6 +255,7 @@ Major release: a modern, block-first, REST-backed to-do experience that works on
 * New      - Inline quick-add, inline edit of title, details, priority and due date, and an expandable details view on the list.
 * New      - Members can create categories inline from the add form when the setting allows it.
 * New      - A "Todos page" setting so reminder and view links resolve to your block or shortcode page when BuddyPress is not active.
+* New      - Added German, Spanish, French, Italian and Portuguese (Brazil) translations.
 * Improve  - Rebuilt on a single domain layer (repository plus permissions) shared by the REST API, blocks and the classic UI.
 * Improve  - Modern layout is the default; a Classic toggle keeps the older templates, and the plugin auto-falls back to Classic on WordPress below 6.5.
 * Improve  - Filtering, search and pagination run server-side and cover every task, not just the current page.
@@ -262,10 +264,12 @@ Major release: a modern, block-first, REST-backed to-do experience that works on
 * Improve  - Frontend assets load only on to-do screens and pages that use a to-do block or shortcode.
 * Fix      - BuddyPress is optional: the plugin shows a dismissible notice instead of deactivating when it is absent.
 * Fix      - Search on the modern list now filters correctly.
+* Fix      - Bundled translations could never load because the Domain Path header was missing. WordPress 6.7+ needs it to locate the translation files.
+* Fix      - The group overview status labels, the category date groupings and the task status column had no usable translatable source, so they always rendered in English.
+* Fix      - The text domain loaded too early, which logs a notice on WordPress 6.7 and newer. It now loads on init.
 * Security - To-dos are private: no public single page, archive or site-search entry, and all viewing goes through permission-checked screens.
 * Security - Creating a group to-do requires a group manager, and writing a to-do can no longer create arbitrary categories.
 * Dev      - New bptodo/v1 REST API, my-todos and group-todos blocks, the bptodo_layout_mode and bptodo_standalone_todos_url filters, and bptodo_todo_created lifecycle action.
-
 
 = 3.6.0 =
 * Improve  - Rebuilt the admin settings screen on the modern Wbcom card-panel UI (sidebar navigation, Overview dashboard, cleaner forms). Same settings, same option keys.

@@ -115,6 +115,7 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 
 				// Modern UX Module (toast, loading, modal).
 				wp_enqueue_script( 'bptodo-modern-js', BPTODO_PLUGIN_URL . 'assets/js/bptodo-modern' . $suffix . '.js', array( 'jquery' ), bptodo_asset_ver( 'assets/js/bptodo-modern' . $suffix . '.js' ), true );
+				bptodo_localize_modern_i18n();
 
 				// Main frontend JavaScript.
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front' . $suffix . '.js', array( 'jquery', 'bptodo-modern-js' ), bptodo_asset_ver( 'assets/js/bptodo-front' . $suffix . '.js' ), true );
@@ -139,7 +140,26 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'todo_updated_text'   => esc_html__( 'Task updated successfully!', 'wb-todo' ),
 						'todo_completed_text' => esc_html__( 'Task completed!', 'wb-todo' ),
 						'todo_removed_text'   => esc_html__( 'Task deleted successfully.', 'wb-todo' ),
+						'todo_reopened_text'  => esc_html__( 'Task marked incomplete.', 'wb-todo' ),
 						'error_text'          => esc_html__( 'Something went wrong. Please try again.', 'wb-todo' ),
+						// Failure toasts (assets/js/bptodo-front.js).
+						'update_failed_text'  => esc_html__( 'Could not update the task. Please try again.', 'wb-todo' ),
+						'delete_failed_text'  => esc_html__( 'Could not delete the task. Please try again.', 'wb-todo' ),
+						'complete_failed_text' => esc_html__( 'Could not update the task status. Please try again.', 'wb-todo' ),
+						'refresh_failed_text' => esc_html__( 'Could not refresh the list. Please reload the page.', 'wb-todo' ),
+						'category_added_text' => esc_html__( 'Category added.', 'wb-todo' ),
+						'invalid_data_text'   => esc_html__( 'There is no data to export.', 'wb-todo' ),
+						// Export button (assets/js/bptodo-front.js).
+						'export_label'        => esc_html__( 'Export', 'wb-todo' ),
+						'export_done_text'    => esc_html__( 'Export completed.', 'wb-todo' ),
+						'export_failed_text'  => esc_html__( 'Export failed. Please try again.', 'wb-todo' ),
+						// Search / filter results summary (assets/js/bptodo-front.js).
+						'no_results_text'     => esc_html__( 'No matching todos found', 'wb-todo' ),
+						'no_results_hint'     => esc_html__( 'Try adjusting your search or filters', 'wb-todo' ),
+						/* translators: %1$d: number of visible items. %2$d: total number of items. */
+						'results_count'       => esc_html__( '%1$d of %2$d items', 'wb-todo' ),
+						/* translators: %1$d: number of visible items after filtering. %2$d: total number of items. */
+						'results_count_filtered' => esc_html__( 'Showing %1$d of %2$d items (filtered)', 'wb-todo' ),
 						'localized'           => $localized_strings,
 					)
 				);

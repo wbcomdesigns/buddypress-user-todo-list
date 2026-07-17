@@ -11,11 +11,53 @@
  * @since 3.6.0
  */
 
+/**
+ * Read a translated string from the `todo_ajax_object` dictionary that
+ * Bptodo_Admin::bptodo_variables() localizes onto the `bptodo-js-front` handle
+ * (admin/class-bptodo-admin.php).
+ *
+ * The `fallback` literal is an English mirror of the PHP __() value and is only
+ * used when this file loads without its localize call. Every key read here MUST
+ * exist in that PHP array — a read-but-not-injected key silently renders English
+ * on every locale.
+ *
+ * Declared at file scope because JSONToCSVConvertor() lives outside the
+ * document-ready closure and needs it too.
+ *
+ * @param {string} key - Dictionary key.
+ * @param {string} fallback - English mirror of the PHP value.
+ * @returns {string}
+ */
+function bptodoI18n(key, fallback) {
+  var dict = window.todo_ajax_object;
+  return (dict && dict[key]) || fallback;
+}
+
+/**
+ * Fill %1$d / %2$d style placeholders in a translated string.
+ *
+ * Lets the whole sentence stay one translatable unit (translators control word
+ * order) instead of concatenating fragments around the numbers.
+ *
+ * @param {string} template - Translated string containing %1$d / %2$d.
+ * @param {Array} args - Replacement values, in order.
+ * @returns {string}
+ */
+function bptodoSprintf(template, args) {
+  return String(template).replace(/%(\d+)\$d/g, function(match, index) {
+    var value = args[parseInt(index, 10) - 1];
+    return 'undefined' === typeof value ? match : value;
+  });
+}
+
 jQuery(document).ready(function($) {
   'use strict';
 
   // Ensure BPTodo module is available
   var BPTodo = window.BPTodo || {};
+
+  // Local alias for the file-scope translation helper (see bptodoI18n above).
+  var ti = bptodoI18n;
 
   /**
    * Tab switching functionality
@@ -100,7 +142,7 @@ jQuery(document).ready(function($) {
         success: function(response) {
           // Show success toast
           if (BPTodo.toast) {
-            BPTodo.toast.success(todo_ajax_object.todo_updated_text || 'Todo updated successfully');
+            BPTodo.toast.success(ti('todo_updated_text', 'Task updated successfully!'));
           }
 
           // Update the todo card in DOM if we have the ID
@@ -113,7 +155,7 @@ jQuery(document).ready(function($) {
         },
         error: function() {
           if (BPTodo.toast) {
-            BPTodo.toast.error(todo_ajax_object.error_text || 'Failed to update todo');
+            BPTodo.toast.error(ti('error_text', 'Something went wrong. Please try again.'));
           }
         },
         complete: function() {
@@ -209,7 +251,7 @@ jQuery(document).ready(function($) {
       },
       error: function() {
         if (BPTodo.toast) {
-          BPTodo.toast.error('Failed to refresh list');
+          BPTodo.toast.error(ti('refresh_failed_text', 'Could not refresh the list. Please reload the page.'));
         }
       },
       complete: function() {
@@ -295,9 +337,9 @@ jQuery(document).ready(function($) {
       var originalHtml = $btn.html();
 
       if (BPTodo.loading) {
-        BPTodo.loading.button($btn[0], 'Exporting...');
+        BPTodo.loading.button($btn[0]);
       } else {
-        $btn.html('<div class="reload-spin"></div> Export');
+        $btn.html('<div class="reload-spin"></div> ' + ti('export_label', 'Export'));
       }
 
       var security_nonce = $('#bptodo-export-todo-nonce').val();
@@ -312,11 +354,11 @@ jQuery(document).ready(function($) {
           if (BPTodo.loading) {
             BPTodo.loading.buttonDone($btn[0]);
           }
-          $btn.html('<div class="export-download"></div> Export');
+          $btn.html('<div class="export-download"></div> ' + ti('export_label', 'Export'));
           JSONToCSVConvertor(response, todo_ajax_object.export_file_heading, true);
 
           if (BPTodo.toast) {
-            BPTodo.toast.success('Export completed');
+            BPTodo.toast.success(ti('export_done_text', 'Export completed.'));
           }
         },
         'JSON'
@@ -326,7 +368,7 @@ jQuery(document).ready(function($) {
         }
         $btn.html(originalHtml);
         if (BPTodo.toast) {
-          BPTodo.toast.error('Export failed');
+          BPTodo.toast.error(ti('export_failed_text', 'Export failed. Please try again.'));
         }
       });
     });
@@ -396,7 +438,7 @@ jQuery(document).ready(function($) {
             $('.add-todo-category i').attr('class', 'fa fa-plus');
 
             if (BPTodo.toast) {
-              BPTodo.toast.success('Category added');
+              BPTodo.toast.success(ti('category_added_text', 'Category added.'));
             }
           }
         }
@@ -421,7 +463,7 @@ jQuery(document).ready(function($) {
       var $row = $btn.closest('tr');
 
       // Modern confirm modal (bptodo-modern.js) — no native confirm().
-      var removeMessage = (todo_ajax_object && todo_ajax_object.remove_todo_text) || 'Are you sure you want to delete this todo?';
+      var removeMessage = ti('remove_todo_text', 'Are you sure you want to delete this task?');
       if (BPTodo.modal && BPTodo.modal.confirm) {
         BPTodo.modal.confirm({
           message: removeMessage,
@@ -469,14 +511,14 @@ jQuery(document).ready(function($) {
           }
 
           if (BPTodo.toast) {
-            BPTodo.toast.success(todo_ajax_object.todo_removed_text || 'Todo deleted');
+            BPTodo.toast.success(ti('todo_removed_text', 'Task deleted successfully.'));
           }
         } else {
           if ($card.length) {
             $card.removeClass('bptodo-card--deleting');
           }
           if (BPTodo.toast) {
-            BPTodo.toast.error('Failed to delete todo');
+            BPTodo.toast.error(ti('delete_failed_text', 'Could not delete the task. Please try again.'));
           }
         }
       }
@@ -485,7 +527,7 @@ jQuery(document).ready(function($) {
         $card.removeClass('bptodo-card--deleting');
       }
       if (BPTodo.toast) {
-        BPTodo.toast.error('Failed to delete todo');
+        BPTodo.toast.error(ti('delete_failed_text', 'Could not delete the task. Please try again.'));
       }
     });
   }
@@ -583,7 +625,7 @@ jQuery(document).ready(function($) {
         function(response) {
           if (response === 'todo-undo-completed') {
             if (BPTodo.toast) {
-              BPTodo.toast.success('Todo marked as incomplete');
+              BPTodo.toast.success(ti('todo_reopened_text', 'Task marked incomplete.'));
             }
             refreshTodoList();
           }
@@ -616,13 +658,13 @@ jQuery(document).ready(function($) {
             updateTodoCounters(0, 1);
 
             if (BPTodo.toast) {
-              BPTodo.toast.success(todo_ajax_object.todo_completed_text || 'Todo completed!');
+              BPTodo.toast.success(ti('todo_completed_text', 'Task completed!'));
             }
           }
         } catch (e) {
           $card.removeClass('bptodo-card--completing');
           if (BPTodo.toast) {
-            BPTodo.toast.error('Failed to complete todo');
+            BPTodo.toast.error(ti('complete_failed_text', 'Could not update the task status. Please try again.'));
           }
         }
       }
@@ -631,7 +673,7 @@ jQuery(document).ready(function($) {
       // Uncheck the checkbox
       $card.find('.bptodo-checkbox__input').prop('checked', false);
       if (BPTodo.toast) {
-        BPTodo.toast.error('Failed to complete todo');
+        BPTodo.toast.error(ti('complete_failed_text', 'Could not update the task status. Please try again.'));
       }
     });
   }
@@ -651,7 +693,7 @@ jQuery(document).ready(function($) {
         if (response === 'todo-undo-completed') {
           updateTodoCounters(0, -1);
           if (BPTodo.toast) {
-            BPTodo.toast.success('Todo marked as incomplete');
+            BPTodo.toast.success(ti('todo_reopened_text', 'Task marked incomplete.'));
           }
         }
       }
@@ -661,7 +703,7 @@ jQuery(document).ready(function($) {
       $card.find('.bptodo-checkbox__input').prop('checked', true);
       $card.addClass('bptodo-card--completed');
       if (BPTodo.toast) {
-        BPTodo.toast.error('Failed to update todo');
+        BPTodo.toast.error(ti('update_failed_text', 'Could not update the task. Please try again.'));
       }
     });
   }
@@ -710,12 +752,12 @@ jQuery(document).ready(function($) {
             }
 
             if (BPTodo.toast) {
-              BPTodo.toast.success(todo_ajax_object.todo_completed_text || 'Todo completed!');
+              BPTodo.toast.success(ti('todo_completed_text', 'Task completed!'));
             }
           }
         } catch (e) {
           if (BPTodo.toast) {
-            BPTodo.toast.error('Failed to complete todo');
+            BPTodo.toast.error(ti('complete_failed_text', 'Could not update the task status. Please try again.'));
           }
         }
       }
@@ -735,7 +777,7 @@ jQuery(document).ready(function($) {
       function(response) {
         if (response === 'todo-undo-completed') {
           if (BPTodo.toast) {
-            BPTodo.toast.success('Todo marked as incomplete');
+            BPTodo.toast.success(ti('todo_reopened_text', 'Task marked incomplete.'));
           }
           refreshTodoList();
         }
@@ -1040,10 +1082,11 @@ jQuery(document).ready(function($) {
 
       // Update results count
       var totalCount = $scopedCards.length;
-      var countText = visibleCount + ' of ' + totalCount + ' items';
-      if (hasActiveFilters) {
-        countText = 'Showing ' + countText + ' (filtered)';
-      }
+      // One translatable sentence per state (not fragments concatenated around
+      // the numbers) so translators control word order.
+      var countText = hasActiveFilters
+        ? bptodoSprintf(ti('results_count_filtered', 'Showing %1$d of %2$d items (filtered)'), [visibleCount, totalCount])
+        : bptodoSprintf(ti('results_count', '%1$d of %2$d items'), [visibleCount, totalCount]);
       $resultsCount.text(countText);
 
       // Show "no results" message if needed
@@ -1056,8 +1099,8 @@ jQuery(document).ready(function($) {
               '<circle cx="11" cy="11" r="8"></circle>' +
               '<path d="m21 21-4.35-4.35"></path>' +
               '</svg>' +
-              '<div class="bptodo-no-results__title">' + (window.todo_ajax_object && window.todo_ajax_object.no_results_text ? window.todo_ajax_object.no_results_text : 'No matching todos found') + '</div>' +
-              '<p>Try adjusting your search or filters</p>' +
+              '<div class="bptodo-no-results__title">' + ti('no_results_text', 'No matching todos found') + '</div>' +
+              '<p>' + ti('no_results_hint', 'Try adjusting your search or filters') + '</p>' +
               '</div>';
             // Insert after the actual cards container (member/group pages have
             // no .bptodo-cards--shortcode), then re-query so .show() below acts
@@ -1158,7 +1201,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
   }
 
   if (CSV === '') {
-    var invalidMsg = (todo_ajax_object && todo_ajax_object.error_text) || 'Invalid data';
+    var invalidMsg = bptodoI18n('invalid_data_text', 'There is no data to export.');
     if (window.BPTodo && window.BPTodo.toast) {
       window.BPTodo.toast.error(invalidMsg);
     }

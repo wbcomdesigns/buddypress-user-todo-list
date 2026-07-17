@@ -15,6 +15,29 @@
 	window.BPTodo = window.BPTodo || {};
 
 	/* ==========================================================================
+	   I18N
+	   ========================================================================== */
+
+	/**
+	 * Read a translated string from the dictionary PHP localizes onto the
+	 * `bptodo-modern-js` handle (bptodo_localize_modern_i18n() in
+	 * includes/bptodo-functions.php).
+	 *
+	 * The literal passed as `fallback` is a mirror of the PHP __() value and is
+	 * only used when this file is loaded without its localize call. Every key
+	 * read here MUST exist in that PHP array, or the English fallback silently
+	 * wins on every locale.
+	 *
+	 * @param {string} key - Dictionary key.
+	 * @param {string} fallback - English mirror of the PHP __() value.
+	 * @returns {string}
+	 */
+	function mi(key, fallback) {
+		var dict = window.bptodoModernI18n;
+		return (dict && dict[key]) || fallback;
+	}
+
+	/* ==========================================================================
 	   SVG ICONS (Hardcoded, safe for innerHTML)
 	   ========================================================================== */
 
@@ -125,7 +148,7 @@
 			const closeBtn = document.createElement('button');
 			closeBtn.className = 'bptodo-toast__close';
 			closeBtn.setAttribute('type', 'button');
-			closeBtn.setAttribute('aria-label', 'Close notification');
+			closeBtn.setAttribute('aria-label', mi('closeNotification', 'Close notification'));
 			insertIcon(closeBtn, 'close');
 			closeBtn.addEventListener('click', () => this.dismiss(toast));
 			toast.appendChild(closeBtn);
@@ -361,7 +384,7 @@
 				showLoading: null,  // Element to show loading on
 				loadingText: '',
 				successMessage: '', // Toast message on success
-				errorMessage: 'An error occurred. Please try again.'
+				errorMessage: mi('ajaxError', 'An error occurred. Please try again.')
 			};
 
 			const settings = Object.assign({}, defaults, options);
@@ -533,7 +556,7 @@
 			const closeBtn = document.createElement('button');
 			closeBtn.className = 'bptodo-modal__close';
 			closeBtn.setAttribute('type', 'button');
-			closeBtn.setAttribute('aria-label', 'Close modal');
+			closeBtn.setAttribute('aria-label', mi('closeModal', 'Close modal'));
 			insertIcon(closeBtn, 'close');
 			closeBtn.addEventListener('click', () => this.close());
 			header.appendChild(closeBtn);
@@ -643,10 +666,10 @@
 		 */
 		confirm: function(options) {
 			const defaults = {
-				title: 'Confirm',
-				message: 'Are you sure?',
-				confirmText: 'Confirm',
-				cancelText: 'Cancel',
+				title: mi('confirmTitle', 'Confirm'),
+				message: mi('confirmMessage', 'Are you sure?'),
+				confirmText: mi('confirmOk', 'Confirm'),
+				cancelText: mi('confirmCancel', 'Cancel'),
 				type: 'danger' // 'danger' or 'primary'
 			};
 
@@ -823,59 +846,13 @@
 	   UTILITY FUNCTIONS
 	   ========================================================================== */
 
+	// NOTE: Utils.formatDate() / Utils.relativeTime() were removed in 4.0.0. They
+	// were dead code (no caller in this plugin, never documented) whose output was
+	// built by concatenating English fragments ('2 days ago', 'just now'), which is
+	// untranslatable — the pluralisation cannot be expressed through a localize
+	// dictionary. Relative due dates that reach the UI are resolved server-side
+	// instead (Bptodo_Todo::due_human), which uses _n() + __() correctly.
 	const Utils = {
-		/**
-		 * Format a date for display
-		 *
-		 * @param {string|Date} date - Date to format
-		 * @returns {string}
-		 */
-		formatDate: function(date) {
-			const d = typeof date === 'string' ? new Date(date) : date;
-			if (isNaN(d.getTime())) return '';
-
-			const options = { month: 'short', day: 'numeric', year: 'numeric' };
-			return d.toLocaleDateString(undefined, options);
-		},
-
-		/**
-		 * Get relative time string (e.g., "2 days ago")
-		 *
-		 * @param {string|Date} date - Date
-		 * @returns {string}
-		 */
-		relativeTime: function(date) {
-			const d = typeof date === 'string' ? new Date(date) : date;
-			if (isNaN(d.getTime())) return '';
-
-			const now = new Date();
-			const diff = d - now;
-			const absDiff = Math.abs(diff);
-			const isPast = diff < 0;
-
-			const minutes = Math.floor(absDiff / 60000);
-			const hours = Math.floor(absDiff / 3600000);
-			const days = Math.floor(absDiff / 86400000);
-
-			if (days > 30) {
-				return this.formatDate(d);
-			}
-
-			if (days > 0) {
-				return isPast ? days + ' day' + (days > 1 ? 's' : '') + ' ago' : 'in ' + days + ' day' + (days > 1 ? 's' : '');
-			}
-
-			if (hours > 0) {
-				return isPast ? hours + ' hour' + (hours > 1 ? 's' : '') + ' ago' : 'in ' + hours + ' hour' + (hours > 1 ? 's' : '');
-			}
-
-			if (minutes > 0) {
-				return isPast ? minutes + ' min ago' : 'in ' + minutes + ' min';
-			}
-
-			return 'just now';
-		},
-
 		/**
 		 * Debounce a function
 		 *

@@ -596,6 +596,46 @@ if ( ! function_exists( 'bptodo_asset_ver' ) ) {
 	}
 }
 
+if ( ! function_exists( 'bptodo_localize_modern_i18n' ) ) {
+	/**
+	 * Seed the translatable dictionary for the modern UX module (toast/modal/ajax).
+	 *
+	 * assets/js/bptodo-modern.js is a classic script, so its user-facing defaults
+	 * (dialog buttons, close labels, the generic AJAX error) have no PHP home
+	 * unless we localize them here — a JS-only literal is invisible to the POT
+	 * scanner and can never be translated. Every key below MUST match a
+	 * `mi( 'key', 'fallback' )` read in that file, and vice versa.
+	 *
+	 * Called from every site that enqueues the `bptodo-modern-js` handle (the
+	 * frontend todo pages, the network-admin plugins screen). Guarded so the
+	 * repeat calls are free.
+	 *
+	 * @since 4.0.0
+	 * @return void
+	 */
+	function bptodo_localize_modern_i18n() {
+		static $done = false;
+		if ( $done ) {
+			return;
+		}
+		$done = true;
+
+		wp_localize_script(
+			'bptodo-modern-js',
+			'bptodoModernI18n',
+			array(
+				'closeNotification' => __( 'Close notification', 'wb-todo' ),
+				'closeModal'        => __( 'Close modal', 'wb-todo' ),
+				'ajaxError'         => __( 'An error occurred. Please try again.', 'wb-todo' ),
+				'confirmTitle'      => _x( 'Confirm', 'confirmation dialog heading', 'wb-todo' ),
+				'confirmMessage'    => __( 'Are you sure?', 'wb-todo' ),
+				'confirmOk'         => _x( 'Confirm', 'confirmation dialog accept button', 'wb-todo' ),
+				'confirmCancel'     => _x( 'Cancel', 'confirmation dialog dismiss button', 'wb-todo' ),
+			)
+		);
+	}
+}
+
 if ( ! function_exists( 'bptodo_layout_mode' ) ) {
 	/**
 	 * The effective frontend layout mode: 'modern' (default) or 'legacy'.
