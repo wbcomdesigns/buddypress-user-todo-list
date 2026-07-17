@@ -128,7 +128,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<!-- Hidden input ensures todo_update is submitted even when button is disabled by loading state -->
 					<input type="hidden" name="todo_update" value="1">
-					<?php  /* translators: %s */ ?>
+					<?php /* translators: %s: the configured todo label (singular), e.g. "Task". */ ?>
 					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>

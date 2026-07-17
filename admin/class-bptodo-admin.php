@@ -90,10 +90,21 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				 */
 				wp_enqueue_style( 'bptodo-css-ui', BPTODO_PLUGIN_URL . 'assets/css/jquery-ui.css', array(), BPTODO_VERSION );
 
-				// Font Awesome for legacy icons.
-				if ( ! wp_style_is( 'wb-font-awesome', 'enqueued' ) ) {
-					wp_enqueue_style( 'wb-font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
-				}
+				/*
+				 * Dashicons supplies every icon the legacy layout renders (action
+				 * pills, spinners). It ships with WordPress core, so nothing is
+				 * bundled and nothing is fetched from a third party. This replaced a
+				 * Font Awesome 4.7.0 stylesheet loaded from cdnjs.cloudflare.com,
+				 * which sent every visitor's IP to a third party without consent and
+				 * broke the WP.org "serve assets locally" guideline.
+				 *
+				 * This is also the only enqueue of 'dashicons' in the plugin, and the
+				 * group Overview template has emitted .dashicons markup for some time
+				 * without one - it rendered only because the admin bar happens to load
+				 * Dashicons for logged-in users. Declaring it here makes that markup
+				 * correct on its own terms.
+				 */
+				wp_enqueue_style( 'dashicons' );
 
 				// Modern Design System CSS (loaded first as foundation).
 				wp_enqueue_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), bptodo_asset_ver( 'assets/css/bptodo-design-system' . $suffix . '.css' ) );
@@ -170,8 +181,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 					)
 				);
 			}
-
-			wp_enqueue_script( 'bptodo-js-tempust', BPTODO_PLUGIN_URL . 'assets/js/tempust.js', array( 'jquery' ), BPTODO_VERSION );
 		}
 
 		/**

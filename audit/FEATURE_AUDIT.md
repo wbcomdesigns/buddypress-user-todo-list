@@ -65,7 +65,7 @@ Settings option keys:
 - Key postmeta: todo_due_date, todo_status, todo_priority, todo_group_id, todo_user_id, todo_creator_id, todo_complete_time, todo_completed_date, todo_category; usermeta: todo_mail_setting
 
 ## 7. JS modules
-`bptodo-front.js` (main), `bptodo-modern.js` (toast/modal/loading), select2, datatables, tempust, pdfobject; admin: `bp-todo-list-admin.js`, selectize.
+`bptodo-view.js` (modern layout, @wordpress/interactivity), `bptodo-front.js` (legacy layout), `bptodo-modern.js` (toast/modal/loading), select2, datatables; admin: `assets/js/admin.js` (card panel), `admin/assets/js/bp-todo-list-admin.js` (network admin only). No icon font (core Dashicons). `tempust`, `pdfobject` and `selectize` were removed as dead code.
 
 ## 8. CSS modules
 Design system + components + front (with .min and RTL variants), plus jquery-ui, select2, datatables. NOTE: 10 distinct breakpoints (target 3) and several sub-40px tap targets — see wppqa baseline.

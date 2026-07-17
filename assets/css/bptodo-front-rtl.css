@@ -146,6 +146,45 @@ table.bp-todo-reminder tbody td.bp-to-do-actions ul li a:hover {
     background: #2094f4;
 }
 
+/*
+ * Legacy action icons.
+ *
+ * These used to be Font Awesome 4 glyphs pulled from a CDN. They are now core
+ * Dashicons, so nothing is bundled and nothing leaves the site. Dashicons
+ * defaults to 20px, which overflows the 25px action pill above and the inline
+ * button spinners, so scale it down to inherit-friendly 16px here.
+ */
+.bp-to-do-actions .dashicons,
+.bptodo-spin {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+/* Spinner: the Dashicons equivalent of Font Awesome's `fa-spin`. */
+.bptodo-spin {
+    display: inline-block;
+    animation: bptodo-spin 2s linear infinite;
+}
+
+@keyframes bptodo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bptodo-spin {
+        animation-duration: 0s;
+    }
+}
+
 table.bp-todo-reminder tbody td {
     text-align: right;
     padding: 10px;

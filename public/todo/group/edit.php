@@ -213,7 +213,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 					<input type="hidden" name="hidden_todo_id" value="<?php echo esc_attr( $todo_id ); ?>">
 					<input type="hidden" name="primary_todo_id" value="<?php echo esc_attr( $primary_todo_id ); ?>">
 					<input type="hidden" name="group_id" value="<?php echo esc_attr( $group_id ); ?>">
-					<?php /* Translators: Display the plural label name */ ?>
+					<?php /* translators: %s: the configured todo label (singular), e.g. "Task". */ ?>
 					<input type="submit" id="group_todo_update" name="group_todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>

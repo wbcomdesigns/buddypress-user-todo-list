@@ -379,19 +379,14 @@ jQuery(document).ready(function($) {
    */
   function initCategoryManagement() {
     // Toggle the "new category" row on the edit form. The trigger markup uses
-    // <span class="add-cat-icon">; older markup used a Font Awesome <i>, so
-    // handle both icon styles here.
+    // <span class="add-cat-icon"> (the full-page form uses an inline SVG and has
+    // no span, which the length guard covers).
     $(document).on('click', '.add-todo-category', function() {
       $('.add-todo-cat-row').slideToggle('slow');
 
       var $span = $(this).find('span');
       if ($span.length) {
         $span.toggleClass('add-cat-icon remove-cat-icon');
-      }
-
-      var $icon = $(this).find('i');
-      if ($icon.length) {
-        $icon.toggleClass('fa-plus fa-minus');
       }
     });
 
@@ -413,7 +408,7 @@ jQuery(document).ready(function($) {
       if (BPTodo.loading) {
         BPTodo.loading.button($btn[0], 'Adding...');
       } else {
-        $btn.html(btn_text + ' <i class="fa fa-refresh fa-spin"></i>');
+        $btn.html(btn_text + ' <span class="dashicons dashicons-update bptodo-spin"></span>');
       }
 
       $.post(
@@ -435,7 +430,6 @@ jQuery(document).ready(function($) {
             $('#bp_todo_categories').append(html);
             $('.add-todo-cat-row').hide();
             $('#todo-category-name').val('');
-            $('.add-todo-category i').attr('class', 'fa fa-plus');
 
             if (BPTodo.toast) {
               BPTodo.toast.success(ti('category_added_text', 'Category added.'));
@@ -485,7 +479,7 @@ jQuery(document).ready(function($) {
     if ($card.length) {
       $card.addClass('bptodo-card--deleting');
     }
-    $btn.html('<i class="fa fa-refresh fa-spin"></i>');
+    $btn.html('<span class="dashicons dashicons-update bptodo-spin"></span>');
 
     $.post(
       ajaxurl,
@@ -613,7 +607,7 @@ jQuery(document).ready(function($) {
       var $link = $(this);
       var tid = $link.data('tid');
 
-      $link.html('<i class="fa fa-refresh fa-spin"></i>');
+      $link.html('<span class="dashicons dashicons-update bptodo-spin"></span>');
 
       $.post(
         ajaxurl,
@@ -712,7 +706,7 @@ jQuery(document).ready(function($) {
     var completed_todo = $('.bp_completed_todo_count').text();
     var all_todo = $('.bp_all_todo_count').text();
 
-    $clicked.html('<i class="fa fa-refresh fa-spin"></i>');
+    $clicked.html('<span class="dashicons dashicons-update bptodo-spin"></span>');
 
     $.post(
       ajaxurl,
@@ -743,11 +737,11 @@ jQuery(document).ready(function($) {
             // Replace with undo link
             if ($clicked.is('a')) {
               $clicked.closest('li').replaceWith(
-                '<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li>'
+                '<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="' + todo_ajax_object.undo_todo_title + '"><span class="dashicons dashicons-undo"></span></a></li>'
               );
             } else {
               $clicked.closest('td').html(
-                '<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="' + todo_ajax_object.undo_todo_title + '"><i class="fa fa-undo"></i></a></li></ul>'
+                '<ul><li><a href="" class="bptodo-undo-complete-todo" data-tid="' + tid + '" title="' + todo_ajax_object.undo_todo_title + '"><span class="dashicons dashicons-undo"></span></a></li></ul>'
               );
             }
 
