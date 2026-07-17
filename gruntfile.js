@@ -77,12 +77,12 @@ module.exports = function ( grunt ) {
 						'assets/js/bptodo-front.min.js': ['assets/js/bptodo-front.js'],
 						'assets/js/bptodo-modern.min.js': ['assets/js/bptodo-modern.js']
 					}
-				},
-				admin: {
-					files: {
-						'admin/assets/js/bptodo-admin.min.js': ['admin/assets/js/bptodo-admin.js']
-					}
 				}
+				// NOTE: there is no `admin` target. admin/assets/js/bptodo-admin.js was
+				// removed in the card-panel migration; the admin panel loads
+				// assets/js/admin.js directly. Do not re-add a target for a source that
+				// does not exist - uglify/cssmin will happily emit an empty .min file
+				// and ship it.
 			},
 
 			// Minify CSS files
@@ -97,12 +97,11 @@ module.exports = function ( grunt ) {
 						'assets/css/bptodo-design-system.min.css': ['assets/css/bptodo-design-system.css'],
 						'assets/css/bptodo-components.min.css': ['assets/css/bptodo-components.css']
 					}
-				},
-				admin: {
-					files: {
-						'admin/assets/css/bptodo-admin.min.css': ['admin/assets/css/bptodo-admin.css']
-					}
 				}
+				// NOTE: no `admin` target - see the uglify note above.
+				// admin/assets/css/bptodo-admin.css was removed in the card-panel
+				// migration, but this target survived and cssmin kept emitting a
+				// 0-byte bptodo-admin.min.css that shipped in every zip.
 			},
 
 			// Generate RTL CSS
@@ -119,14 +118,8 @@ module.exports = function ( grunt ) {
 					src: ['bptodo-front.css', 'bptodo-design-system.css', 'bptodo-components.css'],
 					dest: 'assets/css/',
 					ext: '-rtl.css'
-				},
-				admin: {
-					expand: true,
-					cwd: 'admin/assets/css/',
-					src: ['bptodo-admin.css'],
-					dest: 'admin/assets/css/',
-					ext: '-rtl.css'
 				}
+				// NOTE: no `admin` target - see the uglify note above.
 			},
 
 			// Watch for changes
