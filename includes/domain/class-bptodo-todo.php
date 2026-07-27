@@ -161,8 +161,8 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 			$diff_days = (int) date_diff( $today, $due_obj )->format( '%R%a' );
 
 			if ( $diff_days < 0 ) {
-				/* translators: %d: number of days a task is overdue. */
 				return array(
+					/* translators: %d: number of days a task is overdue. */
 					'text'  => sprintf( _n( 'Overdue by %d day', 'Overdue by %d days', abs( $diff_days ), 'wb-todo' ), abs( $diff_days ) ),
 					'state' => 'overdue',
 				);
@@ -173,8 +173,8 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 					'state' => 'today',
 				);
 			}
-			/* translators: %d: number of days left to complete a task. */
 			return array(
+				/* translators: %d: number of days left to complete a task. */
 				'text'  => sprintf( _n( '%d day left', '%d days left', $diff_days, 'wb-todo' ), $diff_days ),
 				'state' => 'upcoming',
 			);

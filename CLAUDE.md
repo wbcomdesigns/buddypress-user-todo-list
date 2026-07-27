@@ -17,6 +17,21 @@
 - No INTERMEDIATE (`includes/shared-admin/class-wbcom-shared-dashboard.php`) and no NEW (`includes/admin/views/shell.php`) wrapper present.
 - Primary settings page: slug `user-todo-list-settings`, parent `wbcomplugins`, registered by `Bptodo_Admin::bptodo_add_menu_page` (hook `admin_menu`). Tab UI via Settings API `do_settings_sections($tab)`.
 
+### Admin CSS gotcha: `.bptodo-admin a` vs `.bptodo-btn`
+`assets/css/admin.css` styles plain links with `.bptodo-admin a` (0,1,1), which outranks every
+button variant (`.bptodo-btn-primary` etc., 0,1,0). An `<a class="bptodo-btn bptodo-btn-primary">`
+therefore inherited accent-blue text on an accent-blue background - a button with an invisible
+label. The rule is now scoped `.bptodo-admin a:not(.bptodo-btn)`. **Keep the `:not()`**, and when
+adding a new button variant give it its own `color` - do not rely on the generic link rule.
+
+### Never hardcode `admin.php?page=bp-components`
+That screen only exists while BuddyPress is loaded, and on a network-activated install it lives in
+network admin. Build it with BuddyPress's own helper,
+`bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) )`, inside a
+`function_exists( 'bp_is_active' )` branch. With no BuddyPress at all, the link 403s with "Sorry,
+you are not allowed to access this page" - show the "BuddyPress or BuddyBoss is not active."
+empty state and link to `plugins.php` instead (see `includes/admin/views/settings-group.php`).
+
 ## Key entry points
 - Bootstrap: `bp-user-todo-list.php`
 - Orchestrator + hook wiring: `includes/class-bptodo.php` (+ `includes/class-bptodo-loader.php`)

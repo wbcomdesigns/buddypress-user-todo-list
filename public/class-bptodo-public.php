@@ -1006,7 +1006,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$all_remaining_todo = 0;
 
 				if ( $diff_days < 0 ) {
-					/* translators: Number of expiry days */
+					/* translators: %d: number of days since the due date passed. */
 					$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
 					$due_date_td_class = 'bptodo-expired';
 				} elseif ( 0 === $diff_days ) {
@@ -1014,7 +1014,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$due_date_td_class = 'bptodo-expires-today';
 					$all_remaining_todo++;
 				} else {
-					/* translators: Number of left days */
+					/* translators: %d: number of days remaining until the due date. */
 					$due_date_str = sprintf( esc_html__( '%d days left to complete the task!', 'wb-todo' ), abs( $diff_days ) );
 					$all_remaining_todo++;
 				}
@@ -1043,15 +1043,15 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				<td class="todo-completed">' . $todo_title . '</td>
 				<td class="bp-to-do-actions">
 				<ul>
-				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-no-alt"></span></a></li>';
+				<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="' . esc_attr( $tid ) . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-no-alt"></span></a></li>';
 				if ( 'complete' !== $todo_status ) {
 
-					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-edit"></span></a></li>
+					$completed_html .= '<li><a href="' . esc_attr( $todo_edit_url ) . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-edit"></span></a></li>
 					<li id="bptodo-complete-li-' . esc_attr( $tid ) . '"><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="' . esc_attr( $tid ) . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-yes"></span></a></li>';
 				} else {
-					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-undo"></span></a></li>';
+					$completed_html .= '<li><a href="" class="bptodo-undo-complete-todo" data-tid="' . $tid . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), $todo_title ) . '"><span class="dashicons dashicons-undo"></span></a></li>';
 				}
-					$completed_html .= '<li><a href="' . esc_attr( $todo_view_url ) . '" title="' . /* translators: %s: */ sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ) . '" target="_blank"><span class="dashicons dashicons-visibility"></span></a></li>';
+					$completed_html .= '<li><a href="' . esc_attr( $todo_view_url ) . '" title="' . /* translators: %s: the task title. */ sprintf( esc_html__( 'View: %s', 'wb-todo' ), $todo_title ) . '" target="_blank"><span class="dashicons dashicons-visibility"></span></a></li>';
 				$completed_html     .= '</ul></td></tr>';
 				/** End of html of completed todo. */
 				$response = array(

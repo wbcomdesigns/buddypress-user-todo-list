@@ -50,7 +50,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 		<h2 class="bptodo-page-title">
 			<?php
 			printf(
-				/* translators: %s: Todo label */
+				/* translators: %s: the configured todo label (singular), e.g. "Task". */
 				esc_html__( 'Add New %s', 'wb-todo' ),
 				esc_html( $profile_menu_label )
 			);
@@ -121,7 +121,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 						</svg>
 						<?php
 						printf(
-							/* translators: %s: Todo label */
+							/* translators: %s: the configured todo label (singular), e.g. "Task". */
 							esc_html__( 'Create %s', 'wb-todo' ),
 							esc_html( $profile_menu_label )
 						);

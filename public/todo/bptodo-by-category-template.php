@@ -97,15 +97,15 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 										<td class="<?php echo esc_attr( $due_date_td_class . ' ' . $class ); ?>"><?php echo esc_html( $due_date_str ); ?></td>
 										<td class="bp-to-do-actions">
 											<ul>
-													<?php /* translators: %s */ ?>
+													<?php /* translators: %s: the task title. */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-no-alt"></span></a></li>
 													<?php if ( 'complete' !== $todo_status ) { ?>
-													<?php /* translators: %s */ ?>
+													<?php /* translators: %s: the task title. */ ?>
 													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-edit"></span></a></li>
-													<?php /* translators: %s */ ?>
+													<?php /* translators: %s: the task title. */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-yes"></span></a></li>
 												<?php } else { ?>
-													<?php /* translators: %s */ ?>
+													<?php /* translators: %s: the task title. */ ?>
 													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-undo"></span></a></li>
 												<?php } ?>
 											</ul>

@@ -73,7 +73,13 @@
 	color: inherit;
 }
 
-.bptodo-admin a {
+/*
+ * Plain links only. Anchors carrying .bptodo-btn are buttons and must keep the
+ * colour their own variant sets - without the :not() this rule (0,1,1) outranked
+ * .bptodo-btn-primary (0,1,0) and painted the label accent-blue on an
+ * accent-blue background, i.e. an invisible button label.
+ */
+.bptodo-admin a:not(.bptodo-btn) {
 	color: var(--bptodo-admin-accent);
 }
 

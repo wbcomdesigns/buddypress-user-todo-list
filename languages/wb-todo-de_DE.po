@@ -3,35 +3,35 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Todo for BuddyPress & BuddyBoss 4.0.0\n"
-"Report-Msgid-Bugs-To: "
-"https://wordpress.org/support/plugin/buddypress-user-todo-list\n"
-"POT-Creation-Date: 2026-07-17T10:20:38+00:00\n"
-"PO-Revision-Date: 2026-07-16T11:32:30+00:00\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
-"Language: de\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress-user-"
+"todo-list\n"
+"POT-Creation-Date: 2026-07-27T12:12:00+00:00\n"
+"PO-Revision-Date: 2026-07-27T12:15:00+00:00\n"
+"Last-Translator: Wbcom Designs <admin@wbcomdesigns.com>\n"
+"Language-Team: Wbcom Designs\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wb-todo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. Plugin Name of the plugin
 #: bp-user-todo-list.php admin/class-bptodo-feedback.php:269
 #: bp-user-todo-list.php:383 bp-user-todo-list.php:395
 #: includes/admin/class-bptodo-admin-panel.php:126
 #: includes/admin/views/shell.php:32
-#. Plugin Name of the plugin
 msgid "Todo for BuddyPress & BuddyBoss"
 msgstr "Todo für BuddyPress & BuddyBoss"
 
-#: bp-user-todo-list.php
 #. Plugin URI of the plugin
+#: bp-user-todo-list.php
 msgid "https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/"
 msgstr "https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/"
 
-#: bp-user-todo-list.php
 #. Description of the plugin
+#: bp-user-todo-list.php
 msgid ""
 "Personal and team todo lists for WordPress. Works standalone, and adds a "
 "member profile tab plus group todos when BuddyPress or BuddyBoss is active."
@@ -40,134 +40,135 @@ msgstr ""
 "und fügt einen Mitglieds-Profiltab sowie Gruppen-Todos hinzu, wenn "
 "BuddyPress oder BuddyBoss aktiv ist."
 
-#: bp-user-todo-list.php
 #. Author of the plugin
+#: bp-user-todo-list.php
 msgid "Wbcom Designs"
 msgstr "Wbcom Designs"
 
-#: bp-user-todo-list.php
 #. Author URI of the plugin
+#: bp-user-todo-list.php
 msgid "https://wbcomdesigns.com"
 msgstr "https://wbcomdesigns.com"
 
-#: admin/class-bptodo-admin.php:140
 #. translators: %1$s
+#: admin/class-bptodo-admin.php:151
 #, php-format
 msgid "My %1$s"
 msgstr "Meine %1$s"
 
-#: admin/class-bptodo-admin.php:141
+#: admin/class-bptodo-admin.php:152
 #: includes/domain/class-bptodo-categories.php:80
 msgid "Category name is required."
 msgstr "Kategoriename erforderlich."
 
-#: admin/class-bptodo-admin.php:142
+#: admin/class-bptodo-admin.php:153
 msgid "Undo Complete"
 msgstr "Rückgängig machen"
 
-#: admin/class-bptodo-admin.php:143
+#: admin/class-bptodo-admin.php:154
 #: includes/render/class-bptodo-renderer.php:139
 msgid "Are you sure you want to delete this task?"
 msgstr "Bist du sicher, dass du diese Aufgabe löschen möchtest?"
 
-#: admin/class-bptodo-admin.php:145
+#: admin/class-bptodo-admin.php:156
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: admin/class-bptodo-admin.php:146
+#: admin/class-bptodo-admin.php:157
 msgid "Task updated successfully!"
 msgstr "Aufgabe erfolgreich aktualisiert!"
 
-#: admin/class-bptodo-admin.php:147
+#: admin/class-bptodo-admin.php:158
 msgid "Task completed!"
 msgstr "Aufgabe erledigt!"
 
-#: admin/class-bptodo-admin.php:148
+#: admin/class-bptodo-admin.php:159
 msgid "Task deleted successfully."
 msgstr "Aufgabe erfolgreich gelöscht."
 
-#: admin/class-bptodo-admin.php:149
+#: admin/class-bptodo-admin.php:160
 #: includes/render/class-bptodo-renderer.php:143
 msgid "Task marked incomplete."
 msgstr "Aufgabe als unvollständig markiert."
 
-#: admin/class-bptodo-admin.php:150
+#: admin/class-bptodo-admin.php:161
 #: includes/render/class-bptodo-renderer.php:141
 msgid "Something went wrong. Please try again."
 msgstr "Etwas ist schief gelaufen. Bitte versuche es erneut."
 
-#: admin/class-bptodo-admin.php:152
+#: admin/class-bptodo-admin.php:163
 msgid "Could not update the task. Please try again."
-msgstr "Die Aufgabe konnte nicht aktualisiert werden. Bitte versuche es erneut."
+msgstr ""
+"Die Aufgabe konnte nicht aktualisiert werden. Bitte versuche es erneut."
 
-#: admin/class-bptodo-admin.php:153
+#: admin/class-bptodo-admin.php:164
 msgid "Could not delete the task. Please try again."
 msgstr "Die Aufgabe konnte nicht gelöscht werden. Bitte versuche es erneut."
 
-#: admin/class-bptodo-admin.php:154
+#: admin/class-bptodo-admin.php:165
 msgid "Could not update the task status. Please try again."
 msgstr ""
 "Der Status der Aufgabe konnte nicht aktualisiert werden. Bitte versuche es "
 "erneut."
 
-#: admin/class-bptodo-admin.php:155
+#: admin/class-bptodo-admin.php:166
 msgid "Could not refresh the list. Please reload the page."
 msgstr "Die Liste konnte nicht aktualisiert werden. Bitte lade die Seite neu."
 
-#: admin/class-bptodo-admin.php:156
+#: admin/class-bptodo-admin.php:167
 #: includes/render/class-bptodo-renderer.php:147
 msgid "Category added."
 msgstr "Kategorie hinzugefügt."
 
-#: admin/class-bptodo-admin.php:157
+#: admin/class-bptodo-admin.php:168
 msgid "There is no data to export."
 msgstr "Es gibt keine Daten zum Exportieren."
 
-#: admin/class-bptodo-admin.php:159 bp-user-todo-list.php:425
+#: admin/class-bptodo-admin.php:170 bp-user-todo-list.php:425
 msgid "Export"
 msgstr "Exportieren"
 
-#: admin/class-bptodo-admin.php:160
+#: admin/class-bptodo-admin.php:171
 msgid "Export completed."
 msgstr "Export abgeschlossen."
 
-#: admin/class-bptodo-admin.php:161
+#: admin/class-bptodo-admin.php:172
 msgid "Export failed. Please try again."
 msgstr "Export fehlgeschlagen. Bitte versuche es erneut."
 
-#: admin/class-bptodo-admin.php:163
+#: admin/class-bptodo-admin.php:174
 msgid "No matching todos found"
 msgstr "Keine übereinstimmenden Todos gefunden"
 
-#: admin/class-bptodo-admin.php:164
+#: admin/class-bptodo-admin.php:175
 msgid "Try adjusting your search or filters"
 msgstr "Versuche, deine Suche oder Filter anzupassen"
 
-#: admin/class-bptodo-admin.php:166
 #. translators: %1$d: number of visible items. %2$d: total number of items.
+#: admin/class-bptodo-admin.php:177
 #, php-format
 msgid "%1$d of %2$d items"
 msgstr "%1$d von %2$d Elementen"
 
-#: admin/class-bptodo-admin.php:168
 #. translators: %1$d: number of visible items after filtering. %2$d: total number of items.
+#: admin/class-bptodo-admin.php:179
 #, php-format
 msgid "Showing %1$d of %2$d items (filtered)"
 msgstr "Zeige %1$d von %2$d Elementen an (gefiltert)"
 
-#: admin/class-bptodo-admin.php:186
+#: admin/class-bptodo-admin.php:195
 msgid "No data available in table"
 msgstr "Keine Daten in der Tabelle verfügbar"
 
-#: admin/class-bptodo-admin.php:187
+#: admin/class-bptodo-admin.php:196
 msgid "First"
 msgstr "Erste"
 
-#: admin/class-bptodo-admin.php:188
+#: admin/class-bptodo-admin.php:197
 msgid "Last"
 msgstr "Letzte"
 
-#: admin/class-bptodo-admin.php:189
+#: admin/class-bptodo-admin.php:198
 #: includes/render/class-bptodo-renderer.php:432
 #: public/todo/bptodo-shortcode-template.php:439
 #: public/todo/bptodo-shortcode-template.php:446
@@ -176,7 +177,7 @@ msgstr "Letzte"
 msgid "Next"
 msgstr "Nächste"
 
-#: admin/class-bptodo-admin.php:190
+#: admin/class-bptodo-admin.php:199
 #: includes/render/class-bptodo-renderer.php:430
 #: public/todo/bptodo-shortcode-template.php:399
 #: public/todo/bptodo-shortcode-template.php:406
@@ -185,23 +186,23 @@ msgstr "Nächste"
 msgid "Previous"
 msgstr "Zurück"
 
-#: admin/class-bptodo-admin.php:191
+#: admin/class-bptodo-admin.php:200
 msgid "Search"
 msgstr "Suche"
 
-#: admin/class-bptodo-admin.php:193
 #. translators: %s: Number of entries selector
+#: admin/class-bptodo-admin.php:202
 #, php-format
 msgid "Show %s entries"
 msgstr "Zeige %s Einträge"
 
-#: admin/class-bptodo-admin.php:195
 #. translators: 1: Start number, 2: End number, 3: Total entries
+#: admin/class-bptodo-admin.php:204
 #, php-format
 msgid "Showing %1$d to %2$d of %3$d entries"
 msgstr "Zeige %1$d bis %2$d von %3$d Einträgen"
 
-#: admin/class-bptodo-admin.php:196
+#: admin/class-bptodo-admin.php:205
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Zeige 0 bis 0 von 0 Einträgen"
 
@@ -278,8 +279,8 @@ msgstr "Keine Todo-Kategorien gefunden"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: admin/class-bptodo-feedback.php:84
 #. translators: Number of years
+#: admin/class-bptodo-feedback.php:84
 #, php-format
 msgid "%s years"
 msgstr "%s Jahre"
@@ -288,8 +289,8 @@ msgstr "%s Jahre"
 msgid "one year"
 msgstr "ein Jahr"
 
-#: admin/class-bptodo-feedback.php:93
 #. translators: Number of weeks
+#: admin/class-bptodo-feedback.php:93
 #, php-format
 msgid "%s weeks"
 msgstr "%s Wochen"
@@ -298,8 +299,8 @@ msgstr "%s Wochen"
 msgid "one week"
 msgstr "eine Woche"
 
-#: admin/class-bptodo-feedback.php:102
 #. translators: Number of days
+#: admin/class-bptodo-feedback.php:102
 #, php-format
 msgid "%s days"
 msgstr "%s Tage"
@@ -308,8 +309,8 @@ msgstr "%s Tage"
 msgid "one day"
 msgstr "ein Tag"
 
-#: admin/class-bptodo-feedback.php:111
 #. translators: Number of hours
+#: admin/class-bptodo-feedback.php:111
 #, php-format
 msgid "%s hours"
 msgstr "%s Stunden"
@@ -318,8 +319,8 @@ msgstr "%s Stunden"
 msgid "one hour"
 msgstr "eine Stunde"
 
-#: admin/class-bptodo-feedback.php:120
 #. translators: Number of minutes
+#: admin/class-bptodo-feedback.php:120
 #, php-format
 msgid "%s minutes"
 msgstr "%s Minuten"
@@ -328,8 +329,8 @@ msgstr "%s Minuten"
 msgid "one minute"
 msgstr "eine Minute"
 
-#: admin/class-bptodo-feedback.php:129
 #. translators: Number of seconds
+#: admin/class-bptodo-feedback.php:129
 #, php-format
 msgid "%s seconds"
 msgstr "%s Sekunden"
@@ -342,12 +343,12 @@ msgstr "eine Sekunde"
 msgid "Are you enjoying Todo for BuddyPress & BuddyBoss?"
 msgstr "Gefällt dir Todo für BuddyPress & BuddyBoss?"
 
-#: admin/class-bptodo-feedback.php:271
 #. translators: 1. Name
+#: admin/class-bptodo-feedback.php:271
 #, php-format
 msgid ""
-"We hope you're enjoying %1$s! Could you please do us a BIG favor and give "
-"it a 5-star rating on WordPress to help us spread the word and boost our "
+"We hope you're enjoying %1$s! Could you please do us a BIG favor and give it "
+"a 5-star rating on WordPress to help us spread the word and boost our "
 "motivation?"
 msgstr ""
 "Wir hoffen, dir gefällt %1$s! Könntest du uns bitte einen großen Gefallen "
@@ -361,6 +362,11 @@ msgstr "Eine Bewertung schreiben"
 #: admin/class-bptodo-feedback.php:276
 msgid "No thanks / I already have"
 msgstr "Nein danke / Ich habe bereits"
+
+#: admin/widget/class-user-todo.php:28
+msgctxt "widget name"
+msgid "Member Todo"
+msgstr "Mitglieder-Aufgabe"
 
 #: admin/widget/class-user-todo.php:29
 msgid "A dynamic list of Todos of displayed member."
@@ -427,8 +433,7 @@ msgstr "Max. anzuzeigende Mitglieder:"
 #: blocks/group-todos/render.php:24
 msgid "Select a group for this block, or place it on a group page."
 msgstr ""
-"Wähle eine Gruppe für diesen Block oder platziere ihn auf einer "
-"Gruppenseite."
+"Wähle eine Gruppe für diesen Block oder platziere ihn auf einer Gruppenseite."
 
 #: blocks/group-todos/render.php:29
 msgid "Please log in to view group todos."
@@ -446,27 +451,27 @@ msgstr "Einstellungen"
 msgid "Support"
 msgstr "Support"
 
-#: bp-user-todo-list.php:382
 #. Translators: %s: plugin name.
+#: bp-user-todo-list.php:382
 #, php-format
 msgid ""
 "%s: personal todo lists are active on this site. Group todos and the member "
 "profile tab are only available on the BuddyPress root blog."
 msgstr ""
-"%s: persönliche Todo-Listen sind auf dieser Website aktiv. Gruppen-Todos "
-"und die Registerkarte des Mitgliederprofils sind nur im "
-"BuddyPress-Root-Blog verfügbar."
+"%s: persönliche Todo-Listen sind auf dieser Website aktiv. Gruppen-Todos und "
+"die Registerkarte des Mitgliederprofils sind nur im BuddyPress-Root-Blog "
+"verfügbar."
 
-#: bp-user-todo-list.php:397
 #. Translators: %s: plugin name.
+#: bp-user-todo-list.php:397
 #, php-format
 msgid ""
 "%s: personal todo lists are active. Install and activate BuddyPress or "
 "BuddyBoss Platform to also enable group todos and the member profile tab."
 msgstr ""
-"%s: Persönliche Todo-Listen sind aktiv. Installiere und aktiviere "
-"BuddyPress oder BuddyBoss Platform, um auch Gruppen-Todos und den "
-"Mitglieds-Profiltab zu aktivieren."
+"%s: Persönliche Todo-Listen sind aktiv. Installiere und aktiviere BuddyPress "
+"oder BuddyBoss Platform, um auch Gruppen-Todos und den Mitglieds-Profiltab "
+"zu aktivieren."
 
 #: bp-user-todo-list.php:578 bp-user-todo-list.php:599
 msgid "Network Deactivate"
@@ -516,13 +521,13 @@ msgid "General"
 msgstr "Allgemein"
 
 #: includes/admin/class-bptodo-admin-panel.php:55
-#: includes/admin/views/overview.php:190
+#: includes/admin/views/overview.php:193
 #: includes/admin/views/settings-group.php:26
 msgid "Group Todo"
 msgstr "Gruppen-Todo"
 
 #: includes/admin/class-bptodo-admin-panel.php:60
-#: includes/admin/views/overview.php:194
+#: includes/admin/views/overview.php:197
 msgid "Data Retention"
 msgstr "Datenspeicherung"
 
@@ -600,19 +605,21 @@ msgstr ""
 "100.000 Themen hinaus."
 
 #: includes/admin/views/discover.php:48
-msgid "A photo and video hub with albums, reactions, following, and private chat."
-msgstr "Ein Foto- und Video-Hub mit Alben, Reaktionen, Verfolgung und privatem Chat."
+msgid ""
+"A photo and video hub with albums, reactions, following, and private chat."
+msgstr ""
+"Ein Foto- und Video-Hub mit Alben, Reaktionen, Folgen-Funktion und privatem "
+"Chat."
 
 #: includes/admin/views/discover.php:55
 msgid "Run community events with RSVPs, calendars, and front-end submissions."
 msgstr ""
-"Veranstalte Community-Events mit RSVPs, Kalendern und "
-"Front-End-Einreichungen."
+"Veranstalte Community-Events mit RSVPs, Kalendern und Front-End-"
+"Einreichungen."
 
 #: includes/admin/views/discover.php:62
 msgid ""
-"Reward members with points, badges, and leaderboards to keep engagement "
-"high."
+"Reward members with points, badges, and leaderboards to keep engagement high."
 msgstr ""
 "Belohne Mitglieder mit Punkten, Abzeichen und Bestenlisten, um das "
 "Engagement hoch zu halten."
@@ -627,8 +634,7 @@ msgstr ""
 
 #: includes/admin/views/discover.php:76
 msgid ""
-"Add a job board with front-end listings, applications, and employer "
-"profiles."
+"Add a job board with front-end listings, applications, and employer profiles."
 msgstr ""
 "Füge ein Jobboard mit Front-End-Angeboten, Bewerbungen und "
 "Arbeitgeberprofilen hinzu."
@@ -646,20 +652,19 @@ msgid ""
 "A free service marketplace with vendor dashboards, an 11-status order flow, "
 "and Stripe or PayPal built in."
 msgstr ""
-"Ein kostenloser Service-Marktplatz mit Verkäufer-Dashboards, einem "
-"11-Status-Bestellfluss und Stripe oder PayPal integriert."
+"Ein kostenloser Service-Marktplatz mit Verkäufer-Dashboards, einem 11-Status-"
+"Bestellfluss und Stripe oder PayPal integriert."
 
 #: includes/admin/views/discover.php:100
 msgid "More Free Tools from Wbcom Designs"
 msgstr "Weitere kostenlose Tools von Wbcom Designs"
 
 #: includes/admin/views/discover.php:101
-#, fuzzy
 msgid ""
-"Todo Lists keeps your members and teams on task. These free tools from "
-"Wbcom Designs give you the rest of the community around it: the theme and "
-"network itself, forums, media, events, gamification, directories, jobs, "
-"courses, and services."
+"Todo Lists keeps your members and teams on task. These free tools from Wbcom "
+"Designs give you the rest of the community around it: the theme and network "
+"itself, forums, media, events, gamification, directories, jobs, courses, and "
+"services."
 msgstr ""
 "Todo Lists hält deine Mitglieder und Teams bei der Sache. Diese kostenlosen "
 "Tools von Wbcom Designs bieten dir die gesamte Community drum herum: das "
@@ -670,14 +675,14 @@ msgstr ""
 msgid "Get it free"
 msgstr "Kostenlos herunterladen"
 
-#: includes/admin/views/discover.php:122
 #. translators: %s: product name.
+#: includes/admin/views/discover.php:122
 #, php-format
 msgid "%s (opens in a new tab)"
 msgstr "%s (öffnet in einem neuen Tab)"
 
-#: includes/admin/views/hub.php:69
 #. translators: %d: active Wbcom plugin count
+#: includes/admin/views/hub.php:69
 #, php-format
 msgid "%d Wbcom plugin active on this site."
 msgid_plural "%d Wbcom plugins active on this site."
@@ -689,10 +694,10 @@ msgid "No Wbcom plugins attached to this hub yet"
 msgstr "Noch keine Wbcom Plugins an diesem Hub angehängt"
 
 #: includes/admin/views/hub.php:91
-msgid "Activate one or more Wbcom plugins and they will appear here automatically."
+msgid ""
+"Activate one or more Wbcom plugins and they will appear here automatically."
 msgstr ""
-"Aktiviere ein oder mehrere Wbcom Plugins und sie erscheinen hier "
-"automatisch."
+"Aktiviere ein oder mehrere Wbcom Plugins und sie erscheinen hier automatisch."
 
 #: includes/admin/views/hub.php:106
 msgid "Open settings"
@@ -717,16 +722,18 @@ msgid "Visit wbcomdesigns.com for more plugins and themes"
 msgstr "Besuche wbcomdesigns.com für weitere Plugins und Themes"
 
 #: includes/admin/views/overview.php:77
+#: includes/admin/views/settings-group.php:107
 msgid "BuddyPress or BuddyBoss is not active."
 msgstr "BuddyPress oder BuddyBoss ist nicht aktiv."
 
 #: includes/admin/views/overview.php:78
+#: includes/admin/views/settings-group.php:109
 msgid ""
 "This plugin needs BuddyPress or BuddyBoss for member and group to-do lists. "
 "Activate one to use all features."
 msgstr ""
-"Dieses Plugin benötigt BuddyPress oder BuddyBoss für Mitglieds- und "
-"Gruppen-To-do-Listen. Aktiviere eines, um alle Funktionen zu nutzen."
+"Dieses Plugin benötigt BuddyPress oder BuddyBoss für Mitglieds- und Gruppen-"
+"To-do-Listen. Aktiviere eines, um alle Funktionen zu nutzen."
 
 #: includes/admin/views/overview.php:85
 msgid "Total Tasks"
@@ -778,12 +785,14 @@ msgid "On: members get a To-do tab on their profile"
 msgstr "Ein: Mitglieder erhalten einen To-do-Tab auf ihrem Profil"
 
 #: includes/admin/views/overview.php:118 includes/admin/views/overview.php:129
-#: includes/admin/views/overview.php:140 includes/admin/views/overview.php:150
-#: includes/admin/views/overview.php:160 includes/admin/views/overview.php:170
+#: includes/admin/views/overview.php:140 includes/admin/views/overview.php:151
+#: includes/admin/views/overview.php:162 includes/admin/views/overview.php:173
 msgid "Off"
 msgstr "Aus"
 
 #: includes/admin/views/overview.php:119 includes/admin/views/overview.php:130
+#: includes/admin/views/overview.php:141 includes/admin/views/overview.php:152
+#: includes/admin/views/overview.php:163
 msgid "Turn on"
 msgstr "Einschalten"
 
@@ -803,43 +812,42 @@ msgstr "Fälligkeitsdatum-Benachrichtigungen"
 msgid "On: members get a reminder when a task is due"
 msgstr "Ein: Mitglieder erhalten eine Erinnerung, wenn eine Aufgabe fällig ist"
 
-#: includes/admin/views/overview.php:145
+#: includes/admin/views/overview.php:146
 msgid "Due-date emails"
 msgstr "Fälligkeitsdatum-E-Mails"
 
-#: includes/admin/views/overview.php:148
+#: includes/admin/views/overview.php:149
 msgid "On: members get an email reminder when a task is due"
 msgstr ""
-"Ein: Mitglieder erhalten eine E-Mail-Erinnerung, wenn eine Aufgabe fällig "
-"ist"
+"Ein: Mitglieder erhalten eine E-Mail-Erinnerung, wenn eine Aufgabe fällig ist"
 
-#: includes/admin/views/overview.php:155
+#: includes/admin/views/overview.php:157
 #: includes/admin/views/settings-general.php:70
 #: includes/admin/views/settings-general.php:73
 msgid "Member-created categories"
 msgstr "Von Mitgliedern erstellte Kategorien"
 
-#: includes/admin/views/overview.php:158
+#: includes/admin/views/overview.php:160
 msgid "On: members can create their own categories"
 msgstr "Ein: Mitglieder können ihre eigenen Kategorien erstellen"
 
-#: includes/admin/views/overview.php:165
+#: includes/admin/views/overview.php:168
 msgid "Auto-cleanup"
 msgstr "Automatische Bereinigung"
 
-#: includes/admin/views/overview.php:168
+#: includes/admin/views/overview.php:171
 msgid "On: old tasks are cleaned up automatically"
 msgstr "Ein: alte Aufgaben werden automatisch bereinigt"
 
-#: includes/admin/views/overview.php:171
+#: includes/admin/views/overview.php:174
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: includes/admin/views/overview.php:180
+#: includes/admin/views/overview.php:183
 msgid "Quick Actions"
 msgstr "Schnellaktionen"
 
-#: includes/admin/views/overview.php:186
+#: includes/admin/views/overview.php:189
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
@@ -886,8 +894,8 @@ msgstr "Rollen, die Aufgaben erstellen dürfen"
 
 #: includes/admin/views/settings-general.php:91
 msgid ""
-"Only members in these roles can create tasks from their profile. Leave "
-"empty to allow every member."
+"Only members in these roles can create tasks from their profile. Leave empty "
+"to allow every member."
 msgstr ""
 "Nur Mitglieder in diesen Rollen können Aufgaben aus ihrem Profil erstellen. "
 "Leer lassen, um es jedem Mitglied zu erlauben."
@@ -918,7 +926,8 @@ msgstr "E-Mail senden"
 
 #: includes/admin/views/settings-general.php:120
 msgid "Sends an email reminder when a task due date arrives."
-msgstr "Sendet eine E-Mail-Erinnerung, wenn ein Aufgaben-Fälligkeitsdatum eintrifft."
+msgstr ""
+"Sendet eine E-Mail-Erinnerung, wenn ein Aufgaben-Fälligkeitsdatum eintrifft."
 
 #: includes/admin/views/settings-general.php:124
 #: includes/admin/views/settings-general.php:127
@@ -965,9 +974,9 @@ msgid ""
 "needed if BuddyPress profile tabs are in use."
 msgstr ""
 "Die Seite, die den \"Meine Todos\"-Block oder den [bptodo_list]-Shortcode "
-"enthält. Wird für Links (wie Erinnerungs-E-Mails) verwendet, wenn "
-"BuddyPress nicht aktiv ist. Nicht erforderlich, wenn BuddyPress-Profiltabs "
-"verwendet werden."
+"enthält. Wird für Links (wie Erinnerungs-E-Mails) verwendet, wenn BuddyPress "
+"nicht aktiv ist. Nicht erforderlich, wenn BuddyPress-Profiltabs verwendet "
+"werden."
 
 #: includes/admin/views/settings-general.php:168
 #: includes/admin/views/settings-group.php:87
@@ -998,7 +1007,8 @@ msgstr "Moderatorberechtigungen"
 
 #: includes/admin/views/settings-group.php:47
 msgid "Control what group moderators can do with the group to-do list."
-msgstr "Steuere, was Gruppenmoderatoren mit der Gruppen-To-do-Liste tun können."
+msgstr ""
+"Steuere, was Gruppenmoderatoren mit der Gruppen-To-do-Liste tun können."
 
 #: includes/admin/views/settings-group.php:51
 #: includes/admin/views/settings-group.php:54
@@ -1016,7 +1026,8 @@ msgstr "Moderatoren können Aufgaben hinzufügen"
 
 #: includes/admin/views/settings-group.php:69
 msgid "Lets group moderators add tasks to the group to-do list."
-msgstr "Erlaubt Gruppenmoderatoren, Aufgaben zur Gruppen-To-do-Liste hinzuzufügen."
+msgstr ""
+"Erlaubt Gruppenmoderatoren, Aufgaben zur Gruppen-To-do-Liste hinzuzufügen."
 
 #: includes/admin/views/settings-group.php:73
 #: includes/admin/views/settings-group.php:76
@@ -1025,21 +1036,27 @@ msgstr "Moderatoren können Bericht anzeigen"
 
 #: includes/admin/views/settings-group.php:80
 msgid "Lets group moderators view the group to-do list report."
-msgstr "Erlaubt Gruppenmoderatoren, den Gruppen-To-do-Listen-Bericht anzusehen."
+msgstr ""
+"Erlaubt Gruppenmoderatoren, den Gruppen-To-do-Listen-Bericht anzusehen."
 
-#: includes/admin/views/settings-group.php:96
+#: includes/admin/views/settings-group.php:98
 msgid "The Groups component is not active"
 msgstr "Die Gruppen-Komponente ist nicht aktiv"
 
-#: includes/admin/views/settings-group.php:98
-msgid "Enable the BuddyPress Groups component to add to-do lists to your groups."
+#: includes/admin/views/settings-group.php:100
+msgid ""
+"Enable the BuddyPress Groups component to add to-do lists to your groups."
 msgstr ""
 "Aktiviere die BuddyPress-Gruppen-Komponente, um To-do-Listen zu deinen "
 "Gruppen hinzuzufügen."
 
-#: includes/admin/views/settings-group.php:101
+#: includes/admin/views/settings-group.php:103
 msgid "Enable Groups component"
 msgstr "Gruppen-Komponente aktivieren"
+
+#: includes/admin/views/settings-group.php:113
+msgid "Go to Plugins"
+msgstr "Zu den Plugins"
 
 #: includes/admin/views/settings-retention.php:42
 msgid "Auto-Cleanup"
@@ -1047,8 +1064,8 @@ msgstr "Automatische Bereinigung"
 
 #: includes/admin/views/settings-retention.php:43
 msgid ""
-"Automatically remove old tasks to keep your database lean. Cleanup runs "
-"once a day."
+"Automatically remove old tasks to keep your database lean. Cleanup runs once "
+"a day."
 msgstr ""
 "Entferne alte Aufgaben automatisch, um deine Datenbank schlank zu halten. "
 "Die Bereinigung läuft einmal täglich."
@@ -1148,8 +1165,8 @@ msgstr ""
 msgid "Cleanup schedule"
 msgstr "Bereinigungszeitplan"
 
-#: includes/admin/views/settings-retention.php:152
 #. translators: %s: next scheduled cleanup date and time
+#: includes/admin/views/settings-retention.php:152
 #, php-format
 msgid "The cleanup runs once a day. Next run: %s."
 msgstr "Die Bereinigung läuft einmal täglich. Nächste Ausführung: %s."
@@ -1168,21 +1185,21 @@ msgstr "Platziere eine To-do-Liste auf einer beliebigen Seite"
 
 #: includes/admin/views/settings-shortcodes.php:23
 msgid ""
-"This plugin works on any WordPress site, with or without BuddyPress. To "
-"show a personal to-do list on a page, add the \"My Todos\" block in the "
-"block editor, or use the [bptodo_list] shortcode below. When BuddyPress or "
-"BuddyBoss is active it also adds a To-do tab on member profiles and group "
-"to-dos - no block or shortcode needed for those."
+"This plugin works on any WordPress site, with or without BuddyPress. To show "
+"a personal to-do list on a page, add the \"My Todos\" block in the block "
+"editor, or use the [bptodo_list] shortcode below. When BuddyPress or "
+"BuddyBoss is active it also adds a To-do tab on member profiles and group to-"
+"dos - no block or shortcode needed for those."
 msgstr ""
 "Dieses Plugin funktioniert auf jeder WordPress-Site, mit oder ohne "
-"BuddyPress. Um eine persönliche To-do-Liste auf einer Seite anzuzeigen, "
-"füge den \"Meine Todos\"-Block im Block-Editor hinzu oder verwende den "
+"BuddyPress. Um eine persönliche To-do-Liste auf einer Seite anzuzeigen, füge "
+"den \"Meine Todos\"-Block im Block-Editor hinzu oder verwende den "
 "[bptodo_list]-Shortcode unten. Wenn BuddyPress oder BuddyBoss aktiv ist, "
 "fügt es auch einen To-do-Tab auf Mitgliederprofilen und Gruppen-Todos hinzu "
 "- keine Block- oder Shortcode-Notwendigkeit dafür."
 
-#: includes/admin/views/settings-shortcodes.php:34
 #. translators: %s: plural label (e.g. "Todos")
+#: includes/admin/views/settings-shortcodes.php:34
 #, php-format
 msgid "Display a list of %s with filtering and pagination."
 msgstr "Zeige eine Liste von %s mit Filterung und Paginierung an."
@@ -1219,7 +1236,8 @@ msgstr "Nach Status filtern: \"all\", \"complete\" oder \"incomplete\"."
 
 #: includes/admin/views/settings-shortcodes.php:66
 msgid "Filter by priority: \"all\", \"critical\", \"high\", or \"normal\"."
-msgstr "Nach Priorität filtern: \"all\", \"critical\", \"high\" oder \"normal\"."
+msgstr ""
+"Nach Priorität filtern: \"all\", \"critical\", \"high\" oder \"normal\"."
 
 #: includes/admin/views/settings-shortcodes.php:71
 msgid "Number of items per page."
@@ -1270,8 +1288,8 @@ msgstr ""
 "Kurzform für [bptodo_list category=\"...\"]. Rendert die gleiche moderne "
 "Liste, gefiltert auf eine Kategorie."
 
-#: includes/admin/views/settings-shortcodes.php:117
 #. translators: %s: plural label (e.g. "Todos")
+#: includes/admin/views/settings-shortcodes.php:117
 #, php-format
 msgid "Display %s filtered by a specific category ID."
 msgstr "Zeige %s gefiltert nach einer bestimmten Kategorie-ID an."
@@ -1320,12 +1338,27 @@ msgstr "Modal schließen"
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
 
+#: includes/bptodo-functions.php:630
+msgctxt "confirmation dialog heading"
+msgid "Confirm"
+msgstr "Bestätigen"
+
 #: includes/bptodo-functions.php:631
 msgid "Are you sure?"
 msgstr "Bist du dir sicher?"
 
-#: includes/class-bptodo-data-retention.php:296
+#: includes/bptodo-functions.php:632
+msgctxt "confirmation dialog accept button"
+msgid "Confirm"
+msgstr "Bestätigen"
+
+#: includes/bptodo-functions.php:633
+msgctxt "confirmation dialog dismiss button"
+msgid "Cancel"
+msgstr "Abbrechen"
+
 #. translators: %s: site name
+#: includes/class-bptodo-data-retention.php:296
 #, php-format
 msgid "[%s] Todo List Cleanup Summary"
 msgstr "[%s] Todo-Listen-Bereinigungszusammenfassung"
@@ -1338,8 +1371,8 @@ msgstr "Ausstehende Aufgaben"
 msgid "All Tasks"
 msgstr "Alle Aufgaben"
 
-#: includes/class-bptodo-data-retention.php:312
 #. translators: %1$s: site name, %2$s: date and time
+#: includes/class-bptodo-data-retention.php:312
 #, php-format
 msgid "Automatic cleanup ran on %1$s at %2$s"
 msgstr "Automatische Bereinigung lief auf %1$s um %2$s"
@@ -1348,31 +1381,31 @@ msgstr "Automatische Bereinigung lief auf %1$s um %2$s"
 msgid "Cleanup Summary:"
 msgstr "Bereinigungszusammenfassung:"
 
-#: includes/class-bptodo-data-retention.php:320
 #. translators: %s: cleanup type (all, group, personal)
+#: includes/class-bptodo-data-retention.php:320
 #, php-format
 msgid "Cleanup Type: %s"
 msgstr "Bereinigungstyp: %s"
 
-#: includes/class-bptodo-data-retention.php:322
 #. translators: %d: number of days
+#: includes/class-bptodo-data-retention.php:322
 #, php-format
 msgid "Retention Period: %d days"
 msgstr "Aufbewahrungszeitraum: %d Tage"
 
-#: includes/class-bptodo-data-retention.php:324
 #. translators: %s: delete method (Permanent or Moved to Trash)
+#: includes/class-bptodo-data-retention.php:324
 #, php-format
 msgid "Delete Method: %s"
 msgstr "Löschmethode: %s"
 
-#: includes/class-bptodo-data-retention.php:324
 #. translators: %s: delete method (Permanent or Moved to Trash)
+#: includes/class-bptodo-data-retention.php:324
 msgid "Permanent"
 msgstr "Dauerhaft"
 
-#: includes/class-bptodo-data-retention.php:324
 #. translators: %s: delete method (Permanent or Moved to Trash)
+#: includes/class-bptodo-data-retention.php:324
 msgid "Moved to Trash"
 msgstr "In Papierkorb verschoben"
 
@@ -1380,53 +1413,56 @@ msgstr "In Papierkorb verschoben"
 msgid "Tasks Deleted:"
 msgstr "Aufgaben gelöscht:"
 
-#: includes/class-bptodo-data-retention.php:328
 #. translators: %d: number of group tasks deleted
+#: includes/class-bptodo-data-retention.php:328
 #, php-format
 msgid "- Group Tasks: %d"
 msgstr "- Gruppenaufgaben: %d"
 
-#: includes/class-bptodo-data-retention.php:330
 #. translators: %d: number of personal tasks deleted
+#: includes/class-bptodo-data-retention.php:330
 #, php-format
 msgid "- Personal Tasks: %d"
 msgstr "- Persönliche Aufgaben: %d"
 
-#: includes/class-bptodo-data-retention.php:332
 #. translators: %d: total number of tasks deleted
+#: includes/class-bptodo-data-retention.php:332
 #, php-format
 msgid "- Total: %d"
 msgstr "- Gesamt: %d"
 
 #: includes/class-bptodo-data-retention.php:335
-msgid "Note: Tasks have been moved to trash and can be recovered within 30 days."
+msgid ""
+"Note: Tasks have been moved to trash and can be recovered within 30 days."
 msgstr ""
 "Hinweis: Aufgaben wurden in den Papierkorb verschoben und können innerhalb "
 "von 30 Tagen wiederhergestellt werden."
 
-#: includes/class-bptodo-data-retention.php:340
 #. translators: %s: settings page URL
+#: includes/class-bptodo-data-retention.php:340
 #, php-format
 msgid "Manage retention settings: %s"
 msgstr "Verwalte Aufbewahrungseinstellungen: %s"
 
+#. translators: Email type description in admin
 #: includes/class-bptodo-emails.php:46 includes/class-bptodo-emails.php:142
-#. translators: Email type description in admin
 msgid "A user receives this email when their todo item is due today."
-msgstr "Ein Benutzer erhält diese E-Mail, wenn sein Todo-Element heute fällig ist."
+msgstr ""
+"Ein Benutzer erhält diese E-Mail, wenn sein Todo-Element heute fällig ist."
 
-#: includes/class-bptodo-emails.php:54 includes/class-bptodo-emails.php:150
 #. translators: Email type description in admin
+#: includes/class-bptodo-emails.php:54 includes/class-bptodo-emails.php:150
 msgid "A user receives this email when a todo item is assigned to them."
-msgstr "Ein Benutzer erhält diese E-Mail, wenn ihm ein Todo-Element zugewiesen wird."
+msgstr ""
+"Ein Benutzer erhält diese E-Mail, wenn ihm ein Todo-Element zugewiesen wird."
 
-#: includes/class-bptodo-emails.php:114 includes/class-bptodo-emails.php:196
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:114 includes/class-bptodo-emails.php:196
 msgid "[{{{site.name}}}] {{{bptodo.Label}}} Due Date Reminder"
 msgstr "[{{{site.name}}}] {{{bptodo.Label}}} Fälligkeitsdatum-Erinnerung"
 
-#: includes/class-bptodo-emails.php:116 includes/class-bptodo-emails.php:197
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:116 includes/class-bptodo-emails.php:197
 msgid ""
 "Hi {{{recipient.name}}},\n"
 "\n"
@@ -1441,8 +1477,8 @@ msgid ""
 msgstr ""
 "Hallo {{{recipient.name}}},\n"
 "\n"
-"Dies ist eine Erinnerung, dass dein {{{bptodo.label}}} "
-"\"{{{bptodo.title}}}\" heute fällig ist.\n"
+"Dies ist eine Erinnerung, dass dein {{{bptodo.label}}} \"{{{bptodo.title}}}"
+"\" heute fällig ist.\n"
 "\n"
 "Bitte erledige es so schnell wie möglich, um auf dem richtigen Weg zu "
 "bleiben.\n"
@@ -1451,22 +1487,22 @@ msgstr ""
 "\n"
 "Danke!"
 
-#: includes/class-bptodo-emails.php:118 includes/class-bptodo-emails.php:206
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:118 includes/class-bptodo-emails.php:206
 msgid ""
-"Your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today. Please "
-"complete it as soon as possible."
+"Your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today. Please complete "
+"it as soon as possible."
 msgstr ""
 "Dein {{{bptodo.label}}} \"{{{bptodo.title}}}\" ist heute fällig. Bitte "
 "erledige es so schnell wie möglich."
 
-#: includes/class-bptodo-emails.php:123 includes/class-bptodo-emails.php:273
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:123 includes/class-bptodo-emails.php:273
 msgid "[{{{site.name}}}] New {{{bptodo.Label}}} Assigned to You"
 msgstr "[{{{site.name}}}] Neuer {{{bptodo.Label}}} an dich zugewiesen"
 
-#: includes/class-bptodo-emails.php:125 includes/class-bptodo-emails.php:274
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:125 includes/class-bptodo-emails.php:274
 msgid ""
 "Hi {{{recipient.name}}},\n"
 "\n"
@@ -1490,8 +1526,8 @@ msgstr ""
 "\n"
 "Danke!"
 
-#: includes/class-bptodo-emails.php:127 includes/class-bptodo-emails.php:283
 #. translators: do not remove {} brackets or translate its contents.
+#: includes/class-bptodo-emails.php:127 includes/class-bptodo-emails.php:283
 msgid ""
 "{{{poster.name}}} has assigned a {{{bptodo.label}}} to you: "
 "\"{{{bptodo.title}}}\""
@@ -1501,11 +1537,13 @@ msgstr ""
 
 #: includes/class-bptodo-emails.php:145
 msgid "You will no longer receive emails for todo due date reminders."
-msgstr "Du wirst keine E-Mails mehr für Todo-Fälligkeitsdatum-Erinnerungen erhalten."
+msgstr ""
+"Du wirst keine E-Mails mehr für Todo-Fälligkeitsdatum-Erinnerungen erhalten."
 
 #: includes/class-bptodo-emails.php:153
 msgid "You will no longer receive emails when todos are assigned to you."
-msgstr "Du wirst keine E-Mails mehr erhalten, wenn dir Todos zugewiesen werden."
+msgstr ""
+"Du wirst keine E-Mails mehr erhalten, wenn dir Todos zugewiesen werden."
 
 #: includes/class-bptodo-emails.php:228 includes/class-bptodo-emails.php:305
 msgid "The title of the todo item."
@@ -1516,7 +1554,8 @@ msgid "URL to view the todo item."
 msgstr "URL zum Anzeigen des Todo-Elements."
 
 #: includes/class-bptodo-emails.php:230 includes/class-bptodo-emails.php:307
-msgid "The custom label for todo items (singular, lowercase) - use in body text."
+msgid ""
+"The custom label for todo items (singular, lowercase) - use in body text."
 msgstr ""
 "Die benutzerdefinierte Bezeichnung für Todo-Elemente (Singular, "
 "Kleinbuchstaben) - verwende im Bodystext."
@@ -1568,6 +1607,7 @@ msgstr "Todo nicht gefunden."
 msgid "Completed!"
 msgstr "Erledigt!"
 
+#. translators: %d: number of days a task is overdue.
 #: includes/domain/class-bptodo-todo.php:166
 #, php-format
 msgid "Overdue by %d day"
@@ -1581,6 +1621,7 @@ msgstr[1] "Überfällig um %d Tage"
 msgid "Due today"
 msgstr "Heute fällig"
 
+#. translators: %d: number of days left to complete a task.
 #: includes/domain/class-bptodo-todo.php:178
 #, php-format
 msgid "%d day left"
@@ -1620,8 +1661,23 @@ msgstr "Bitte stelle ein Fälligkeitsdatum ein."
 msgid "You do not have access to this group's todos."
 msgstr "Du hast keinen Zugriff auf die Todos dieser Gruppe."
 
-#: includes/render/class-bptodo-renderer.php:346
+#: includes/render/class-bptodo-renderer.php:329
+msgctxt "todo count stat label"
+msgid "total"
+msgstr "insgesamt"
+
+#: includes/render/class-bptodo-renderer.php:330
+msgctxt "todo count stat label"
+msgid "pending"
+msgstr "ausstehend"
+
+#: includes/render/class-bptodo-renderer.php:331
+msgctxt "todo count stat label"
+msgid "done"
+msgstr "erledigt"
+
 #. translators: %s: singular todo label, lowercased.
+#: includes/render/class-bptodo-renderer.php:346
 #, php-format
 msgid "Add a %s and press Enter…"
 msgstr "Füge einen %s hinzu und drücke Enter…"
@@ -1639,8 +1695,8 @@ msgstr "Neuer Aufgabentitel"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: includes/render/class-bptodo-renderer.php:354
 #. translators: %s: singular todo label, lowercased.
+#: includes/render/class-bptodo-renderer.php:354
 #, php-format
 msgid "A due date is required. Use the Add %s form to set one."
 msgstr ""
@@ -1769,8 +1825,8 @@ msgstr "Fälligkeitsdatum bearbeiten"
 msgid "Save"
 msgstr "Speichern"
 
-#: includes/render/class-bptodo-renderer.php:426
 #. translators: %s: singular todo label, lowercased.
+#: includes/render/class-bptodo-renderer.php:426
 #, php-format
 msgid "Nothing here yet. Add your first %s above."
 msgstr "Hier ist noch nichts. Füge oben deinen ersten %s hinzu."
@@ -1837,10 +1893,9 @@ msgstr "Mitgliedern zuweisen"
 msgid "Leave all unchecked to assign to everyone in the group."
 msgstr "Lasse alle unbeansprucht, um alle in der Gruppe zuzuweisen."
 
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: includes/render/class-bptodo-renderer.php:576
 #: public/todo/member/member-todo-add.php:125
-#. translators: %s: singular todo label.
-#. translators: %s: Todo label
 #, php-format
 msgid "Create %s"
 msgstr "Erstelle %s"
@@ -1887,10 +1942,9 @@ msgstr "Status"
 msgid "ID"
 msgstr "ID"
 
+#. translators: %d: number of days since the due date passed.
 #: public/class-bptodo-public.php:311 public/class-bptodo-public.php:1010
 #: public/todo/bptodo-by-category-template.php:77
-#. translators: %d: number of days since the due date passed.
-#. translators: Number of expiry days
 #, php-format
 msgid "Expired %d days ago!"
 msgstr "Vor %d Tagen abgelaufen!"
@@ -1900,9 +1954,8 @@ msgstr "Vor %d Tagen abgelaufen!"
 msgid "Today is the last day to complete. Hurry Up!"
 msgstr "Heute ist der letzte Tag zum Erledigen. Beeile dich!"
 
-#: public/class-bptodo-public.php:316 public/class-bptodo-public.php:1018
 #. translators: %d: number of days remaining until the due date.
-#. translators: Number of left days
+#: public/class-bptodo-public.php:316 public/class-bptodo-public.php:1018
 #, php-format
 msgid "%d days left to complete the task!"
 msgstr "%d Tage verbleibend zum Erledigen der Aufgabe!"
@@ -1911,20 +1964,21 @@ msgstr "%d Tage verbleibend zum Erledigen der Aufgabe!"
 msgid "Every 6 hours"
 msgstr "Alle 6 Stunden"
 
-#: public/class-bptodo-public.php:379
 #. Translators: 1) Get a Plural Label Name 2) Display the To do title name
+#: public/class-bptodo-public.php:379
 #, php-format
 msgid "%1$s due date arrived for task: %2$s"
 msgstr "%1$s Fälligkeitsdatum für Aufgabe angekommen: %2$s"
 
-#: public/class-bptodo-public.php:382
 #. Translators: 1) Get a Plural Label Name 2) Display the To do title name
+#: public/class-bptodo-public.php:382
 #, php-format
 msgid "Your %1$s: %2$s is due today. Please complete it as soon as possible."
-msgstr "Dein %1$s: %2$s ist heute fällig. Bitte erledige es so schnell wie möglich."
+msgstr ""
+"Dein %1$s: %2$s ist heute fällig. Bitte erledige es so schnell wie möglich."
 
-#: public/class-bptodo-public.php:413
 #. translators: 1: todo title, 2: group name, 3: author name
+#: public/class-bptodo-public.php:413
 #, php-format
 msgid "%1$s todo added in group %2$s by %3$s."
 msgstr "%1$s Todo in Gruppe %2$s von %3$s hinzugefügt."
@@ -1944,11 +1998,10 @@ msgstr "Du musst angemeldet sein, um Todos hinzuzufügen."
 #: public/class-bptodo-public.php:697 public/todo/group/add.php:38
 msgid "You must be a group administrator or moderator to add todos."
 msgstr ""
-"Du musst ein Gruppenadministrator oder Moderator sein, um Todos "
-"hinzuzufügen."
+"Du musst ein Gruppenadministrator oder Moderator sein, um Todos hinzuzufügen."
 
-#: public/class-bptodo-public.php:746
 #. Translators: Display label name
+#: public/class-bptodo-public.php:746
 #, php-format
 msgid "Group %1$s assigned successfully!"
 msgstr "Gruppe %1$s erfolgreich zugewiesen!"
@@ -1963,22 +2016,23 @@ msgstr ""
 msgid "You do not have permission to create todos."
 msgstr "Du hast keine Berechtigung, Todos zu erstellen."
 
-#: public/class-bptodo-public.php:814
 #. Translators: Display label name
+#: public/class-bptodo-public.php:814
 #, php-format
 msgid "%1$s added successfully!"
 msgstr "%1$s erfolgreich hinzugefügt!"
 
 #: public/class-bptodo-public.php:819
 msgid "There was a problem creating your todo. Please try again."
-msgstr "Es gab ein Problem beim Erstellen deines Todos. Bitte versuche es erneut."
+msgstr ""
+"Es gab ein Problem beim Erstellen deines Todos. Bitte versuche es erneut."
 
 #: public/class-bptodo-public.php:843
 msgid "You do not have permission to edit this todo."
 msgstr "Du hast keine Berechtigung, dieses Todo zu bearbeiten."
 
-#: public/class-bptodo-public.php:869
 #. translators: %s: Todo label
+#: public/class-bptodo-public.php:869
 #, php-format
 msgid "%1$s updated successfully!"
 msgstr "%1$s erfolgreich aktualisiert!"
@@ -1986,17 +2040,16 @@ msgstr "%1$s erfolgreich aktualisiert!"
 #: public/class-bptodo-public.php:874
 msgid "There was a problem updating your todo. Please try again."
 msgstr ""
-"Es gab ein Problem beim Aktualisieren deines Todos. Bitte versuche es "
-"erneut."
+"Es gab ein Problem beim Aktualisieren deines Todos. Bitte versuche es erneut."
 
-#: public/class-bptodo-public.php:911
 #. Translators: 1) Get a Plural Label Name 2) Get a to to title
+#: public/class-bptodo-public.php:911
 #, php-format
 msgid "Edit %1$s : %2$s"
 msgstr "Bearbeite %1$s : %2$s"
 
-#: public/class-bptodo-public.php:914
 #. Translators: Get a Singular Label Name
+#: public/class-bptodo-public.php:914
 #, php-format
 msgid "Add a new %1$s in your list"
 msgstr "Füge einen neuen %1$s zu deiner Liste hinzu"
@@ -2006,40 +2059,36 @@ msgstr "Füge einen neuen %1$s zu deiner Liste hinzu"
 msgid "Unauthorized"
 msgstr "Nicht autorisiert"
 
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1046
 #: public/todo/bptodo-by-category-template.php:101
-#. translators: %s:
-#. translators: %s
 #, php-format
 msgid "Remove: %s"
 msgstr "Entfernen: %s"
 
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1049
 #: public/todo/bptodo-by-category-template.php:104
-#. translators: %s:
-#. translators: %s
 #, php-format
 msgid "Edit: %s"
 msgstr "Bearbeiten: %s"
 
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1050
 #: public/todo/bptodo-by-category-template.php:106
-#. translators: %s: the task title.
-#. translators: %s
 #, php-format
 msgid "Complete: %s"
 msgstr "Erledigen: %s"
 
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1052
 #: public/todo/bptodo-by-category-template.php:109
-#. translators: %s:
-#. translators: %s
 #, php-format
 msgid "Undo Complete: %s"
-msgstr "Rückgängig machen Erledigen: %s"
+msgstr "Erledigt rückgängig machen: %s"
 
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1054
-#. translators: %s:
 #, php-format
 msgid "View: %s"
 msgstr "Ansicht: %s"
@@ -2050,15 +2099,16 @@ msgstr "To Do Mail"
 
 #: public/class-bptodo-public.php:1312
 msgid "Get email alerts when task due dates are near."
-msgstr "Erhalte E-Mail-Benachrichtigungen, wenn Aufgabenfälligkeitsdaten nahekommen."
+msgstr ""
+"Erhalte E-Mail-Benachrichtigungen, wenn Aufgabenfälligkeitsdaten nahekommen."
 
-#: public/class-bptodo-public.php:1318
 #. translators: accessibility text
+#: public/class-bptodo-public.php:1318
 msgid "Yes, send email"
 msgstr "Ja, sende eine E-Mail"
 
-#: public/class-bptodo-public.php:1324
 #. translators: accessibility text
+#: public/class-bptodo-public.php:1324
 msgid "No, do not send email"
 msgstr "Nein, sende keine E-Mail"
 
@@ -2070,8 +2120,8 @@ msgstr "Todos-Tab deaktivieren?"
 msgid "Please log in to view todos."
 msgstr "Bitte melde dich an, um Todos anzusehen."
 
-#: public/class-bptodo-public.php:1668
 #. translators: %s: human-readable time difference, e.g. "2 hours".
+#: public/class-bptodo-public.php:1668
 #, php-format
 msgid "%s ago"
 msgstr "vor %s"
@@ -2092,8 +2142,8 @@ msgstr "Du musst angemeldet sein, um die Todo-Elemente anzusehen."
 msgid "Sr. No."
 msgstr "Sr. Nr."
 
-#: public/todo/bptodo-by-category-template.php:52
 #. translators: %s: the configured todo label (singular), e.g. "Task".
+#: public/todo/bptodo-by-category-template.php:52
 #, php-format
 msgid "%s Description"
 msgstr "%s Beschreibung"
@@ -2102,14 +2152,34 @@ msgstr "%s Beschreibung"
 msgid "Mark Complete"
 msgstr "Als erledigt markieren"
 
-#: public/todo/bptodo-by-category-template.php:85
 #. translators: 1: number of days, 2: todo label (singular, lowercase)
+#: public/todo/bptodo-by-category-template.php:85
 #, php-format
 msgid "%1$d days left to complete the %2$s!"
 msgstr "%1$d Tage verbleibend zum Erledigen des %2$s!"
 
-#: public/todo/bptodo-by-category-template.php:236
+#: public/todo/bptodo-by-category-template.php:216
+msgctxt "due-date section heading"
+msgid "Past"
+msgstr "Vergangenheit"
+
+#: public/todo/bptodo-by-category-template.php:217
+msgctxt "due-date section heading"
+msgid "Today"
+msgstr "Heute"
+
+#: public/todo/bptodo-by-category-template.php:218
+msgctxt "due-date section heading"
+msgid "Tomorrow"
+msgstr "Morgen"
+
+#: public/todo/bptodo-by-category-template.php:219
+msgctxt "due-date section heading"
+msgid "Future"
+msgstr "Zukunft"
+
 #. Translators: 1) Profile Menu Plural Label
+#: public/todo/bptodo-by-category-template.php:236
 #, php-format
 msgid "There are no %s in this category."
 msgstr "Es gibt keine %s in dieser Kategorie."
@@ -2163,8 +2233,8 @@ msgstr "Alle Kategorien"
 msgid "Clear"
 msgstr "Löschen"
 
-#: public/todo/bptodo-shortcode-template.php:228
 #. translators: 1: current page, 2: total pages, 3: total items
+#: public/todo/bptodo-shortcode-template.php:228
 #, php-format
 msgid "Page %1$d of %2$d (%3$d items)"
 msgstr "Seite %1$d von %2$d (%3$d Elemente)"
@@ -2173,8 +2243,8 @@ msgstr "Seite %1$d von %2$d (%3$d Elemente)"
 msgid "Todo items"
 msgstr "Aufgaben-Elemente"
 
-#: public/todo/bptodo-shortcode-template.php:270
 #. translators: %d: number of days
+#: public/todo/bptodo-shortcode-template.php:270
 #, php-format
 msgid "%d days overdue"
 msgstr "%d Tage überfällig"
@@ -2184,8 +2254,8 @@ msgstr "%d Tage überfällig"
 msgid "Due tomorrow"
 msgstr "Fällig morgen"
 
-#: public/todo/bptodo-shortcode-template.php:280
 #. translators: %d: number of days
+#: public/todo/bptodo-shortcode-template.php:280
 #, php-format
 msgid "Due in %d days"
 msgstr "Fällig in %d Tagen"
@@ -2209,8 +2279,8 @@ msgstr "Aufgabe löschen"
 msgid "Todo list pagination"
 msgstr "Paginierung der Aufgabenliste"
 
-#: public/todo/bptodo-shortcode-template.php:467
 #. translators: %s: todo label plural
+#: public/todo/bptodo-shortcode-template.php:467
 #, php-format
 msgid "No %s Found"
 msgstr "Keine %s gefunden"
@@ -2219,14 +2289,14 @@ msgstr "Keine %s gefunden"
 msgid "Try adjusting your filters to see more results."
 msgstr "Passe deine Filter an, um mehr Ergebnisse zu sehen."
 
-#: public/todo/bptodo-shortcode-template.php:479
 #. translators: %s: todo label plural
+#: public/todo/bptodo-shortcode-template.php:479
 #, php-format
 msgid "There are no %s to display."
 msgstr "Es gibt keine %s anzuzeigen."
 
-#: public/todo/group/add.php:113
 #. translators: %s: Todo label
+#: public/todo/group/add.php:113
 #, php-format
 msgid "Add Group %s"
 msgstr "Gruppe %s hinzufügen"
@@ -2235,8 +2305,8 @@ msgstr "Gruppe %s hinzufügen"
 msgid "Back to List"
 msgstr "Zurück zur Liste"
 
-#: public/todo/group/add.php:185
 #. translators: %s: Todo label
+#: public/todo/group/add.php:185
 #, php-format
 msgid "Assign %s"
 msgstr "%s zuweisen"
@@ -2259,16 +2329,14 @@ msgstr "Du musst ein Gruppenmitglied sein, um Aufgaben zu bearbeiten."
 msgid "--Select--"
 msgstr "--Auswählen--"
 
+#. translators: %1$s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:151 public/todo/member/member-todo-edit.php:74
-#. Translators: Display the plural label name
-#. translators: %1$s
 #, php-format
 msgid "New %1$s category name"
 msgstr "Neuer Name der %1$s-Kategorie"
 
+#. translators: %1$s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:151 public/todo/member/member-todo-edit.php:74
-#. Translators: Display the plural label name
-#. translators: %1$s
 #, php-format
 msgid "%1$s category"
 msgstr "%1$s-Kategorie"
@@ -2277,15 +2345,14 @@ msgstr "%1$s-Kategorie"
 msgid "Summary"
 msgstr "Zusammenfassung"
 
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:217 public/todo/member/member-todo-edit.php:132
-#. Translators: Display the plural label name
-#. translators: %s
 #, php-format
 msgid "Update %s"
 msgstr "%s aktualisieren"
 
-#: public/todo/group/list.php:143
 #. translators: %s: Todo label
+#: public/todo/group/list.php:143
 #, php-format
 msgid "Group %s"
 msgstr "Gruppe %s"
@@ -2306,8 +2373,8 @@ msgstr "Alle Prioritäten"
 msgid "Clear all filters"
 msgstr "Alle Filter löschen"
 
-#: public/todo/group/list.php:295 public/todo/member/member-todo-list.php:259
 #. translators: 1: First item on page, 2: Last item on page, 3: Total todos
+#: public/todo/group/list.php:295 public/todo/member/member-todo-list.php:259
 #, php-format
 msgid "Showing %1$d-%2$d of %3$d todos"
 msgstr "Zeige %1$d-%2$d von %3$d Aufgaben"
@@ -2316,8 +2383,8 @@ msgstr "Zeige %1$d-%2$d von %3$d Aufgaben"
 msgid "No todos match your search criteria."
 msgstr "Keine Aufgaben entsprechen deinen Suchkriterien."
 
-#: public/todo/group/list.php:330 public/todo/member/member-todo-list.php:294
 #. translators: %s: Todo label
+#: public/todo/group/list.php:330 public/todo/member/member-todo-list.php:294
 #, php-format
 msgid "All %s"
 msgstr "Alle %s"
@@ -2348,8 +2415,8 @@ msgstr "Fortschritt anzeigen für:"
 msgid "Overall Progress (All Tasks)"
 msgstr "Gesamtfortschritt (alle Aufgaben)"
 
-#: public/todo/group/overview.php:214
 #. translators: %s: the task title.
+#: public/todo/group/overview.php:214
 #, php-format
 msgid "Task Progress: %s"
 msgstr "Aufgabenfortschritt: %s"
@@ -2358,16 +2425,16 @@ msgstr "Aufgabenfortschritt: %s"
 msgid "Group Task Progress"
 msgstr "Gruppenaufgaben-Fortschritt"
 
-#: public/todo/group/overview.php:239
 #. translators: %1$d: number of members who completed the task. %2$d: total members assigned the task.
+#: public/todo/group/overview.php:239
 #, php-format
 msgid "%1$d of %2$d member completed"
 msgid_plural "%1$d of %2$d members completed"
 msgstr[0] "%1$d von %2$d Mitglied abgeschlossen"
 msgstr[1] "%1$d von %2$d Mitglieder abgeschlossen"
 
-#: public/todo/group/overview.php:251
 #. translators: %1$d: number of completed tasks. %2$d: total number of tasks.
+#: public/todo/group/overview.php:251
 #, php-format
 msgid "%1$d of %2$d task completed"
 msgid_plural "%1$d of %2$d tasks completed"
@@ -2387,8 +2454,8 @@ msgstr "Alle"
 msgid "All Complete"
 msgstr "Alle abgeschlossen"
 
-#: public/todo/group/overview.php:339
 #. translators: %1$d: tasks this member completed. %2$d: tasks assigned to them. %3$d: completion percentage.
+#: public/todo/group/overview.php:339
 #, php-format
 msgid "%1$d / %2$d tasks (%3$d%%)"
 msgstr "%1$d / %2$d Aufgaben (%3$d%%)"
@@ -2397,8 +2464,8 @@ msgstr "%1$d / %2$d Aufgaben (%3$d%%)"
 msgid "No members with assigned tasks found."
 msgstr "Keine Mitglieder mit zugewiesenen Aufgaben gefunden."
 
-#: public/todo/group/overview.php:368
 #. translators: %1$d: first member shown on this page. %2$d: last member shown. %3$d: total number of members.
+#: public/todo/group/overview.php:368
 #, php-format
 msgid "Showing %1$d-%2$d of %3$d members"
 msgstr "Zeige %1$d-%2$d von %3$d Mitgliedern"
@@ -2429,8 +2496,8 @@ msgstr "Mitglieder"
 msgid "Complete Time"
 msgstr "Abschlusszeit"
 
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: public/todo/member/member-todo-add.php:54
-#. translators: %s: Todo label
 #, php-format
 msgid "Add New %s"
 msgstr "Neue %s hinzufügen"
@@ -2447,8 +2514,8 @@ msgstr "Bitte gib einen Titel ein"
 msgid "Creating..."
 msgstr "Wird erstellt..."
 
-#: public/todo/member/member-todo-list.php:112
 #. translators: %s: Todo label
+#: public/todo/member/member-todo-list.php:112
 #, php-format
 msgid "My %s"
 msgstr "Meine %s"
@@ -2536,14 +2603,14 @@ msgstr "-- Kategorie auswählen --"
 msgid "Add new category"
 msgstr "Neue Kategorie hinzufügen"
 
-#: public/todo/partials/todo-form-fields.php:99
 #. translators: %s: Todo label
+#: public/todo/partials/todo-form-fields.php:99
 #, php-format
 msgid "New %s category name"
 msgstr "Neuer Name der %s-Kategorie"
 
-#: public/todo/partials/todo-form-fields.php:100
 #. translators: %s: the configured todo label (singular), e.g. "Task".
+#: public/todo/partials/todo-form-fields.php:100
 #, php-format
 msgid "New %s category"
 msgstr "Neue %s-Kategorie"
@@ -2565,7 +2632,8 @@ msgid "All Members"
 msgstr "Alle Mitglieder"
 
 #: public/todo/partials/todo-form-fields.php:213
-msgid "Leave empty or select \"All Members\" to assign to everyone in the group."
+msgid ""
+"Leave empty or select \"All Members\" to assign to everyone in the group."
 msgstr ""
 "Lass das Feld leer oder wähle \"Alle Mitglieder\", um an alle in der Gruppe "
 "zuzuweisen."
@@ -2606,88 +2674,19 @@ msgstr "Schnell-Hinzufügen-Box anzeigen"
 msgid "Show stat cards"
 msgstr "Statistik-Karten anzeigen"
 
-#: admin/widget/class-user-todo.php:28
-msgctxt "widget name"
-msgid "Member Todo"
-msgstr "Mitglieder-Aufgabe"
-
-#: includes/bptodo-functions.php:630
-msgctxt "confirmation dialog heading"
-msgid "Confirm"
-msgstr "Bestätigen"
-
-#: includes/bptodo-functions.php:632
-msgctxt "confirmation dialog accept button"
-msgid "Confirm"
-msgstr "Bestätigen"
-
-#: includes/bptodo-functions.php:633
-msgctxt "confirmation dialog dismiss button"
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: includes/render/class-bptodo-renderer.php:329
-msgctxt "todo count stat label"
-msgid "total"
-msgstr "insgesamt"
-
-#: includes/render/class-bptodo-renderer.php:330
-msgctxt "todo count stat label"
-msgid "pending"
-msgstr "ausstehend"
-
-#: includes/render/class-bptodo-renderer.php:331
-msgctxt "todo count stat label"
-msgid "done"
-msgstr "erledigt"
-
-#: public/todo/bptodo-by-category-template.php:216
-msgctxt "due-date section heading"
-msgid "Past"
-msgstr "Vergangenheit"
-
-#: public/todo/bptodo-by-category-template.php:217
-msgctxt "due-date section heading"
-msgid "Today"
-msgstr "Heute"
-
-#: public/todo/bptodo-by-category-template.php:218
-msgctxt "due-date section heading"
-msgid "Tomorrow"
-msgstr "Morgen"
-
-#: public/todo/bptodo-by-category-template.php:219
-msgctxt "due-date section heading"
-msgid "Future"
-msgstr "Zukunft"
-
 #: blocks/group-todos/block.json
 msgctxt "block title"
 msgid "Group Todos"
 msgstr "Gruppen-Aufgaben"
 
-#: blocks/my-todos/block.json
-msgctxt "block title"
-msgid "My Todos"
-msgstr "Meine Aufgaben"
-
 #: blocks/group-todos/block.json
 msgctxt "block description"
 msgid ""
-"Shared todos for a BuddyPress/BuddyBoss group — create, assign, complete "
-"and filter without page reloads."
+"Shared todos for a BuddyPress/BuddyBoss group — create, assign, complete and "
+"filter without page reloads."
 msgstr ""
 "Gemeinsame Aufgaben für eine BuddyPress/BuddyBoss-Gruppe — erstelle, weise "
 "zu, vervollständige und filtere ohne Seite neu zu laden."
-
-#: blocks/my-todos/block.json
-msgctxt "block description"
-msgid ""
-"A personal todo list for the logged-in user — add, complete, filter and "
-"paginate without page reloads."
-msgstr ""
-"Eine persönliche Aufgabenliste für den angemeldeten Benutzer — füge hinzu, "
-"vervollständige, filtere und paginiere ohne Seite neu zu laden."
 
 #: blocks/group-todos/block.json blocks/my-todos/block.json
 msgctxt "block keyword"
@@ -2710,6 +2709,20 @@ msgid "team"
 msgstr "Team"
 
 #: blocks/my-todos/block.json
+msgctxt "block title"
+msgid "My Todos"
+msgstr "Meine Aufgaben"
+
+#: blocks/my-todos/block.json
+msgctxt "block description"
+msgid ""
+"A personal todo list for the logged-in user — add, complete, filter and "
+"paginate without page reloads."
+msgstr ""
+"Eine persönliche Aufgabenliste für den angemeldeten Benutzer — füge hinzu, "
+"vervollständige, filtere und paginiere ohne Seite neu zu laden."
+
+#: blocks/my-todos/block.json
 msgctxt "block keyword"
 msgid "list"
 msgstr "Liste"
@@ -2729,8 +2742,8 @@ msgstr "Checkliste"
 
 #, php-format
 #~ msgid ""
-#~ "%1$s requires BuddyPress to be active on this subsite. The plugin has been "
-#~ "deactivated."
+#~ "%1$s requires BuddyPress to be active on this subsite. The plugin has "
+#~ "been deactivated."
 #~ msgstr ""
 #~ "%1$s erfordert, dass BuddyPress auf dieser Subsite aktiv ist. Das Plugin "
 #~ "wurde deaktiviert."
@@ -2765,8 +2778,8 @@ msgstr "Checkliste"
 #~ msgid ""
 #~ "Todo Lists keeps your members and teams on task. These free tools from "
 #~ "Wbcom Designs give you the rest of the community around it: the theme and "
-#~ "network itself, forums, media, events, gamification, directories, jobs, and "
-#~ "courses."
+#~ "network itself, forums, media, events, gamification, directories, jobs, "
+#~ "and courses."
 #~ msgstr ""
 #~ "Todo-Listen halten deine Mitglieder und Teams auf Trab. Diese kostenlosen "
 #~ "Tools von Wbcom Designs geben dir den Rest der Community drumherum: das "

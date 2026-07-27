@@ -573,7 +573,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 
 					<div class="bptodo-addform__actions">
 						<a class="bptodo-btn bptodo-btn--ghost" data-wp-bind--href="context.listUrl"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></a>
-						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php echo esc_html( sprintf( /* translators: %s: singular todo label. */ __( 'Create %s', 'wb-todo' ), $label_singular ) ); ?></button>
+						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php echo esc_html( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'Create %s', 'wb-todo' ), $label_singular ) ); ?></button>
 					</div>
 				</form>
 			</div>

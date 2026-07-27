@@ -138,6 +138,7 @@ $bptodo_retention_url = admin_url( 'admin.php?page=user-todo-list-settings&tab=r
 					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get a reminder when a task is due', 'wb-todo' ); ?></span>
 				<?php else : ?>
 					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -148,6 +149,7 @@ $bptodo_retention_url = admin_url( 'admin.php?page=user-todo-list-settings&tab=r
 					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get an email reminder when a task is due', 'wb-todo' ); ?></span>
 				<?php else : ?>
 					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -158,6 +160,7 @@ $bptodo_retention_url = admin_url( 'admin.php?page=user-todo-list-settings&tab=r
 					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members can create their own categories', 'wb-todo' ); ?></span>
 				<?php else : ?>
 					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>

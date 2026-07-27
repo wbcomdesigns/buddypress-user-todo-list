@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-07-17T10:20:38+00:00\n"
+"POT-Creation-Date: 2026-07-27T12:12:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: wb-todo\n"
@@ -45,122 +45,122 @@ msgid "https://wbcomdesigns.com"
 msgstr ""
 
 #. translators: %1$s
-#: admin/class-bptodo-admin.php:140
+#: admin/class-bptodo-admin.php:151
 #, php-format
 msgid "My %1$s"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:141
+#: admin/class-bptodo-admin.php:152
 #: includes/domain/class-bptodo-categories.php:80
 msgid "Category name is required."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:142
+#: admin/class-bptodo-admin.php:153
 msgid "Undo Complete"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:143
+#: admin/class-bptodo-admin.php:154
 #: includes/render/class-bptodo-renderer.php:139
 msgid "Are you sure you want to delete this task?"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:145
+#: admin/class-bptodo-admin.php:156
 msgid "Saving..."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:146
+#: admin/class-bptodo-admin.php:157
 msgid "Task updated successfully!"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:147
+#: admin/class-bptodo-admin.php:158
 msgid "Task completed!"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:148
+#: admin/class-bptodo-admin.php:159
 msgid "Task deleted successfully."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:149
+#: admin/class-bptodo-admin.php:160
 #: includes/render/class-bptodo-renderer.php:143
 msgid "Task marked incomplete."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:150
+#: admin/class-bptodo-admin.php:161
 #: includes/render/class-bptodo-renderer.php:141
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:152
+#: admin/class-bptodo-admin.php:163
 msgid "Could not update the task. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:153
+#: admin/class-bptodo-admin.php:164
 msgid "Could not delete the task. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:154
+#: admin/class-bptodo-admin.php:165
 msgid "Could not update the task status. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:155
+#: admin/class-bptodo-admin.php:166
 msgid "Could not refresh the list. Please reload the page."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:156
+#: admin/class-bptodo-admin.php:167
 #: includes/render/class-bptodo-renderer.php:147
 msgid "Category added."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:157
+#: admin/class-bptodo-admin.php:168
 msgid "There is no data to export."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:159
+#: admin/class-bptodo-admin.php:170
 #: bp-user-todo-list.php:425
 msgid "Export"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:160
+#: admin/class-bptodo-admin.php:171
 msgid "Export completed."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:161
+#: admin/class-bptodo-admin.php:172
 msgid "Export failed. Please try again."
 msgstr ""
 
-#: admin/class-bptodo-admin.php:163
+#: admin/class-bptodo-admin.php:174
 msgid "No matching todos found"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:164
+#: admin/class-bptodo-admin.php:175
 msgid "Try adjusting your search or filters"
 msgstr ""
 
 #. translators: %1$d: number of visible items. %2$d: total number of items.
-#: admin/class-bptodo-admin.php:166
+#: admin/class-bptodo-admin.php:177
 #, php-format
 msgid "%1$d of %2$d items"
 msgstr ""
 
 #. translators: %1$d: number of visible items after filtering. %2$d: total number of items.
-#: admin/class-bptodo-admin.php:168
+#: admin/class-bptodo-admin.php:179
 #, php-format
 msgid "Showing %1$d of %2$d items (filtered)"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:186
+#: admin/class-bptodo-admin.php:195
 msgid "No data available in table"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:187
+#: admin/class-bptodo-admin.php:196
 msgid "First"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:188
+#: admin/class-bptodo-admin.php:197
 msgid "Last"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:189
+#: admin/class-bptodo-admin.php:198
 #: includes/render/class-bptodo-renderer.php:432
 #: public/todo/bptodo-shortcode-template.php:439
 #: public/todo/bptodo-shortcode-template.php:446
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:190
+#: admin/class-bptodo-admin.php:199
 #: includes/render/class-bptodo-renderer.php:430
 #: public/todo/bptodo-shortcode-template.php:399
 #: public/todo/bptodo-shortcode-template.php:406
@@ -180,23 +180,23 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:191
+#: admin/class-bptodo-admin.php:200
 msgid "Search"
 msgstr ""
 
 #. translators: %s: Number of entries selector
-#: admin/class-bptodo-admin.php:193
+#: admin/class-bptodo-admin.php:202
 #, php-format
 msgid "Show %s entries"
 msgstr ""
 
 #. translators: 1: Start number, 2: End number, 3: Total entries
-#: admin/class-bptodo-admin.php:195
+#: admin/class-bptodo-admin.php:204
 #, php-format
 msgid "Showing %1$d to %2$d of %3$d entries"
 msgstr ""
 
-#: admin/class-bptodo-admin.php:196
+#: admin/class-bptodo-admin.php:205
 msgid "Showing 0 to 0 of 0 entries"
 msgstr ""
 
@@ -511,13 +511,13 @@ msgid "General"
 msgstr ""
 
 #: includes/admin/class-bptodo-admin-panel.php:55
-#: includes/admin/views/overview.php:190
+#: includes/admin/views/overview.php:193
 #: includes/admin/views/settings-group.php:26
 msgid "Group Todo"
 msgstr ""
 
 #: includes/admin/class-bptodo-admin-panel.php:60
-#: includes/admin/views/overview.php:194
+#: includes/admin/views/overview.php:197
 msgid "Data Retention"
 msgstr ""
 
@@ -662,10 +662,12 @@ msgid "Visit wbcomdesigns.com for more plugins and themes"
 msgstr ""
 
 #: includes/admin/views/overview.php:77
+#: includes/admin/views/settings-group.php:107
 msgid "BuddyPress or BuddyBoss is not active."
 msgstr ""
 
 #: includes/admin/views/overview.php:78
+#: includes/admin/views/settings-group.php:109
 msgid "This plugin needs BuddyPress or BuddyBoss for member and group to-do lists. Activate one to use all features."
 msgstr ""
 
@@ -721,14 +723,17 @@ msgstr ""
 #: includes/admin/views/overview.php:118
 #: includes/admin/views/overview.php:129
 #: includes/admin/views/overview.php:140
-#: includes/admin/views/overview.php:150
-#: includes/admin/views/overview.php:160
-#: includes/admin/views/overview.php:170
+#: includes/admin/views/overview.php:151
+#: includes/admin/views/overview.php:162
+#: includes/admin/views/overview.php:173
 msgid "Off"
 msgstr ""
 
 #: includes/admin/views/overview.php:119
 #: includes/admin/views/overview.php:130
+#: includes/admin/views/overview.php:141
+#: includes/admin/views/overview.php:152
+#: includes/admin/views/overview.php:163
 msgid "Turn on"
 msgstr ""
 
@@ -748,41 +753,41 @@ msgstr ""
 msgid "On: members get a reminder when a task is due"
 msgstr ""
 
-#: includes/admin/views/overview.php:145
+#: includes/admin/views/overview.php:146
 msgid "Due-date emails"
 msgstr ""
 
-#: includes/admin/views/overview.php:148
+#: includes/admin/views/overview.php:149
 msgid "On: members get an email reminder when a task is due"
 msgstr ""
 
-#: includes/admin/views/overview.php:155
+#: includes/admin/views/overview.php:157
 #: includes/admin/views/settings-general.php:70
 #: includes/admin/views/settings-general.php:73
 msgid "Member-created categories"
 msgstr ""
 
-#: includes/admin/views/overview.php:158
+#: includes/admin/views/overview.php:160
 msgid "On: members can create their own categories"
 msgstr ""
 
-#: includes/admin/views/overview.php:165
+#: includes/admin/views/overview.php:168
 msgid "Auto-cleanup"
 msgstr ""
 
-#: includes/admin/views/overview.php:168
+#: includes/admin/views/overview.php:171
 msgid "On: old tasks are cleaned up automatically"
 msgstr ""
 
-#: includes/admin/views/overview.php:171
+#: includes/admin/views/overview.php:174
 msgid "Configure"
 msgstr ""
 
-#: includes/admin/views/overview.php:180
+#: includes/admin/views/overview.php:183
 msgid "Quick Actions"
 msgstr ""
 
-#: includes/admin/views/overview.php:186
+#: includes/admin/views/overview.php:189
 msgid "General Settings"
 msgstr ""
 
@@ -948,16 +953,20 @@ msgstr ""
 msgid "Lets group moderators view the group to-do list report."
 msgstr ""
 
-#: includes/admin/views/settings-group.php:96
+#: includes/admin/views/settings-group.php:98
 msgid "The Groups component is not active"
 msgstr ""
 
-#: includes/admin/views/settings-group.php:98
+#: includes/admin/views/settings-group.php:100
 msgid "Enable the BuddyPress Groups component to add to-do lists to your groups."
 msgstr ""
 
-#: includes/admin/views/settings-group.php:101
+#: includes/admin/views/settings-group.php:103
 msgid "Enable Groups component"
+msgstr ""
+
+#: includes/admin/views/settings-group.php:113
+msgid "Go to Plugins"
 msgstr ""
 
 #: includes/admin/views/settings-retention.php:42
@@ -1432,6 +1441,7 @@ msgstr ""
 msgid "Completed!"
 msgstr ""
 
+#. translators: %d: number of days a task is overdue.
 #: includes/domain/class-bptodo-todo.php:166
 #, php-format
 msgid "Overdue by %d day"
@@ -1445,6 +1455,7 @@ msgstr[1] ""
 msgid "Due today"
 msgstr ""
 
+#. translators: %d: number of days left to complete a task.
 #: includes/domain/class-bptodo-todo.php:178
 #, php-format
 msgid "%d day left"
@@ -1733,8 +1744,7 @@ msgstr ""
 msgid "Leave all unchecked to assign to everyone in the group."
 msgstr ""
 
-#. translators: %s: singular todo label.
-#. translators: %s: Todo label
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: includes/render/class-bptodo-renderer.php:576
 #: public/todo/member/member-todo-add.php:125
 #, php-format
@@ -1786,7 +1796,6 @@ msgid "ID"
 msgstr ""
 
 #. translators: %d: number of days since the due date passed.
-#. translators: Number of expiry days
 #: public/class-bptodo-public.php:311
 #: public/class-bptodo-public.php:1010
 #: public/todo/bptodo-by-category-template.php:77
@@ -1801,7 +1810,6 @@ msgid "Today is the last day to complete. Hurry Up!"
 msgstr ""
 
 #. translators: %d: number of days remaining until the due date.
-#. translators: Number of left days
 #: public/class-bptodo-public.php:316
 #: public/class-bptodo-public.php:1018
 #, php-format
@@ -1904,16 +1912,14 @@ msgstr ""
 msgid "Unauthorized"
 msgstr ""
 
-#. translators: %s:
-#. translators: %s
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1046
 #: public/todo/bptodo-by-category-template.php:101
 #, php-format
 msgid "Remove: %s"
 msgstr ""
 
-#. translators: %s:
-#. translators: %s
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1049
 #: public/todo/bptodo-by-category-template.php:104
 #, php-format
@@ -1921,22 +1927,20 @@ msgid "Edit: %s"
 msgstr ""
 
 #. translators: %s: the task title.
-#. translators: %s
 #: public/class-bptodo-public.php:1050
 #: public/todo/bptodo-by-category-template.php:106
 #, php-format
 msgid "Complete: %s"
 msgstr ""
 
-#. translators: %s:
-#. translators: %s
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1052
 #: public/todo/bptodo-by-category-template.php:109
 #, php-format
 msgid "Undo Complete: %s"
 msgstr ""
 
-#. translators: %s:
+#. translators: %s: the task title.
 #: public/class-bptodo-public.php:1054
 #, php-format
 msgid "View: %s"
@@ -2184,16 +2188,14 @@ msgstr ""
 msgid "--Select--"
 msgstr ""
 
-#. Translators: Display the plural label name
-#. translators: %1$s
+#. translators: %1$s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:151
 #: public/todo/member/member-todo-edit.php:74
 #, php-format
 msgid "New %1$s category name"
 msgstr ""
 
-#. Translators: Display the plural label name
-#. translators: %1$s
+#. translators: %1$s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:151
 #: public/todo/member/member-todo-edit.php:74
 #, php-format
@@ -2205,8 +2207,7 @@ msgstr ""
 msgid "Summary"
 msgstr ""
 
-#. Translators: Display the plural label name
-#. translators: %s
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: public/todo/group/edit.php:217
 #: public/todo/member/member-todo-edit.php:132
 #, php-format
@@ -2365,7 +2366,7 @@ msgstr ""
 msgid "Complete Time"
 msgstr ""
 
-#. translators: %s: Todo label
+#. translators: %s: the configured todo label (singular), e.g. "Task".
 #: public/todo/member/member-todo-add.php:54
 #, php-format
 msgid "Add New %s"

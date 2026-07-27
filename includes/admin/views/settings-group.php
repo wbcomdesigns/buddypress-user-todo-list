@@ -93,13 +93,35 @@ $bptodo_group_settings = get_option( 'group-todo-list-settings', array() );
 			<span class="bptodo-empty__icon" aria-hidden="true">
 				<span class="dashicons dashicons-groups"></span>
 			</span>
-			<p class="bptodo-empty__title"><?php esc_html_e( 'The Groups component is not active', 'wb-todo' ); ?></p>
-			<p class="bptodo-empty__desc">
-				<?php esc_html_e( 'Enable the BuddyPress Groups component to add to-do lists to your groups.', 'wb-todo' ); ?>
-			</p>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=bp-components' ) ); ?>" class="bptodo-btn bptodo-btn-primary">
-				<?php esc_html_e( 'Enable Groups component', 'wb-todo' ); ?>
-			</a>
+			<?php if ( function_exists( 'bp_is_active' ) ) : ?>
+				<?php
+				/*
+				 * BuddyPress is running, only its Groups component is off, so the
+				 * Components screen exists. Build the URL the way BuddyPress builds
+				 * it itself (bp-core-admin-functions.php) so a network-activated
+				 * install resolves to network admin instead of a 404 subsite URL.
+				 */
+				$bptodo_components_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) );
+				?>
+				<p class="bptodo-empty__title"><?php esc_html_e( 'The Groups component is not active', 'wb-todo' ); ?></p>
+				<p class="bptodo-empty__desc">
+					<?php esc_html_e( 'Enable the BuddyPress Groups component to add to-do lists to your groups.', 'wb-todo' ); ?>
+				</p>
+				<a href="<?php echo esc_url( $bptodo_components_url ); ?>" class="bptodo-btn bptodo-btn-primary">
+					<?php esc_html_e( 'Enable Groups component', 'wb-todo' ); ?>
+				</a>
+			<?php else : ?>
+				<?php /* No BuddyPress at all - bp-components is not a registered screen, so never link to it. */ ?>
+				<p class="bptodo-empty__title"><?php esc_html_e( 'BuddyPress or BuddyBoss is not active.', 'wb-todo' ); ?></p>
+				<p class="bptodo-empty__desc">
+					<?php esc_html_e( 'This plugin needs BuddyPress or BuddyBoss for member and group to-do lists. Activate one to use all features.', 'wb-todo' ); ?>
+				</p>
+				<?php if ( current_user_can( 'activate_plugins' ) ) : ?>
+					<a href="<?php echo esc_url( admin_url( 'plugins.php' ) ); ?>" class="bptodo-btn bptodo-btn-primary">
+						<?php esc_html_e( 'Go to Plugins', 'wb-todo' ); ?>
+					</a>
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
 <?php endif; ?>

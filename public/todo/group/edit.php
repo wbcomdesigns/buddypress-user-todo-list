@@ -147,7 +147,7 @@ $primary_todo_id = get_post_meta( $todo_id, 'todo_primary_id', true );
 				</div>
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
-						<?php /* Translators: Display the plural label name */ ?>
+						<?php /* translators: %1$s: the configured todo label (singular), e.g. "Task". */ ?>
 						<input type="text" id="todo-category-name" aria-label="<?php echo esc_attr( sprintf( esc_html__( 'New %1$s category name', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<?php $add_cat_nonce = wp_create_nonce( 'bptodo-add-todo-category' ); ?>
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( $add_cat_nonce ); ?>">
