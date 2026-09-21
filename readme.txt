@@ -3,9 +3,10 @@ Contributors: wbcomdesigns, vapvarun
 Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
-Tested up to: 6.8.1
+Tested up to: 7.1
 Stable tag: 3.5.1
-Requires PHP: 7.4
+Requires PHP: 8.1
+Tested with BuddyPress: 14.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wb-todo
