@@ -174,7 +174,6 @@ module.exports = function ( grunt ) {
 						'!audit/**',
 						'!.wbcom-i18n.json',
 						'!docs/**',
-						'!.autovap/**',
 						'!.claude/**',
 						'!**/*.md',            // all markdown, at any depth (readme.txt/license.txt still ship).
 						'!gruntfile.js',       // lowercase - the real filename (case-sensitive on Linux/SVN).
