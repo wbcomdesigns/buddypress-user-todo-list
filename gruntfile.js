@@ -168,6 +168,7 @@ module.exports = function ( grunt ) {
 						'!dist/**',
 						'!.git/**',
 						'!.github/**',
+						'!.wordpress-org/**',
 						'!.gitignore',
 						'!.gitattributes',
 						// Internal dev tooling / docs - never ship to WP.org.

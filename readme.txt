@@ -1,9 +1,8 @@
 === Todo for BuddyPress & BuddyBoss ===
 Contributors: wbcomdesigns, vapvarun
-Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: 4.0.0
 Requires PHP: 8.0
 License: GPLv2 or later
@@ -11,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: wb-todo
 Domain Path: /languages
 
-A modern to-do and task manager for WordPress. Every logged-in user gets a private task list they manage without page reloads. BuddyPress and BuddyBoss are optional and add profile tabs and group to-dos.
+A private to-do list for every logged-in WordPress user. BuddyPress or BuddyBoss add a profile tab and group to-dos.
 
 == Description ==
 
@@ -70,7 +69,7 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 
 = Documentation =
 
-* **[Documentation and Support](https://docs.wbcomdesigns.com/)** - Setup walkthrough, settings reference, and usage guides
+* **[Documentation and Support](https://docs.wbcomdesigns.com/bp-family/buddypress-user-to-do-list/)** - Setup walkthrough, settings reference, and usage guides
 * The Settings > Shortcodes tab documents every shortcode and parameter inside the plugin itself
 
 = Translations =
@@ -82,7 +81,7 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 = Links =
 
 * [Plugin Homepage](https://wbcomdesigns.com/downloads/buddypress-user-to-do-list/)
-* [Documentation](https://docs.wbcomdesigns.com/)
+* [Documentation](https://docs.wbcomdesigns.com/bp-family/buddypress-user-to-do-list/)
 * [Support](https://wbcomdesigns.com/support/)
 * [Request Features](https://wbcomdesigns.com/contact/)
 
@@ -92,25 +91,19 @@ Our dedicated support team is ready to help you get the most out of this plugin.
 * PHP 8.0 and higher
 * BuddyPress 12.0+ or BuddyBoss Platform - optional, for profile tabs, group to-dos and email reminders.
 * Works with the block editor and classic editor
-* Tested with popular themes including BuddyX, Reign and Youzify
+* Picks up BuddyX, BuddyX Pro and Reign theme colours, including their dark mode
 
 = What's New in 4.0.0 =
 
 Version 4.0 turns the plugin into a modern to-do app for any WordPress site. The list is rebuilt on the WordPress Interactivity API and a REST API for a fast, no-reload experience, and it now works without BuddyPress: add the "My Todos" block or the [bptodo_list] shortcode to a page and every logged-in user gets a private task list. To-dos are private by design, with no public page or archive. BuddyPress and BuddyBoss remain fully supported and add profile tabs and group to-dos on top. Your data is unchanged; a one-click Classic layout is available if you need the older templates.
 
-== More Free Tools from Wbcom Designs ==
+== More from Wbcom Designs ==
 
-Task lists keep your members and teams organized, but a productive community needs more than tracking who is doing what. These other free tools from Wbcom Designs fill in the space your members work in, from the theme and social network itself to forums, media, events, gamification, directories, jobs, and courses.
+A task list helps people finish what they started. If your members also learn, meet or work together on your site, these Wbcom Designs products cover the rest:
 
-* **[BuddyX](https://wbcomdesigns.com/downloads/buddyx-theme/)** - A free, fast community theme for BuddyPress, BuddyBoss and PeepSo with a modern layout and dark mode.
-* **[BuddyNext](https://wbcomdesigns.com/downloads/buddynext/)** - Stand up a complete WordPress community with activity streams, member spaces, profiles, direct messaging, and built-in moderation.
-* **[Jetonomy](https://wbcomdesigns.com/downloads/jetonomy/)** - Add forums, question-and-answer boards, and idea spaces that stay tidy through trust-based auto-moderation even past 100,000 topics.
-* **[Mediaverse](https://wbcomdesigns.com/downloads/mediaverse/)** - Let members build photo and video albums, react, follow each other, and message privately while AI moderation keeps things clean.
-* **[Eventonomy](https://wbcomdesigns.com/downloads/eventonomy/)** - Run community events with RSVPs, calendars, and front-end submissions.
-* **[WB Gamification](https://wbcomdesigns.com/downloads/wordpress-gamification-plugin/)** - Reward members with points, badges, and leaderboards to keep engagement high.
-* **[Listora](https://wbcomdesigns.com/downloads/listora/)** - Publish searchable directories across ten listing types with reviews, maps, and member-submitted entries from the front end.
-* **[WP Career Board](https://wbcomdesigns.com/downloads/wp-career-board/)** - Add a job board with front-end listings, applications, and employer profiles.
-* **[Learnomy](https://wbcomdesigns.com/downloads/learnomy/)** - Build and sell online courses, auto-grade quizzes, collect payments, and award certificates when learners finish.
+* **[BuddyNext](https://buddynext.com/features/)** - Our standalone community engine: feed, spaces, profiles, messaging and moderation in one plugin, with no BuddyPress needed underneath.
+* **[Learnomy](https://learnomy.app/features/)** - Courses, quizzes and certificates on your own WordPress site, for when the checklist is really a curriculum.
+* **[BuddyX](https://buddyxtheme.com/features/)** - A free community theme on WordPress.org with BuddyPress support built in. The to-do list takes its accent and background colours from BuddyX and follows its dark mode.
 
 == Installation ==
 
@@ -143,7 +136,7 @@ After activating the plugin, we recommend:
 3. Configure group settings under the **Group Todo** tab if you want group task management
 4. Create initial categories at **Todo Items > Categories**
 5. Add the "My Todos" block or the [bptodo_list] shortcode to a page, then test by creating a task
-6. See the [documentation](https://docs.wbcomdesigns.com/) for detailed instructions
+6. See the [documentation](https://docs.wbcomdesigns.com/bp-family/buddypress-user-to-do-list/) for detailed instructions
 
 = Requirements =
 
@@ -166,7 +159,15 @@ Create a page (for example "My Tasks") and add the "My Todos" block in the block
 
 = Does this work with BuddyBoss Platform? =
 
-Yes. When BuddyBoss Platform is active, the plugin adds the To-do profile tab and group to-dos, and has been tested for seamless integration.
+Yes. When BuddyBoss Platform is active, the plugin adds the To-do profile tab and group to-dos, and the modern list falls back to BuddyBoss's own colour variables when no Wbcom theme is active.
+
+= Does this work with BuddyNext? =
+
+There is no BuddyNext integration. The personal list is a block and a shortcode that run on any WordPress site, so you can place it on a page of a BuddyNext site. The profile tab and group to-dos are built on BuddyPress or BuddyBoss, so they do not appear in BuddyNext profiles or spaces.
+
+= Can I use it for course assignments? =
+
+You can use it as a checklist: members add their own tasks, or a group admin assigns one task to every member of a course group. It is not connected to any course plugin, so lesson progress does not tick tasks off. For courses with quizzes and certificates, see [Learnomy](https://learnomy.app/features/).
 
 = Can members see each other's personal todos? =
 
@@ -213,7 +214,7 @@ Yes! The plugin is fully translation ready with an included POT file. It also in
 = Where can I get support? =
 
 We offer comprehensive support through multiple channels:
-* [Documentation](https://docs.wbcomdesigns.com/) - Free guides for every Wbcom plugin
+* [Documentation](https://docs.wbcomdesigns.com/bp-family/buddypress-user-to-do-list/) - Free guides for every Wbcom plugin
 * [Support](https://wbcomdesigns.com/support/) - Get help from our team
 * [Contact us](https://wbcomdesigns.com/contact/) - Report bugs and request features
 
@@ -223,7 +224,7 @@ Yes. The plugin fires a broad set of action and filter hooks for developers, and
 
 = Will this work with my theme? =
 
-The plugin has been tested with popular BuddyPress and BuddyBoss themes including BuddyX, Reign, Youzify, and others. It follows BuddyPress template standards, so it should work with any properly coded BuddyPress-compatible theme.
+Yes. The modern list reads its accent, background, text and border colours from Reign, then BuddyX and BuddyX Pro, then BuddyBoss, before using its own defaults, and it switches to dark when BuddyX or Reign is in dark mode. If a theme conflict appears, the Classic layout in the plugin settings uses the older templates.
 
 = How often is the plugin updated? =
 
