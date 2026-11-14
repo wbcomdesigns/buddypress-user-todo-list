@@ -221,6 +221,31 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		}
 
 		/**
+		 * Which todos a viewer's group Todo list shows - the one rule for every
+		 * group list, count and stat (REST, SSR, nav badge, legacy template).
+		 *
+		 * A group todo is a primary owned by the manager who created it plus one
+		 * copy per assigned member. Managers (group admin/mod, site admin) see the
+		 * primaries they manage; every other member sees the copies assigned to
+		 * them, which they own and can complete. Listing primaries to members
+		 * showed tasks they could not complete (403 on the checkbox).
+		 *
+		 * @param int $group_id  Group ID.
+		 * @param int $viewer_id Viewer (0 = current user).
+		 * @return array Query args for query()/stats()/bptodo_count_todos().
+		 */
+		public static function group_scope_args( $group_id, $viewer_id = 0 ) {
+			$viewer_id = $viewer_id ? (int) $viewer_id : (int) get_current_user_id();
+			$args      = array( 'group_id' => (int) $group_id );
+			if ( Bptodo_Permissions::is_group_manager( $viewer_id, $group_id ) ) {
+				$args['primary_only'] = true;
+			} else {
+				$args['author'] = $viewer_id;
+			}
+			return $args;
+		}
+
+		/**
 		 * Aggregate counts for the stat cards.
 		 *
 		 * @param array $args { int $author, int $group_id, bool $primary_only }.

@@ -353,17 +353,15 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 		public function get_group_todos( $request ) {
 			$viewer = get_current_user_id();
 			$result = Bptodo_Todo_Repository::query(
-				array(
-					'group_id'     => (int) $request['group_id'],
-					'primary_only' => true,
-					'status'       => $request->get_param( 'status' ),
-					'priority'     => $request->get_param( 'priority' ),
-					'category'     => (string) $request->get_param( 'category' ),
-					'search'       => (string) $request->get_param( 'search' ),
-					'orderby'      => $request->get_param( 'orderby' ),
-					'order'        => $request->get_param( 'order' ),
-					'per_page'     => (int) $request->get_param( 'per_page' ),
-					'page'         => (int) $request->get_param( 'page' ),
+				Bptodo_Todo_Repository::group_scope_args( (int) $request['group_id'], $viewer ) + array(
+					'status'   => $request->get_param( 'status' ),
+					'priority' => $request->get_param( 'priority' ),
+					'category' => (string) $request->get_param( 'category' ),
+					'search'   => (string) $request->get_param( 'search' ),
+					'orderby'  => $request->get_param( 'orderby' ),
+					'order'    => $request->get_param( 'order' ),
+					'per_page' => (int) $request->get_param( 'per_page' ),
+					'page'     => (int) $request->get_param( 'page' ),
 				)
 			);
 			return $this->collection_response( $result, $viewer );
@@ -474,6 +472,11 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 		public function get_stats( $request ) {
 			$args    = array();
 			$user_id = $request->get_param( 'user_id' );
+			// Same scope rule as the lists: another user's (or everyone's) counts only
+			// for viewers allowed to see that scope; otherwise the viewer's own.
+			if ( null !== $user_id && '' !== $user_id && ! Bptodo_Permissions::can_view_scope( $user_id, get_current_user_id() ) ) {
+				$user_id = null;
+			}
 			if ( null !== $user_id && '' !== $user_id && 'all' !== $user_id ) {
 				$args['author'] = (int) $user_id;
 			} elseif ( 'all' !== $user_id ) {
@@ -481,9 +484,7 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 			}
 			$group_id = (int) $request->get_param( 'group_id' );
 			if ( $group_id ) {
-				$args['group_id']     = $group_id;
-				$args['primary_only'] = true;
-				unset( $args['author'] );
+				$args = Bptodo_Todo_Repository::group_scope_args( $group_id );
 			} else {
 				// Personal stats mirror the personal list: exclude group todos.
 				$args['exclude_group'] = true;

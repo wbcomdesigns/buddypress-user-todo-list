@@ -84,17 +84,11 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 			$todo_slug = sanitize_title( $bptodo->profile_menu_slug ?? 'todo' );
 			if ( 'groups' === $displayed_nav && $todo_slug === $nav_item->slug ) {
-				// Count DISTINCT group todos (primaries) scoped to THIS group, not the
-				// viewer's personal count and not the per-assignee fan-out copies. The
-				// group Todos tab lists primary_only rows, so the badge must match.
+				// The badge counts exactly what the viewer's group Todos tab lists
+				// (managers: the group's primaries; members: their assigned copies).
 				$group_id = bp_get_current_group_id();
 				if ( $group_id && function_exists( 'bptodo_count_todos' ) ) {
-					$stats = bptodo_count_todos(
-						array(
-							'group_id'     => $group_id,
-							'primary_only' => true,
-						)
-					);
+					$stats = bptodo_count_todos( Bptodo_Todo_Repository::group_scope_args( $group_id ) );
 					$count = isset( $stats['total'] ) ? (int) $stats['total'] : 0;
 				}
 			}

@@ -252,14 +252,9 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				'page'     => 1,
 			);
 			if ( $is_group ) {
-				$query_args['group_id']     = (int) $args['group_id'];
-				$query_args['primary_only'] = true;
-				$stats                      = Bptodo_Todo_Repository::stats(
-					array(
-						'group_id'     => (int) $args['group_id'],
-						'primary_only' => true,
-					)
-				);
+				$bptodo_scope = Bptodo_Todo_Repository::group_scope_args( (int) $args['group_id'], $viewer );
+				$query_args   = $bptodo_scope + $query_args;
+				$stats        = Bptodo_Todo_Repository::stats( $bptodo_scope );
 			} else {
 				$query_args['author']        = $author;
 				$query_args['exclude_group'] = true;
@@ -384,7 +379,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						<li class="bptodo-item" data-wp-class--is-done="context.todo.is_complete" data-wp-class--is-editing="state.isEditing" data-wp-bind--data-priority="context.todo.priority">
 							<div class="bptodo-item__row" data-wp-bind--hidden="state.isEditing">
 								<label class="bptodo-check">
-									<input type="checkbox" data-wp-bind--checked="context.todo.is_complete" data-wp-on--change="actions.toggleComplete" aria-label="<?php esc_attr_e( 'Toggle complete', 'wb-todo' ); ?>" />
+									<input type="checkbox" data-wp-bind--checked="context.todo.is_complete" data-wp-bind--disabled="!context.todo.can_edit" data-wp-on--change="actions.toggleComplete" aria-label="<?php esc_attr_e( 'Toggle complete', 'wb-todo' ); ?>" />
 									<span class="bptodo-check__box" aria-hidden="true"></span>
 								</label>
 								<span class="bptodo-item__main">

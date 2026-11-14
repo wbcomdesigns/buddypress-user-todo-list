@@ -6,7 +6,7 @@
 
 ## Quick reference
 - **Main file**: `bp-user-todo-list.php`
-- **Version**: `4.0.0`  (dev branch `3.6.0`)
+- **Version**: `4.0.1` (dev branch `4.0.1`)
 - **Namespace**: none — prefixed procedural functions + `Bptodo_*` classes
 - **Text domain**: `wb-todo`
 - **Prefixes**: functions `bptodo_*`, options `user_todo_list_settings` / `group-todo-list-settings` / `data-retention-settings`, CPT `bp-todo`, taxonomy `todo_category`, AJAX `bptodo_*`
@@ -43,6 +43,8 @@ empty state and link to `plugins.php` instead (see `includes/admin/views/setting
 - Cron/retention: `includes/class-bptodo-data-retention.php`; emails: `includes/class-bptodo-emails.php`
 
 ## Important patterns
+- **Group todo scope has ONE rule: `Bptodo_Todo_Repository::group_scope_args( $group_id, $viewer )`.** A group todo is a primary owned by the manager who created it plus one copy per assigned member. Managers (group admin/mod, site admin) list the primaries; every other member lists the copies they own. REST list + stats, the SSR renderer, the nav badge and the legacy list all call it. Never hardcode `primary_only => true` for a member-facing list: members cannot complete a primary (403). The group Overview report is manager-only and stays on primaries.
+- **Select2 on the group Add/Edit forms**: style it via `#todo_group_members + .select2-container` (stable). WooCommerce loads Select2 4.0 CSS after our 4.1 build, so the anchored rules pin the 4.1 inline layout.
 - **Storage is CPT + postmeta** (no custom tables). Tasks = `bp-todo` posts; status/due-date/priority/group in postmeta.
 - **All AJAX is admin-ajax, logged-in only** (no `wp_ajax_nopriv`). Member self-service nonce is `bptodo-todo-nonce` (localized as `todo_ajax_object.ajax_nonce`).
 - **Release build** via `grunt` (`gruntfile.js`). Distribution zip lives in `dist/`.

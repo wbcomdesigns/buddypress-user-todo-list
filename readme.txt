@@ -4,7 +4,7 @@ Donate link: https://wbcomdesigns.com/contact/
 Tags: buddypress, todo list, task management, group tasks, productivity
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -241,11 +241,25 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 
 == Upgrade Notice ==
 
+= 4.0.1 =
+
+Group members can complete the group tasks assigned to them again, and the group Add and Add Media screens are fixed in dark mode.
+
 = 4.0.0 =
 
 Major update: the todo list now uses blocks + REST for a faster, richer experience and works without BuddyPress. Your data is unchanged. If a theme or plugin conflict appears, switch to the Classic layout in the plugin settings.
 
 == Changelog ==
+
+= 4.0.1 =
+
+* Fix      - Group members now see and complete the tasks assigned to them on the group Todos tab; it listed the organiser's copy, so ticking a task failed with a permission error.
+* Fix      - The group Todos tab count and stats match what each viewer sees: managers see the group's tasks, members see their own assignments.
+* Fix      - The "Assign to Members" picker on the classic group Add form no longer breaks out of its box or fails to open.
+* Fix      - Export on the classic My Todos screen is now a real, keyboard-reachable button.
+* Fix      - The Add Media window is readable in dark mode: details panel text, fields, links and the selection bar.
+* Fix      - Dropdown options in the members picker are readable in dark mode.
+* Security - Todo stats for another member are only returned to site administrators.
 
 = 4.0.0 =
 

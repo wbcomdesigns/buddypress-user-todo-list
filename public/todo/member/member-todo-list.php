@@ -115,7 +115,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				?>
 			</h2>
 			<div class="bptodo-page-actions">
-				<?php echo esc_html( list_todo_tab_function_to_show_title() ); ?>
+				<?php list_todo_tab_function_to_show_title(); ?>
 			</div>
 		</div>
 

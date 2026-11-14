@@ -339,7 +339,7 @@ jQuery(document).ready(function($) {
       if (BPTodo.loading) {
         BPTodo.loading.button($btn[0]);
       } else {
-        $btn.html('<div class="reload-spin"></div> ' + ti('export_label', 'Export'));
+        $btn.html('<span class="reload-spin" aria-hidden="true"></span> ' + ti('export_label', 'Export'));
       }
 
       var security_nonce = $('#bptodo-export-todo-nonce').val();
@@ -354,7 +354,7 @@ jQuery(document).ready(function($) {
           if (BPTodo.loading) {
             BPTodo.loading.buttonDone($btn[0]);
           }
-          $btn.html('<div class="export-download"></div> ' + ti('export_label', 'Export'));
+          $btn.html(originalHtml);
           JSONToCSVConvertor(response, todo_ajax_object.export_file_heading, true);
 
           if (BPTodo.toast) {

@@ -3,7 +3,7 @@
   "plugin": {
     "slug": "buddypress-user-todo-list",
     "name": "Todo for BuddyPress & BuddyBoss",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "namespace": "(none - prefixed procedural + Bptodo_* classes)",
     "main_file": "bp-user-todo-list.php",
     "text_domain": "wb-todo",
