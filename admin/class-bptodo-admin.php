@@ -167,7 +167,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'category_added_text' => esc_html__( 'Category added.', 'wb-todo' ),
 						'invalid_data_text'   => esc_html__( 'There is no data to export.', 'wb-todo' ),
 						// Export button (assets/js/bptodo-front.js).
-						'export_label'        => esc_html__( 'Export', 'wb-todo' ),
 						'export_done_text'    => esc_html__( 'Export completed.', 'wb-todo' ),
 						'export_failed_text'  => esc_html__( 'Export failed. Please try again.', 'wb-todo' ),
 						// Search / filter results summary (assets/js/bptodo-front.js).

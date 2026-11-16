@@ -338,8 +338,6 @@ jQuery(document).ready(function($) {
 
       if (BPTodo.loading) {
         BPTodo.loading.button($btn[0]);
-      } else {
-        $btn.html('<span class="reload-spin" aria-hidden="true"></span> ' + ti('export_label', 'Export'));
       }
 
       var security_nonce = $('#bptodo-export-todo-nonce').val();
