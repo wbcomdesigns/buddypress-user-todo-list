@@ -87,8 +87,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		$title  = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 		$title  = ( '' !== $title && ! empty( $instance['link_title'] ) && function_exists( 'bptodo_get_standalone_todos_url' ) ) ? '<a href="' . esc_url( bptodo_get_standalone_todos_url() ) . '">' . $title . '</a>' : $title;
 		$number = ( ! empty( $instance['number'] ) ) ? min( absint( $instance['number'] ), self::MAX_ITEMS ) : 5;
-		// Works with or without BuddyPress (standalone).
-		$user_id = function_exists( 'bp_loggedin_user_id' ) ? bp_loggedin_user_id() : get_current_user_id();
+		// The WordPress current user owns the list: bp_loggedin_user_id() can still be 0 here (e.g. widget preview over REST).
+		$user_id = get_current_user_id();
 
 		$r = new WP_Query(
 			apply_filters(
