@@ -111,8 +111,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		}
 
 		if ( ! $r->have_posts() ) {
-			/* translators: %s: plural todo label, lowercased. */
-			echo '<p class="bptodo-widget-empty">' . esc_html( sprintf( __( 'You have no %s yet.', 'wb-todo' ), strtolower( $plural ) ) ) . '</p>';
+			/* translators: %s: plural todo label as the site owner set it (e.g. Tasks). */
+			echo '<p class="bptodo-widget-empty">' . esc_html( sprintf( __( 'You have no %s yet.', 'wb-todo' ), $plural ) ) . '</p>';
 			echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
