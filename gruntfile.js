@@ -111,7 +111,8 @@ module.exports = function ( grunt ) {
 					files: {
 						'assets/css/bptodo-front.min.css': ['assets/css/bptodo-front.css'],
 						'assets/css/bptodo-design-system.min.css': ['assets/css/bptodo-design-system.css'],
-						'assets/css/bptodo-components.min.css': ['assets/css/bptodo-components.css']
+						'assets/css/bptodo-components.min.css': ['assets/css/bptodo-components.css'],
+						'assets/css/bptodo-widget.min.css': ['assets/css/bptodo-widget.css']
 					}
 				}
 				// NOTE: no `admin` target - see the uglify note above.
