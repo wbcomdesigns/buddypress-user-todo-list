@@ -1,6 +1,6 @@
 <?php
 /**
- * Overview dashboard partial: rendered inside shell.php.
+ * Overview dashboard partial: rendered inside page-layout.php.
  *
  * Read-only snapshot of the current configuration plus aggregate task
  * counts. Counts use WP_Query found_posts (COUNT(*) under the hood) with

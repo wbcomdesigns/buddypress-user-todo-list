@@ -2,7 +2,7 @@
 
 **Plugin:** `buddypress-user-todo-list`
 **Branch / Version:** 3.6.0
-**Wrapper type:** NEW card-panel (`includes/admin/views/shell.php` present)
+**Wrapper type:** NEW card-panel (`includes/admin/views/page-layout.php` present)
 **Audit date:** 2026-06-05
 
 ---
@@ -45,7 +45,7 @@
 
 ## 3. Wrapper Structure / Gaps
 
-**shell.php:** Present. Renders: page-header with title + version pill, `wp-header-end` marker (prevents WP core JS from re-parenting notices), sidebar nav built from `get_tabs()`, `settings_errors()` inside content column, includes active `$view_path` via `file_exists()` guard. PASS.
+**page-layout.php:** Present. Renders: page-header with title + version pill, `wp-header-end` marker (prevents WP core JS from re-parenting notices), sidebar nav built from `get_tabs()`, `settings_errors()` inside content column, includes active `$view_path` via `file_exists()` guard. PASS.
 
 **hub.php:** Present. Auto-discovers plugins from `$GLOBALS['submenu']['wbcomplugins']`. Filters legacy wrapper helper slugs (wbcom-plugins-page, wbcom-themes-page, wbcom-support-page, wbcom-license-page) via filterable `wbcom_hub_wrapper_helper_slugs`. Empty-state handled. PASS.
 
