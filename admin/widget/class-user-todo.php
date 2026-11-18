@@ -18,6 +18,11 @@ defined( 'ABSPATH' ) || exit;
 class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 	/**
+	 * Upper bound on rows, so a large "number" setting cannot load an unbounded list.
+	 */
+	const MAX_ITEMS = 20;
+
+	/**
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
@@ -26,7 +31,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		// Setup widget name & description.
 		$name        = _x( 'Member Todo', 'widget name', 'wb-todo' );
-		$description = __( 'A dynamic list of Todos of displayed member.', 'wb-todo' );
+		$description = __( 'The logged-in member\'s own todos. Hidden from visitors who are not logged in.', 'wb-todo' );
 
 		// Call WP_Widget constructor.
 		parent::__construct(
@@ -37,6 +42,26 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				'classname'   => 'widget_bp_todo_member_todo wb-todo widget',
 			)
 		);
+	}
+
+	/**
+	 * The site owner's plural "Todo" label (e.g. Tasks), as the rest of the plugin uses it.
+	 *
+	 * @return string
+	 */
+	protected static function plural_label() {
+		global $bptodo;
+		return ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label_plural ) ) ? $bptodo->profile_menu_label_plural : __( 'Todos', 'wb-todo' );
+	}
+
+	/**
+	 * Title used until the site owner saves one.
+	 *
+	 * @return string
+	 */
+	protected static function default_title() {
+		/* translators: %s: plural todo label. */
+		return sprintf( __( 'My %s', 'wb-todo' ), self::plural_label() );
 	}
 
 	/**
@@ -52,17 +77,18 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		if ( ! is_user_logged_in() ) {
-			return; // The todo is only shown for logged in users.
+			return; // Todos are private: a visitor has no list of their own to show.
 		}
 
-		$title  = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$title  = ( ! empty( $instance['link_title'] ) && function_exists( 'bptodo_get_standalone_todos_url' ) ) ? '<a href="' . esc_url( bptodo_get_standalone_todos_url() ) . '">' . $title . '</a>' : $title;
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 5;
-		if ( ! $number ) {
-			$number = 5;
-		}
-		// Works with or without BuddyPress (standalone).
-			$user_id = function_exists( 'bp_loggedin_user_id' ) ? bp_loggedin_user_id() : get_current_user_id();
+		wp_enqueue_style( 'bptodo-widget' );
+
+		$plural = self::plural_label();
+		$title  = isset( $instance['title'] ) ? $instance['title'] : self::default_title();
+		$title  = apply_filters( 'widget_title', $title, $instance, $this->id_base );
+		$title  = ( '' !== $title && ! empty( $instance['link_title'] ) && function_exists( 'bptodo_get_standalone_todos_url' ) ) ? '<a href="' . esc_url( bptodo_get_standalone_todos_url() ) . '">' . $title . '</a>' : $title;
+		$number = ( ! empty( $instance['number'] ) ) ? min( absint( $instance['number'] ), self::MAX_ITEMS ) : 5;
+		// The WordPress current user owns the list: bp_loggedin_user_id() can still be 0 here (e.g. widget preview over REST).
+		$user_id = get_current_user_id();
 
 		$r = new WP_Query(
 			apply_filters(
@@ -79,48 +105,39 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 			)
 		);
 
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		if ( '' !== $title ) {
+			echo $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
+
 		if ( ! $r->have_posts() ) {
+			/* translators: %s: plural todo label as the site owner set it (e.g. Tasks). */
+			echo '<p class="bptodo-widget-empty">' . esc_html( sprintf( __( 'You have no %s yet.', 'wb-todo' ), $plural ) ) . '</p>';
+			echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
-		// Output before widget HTMl, title (and maybe content before & after it).
-		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		?>
-		<div class="widget-bptodo-list-row">
-			<ul>
-			<?php foreach ( $r->posts as $recent_todo ) : ?>
-				<?php
-				$post_title    = get_the_title( $recent_todo->ID );
-				$todo_priority = get_post_meta( $recent_todo->ID, 'todo_priority', true );
-				$todo_due_date = get_post_meta( $recent_todo->ID, 'todo_due_date', true );
-				if ( ! empty( $todo_priority ) ) {
-					if ( 'critical' === $todo_priority ) {
-						$priority_class = 'bptodo-priority-critical';
-						$priority_text  = esc_html__( 'Critical', 'wb-todo' );
-					} elseif ( 'high' === $todo_priority ) {
-						$priority_class = 'bptodo-priority-high';
-						$priority_text  = esc_html__( 'High', 'wb-todo' );
-					} else {
-						$priority_class = 'bptodo-priority-normal';
-						$priority_text  = esc_html__( 'Normal', 'wb-todo' );
-					}
-				}
-				$title        = ( ! empty( $post_title ) ) ? $post_title : __( '(no title)', 'wb-todo' );
-				$aria_current = '';
-
-				if ( get_queried_object_id() === $recent_todo->ID ) {
-					$aria_current = ' aria-current="page"';
-				}
+		<ul class="bptodo-widget-list">
+			<?php
+			foreach ( $r->posts as $recent_todo ) :
+				$todo     = new Bptodo_Todo( $recent_todo );
+				$priority = $todo->priority();
+				$due      = $todo->due_human();
+				$name     = get_the_title( $recent_todo );
 				?>
-			<li>
-				<a href="<?php echo esc_url( bptodo_get_todo_view_url( $recent_todo->ID ) ); ?>"<?php echo esc_attr( $aria_current ); ?>><?php echo esc_html( $title ); ?></a>
-				<div class="widget-bptodo-list-meta">
-					<div class="bptodo-priority"><span class="<?php echo esc_attr( $priority_class ); ?>"><?php echo esc_html( $priority_text ); ?></span></div>
-					<span class="post-date"><?php echo esc_html( $todo_due_date ); ?></span>
-				</div>
+			<li class="bptodo-widget-item">
+				<a class="bptodo-widget-link" href="<?php echo esc_url( bptodo_get_todo_view_url( $recent_todo->ID ) ); ?>">
+					<span class="bptodo-widget-title"><?php echo esc_html( '' !== $name ? $name : __( '(no title)', 'wb-todo' ) ); ?></span>
+					<span class="bptodo-widget-meta">
+						<span class="bptodo-widget-priority bptodo-priority-<?php echo esc_attr( $priority ); ?>"><?php echo esc_html( Bptodo_Todo::priority_label( $priority ) ); ?></span>
+						<?php if ( '' !== $due['text'] ) : ?>
+							<span class="bptodo-widget-due"><?php echo esc_html( $due['text'] ); ?></span>
+						<?php endif; ?>
+					</span>
+				</a>
 			</li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
+			<?php endforeach; ?>
+		</ul>
 		<?php
 		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
@@ -137,8 +154,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
-		$instance['title']      = wp_strip_all_tags( $new_instance['title'] );
-		$instance['number']     = (int) $new_instance['number'];
+		$instance['title']      = wp_strip_all_tags( isset( $new_instance['title'] ) ? $new_instance['title'] : '' );
+		$instance['number']     = isset( $new_instance['number'] ) ? min( absint( $new_instance['number'] ), self::MAX_ITEMS ) : 5;
 		$instance['link_title'] = ! empty( $new_instance['link_title'] );
 
 		return $instance;
@@ -154,7 +171,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$title      = isset( $instance['title'] ) ? wp_strip_all_tags( $instance['title'] ) : '';
+		$title      = isset( $instance['title'] ) ? wp_strip_all_tags( $instance['title'] ) : self::default_title();
 		$number     = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
 		$link_title = isset( $instance['link_title'] ) ? (bool) $instance['link_title'] : '';
 		?>
@@ -162,7 +179,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
 				<?php esc_html_e( 'Title:', 'wb-todo' ); ?>
-				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" style="width: 100%" />
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 			</label>
 		</p>
 
@@ -175,8 +192,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>">
-				<?php esc_html_e( 'Max members to show:', 'wb-todo' ); ?>
-				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" value="<?php echo esc_attr( $number ); ?>" style="width: 30%" />
+				<?php esc_html_e( 'Number of todos to show:', 'wb-todo' ); ?>
+				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" max="<?php echo esc_attr( self::MAX_ITEMS ); ?>" value="<?php echo esc_attr( $number ); ?>" />
 			</label>
 		</p>
 		<?php
@@ -190,4 +207,23 @@ add_action( 'widgets_init', 'bptodo_register_widgets' );
  */
 function bptodo_register_widgets() {
 	register_widget( 'BP_ToDo_Member_ToDo_Widget' );
+}
+
+add_action( 'wp_enqueue_scripts', 'bptodo_register_widget_style' );
+
+/**
+ * Register the widget stylesheet; enqueue it in the head when the widget is placed.
+ *
+ * The widget also enqueues it on render, for placements is_active_widget() cannot see.
+ */
+function bptodo_register_widget_style() {
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+	if ( ! wp_style_is( 'bptodo-design-system', 'registered' ) ) {
+		wp_register_style( 'bptodo-design-system', BPTODO_PLUGIN_URL . 'assets/css/bptodo-design-system' . $suffix . '.css', array(), bptodo_asset_ver( 'assets/css/bptodo-design-system' . $suffix . '.css' ) );
+	}
+	wp_register_style( 'bptodo-widget', BPTODO_PLUGIN_URL . 'assets/css/bptodo-widget' . $suffix . '.css', array( 'bptodo-design-system' ), bptodo_asset_ver( 'assets/css/bptodo-widget' . $suffix . '.css' ) );
+
+	if ( is_user_logged_in() && is_active_widget( false, false, 'bp_todo_member_todo_widget', true ) ) {
+		wp_enqueue_style( 'bptodo-widget' );
+	}
 }

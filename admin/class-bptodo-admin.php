@@ -165,9 +165,9 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'complete_failed_text' => esc_html__( 'Could not update the task status. Please try again.', 'wb-todo' ),
 						'refresh_failed_text' => esc_html__( 'Could not refresh the list. Please reload the page.', 'wb-todo' ),
 						'category_added_text' => esc_html__( 'Category added.', 'wb-todo' ),
+						'category_error_text' => esc_html__( 'The category could not be added.', 'wb-todo' ),
 						'invalid_data_text'   => esc_html__( 'There is no data to export.', 'wb-todo' ),
 						// Export button (assets/js/bptodo-front.js).
-						'export_label'        => esc_html__( 'Export', 'wb-todo' ),
 						'export_done_text'    => esc_html__( 'Export completed.', 'wb-todo' ),
 						'export_failed_text'  => esc_html__( 'Export failed. Please try again.', 'wb-todo' ),
 						// Search / filter results summary (assets/js/bptodo-front.js).

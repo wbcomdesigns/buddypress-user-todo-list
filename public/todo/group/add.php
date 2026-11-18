@@ -40,6 +40,48 @@ if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
 	exit;
 }
 
+// Modern layout (4.0): render the Interactivity add form (with member
+// assignment) and stop. The classic form below runs only in legacy mode.
+if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'group' ) ) {
+	/*
+	 * The assignee picker is bounded: big groups would otherwise render one checkbox
+	 * per member. Members past the limit are still reached by leaving every box
+	 * unticked (assign to everyone). Filter the limit per site if needed.
+	 * ponytail: no member search in the picker; add a REST member search if owners
+	 * need to pick individuals beyond the first page in very large groups.
+	 */
+	$bptodo_picker_limit = (int) apply_filters( 'bptodo_assignee_picker_limit', 100, $group_id );
+	$bptodo_page         = groups_get_group_members(
+		array(
+			'group_id'            => $group_id,
+			'exclude_admins_mods' => false,
+			'per_page'            => max( 1, $bptodo_picker_limit ),
+			'page'                => 1,
+			'type'                => 'alphabetical',
+		)
+	);
+	$bptodo_members = array();
+	if ( ! empty( $bptodo_page['members'] ) ) {
+		foreach ( $bptodo_page['members'] as $bptodo_member ) {
+			$bptodo_members[] = array(
+				'id'   => (int) $bptodo_member->ID,
+				'name' => $bptodo_member->display_name,
+			);
+		}
+	}
+	$bptodo_list_url = trailingslashit( bptodo_get_group_url( $bp->groups->current_group ) . $bptodo->profile_menu_slug ) . 'list';
+	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+		array(
+			'scope'         => 'group',
+			'group_id'      => (int) $group_id,
+			'list_url'      => $bptodo_list_url,
+			'members'       => $bptodo_members,
+			'members_total' => isset( $bptodo_page['count'] ) ? (int) $bptodo_page['count'] : count( $bptodo_members ),
+		)
+	);
+	return;
+}
+
 // Get group members.
 $group_members = groups_get_group_members(
 	array(
@@ -55,30 +97,6 @@ if ( ! empty( $group_members['members'] ) ) {
 		$group_members_ids[]            = $member->ID;
 		$members_ids[ $member->ID ] = $member->display_name;
 	}
-}
-
-// Modern layout (4.0): render the Interactivity add form (with member
-// assignment) and stop. The classic form below runs only in legacy mode.
-if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'group' ) ) {
-	$bptodo_members = array();
-	if ( ! empty( $group_members['members'] ) ) {
-		foreach ( $group_members['members'] as $bptodo_member ) {
-			$bptodo_members[] = array(
-				'id'   => (int) $bptodo_member->ID,
-				'name' => $bptodo_member->display_name,
-			);
-		}
-	}
-	$bptodo_list_url = trailingslashit( bptodo_get_group_url( $bp->groups->current_group ) . $bptodo->profile_menu_slug ) . 'list';
-	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
-		array(
-			'scope'    => 'group',
-			'group_id' => (int) $group_id,
-			'list_url' => $bptodo_list_url,
-			'members'  => $bptodo_members,
-		)
-	);
-	return;
 }
 
 // Get categories.

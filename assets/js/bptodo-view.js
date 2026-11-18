@@ -9,7 +9,7 @@
  * @since   4.0.0
  */
 
-import { store, getContext, withScope } from '@wordpress/interactivity';
+import { store, getContext, getElement, withScope } from '@wordpress/interactivity';
 
 const { state, actions } = store( 'bptodo', {
 	state: {
@@ -32,6 +32,10 @@ const { state, actions } = store( 'bptodo', {
 		},
 		get isEditing() {
 			return getContext().todo.editing === true;
+		},
+		// Row checkbox name carries the title so screen-reader users can tell rows apart.
+		get toggleLabel() {
+			return ( state.i18n.markComplete || '%s' ).replace( '%s', getContext().todo.title );
 		},
 	},
 	actions: {
@@ -114,10 +118,15 @@ const { state, actions } = store( 'bptodo', {
 		// Accessible inline delete confirmation (no window.confirm).
 		askDelete() {
 			getContext().todo.confirming = true;
+			// Keep the keyboard on the question: move focus to "No" once it renders.
+			const row = getElement().ref.closest( '.bptodo-item' );
+			requestAnimationFrame( () => focusEl( row && row.querySelector( '.bptodo-confirm__no, [data-wp-on--click="actions.cancelDelete"]' ) ) );
 		},
 
 		cancelDelete() {
 			getContext().todo.confirming = false;
+			const row = getElement().ref.closest( '.bptodo-item' );
+			requestAnimationFrame( () => focusEl( row && row.querySelector( '[data-wp-on--click="actions.askDelete"]' ) ) );
 		},
 
 		// Expand/collapse a todo's details (description) inline in the list.
@@ -129,6 +138,11 @@ const { state, actions } = store( 'bptodo', {
 		*confirmDelete() {
 			const ctx = getContext();
 			const todo = ctx.todo;
+			const { ref } = getElement();
+			const app = ref.closest( '.bptodo-app' );
+			const row = ref.closest( '.bptodo-item' );
+			// Focus target once the row is gone: the next row, else the previous one.
+			const sibling = row && ( nextRow( row, 'nextElementSibling' ) || nextRow( row, 'previousElementSibling' ) );
 			todo.confirming = false;
 			try {
 				yield bptodoApi( `/todos/${ todo.id }`, 'DELETE' );
@@ -140,6 +154,9 @@ const { state, actions } = store( 'bptodo', {
 					ctx.page -= 1;
 					yield actions.reload();
 				}
+				yield tick();
+				const target = ( sibling && sibling.isConnected ? sibling : app.querySelector( '.bptodo-item' ) );
+				focusEl( target ? target.querySelector( '.bptodo-check input' ) : app.querySelector( '.bptodo-empty' ) );
 				notify( 'success', state.i18n.deleted );
 			} catch ( err ) {
 				notify( 'error', state.i18n.error );
@@ -147,17 +164,23 @@ const { state, actions } = store( 'bptodo', {
 		},
 
 		// Inline edit (title + details + priority + due) via PATCH.
-		startEdit() {
+		*startEdit() {
 			const todo = getContext().todo;
+			const row = getElement().ref.closest( '.bptodo-item' );
 			todo.editTitle = todo.title;
 			todo.editDesc = todo.description || '';
 			todo.editPriority = todo.priority;
 			todo.editDue = todo.due_date || '';
 			todo.editing = true;
+			yield tick();
+			focusEl( row && row.querySelector( '.bptodo-item__edittitle' ) );
 		},
 
-		cancelEdit() {
+		*cancelEdit() {
+			const row = getElement().ref.closest( '.bptodo-item' );
 			getContext().todo.editing = false;
+			yield tick();
+			focusEl( row && row.querySelector( '.bptodo-check input' ) );
 		},
 
 		setEditTitle( event ) {
@@ -179,6 +202,7 @@ const { state, actions } = store( 'bptodo', {
 		*saveEdit( event ) {
 			event.preventDefault();
 			const todo = getContext().todo;
+			const row = getElement().ref.closest( '.bptodo-item' );
 			const title = ( todo.editTitle || '' ).trim();
 			if ( ! title ) {
 				return;
@@ -197,6 +221,8 @@ const { state, actions } = store( 'bptodo', {
 				todo.due_date = updated.due_date;
 				todo.due_human = updated.due_human;
 				todo.editing = false;
+				yield tick();
+				focusEl( row && row.querySelector( '.bptodo-check input' ) );
 				notify( 'success', state.i18n.updated );
 			} catch ( err ) {
 				notify( 'error', state.i18n.error );
@@ -388,6 +414,42 @@ const { state, actions } = store( 'bptodo', {
 		},
 	},
 } );
+
+/**
+ * Wait one task so the Interactivity runtime can apply pending DOM updates.
+ *
+ * @return {Promise<void>} Resolves on the next macrotask.
+ */
+function tick() {
+	return new Promise( ( resolve ) => setTimeout( resolve, 0 ) );
+}
+
+/**
+ * Nearest sibling todo row in a direction (skips the <template> node).
+ *
+ * @param {Element} row  Row element.
+ * @param {string}  prop 'nextElementSibling' | 'previousElementSibling'.
+ * @return {Element|null} Sibling row.
+ */
+function nextRow( row, prop ) {
+	let el = row[ prop ];
+	while ( el && ! el.classList.contains( 'bptodo-item' ) ) {
+		el = el[ prop ];
+	}
+	return el;
+}
+
+/**
+ * Move focus to an element if it exists.
+ *
+ * @param {Element|null} el Target.
+ * @return {void}
+ */
+function focusEl( el ) {
+	if ( el && typeof el.focus === 'function' ) {
+		el.focus();
+	}
+}
 
 /**
  * Surface a toast for a completed (or failed) action.

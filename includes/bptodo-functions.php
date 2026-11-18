@@ -33,6 +33,10 @@ if ( ! function_exists( 'bptodo_get_member_url' ) ) {
  */
 if ( ! function_exists( 'bptodo_get_group_url' ) ) {
 	function bptodo_get_group_url( $group_id_or_obj = 0 ) {
+		// BuddyBoss's bp_get_group_permalink() needs a group object; an ID yields the bare /groups/ URL.
+		if ( is_numeric( $group_id_or_obj ) && function_exists( 'groups_get_group' ) ) {
+			$group_id_or_obj = groups_get_group( (int) $group_id_or_obj );
+		}
 		if ( function_exists( 'bp_get_group_url' ) ) {
 			// BuddyPress 12.0+
 			return bp_get_group_url( $group_id_or_obj );

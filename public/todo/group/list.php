@@ -83,13 +83,8 @@ $bptodo_per_page = apply_filters( 'bptodo_group_list_per_page', 12, $group_id );
 $todo_page = isset( $_GET['todo_page'] ) ? max( 1, absint( $_GET['todo_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
 $done_page = isset( $_GET['done_page'] ) ? max( 1, absint( $_GET['done_page'] ) ) : 1; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination arg.
 
-// Scope: admin non-members see all PRIMARY tasks; members see their own tasks.
-$scope_args = array( 'group_id' => $group_id );
-if ( $is_admin_non_member ) {
-	$scope_args['primary_only'] = true;
-} else {
-	$scope_args['author'] = $current_user_id;
-}
+// Scope: managers see the group's PRIMARY tasks; members see their assigned copies.
+$scope_args = Bptodo_Todo_Repository::group_scope_args( $group_id, $current_user_id );
 
 // Aggregate counts (stats cards, tab badges, progress bar).
 $todo_counts        = bptodo_count_todos( $scope_args );

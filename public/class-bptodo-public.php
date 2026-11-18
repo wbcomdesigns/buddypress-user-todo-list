@@ -408,11 +408,10 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					$author_name        = function_exists( 'bp_core_get_user_displayname' ) ? bp_core_get_user_displayname( $secondary_item_id ) : get_the_author_meta( 'display_name', $secondary_item_id );
 					$user_link          = function_exists( 'bp_get_notifications_permalink' ) ? bp_get_notifications_permalink( get_current_user_id() ) : home_url();
 					$notification_title = isset( $bptodo_post->post_title ) ? $bptodo_post->post_title : '';
-					$notification_guid  = isset( $bptodo_post->guid ) ? $bptodo_post->guid : '';
+					// The todo CPT has no public single page; open the group's todo tab.
+					$notification_guid  = add_query_arg( 'bptodo_notif', (int) $item_id, bptodo_get_todo_view_url( $item_id ) );
 					/* translators: 1: todo title, 2: group name, 3: author name */
 					$notification_string = sprintf( __( '%1$s todo added in group %2$s by %3$s.', 'wb-todo' ), $notification_title, $group_name, $author_name );
-					$notification_guid           = add_query_arg( array( 'referer' => 'user_group_notification' ), $notification_guid );			// for identification of mark as read action 
-					$notification_guid           = wp_nonce_url( $notification_guid, 'mark-as-read-notification-' . get_current_user_id() );		// for security purpose when mark as read notification.
 			
 					if ( 'string' === $format ) {
 						$action = "<a href='" . esc_url( $notification_guid ) . "'>" . esc_html( $notification_string ) . '</a>';
@@ -663,7 +662,7 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			$profile_menu_label = isset( $bptodo->profile_menu_label ) ? $bptodo->profile_menu_label : 'Todo';
 
 			// Process GROUP todo CREATE form (check this first before member check)
-			if ( isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'] )
+			if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) && isset( $_POST['group_todo_create'], $_POST['group_save_new_todo_data_nonce'] )
 				&& wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['group_save_new_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 
 				// Ensure we're in a group context or have group ID
@@ -1103,10 +1102,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_add_todo_category_front() {
 			check_ajax_referer( 'bptodo-add-todo-category', 'security_nonce' );
 			if ( isset( $_POST['action'] ) && 'bptodo_add_todo_category_front' === $_POST['action'] ) {
-				if ( isset( $_POST['name'] ) ) {
-					$term = sanitize_text_field( wp_unslash( $_POST['name'] ) );
+				$term   = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+				$result = '' === $term
+					? new WP_Error( 'bptodo_category_name', __( 'Please enter a category name.', 'wb-todo' ) )
+					: Bptodo_Categories::create( $term );
+				// A refusal (setting turned off since the page loaded) or an insert error must not read as success.
+				if ( is_wp_error( $result ) ) {
+					wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 				}
-				Bptodo_Categories::create( $term );
 				echo 'todo-category-added';
 				die;
 			}
@@ -1524,25 +1527,49 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		
 
 		/**
-		 * Function will trigger notifications to member users
+		 * Mark a group-todo notification read when the member opens its link.
+		 *
+		 * The link carries `bptodo_notif=<todo id>`; only the viewer's own
+		 * notifications for that todo are touched. Hooked with the notification
+		 * hooks, so it exists only when Groups and Notifications are active.
+		 */
+		public function bptodo_mark_group_notification_read() {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only marker for the viewer's own notification.
+			$todo_id = isset( $_GET['bptodo_notif'] ) ? absint( $_GET['bptodo_notif'] ) : 0;
+			if ( $todo_id && is_user_logged_in() ) {
+				bp_notifications_mark_notifications_by_item_id( get_current_user_id(), $todo_id, 'bptodo_group_todo_notifications', 'bptodo_group_todo_notifications_action' );
+			}
+		}
+
+		/**
+		 * On-site notification for each member assigned a group todo.
+		 *
+		 * Hooked to `bptodo_group_todo_submit` only when the Notifications component is
+		 * active (see Bptodo_List::define_bp_component_hooks()). The assignee list comes
+		 * from the hook itself, so the REST add form, the legacy form and WP-CLI all notify.
+		 *
+		 * @param int[] $group_members_ids Assigned member IDs.
+		 * @param int   $post_id           Primary todo ID.
 		 */
 		public function bptodo_group_member_notification( $group_members_ids, $post_id ) {
-			if ( ! array_key_exists( 'todo_group_members', $_POST ) ) { //phpcs:ignore
-				return;
-			}
-			foreach ( $group_members_ids as $group_members_id ) {
-			if ( bp_is_active( 'notifications' ) && function_exists('bp_notifications_add_notification') && function_exists('bp_core_current_time') ) {
-					$args = array(
-						'user_id'           => $group_members_id,
+			$assigner_id = get_current_user_id();
+			foreach ( array_unique( array_map( 'absint', (array) $group_members_ids ) ) as $member_id ) {
+				// The assigner owns the primary todo; do not notify them about their own task.
+				if ( ! $member_id || $member_id === $assigner_id ) {
+					continue;
+				}
+				bp_notifications_add_notification(
+					array(
+						'user_id'           => $member_id,
 						'item_id'           => $post_id,
-						'secondary_item_id' => get_current_user_id(),
+						'secondary_item_id' => $assigner_id,
 						'component_name'    => 'bptodo_group_todo_notifications',
 						'component_action'  => 'bptodo_group_todo_notifications_action',
 						'date_notified'     => bp_core_current_time(),
 						'is_new'            => 1,
 						'allow_duplicate'   => true,
-					);
-					bp_notifications_add_notification( $args );				}
+					)
+				);
 			}
 		}
 

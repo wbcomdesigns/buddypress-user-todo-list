@@ -26,7 +26,7 @@ This developer guide provides technical documentation for extending and customiz
 - **Post Type:** `bp-todo`
 - **Taxonomy:** `todo_category`
 - **Minimum PHP:** 7.0
-- **BuddyPress:** 2.5+
+- **BuddyPress:** 12.0+
 - **BuddyBoss:** Compatible
 
 ### File Structure

@@ -261,7 +261,6 @@ table.bptodo-add-todo-tbl tbody tr {
 }
 
 /* Fix select dropdowns text cutoff on add/edit pages */
-.bptodo-form-add table.bptodo-add-todo-tbl select,
 table.bptodo-add-todo-tbl select {
     min-height: 42px;
     line-height: 1.6;
@@ -308,8 +307,10 @@ table.bptodo-add-todo-tbl select {
     outline-offset: 2px;
 }
 
-.bptodo-form-add input[type="text"],
-textarea {
+/* Scoped to the plugin's forms: a bare `textarea` here hit every textarea on
+   the page, including Select2's inline search field. */
+.bptodo-wrapper textarea,
+table.bptodo-add-todo-tbl textarea {
     width: 100% !important;
 }
 
@@ -562,190 +563,6 @@ textarea {
     border-color: #5e6c85 transparent transparent transparent;
 }
 
-#bptodo-task-tabs .bptodo-task-tabs-head {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 0 20px;
-    padding: 10px 10px 0;
-}
-
-
-/* 
-#bptodo-task-tabs.ui-tabs {
-  border: 0;
-  background: 0;
-}
-
-.ui-tabs #bptodo-dashboard.ui-tabs-bptodo-panel,
-.ui-tabs #bptodo-todos.ui-tabs-bptodo-panel {
-  border-width: 1px;
-}
-
-#bptodo-tabs .ui-tabs-bptodo-panel > h2 {
-  padding: 0 5px;
-}
-
-#bptodo-task-tabs .ui-widget-header {
-  border-bottom: 0;
-}
-
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li {
-  font-size: 14px;
-  border: 0px solid #3a9dfb;
-  border-radius: 5px;
-  background: #fff;
-  font-weight: normal;
-  margin-right: 10px;
-} */
-
-#bptodo-task-tabs .bptodo-task-tabs-btn {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-btn li {
-    font-size: 14px;
-    border: 0px solid #3a9dfb;
-    border-radius: 5px;
-    background: #fff;
-    font-weight: normal;
-    margin-right: 10px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-btn li a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #5e6c85;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 100px;
-    min-height: 40px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-btn li.active a {
-    background: #0285ff;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-btn li a img {
-    width: 24px;
-    margin-right: 5px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-btn li a .bpdoto-count-tab {
-    min-width: 22px;
-    height: 22px;
-    background: #fff;
-    text-align: center;
-    border-radius: 100px;
-    margin-left: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #0285ff;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
-    float: right;
-    background: #5e6c85;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    min-height: 40px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export a#export_my_tasks {
-    display: flex;
-    align-items: center;
-    color: #fff;
-    font-size: 14px;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .export-download,
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    background: url(images/export.svg) no-repeat center center;
-    background-size: cover;
-}
-
-#bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export .reload-spin {
-    background: url(images/loading-white.svg) no-repeat center center;
-    animation-name: reload;
-    animation-duration: 2000ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-}
-
-@keyframes reload {
-    from {
-        transform: rotate(359deg);
-    }
-
-    to {
-        transform: rotate(0deg);
-    }
-}
-
-
-/* #bptodo-task-tabs.ui-tabs .ui-tabs-nav li a {
-  border: 0px solid #3a9dfb;
-  border-radius: 100px;
-  background: #616161;
-  font-weight: normal;
-  color: #fff;
-  transition: all 0.3s;
-}
-
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li i{
-  margin-right: 5px;
-}
-
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active {
-  border: 0px solid #3a9dfb;
-  border-radius: 100px;
-  background: #0285ff;
-  font-weight: normal;
-}
-
-#bptodo-task-tabs.ui-tabs .ui-tabs-nav li.ui-tabs-active a {
-  color: #fff;
-  background: #0285ff;
-}
-
-.bp_all_todo_count,
-.bp_completed_todo_count,
-#bptodo-task-tabs .ui-tabs-nav li a span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
-  color: #0285ff;
-  line-height: 17px;
-  font-weight: 500;
-  margin: 1px 0 0 5px;
-  padding: 0 5px;
-  vertical-align: top;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  font-size: 12px;
-}
-
-#bptodo-task-tabs .ui-tabs-nav li a span {
-  position: relative;
-  min-width: 18px;
-  min-height: 18px;
-} */
-
-
 /*** To-do Priority css ***/
 
 table.bp-todo-reminder tbody td.bptodo-priority {
@@ -910,51 +727,73 @@ div#bp-todo-table_wrapper div#bp-todo-table_length select {
     }
 }
 
-/* Groups To-do-List */
-.groups .bptodo-form-add table.bptodo-add-todo-tbl span.select2.select2-container.select2-container--default {
-    width: 100% !important;
+/* Groups To-do-List: "Assign to Members" Select2 (group Add + Edit forms).
+   Anchored on the select itself; the old .bptodo-form-add table wrapper no
+   longer exists, which left these rules dead and let the theme's
+   `textarea { min-height: 120px }` blow up Select2's inline search textarea. */
+#todo_group_members + .select2-container {
+    width: 100% !important; /* Select2 writes a fixed pixel width inline. */
+    max-width: 100%;
 }
 
-.groups .bptodo-form-add .select2-container .select2-selection--multiple .select2-selection__rendered {
+#todo_group_members + .select2-container .select2-selection--multiple {
+    min-height: 42px;
+    padding: 4px 8px;
+    border-radius: var(--bptodo-radius-md, 6px);
+}
+
+/* Pin the Select2 4.1 inline layout: other plugins (WooCommerce selectWoo)
+   load Select2 4.0 CSS after ours, whose floats break the 4.1 markup. */
+#todo_group_members + .select2-container .select2-selection--multiple .select2-selection__rendered {
+    display: inline;
     margin: 0;
-}
-
-.groups .bptodo-form-add table.bptodo-add-todo-tbl .select2-container--default .select2-selection--multiple {
     padding: 0;
-    border-color: #ddd;
 }
 
-.groups .bptodo-form-add .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    padding-left: 24px;
-    border-radius: 5px !important;
+#todo_group_members + .select2-container .select2-selection--multiple .select2-selection__choice {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    float: none;
+    margin: 4px 6px 0 0;
+    padding: 0 8px 0 24px;
+    line-height: 26px;
+    vertical-align: middle;
+    border-radius: var(--bptodo-radius-sm, 4px);
 }
 
-.groups .bptodo-form-add .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    border-radius: 0 !important;
-}
-
-.groups .bptodo-form-add .select2-container--default .select2-selection--multiple button.select2-selection__choice__remove {
-    line-height: 23px;
-}
-
-.groups .bptodo-form-add .select2-container .select2-selection--multiple .select2-selection__clear {
-    color: inherit;
-}
-
-.groups .bptodo-form-add .select2-container .select2-selection--multiple .select2-selection__clear:hover {
-    background: transparent;
-}
-
-.groups .bptodo-form-add .select2-container .select2-search--inline .select2-search__field {
-    font-family: inherit;
-    font-size: 15px;
+#todo_group_members + .select2-container .select2-selection--multiple .select2-selection__choice__remove {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 20px;
+    padding: 0;
     border: 0;
+    border-inline-end: 1px solid var(--bptodo-border-default, #aaaaaa);
+    background: transparent;
+    color: inherit;
+    line-height: 1;
 }
 
-.select2-container.select2-container--open .select2-dropdown--below:has(#select2-todo_group_members-results) {
-    margin-top: 30px;
+#todo_group_members + .select2-container .select2-search--inline {
+    display: inline-block;
+    float: none;
+    vertical-align: middle;
 }
 
+#todo_group_members + .select2-container .select2-search--inline .select2-search__field {
+    min-height: 0;
+    height: 28px;
+    margin: 4px 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    resize: none;
+    overflow: hidden;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 28px;
+}
 
 /*==================
 New UI
@@ -1192,57 +1031,6 @@ New UI
 #wp-bptodo-summary-input-wrap.tmce-active button#bptodo-summary-input-tmce {
     color: #000;
     background-color: #fff;
-}
-
-
-/*========================
-widget 
-=========================*/
-
-.widget-bptodo-list-row ul {
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-}
-
-.widget-bptodo-list-row ul li {
-    border-bottom: 1px #e3e3e3 solid;
-    margin: 0 0 10px;
-    padding: 0 0 10px;
-}
-
-.widget-bptodo-list-row ul li:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0px;
-    border-bottom: 0px;
-}
-
-.widget-bptodo-list-meta {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 0;
-    padding: 0px;
-}
-
-.widget-bptodo-list-meta .bptodo-priority {
-    margin-right: 10px;
-}
-
-.widget-bptodo-list-meta .bptodo-priority {
-    min-width: 80px;
-}
-
-.widget-bptodo-list-meta span.post-date {
-    opacity: 0.8;
-    font-size: 13px;
-}
-
-.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-critical,
-.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-high,
-.widget_bp_todo_member_todo .bptodo-priority .bptodo-priority-normal {
-    padding: 3px 5px;
-    font-size: 13px;
-    line-height: 1.3;
 }
 
 
@@ -1771,12 +1559,6 @@ Edit popup
     background: -webkit-linear-gradient(right, #BA68C8, #7B1FA2);
 }
 
-#youzify .youzify-group-content #youzify-group-body form#myForm.bptodo-form-add {
-    padding: 20px;
-    background-color: var(--yzfy-card-bg-color);
-    border-radius: 3px;
-}
-
 #youzify .youzify-group-content #youzify-group-body table.bptodo-add-todo-tbl tbody tr td {
     text-align: left;
 }
@@ -1977,16 +1759,6 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
         padding: 10px 0px 0;
     }
 
-    #bptodo-task-tabs .bptodo-task-tabs-btn li a {
-        padding: 5px 10px;
-        min-height: 36px;
-    }
-
-    #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
-        padding: 5px 20px;
-        min-height: 36px;
-    }
-
     .bp-to-do-actions-list {
         justify-content: flex-end;
     }
@@ -2019,18 +1791,6 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     }
 }
 
-@media only screen and (max-width: 480px) {
-
-    #bptodo-task-tabs .bptodo-task-tabs-head,
-    #bptodo-task-tabs .bptodo-task-tabs-btn {
-        display: block;
-    }
-
-    #bptodo-task-tabs .bptodo-task-tabs-btn li,
-    #bptodo-task-tabs .bptodo-task-tabs-head .all-bp-todo-list-export {
-        margin: 0 0 10px;
-    }
-}
 /* ========================================
    Group Task Progress Report Styles
    ======================================== */
@@ -3636,8 +3396,19 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 :root[data-bx-mode="dark"] .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable,
 .dark-mode .select2-container--default .select2-results__option--highlighted,
 .dark-mode .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background-color: var(--bptodo-primary, #2271b1);
-    color: #ffffff;
+    /* Dark themes lighten the primary (Reign: pale blue), so white text on it
+       fails contrast; use the primary tint with the primary text colour. */
+    background-color: var(--bptodo-primary-light, rgba(34, 113, 177, 0.15));
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* Already-chosen options. Select2 4.0 CSS from other plugins paints these #ddd. */
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option[aria-selected="true"],
+:root[data-bx-mode="dark"] .select2-container--default .select2-results__option--selected,
+.dark-mode .select2-container--default .select2-results__option[aria-selected="true"],
+.dark-mode .select2-container--default .select2-results__option--selected {
+    background-color: var(--bptodo-bg-hover, #2b323c);
+    color: var(--bptodo-text-primary, #ffffff);
 }
 
 :root[data-bx-mode="dark"] .select2-container--default .select2-selection--multiple,
@@ -3746,6 +3517,93 @@ body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
 .dark-mode .media-modal .media-modal-title,
 .dark-mode .media-modal .media-frame-title h1 {
     color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* Attachment details sidebar: core greys (#646970, #3c434a) are unreadable on
+   the dark panel, and its fields stay white boxes. */
+:root[data-bx-mode="dark"] .media-modal .media-sidebar h2,
+:root[data-bx-mode="dark"] .media-modal .attachment-info .filename,
+:root[data-bx-mode="dark"] .media-modal .attachment-details .setting .name,
+:root[data-bx-mode="dark"] .media-modal .attachment-display-settings .setting .name,
+:root[data-bx-mode="dark"] .media-modal .media-sidebar .setting span,
+.dark-mode .media-modal .media-sidebar h2,
+.dark-mode .media-modal .attachment-info .filename,
+.dark-mode .media-modal .attachment-details .setting .name,
+.dark-mode .media-modal .attachment-display-settings .setting .name,
+.dark-mode .media-modal .media-sidebar .setting span {
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+:root[data-bx-mode="dark"] .media-modal .attachment-info,
+:root[data-bx-mode="dark"] .media-modal .attachment-info .uploaded,
+:root[data-bx-mode="dark"] .media-modal .attachment-info .file-size,
+:root[data-bx-mode="dark"] .media-modal .attachment-info .dimensions,
+:root[data-bx-mode="dark"] .media-modal .media-sidebar .description,
+:root[data-bx-mode="dark"] .media-modal .media-toolbar .media-toolbar-secondary label,
+.dark-mode .media-modal .attachment-info,
+.dark-mode .media-modal .attachment-info .uploaded,
+.dark-mode .media-modal .attachment-info .file-size,
+.dark-mode .media-modal .attachment-info .dimensions,
+.dark-mode .media-modal .media-sidebar .description,
+.dark-mode .media-modal .media-toolbar .media-toolbar-secondary label {
+    color: var(--bptodo-text-secondary, #c5c8cd);
+    border-color: var(--bptodo-border-default, #363d48);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-sidebar input,
+:root[data-bx-mode="dark"] .media-modal .media-sidebar textarea,
+:root[data-bx-mode="dark"] .media-modal .media-sidebar select,
+:root[data-bx-mode="dark"] .media-modal .media-toolbar input[type="search"],
+:root[data-bx-mode="dark"] .media-modal .media-toolbar select,
+.dark-mode .media-modal .media-sidebar input,
+.dark-mode .media-modal .media-sidebar textarea,
+.dark-mode .media-modal .media-sidebar select,
+.dark-mode .media-modal .media-toolbar input[type="search"],
+.dark-mode .media-modal .media-toolbar select {
+    background-color: var(--bptodo-bg-input, #181d24);
+    border-color: var(--bptodo-border-default, #363d48);
+    color: var(--bptodo-text-primary, #ffffff);
+}
+
+/* The read-only "File URL" field: dimmer than editable fields, still legible. */
+:root[data-bx-mode="dark"] .media-modal .media-sidebar input[readonly],
+.dark-mode .media-modal .media-sidebar input[readonly] {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-secondary, #c5c8cd);
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-sidebar a,
+:root[data-bx-mode="dark"] .media-modal .media-sidebar .button-link:not(.delete-attachment),
+:root[data-bx-mode="dark"] .media-modal .media-sidebar .copy-attachment-url,
+.dark-mode .media-modal .media-sidebar a,
+.dark-mode .media-modal .media-sidebar .button-link:not(.delete-attachment),
+.dark-mode .media-modal .media-sidebar .copy-attachment-url {
+    color: #8ab4f8; /* 7:1 on #2b323c; core #007cba is 2.9:1. */
+    border-color: currentColor;
+    background-color: transparent;
+}
+
+:root[data-bx-mode="dark"] .media-modal .media-sidebar .delete-attachment,
+:root[data-bx-mode="dark"] .media-modal .media-selection .clear-selection,
+.dark-mode .media-modal .media-sidebar .delete-attachment,
+.dark-mode .media-modal .media-selection .clear-selection {
+    color: #ff8a8a; /* Core #d63638 is 3.1:1 on the dark panel. */
+}
+
+/* Core fades the selection strip into white. */
+:root[data-bx-mode="dark"] .media-modal .media-selection::after,
+.dark-mode .media-modal .media-selection::after {
+    background: linear-gradient(to left, var(--bptodo-bg-surface-secondary, #2b323c), transparent);
+}
+
+:root[data-bx-mode="dark"] .media-modal .uploader-inline,
+:root[data-bx-mode="dark"] .media-modal .uploader-inline .upload-ui h2,
+:root[data-bx-mode="dark"] .media-modal .uploader-inline .max-upload-size,
+.dark-mode .media-modal .uploader-inline,
+.dark-mode .media-modal .uploader-inline .upload-ui h2,
+.dark-mode .media-modal .uploader-inline .max-upload-size {
+    background-color: var(--bptodo-bg-card, #1a2028);
+    color: var(--bptodo-text-secondary, #c5c8cd);
 }
 
 /* Editor chrome inside the form: Add Media button + Visual/Code tabs.

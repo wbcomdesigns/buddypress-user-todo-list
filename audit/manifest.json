@@ -3,7 +3,7 @@
   "plugin": {
     "slug": "buddypress-user-todo-list",
     "name": "Todo for BuddyPress & BuddyBoss",
-    "version": "4.0.0",
+    "version": "4.0.1",
     "namespace": "(none - prefixed procedural + Bptodo_* classes)",
     "main_file": "bp-user-todo-list.php",
     "text_domain": "wb-todo",
@@ -118,7 +118,7 @@
     { "key": "Bptodo_Emails", "class": "Bptodo_Emails", "added": "3.x", "note": "BuddyPress email integration (due-date + assignment notifications)." },
     { "key": "Bptodo_Data_Retention", "class": "Bptodo_Data_Retention", "added": "3.x", "note": "Daily cleanup cron + retention policy (includes/class-bptodo-data-retention.php)." },
     { "key": "Group_Extension_Todo", "class": "Group_Extension_Todo", "added": "1.0.0", "note": "BP_Group_Extension tab (public/class-bptodo-groups-extension-tab.php)." },
-    { "key": "BP_ToDo_Member_ToDo_Widget", "class": "BP_ToDo_Member_ToDo_Widget", "added": "1.0.0", "note": "Member todo WP_Widget (admin/widget/class-user-todo.php); BP-guarded so it is safe standalone." },
+    { "key": "BP_ToDo_Member_ToDo_Widget", "class": "BP_ToDo_Member_ToDo_Widget", "added": "1.0.0", "note": "Member todo WP_Widget (admin/widget/class-user-todo.php): the logged-in member's own todos, capped at MAX_ITEMS (20); rows via Bptodo_Todo (priority_label, due_human); empty-state sentence inside the card; hidden for guests. Styles: bptodo-widget handle (assets/css/bptodo-widget.css, depends on bptodo-design-system), enqueued when is_active_widget. Owner is get_current_user_id() (bp_loggedin_user_id() can be 0 while logged in), so it is safe standalone." },
     { "key": "BuddyPress_TO_DO_Feedback", "class": "BuddyPress_TO_DO_Feedback", "added": "3.x", "note": "Deactivation feedback prompt (admin/class-bptodo-feedback.php)." },
     { "key": "BPTODO_CLI_Commands", "class": "BPTODO_CLI_Commands", "added": "3.x", "note": "WP-CLI generators + cleanup (admin/class-bptodo-cli-commands.php)." },
     { "key": "Bptodo_List_Activator", "class": "Bptodo_List_Activator", "added": "1.0.0", "note": "Activation routine + default option seeding (includes/class-bptodo-activator.php)." },
@@ -173,7 +173,7 @@
     { "name": "bptodo_profile_menu_slug", "type": "filter", "args_count": 1, "args_signature": [], "where": "inc/class-bptodo-globals.php:65 (profile tab slug)", "consumed_by": [] },
     { "name": "bp_todo_locate_template", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/bptodo-plugin-genral-function.php:38 (template locator)", "consumed_by": [] },
     { "name": "bp_core_template_plugin", "type": "filter", "args_count": 1, "args_signature": [], "where": "public/class-bptodo-public.php:532,890,942 (BP template loader)", "consumed_by": [] },
-    { "name": "widget_title", "type": "filter", "args_count": 1, "args_signature": [], "where": "admin/widget/class-user-todo.php:58 (member widget)", "consumed_by": [] },
+    { "name": "widget_title", "type": "filter", "args_count": 1, "args_signature": [], "where": "admin/widget/class-user-todo.php:87 (member widget)", "consumed_by": [] },
     { "name": "plugin_locale", "type": "filter", "args_count": 2, "args_signature": [], "where": "bp-user-todo-list.php:27 (textdomain load)", "consumed_by": [] }
   ],
   "interactivity": [
@@ -214,7 +214,7 @@
   "buddypress_integration": { "enabled_when": "OPTIONAL since 4.0 - bptodo_is_buddypress_active() (bp-user-todo-list.php:250). The plugin works standalone (personal todos via the My Todos block / [bptodo_list]); BuddyPress/BuddyBoss adds the member profile tab + group todos.", "manager": "Group_Extension_Todo + Bptodo_Public + Bptodo_Emails", "sub_classes": ["Group_Extension_Todo", "Bptodo_Emails"] },
   "frontend_assets": {
     "js": ["assets/js/bptodo-view.js (script module, @wordpress/interactivity - modern layout)", "assets/js/bptodo-front.js (+.min - legacy layout)", "assets/js/bptodo-modern.js (+.min - toast/modal)", "assets/js/select2.full.min.js (+ select2.full.js source)", "assets/js/datatables.min.js (+ datatables.js source)"],
-    "css": ["assets/css/bptodo-design-system.css (+.min/-rtl)", "assets/css/bptodo-components.css (+.min/-rtl)", "assets/css/bptodo-blocks.css (modern layout)", "assets/css/bptodo-front.css (+.min/-rtl - legacy layout)", "assets/css/select2.min.css", "assets/css/jquery-ui.min.css", "assets/css/datatables.min.css"],
+    "css": ["assets/css/bptodo-design-system.css (+.min/-rtl)", "assets/css/bptodo-components.css (+.min/-rtl)", "assets/css/bptodo-blocks.css (modern layout)", "assets/css/bptodo-widget.css (+.min, logical properties so no -rtl; Member Todo widget)", "assets/css/bptodo-front.css (+.min/-rtl - legacy layout)", "assets/css/select2.min.css", "assets/css/jquery-ui.min.css", "assets/css/datatables.min.css"],
     "admin": ["assets/css/admin.css", "assets/js/admin.js", "admin/assets/js/bp-todo-list-admin.js (network-admin only)"],
     "note": "Frontend assets are gated to todo surfaces only (member/group Todo tab slug in URI, or a page carrying a todo shortcode/block) - admin/class-bptodo-admin.php. Versioning via bptodo_asset_ver() (filemtime on local/WP_DEBUG, BPTODO_VERSION in production)."
   },

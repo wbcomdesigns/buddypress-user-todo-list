@@ -887,10 +887,6 @@
 }
 
 @media (max-width: 640px) {
-	.bptodo-admin {
-		margin-right: 0;
-	}
-
 	.bptodo-page-header {
 		flex-direction: column;
 		align-items: flex-start;
@@ -901,6 +897,7 @@
 	.bptodo-card .form-table td {
 		display: block;
 		width: 100%;
+		box-sizing: border-box;
 		padding: 8px 16px;
 	}
 

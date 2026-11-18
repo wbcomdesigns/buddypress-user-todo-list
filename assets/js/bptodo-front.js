@@ -338,8 +338,6 @@ jQuery(document).ready(function($) {
 
       if (BPTodo.loading) {
         BPTodo.loading.button($btn[0]);
-      } else {
-        $btn.html('<div class="reload-spin"></div> ' + ti('export_label', 'Export'));
       }
 
       var security_nonce = $('#bptodo-export-todo-nonce').val();
@@ -354,7 +352,7 @@ jQuery(document).ready(function($) {
           if (BPTodo.loading) {
             BPTodo.loading.buttonDone($btn[0]);
           }
-          $btn.html('<div class="export-download"></div> ' + ti('export_label', 'Export'));
+          $btn.html(originalHtml);
           JSONToCSVConvertor(response, todo_ajax_object.export_file_heading, true);
 
           if (BPTodo.toast) {
@@ -426,14 +424,16 @@ jQuery(document).ready(function($) {
           }
 
           if (response === 'todo-category-added') {
-            var html = '<option value="' + name + '" selected>' + name + '</option>';
-            $('#bp_todo_categories').append(html);
+            // The add and edit forms use different select ids; the category select is the todo_cat field of this form.
+            $btn.closest('form').find('select[name="todo_cat"]').append($('<option>', { value: name, text: name, selected: true }));
             $('.add-todo-cat-row').hide();
             $('#todo-category-name').val('');
 
             if (BPTodo.toast) {
               BPTodo.toast.success(ti('category_added_text', 'Category added.'));
             }
+          } else if (BPTodo.toast) {
+            BPTodo.toast.error(response && response.data && response.data.message ? response.data.message : ti('category_error_text', 'The category could not be added.'));
           }
         }
       );

@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 <!-- Toast Notification Container -->
 <div
 	class="bptodo-toast-container"
-	role="alert"
+	role="status"
 	aria-live="polite"
 	aria-atomic="true"
 	id="bptodo-toast-container"

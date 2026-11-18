@@ -4,7 +4,6 @@
 **Branch / Version:** 3.6.0
 **Wrapper type:** NEW card-panel (`includes/admin/views/shell.php` present)
 **Audit date:** 2026-06-05
-**Auditor:** AutoVAP (READ-ONLY — no code modified)
 
 ---
 

@@ -14,11 +14,15 @@
 	--bpt-surface: var( --bptodo-theme-bg, var( --bx-color-bg-elevated, #fff ) );
 	--bpt-surface-2: color-mix( in srgb, currentColor 4%, transparent );
 	--bpt-border: color-mix( in srgb, currentColor 12%, transparent );
-	--bpt-muted: color-mix( in srgb, currentColor 55%, transparent );
+	/* Secondary text: the theme's own muted colour first; the mix keeps 4.5:1 elsewhere. */
+	--bpt-muted: var( --reign-site-alternate-text-color, var( --bx-color-fg-muted, color-mix( in srgb, currentColor 72%, transparent ) ) );
 	--bpt-critical: #ef4444;
 	--bpt-high: #f59e0b;
 	--bpt-normal: #64748b;
 	--bpt-done: #10b981;
+	/* Text versions of the status colours: 4.5:1 on light surfaces; dark mode uses the bright tones below. */
+	--bpt-critical-text: #b91c1c;
+	--bpt-done-text: #047857;
 	--bpt-radius: 14px;
 	--bpt-gap: 14px;
 
@@ -65,7 +69,7 @@
 }
 
 .bptodo-summary__stat--done b {
-	color: var( --bpt-done );
+	color: var( --bpt-done-text );
 }
 
 .bptodo-summary__pct {
@@ -238,7 +242,12 @@
 
 .bptodo-check input {
 	position: absolute;
-	inset: 0;
+	/* 40px touch target centred on the 22px circle (sizes beat theme checkbox rules). */
+	inset-block-start: -9px;
+	inset-inline-start: -9px;
+	width: 40px;
+	height: 40px;
+	max-width: none;
 	opacity: 0;
 	cursor: pointer;
 	margin: 0;
@@ -327,14 +336,14 @@
 	background: currentColor;
 }
 
-.bptodo-item[data-priority="critical"] .bptodo-item__prio { color: var( --bpt-critical ); }
+.bptodo-item[data-priority="critical"] .bptodo-item__prio { color: var( --bpt-critical-text ); }
 .bptodo-item[data-priority="high"] .bptodo-item__prio { color: var( --bpt-high ); }
 
 .bptodo-item__due {
 	color: var( --bpt-muted );
 }
 
-.bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical ); font-weight: 600; }
+.bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical-text ); font-weight: 600; }
 .bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
 
 /*
@@ -428,6 +437,18 @@
 	transition: color 0.12s ease, background 0.12s ease, border-color 0.12s ease;
 }
 
+/* 40px tall hit area without changing the button's look. */
+.bptodo-wrapper button.bptodo-iconbtn {
+	position: relative;
+}
+
+.bptodo-wrapper button.bptodo-iconbtn::before {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	inset-block: min( 0px, calc( ( 100% - 40px ) / 2 ) );
+}
+
 .bptodo-wrapper button.bptodo-iconbtn:hover {
 	color: var( --bpt-text, inherit );
 	background: var( --bpt-surface-2 );
@@ -435,14 +456,14 @@
 }
 
 .bptodo-wrapper button.bptodo-iconbtn--danger {
-	color: var( --bpt-critical );
+	color: var( --bpt-critical-text );
 	border-color: color-mix( in srgb, var( --bpt-critical ) 35%, var( --bpt-border ) );
 }
 
 .bptodo-wrapper button.bptodo-iconbtn--danger:hover {
 	color: #fff;
 	background: var( --bpt-critical );
-	border-color: var( --bpt-critical );
+	border-color: var( --bpt-critical-text );
 }
 
 .bptodo-wrapper button.bptodo-iconbtn:focus-visible {
@@ -616,6 +637,10 @@
 		flex-direction: column;
 		align-items: stretch;
 	}
+	/* In a column the 220px basis becomes the height, not the width. */
+	.bptodo-filter--search {
+		flex-basis: auto;
+	}
 	.bptodo-item__row {
 		flex-wrap: wrap;
 	}
@@ -659,7 +684,7 @@
 }
 
 .bptodo-req {
-	color: var( --bpt-critical );
+	color: var( --bpt-critical-text );
 }
 
 .bptodo-app .bptodo-input,
@@ -704,7 +729,7 @@
 
 .bptodo-addform__error {
 	margin: 0;
-	color: var( --bpt-critical );
+	color: var( --bpt-critical-text );
 	font-size: 0.85rem;
 }
 
@@ -766,6 +791,7 @@
 .bptodo-assignee {
 	display: inline-flex;
 	align-items: center;
+	min-height: 40px;
 	gap: 8px;
 	padding: 6px 12px 6px 8px;
 	background: var( --bpt-surface );
@@ -817,4 +843,11 @@
 	.bptodo-addform__actions .bptodo-btn {
 		width: 100%;
 	}
+}
+
+/* Dark mode (theme-driven only): the bright status tones already pass 4.5:1 on dark surfaces. */
+[data-bx-mode="dark"] .bptodo-app,
+body.buddyx-dark-theme .bptodo-app {
+	--bpt-critical-text: #f87171;
+	--bpt-done-text: var( --bpt-done );
 }

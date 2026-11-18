@@ -59,7 +59,7 @@ The **Todo for BuddyPress & BuddyBoss** plugin allows BuddyPress and BuddyBoss m
 ### Requirements
 
 - WordPress 4.0.1 or higher
-- BuddyPress 2.5+ or BuddyBoss Platform
+- BuddyPress 12.0+ or BuddyBoss Platform
 - PHP 7.0 or higher
 
 ---

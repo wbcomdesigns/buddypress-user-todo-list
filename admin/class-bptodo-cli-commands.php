@@ -108,7 +108,7 @@ class BPTODO_CLI_Commands {
 	 * @param array $assoc_args Associative arguments.
 	 */
 	public function group_todos( $args, $assoc_args ) {
-		if ( ! function_exists( 'groups_get_groups' ) ) {
+		if ( ! function_exists( 'bp_is_active' ) || ! bp_is_active( 'groups' ) ) {
 			WP_CLI::error( 'BuddyPress Groups component is not active.' );
 			return;
 		}

@@ -63,8 +63,8 @@ if ( ! class_exists( 'Bptodo_Categories' ) ) {
 				return true;
 			}
 			$settings = get_option( 'user_todo_list_settings' );
-			return ! empty( $settings['bptodo_allow_user_add_category'] )
-				&& 'yes' === $settings['bptodo_allow_user_add_category'];
+			return ! empty( $settings['allow_user_add_category'] )
+				&& 'yes' === $settings['allow_user_add_category'];
 		}
 
 		/**
