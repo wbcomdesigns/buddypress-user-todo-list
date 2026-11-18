@@ -253,6 +253,16 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 
 = 4.0.1 =
 
+* Improve  - The group "Assign to members" picker lists the first 100 members A to Z instead of every member, so large groups load quickly. Filter `bptodo_assignee_picker_limit` changes the number.
+* Improve  - Group and notification features load only when the BuddyPress Groups or Notifications component is turned on.
+* Fix      - Members assigned a group task get their on-site notification again.
+* Fix      - The search field on the todo list is a normal height on phones.
+* Fix      - Plugin settings fit the screen on phones with no sideways scrolling.
+* Fix      - Each task checkbox is announced with the task title.
+* Fix      - Task checkboxes, Edit, Delete and member picker chips have a 40px touch target.
+* Fix      - Edit button text and the "days left" text are easier to read in dark mode.
+* Fix      - Edit moves keyboard focus to the title field, and after Delete focus moves to the next task.
+* Fix      - Toast messages are announced politely instead of as alerts.
 * Fix      - Group members now see and complete the tasks assigned to them on the group Todos tab; it listed the organiser's copy, so ticking a task failed with a permission error.
 * Fix      - The group Todos tab count and stats match what each viewer sees: managers see the group's tasks, members see their own assignments.
 * Fix      - The "Assign to Members" picker on the classic group Add form no longer breaks out of its box or fails to open.
