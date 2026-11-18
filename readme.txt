@@ -243,7 +243,8 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 
 = 4.0.1 =
 
-Group members can complete the group tasks assigned to them again, and the group Add and Add Media screens are fixed in dark mode.* Fix      - On BuddyBoss, group todo notifications and emails open the group's todo tab instead of a missing page.
+Group members can complete the group tasks assigned to them again, and the group Add and Add Media screens are fixed in dark mode.* Fix      - The Member-created categories setting now lets members add categories when it is turned on.
+* Fix      - On BuddyBoss, group todo notifications and emails open the group's todo tab instead of a missing page.
 * Fix      - Keyboard focus stays on the delete question and returns to Delete when you choose No.
 * Fix      - Overdue, Delete and completed-count text is readable in light mode.
 
