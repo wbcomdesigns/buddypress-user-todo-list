@@ -424,14 +424,16 @@ jQuery(document).ready(function($) {
           }
 
           if (response === 'todo-category-added') {
-            var html = '<option value="' + name + '" selected>' + name + '</option>';
-            $('#bp_todo_categories').append(html);
+            // The add and edit forms use different select ids; the category select is the todo_cat field of this form.
+            $btn.closest('form').find('select[name="todo_cat"]').append($('<option>', { value: name, text: name, selected: true }));
             $('.add-todo-cat-row').hide();
             $('#todo-category-name').val('');
 
             if (BPTodo.toast) {
               BPTodo.toast.success(ti('category_added_text', 'Category added.'));
             }
+          } else if (BPTodo.toast) {
+            BPTodo.toast.error(response && response.data && response.data.message ? response.data.message : ti('category_error_text', 'The category could not be added.'));
           }
         }
       );

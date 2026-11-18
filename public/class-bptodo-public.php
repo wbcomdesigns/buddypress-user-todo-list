@@ -1102,10 +1102,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		public function bptodo_add_todo_category_front() {
 			check_ajax_referer( 'bptodo-add-todo-category', 'security_nonce' );
 			if ( isset( $_POST['action'] ) && 'bptodo_add_todo_category_front' === $_POST['action'] ) {
-				if ( isset( $_POST['name'] ) ) {
-					$term = sanitize_text_field( wp_unslash( $_POST['name'] ) );
+				$term   = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+				$result = '' === $term
+					? new WP_Error( 'bptodo_category_name', __( 'Please enter a category name.', 'wb-todo' ) )
+					: Bptodo_Categories::create( $term );
+				// A refusal (setting turned off since the page loaded) or an insert error must not read as success.
+				if ( is_wp_error( $result ) ) {
+					wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 				}
-				Bptodo_Categories::create( $term );
 				echo 'todo-category-added';
 				die;
 			}
