@@ -248,7 +248,6 @@ Group members can complete the group tasks assigned to them again, and the group
 * Fix      - On BuddyBoss, group todo notifications and emails open the group's todo tab instead of a missing page.
 * Fix      - Keyboard focus stays on the delete question and returns to Delete when you choose No.
 * Fix      - Overdue, Delete and completed-count text is readable in light mode.
-* Dev      - Renamed the admin page layout view file so security filters on some hosts no longer block the plugin upload.
 
 = 4.0.0 =
 
@@ -275,6 +274,7 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 * Fix      - The Add Media window is readable in dark mode: details panel text, fields, links and the selection bar.
 * Fix      - Dropdown options in the members picker are readable in dark mode.
 * Security - Todo stats for another member are only returned to site administrators.
+* Dev      - Renamed the admin page layout view file so security filters on some hosts no longer block the plugin upload.
 
 = 4.0.0 =
 
