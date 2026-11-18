@@ -118,10 +118,15 @@ const { state, actions } = store( 'bptodo', {
 		// Accessible inline delete confirmation (no window.confirm).
 		askDelete() {
 			getContext().todo.confirming = true;
+			// Keep the keyboard on the question: move focus to "No" once it renders.
+			const row = getElement().ref.closest( '.bptodo-item' );
+			requestAnimationFrame( () => focusEl( row && row.querySelector( '.bptodo-confirm__no, [data-wp-on--click="actions.cancelDelete"]' ) ) );
 		},
 
 		cancelDelete() {
 			getContext().todo.confirming = false;
+			const row = getElement().ref.closest( '.bptodo-item' );
+			requestAnimationFrame( () => focusEl( row && row.querySelector( '[data-wp-on--click="actions.askDelete"]' ) ) );
 		},
 
 		// Expand/collapse a todo's details (description) inline in the list.
