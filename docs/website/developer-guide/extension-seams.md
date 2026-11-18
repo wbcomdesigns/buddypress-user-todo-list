@@ -30,6 +30,7 @@ allowed to do.
 | `bptodo_exclude_modrator_view` | `bptodo_list_group_modrator()` | Whether group moderators can add/list group to-dos. |
 | `bptodo_exclude_modrator_edit` | `bptodo_report_view_enabled()` | Whether group moderators can view the group Overview report. |
 | `alter_bptodo_if_moderator_modification_enabled` | `bptodo_if_moderator_modification_enabled( $group_id, $current_user )` | Whether a moderator may modify group to-dos. |
+| `bptodo_assignee_picker_limit` | Group Add form | Members listed in the assign picker (default 100, A to Z). |
 | `bptodo_group_overview_members_per_page` | Group Overview template | Members shown per Overview page (default 15). |
 | `bptodo_group_overview_task_selector_limit` | Group Overview template | Max primary tasks loaded for the task selector (default 100). |
 

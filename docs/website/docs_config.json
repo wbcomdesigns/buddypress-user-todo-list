@@ -1,6 +1,119 @@
 {
   "product": "Todo for BuddyPress & BuddyBoss",
   "slug": "bptodo",
-  "version": "4.0.0",
-  "description": "Personal and group to-do lists for BuddyPress and BuddyBoss. Modern block/REST/Interactivity frontend by default, with a one-click classic layout fallback."
+  "version": "4.0.1",
+  "description": "Personal and group to-do lists for BuddyPress and BuddyBoss. Modern block/REST/Interactivity frontend by default, with a one-click classic layout fallback.",
+  "sections": [
+    {
+      "name": "Getting Started",
+      "folder": "getting-started",
+      "description": "What the plugin does and how the Modern and Classic layouts work.",
+      "pages": [
+        {
+          "slug": "overview",
+          "title": "Overview"
+        },
+        {
+          "slug": "modern-vs-legacy",
+          "title": "Modern vs. Legacy layout"
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "folder": "features",
+      "description": "Personal lists, task details, categories, group to-dos and privacy.",
+      "pages": [
+        {
+          "slug": "modern-todo-list",
+          "title": "Modern personal to-do list"
+        },
+        {
+          "slug": "task-details",
+          "title": "Task details and notes"
+        },
+        {
+          "slug": "add-a-todo",
+          "title": "Add a to-do"
+        },
+        {
+          "slug": "categories",
+          "title": "Categories"
+        },
+        {
+          "slug": "group-todos",
+          "title": "Group to-dos"
+        },
+        {
+          "slug": "privacy",
+          "title": "Privacy"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "folder": "settings",
+      "description": "Labels, member access, reminders and layout options.",
+      "pages": [
+        {
+          "slug": "admin-settings",
+          "title": "Admin settings"
+        }
+      ]
+    },
+    {
+      "name": "Developer Guide",
+      "folder": "developer-guide",
+      "description": "REST API, blocks and extension filters.",
+      "pages": [
+        {
+          "slug": "rest-api",
+          "title": "REST API reference"
+        },
+        {
+          "slug": "blocks",
+          "title": "Blocks"
+        },
+        {
+          "slug": "extension-seams",
+          "title": "Extension seams"
+        }
+      ]
+    },
+    {
+      "name": "FAQ",
+      "folder": "faq",
+      "description": "Quick answers to common questions.",
+      "pages": [
+        {
+          "slug": "faqs",
+          "title": "Frequently asked questions"
+        }
+      ]
+    },
+    {
+      "name": "Troubleshooting",
+      "folder": "troubleshooting",
+      "description": "Fixes for common problems.",
+      "pages": [
+        {
+          "slug": "common-problems",
+          "title": "Troubleshooting"
+        }
+      ]
+    },
+    {
+      "name": "What's New",
+      "folder": "whats-new",
+      "description": "Release highlights.",
+      "pages": [
+        {
+          "slug": "4-0-1",
+          "title": "What's new in 4.0.1"
+        }
+      ]
+    }
+  ],
+  "shortId": "bptodo",
+  "productType": "plugin"
 }

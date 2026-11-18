@@ -8,7 +8,7 @@ slug: modern-todo-list
 The Modern layout renders each member's tasks as a fast, no-reload list powered by the
 WordPress Interactivity API and the `bptodo/v1` REST API.
 
-![Modern to-do list](../images/modern-todo-list.png)
+![Modern to-do list](../images/modern-todo-list.webp)
 
 ## Progress summary
 
@@ -56,4 +56,4 @@ removes the task and refreshes the stats.
 The modern list follows your theme's dark mode (BuddyX/Reign `data-bx-mode="dark"`), using
 design tokens rather than hardcoded colors.
 
-![Dark mode](../images/dark-mode.png)
+![Dark mode](../images/dark-mode.webp)

@@ -39,9 +39,8 @@ while keeping the classic layout available as an instant fallback.
 - [Extension seams](developer-guide/extension-seams) - the domain layer and the filters
   available for customization
 
-## Also see
+## Help
 
-The plugin root `docs/` folder has the pre-4.0 user guides (admin settings walkthrough,
-member guide, group todos guide, email/notifications, shortcodes, WP-CLI commands, FAQ,
-and troubleshooting). This `docs/website/` tree documents the 4.0 modernization
-specifically; it does not replace those guides.
+- [FAQ](faq/faqs) - quick answers
+- [Troubleshooting](troubleshooting/common-problems) - fixes for common problems
+- [What's new in 4.0.1](whats-new/4-0-1) - release highlights

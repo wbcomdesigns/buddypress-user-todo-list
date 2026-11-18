@@ -14,7 +14,7 @@ When a task has a non-empty description, its row shows a **Details** toggle next
 priority and due-date text. Selecting it expands an inline note beneath the task, without
 navigating away from the list.
 
-![Task details inline](../images/task-details-inline-edit.png)
+![Task details inline](../images/task-details-inline-edit.webp)
 
 ## Editing details
 
