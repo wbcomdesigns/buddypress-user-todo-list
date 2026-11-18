@@ -14,7 +14,7 @@
 
 ## Admin UI wrapper — OLD
 - Wrapper file: `admin/wbcom/wbcom-admin-settings.php` (`class Wbcom_Admin_Settings`) — registers the shared `wbcomplugins` menu + Our Plugins / Our Themes / Support on `admin_menu@999`.
-- No INTERMEDIATE (`includes/shared-admin/class-wbcom-shared-dashboard.php`) and no NEW (`includes/admin/views/shell.php`) wrapper present.
+- No INTERMEDIATE (`includes/shared-admin/class-wbcom-shared-dashboard.php`) and no NEW (`includes/admin/views/page-layout.php`) wrapper present.
 - Primary settings page: slug `user-todo-list-settings`, parent `wbcomplugins`, registered by `Bptodo_Admin::bptodo_add_menu_page` (hook `admin_menu`). Tab UI via Settings API `do_settings_sections($tab)`.
 
 ### Admin CSS gotcha: `.bptodo-admin a` vs `.bptodo-btn`
@@ -158,5 +158,5 @@ Only two call sites exist; re-test both after any select2 change:
 | 2026-07-03 | a11y | aria-labels on 12 wb-switch admin toggles + legacy edit-popup fields; scoped the site-wide a:focus/button:focus outline kill to plugin containers; :focus-visible rings for inputs/selects/search/filter/task-dropdown/option-input; rebuilt min+RTL | includes/admin/views/settings-{general,group,retention}.php, public/todo/group/edit.php, public/todo/member/member-todo-edit.php, public/todo/partials/todo-form-fields.php, assets/css/* |
 | 2026-07-03 | bug-fix | Sanitize profile_menu_slug at source (multi-word labels broke group tab/subnav/assets); slug-derived URLs fixed | inc/class-bptodo-globals.php, public/class-bptodo-groups-extension-tab.php, public/todo/group/{add,overview}.php |
 | 2026-07-03 | bug-fix | Dark mode: BuddyX --bx-color-* token cascade, [data-bx-mode] dark selectors (BuddyX 5.1+/Reign 8), retokenized group overview/report CSS, datepicker + core/vendor UI (wp_editor, wplink, media modal, Select2) token compat | assets/css/bptodo-design-system*.css, assets/css/bptodo-front*.css |
-| 2026-07-03 | bug-fix | Confirm modal now carries bptodo-wrapper class (Cancel/Delete buttons were unstyled); Clear filters button uses ghost component; docs URL corrected | assets/js/bptodo-modern*.js, public/todo/group/list.php, public/todo/member/member-todo-list.php, includes/admin/views/shell.php |
+| 2026-07-03 | bug-fix | Confirm modal now carries bptodo-wrapper class (Cancel/Delete buttons were unstyled); Clear filters button uses ghost component; docs URL corrected | assets/js/bptodo-modern*.js, public/todo/group/list.php, public/todo/member/member-todo-list.php, includes/admin/views/page-layout.php |
 | 2026-06-05 | onboard | Generated audit/ manifest + reports + graph; wrote READ-FIRST CLAUDE.md | audit/*, CLAUDE.md |

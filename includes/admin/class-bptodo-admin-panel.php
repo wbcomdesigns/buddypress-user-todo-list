@@ -309,7 +309,7 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 			}
 
 			$view_path = BPTODO_PLUGIN_PATH . 'includes/admin/views/' . $view . '.php';
-			$shell     = BPTODO_PLUGIN_PATH . 'includes/admin/views/shell.php';
+			$shell     = BPTODO_PLUGIN_PATH . 'includes/admin/views/page-layout.php';
 
 			include $shell;
 		}

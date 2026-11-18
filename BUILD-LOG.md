@@ -49,7 +49,7 @@ Old admin assets (only used by the deleted page / retired dependency):
 - `includes/admin/class-bptodo-admin-panel.php` — controller (`Bptodo_Admin_Panel`): `get_tabs()`,
   `register()`, `add_menu()`, `takeover_hub_landing()` (Part 16), `enqueue_assets()` (screen-scoped),
   `suppress_foreign_notices()`, `is_our_screen()`, `render_hub()`, `render_page()`.
-- `includes/admin/views/shell.php` — header card + sidebar nav + body slot + `wp-header-end` marker.
+- `includes/admin/views/page-layout.php` — header card + sidebar nav + body slot + `wp-header-end` marker.
 - `includes/admin/views/hub.php` — WB Plugins hub landing (wrapper-helper-slug filtered).
 - `includes/admin/views/overview.php` — stats grid (COUNT(*) via `WP_Query` found_posts) + config snapshot + quick actions.
 - `includes/admin/views/settings-general.php` — General (custom self-POST, preserved).
@@ -132,7 +132,7 @@ across tabs. Documented intentionally; the existing per-tab save mechanisms were
     errors introduced.**
 - Dangling-reference grep (Playbook 2.1): no PHP references the deleted wrapper paths/handles or
   deleted admin assets (only comment text mentions them).
-- Template-variable contract (Playbook 12.2): every `shell.php` `@var` (`$active`, `$bptodo_tabs`,
+- Template-variable contract (Playbook 12.2): every `page-layout.php` `@var` (`$active`, `$bptodo_tabs`,
   `$page_url`, `$view`, `$view_path`) is set by `render_page()`.
 - Isolated runtime load: `Bptodo_Admin_Panel` instantiates, `get_tabs()` returns the five tabs
   (overview, general, group, retention, shortcodes), all required methods present — no fatal.
