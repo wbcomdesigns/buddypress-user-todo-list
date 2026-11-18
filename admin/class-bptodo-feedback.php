@@ -99,7 +99,7 @@ if ( ! class_exists( 'BuddyPress_TO_DO_Feedback' ) ) :
 				?>
 				<div class="notice notice-info wb-todo-notice">
 					<?php $this->name = 'Todo for BuddyPress & BuddyBoss'; ?>
-					<h3><?php echo esc_html__( 'Are you enjoying Todo for BuddyPress & BuddyBoss?', 'bp-user-to-do-list' ); ?></h3>
+					<h3><?php /* translators: %s: plugin name. */ printf( esc_html__( 'Are you enjoying %s?', 'bp-user-to-do-list' ), esc_html( $this->name ) ); ?></h3>
 					<p>
 						<?php /* translators: 1. Name */ ?>
 						<?php printf( esc_html__( 'We hope you\'re enjoying %1$s! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'bp-user-to-do-list' ), esc_html( $this->name ) ); ?>

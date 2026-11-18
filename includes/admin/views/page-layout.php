@@ -29,7 +29,7 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 		<div class="bptodo-page-header__title">
 			<span class="dashicons dashicons-list-view" aria-hidden="true"></span>
 			<div>
-				<h1><?php esc_html_e( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' ); ?></h1>
+				<h1><?php echo esc_html( 'Todo for BuddyPress & BuddyBoss' ); // Product name: never translated. ?></h1>
 				<p class="bptodo-page-header__subtitle"><?php esc_html_e( 'Personal and group to-do lists on every member profile, with reminders, categories, and role-based access.', 'bp-user-to-do-list' ); ?></p>
 			</div>
 		</div>

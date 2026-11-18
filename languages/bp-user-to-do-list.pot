@@ -9,17 +9,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T18:18:04+00:00\n"
+"POT-Creation-Date: 2026-11-18T19:06:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: bp-user-to-do-list\n"
 
 #. Plugin Name of the plugin
 #: bp-user-todo-list.php
-#: bp-user-todo-list.php:440
-#: bp-user-todo-list.php:452
-#: includes/admin/class-bptodo-admin-panel.php:126
-#: includes/admin/views/page-layout.php:32
 msgid "Todo for BuddyPress & BuddyBoss"
 msgstr ""
 
@@ -221,8 +217,10 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
+#. translators: %s: plugin name.
 #: admin/class-bptodo-feedback.php:102
-msgid "Are you enjoying Todo for BuddyPress & BuddyBoss?"
+#, php-format
+msgid "Are you enjoying %s?"
 msgstr ""
 
 #. translators: 1. Name
@@ -298,53 +296,53 @@ msgstr ""
 msgid "Please log in to view your todos."
 msgstr ""
 
-#: bp-user-todo-list.php:244
+#: bp-user-todo-list.php:309
 #: includes/admin/views/page-layout.php:69
 msgid "Settings"
 msgstr ""
 
-#: bp-user-todo-list.php:245
+#: bp-user-todo-list.php:310
 msgid "Support"
 msgstr ""
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:439
+#: bp-user-todo-list.php:504
 #, php-format
 msgid "%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog."
 msgstr ""
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:454
+#: bp-user-todo-list.php:519
 #, php-format
 msgid "%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab."
 msgstr ""
 
-#: bp-user-todo-list.php:482
+#: bp-user-todo-list.php:547
 msgid "Export"
 msgstr ""
 
-#: bp-user-todo-list.php:634
-#: bp-user-todo-list.php:655
+#: bp-user-todo-list.php:699
+#: bp-user-todo-list.php:720
 msgid "Network Deactivate"
 msgstr ""
 
-#: bp-user-todo-list.php:656
+#: bp-user-todo-list.php:721
 msgid "Are you sure you want to deactivate this plugin across all sites?"
 msgstr ""
 
-#: bp-user-todo-list.php:657
+#: bp-user-todo-list.php:722
 msgid "There was an error with the request."
 msgstr ""
 
-#: bp-user-todo-list.php:658
+#: bp-user-todo-list.php:723
 msgid "Error"
 msgstr ""
 
-#: bp-user-todo-list.php:673
+#: bp-user-todo-list.php:738
 msgid "Insufficient permissions"
 msgstr ""
 
-#: bp-user-todo-list.php:680
+#: bp-user-todo-list.php:745
 msgid "Plugin deactivated across all sites"
 msgstr ""
 

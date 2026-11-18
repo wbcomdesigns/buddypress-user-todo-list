@@ -45,6 +45,9 @@ if ( ! defined( 'BPTODO_VERSION' ) ) {
     define( 'BPTODO_VERSION', '4.0.1' );
 }
 
+// Option that records the one-time completion-time UTC migration (see bptodo_migrate_completion_times_to_utc).
+define( 'BPTODO_UTC_MARKER', 'bptodo_completion_utc_migrated' );
+
 if ( ! defined( 'BP_ENABLE_MULTIBLOG' ) ) {
     define( 'BP_ENABLE_MULTIBLOG', false );
 }
@@ -119,12 +122,6 @@ function bptodo_run_pending_upgrade() {
  * @param string $from_version The version being upgraded from.
  */
 function bptodo_upgrade_routine( $from_version ) {
-    // 4.0.1: completion times were stored in the site's clock time; they are UTC now.
-    // Runs with or without BuddyPress, so it sits above the BuddyPress check.
-    if ( version_compare( $from_version, '4.0.1', '<' ) ) {
-        bptodo_migrate_completion_times_to_utc();
-    }
-
     // Check if BuddyPress is active
     if ( ! function_exists( 'bp_is_active' ) ) {
         return;
@@ -148,6 +145,24 @@ function bptodo_upgrade_routine( $from_version ) {
 }
 
 /**
+ * Runs the completion-time UTC migration once per site, keyed on its own marker.
+ *
+ * The marker, not the plugin version, decides: sites that took a 4.0.1 build
+ * which still wrote local times keep version 4.0.1, so a version check would
+ * skip them. Marker values: "running:<last meta_id>:<unix time>" while it runs,
+ * "done:<rows converted>:<unix time>" afterwards.
+ *
+ * @since 4.0.1
+ */
+add_action( 'plugins_loaded', 'bptodo_maybe_migrate_completion_times', 5 );
+function bptodo_maybe_migrate_completion_times() {
+	$state = get_option( BPTODO_UTC_MARKER, '' );
+	if ( 0 !== strpos( (string) $state, 'done:' ) ) {
+		bptodo_migrate_completion_times_to_utc();
+	}
+}
+
+/**
  * One-time move of stored completion times from the site's clock time to UTC.
  *
  * Each value is converted with the site timezone rule for its own date, so
@@ -155,20 +170,52 @@ function bptodo_upgrade_routine( $from_version ) {
  * todo_complete_time held current_time( 'timestamp' ): UTC seconds plus the
  * offset of that moment, i.e. the local wall time read as if it were UTC.
  *
+ * Exactly once: the marker row is claimed with an atomic INSERT IGNORE (the same
+ * lock core's WP_Upgrader::create_lock() uses), the cursor is saved after every
+ * row, and a run that died is resumed from its cursor after 10 minutes. A fresh
+ * install has no rows, so it records "done:0".
+ *
+ * ponytail: a member re-completing a not-yet-reached todo during the run (seconds
+ * long) gets that one value shifted; per-row markers if that ever matters.
+ *
  * @since 4.0.1
  */
 function bptodo_migrate_completion_times_to_utc() {
 	global $wpdb;
 
-	$tz = wp_timezone();
-	if ( in_array( $tz->getName(), array( 'UTC', '+00:00' ), true ) ) {
-		return;
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade + atomic lock; no API converts meta in place.
+	$now     = time();
+	$claimed = $wpdb->query(
+		$wpdb->prepare(
+			"INSERT IGNORE INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'yes' )",
+			BPTODO_UTC_MARKER,
+			'running:0:' . $now
+		)
+	);
+	$current = (string) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", BPTODO_UTC_MARKER ) );
+	if ( ! $claimed ) {
+		// Someone else holds it. Take it over only if that run died (no progress for 10 minutes).
+		$parts = explode( ':', $current );
+		if ( 3 !== count( $parts ) || 'running' !== $parts[0] || (int) $parts[2] > $now - 10 * MINUTE_IN_SECONDS ) {
+			return;
+		}
+		$takeover = 'running:' . (int) $parts[1] . ':' . $now;
+		if ( 1 !== (int) $wpdb->update( $wpdb->options, array( 'option_value' => $takeover ), array( 'option_name' => BPTODO_UTC_MARKER, 'option_value' => $current ) ) ) {
+			return;
+		}
+		$current = $takeover;
 	}
-	$utc = new DateTimeZone( 'UTC' );
+	wp_cache_delete( 'alloptions', 'options' );
+	wp_cache_delete( 'notoptions', 'options' );
+	wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
 
-	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade; no API converts meta in place.
-	$last = 0;
-	do {
+	$last      = (int) explode( ':', $current )[1];
+	$converted = 0;
+	$tz        = wp_timezone();
+	$is_utc    = 0 === $tz->getOffset( new DateTimeImmutable( '2026-01-01' ) ) && 0 === $tz->getOffset( new DateTimeImmutable( '2026-07-01' ) );
+	$utc       = new DateTimeZone( 'UTC' );
+
+	while ( ! $is_utc ) {
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_id > %d AND meta_key IN ( 'todo_completed_date', 'todo_complete_time' ) ORDER BY meta_id ASC LIMIT 500",
@@ -176,28 +223,31 @@ function bptodo_migrate_completion_times_to_utc() {
 			)
 		);
 		foreach ( $rows as $row ) {
-			$last  = (int) $row->meta_id;
 			$value = (string) $row->meta_value;
-			if ( 'todo_complete_time' === $row->meta_key ) {
-				if ( ! ctype_digit( $value ) ) {
-					continue;
-				}
-				$local = gmdate( 'Y-m-d H:i:s', (int) $value );
-				$new   = (string) date_create_immutable( $local, $tz )->getTimestamp();
-			} else {
-				if ( ! preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value ) || '0000-00-00 00:00:00' === $value ) {
-					continue;
-				}
+			$new   = $value;
+			if ( 'todo_complete_time' === $row->meta_key && ctype_digit( $value ) ) {
+				$new = (string) date_create_immutable( gmdate( 'Y-m-d H:i:s', (int) $value ), $tz )->getTimestamp();
+			} elseif ( 'todo_completed_date' === $row->meta_key && '0000-00-00 00:00:00' !== $value && preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value ) ) {
 				$new = date_create_immutable( $value, $tz )->setTimezone( $utc )->format( 'Y-m-d H:i:s' );
 			}
 			if ( $new !== $value ) {
-				$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $new ), array( 'meta_id' => $last ) );
-				// Meta changed behind the object cache: drop the post's cached meta.
+				$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $new ), array( 'meta_id' => (int) $row->meta_id ) );
 				wp_cache_delete( (int) $row->post_id, 'post_meta' );
+				++$converted;
 			}
+			$last = (int) $row->meta_id;
+			// Cursor after every row, so a resumed run never converts a row twice.
+			$wpdb->update( $wpdb->options, array( 'option_value' => 'running:' . $last . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
 		}
-	} while ( count( $rows ) === 500 );
+		if ( count( $rows ) < 500 ) {
+			break;
+		}
+	}
+
+	$wpdb->update( $wpdb->options, array( 'option_value' => 'done:' . $converted . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
 	// phpcs:enable WordPress.DB.DirectDatabaseQuery
+	wp_cache_delete( 'alloptions', 'options' );
+	wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
 }
 
 /**
@@ -452,7 +502,7 @@ function bptodo_show_bp_root_blog_notice() {
 	printf(
 		/* Translators: %s: plugin name. */
 		esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'bp-user-to-do-list' ),
-		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' ) . '</strong>'
+		'<strong>' . esc_html( 'Todo for BuddyPress & BuddyBoss' ) . '</strong>'
 	);
 	echo '</p></div>';
 }
@@ -464,7 +514,7 @@ function bptodo_show_bp_root_blog_notice() {
  * @since   1.0.0
  */
 function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' );
+	$bptodo_plugin = 'Todo for BuddyPress & BuddyBoss'; // Product name: never translated.
 	/* Translators: %s: plugin name. */
 	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'bp-user-to-do-list' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
 }

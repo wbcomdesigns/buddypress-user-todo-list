@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Todo for BuddyPress & BuddyBoss 4.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bp-user-to-do-"
 "list\n"
-"POT-Creation-Date: 2026-11-18T18:18:04+00:00\n"
+"POT-Creation-Date: 2026-11-18T19:06:25+00:00\n"
 "PO-Revision-Date: 2026-07-27T12:15:00+00:00\n"
 "Last-Translator: Wbcom Designs <admin@wbcomdesigns.com>\n"
 "Language-Team: Wbcom Designs\n"
@@ -18,11 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. Plugin Name of the plugin
-#: bp-user-todo-list.php bp-user-todo-list.php:440 bp-user-todo-list.php:452
-#: includes/admin/class-bptodo-admin-panel.php:126
-#: includes/admin/views/page-layout.php:32
+#: bp-user-todo-list.php
 msgid "Todo for BuddyPress & BuddyBoss"
-msgstr "Todo pour BuddyPress & BuddyBoss"
+msgstr "Todo for BuddyPress & BuddyBoss"
 
 #. Plugin URI of the plugin
 #: bp-user-todo-list.php
@@ -226,9 +224,11 @@ msgstr "Aucune catégorie d'élément Todo trouvée"
 msgid "Categories"
 msgstr "Catégories"
 
+#. translators: %s: plugin name.
 #: admin/class-bptodo-feedback.php:102
-msgid "Are you enjoying Todo for BuddyPress & BuddyBoss?"
-msgstr "Tu aimes Todo pour BuddyPress & BuddyBoss ?"
+#, php-format
+msgid "Are you enjoying %s?"
+msgstr "Tu aimes %s ?"
 
 #. translators: 1. Name
 #: admin/class-bptodo-feedback.php:105
@@ -310,16 +310,16 @@ msgstr "Tu dois te connecter pour afficher les tâches du groupe."
 msgid "Please log in to view your todos."
 msgstr "Tu dois te connecter pour afficher tes tâches."
 
-#: bp-user-todo-list.php:244 includes/admin/views/page-layout.php:69
+#: bp-user-todo-list.php:309 includes/admin/views/page-layout.php:69
 msgid "Settings"
 msgstr "Paramètres"
 
-#: bp-user-todo-list.php:245
+#: bp-user-todo-list.php:310
 msgid "Support"
 msgstr "Support"
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:439
+#: bp-user-todo-list.php:504
 #, php-format
 msgid ""
 "%s: personal todo lists are active on this site. Group todos and the member "
@@ -330,7 +330,7 @@ msgstr ""
 "racine de BuddyPress."
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:454
+#: bp-user-todo-list.php:519
 #, php-format
 msgid ""
 "%s: personal todo lists are active. Install and activate BuddyPress or "
@@ -340,31 +340,31 @@ msgstr ""
 "BuddyPress ou BuddyBoss Platform pour aussi activer les tâches de groupe et "
 "l'onglet de profil de membre."
 
-#: bp-user-todo-list.php:482
+#: bp-user-todo-list.php:547
 msgid "Export"
 msgstr "Exporter"
 
-#: bp-user-todo-list.php:634 bp-user-todo-list.php:655
+#: bp-user-todo-list.php:699 bp-user-todo-list.php:720
 msgid "Network Deactivate"
 msgstr "Désactiver sur le réseau"
 
-#: bp-user-todo-list.php:656
+#: bp-user-todo-list.php:721
 msgid "Are you sure you want to deactivate this plugin across all sites?"
 msgstr "Es-tu sûr(e) de vouloir désactiver ce plugin sur tous les sites ?"
 
-#: bp-user-todo-list.php:657
+#: bp-user-todo-list.php:722
 msgid "There was an error with the request."
 msgstr "Une erreur s'est produite lors de la demande."
 
-#: bp-user-todo-list.php:658
+#: bp-user-todo-list.php:723
 msgid "Error"
 msgstr "Erreur"
 
-#: bp-user-todo-list.php:673
+#: bp-user-todo-list.php:738
 msgid "Insufficient permissions"
 msgstr "Autorisations insuffisantes"
 
-#: bp-user-todo-list.php:680
+#: bp-user-todo-list.php:745
 msgid "Plugin deactivated across all sites"
 msgstr "Plugin désactivé sur tous les sites"
 

@@ -22,6 +22,7 @@
 	--bpt-done: #10b981;
 	/* Text versions of the status colours: 4.5:1 on light surfaces; dark mode uses the bright tones below. */
 	--bpt-critical-text: #b91c1c;
+	--bpt-high-text: #b45309;
 	--bpt-done-text: #047857;
 	--bpt-radius: 14px;
 	--bpt-gap: 14px;
@@ -152,8 +153,16 @@
 	min-height: 40px;
 }
 
-.bptodo-filter--search {
-	flex: 1 1 220px;
+.bptodo-app .bptodo-filter {
+	width: auto;
+	max-width: 100%;
+	min-width: 0;
+	flex: 1 1 150px;
+	margin: 0;
+}
+
+.bptodo-app .bptodo-filter--search {
+	flex: 2 1 220px;
 }
 
 .bptodo-filter:focus-visible {
@@ -337,14 +346,14 @@
 }
 
 .bptodo-item[data-priority="critical"] .bptodo-item__prio { color: var( --bpt-critical-text ); }
-.bptodo-item[data-priority="high"] .bptodo-item__prio { color: var( --bpt-high ); }
+.bptodo-item[data-priority="high"] .bptodo-item__prio { color: var( --bpt-high-text ); }
 
 .bptodo-item__due {
 	color: var( --bpt-muted );
 }
 
 .bptodo-item__due[data-due="overdue"] { color: var( --bpt-critical-text ); font-weight: 600; }
-.bptodo-item__due[data-due="today"] { color: var( --bpt-high ); font-weight: 600; }
+.bptodo-item__due[data-due="today"] { color: var( --bpt-high-text ); font-weight: 600; }
 
 /*
  * "Details" toggle - reveals the task's description inline.
@@ -629,17 +638,22 @@
 }
 
 /* Responsive */
-@media ( max-width: 600px ) {
-	.bptodo-summary__pct {
-		margin-inline-start: 0;
-	}
+@media ( max-width: 640px ) {
 	.bptodo-filters {
 		flex-direction: column;
 		align-items: stretch;
 	}
-	/* In a column the 220px basis becomes the height, not the width. */
-	.bptodo-filter--search {
-		flex-basis: auto;
+	/* In a column the flex basis becomes the height, not the width. */
+	.bptodo-app .bptodo-filter,
+	.bptodo-app .bptodo-filter--search {
+		flex: 0 0 auto;
+		width: 100%;
+	}
+}
+
+@media ( max-width: 600px ) {
+	.bptodo-summary__pct {
+		margin-inline-start: 0;
 	}
 	.bptodo-item__row {
 		flex-wrap: wrap;
@@ -849,5 +863,8 @@
 [data-bx-mode="dark"] .bptodo-app,
 body.buddyx-dark-theme .bptodo-app {
 	--bpt-critical-text: #f87171;
+	--bpt-high-text: var( --bpt-high );
 	--bpt-done-text: var( --bpt-done );
+	/* Slate-500 is 3.4:1 on dark surfaces; slate-400 passes 4.5:1. */
+	--bpt-normal: #94a3b8;
 }

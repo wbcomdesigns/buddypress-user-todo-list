@@ -123,7 +123,7 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 
 			add_submenu_page(
 				'wbcomplugins',
-				esc_html__( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' ),
+				esc_html( 'Todo for BuddyPress & BuddyBoss' ), // Product name: never translated.
 				esc_html__( 'Todo Lists', 'bp-user-to-do-list' ),
 				$cap,
 				self::MENU_SLUG,
