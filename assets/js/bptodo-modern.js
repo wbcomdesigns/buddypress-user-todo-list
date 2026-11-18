@@ -88,7 +88,7 @@
 
 			this.container = document.createElement('div');
 			this.container.className = 'bptodo-toast-container';
-			this.container.setAttribute('role', 'alert');
+			this.container.setAttribute('role', 'status');
 			this.container.setAttribute('aria-live', 'polite');
 			this.container.setAttribute('aria-atomic', 'true');
 			document.body.appendChild(this.container);

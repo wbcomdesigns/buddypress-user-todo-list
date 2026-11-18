@@ -144,6 +144,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						'deleted'       => __( 'Task deleted.', 'wb-todo' ),
 						'added'         => __( 'Task added.', 'wb-todo' ),
 						'updated'       => __( 'Task updated.', 'wb-todo' ),
+						/* translators: %s: the task title. */
+						'markComplete'  => __( 'Mark "%s" complete', 'wb-todo' ),
 						'categoryAdded' => __( 'Category added.', 'wb-todo' ),
 						'titleRequired' => __( 'Please enter a title.', 'wb-todo' ),
 						'dueRequired'   => __( 'Please set a due date.', 'wb-todo' ),
@@ -379,7 +381,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						<li class="bptodo-item" data-wp-class--is-done="context.todo.is_complete" data-wp-class--is-editing="state.isEditing" data-wp-bind--data-priority="context.todo.priority">
 							<div class="bptodo-item__row" data-wp-bind--hidden="state.isEditing">
 								<label class="bptodo-check">
-									<input type="checkbox" data-wp-bind--checked="context.todo.is_complete" data-wp-bind--disabled="!context.todo.can_edit" data-wp-on--change="actions.toggleComplete" aria-label="<?php esc_attr_e( 'Toggle complete', 'wb-todo' ); ?>" />
+									<input type="checkbox" data-wp-bind--checked="context.todo.is_complete" data-wp-bind--disabled="!context.todo.can_edit" data-wp-on--change="actions.toggleComplete" data-wp-bind--aria-label="state.toggleLabel" />
 									<span class="bptodo-check__box" aria-hidden="true"></span>
 								</label>
 								<span class="bptodo-item__main">
@@ -402,7 +404,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 								</span>
 							</div>
 							<form class="bptodo-item__edit" data-wp-bind--hidden="!state.isEditing" data-wp-on--submit="actions.saveEdit">
-								<input type="text" class="bptodo-input bptodo-item__editfull" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'wb-todo' ); ?>" />
+								<input type="text" class="bptodo-input bptodo-item__editfull bptodo-item__edittitle" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'wb-todo' ); ?>" />
 								<textarea class="bptodo-input bptodo-textarea bptodo-item__editfull" rows="2" placeholder="<?php esc_attr_e( 'Details (optional)', 'wb-todo' ); ?>" data-wp-bind--value="context.todo.editDesc" data-wp-on--input="actions.setEditDesc" aria-label="<?php esc_attr_e( 'Edit details', 'wb-todo' ); ?>"></textarea>
 								<select class="bptodo-select" data-wp-bind--value="context.todo.editPriority" data-wp-on--change="actions.setEditPriority" aria-label="<?php esc_attr_e( 'Edit priority', 'wb-todo' ); ?>">
 									<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
@@ -417,7 +419,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					</template>
 				</ul>
 
-				<div class="bptodo-empty" data-wp-bind--hidden="context.total">
+				<div class="bptodo-empty" tabindex="-1" data-wp-bind--hidden="context.total">
 					<p><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Nothing here yet. Add your first %s above.', 'wb-todo' ), strtolower( $label_singular ) ) ); ?></p>
 				</div>
 
@@ -443,8 +445,9 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				array(
 					'scope'    => 'member',
 					'group_id' => 0,
-					'list_url' => '',
-					'members'  => array(),
+					'list_url'      => '',
+					'members'       => array(),
+					'members_total' => 0,
 				)
 			);
 
@@ -561,6 +564,20 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 								<?php endforeach; ?>
 							</div>
 							<p class="bptodo-field__hint"><?php esc_html_e( 'Leave all unchecked to assign to everyone in the group.', 'wb-todo' ); ?></p>
+							<?php if ( (int) $args['members_total'] > count( $args['members'] ) ) : ?>
+								<p class="bptodo-field__hint">
+									<?php
+									echo esc_html(
+										sprintf(
+											/* translators: 1: members listed, 2: total group members. */
+											__( 'Showing the first %1$d of %2$d members, A to Z.', 'wb-todo' ),
+											count( $args['members'] ),
+											(int) $args['members_total']
+										)
+									);
+									?>
+								</p>
+							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 
