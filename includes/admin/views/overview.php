@@ -74,104 +74,104 @@ $bptodo_retention_url = admin_url( 'admin.php?page=user-todo-list-settings&tab=r
 	<div class="bptodo-notice bptodo-notice--warning">
 		<span class="dashicons dashicons-warning" aria-hidden="true"></span>
 		<div>
-			<strong><?php esc_html_e( 'BuddyPress or BuddyBoss is not active.', 'wb-todo' ); ?></strong>
-			<?php esc_html_e( 'This plugin needs BuddyPress or BuddyBoss for member and group to-do lists. Activate one to use all features.', 'wb-todo' ); ?>
+			<strong><?php esc_html_e( 'BuddyPress or BuddyBoss is not active.', 'bp-user-to-do-list' ); ?></strong>
+			<?php esc_html_e( 'This plugin needs BuddyPress or BuddyBoss for member and group to-do lists. Activate one to use all features.', 'bp-user-to-do-list' ); ?>
 		</div>
 	</div>
 <?php endif; ?>
 
 <div class="bptodo-stats-grid">
 	<div class="bptodo-stat">
-		<p class="bptodo-stat__label"><?php esc_html_e( 'Total Tasks', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__label"><?php esc_html_e( 'Total Tasks', 'bp-user-to-do-list' ); ?></p>
 		<p class="bptodo-stat__value"><?php echo esc_html( number_format_i18n( $bptodo_total_tasks ) ); ?></p>
-		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks created across the site', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks created across the site', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<div class="bptodo-stat">
-		<p class="bptodo-stat__label"><?php esc_html_e( 'Active Tasks', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__label"><?php esc_html_e( 'Active Tasks', 'bp-user-to-do-list' ); ?></p>
 		<p class="bptodo-stat__value"><?php echo esc_html( number_format_i18n( $bptodo_active_tasks ) ); ?></p>
-		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks not yet completed', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks not yet completed', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<div class="bptodo-stat">
-		<p class="bptodo-stat__label"><?php esc_html_e( 'Completed Tasks', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__label"><?php esc_html_e( 'Completed Tasks', 'bp-user-to-do-list' ); ?></p>
 		<p class="bptodo-stat__value"><?php echo esc_html( number_format_i18n( $bptodo_completed ) ); ?></p>
-		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks marked complete', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks marked complete', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<div class="bptodo-stat">
-		<p class="bptodo-stat__label"><?php esc_html_e( 'Group Tasks', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__label"><?php esc_html_e( 'Group Tasks', 'bp-user-to-do-list' ); ?></p>
 		<p class="bptodo-stat__value"><?php echo esc_html( number_format_i18n( $bptodo_group_tasks ) ); ?></p>
-		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks attached to a group', 'wb-todo' ); ?></p>
+		<p class="bptodo-stat__trend"><?php esc_html_e( 'Tasks attached to a group', 'bp-user-to-do-list' ); ?></p>
 	</div>
 </div>
 
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
-		<p class="bptodo-card__title"><?php esc_html_e( 'Current Configuration', 'wb-todo' ); ?></p>
-		<p class="bptodo-card__desc"><?php esc_html_e( 'What members can do with to-do lists right now.', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__title"><?php esc_html_e( 'Current Configuration', 'bp-user-to-do-list' ); ?></p>
+		<p class="bptodo-card__desc"><?php esc_html_e( 'What members can do with to-do lists right now.', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<table class="form-table">
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Member to-do lists', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Member to-do lists', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_member_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get a To-do tab on their profile', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get a To-do tab on their profile', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Group to-do lists', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Group to-do lists', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_group_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: groups get a To-do tab', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: groups get a To-do tab', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_group_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_group_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Due-date notifications', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Due-date notifications', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_notify_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get a reminder when a task is due', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get a reminder when a task is due', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Due-date emails', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Due-date emails', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_email_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get an email reminder when a task is due', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members get an email reminder when a task is due', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Member-created categories', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Member-created categories', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_addcat_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members can create their own categories', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: members can create their own categories', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Turn on', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
 		<tr>
-			<th scope="row"><?php esc_html_e( 'Auto-cleanup', 'wb-todo' ); ?></th>
+			<th scope="row"><?php esc_html_e( 'Auto-cleanup', 'bp-user-to-do-list' ); ?></th>
 			<td>
 				<?php if ( $bptodo_retention_on ) : ?>
-					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: old tasks are cleaned up automatically', 'wb-todo' ); ?></span>
+					<span class="bptodo-status bptodo-status--on"><?php esc_html_e( 'On: old tasks are cleaned up automatically', 'bp-user-to-do-list' ); ?></span>
 				<?php else : ?>
-					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'wb-todo' ); ?></span>
-					<a href="<?php echo esc_url( $bptodo_retention_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Configure', 'wb-todo' ); ?></a>
+					<span class="bptodo-status bptodo-status--off"><?php esc_html_e( 'Off', 'bp-user-to-do-list' ); ?></span>
+					<a href="<?php echo esc_url( $bptodo_retention_url ); ?>" class="bptodo-inline-hint"><?php esc_html_e( 'Configure', 'bp-user-to-do-list' ); ?></a>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -180,21 +180,21 @@ $bptodo_retention_url = admin_url( 'admin.php?page=user-todo-list-settings&tab=r
 
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
-		<p class="bptodo-card__title"><?php esc_html_e( 'Quick Actions', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__title"><?php esc_html_e( 'Quick Actions', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<div class="bptodo-card__body">
 		<div class="bptodo-action-row">
 			<a href="<?php echo esc_url( $bptodo_general_url ); ?>" class="bptodo-btn bptodo-btn-secondary">
 				<span class="dashicons dashicons-admin-generic" aria-hidden="true"></span>
-				<?php esc_html_e( 'General Settings', 'wb-todo' ); ?>
+				<?php esc_html_e( 'General Settings', 'bp-user-to-do-list' ); ?>
 			</a>
 			<a href="<?php echo esc_url( $bptodo_group_url ); ?>" class="bptodo-btn bptodo-btn-secondary">
 				<span class="dashicons dashicons-groups" aria-hidden="true"></span>
-				<?php esc_html_e( 'Group Todo', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Group Todo', 'bp-user-to-do-list' ); ?>
 			</a>
 			<a href="<?php echo esc_url( $bptodo_retention_url ); ?>" class="bptodo-btn bptodo-btn-secondary">
 				<span class="dashicons dashicons-database" aria-hidden="true"></span>
-				<?php esc_html_e( 'Data Retention', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Data Retention', 'bp-user-to-do-list' ); ?>
 			</a>
 		</div>
 	</div>

@@ -21,9 +21,9 @@
 					{},
 					el(
 						components.PanelBody,
-						{ title: __( 'Group todos settings', 'wb-todo' ), initialOpen: true },
+						{ title: __( 'Group todos settings', 'bp-user-to-do-list' ), initialOpen: true },
 						el( components.TextControl, {
-							label: __( 'Group ID (0 = current group)', 'wb-todo' ),
+							label: __( 'Group ID (0 = current group)', 'bp-user-to-do-list' ),
 							type: 'number',
 							value: atts.groupId,
 							onChange: function ( v ) {
@@ -31,7 +31,7 @@
 							},
 						} ),
 						el( components.RangeControl, {
-							label: __( 'Items per page', 'wb-todo' ),
+							label: __( 'Items per page', 'bp-user-to-do-list' ),
 							value: atts.perPage,
 							min: 1,
 							max: 50,
@@ -40,7 +40,7 @@
 							},
 						} ),
 						el( components.ToggleControl, {
-							label: __( 'Show add box', 'wb-todo' ),
+							label: __( 'Show add box', 'bp-user-to-do-list' ),
 							checked: atts.showAdd,
 							onChange: function ( v ) {
 								set( { showAdd: v } );

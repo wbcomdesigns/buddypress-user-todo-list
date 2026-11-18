@@ -137,8 +137,6 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 				// Main frontend JavaScript.
 				wp_enqueue_script( 'bptodo-js-front', BPTODO_PLUGIN_URL . 'assets/js/bptodo-front' . $suffix . '.js', array( 'jquery', 'bptodo-modern-js' ), bptodo_asset_ver( 'assets/js/bptodo-front' . $suffix . '.js' ), true );
 
-				$localized_strings = $this->bp_todo_get_localized_strings();
-
 				wp_localize_script(
 					'bptodo-js-front',
 					'todo_ajax_object',
@@ -146,65 +144,39 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 						'ajax_url'            => admin_url( 'admin-ajax.php' ),
 						'ajax_nonce'          => wp_create_nonce( 'bptodo-todo-nonce' ),
 						'current_user_id'     => get_current_user_id(),
-						'bptodo_complete_url' => esc_url( home_url( $_SERVER['REQUEST_URI'] ?? '' ) ),
 						/* translators: %1$s */
-						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'wb-todo' ), esc_html( $bptodo->profile_menu_label_plural ) ),
-						'required_cat_text'   => esc_html__( 'Category name is required.', 'wb-todo' ),
-						'undo_todo_title'     => esc_html__( 'Undo Complete', 'wb-todo' ),
-						'remove_todo_text'    => esc_html__( 'Are you sure you want to delete this task?', 'wb-todo' ),
+						'export_file_heading' => sprintf( esc_html__( 'My %1$s', 'bp-user-to-do-list' ), esc_html( $bptodo->profile_menu_label_plural ) ),
+						'required_cat_text'   => esc_html__( 'Category name is required.', 'bp-user-to-do-list' ),
+						'undo_todo_title'     => esc_html__( 'Undo Complete', 'bp-user-to-do-list' ),
+						'remove_todo_text'    => esc_html__( 'Are you sure you want to delete this task?', 'bp-user-to-do-list' ),
 						// Toast notification messages.
-						'saving_text'         => esc_html__( 'Saving...', 'wb-todo' ),
-						'todo_updated_text'   => esc_html__( 'Task updated successfully!', 'wb-todo' ),
-						'todo_completed_text' => esc_html__( 'Task completed!', 'wb-todo' ),
-						'todo_removed_text'   => esc_html__( 'Task deleted successfully.', 'wb-todo' ),
-						'todo_reopened_text'  => esc_html__( 'Task marked incomplete.', 'wb-todo' ),
-						'error_text'          => esc_html__( 'Something went wrong. Please try again.', 'wb-todo' ),
+						'saving_text'         => esc_html__( 'Saving...', 'bp-user-to-do-list' ),
+						'todo_updated_text'   => esc_html__( 'Task updated successfully!', 'bp-user-to-do-list' ),
+						'todo_completed_text' => esc_html__( 'Task completed!', 'bp-user-to-do-list' ),
+						'todo_removed_text'   => esc_html__( 'Task deleted successfully.', 'bp-user-to-do-list' ),
+						'todo_reopened_text'  => esc_html__( 'Task marked incomplete.', 'bp-user-to-do-list' ),
+						'error_text'          => esc_html__( 'Something went wrong. Please try again.', 'bp-user-to-do-list' ),
 						// Failure toasts (assets/js/bptodo-front.js).
-						'update_failed_text'  => esc_html__( 'Could not update the task. Please try again.', 'wb-todo' ),
-						'delete_failed_text'  => esc_html__( 'Could not delete the task. Please try again.', 'wb-todo' ),
-						'complete_failed_text' => esc_html__( 'Could not update the task status. Please try again.', 'wb-todo' ),
-						'refresh_failed_text' => esc_html__( 'Could not refresh the list. Please reload the page.', 'wb-todo' ),
-						'category_added_text' => esc_html__( 'Category added.', 'wb-todo' ),
-						'category_error_text' => esc_html__( 'The category could not be added.', 'wb-todo' ),
-						'invalid_data_text'   => esc_html__( 'There is no data to export.', 'wb-todo' ),
+						'update_failed_text'  => esc_html__( 'Could not update the task. Please try again.', 'bp-user-to-do-list' ),
+						'delete_failed_text'  => esc_html__( 'Could not delete the task. Please try again.', 'bp-user-to-do-list' ),
+						'complete_failed_text' => esc_html__( 'Could not update the task status. Please try again.', 'bp-user-to-do-list' ),
+						'refresh_failed_text' => esc_html__( 'Could not refresh the list. Please reload the page.', 'bp-user-to-do-list' ),
+						'category_added_text' => esc_html__( 'Category added.', 'bp-user-to-do-list' ),
+						'category_error_text' => esc_html__( 'The category could not be added.', 'bp-user-to-do-list' ),
+						'invalid_data_text'   => esc_html__( 'There is no data to export.', 'bp-user-to-do-list' ),
 						// Export button (assets/js/bptodo-front.js).
-						'export_done_text'    => esc_html__( 'Export completed.', 'wb-todo' ),
-						'export_failed_text'  => esc_html__( 'Export failed. Please try again.', 'wb-todo' ),
+						'export_done_text'    => esc_html__( 'Export completed.', 'bp-user-to-do-list' ),
+						'export_failed_text'  => esc_html__( 'Export failed. Please try again.', 'bp-user-to-do-list' ),
 						// Search / filter results summary (assets/js/bptodo-front.js).
-						'no_results_text'     => esc_html__( 'No matching todos found', 'wb-todo' ),
-						'no_results_hint'     => esc_html__( 'Try adjusting your search or filters', 'wb-todo' ),
+						'no_results_text'     => esc_html__( 'No matching todos found', 'bp-user-to-do-list' ),
+						'no_results_hint'     => esc_html__( 'Try adjusting your search or filters', 'bp-user-to-do-list' ),
 						/* translators: %1$d: number of visible items. %2$d: total number of items. */
-						'results_count'       => esc_html__( '%1$d of %2$d items', 'wb-todo' ),
+						'results_count'       => esc_html__( '%1$d of %2$d items', 'bp-user-to-do-list' ),
 						/* translators: %1$d: number of visible items after filtering. %2$d: total number of items. */
-						'results_count_filtered' => esc_html__( 'Showing %1$d of %2$d items (filtered)', 'wb-todo' ),
-						'localized'           => $localized_strings,
+						'results_count_filtered' => esc_html__( 'Showing %1$d of %2$d items (filtered)', 'bp-user-to-do-list' ),
 					)
 				);
 			}
-		}
-
-		/**
-		 * Function to create Data Table related strings translatable.
-		 *
-		 * @since 3.3.1
-		 */
-		private function bp_todo_get_localized_strings() {
-
-			$localized_strings = array();
-
-			$localized_strings['empty_table']       = __( 'No data available in table', 'wb-todo' );
-			$localized_strings['paginate_first']    = __( 'First', 'wb-todo' );
-			$localized_strings['paginate_last']     = __( 'Last', 'wb-todo' );
-			$localized_strings['paginate_next']     = __( 'Next', 'wb-todo' );
-			$localized_strings['paginate_previous'] = __( 'Previous', 'wb-todo' );
-			$localized_strings['search']            = __( 'Search', 'wb-todo' );
-			/* translators: %s: Number of entries selector */
-			$localized_strings['show_entries'] = sprintf( __( 'Show %s entries', 'wb-todo' ), '_MENU_' );
-			/* translators: 1: Start number, 2: End number, 3: Total entries */
-			$localized_strings['pagination_info']       = sprintf( __( 'Showing %1$d to %2$d of %3$d entries', 'wb-todo' ), '_START_', '_END_', '_TOTAL_' );
-			$localized_strings['pagination_empty_info'] = __( 'Showing 0 to 0 of 0 entries', 'wb-todo' );
-
-			return $localized_strings;
 		}
 
 		/**
@@ -280,7 +252,15 @@ if ( ! class_exists( 'Bptodo_Admin' ) ) {
 		 * @access public
 		 */
 		public function bptodo_register_shortcode_settings() {
-			register_setting( 'user-todo-list-shortcodes', 'user-todo-list-shortcodes' );
+			register_setting(
+				'user-todo-list-shortcodes',
+				'user-todo-list-shortcodes',
+				array(
+					'sanitize_callback' => static function ( $value ) {
+						return map_deep( $value, 'sanitize_text_field' );
+					},
+				)
+			);
 		}
 
 		/**

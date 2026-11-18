@@ -77,10 +77,10 @@ if ( ! class_exists( 'Bptodo_Categories' ) ) {
 		public static function create( $name, $user_id = 0 ) {
 			$name = trim( wp_strip_all_tags( (string) $name ) );
 			if ( '' === $name ) {
-				return new WP_Error( 'bptodo_empty_category', __( 'Category name is required.', 'wb-todo' ), array( 'status' => 400 ) );
+				return new WP_Error( 'bptodo_empty_category', __( 'Category name is required.', 'bp-user-to-do-list' ), array( 'status' => 400 ) );
 			}
 			if ( ! self::user_can_add( $user_id ) ) {
-				return new WP_Error( 'bptodo_cannot_add_category', __( 'You are not allowed to add categories.', 'wb-todo' ), array( 'status' => 403 ) );
+				return new WP_Error( 'bptodo_cannot_add_category', __( 'You are not allowed to add categories.', 'bp-user-to-do-list' ), array( 'status' => 403 ) );
 			}
 
 			$existing = term_exists( $name, Bptodo_Todo::TAXONOMY );
@@ -96,7 +96,7 @@ if ( ! class_exists( 'Bptodo_Categories' ) ) {
 
 			$term = get_term( $term_id, Bptodo_Todo::TAXONOMY );
 			if ( ! $term || is_wp_error( $term ) ) {
-				return new WP_Error( 'bptodo_category_lookup', __( 'Category could not be created.', 'wb-todo' ), array( 'status' => 500 ) );
+				return new WP_Error( 'bptodo_category_lookup', __( 'Category could not be created.', 'bp-user-to-do-list' ), array( 'status' => 500 ) );
 			}
 			return array(
 				'id'   => (int) $term->term_id,

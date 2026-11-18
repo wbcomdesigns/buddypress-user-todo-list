@@ -21,16 +21,17 @@ if ( ! $bptodo_gid && function_exists( 'bp_get_current_group_id' ) ) {
 }
 
 if ( ! $bptodo_gid ) {
-	printf( '<div class="bptodo-app bptodo-app--loggedout"><p>%s</p></div>', esc_html__( 'Select a group for this block, or place it on a group page.', 'wb-todo' ) );
+	printf( '<div class="bptodo-app bptodo-app--loggedout"><p>%s</p></div>', esc_html__( 'Select a group for this block, or place it on a group page.', 'bp-user-to-do-list' ) );
 	return;
 }
 
 if ( ! is_user_logged_in() ) {
-	printf( '<div class="bptodo-app bptodo-app--loggedout"><p>%s</p></div>', esc_html__( 'Please log in to view group todos.', 'wb-todo' ) );
+	printf( '<div class="bptodo-app bptodo-app--loggedout"><p>%s</p></div>', esc_html__( 'Please log in to view group todos.', 'bp-user-to-do-list' ) );
 	return;
 }
 
-echo Bptodo_Renderer::render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped SSR markup.
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped SSR markup.
+echo Bptodo_Renderer::render(
 	array(
 		'scope'      => 'group',
 		'group_id'   => $bptodo_gid,
@@ -39,3 +40,4 @@ echo Bptodo_Renderer::render( // phpcs:ignore WordPress.Security.EscapeOutput.Ou
 		'show_stats' => isset( $bptodo_atts['showStats'] ) ? (bool) $bptodo_atts['showStats'] : true,
 	)
 );
+// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped

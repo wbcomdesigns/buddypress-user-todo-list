@@ -34,12 +34,14 @@ $allow_add_category = in_array( $bptodo->allow_user_add_category, array( 'yes', 
 // Modern layout (4.0): render the Interactivity add form and stop.
 if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode( 'member' ) ) {
 	$bptodo_list_url = trailingslashit( bp_core_get_userlink( $displayed_uid, false, true ) . $profile_menu_slug ) . 'list';
-	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+	echo Bptodo_Renderer::render_add_form(
 		array(
 			'scope'    => 'member',
 			'list_url' => $bptodo_list_url,
 		)
 	);
+	// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	return;
 }
 ?>
@@ -51,7 +53,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 			<?php
 			printf(
 				/* translators: %s: the configured todo label (singular), e.g. "Task". */
-				esc_html__( 'Add New %s', 'wb-todo' ),
+				esc_html__( 'Add New %s', 'bp-user-to-do-list' ),
 				esc_html( $profile_menu_label )
 			);
 			?>
@@ -62,14 +64,14 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 					<line x1="19" y1="12" x2="5" y2="12"></line>
 					<polyline points="12 19 5 12 12 5"></polyline>
 				</svg>
-				<?php esc_html_e( 'Back to List', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Back to List', 'bp-user-to-do-list' ); ?>
 			</a>
 		</div>
 	</div>
 
 	<!-- Add Form Card -->
 	<div class="bptodo-card bptodo-card--form">
-		<form class="bptodo-form" action="" method="post" id="bptodo-add-form">
+		<form class="bptodo-form" action="" method="post" id="bptodo-add-form" data-msg-category="<?php esc_attr_e( 'Please select a category', 'bp-user-to-do-list' ); ?>" data-msg-title="<?php esc_attr_e( 'Please enter a title', 'bp-user-to-do-list' ); ?>">
 			<?php
 			/**
 			 * Hook: Before default form fields.
@@ -113,7 +115,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 					<!-- Hidden input ensures todo_create is submitted even when button is disabled by loading state -->
 					<input type="hidden" name="todo_create" value="1">
 					<button type="button" class="bptodo-btn bptodo-btn--secondary js-bptodo-cancel">
-						<?php esc_html_e( 'Cancel', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Cancel', 'bp-user-to-do-list' ); ?>
 					</button>
 					<button type="submit" class="bptodo-btn bptodo-btn--primary" id="bp-add-new-todo">
 						<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -122,7 +124,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 						<?php
 						printf(
 							/* translators: %s: the configured todo label (singular), e.g. "Task". */
-							esc_html__( 'Create %s', 'wb-todo' ),
+							esc_html__( 'Create %s', 'bp-user-to-do-list' ),
 							esc_html( $profile_menu_label )
 						);
 						?>
@@ -143,54 +145,3 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 	</div>
 </div>
 
-<script>
-(function() {
-	'use strict';
-
-	document.addEventListener('DOMContentLoaded', function() {
-		// Cancel button handler
-		var cancelBtn = document.querySelector('.js-bptodo-cancel');
-		if (cancelBtn) {
-			cancelBtn.addEventListener('click', function() {
-				window.history.back();
-			});
-		}
-
-		// Form submission with loading state
-		var form = document.getElementById('bptodo-add-form');
-		if (form) {
-			form.addEventListener('submit', function(e) {
-				// Check for required fields
-				var category = form.querySelector('[name="todo_cat"]');
-				var title = form.querySelector('[name="todo_title"]');
-
-				// If category is empty, show error
-				if (category && !category.value) {
-					if (window.BPTodo && window.BPTodo.toast) {
-						window.BPTodo.toast.error('<?php echo esc_js( __( 'Please select a category', 'wb-todo' ) ); ?>');
-					}
-					e.preventDefault();
-					return false;
-				}
-
-				// If title is empty, show error
-				if (title && !title.value.trim()) {
-					if (window.BPTodo && window.BPTodo.toast) {
-						window.BPTodo.toast.error('<?php echo esc_js( __( 'Please enter a title', 'wb-todo' ) ); ?>');
-					}
-					e.preventDefault();
-					return false;
-				}
-
-				// Show loading state on button
-				var submitBtn = form.querySelector('[type="submit"]');
-				if (submitBtn && window.BPTodo && window.BPTodo.loading) {
-					window.BPTodo.loading.button(submitBtn, '<?php echo esc_js( __( 'Creating...', 'wb-todo' ) ); ?>');
-				}
-
-				// Form will submit naturally (no preventDefault)
-			});
-		}
-	});
-})();
-</script>

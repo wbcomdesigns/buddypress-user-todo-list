@@ -12,6 +12,8 @@
  * @subpackage Plugin_Name/includes
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * The core plugin class.
  *
@@ -220,8 +222,6 @@ class Bptodo_List {
 
 		$plugin_public = new Bptodo_Public( $this->get_plugin_name(), $this->get_plugin_prefix(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		// Register the bptodo/v1 REST API (thin adapter over the domain layer).
 		$bptodo_rest = new Bptodo_REST_Controller();
@@ -301,7 +301,6 @@ class Bptodo_List {
 			add_action( 'groups_custom_group_fields_editable', array( $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox' ), 999 );
 			add_action( 'groups_group_details_edited', array( $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited' ), 999 );
 			add_action( 'bptodo_group_todo_submit', array( $plugin_public, 'bptodo_group_member_assignment_email' ), 10, 2 );
-			add_action( 'wp_ajax_get_group_todo_report', array( $plugin_public, 'bptodo_display_group_todo_report' ) );
 		}
 
 		if ( $notifications ) {

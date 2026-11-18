@@ -83,14 +83,12 @@ jQuery(document).ready(function($) {
     });
 
     // Modern tab handling (card-based)
-    $(document).on('click', '.bptodo-tab', function() {
-      var targetId = 'bptodo-panel-' + $(this).data('tab');
+    function switchTab($tab) {
+      var targetId = 'bptodo-panel-' + $tab.data('tab');
 
-      // Update tabs
-      $('.bptodo-tab').removeClass('bptodo-tab--active').attr('aria-selected', 'false');
-      $(this).addClass('bptodo-tab--active').attr('aria-selected', 'true');
+      $('.bptodo-tab').removeClass('bptodo-tab--active').attr({ 'aria-selected': 'false', tabindex: '-1' });
+      $tab.addClass('bptodo-tab--active').attr({ 'aria-selected': 'true', tabindex: '0' });
 
-      // Update panels
       $('.bptodo-tab-panel').each(function() {
         if (this.id === targetId) {
           $(this).removeAttr('hidden');
@@ -98,6 +96,66 @@ jQuery(document).ready(function($) {
           $(this).attr('hidden', '');
         }
       });
+    }
+
+    $(document).on('click', '.bptodo-tab', function() {
+      switchTab($(this));
+    });
+
+    // Arrow keys move between tabs (WAI-ARIA tabs pattern).
+    $(document).on('keydown', '.bptodo-tab', function(e) {
+      if ('ArrowRight' !== e.key && 'ArrowLeft' !== e.key) {
+        return;
+      }
+      e.preventDefault();
+      var $tabs = $(this).closest('[role="tablist"]').find('.bptodo-tab');
+      var index = $tabs.index(this) + ('ArrowRight' === e.key ? 1 : -1);
+      var $next = $tabs.eq((index + $tabs.length) % $tabs.length);
+      $next.trigger('focus');
+      switchTab($next);
+    });
+
+    // Pagination is server-side; re-open the Completed tab after following
+    // a done_page pagination link.
+    if (new URLSearchParams(window.location.search).has('done_page') && $('#bptodo-tab-completed').length) {
+      switchTab($('#bptodo-tab-completed'));
+    }
+  }
+
+  /**
+   * Add forms (member + group): Cancel goes back, member form checks its
+   * required fields, and the submit button shows a loading state.
+   * Messages come from data-* attributes rendered by the template.
+   */
+  function initAddForms() {
+    $(document).on('click', '.js-bptodo-cancel', function() {
+      window.history.back();
+    });
+
+    $(document).on('submit', '#bptodo-add-form, #bptodo-group-add-form', function(e) {
+      var form = this;
+      var category = form.querySelector('[name="todo_cat"]');
+      var title = form.querySelector('[name="todo_title"]');
+      var message = '';
+
+      if (category && !category.value && form.dataset.msgCategory) {
+        message = form.dataset.msgCategory;
+      } else if (title && !title.value.trim() && form.dataset.msgTitle) {
+        message = form.dataset.msgTitle;
+      }
+
+      if (message) {
+        e.preventDefault();
+        if (BPTodo.toast) {
+          BPTodo.toast.error(message);
+        }
+        return false;
+      }
+
+      var submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn && BPTodo.loading) {
+        BPTodo.loading.button(submitBtn);
+      }
     });
   }
 
@@ -836,61 +894,6 @@ jQuery(document).ready(function($) {
   }
 
   /**
-   * DataTable initialization for reports
-   */
-  function initDataTable() {
-    if (!$.fn.DataTable) return;
-
-    function initializeTodoTable(todoId) {
-      $('#bp-todo-table').DataTable({
-        destroy: true,
-        ajax: {
-          url: ajaxurl,
-          data: {
-            action: 'get_group_todo_report',
-            group: $('#bp-todo-table').data('group'),
-            ajax_nonce: todo_ajax_object.ajax_nonce,
-            todo_id: todoId
-          }
-        },
-        columns: [
-          { data: 'Members', className: 'first_name' },
-          { data: 'Status', className: 'last_name' },
-          { data: 'Time', className: 'course' }
-        ],
-        layout: {
-          topStart: {
-            buttons: ['excelHtml5', 'csvHtml5', 'pdfHtml5']
-          }
-        },
-        language: {
-          emptyTable: todo_ajax_object.localized.empty_table,
-          paginate: {
-            first: todo_ajax_object.localized.paginate_first,
-            last: todo_ajax_object.localized.paginate_last,
-            next: todo_ajax_object.localized.paginate_next,
-            previous: todo_ajax_object.localized.paginate_previous
-          },
-          search: todo_ajax_object.localized.search,
-          lengthMenu: todo_ajax_object.localized.show_entries,
-          info: todo_ajax_object.localized.pagination_info,
-          infoEmpty: todo_ajax_object.localized.pagination_empty_info
-        },
-        paging: true
-      });
-    }
-
-    var todoSelect = document.getElementById('todo-select');
-    if (todoSelect) {
-      initializeTodoTable(todoSelect.value);
-    }
-
-    $('#todo-select').on('change', function() {
-      initializeTodoTable($(this).val());
-    });
-  }
-
-  /**
    * Group report member toggle
    */
   function initGroupReport() {
@@ -1151,6 +1154,7 @@ jQuery(document).ready(function($) {
 
   // Initialize all modules
   initTabs();
+  initAddForms();
   initEditFormSubmit();
   initAccordion();
   initDatepicker();
@@ -1160,7 +1164,6 @@ jQuery(document).ready(function($) {
   initEditTodo();
   initCompleteTodo();
   initSelect2();
-  initDataTable();
   initGroupReport();
   initTaskSelector();
   initAddNewButton();

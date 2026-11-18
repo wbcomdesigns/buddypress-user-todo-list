@@ -610,40 +610,6 @@ body.bp-nouveau.buddypress .buddypress-wrap .bptodo-adming-settingh6 {
 }
 
 
-/******** Report Table *************/
-.todo-reports-wrapper {
-    margin-top: 20px;
-}
-
-.select-todo-option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 10px;
-}
-
-.select-todo-option label {
-    flex: 0 0 auto;
-}
-
-.select-todo-option select#todo-select {
-    width: 100%;
-}
-
-#bp-todo-table_wrapper div#bp-todo-table_filter {
-    margin-bottom: 15px;
-}
-
-#bp-todo-table_wrapper div#bp-todo-table_filter label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-div#bp-todo-table_wrapper div#bp-todo-table_length select {
-    width: 55px;
-}
-
 .single-to-report table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -718,13 +684,6 @@ div#bp-todo-table_wrapper div#bp-todo-table_length select {
         margin-bottom: 0;
     }
 
-    .todo-reports-wrapper select#todo-select {
-        width: 100%;
-    }
-
-    #bp-todo-table_wrapper div#bp-todo-table_filter label {
-        justify-content: center;
-    }
 }
 
 /* Groups To-do-List: "Assign to Members" Select2 (group Add + Edit forms).
@@ -1656,11 +1615,6 @@ Edit popup
 
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
     display: none !important;
-}
-
-.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:before,
-.buddyboss-theme .todo-reports-wrapper table#bp-todo-table.dataTable thead .sorting:after {
-    display: none;
 }
 
 @media only screen and (min-width: 768px) {

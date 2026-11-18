@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
 $bptodo_pager_param   = isset( $pager['param'] ) ? $pager['param'] : 'todo_page';
 $bptodo_pager_current = isset( $pager['current'] ) ? max( 1, (int) $pager['current'] ) : 1;
 $bptodo_pager_total   = isset( $pager['total_pages'] ) ? (int) $pager['total_pages'] : 1;
-$bptodo_pager_label   = isset( $pager['label'] ) ? $pager['label'] : __( 'Todos pagination', 'wb-todo' );
+$bptodo_pager_label   = isset( $pager['label'] ) ? $pager['label'] : __( 'Todos pagination', 'bp-user-to-do-list' );
 
 if ( $bptodo_pager_total < 2 ) {
 	return;
@@ -56,14 +56,14 @@ $bptodo_pager_end   = min( $bptodo_pager_total, $bptodo_pager_current + $bptodo_
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 				<polyline points="15 18 9 12 15 6"></polyline>
 			</svg>
-			<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Previous', 'bp-user-to-do-list' ); ?>
 		</a>
 	<?php else : ?>
 		<span class="bptodo-pagination__btn bptodo-pagination__btn--prev bptodo-pagination__btn--disabled" aria-disabled="true">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 				<polyline points="15 18 9 12 15 6"></polyline>
 			</svg>
-			<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Previous', 'bp-user-to-do-list' ); ?>
 		</span>
 	<?php endif; ?>
 
@@ -97,14 +97,14 @@ $bptodo_pager_end   = min( $bptodo_pager_total, $bptodo_pager_current + $bptodo_
 
 	<?php if ( $bptodo_pager_current < $bptodo_pager_total ) : ?>
 		<a class="bptodo-pagination__btn bptodo-pagination__btn--next" href="<?php echo $bptodo_pager_url( $bptodo_pager_current + 1, $bptodo_pager_param ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in closure. ?>">
-			<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Next', 'bp-user-to-do-list' ); ?>
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 				<polyline points="9 18 15 12 9 6"></polyline>
 			</svg>
 		</a>
 	<?php else : ?>
 		<span class="bptodo-pagination__btn bptodo-pagination__btn--next bptodo-pagination__btn--disabled" aria-disabled="true">
-			<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Next', 'bp-user-to-do-list' ); ?>
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 				<polyline points="9 18 15 12 9 6"></polyline>
 			</svg>

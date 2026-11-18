@@ -24,70 +24,70 @@ $bptodo_ecosystem = array(
 		'name' => 'BuddyX',
 		'logo' => 'buddyx.png',
 		'icon' => 'admin-appearance',
-		'desc' => __( 'A free, fast community theme for BuddyPress, BuddyBoss and PeepSo with a modern layout and dark mode.', 'wb-todo' ),
+		'desc' => __( 'A free, fast community theme for BuddyPress, BuddyBoss and PeepSo with a modern layout and dark mode.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/buddyx-theme/',
 	),
 	array(
 		'name' => 'BuddyNext',
 		'logo' => 'buddynext.svg',
 		'icon' => 'groups',
-		'desc' => __( 'The full community stack: activity feeds, member spaces, profiles, and private messaging on WordPress.', 'wb-todo' ),
+		'desc' => __( 'The full community stack: activity feeds, member spaces, profiles, and private messaging on WordPress.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/buddynext/',
 	),
 	array(
 		'name' => 'Jetonomy',
 		'logo' => 'jetonomy.svg',
 		'icon' => 'format-chat',
-		'desc' => __( 'Self-moderating forums and Q&A boards that stay fast well beyond 100,000 topics.', 'wb-todo' ),
+		'desc' => __( 'Self-moderating forums and Q&A boards that stay fast well beyond 100,000 topics.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/jetonomy/',
 	),
 	array(
 		'name' => 'Mediaverse',
 		'logo' => 'mediaverse.svg',
 		'icon' => 'format-gallery',
-		'desc' => __( 'A photo and video hub with albums, reactions, following, and private chat.', 'wb-todo' ),
+		'desc' => __( 'A photo and video hub with albums, reactions, following, and private chat.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/mediaverse/',
 	),
 	array(
 		'name' => 'Eventonomy',
 		'logo' => 'eventonomy.svg',
 		'icon' => 'calendar-alt',
-		'desc' => __( 'Run community events with RSVPs, calendars, and front-end submissions.', 'wb-todo' ),
+		'desc' => __( 'Run community events with RSVPs, calendars, and front-end submissions.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/eventonomy/',
 	),
 	array(
 		'name' => 'WB Gamification',
 		'logo' => 'wb-gamification.svg',
 		'icon' => 'awards',
-		'desc' => __( 'Reward members with points, badges, and leaderboards to keep engagement high.', 'wb-todo' ),
+		'desc' => __( 'Reward members with points, badges, and leaderboards to keep engagement high.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/wordpress-gamification-plugin/',
 	),
 	array(
 		'name' => 'Listora',
 		'logo' => 'listora.svg',
 		'icon' => 'list-view',
-		'desc' => __( 'Searchable directories with ten listing types, ratings, maps, and front-end submissions.', 'wb-todo' ),
+		'desc' => __( 'Searchable directories with ten listing types, ratings, maps, and front-end submissions.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/listora/',
 	),
 	array(
 		'name' => 'WP Career Board',
 		'logo' => 'wp-career-board.svg',
 		'icon' => 'businessman',
-		'desc' => __( 'Add a job board with front-end listings, applications, and employer profiles.', 'wb-todo' ),
+		'desc' => __( 'Add a job board with front-end listings, applications, and employer profiles.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/wp-career-board/',
 	),
 	array(
 		'name' => 'Learnomy',
 		'logo' => 'learnomy.svg',
 		'icon' => 'welcome-learn-more',
-		'desc' => __( 'Create, sell, and auto-grade online courses, then hand out certificates automatically.', 'wb-todo' ),
+		'desc' => __( 'Create, sell, and auto-grade online courses, then hand out certificates automatically.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/learnomy/',
 	),
 	array(
 		'name' => 'WP Sell Services',
 		'logo' => 'wp-sell-services.svg',
 		'icon' => 'cart',
-		'desc' => __( 'A free service marketplace with vendor dashboards, an 11-status order flow, and Stripe or PayPal built in.', 'wb-todo' ),
+		'desc' => __( 'A free service marketplace with vendor dashboards, an 11-status order flow, and Stripe or PayPal built in.', 'bp-user-to-do-list' ),
 		'url'  => 'https://wbcomdesigns.com/downloads/wp-sell-services/',
 	),
 );
@@ -97,8 +97,8 @@ $bptodo_ecosystem_dir = defined( 'BPTODO_PLUGIN_PATH' ) ? BPTODO_PLUGIN_PATH . '
 
 <div class="bptodo-card">
 	<div class="bptodo-card__head">
-		<p class="bptodo-card__title"><?php esc_html_e( 'More Free Tools from Wbcom Designs', 'wb-todo' ); ?></p>
-		<p class="bptodo-card__desc"><?php esc_html_e( 'Todo Lists keeps your members and teams on task. These free tools from Wbcom Designs give you the rest of the community around it: the theme and network itself, forums, media, events, gamification, directories, jobs, courses, and services.', 'wb-todo' ); ?></p>
+		<p class="bptodo-card__title"><?php esc_html_e( 'More Free Tools from Wbcom Designs', 'bp-user-to-do-list' ); ?></p>
+		<p class="bptodo-card__desc"><?php esc_html_e( 'Todo Lists keeps your members and teams on task. These free tools from Wbcom Designs give you the rest of the community around it: the theme and network itself, forums, media, events, gamification, directories, jobs, courses, and services.', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<div class="bptodo-card__body">
 		<div class="bptodo-discover-grid">
@@ -114,12 +114,12 @@ $bptodo_ecosystem_dir = defined( 'BPTODO_PLUGIN_PATH' ) ? BPTODO_PLUGIN_PATH . '
 					<h3 class="bptodo-discover-card__title"><?php echo esc_html( $bptodo_product['name'] ); ?></h3>
 					<p class="bptodo-discover-card__desc"><?php echo esc_html( $bptodo_product['desc'] ); ?></p>
 					<a class="bptodo-btn bptodo-btn-secondary bptodo-discover-card__cta" href="<?php echo esc_url( $bptodo_product['url'] ); ?>" target="_blank" rel="noopener">
-						<?php esc_html_e( 'Get it free', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Get it free', 'bp-user-to-do-list' ); ?>
 						<span class="dashicons dashicons-external" aria-hidden="true"></span>
 						<span class="screen-reader-text">
 							<?php
 							/* translators: %s: product name. */
-							echo esc_html( sprintf( __( '%s (opens in a new tab)', 'wb-todo' ), $bptodo_product['name'] ) );
+							echo esc_html( sprintf( __( '%s (opens in a new tab)', 'bp-user-to-do-list' ), $bptodo_product['name'] ) );
 							?>
 						</span>
 					</a>

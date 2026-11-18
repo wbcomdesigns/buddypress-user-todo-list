@@ -24,7 +24,7 @@ $type  = isset( $type ) ? $type : 'card';
 
 <?php if ( 'card' === $type ) : ?>
 	<!-- Skeleton Card Grid -->
-	<div class="bptodo-list bptodo-list--grid" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading todos...', 'wb-todo' ); ?>">
+	<div class="bptodo-list bptodo-list--grid" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading todos...', 'bp-user-to-do-list' ); ?>">
 		<?php for ( $i = 0; $i < $count; $i++ ) : ?>
 			<div class="bptodo-card bptodo-card--skeleton">
 				<header class="bptodo-card__header">
@@ -49,13 +49,13 @@ $type  = isset( $type ) ? $type : 'card';
 
 <?php elseif ( 'list' === $type ) : ?>
 	<!-- Skeleton List -->
-	<div class="bptodo-skeleton-list" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading...', 'wb-todo' ); ?>">
+	<div class="bptodo-skeleton-list" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading...', 'bp-user-to-do-list' ); ?>">
 		<?php for ( $i = 0; $i < $count; $i++ ) : ?>
 			<div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--bptodo-gray-200);">
 				<div class="bptodo-skeleton bptodo-skeleton--circle" style="width: 24px; height: 24px;"></div>
 				<div style="flex: 1;">
-					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( rand( 60, 90 ) ); ?>%; margin-bottom: 4px;"></div>
-					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( rand( 30, 50 ) ); ?>%; height: 12px;"></div>
+					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( wp_rand( 60, 90 ) ); ?>%; margin-bottom: 4px;"></div>
+					<div class="bptodo-skeleton bptodo-skeleton--text" style="width: <?php echo esc_attr( wp_rand( 30, 50 ) ); ?>%; height: 12px;"></div>
 				</div>
 			</div>
 		<?php endfor; ?>
@@ -63,7 +63,7 @@ $type  = isset( $type ) ? $type : 'card';
 
 <?php elseif ( 'form' === $type ) : ?>
 	<!-- Skeleton Form -->
-	<div class="bptodo-skeleton-form" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading form...', 'wb-todo' ); ?>">
+	<div class="bptodo-skeleton-form" aria-hidden="true" aria-label="<?php esc_attr_e( 'Loading form...', 'bp-user-to-do-list' ); ?>">
 		<div style="margin-bottom: 16px;">
 			<div class="bptodo-skeleton" style="width: 80px; height: 14px; margin-bottom: 8px;"></div>
 			<div class="bptodo-skeleton" style="width: 100%; height: 40px; border-radius: 6px;"></div>
@@ -91,6 +91,6 @@ $type  = isset( $type ) ? $type : 'card';
 <?php else : ?>
 	<!-- Simple Spinner Fallback -->
 	<div style="display: flex; justify-content: center; padding: 40px;">
-		<div class="bptodo-spinner" aria-label="<?php esc_attr_e( 'Loading...', 'wb-todo' ); ?>"></div>
+		<div class="bptodo-spinner" aria-label="<?php esc_attr_e( 'Loading...', 'bp-user-to-do-list' ); ?>"></div>
 	</div>
 <?php endif; ?>

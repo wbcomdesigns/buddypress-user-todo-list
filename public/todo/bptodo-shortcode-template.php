@@ -37,7 +37,7 @@ if ( 'all' === $bptodo_user_id ) {
 	// Show all users' todos (admin only).
 	if ( ! $bptodo_is_admin ) {
 		echo '<div class="bptodo-notice bptodo-notice--error">';
-		esc_html_e( 'You do not have permission to view all todos.', 'wb-todo' );
+		esc_html_e( 'You do not have permission to view all todos.', 'bp-user-to-do-list' );
 		echo '</div>';
 		return;
 	}
@@ -48,7 +48,7 @@ if ( 'all' === $bptodo_user_id ) {
 	// Check permission - only admin or the user themselves can view.
 	if ( ! $bptodo_is_admin && $bptodo_author_query !== $bptodo_current_user_id ) {
 		echo '<div class="bptodo-notice bptodo-notice--error">';
-		esc_html_e( 'You do not have permission to view this user\'s todos.', 'wb-todo' );
+		esc_html_e( 'You do not have permission to view this user\'s todos.', 'bp-user-to-do-list' );
 		echo '</div>';
 		return;
 	}
@@ -147,7 +147,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 <div class="bptodo-wrapper bptodo-shortcode-wrapper"
 	 id="<?php echo esc_attr( $bptodo_instance_id ); ?>"
 	 role="region"
-	 aria-label="<?php esc_attr_e( 'Todo List', 'wb-todo' ); ?>">
+	 aria-label="<?php esc_attr_e( 'Todo List', 'bp-user-to-do-list' ); ?>">
 	<?php if ( $bptodo_show_add && is_user_logged_in() ) : ?>
 		<!-- Quick Add Form -->
 		<div class="bptodo-shortcode-header">
@@ -166,9 +166,9 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 				<input type="text"
 					   id="bptodo-search-input"
 					   class="bptodo-input bptodo-search-input"
-					   placeholder="<?php esc_attr_e( 'Search todos...', 'wb-todo' ); ?>"
+					   placeholder="<?php esc_attr_e( 'Search todos...', 'bp-user-to-do-list' ); ?>"
 					   value=""
-					   aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>">
+					   aria-label="<?php esc_attr_e( 'Search todos', 'bp-user-to-do-list' ); ?>">
 				<svg class="bptodo-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<circle cx="11" cy="11" r="8"></circle>
 					<path d="m21 21-4.35-4.35"></path>
@@ -178,18 +178,18 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 			<!-- Filter Dropdowns -->
 			<div class="bptodo-search-filters__filters">
 				<!-- Status Filter -->
-				<select id="bptodo-filter-status" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
-					<option value="all"><?php esc_html_e( 'All Status', 'wb-todo' ); ?></option>
-					<option value="incomplete" <?php selected( $bptodo_status, 'incomplete' ); ?>><?php esc_html_e( 'Incomplete', 'wb-todo' ); ?></option>
-					<option value="complete" <?php selected( $bptodo_status, 'complete' ); ?>><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+				<select id="bptodo-filter-status" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'bp-user-to-do-list' ); ?>">
+					<option value="all"><?php esc_html_e( 'All Status', 'bp-user-to-do-list' ); ?></option>
+					<option value="incomplete" <?php selected( $bptodo_status, 'incomplete' ); ?>><?php esc_html_e( 'Incomplete', 'bp-user-to-do-list' ); ?></option>
+					<option value="complete" <?php selected( $bptodo_status, 'complete' ); ?>><?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?></option>
 				</select>
 
 				<!-- Priority Filter -->
-				<select id="bptodo-filter-priority" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
-					<option value="all"><?php esc_html_e( 'All Priority', 'wb-todo' ); ?></option>
-					<option value="critical" <?php selected( $bptodo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-					<option value="high" <?php selected( $bptodo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-					<option value="normal" <?php selected( $bptodo_priority, 'normal' ); ?>><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+				<select id="bptodo-filter-priority" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'bp-user-to-do-list' ); ?>">
+					<option value="all"><?php esc_html_e( 'All Priority', 'bp-user-to-do-list' ); ?></option>
+					<option value="critical" <?php selected( $bptodo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
+					<option value="high" <?php selected( $bptodo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+					<option value="normal" <?php selected( $bptodo_priority, 'normal' ); ?>><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
 				</select>
 
 				<!-- Category Filter -->
@@ -202,8 +202,8 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 				);
 				if ( ! empty( $bptodo_all_categories ) && ! is_wp_error( $bptodo_all_categories ) ) :
 					?>
-					<select id="bptodo-filter-category" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
-						<option value=""><?php esc_html_e( 'All Categories', 'wb-todo' ); ?></option>
+					<select id="bptodo-filter-category" class="bptodo-select bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'bp-user-to-do-list' ); ?>">
+						<option value=""><?php esc_html_e( 'All Categories', 'bp-user-to-do-list' ); ?></option>
 						<?php foreach ( $bptodo_all_categories as $bptodo_cat ) : ?>
 							<option value="<?php echo esc_attr( $bptodo_cat->slug ); ?>" <?php selected( $bptodo_category, $bptodo_cat->slug ); ?>>
 								<?php echo esc_html( $bptodo_cat->name ); ?>
@@ -214,7 +214,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 
 				<!-- Clear Filters Button -->
 				<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" style="display: none;">
-					<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
+					<?php esc_html_e( 'Clear', 'bp-user-to-do-list' ); ?>
 				</button>
 			</div>
 		</div>
@@ -225,7 +225,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 				<?php
 				printf(
 					/* translators: 1: current page, 2: total pages, 3: total items */
-					esc_html__( 'Page %1$d of %2$d (%3$d items)', 'wb-todo' ),
+					esc_html__( 'Page %1$d of %2$d (%3$d items)', 'bp-user-to-do-list' ),
 					absint( $bptodo_paged ),
 					absint( $bptodo_total_pages ),
 					absint( $bptodo_total_count )
@@ -240,7 +240,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 		<!-- Todo Cards Grid -->
 		<div class="bptodo-cards bptodo-cards--shortcode"
 			 role="list"
-			 aria-label="<?php esc_attr_e( 'Todo items', 'wb-todo' ); ?>">
+			 aria-label="<?php esc_attr_e( 'Todo items', 'bp-user-to-do-list' ); ?>">
 			<?php foreach ( $bptodo_todos as $bptodo_item ) : ?>
 				<?php
 				$bptodo_todo_id       = $bptodo_item->ID;
@@ -263,21 +263,21 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 
 					if ( $bptodo_is_complete ) {
 						$bptodo_due_class = 'bptodo-due--completed';
-						$bptodo_due_text  = __( 'Completed', 'wb-todo' );
+						$bptodo_due_text  = __( 'Completed', 'bp-user-to-do-list' );
 					} elseif ( $bptodo_days_diff < 0 ) {
 						$bptodo_due_class = 'bptodo-due--overdue';
 						/* translators: %d: number of days */
-						$bptodo_due_text = sprintf( __( '%d days overdue', 'wb-todo' ), abs( $bptodo_days_diff ) );
+						$bptodo_due_text = sprintf( __( '%d days overdue', 'bp-user-to-do-list' ), abs( $bptodo_days_diff ) );
 					} elseif ( 0 === $bptodo_days_diff ) {
 						$bptodo_due_class = 'bptodo-due--today';
-						$bptodo_due_text  = __( 'Due today', 'wb-todo' );
+						$bptodo_due_text  = __( 'Due today', 'bp-user-to-do-list' );
 					} elseif ( 1 === $bptodo_days_diff ) {
 						$bptodo_due_class = 'bptodo-due--tomorrow';
-						$bptodo_due_text  = __( 'Due tomorrow', 'wb-todo' );
+						$bptodo_due_text  = __( 'Due tomorrow', 'bp-user-to-do-list' );
 					} else {
 						$bptodo_due_class = 'bptodo-due--future';
 						/* translators: %d: number of days */
-						$bptodo_due_text = sprintf( __( 'Due in %d days', 'wb-todo' ), $bptodo_days_diff );
+						$bptodo_due_text = sprintf( __( 'Due in %d days', 'bp-user-to-do-list' ), $bptodo_days_diff );
 					}
 				}
 
@@ -303,7 +303,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 								   data-todo-id="<?php echo esc_attr( $bptodo_todo_id ); ?>"
 								   <?php checked( $bptodo_is_complete ); ?>>
 							<label for="todo-check-<?php echo esc_attr( $bptodo_todo_id ); ?>" class="bptodo-checkbox-label">
-								<span class="screen-reader-text"><?php esc_html_e( 'Mark as complete', 'wb-todo' ); ?></span>
+								<span class="screen-reader-text"><?php esc_html_e( 'Mark as complete', 'bp-user-to-do-list' ); ?></span>
 							</label>
 						</div>
 						<div class="bptodo-card__title-wrap">
@@ -358,7 +358,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 								<button type="button"
 										class="bptodo-btn bptodo-btn--icon js-bptodo-edit"
 										data-todo-id="<?php echo esc_attr( $bptodo_todo_id ); ?>"
-										aria-label="<?php esc_attr_e( 'Edit todo', 'wb-todo' ); ?>">
+										aria-label="<?php esc_attr_e( 'Edit todo', 'bp-user-to-do-list' ); ?>">
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 										<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
 										<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -367,7 +367,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 								<button type="button"
 										class="bptodo-btn bptodo-btn--icon bptodo-btn--danger js-bptodo-delete"
 										data-todo-id="<?php echo esc_attr( $bptodo_todo_id ); ?>"
-										aria-label="<?php esc_attr_e( 'Delete todo', 'wb-todo' ); ?>">
+										aria-label="<?php esc_attr_e( 'Delete todo', 'bp-user-to-do-list' ); ?>">
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 										<polyline points="3 6 5 6 21 6"></polyline>
 										<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -384,7 +384,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 			<!-- Pagination -->
 			<nav class="bptodo-pagination"
 				 role="navigation"
-				 aria-label="<?php esc_attr_e( 'Todo list pagination', 'wb-todo' ); ?>">
+				 aria-label="<?php esc_attr_e( 'Todo list pagination', 'bp-user-to-do-list' ); ?>">
 				<?php
 				$bptodo_base_url = remove_query_arg( 'todo_page' );
 
@@ -396,14 +396,14 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<polyline points="15 18 9 12 15 6"></polyline>
 						</svg>
-						<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Previous', 'bp-user-to-do-list' ); ?>
 					</a>
 				<?php else : ?>
 					<span class="bptodo-pagination__btn bptodo-pagination__btn--prev bptodo-pagination__btn--disabled">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<polyline points="15 18 9 12 15 6"></polyline>
 						</svg>
-						<?php esc_html_e( 'Previous', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Previous', 'bp-user-to-do-list' ); ?>
 					</span>
 				<?php endif; ?>
 
@@ -436,14 +436,14 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 					$bptodo_next_url = add_query_arg( 'todo_page', $bptodo_paged + 1, $bptodo_base_url );
 					?>
 					<a href="<?php echo esc_url( $bptodo_next_url ); ?>" class="bptodo-pagination__btn bptodo-pagination__btn--next">
-						<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Next', 'bp-user-to-do-list' ); ?>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<polyline points="9 18 15 12 9 6"></polyline>
 						</svg>
 					</a>
 				<?php else : ?>
 					<span class="bptodo-pagination__btn bptodo-pagination__btn--next bptodo-pagination__btn--disabled">
-						<?php esc_html_e( 'Next', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Next', 'bp-user-to-do-list' ); ?>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<polyline points="9 18 15 12 9 6"></polyline>
 						</svg>
@@ -464,7 +464,7 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 				<?php
 				printf(
 					/* translators: %s: todo label plural */
-					esc_html__( 'No %s Found', 'wb-todo' ),
+					esc_html__( 'No %s Found', 'bp-user-to-do-list' ),
 					esc_html( $bptodo_menu_label_plural )
 				);
 				?>
@@ -472,11 +472,11 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 			<p class="bptodo-empty-state__text">
 				<?php
 				if ( ! empty( $bptodo_category ) || 'all' !== $bptodo_status || 'all' !== $bptodo_priority ) {
-					esc_html_e( 'Try adjusting your filters to see more results.', 'wb-todo' );
+					esc_html_e( 'Try adjusting your filters to see more results.', 'bp-user-to-do-list' );
 				} else {
 					printf(
 						/* translators: %s: todo label plural */
-						esc_html__( 'There are no %s to display.', 'wb-todo' ),
+						esc_html__( 'There are no %s to display.', 'bp-user-to-do-list' ),
 						esc_html( strtolower( $bptodo_menu_label_plural ) )
 					);
 				}

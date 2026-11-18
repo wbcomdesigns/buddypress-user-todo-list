@@ -109,7 +109,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				<?php
 				printf(
 					/* translators: %s: Todo label */
-					esc_html__( 'My %s', 'wb-todo' ),
+					esc_html__( 'My %s', 'bp-user-to-do-list' ),
 					esc_html( $profile_menu_label_plural )
 				);
 				?>
@@ -148,7 +148,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				</div>
 				<div class="bptodo-stat-card__content">
 					<p class="bptodo-stat-card__value"><?php echo esc_html( $all_pending_todo ); ?></p>
-					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Pending', 'bp-user-to-do-list' ); ?></p>
 				</div>
 			</div>
 
@@ -161,7 +161,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				</div>
 				<div class="bptodo-stat-card__content">
 					<p class="bptodo-stat-card__value"><?php echo esc_html( $all_completed_todo ); ?></p>
-					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?></p>
 				</div>
 			</div>
 
@@ -175,7 +175,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				</div>
 				<div class="bptodo-stat-card__content">
 					<p class="bptodo-stat-card__value"><?php echo esc_html( $completion_percentage ); ?>%</p>
-					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Progress', 'wb-todo' ); ?></p>
+					<p class="bptodo-stat-card__label"><?php esc_html_e( 'Progress', 'bp-user-to-do-list' ); ?></p>
 				</div>
 			</div>
 		</div>
@@ -205,8 +205,8 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 						type="text"
 						id="bptodo-search-input"
 						class="bptodo-input bptodo-search-input"
-						placeholder="<?php esc_attr_e( 'Search todos...', 'wb-todo' ); ?>"
-						aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>"
+						placeholder="<?php esc_attr_e( 'Search todos...', 'bp-user-to-do-list' ); ?>"
+						aria-label="<?php esc_attr_e( 'Search todos', 'bp-user-to-do-list' ); ?>"
 					>
 					<svg class="bptodo-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<circle cx="11" cy="11" r="8"></circle>
@@ -217,24 +217,24 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				<!-- Filter Dropdowns -->
 				<div class="bptodo-search-filters__filters">
 					<!-- Status Filter -->
-					<select id="bptodo-filter-status" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
-						<option value=""><?php esc_html_e( 'All Status', 'wb-todo' ); ?></option>
-						<option value="incomplete"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></option>
-						<option value="complete"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+					<select id="bptodo-filter-status" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by status', 'bp-user-to-do-list' ); ?>">
+						<option value=""><?php esc_html_e( 'All Status', 'bp-user-to-do-list' ); ?></option>
+						<option value="incomplete"><?php esc_html_e( 'Pending', 'bp-user-to-do-list' ); ?></option>
+						<option value="complete"><?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?></option>
 					</select>
 
 					<!-- Priority Filter -->
-					<select id="bptodo-filter-priority" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
-						<option value=""><?php esc_html_e( 'All Priorities', 'wb-todo' ); ?></option>
-						<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-						<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-						<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+					<select id="bptodo-filter-priority" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by priority', 'bp-user-to-do-list' ); ?>">
+						<option value=""><?php esc_html_e( 'All Priorities', 'bp-user-to-do-list' ); ?></option>
+						<option value="critical"><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
+						<option value="high"><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+						<option value="normal"><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
 					</select>
 
 					<!-- Category Filter -->
 					<?php if ( ! empty( $todo_categories ) && ! is_wp_error( $todo_categories ) ) : ?>
-					<select id="bptodo-filter-category" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
-						<option value=""><?php esc_html_e( 'All Categories', 'wb-todo' ); ?></option>
+					<select id="bptodo-filter-category" class="bptodo-filter-select" aria-label="<?php esc_attr_e( 'Filter by category', 'bp-user-to-do-list' ); ?>">
+						<option value=""><?php esc_html_e( 'All Categories', 'bp-user-to-do-list' ); ?></option>
 						<?php foreach ( $todo_categories as $category ) : ?>
 							<option value="<?php echo esc_attr( $category->slug ); ?>"><?php echo esc_html( $category->name ); ?></option>
 						<?php endforeach; ?>
@@ -242,8 +242,8 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					<?php endif; ?>
 
 					<!-- Clear Filters Button -->
-					<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" aria-label="<?php esc_attr_e( 'Clear all filters', 'wb-todo' ); ?>">
-						<?php esc_html_e( 'Clear', 'wb-todo' ); ?>
+					<button type="button" id="bptodo-clear-filters" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" aria-label="<?php esc_attr_e( 'Clear all filters', 'bp-user-to-do-list' ); ?>">
+						<?php esc_html_e( 'Clear', 'bp-user-to-do-list' ); ?>
 					</button>
 				</div>
 			</div>
@@ -256,7 +256,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					$showing_end   = min( $all_todo_count, $all_result['page'] * $all_result['per_page'] );
 					printf(
 						/* translators: 1: First item on page, 2: Last item on page, 3: Total todos */
-						esc_html__( 'Showing %1$d-%2$d of %3$d todos', 'wb-todo' ),
+						esc_html__( 'Showing %1$d-%2$d of %3$d todos', 'bp-user-to-do-list' ),
 						esc_html( $showing_start ),
 						esc_html( $showing_end ),
 						esc_html( $all_todo_count )
@@ -274,7 +274,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				<line x1="8" y1="8" x2="14" y2="14"></line>
 				<line x1="14" y1="8" x2="8" y2="14"></line>
 			</svg>
-			<p class="bptodo-no-results__text"><?php esc_html_e( 'No todos match your search criteria.', 'wb-todo' ); ?></p>
+			<p class="bptodo-no-results__text"><?php esc_html_e( 'No todos match your search criteria.', 'bp-user-to-do-list' ); ?></p>
 		</div>
 
 		<!-- Tab Navigation -->
@@ -291,7 +291,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				<?php
 				printf(
 					/* translators: %s: Todo label */
-					esc_html__( 'All %s', 'wb-todo' ),
+					esc_html__( 'All %s', 'bp-user-to-do-list' ),
 					esc_html( $profile_menu_label_plural )
 				);
 				?>
@@ -306,7 +306,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 				id="bptodo-tab-completed"
 				data-tab="completed"
 			>
-				<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?>
 				<span class="bptodo-badge bptodo-badge--category"><?php echo esc_html( $all_completed_todo ); ?></span>
 			</button>
 		</div>
@@ -351,7 +351,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					'param'       => 'todo_page',
 					'current'     => $all_result['page'],
 					'total_pages' => $all_result['total_pages'],
-					'label'       => __( 'All todos pagination', 'wb-todo' ),
+					'label'       => __( 'All todos pagination', 'bp-user-to-do-list' ),
 				);
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
 				?>
@@ -395,7 +395,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 					'param'       => 'done_page',
 					'current'     => $completed_result['page'],
 					'total_pages' => $completed_result['total_pages'],
-					'label'       => __( 'Completed todos pagination', 'wb-todo' ),
+					'label'       => __( 'Completed todos pagination', 'bp-user-to-do-list' ),
 				);
 				include BPTODO_PLUGIN_PATH . 'public/todo/partials/pagination.php';
 				?>
@@ -407,73 +407,3 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 </div>
 
 <!-- Tab Switching and Pagination JavaScript -->
-<script>
-(function() {
-	'use strict';
-
-	document.addEventListener('DOMContentLoaded', function() {
-		const tabs = document.querySelectorAll('.bptodo-tab');
-		const panels = document.querySelectorAll('.bptodo-tab-panel');
-
-		// Tab switching with keyboard support.
-		tabs.forEach(function(tab) {
-			tab.addEventListener('click', function() {
-				switchTab(this);
-			});
-
-			// Keyboard navigation for tabs.
-			tab.addEventListener('keydown', function(e) {
-				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault();
-					switchTab(this);
-				}
-				if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-					e.preventDefault();
-					const tabsArray = Array.from(tabs);
-					const currentIndex = tabsArray.indexOf(this);
-					let newIndex;
-					if (e.key === 'ArrowRight') {
-						newIndex = (currentIndex + 1) % tabsArray.length;
-					} else {
-						newIndex = (currentIndex - 1 + tabsArray.length) % tabsArray.length;
-					}
-					tabsArray[newIndex].focus();
-					switchTab(tabsArray[newIndex]);
-				}
-			});
-		});
-
-		function switchTab(tab) {
-			const targetId = 'bptodo-panel-' + tab.dataset.tab;
-
-			// Update tabs.
-			tabs.forEach(function(t) {
-				t.classList.remove('bptodo-tab--active');
-				t.setAttribute('aria-selected', 'false');
-				t.setAttribute('tabindex', '-1');
-			});
-			tab.classList.add('bptodo-tab--active');
-			tab.setAttribute('aria-selected', 'true');
-			tab.setAttribute('tabindex', '0');
-
-			// Update panels.
-			panels.forEach(function(p) {
-				if (p.id === targetId) {
-					p.hidden = false;
-				} else {
-					p.hidden = true;
-				}
-			});
-		}
-
-		// Pagination is server-side (see the pagination partial); re-open
-		// the Completed tab after following a done_page pagination link.
-		if (new URLSearchParams(window.location.search).has('done_page')) {
-			const completedTab = document.getElementById('bptodo-tab-completed');
-			if (completedTab) {
-				switchTab(completedTab);
-			}
-		}
-	});
-})();
-</script>

@@ -9,7 +9,7 @@
  * Requires at least: 6.5
  * Requires PHP: 8.0
  * License: GPLv2+
- * Text Domain: wb-todo
+ * Text Domain: bp-user-to-do-list
  * Domain Path: /languages
  *
  * @link              www.wbcomdesigns.com
@@ -29,7 +29,7 @@ function bptodo_load_textdomain() {
     // load_plugin_textdomain() already checks wp-content/languages/plugins first
     // (the WordPress.org language pack) and falls back to the bundled file, so
     // both paths work from this one call.
-    load_plugin_textdomain( 'wb-todo', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'bp-user-to-do-list', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 // Constants used in the plugin.
@@ -119,6 +119,12 @@ function bptodo_run_pending_upgrade() {
  * @param string $from_version The version being upgraded from.
  */
 function bptodo_upgrade_routine( $from_version ) {
+    // 4.0.1: completion times were stored in the site's clock time; they are UTC now.
+    // Runs with or without BuddyPress, so it sits above the BuddyPress check.
+    if ( version_compare( $from_version, '4.0.1', '<' ) ) {
+        bptodo_migrate_completion_times_to_utc();
+    }
+
     // Check if BuddyPress is active
     if ( ! function_exists( 'bp_is_active' ) ) {
         return;
@@ -139,6 +145,44 @@ function bptodo_upgrade_routine( $from_version ) {
     // if ( version_compare( $from_version, '3.5.0', '<' ) ) {
     //     // Upgrade routine for versions before 3.5.0
     // }
+}
+
+/**
+ * One-time move of stored completion times from the site's clock time to UTC.
+ *
+ * Uses wp_timezone() (the old values were written in the site timezone) at its
+ * current offset, so a value written on the other side of a daylight-saving
+ * change can be off by one hour. Display-only fields, so that is acceptable.
+ *
+ * @since 4.0.1
+ */
+function bptodo_migrate_completion_times_to_utc() {
+    global $wpdb;
+
+    $offset = (int) wp_timezone()->getOffset( new DateTimeImmutable( 'now' ) );
+    if ( 0 === $offset ) {
+        return;
+    }
+
+    // phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade; no API converts meta in place.
+    $post_ids = $wpdb->get_col( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( 'todo_completed_date', 'todo_complete_time' )" );
+    $wpdb->query(
+        $wpdb->prepare(
+            "UPDATE {$wpdb->postmeta} SET meta_value = DATE_FORMAT( DATE_SUB( meta_value, INTERVAL %d SECOND ), '%%Y-%%m-%%d %%H:%%i:%%s' ) WHERE meta_key = 'todo_completed_date' AND meta_value REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$' AND meta_value <> '0000-00-00 00:00:00'",
+            $offset
+        )
+    );
+    $wpdb->query(
+        $wpdb->prepare(
+            "UPDATE {$wpdb->postmeta} SET meta_value = CAST( meta_value AS SIGNED ) - %d WHERE meta_key = 'todo_complete_time' AND meta_value REGEXP '^[0-9]+$'",
+            $offset
+        )
+    );
+    // phpcs:enable WordPress.DB.DirectDatabaseQuery
+    // Meta changed behind the object cache: drop each touched post's cached meta.
+    foreach ( $post_ids as $post_id ) {
+        wp_cache_delete( (int) $post_id, 'post_meta' );
+    }
 }
 
 /**
@@ -197,8 +241,8 @@ function run_wp_bptodo_list() {
  */
 function bptodo_admin_page_link( $links ) {
     $bptodo_links = array(
-        '<a href="' . admin_url( 'admin.php?page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'wb-todo' ) . '</a>',
-        '<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'wb-todo' ) . '</a>',
+        '<a href="' . admin_url( 'admin.php?page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'bp-user-to-do-list' ) . '</a>',
+        '<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'bp-user-to-do-list' ) . '</a>',
     );
     return array_merge( $links, $bptodo_links );
 }
@@ -317,10 +361,20 @@ function bptodo_register_blocks() {
 	if ( ! function_exists( 'register_block_type' ) ) {
 		return;
 	}
-	register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' );
+	$blocks = array( register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' ) );
 
 	if ( bptodo_bp_features_available() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
-		register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
+		$blocks[] = register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
+	}
+
+	// The editor scripts have no asset file, so core never wires their translations.
+	// Point them at the bundled JSON; a WordPress.org language pack still wins.
+	foreach ( $blocks as $block ) {
+		if ( $block instanceof WP_Block_Type ) {
+			foreach ( $block->editor_script_handles as $handle ) {
+				wp_set_script_translations( $handle, 'bp-user-to-do-list', BPTODO_PLUGIN_PATH . 'languages' );
+			}
+		}
 	}
 }
 
@@ -382,8 +436,8 @@ function bptodo_show_bp_root_blog_notice() {
 	echo '<div class="notice notice-info is-dismissible"><p>';
 	printf(
 		/* Translators: %s: plugin name. */
-		esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'wb-todo' ),
-		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ) . '</strong>'
+		esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'bp-user-to-do-list' ),
+		'<strong>' . esc_html__( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' ) . '</strong>'
 	);
 	echo '</p></div>';
 }
@@ -395,9 +449,9 @@ function bptodo_show_bp_root_blog_notice() {
  * @since   1.0.0
  */
 function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' );
+	$bptodo_plugin = esc_html__( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' );
 	/* Translators: %s: plugin name. */
-	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'wb-todo' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
+	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'bp-user-to-do-list' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
 }
 
 /**
@@ -425,7 +479,7 @@ function list_todo_tab_function_to_show_title() {
         <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
         <button type="button" id="export_my_tasks" class="bptodo-btn bptodo-btn--secondary">
             <svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span><?php echo esc_html__( 'Export', 'wb-todo' ); ?></span>
+            <span><?php echo esc_html__( 'Export', 'bp-user-to-do-list' ); ?></span>
         </button>
         <?php
     }
@@ -557,7 +611,6 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
             }
         }else{
             if (!isset($active_plugins[$plugin_path])) {
-                $current_timestamp = current_time('timestamp');
                 $active_plugins[] = $plugin_path;
                 if ($network_wide) {
                     update_site_option('active_sitewide_plugins', $active_plugins);
@@ -578,7 +631,7 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
      */
     function bptodo_network_admin_links($links) {
         unset($links['activate']);
-        $links['deactivate'] = '<a href="#" class="bptodo-network-deactivate" data-plugin="' . esc_attr(plugin_basename(__FILE__)) . '">' . esc_html__('Network Deactivate', 'wb-todo') . '</a>';
+        $links['deactivate'] = '<a href="#" class="bptodo-network-deactivate" data-plugin="' . esc_attr(plugin_basename(__FILE__)) . '">' . esc_html__('Network Deactivate', 'bp-user-to-do-list') . '</a>';
         return $links;
     }
     
@@ -599,10 +652,10 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
                 'ajax_url' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('bptodo_network_nonce'),
                 'i18n' => [
-                    'confirmTitle'   => __('Network Deactivate', 'wb-todo'),
-                    'confirmMessage' => __('Are you sure you want to deactivate this plugin across all sites?', 'wb-todo'),
-                    'requestError'   => __('There was an error with the request.', 'wb-todo'),
-                    'genericError'   => __('Error', 'wb-todo'),
+                    'confirmTitle'   => __('Network Deactivate', 'bp-user-to-do-list'),
+                    'confirmMessage' => __('Are you sure you want to deactivate this plugin across all sites?', 'bp-user-to-do-list'),
+                    'requestError'   => __('There was an error with the request.', 'bp-user-to-do-list'),
+                    'genericError'   => __('Error', 'bp-user-to-do-list'),
                 ],
             ]);
         }
@@ -617,14 +670,14 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
         check_ajax_referer('bptodo_network_nonce', 'nonce');
         
         if (!current_user_can('manage_network_plugins')) {
-            wp_send_json_error(['message' => esc_html__('Insufficient permissions', 'wb-todo')]);
+            wp_send_json_error(['message' => esc_html__('Insufficient permissions', 'bp-user-to-do-list')]);
         }
         
         $sites = get_sites();
         foreach ($sites as $site) {
             bptodo_deactivate_for_site($site->blog_id);
         }
-        wp_send_json_success(['message' => esc_html__('Plugin deactivated across all sites', 'wb-todo')]);
+        wp_send_json_success(['message' => esc_html__('Plugin deactivated across all sites', 'bp-user-to-do-list')]);
     }
     
     /**
@@ -656,7 +709,7 @@ if ( BPTODO_ENABLE_ADVANCED_MULTISITE ) {
     function bptodo_manage_network_activation($value, $option, $network_id){
         if('active_sitewide_plugins' == $option && is_network_admin()) {
             $plugin_path = plugin_basename(__FILE__);
-            $timestamp = current_time('timestamp');
+            $timestamp = time();
             $value[$plugin_path] = $timestamp;
         }
         return $value;

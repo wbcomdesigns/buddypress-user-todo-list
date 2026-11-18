@@ -48,15 +48,15 @@ $is_completed = ( 'complete' === $todo_status );
 $priority_map = array(
 	'critical' => array(
 		'class' => 'bptodo-badge--critical',
-		'label' => esc_html__( 'Critical', 'wb-todo' ),
+		'label' => esc_html__( 'Critical', 'bp-user-to-do-list' ),
 	),
 	'high'     => array(
 		'class' => 'bptodo-badge--high',
-		'label' => esc_html__( 'High', 'wb-todo' ),
+		'label' => esc_html__( 'High', 'bp-user-to-do-list' ),
 	),
 	'normal'   => array(
 		'class' => 'bptodo-badge--normal',
-		'label' => esc_html__( 'Normal', 'wb-todo' ),
+		'label' => esc_html__( 'Normal', 'bp-user-to-do-list' ),
 	),
 );
 
@@ -75,22 +75,22 @@ if ( ! empty( $todo_category_id ) ) {
 $due_badge_class = 'bptodo-badge--due';
 $due_text        = '';
 if ( ! empty( $todo_due_date ) ) {
-	$due_timestamp = strtotime( $todo_due_date );
-	$today         = strtotime( 'today' );
-	$tomorrow      = strtotime( 'tomorrow' );
-	$next_week     = strtotime( '+7 days' );
+	// Calendar days compared as 'Y-m-d' strings, "today" in the display timezone.
+	$due_day  = substr( (string) $todo_due_date, 0, 10 );
+	$today    = bptodo_today();
+	$tomorrow = gmdate( 'Y-m-d', strtotime( $today . ' +1 day' ) );
 
-	if ( $due_timestamp < $today && ! $is_completed ) {
+	if ( $due_day < $today && ! $is_completed ) {
 		$due_badge_class = 'bptodo-badge--overdue';
-		$due_text        = esc_html__( 'Overdue', 'wb-todo' );
-	} elseif ( $due_timestamp === $today ) {
+		$due_text        = esc_html__( 'Overdue', 'bp-user-to-do-list' );
+	} elseif ( $due_day === $today ) {
 		$due_badge_class = 'bptodo-badge--due-soon';
-		$due_text        = esc_html__( 'Due today', 'wb-todo' );
-	} elseif ( $due_timestamp === $tomorrow ) {
+		$due_text        = esc_html__( 'Due today', 'bp-user-to-do-list' );
+	} elseif ( $due_day === $tomorrow ) {
 		$due_badge_class = 'bptodo-badge--due-soon';
-		$due_text        = esc_html__( 'Due tomorrow', 'wb-todo' );
+		$due_text        = esc_html__( 'Due tomorrow', 'bp-user-to-do-list' );
 	} else {
-		$due_text = esc_html( wp_date( get_option( 'date_format' ), $due_timestamp ) );
+		$due_text = esc_html( bptodo_day_label( $due_day ) );
 	}
 }
 
@@ -123,7 +123,7 @@ $nonce = wp_create_nonce( 'bptodo_nonce' );
 					<?php checked( $is_completed ); ?>
 					data-todo-id="<?php echo esc_attr( $todo_id ); ?>"
 					data-nonce="<?php echo esc_attr( $nonce ); ?>"
-					aria-label="<?php echo $is_completed ? esc_attr__( 'Mark as incomplete', 'wb-todo' ) : esc_attr__( 'Mark as complete', 'wb-todo' ); ?>"
+					aria-label="<?php echo $is_completed ? esc_attr__( 'Mark as incomplete', 'bp-user-to-do-list' ) : esc_attr__( 'Mark as complete', 'bp-user-to-do-list' ); ?>"
 				>
 				<span class="bptodo-checkbox__box">
 					<svg class="bptodo-checkbox__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
@@ -183,7 +183,7 @@ $nonce = wp_create_nonce( 'bptodo_nonce' );
 		<!-- Status Badge (if completed) -->
 		<?php if ( $is_completed ) : ?>
 			<span class="bptodo-badge bptodo-badge--completed">
-				<?php esc_html_e( 'Completed', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?>
 			</span>
 		<?php endif; ?>
 	</div>
@@ -196,13 +196,13 @@ $nonce = wp_create_nonce( 'bptodo_nonce' );
 				class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm js-bptodo-edit"
 				data-todo-id="<?php echo esc_attr( $todo_id ); ?>"
 				data-nonce="<?php echo esc_attr( $nonce ); ?>"
-				aria-label="<?php esc_attr_e( 'Edit todo', 'wb-todo' ); ?>"
+				aria-label="<?php esc_attr_e( 'Edit todo', 'bp-user-to-do-list' ); ?>"
 			>
 				<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
 					<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
 				</svg>
-				<span class="bptodo-hide-mobile"><?php esc_html_e( 'Edit', 'wb-todo' ); ?></span>
+				<span class="bptodo-hide-mobile"><?php esc_html_e( 'Edit', 'bp-user-to-do-list' ); ?></span>
 			</button>
 		<?php endif; ?>
 
@@ -212,13 +212,13 @@ $nonce = wp_create_nonce( 'bptodo_nonce' );
 				class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm js-bptodo-delete"
 				data-todo-id="<?php echo esc_attr( $todo_id ); ?>"
 				data-nonce="<?php echo esc_attr( $nonce ); ?>"
-				aria-label="<?php esc_attr_e( 'Delete todo', 'wb-todo' ); ?>"
+				aria-label="<?php esc_attr_e( 'Delete todo', 'bp-user-to-do-list' ); ?>"
 			>
 				<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="3 6 5 6 21 6"></polyline>
 					<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
 				</svg>
-				<span class="bptodo-hide-mobile"><?php esc_html_e( 'Delete', 'wb-todo' ); ?></span>
+				<span class="bptodo-hide-mobile"><?php esc_html_e( 'Delete', 'bp-user-to-do-list' ); ?></span>
 			</button>
 		<?php endif; ?>
 	</footer>

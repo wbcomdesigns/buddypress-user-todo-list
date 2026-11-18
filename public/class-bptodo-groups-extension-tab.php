@@ -6,6 +6,8 @@
  * @package bp-user-todo-list
  */
 
+defined( 'ABSPATH' ) || exit;
+
 if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 
 	class Group_Extension_Todo extends BP_Group_Extension {
@@ -104,7 +106,7 @@ if ( function_exists( 'bp_is_active' ) && bp_is_active( 'groups' ) ) :
 			global $bptodo;
 
 			?>
-			<nav class="bp-navs bp-subnavs no-ajax group-subnav" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group administration menu', 'wb-todo' ); ?>">
+			<nav class="bp-navs bp-subnavs no-ajax group-subnav" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group administration menu', 'bp-user-to-do-list' ); ?>">
 				<ul class="subnav">
 					<?php
 					global $groups_template;

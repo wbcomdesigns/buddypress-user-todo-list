@@ -43,7 +43,7 @@ class Bptodo_Emails {
 				'bptodo-due-date-reminder',
 				array(
 					/* translators: Email type description in admin */
-					'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
+					'description' => __( 'A user receives this email when their todo item is due today.', 'bp-user-to-do-list' ),
 				)
 			);
 
@@ -51,7 +51,7 @@ class Bptodo_Emails {
 				'bptodo-assigned',
 				array(
 					/* translators: Email type description in admin */
-					'description' => __( 'A user receives this email when a todo item is assigned to them.', 'wb-todo' ),
+					'description' => __( 'A user receives this email when a todo item is assigned to them.', 'bp-user-to-do-list' ),
 				)
 			);
 		}
@@ -111,20 +111,20 @@ class Bptodo_Emails {
 
 		$schema['bptodo-due-date-reminder'] = array(
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] {{{bptodo.Label}}} Due Date Reminder', 'wb-todo' ),
+			'post_title'   => __( '[{{{site.name}}}] {{{bptodo.Label}}} Due Date Reminder', 'bp-user-to-do-list' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Hi {{{recipient.name}}},\n\nThis is a reminder that your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today.\n\nPlease complete it as soon as possible to stay on track.\n\n<a href=\"{{{bptodo.url}}}\">View {{{bptodo.Label}}}</a>\n\nThank you!", 'wb-todo' ),
+			'post_content' => __( "Hi {{{recipient.name}}},\n\nThis is a reminder that your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today.\n\nPlease complete it as soon as possible to stay on track.\n\n<a href=\"{{{bptodo.url}}}\">View {{{bptodo.Label}}}</a>\n\nThank you!", 'bp-user-to-do-list' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "Your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today. Please complete it as soon as possible.", 'wb-todo' ),
+			'post_excerpt' => __( "Your {{{bptodo.label}}} \"{{{bptodo.title}}}\" is due today. Please complete it as soon as possible.", 'bp-user-to-do-list' ),
 		);
 
 		$schema['bptodo-assigned'] = array(
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_title'   => __( '[{{{site.name}}}] New {{{bptodo.Label}}} Assigned to You', 'wb-todo' ),
+			'post_title'   => __( '[{{{site.name}}}] New {{{bptodo.Label}}} Assigned to You', 'bp-user-to-do-list' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_content' => __( "Hi {{{recipient.name}}},\n\n<a href=\"{{{poster.url}}}\">{{{poster.name}}}</a> has assigned a {{{bptodo.label}}} to you: \"{{{bptodo.title}}}\"\n\nPlease review and complete it at your earliest convenience.\n\n<a href=\"{{{bptodo.url}}}\">View {{{bptodo.Label}}}</a>\n\nThank you!", 'wb-todo' ),
+			'post_content' => __( "Hi {{{recipient.name}}},\n\n<a href=\"{{{poster.url}}}\">{{{poster.name}}}</a> has assigned a {{{bptodo.label}}} to you: \"{{{bptodo.title}}}\"\n\nPlease review and complete it at your earliest convenience.\n\n<a href=\"{{{bptodo.url}}}\">View {{{bptodo.Label}}}</a>\n\nThank you!", 'bp-user-to-do-list' ),
 			/* translators: do not remove {} brackets or translate its contents. */
-			'post_excerpt' => __( "{{{poster.name}}} has assigned a {{{bptodo.label}}} to you: \"{{{bptodo.title}}}\"", 'wb-todo' ),
+			'post_excerpt' => __( "{{{poster.name}}} has assigned a {{{bptodo.label}}} to you: \"{{{bptodo.title}}}\"", 'bp-user-to-do-list' ),
 		);
 
 		return $schema;
@@ -139,18 +139,18 @@ class Bptodo_Emails {
 	 */
 	public function buddyboss_email_type_schema( $type_schema ) {
 		$type_schema['bptodo-due-date-reminder'] = array(
-			'description' => __( 'A user receives this email when their todo item is due today.', 'wb-todo' ),
+			'description' => __( 'A user receives this email when their todo item is due today.', 'bp-user-to-do-list' ),
 			'unsubscribe' => array(
 				'meta_key' => 'notification_bptodo_due_date',
-				'message'  => __( 'You will no longer receive emails for todo due date reminders.', 'wb-todo' ),
+				'message'  => __( 'You will no longer receive emails for todo due date reminders.', 'bp-user-to-do-list' ),
 			),
 		);
 
 		$type_schema['bptodo-assigned'] = array(
-			'description' => __( 'A user receives this email when a todo item is assigned to them.', 'wb-todo' ),
+			'description' => __( 'A user receives this email when a todo item is assigned to them.', 'bp-user-to-do-list' ),
 			'unsubscribe' => array(
 				'meta_key' => 'notification_bptodo_assigned',
-				'message'  => __( 'You will no longer receive emails when todos are assigned to you.', 'wb-todo' ),
+				'message'  => __( 'You will no longer receive emails when todos are assigned to you.', 'bp-user-to-do-list' ),
 			),
 		);
 
@@ -193,7 +193,7 @@ class Bptodo_Emails {
 		// Create the email post
 		$post_id = wp_insert_post(
 			array(
-				'post_title'   => __( '[{{{site.name}}}] {{{bptodo.Label}}} Due Date Reminder', 'wb-todo' ),
+				'post_title'   => __( '[{{{site.name}}}] {{{bptodo.Label}}} Due Date Reminder', 'bp-user-to-do-list' ),
 				'post_content' => __( 'Hi {{{recipient.name}}},
 
 This is a reminder that your {{{bptodo.label}}} "{{{bptodo.title}}}" is due today.
@@ -202,8 +202,8 @@ Please complete it as soon as possible to stay on track.
 
 <a href="{{{bptodo.url}}}">View {{{bptodo.Label}}}</a>
 
-Thank you!', 'wb-todo' ),
-				'post_excerpt' => __( 'Your {{{bptodo.label}}} "{{{bptodo.title}}}" is due today. Please complete it as soon as possible.', 'wb-todo' ),
+Thank you!', 'bp-user-to-do-list' ),
+				'post_excerpt' => __( 'Your {{{bptodo.label}}} "{{{bptodo.title}}}" is due today. Please complete it as soon as possible.', 'bp-user-to-do-list' ),
 				'post_status'  => 'publish',
 				'post_type'    => bp_get_email_post_type(),
 			)
@@ -225,10 +225,10 @@ Thank you!', 'wb-todo' ),
 
 		// Add email tokens
 		$tokens = array(
-			'bptodo.title' => __( 'The title of the todo item.', 'wb-todo' ),
-			'bptodo.url'   => __( 'URL to view the todo item.', 'wb-todo' ),
-			'bptodo.label' => __( 'The custom label for todo items (singular, lowercase) - use in body text.', 'wb-todo' ),
-			'bptodo.Label' => __( 'The custom label for todo items (singular, capitalized) - use in subject lines and buttons.', 'wb-todo' ),
+			'bptodo.title' => __( 'The title of the todo item.', 'bp-user-to-do-list' ),
+			'bptodo.url'   => __( 'URL to view the todo item.', 'bp-user-to-do-list' ),
+			'bptodo.label' => __( 'The custom label for todo items (singular, lowercase) - use in body text.', 'bp-user-to-do-list' ),
+			'bptodo.Label' => __( 'The custom label for todo items (singular, capitalized) - use in subject lines and buttons.', 'bp-user-to-do-list' ),
 		);
 
 		update_post_meta( $post_id, 'tokens', $tokens );
@@ -270,7 +270,7 @@ Thank you!', 'wb-todo' ),
 		// Create the email post
 		$post_id = wp_insert_post(
 			array(
-				'post_title'   => __( '[{{{site.name}}}] New {{{bptodo.Label}}} Assigned to You', 'wb-todo' ),
+				'post_title'   => __( '[{{{site.name}}}] New {{{bptodo.Label}}} Assigned to You', 'bp-user-to-do-list' ),
 				'post_content' => __( 'Hi {{{recipient.name}}},
 
 <a href="{{{poster.url}}}">{{{poster.name}}}</a> has assigned a {{{bptodo.label}}} to you: "{{{bptodo.title}}}"
@@ -279,8 +279,8 @@ Please review and complete it at your earliest convenience.
 
 <a href="{{{bptodo.url}}}">View {{{bptodo.Label}}}</a>
 
-Thank you!', 'wb-todo' ),
-				'post_excerpt' => __( '{{{poster.name}}} has assigned a {{{bptodo.label}}} to you: "{{{bptodo.title}}}"', 'wb-todo' ),
+Thank you!', 'bp-user-to-do-list' ),
+				'post_excerpt' => __( '{{{poster.name}}} has assigned a {{{bptodo.label}}} to you: "{{{bptodo.title}}}"', 'bp-user-to-do-list' ),
 				'post_status'  => 'publish',
 				'post_type'    => bp_get_email_post_type(),
 			)
@@ -302,12 +302,12 @@ Thank you!', 'wb-todo' ),
 
 		// Add email tokens
 		$tokens = array(
-			'bptodo.title' => __( 'The title of the todo item.', 'wb-todo' ),
-			'bptodo.url'   => __( 'URL to view the todo item.', 'wb-todo' ),
-			'bptodo.label' => __( 'The custom label for todo items (singular, lowercase) - use in body text.', 'wb-todo' ),
-			'bptodo.Label' => __( 'The custom label for todo items (singular, capitalized) - use in subject lines and buttons.', 'wb-todo' ),
-			'poster.name'  => __( 'Name of the user who assigned the todo.', 'wb-todo' ),
-			'poster.url'   => __( 'Profile URL of the user who assigned the todo.', 'wb-todo' ),
+			'bptodo.title' => __( 'The title of the todo item.', 'bp-user-to-do-list' ),
+			'bptodo.url'   => __( 'URL to view the todo item.', 'bp-user-to-do-list' ),
+			'bptodo.label' => __( 'The custom label for todo items (singular, lowercase) - use in body text.', 'bp-user-to-do-list' ),
+			'bptodo.Label' => __( 'The custom label for todo items (singular, capitalized) - use in subject lines and buttons.', 'bp-user-to-do-list' ),
+			'poster.name'  => __( 'Name of the user who assigned the todo.', 'bp-user-to-do-list' ),
+			'poster.url'   => __( 'Profile URL of the user who assigned the todo.', 'bp-user-to-do-list' ),
 		);
 
 		update_post_meta( $post_id, 'tokens', $tokens );

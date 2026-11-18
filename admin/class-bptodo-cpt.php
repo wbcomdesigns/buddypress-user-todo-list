@@ -43,16 +43,16 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 			// regardless of BuddyPress so the plugin works stand-alone via the
 			// "My Todos" block or the [bptodo_list] shortcode on any page.
 			$labels = array(
-				'name'               => esc_html__( 'Todo Items', 'wb-todo' ),
-				'singular_name'      => esc_html__( 'Todo Item', 'wb-todo' ),
-				'menu_name'          => esc_html__( 'Todo Items', 'wb-todo' ),
-				'name_admin_bar'     => esc_html__( 'Todo Items', 'wb-todo' ),
-				'view_item'          => esc_html__( 'View Todo Item', 'wb-todo' ),
-				'all_items'          => esc_html__( 'All Todo Items', 'wb-todo' ),
-				'search_items'       => esc_html__( 'Search Todo Item', 'wb-todo' ),
-				'parent_item_colon'  => esc_html__( 'Parent Todo Item:', 'wb-todo' ),
-				'not_found'          => esc_html__( 'No Todo Item Found', 'wb-todo' ),
-				'not_found_in_trash' => esc_html__( 'No Todo Item Found In Trash', 'wb-todo' ),
+				'name'               => esc_html__( 'Todo Items', 'bp-user-to-do-list' ),
+				'singular_name'      => esc_html__( 'Todo Item', 'bp-user-to-do-list' ),
+				'menu_name'          => esc_html__( 'Todo Items', 'bp-user-to-do-list' ),
+				'name_admin_bar'     => esc_html__( 'Todo Items', 'bp-user-to-do-list' ),
+				'view_item'          => esc_html__( 'View Todo Item', 'bp-user-to-do-list' ),
+				'all_items'          => esc_html__( 'All Todo Items', 'bp-user-to-do-list' ),
+				'search_items'       => esc_html__( 'Search Todo Item', 'bp-user-to-do-list' ),
+				'parent_item_colon'  => esc_html__( 'Parent Todo Item:', 'bp-user-to-do-list' ),
+				'not_found'          => esc_html__( 'No Todo Item Found', 'bp-user-to-do-list' ),
+				'not_found_in_trash' => esc_html__( 'No Todo Item Found In Trash', 'bp-user-to-do-list' ),
 			);
 
 			/*
@@ -97,17 +97,17 @@ if ( ! class_exists( 'Bptodo_Cpt' ) ) {
 		 */
 		public function bptodo_create_cpt_category() {
 			$tax_labels = array(
-				'name'              => esc_html__( 'Todo Category', 'wb-todo' ),
-				'singular_name'     => esc_html__( 'Todo Category', 'wb-todo' ),
-				'search_items'      => esc_html__( 'Search Todo Items Categories', 'wb-todo' ),
-				'all_items'         => esc_html__( 'All Todo Items Categories', 'wb-todo' ),
-				'parent_item'       => esc_html__( 'Parent Todo Item Category', 'wb-todo' ),
-				'parent_item_colon' => esc_html__( 'Parent Todo Item Category:', 'wb-todo' ),
-				'edit_item'         => esc_html__( 'Edit Category', 'wb-todo' ),
-				'update_item'       => esc_html__( 'Update Category', 'wb-todo' ),
-				'add_new_item'      => esc_html__( 'Add Todo Item Category', 'wb-todo' ),
-				'not_found'         => esc_html__( 'No Todo Item Categories Found', 'wb-todo' ),
-				'menu_name'         => esc_html__( 'Categories', 'wb-todo' ),
+				'name'              => esc_html__( 'Todo Category', 'bp-user-to-do-list' ),
+				'singular_name'     => esc_html__( 'Todo Category', 'bp-user-to-do-list' ),
+				'search_items'      => esc_html__( 'Search Todo Items Categories', 'bp-user-to-do-list' ),
+				'all_items'         => esc_html__( 'All Todo Items Categories', 'bp-user-to-do-list' ),
+				'parent_item'       => esc_html__( 'Parent Todo Item Category', 'bp-user-to-do-list' ),
+				'parent_item_colon' => esc_html__( 'Parent Todo Item Category:', 'bp-user-to-do-list' ),
+				'edit_item'         => esc_html__( 'Edit Category', 'bp-user-to-do-list' ),
+				'update_item'       => esc_html__( 'Update Category', 'bp-user-to-do-list' ),
+				'add_new_item'      => esc_html__( 'Add Todo Item Category', 'bp-user-to-do-list' ),
+				'not_found'         => esc_html__( 'No Todo Item Categories Found', 'bp-user-to-do-list' ),
+				'menu_name'         => esc_html__( 'Categories', 'bp-user-to-do-list' ),
 			);
 			// Private taxonomy - admin management only, no public term archives.
 			$tax_args = array(

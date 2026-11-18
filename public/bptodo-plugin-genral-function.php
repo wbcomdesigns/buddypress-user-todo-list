@@ -12,6 +12,8 @@
  * @return string                  Path to the template file.
  */
 
+defined( 'ABSPATH' ) || exit;
+
 if ( ! function_exists( 'bp_todo_locate_template' ) ) {
 
 	function bp_todo_locate_template( $template_name, $template_path = '', $default_path = '' ) {

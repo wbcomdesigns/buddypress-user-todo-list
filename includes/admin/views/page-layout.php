@@ -29,8 +29,8 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 		<div class="bptodo-page-header__title">
 			<span class="dashicons dashicons-list-view" aria-hidden="true"></span>
 			<div>
-				<h1><?php esc_html_e( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ); ?></h1>
-				<p class="bptodo-page-header__subtitle"><?php esc_html_e( 'Personal and group to-do lists on every member profile, with reminders, categories, and role-based access.', 'wb-todo' ); ?></p>
+				<h1><?php esc_html_e( 'Todo for BuddyPress & BuddyBoss', 'bp-user-to-do-list' ); ?></h1>
+				<p class="bptodo-page-header__subtitle"><?php esc_html_e( 'Personal and group to-do lists on every member profile, with reminders, categories, and role-based access.', 'bp-user-to-do-list' ); ?></p>
 			</div>
 		</div>
 		<div class="bptodo-page-header__actions">
@@ -58,16 +58,16 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 					<span class="dashicons dashicons-list-view"></span>
 				</span>
 				<div class="bptodo-settings-brand-text">
-					<p class="bptodo-settings-brand-name"><?php esc_html_e( 'Todo Lists', 'wb-todo' ); ?></p>
-					<p class="bptodo-settings-brand-sub"><?php esc_html_e( 'Plugin', 'wb-todo' ); ?></p>
+					<p class="bptodo-settings-brand-name"><?php esc_html_e( 'Todo Lists', 'bp-user-to-do-list' ); ?></p>
+					<p class="bptodo-settings-brand-sub"><?php esc_html_e( 'Plugin', 'bp-user-to-do-list' ); ?></p>
 				</div>
 			</div>
-			<nav class="bptodo-settings-sidebar-nav" aria-label="<?php esc_attr_e( 'Todo Lists navigation', 'wb-todo' ); ?>">
+			<nav class="bptodo-settings-sidebar-nav" aria-label="<?php esc_attr_e( 'Todo Lists navigation', 'bp-user-to-do-list' ); ?>">
 				<?php
 				$bptodo_printed_groups = array();
 				$bptodo_group_labels   = array(
-					'settings' => esc_html__( 'Settings', 'wb-todo' ),
-					'discover' => esc_html__( 'More Tools', 'wb-todo' ),
+					'settings' => esc_html__( 'Settings', 'bp-user-to-do-list' ),
+					'discover' => esc_html__( 'More Tools', 'bp-user-to-do-list' ),
 				);
 				foreach ( $bptodo_tabs as $bptodo_slug => $bptodo_tab ) {
 					$bptodo_group = isset( $bptodo_tab['group'] ) ? $bptodo_tab['group'] : 'main';
@@ -88,12 +88,12 @@ $bptodo_version = defined( 'BPTODO_VERSION' ) ? BPTODO_VERSION : '';
 				?>
 
 				<div class="bptodo-snav-divider" role="separator"></div>
-				<p class="bptodo-snav-section-label"><?php esc_html_e( 'Resources', 'wb-todo' ); ?></p>
+				<p class="bptodo-snav-section-label"><?php esc_html_e( 'Resources', 'bp-user-to-do-list' ); ?></p>
 				<a href="https://docs.wbcomdesigns.com/docs/buddypress-user-to-do-list/" class="bptodo-snav-link" target="_blank" rel="noopener noreferrer">
 					<span class="dashicons dashicons-book" aria-hidden="true"></span>
-					<?php esc_html_e( 'Documentation', 'wb-todo' ); ?>
+					<?php esc_html_e( 'Documentation', 'bp-user-to-do-list' ); ?>
 					<span class="dashicons dashicons-external bptodo-snav-link__ext" aria-hidden="true"></span>
-					<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'wb-todo' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'bp-user-to-do-list' ); ?></span>
 				</a>
 			</nav>
 		</aside>

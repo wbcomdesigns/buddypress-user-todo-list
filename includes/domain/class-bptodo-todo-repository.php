@@ -274,7 +274,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 			$author = $author ? (int) $author : (int) get_current_user_id();
 			$title  = isset( $data['title'] ) ? sanitize_text_field( wp_unslash( $data['title'] ) ) : '';
 			if ( '' === $title ) {
-				return new WP_Error( 'bptodo_empty_title', __( 'A title is required.', 'wb-todo' ), array( 'status' => 400 ) );
+				return new WP_Error( 'bptodo_empty_title', __( 'A title is required.', 'bp-user-to-do-list' ), array( 'status' => 400 ) );
 			}
 
 			$post_id = wp_insert_post(
@@ -321,10 +321,10 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 			$group_id = (int) $group_id;
 			$title    = isset( $data['title'] ) ? sanitize_text_field( wp_unslash( $data['title'] ) ) : '';
 			if ( '' === $title ) {
-				return new WP_Error( 'bptodo_empty_title', __( 'A title is required.', 'wb-todo' ), array( 'status' => 400 ) );
+				return new WP_Error( 'bptodo_empty_title', __( 'A title is required.', 'bp-user-to-do-list' ), array( 'status' => 400 ) );
 			}
 			if ( ! $group_id ) {
-				return new WP_Error( 'bptodo_no_group', __( 'A group is required.', 'wb-todo' ), array( 'status' => 400 ) );
+				return new WP_Error( 'bptodo_no_group', __( 'A group is required.', 'bp-user-to-do-list' ), array( 'status' => 400 ) );
 			}
 
 			// Resolve the recipient list.
@@ -401,7 +401,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		public static function update( $id, $data ) {
 			$todo = Bptodo_Todo::from_id( $id );
 			if ( ! $todo ) {
-				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'wb-todo' ), array( 'status' => 404 ) );
+				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'bp-user-to-do-list' ), array( 'status' => 404 ) );
 			}
 
 			$postarr = array( 'ID' => $todo->id() );
@@ -444,15 +444,15 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		public static function set_status( $id, $status, $actor_id = 0 ) {
 			$todo = Bptodo_Todo::from_id( $id );
 			if ( ! $todo ) {
-				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'wb-todo' ), array( 'status' => 404 ) );
+				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'bp-user-to-do-list' ), array( 'status' => 404 ) );
 			}
 			$actor_id = $actor_id ? (int) $actor_id : (int) get_current_user_id();
 
 			if ( 'complete' === $status ) {
 				update_post_meta( $todo->id(), Bptodo_Todo::META_STATUS, 'complete' );
 				update_post_meta( $todo->id(), Bptodo_Todo::META_USER_ID, $actor_id );
-				update_post_meta( $todo->id(), Bptodo_Todo::META_COMPLETE_TIME, current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- preserves legacy stored value.
-				update_post_meta( $todo->id(), Bptodo_Todo::META_COMPLETED_DATE, current_time( 'mysql' ) );
+				update_post_meta( $todo->id(), Bptodo_Todo::META_COMPLETE_TIME, time() );
+				update_post_meta( $todo->id(), Bptodo_Todo::META_COMPLETED_DATE, current_time( 'mysql', true ) );
 				do_action( 'bptodo_todo_completed', $todo->id(), $actor_id );
 			} else {
 				update_post_meta( $todo->id(), Bptodo_Todo::META_STATUS, 'incomplete' );
@@ -475,7 +475,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		public static function delete( $id ) {
 			$todo = Bptodo_Todo::from_id( $id );
 			if ( ! $todo ) {
-				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'wb-todo' ), array( 'status' => 404 ) );
+				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'bp-user-to-do-list' ), array( 'status' => 404 ) );
 			}
 			$primary_id = (int) get_post_meta( $todo->id(), Bptodo_Todo::META_PRIMARY_ID, true );
 			if ( $primary_id ) {

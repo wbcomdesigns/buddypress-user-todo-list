@@ -34,7 +34,7 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 		const META_ASSOCIATED      = 'botodo_associated_todo'; // int[], primary -> member copies (legacy key spelling).
 		const META_USER_ID         = 'todo_user_id';          // int, who completed.
 		const META_COMPLETE_TIME   = 'todo_complete_time';    // unix ts.
-		const META_COMPLETED_DATE  = 'todo_completed_date';   // mysql datetime.
+		const META_COMPLETED_DATE  = 'todo_completed_date';   // mysql datetime, UTC (since 4.0.1).
 		const META_MAIL_SENT       = 'todo_last_day_mail_sent';         // 'no' on create.
 		const META_NOTIF_SENT      = 'todo_last_day_notification_sent'; // 'no' on create.
 
@@ -139,7 +139,7 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 		public function due_human() {
 			if ( $this->is_complete() ) {
 				return array(
-					'text'  => __( 'Completed!', 'wb-todo' ),
+					'text'  => __( 'Completed!', 'bp-user-to-do-list' ),
 					'state' => 'done',
 				);
 			}
@@ -150,7 +150,7 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 					'state' => '',
 				);
 			}
-			$today    = date_create( gmdate( 'Y-m-d' ) );
+			$today    = date_create( bptodo_today() );
 			$due_obj  = date_create( $due );
 			if ( ! $today || ! $due_obj ) {
 				return array(
@@ -163,19 +163,19 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 			if ( $diff_days < 0 ) {
 				return array(
 					/* translators: %d: number of days a task is overdue. */
-					'text'  => sprintf( _n( 'Overdue by %d day', 'Overdue by %d days', abs( $diff_days ), 'wb-todo' ), abs( $diff_days ) ),
+					'text'  => sprintf( _n( 'Overdue by %d day', 'Overdue by %d days', abs( $diff_days ), 'bp-user-to-do-list' ), abs( $diff_days ) ),
 					'state' => 'overdue',
 				);
 			}
 			if ( 0 === $diff_days ) {
 				return array(
-					'text'  => __( 'Due today', 'wb-todo' ),
+					'text'  => __( 'Due today', 'bp-user-to-do-list' ),
 					'state' => 'today',
 				);
 			}
 			return array(
 				/* translators: %d: number of days left to complete a task. */
-				'text'  => sprintf( _n( '%d day left', '%d days left', $diff_days, 'wb-todo' ), $diff_days ),
+				'text'  => sprintf( _n( '%d day left', '%d days left', $diff_days, 'bp-user-to-do-list' ), $diff_days ),
 				'state' => 'upcoming',
 			);
 		}
@@ -235,11 +235,11 @@ if ( ! class_exists( 'Bptodo_Todo' ) ) {
 		public static function priority_label( $priority ) {
 			switch ( $priority ) {
 				case 'critical':
-					return __( 'Critical', 'wb-todo' );
+					return __( 'Critical', 'bp-user-to-do-list' );
 				case 'high':
-					return __( 'High', 'wb-todo' );
+					return __( 'High', 'bp-user-to-do-list' );
 				default:
-					return __( 'Normal', 'wb-todo' );
+					return __( 'Normal', 'bp-user-to-do-list' );
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 # Plugin: Todo for BuddyPress & BuddyBoss
 
-> **READ FIRST:** [`audit/manifest.json`](audit/manifest.json) is the canonical inventory — 12 REST endpoints (`bptodo/v1`, 6 routes), 9 AJAX handlers, 2 admin pages (6 tabs), 7 settings keys, 2 shortcodes, 2 blocks, 1 CPT + 1 taxonomy, 0 custom tables, 2 cron hooks, 3 WP-CLI commands, 49 hooks fired. Use it before grepping. See also [`audit/manifest.summary.json`](audit/manifest.summary.json), [`audit/FEATURE_AUDIT.md`](audit/FEATURE_AUDIT.md), [`audit/CODE_FLOWS.md`](audit/CODE_FLOWS.md), [`audit/ROLE_MATRIX.md`](audit/ROLE_MATRIX.md), and the QA baseline at [`audit/wppqa-baseline-2026-06-05/SUMMARY.md`](audit/wppqa-baseline-2026-06-05/SUMMARY.md). Refresh via `/wp-plugin-onboard --refresh` after non-trivial changes.
+> **READ FIRST:** [`audit/manifest.json`](audit/manifest.json) is the canonical inventory — 12 REST endpoints (`bptodo/v1`, 6 routes), 8 AJAX handlers, 2 admin pages (6 tabs), 7 settings keys, 2 shortcodes, 2 blocks, 1 CPT + 1 taxonomy, 0 custom tables, 2 cron hooks, 3 WP-CLI commands, 49 hooks fired. Use it before grepping. See also [`audit/manifest.summary.json`](audit/manifest.summary.json), [`audit/FEATURE_AUDIT.md`](audit/FEATURE_AUDIT.md), [`audit/CODE_FLOWS.md`](audit/CODE_FLOWS.md), [`audit/ROLE_MATRIX.md`](audit/ROLE_MATRIX.md), and the QA baseline at [`audit/wppqa-baseline-2026-06-05/SUMMARY.md`](audit/wppqa-baseline-2026-06-05/SUMMARY.md). Refresh via `/wp-plugin-onboard --refresh` after non-trivial changes.
 
 > **DEV CONVENTIONS:** Follow the **`/wp-plugin-development`** skill for ALL code changes — the 16 critical admin rules, Part 6 Admin UI (card-based pattern), 3-layer design tokens, escaping/security, and dev hygiene (no em-dash in i18n, Lucide icons, no inline SVG, WPCS). This plugin currently uses the **OLD** admin wrapper and the legacy tab Settings API; any new admin UI should move toward the modern pattern in that skill, not extend the old wrapper.
 
@@ -8,7 +8,7 @@
 - **Main file**: `bp-user-todo-list.php`
 - **Version**: `4.0.1` (dev branch `4.0.1`)
 - **Namespace**: none — prefixed procedural functions + `Bptodo_*` classes
-- **Text domain**: `wb-todo`
+- **Text domain**: `bp-user-to-do-list` (= the WordPress.org slug, so language packs load; was `wb-todo` until 4.0.1). Gettext only - asset handles, nonces (`wb-todo-feedback-nonce`) and CSS classes keep `wb-todo`.
 - **Prefixes**: functions `bptodo_*`, options `user_todo_list_settings` / `group-todo-list-settings` / `data-retention-settings`, CPT `bp-todo`, taxonomy `todo_category`, AJAX `bptodo_*`
 - **Extends**: BuddyPress / BuddyBoss (OPTIONAL as of 4.0). Works standalone (personal todos via the My Todos block / [bptodo_list] shortcode on any page); BuddyPress adds profile tabs + group todos. Not a Free/Pro pair.
 
@@ -47,7 +47,10 @@ empty state and link to `plugins.php` instead (see `includes/admin/views/setting
 - **Select2 on the group Add/Edit forms**: style it via `#todo_group_members + .select2-container` (stable). WooCommerce loads Select2 4.0 CSS after our 4.1 build, so the anchored rules pin the 4.1 inline layout.
 - **Storage is CPT + postmeta** (no custom tables). Tasks = `bp-todo` posts; status/due-date/priority/group in postmeta.
 - **All AJAX is admin-ajax, logged-in only** (no `wp_ajax_nopriv`). Member self-service nonce is `bptodo-todo-nonce` (localized as `todo_ajax_object.ajax_nonce`).
-- **Release build** via `grunt` (`gruntfile.js`). Distribution zip lives in `dist/`.
+- **Release build**: `bin/build-release.sh` (runs `bin/local-ci.sh`, then `grunt build`, then zips with `.distignore`). Same entries as `npx grunt release`; keep `.distignore` and the gruntfile `copy:build` excludes in step.
+- **Times** (docs/standards/time.md): show instants with `bptodo_date_label()`, calendar days (due dates) with `bptodo_day_label()`, compare due dates with `bptodo_today()`; never raw `wp_date()`/`date_i18n()`/`gmdate('Y-m-d')`. Completion times are stored UTC since 4.0.1.
+- **Translations**: after any string change run `wp i18n make-pot`, `msgmerge --no-fuzzy-matching`, then `wp i18n make-mo`, `make-php` (then re-add the `defined( 'ABSPATH' ) || exit;` line it drops) AND `make-json --no-purge`; `bin/local-ci.sh` fails on a stale POT. `languages/*.json` must stay tracked (the `*.json` ignore has an exception).
+- **No inline `<style>`/`<script>` in templates**: page JS lives in `assets/js/bptodo-front.js`; strings reach it via `todo_ajax_object` or `data-*` attributes.
 - Settings are read through `Bptodo_Globals`; after admin save the global `$bptodo` is rebuilt in-place.
 
 ## Bundled third-party libraries
@@ -64,8 +67,6 @@ To refresh any of these, re-download from the URL below and keep the min + sourc
 
 | File | Library / version | Upstream URL |
 |---|---|---|
-| `assets/js/datatables.min.js` + `assets/js/datatables.js` | DataTables **downloader-builder combined build**: JSZip 2.5.0, pdfmake 0.1.36, DataTables 1.13.2, AutoFill 2.5.2, Buttons 2.3.4, Column visibility 2.3.4, HTML5 export 2.3.4, Print view 2.3.4, ColReorder 1.6.1, DateTime 1.3.0, FixedColumns 4.2.1, FixedHeader 3.3.1, KeyTable 2.8.1, Responsive 2.4.0, RowGroup 1.3.0, RowReorder 1.3.2, Scroller 2.1.0, SearchBuilder 1.4.0, SearchPanes 2.1.1, Select 1.6.0, StateRestore 1.2.1 | `https://cdn.datatables.net/v/dt/jszip-2.5.0/pdfmake-0.1.36/dt-1.13.2/af-2.5.2/b-2.3.4/b-colvis-2.3.4/b-html5-2.3.4/b-print-2.3.4/cr-1.6.1/date-1.3.0/fc-4.2.1/fh-3.3.1/kt-2.8.1/r-2.4.0/rg-1.3.0/rr-1.3.2/sc-2.1.0/sb-1.4.0/sp-2.1.1/sl-1.6.0/sr-1.2.1/datatables.js` (swap the trailing filename for `.css` / `.min.*`) |
-| `assets/css/datatables.min.css` + `assets/css/datatables.css` | same combined build as above | same base URL, `datatables.css` |
 | `assets/css/select2.min.css` + `assets/css/select2.css` | Select2 4.1.0-rc.0 - official dist, both byte-identical to upstream | `https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.css` (swap trailing name for `select2.min.css`) |
 | `assets/js/select2.full.min.js` + `assets/js/select2.full.js` | Select2 4.1.0-rc.0 - official dist, both byte-identical to upstream | `https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.full.js` (swap trailing name for `select2.full.min.js`) |
 | `assets/css/jquery-ui.css` | jQuery UI 1.12.1 base theme - **already unminified, and locally patched** | do NOT replace with stock upstream; see note below |
