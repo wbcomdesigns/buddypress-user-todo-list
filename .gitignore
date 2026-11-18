@@ -25,3 +25,5 @@ dist/
 !admin/demo-tasks.json
 !blocks/
 !blocks/**
+# Block editor translations (wp_set_script_translations) - must ship in the zip.
+!languages/*.json

@@ -28,25 +28,25 @@ $message = '';
 
 if ( 'group' === $context ) {
 	if ( 'complete' === $filter ) {
-		$title   = __( 'No completed todos', 'wb-todo' );
-		$message = __( 'Tasks will appear here once group members mark them as complete.', 'wb-todo' );
+		$title   = __( 'No completed todos', 'bp-user-to-do-list' );
+		$message = __( 'Tasks will appear here once group members mark them as complete.', 'bp-user-to-do-list' );
 	} elseif ( 'pending' === $filter ) {
-		$title   = __( 'All caught up!', 'wb-todo' );
-		$message = __( 'There are no pending todos for this group right now.', 'wb-todo' );
+		$title   = __( 'All caught up!', 'bp-user-to-do-list' );
+		$message = __( 'There are no pending todos for this group right now.', 'bp-user-to-do-list' );
 	} else {
-		$title   = __( 'No group todos yet', 'wb-todo' );
-		$message = __( 'Create the first todo to start collaborating with your group members.', 'wb-todo' );
+		$title   = __( 'No group todos yet', 'bp-user-to-do-list' );
+		$message = __( 'Create the first todo to start collaborating with your group members.', 'bp-user-to-do-list' );
 	}
 } else {
 	if ( 'complete' === $filter ) {
-		$title   = __( 'No completed todos', 'wb-todo' );
-		$message = __( 'Completed todos will appear here. Keep up the great work!', 'wb-todo' );
+		$title   = __( 'No completed todos', 'bp-user-to-do-list' );
+		$message = __( 'Completed todos will appear here. Keep up the great work!', 'bp-user-to-do-list' );
 	} elseif ( 'pending' === $filter ) {
-		$title   = __( 'All caught up!', 'wb-todo' );
-		$message = __( 'You have no pending todos. Enjoy your free time!', 'wb-todo' );
+		$title   = __( 'All caught up!', 'bp-user-to-do-list' );
+		$message = __( 'You have no pending todos. Enjoy your free time!', 'bp-user-to-do-list' );
 	} else {
-		$title   = __( 'No todos yet', 'wb-todo' );
-		$message = __( 'Create your first todo to start tracking your tasks.', 'wb-todo' );
+		$title   = __( 'No todos yet', 'bp-user-to-do-list' );
+		$message = __( 'Create your first todo to start tracking your tasks.', 'bp-user-to-do-list' );
 	}
 }
 ?>
@@ -77,7 +77,7 @@ if ( 'group' === $context ) {
 				<line x1="12" y1="5" x2="12" y2="19"></line>
 				<line x1="5" y1="12" x2="19" y2="12"></line>
 			</svg>
-			<?php esc_html_e( 'Create Todo', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Create Todo', 'bp-user-to-do-list' ); ?>
 		</button>
 	<?php endif; ?>
 </div>

@@ -326,7 +326,7 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 			$author = $viewer;
 			if ( null !== $user_id && '' !== $user_id ) {
 				if ( ! Bptodo_Permissions::can_view_scope( $user_id, $viewer ) ) {
-					return $this->err_forbidden( __( 'You do not have permission to view these todos.', 'wb-todo' ) );
+					return $this->err_forbidden( __( 'You do not have permission to view these todos.', 'bp-user-to-do-list' ) );
 				}
 				$author = ( 'all' === $user_id ) ? 0 : (int) $user_id;
 			}
@@ -390,7 +390,7 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 			}
 			$due = trim( (string) $request->get_param( 'due_date' ) );
 			if ( '' === $due ) {
-				return new WP_Error( 'bptodo_due_required', __( 'A due date is required.', 'wb-todo' ), array( 'status' => 400 ) );
+				return new WP_Error( 'bptodo_due_required', __( 'A due date is required.', 'bp-user-to-do-list' ), array( 'status' => 400 ) );
 			}
 			return null;
 		}
@@ -556,17 +556,17 @@ if ( ! class_exists( 'Bptodo_REST_Controller' ) ) {
 
 		/** @param string $msg Message. @return WP_Error */
 		protected function err_auth( $msg = '' ) {
-			return new WP_Error( 'bptodo_rest_unauthorized', $msg ? $msg : __( 'You must be logged in.', 'wb-todo' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'bptodo_rest_unauthorized', $msg ? $msg : __( 'You must be logged in.', 'bp-user-to-do-list' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		/** @param string $msg Message. @return WP_Error */
 		protected function err_forbidden( $msg = '' ) {
-			return new WP_Error( 'bptodo_rest_forbidden', $msg ? $msg : __( 'You are not allowed to do that.', 'wb-todo' ), array( 'status' => 403 ) );
+			return new WP_Error( 'bptodo_rest_forbidden', $msg ? $msg : __( 'You are not allowed to do that.', 'bp-user-to-do-list' ), array( 'status' => 403 ) );
 		}
 
 		/** @param string $msg Message. @return WP_Error */
 		protected function err_not_found( $msg = '' ) {
-			return new WP_Error( 'bptodo_rest_not_found', $msg ? $msg : __( 'Todo not found.', 'wb-todo' ), array( 'status' => 404 ) );
+			return new WP_Error( 'bptodo_rest_not_found', $msg ? $msg : __( 'Todo not found.', 'bp-user-to-do-list' ), array( 'status' => 404 ) );
 		}
 	}
 }

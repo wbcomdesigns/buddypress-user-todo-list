@@ -54,8 +54,8 @@ if ( ! class_exists( 'Bptodo_Globals' ) ) {
 			global $bptodo;
 			$settings = get_option( 'user_todo_list_settings' );
 
-			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'wb-todo' );
-			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'wb-todo' );
+			$this->profile_menu_label        = isset( $settings['profile_menu_label'] ) ? $settings['profile_menu_label'] : esc_html__( 'Todo', 'bp-user-to-do-list' );
+			$this->profile_menu_label_plural = isset( $settings['profile_menu_label_plural'] ) ? $settings['profile_menu_label_plural'] : esc_html__( 'Todos', 'bp-user-to-do-list' );
 			/*
 			 * The slug must be a valid URL/nav slug. Labels like "Student's Todo"
 			 * or "Todo for Student" previously produced slugs with spaces and

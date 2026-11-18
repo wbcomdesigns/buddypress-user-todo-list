@@ -11,6 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div class="bptodo-loggedout-user-panel">
-	<p><?php esc_html_e( 'You need to be logged in to view the todo items.', 'wb-todo' ); ?></p>
+	<p><?php esc_html_e( 'You need to be logged in to view the todo items.', 'bp-user-to-do-list' ); ?></p>
 	<?php wp_login_form(); ?>
 </div>

@@ -34,7 +34,7 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 				// $label arrives already translated from the call site. Uppercase it
 				// for the section header the way the design expects, multibyte-safe so
 				// accented locales are not mangled (esc_html() takes no text domain -
-				// the old esc_html( ..., 'wb-todo' ) silently discarded that argument
+				// the old esc_html( ..., 'bp-user-to-do-list' ) silently discarded that argument
 				// and never translated anything).
 				$bptodo_label_upper = function_exists( 'mb_strtoupper' )
 					? mb_strtoupper( $label, 'UTF-8' )
@@ -46,12 +46,12 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 						<table class="bp-todo-reminder">
 							<thead>
 								<tr>
-									<th><?php esc_html_e( 'Sr. No.', 'wb-todo' ); ?></th>
+									<th><?php esc_html_e( 'Sr. No.', 'bp-user-to-do-list' ); ?></th>
 									<th><?php echo esc_html( $profile_menu_label ); ?></th>
 									<?php /* translators: %s: the configured todo label (singular), e.g. "Task". */ ?>
-									<th><?php printf( esc_html__( '%s Description', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?></th>
-									<th><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></th>
-									<th><?php esc_html_e( 'Mark Complete', 'wb-todo' ); ?></th>
+									<th><?php printf( esc_html__( '%s Description', 'bp-user-to-do-list' ), esc_html( $profile_menu_label ) ); ?></th>
+									<th><?php esc_html_e( 'Due Date', 'bp-user-to-do-list' ); ?></th>
+									<th><?php esc_html_e( 'Mark Complete', 'bp-user-to-do-list' ); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -67,26 +67,26 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 
 									$due_date_str     = '';
 									$due_date_td_class = '';
-									$curr_date        = date_create( gmdate( 'Y-m-d' ) );
+									$curr_date        = date_create( bptodo_today() );
 									$due_date         = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 									$diff             = date_diff( $curr_date, $due_date );
 									$diff_days        = $diff->format( '%R%a' );
 
 									if ( $diff_days < 0 ) {
 										/* translators: %d: number of days since the due date passed. */
-										$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'wb-todo' ), abs( $diff_days ) );
+										$due_date_str      = sprintf( esc_html__( 'Expired %d days ago!', 'bp-user-to-do-list' ), abs( $diff_days ) );
 										$due_date_td_class = 'bptodo-expired';
 									} elseif ( 0 === $diff_days ) {
-										$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'wb-todo' );
+										$due_date_str      = esc_html__( 'Today is the last day to complete. Hurry Up!', 'bp-user-to-do-list' );
 										$due_date_td_class = 'bptodo-expires-today';
 									} else {
 										$label_lowercase = strtolower( $profile_menu_label );
 										 /* translators: 1: number of days, 2: todo label (singular, lowercase) */
-										$due_date_str = sprintf( esc_html__( '%1$d days left to complete the %2$s!', 'wb-todo' ), abs( $diff_days ), $label_lowercase );
+										$due_date_str = sprintf( esc_html__( '%1$d days left to complete the %2$s!', 'bp-user-to-do-list' ), abs( $diff_days ), $label_lowercase );
 									}
 
 									if ( 'complete' === $todo_status ) {
-										$due_date_str      = esc_html__( 'Completed!', 'wb-todo' );
+										$due_date_str      = esc_html__( 'Completed!', 'bp-user-to-do-list' );
 										$due_date_td_class = '';
 									}
 									?>
@@ -98,15 +98,15 @@ if ( ! function_exists( 'bptodo_display_todo_tasks' ) ) {
 										<td class="bp-to-do-actions">
 											<ul>
 													<?php /* translators: %s: the task title. */ ?>
-													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-no-alt"></span></a></li>
+													<li><a href="javascript:void(0);" class="bptodo-remove-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Remove: %s', 'bp-user-to-do-list' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-no-alt"></span></a></li>
 													<?php if ( 'complete' !== $todo_status ) { ?>
 													<?php /* translators: %s: the task title. */ ?>
-													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-edit"></span></a></li>
+													<li><a href="<?php echo esc_attr( $todo_edit_url ); ?>" title="<?php echo sprintf( esc_html__( 'Edit: %s', 'bp-user-to-do-list' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-edit"></span></a></li>
 													<?php /* translators: %s: the task title. */ ?>
-													<li><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-yes"></span></a></li>
+													<li><a href="javascript:void(0);" class="bptodo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Complete: %s', 'bp-user-to-do-list' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-yes"></span></a></li>
 												<?php } else { ?>
 													<?php /* translators: %s: the task title. */ ?>
-													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'wb-todo' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-undo"></span></a></li>
+													<li><a href="javascript:void(0);" class="bptodo-undo-complete-todo" data-tid="<?php echo esc_attr( $tid ); ?>" title="<?php echo sprintf( esc_html__( 'Undo Complete: %s', 'bp-user-to-do-list' ), esc_attr( $todo_title ) ); ?>"><span class="dashicons dashicons-undo"></span></a></li>
 												<?php } ?>
 											</ul>
 										</td>
@@ -191,7 +191,7 @@ if ( ! empty( $atts['category'] ) ) {
 		if ( ! empty( $todos ) ) {
 			$todo_list = array();
 			foreach ( $todos as $todo ) {
-				$curr_date = date_create( gmdate( 'Y-m-d' ) );
+				$curr_date = date_create( bptodo_today() );
 				$due_date  = date_create( get_post_meta( $todo->ID, 'todo_due_date', true ) );
 				$diff      = date_diff( $curr_date, $due_date );
 				$diff_days = $diff->format( '%R%a' );
@@ -213,10 +213,10 @@ if ( ! empty( $atts['category'] ) ) {
 				<div class="bptodo-admin-settings-block">
 					<div id="bptodo-settings-tbl">
 						<?php
-						bptodo_display_todo_tasks( $todo_list, 'past', _x( 'Past', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'today', _x( 'Today', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'tomorrow', _x( 'Tomorrow', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
-						bptodo_display_todo_tasks( $todo_list, 'future', _x( 'Future', 'due-date section heading', 'wb-todo' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'past', _x( 'Past', 'due-date section heading', 'bp-user-to-do-list' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'today', _x( 'Today', 'due-date section heading', 'bp-user-to-do-list' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'tomorrow', _x( 'Tomorrow', 'due-date section heading', 'bp-user-to-do-list' ), $profile_menu_slug, $class, $profile_menu_label );
+						bptodo_display_todo_tasks( $todo_list, 'future', _x( 'Future', 'due-date section heading', 'bp-user-to-do-list' ), $profile_menu_slug, $class, $profile_menu_label );
 						?>
 					</div>
 				</div>
@@ -233,7 +233,7 @@ if ( ! empty( $atts['category'] ) ) {
 					<p>
 					<?php
 					/* Translators: 1) Profile Menu Plural Label */
-					echo sprintf( esc_html__( 'There are no %s in this category.', 'wb-todo' ), esc_html( $profile_menu_label_plural ) );
+					echo sprintf( esc_html__( 'There are no %s in this category.', 'bp-user-to-do-list' ), esc_html( $profile_menu_label_plural ) );
 					?>
 					</p>
 				</div>
@@ -247,7 +247,7 @@ if ( ! empty( $atts['category'] ) ) {
 		<?php } else { ?>
 			<div id="message" class="info">
 		<?php } ?>
-			<p><?php esc_html_e( 'Please provide a valid category ID.', 'wb-todo' ); ?></p>
+			<p><?php esc_html_e( 'Please provide a valid category ID.', 'bp-user-to-do-list' ); ?></p>
 		</div>
 		<?php
 	}
@@ -259,7 +259,7 @@ if ( ! empty( $atts['category'] ) ) {
 		<?php } else { ?>
 			<div id="message" class="info">
 		<?php } ?>
-		<p><?php esc_html_e( 'Please provide any category ID.', 'wb-todo' ); ?></p>
+		<p><?php esc_html_e( 'Please provide any category ID.', 'bp-user-to-do-list' ); ?></p>
 	</div>
 	<?php
 }

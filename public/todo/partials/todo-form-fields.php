@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 // Set defaults.
 $context            = isset( $context ) ? $context : 'member';
 $todo_cats          = isset( $todo_cats ) ? $todo_cats : array();
-$profile_menu_label = isset( $profile_menu_label ) ? $profile_menu_label : __( 'Todo', 'wb-todo' );
+$profile_menu_label = isset( $profile_menu_label ) ? $profile_menu_label : __( 'Todo', 'bp-user-to-do-list' );
 $allow_add_category = isset( $allow_add_category ) ? $allow_add_category : false;
 $bptodo_req         = isset( $bptodo_req ) ? $bptodo_req : '';
 $members_ids        = isset( $members_ids ) ? $members_ids : array();
@@ -51,7 +51,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 <!-- Category Field -->
 <div class="bptodo-form-group">
 	<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>category">
-		<?php esc_html_e( 'Category', 'wb-todo' ); ?>
+		<?php esc_html_e( 'Category', 'bp-user-to-do-list' ); ?>
 		<span class="bptodo-form-group__required" aria-hidden="true">*</span>
 	</label>
 	<div class="bptodo-form-group__input-wrapper">
@@ -63,7 +63,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 				required
 				aria-required="true"
 			>
-				<option value=""><?php esc_html_e( '-- Select Category --', 'wb-todo' ); ?></option>
+				<option value=""><?php esc_html_e( '-- Select Category --', 'bp-user-to-do-list' ); ?></option>
 				<?php foreach ( $todo_cats as $todo_cat ) : ?>
 					<option
 						value="<?php echo esc_attr( $todo_cat->name ); ?>"
@@ -79,7 +79,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 			<button
 				type="button"
 				class="bptodo-btn bptodo-btn--secondary bptodo-btn--icon add-todo-category"
-				aria-label="<?php esc_attr_e( 'Add new category', 'wb-todo' ); ?>"
+				aria-label="<?php esc_attr_e( 'Add new category', 'bp-user-to-do-list' ); ?>"
 			>
 				<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<line x1="12" y1="5" x2="12" y2="19"></line>
@@ -96,12 +96,12 @@ $id_prefix = 'bptodo-' . $context . '-';
 					type="text"
 					id="todo-category-name"
 					class="bptodo-input"
-					aria-label="<?php echo esc_attr( sprintf( /* translators: %s: Todo label */ __( 'New %s category name', 'wb-todo' ), $profile_menu_label ) ); ?>"
-					placeholder="<?php echo esc_attr( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'New %s category', 'wb-todo' ), $profile_menu_label ) ); ?>"
+					aria-label="<?php echo esc_attr( sprintf( /* translators: %s: Todo label */ __( 'New %s category name', 'bp-user-to-do-list' ), $profile_menu_label ) ); ?>"
+					placeholder="<?php echo esc_attr( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'New %s category', 'bp-user-to-do-list' ), $profile_menu_label ) ); ?>"
 				>
 				<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
 				<button type="button" id="add-todo-cat" class="bptodo-btn bptodo-btn--secondary">
-					<?php esc_html_e( 'Add', 'wb-todo' ); ?>
+					<?php esc_html_e( 'Add', 'bp-user-to-do-list' ); ?>
 				</button>
 			</div>
 		</div>
@@ -111,7 +111,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 <!-- Title Field -->
 <div class="bptodo-form-group">
 	<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>title">
-		<?php esc_html_e( 'Title', 'wb-todo' ); ?>
+		<?php esc_html_e( 'Title', 'bp-user-to-do-list' ); ?>
 		<span class="bptodo-form-group__required" aria-hidden="true">*</span>
 	</label>
 	<input
@@ -119,7 +119,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 		name="todo_title"
 		id="<?php echo esc_attr( $id_prefix ); ?>title"
 		class="bptodo-input"
-		placeholder="<?php esc_attr_e( 'Enter a descriptive title', 'wb-todo' ); ?>"
+		placeholder="<?php esc_attr_e( 'Enter a descriptive title', 'bp-user-to-do-list' ); ?>"
 		value="<?php echo esc_attr( $existing_title ); ?>"
 		required
 		aria-required="true"
@@ -129,7 +129,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 <!-- Summary/Description Field -->
 <div class="bptodo-form-group bptodo-form-group--full">
 	<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>summary">
-		<?php esc_html_e( 'Description', 'wb-todo' ); ?>
+		<?php esc_html_e( 'Description', 'bp-user-to-do-list' ); ?>
 	</label>
 	<?php
 	$editor_settings = array(
@@ -149,7 +149,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 	<!-- Due Date Field -->
 	<div class="bptodo-form-group">
 		<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>due-date">
-			<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Due Date', 'bp-user-to-do-list' ); ?>
 			<?php if ( ! empty( $bptodo_req ) ) : ?>
 				<span class="bptodo-form-group__required" aria-hidden="true">*</span>
 			<?php endif; ?>
@@ -160,7 +160,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 			id="<?php echo esc_attr( $id_prefix ); ?>due-date"
 			class="bptodo-input todo_due_date"
 			value="<?php echo esc_attr( $existing_due_date ); ?>"
-			min="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
+			min="<?php echo esc_attr( bptodo_today() ); ?>"
 			<?php echo esc_attr( $bptodo_req ); ?>
 			<?php echo ! empty( $bptodo_req ) ? 'aria-required="true"' : ''; ?>
 		>
@@ -169,7 +169,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 	<!-- Priority Field -->
 	<div class="bptodo-form-group">
 		<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>priority">
-			<?php esc_html_e( 'Priority', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Priority', 'bp-user-to-do-list' ); ?>
 		</label>
 		<select
 			name="todo_priority"
@@ -177,13 +177,13 @@ $id_prefix = 'bptodo-' . $context . '-';
 			class="bptodo-input bptodo-input--select"
 		>
 			<option value="normal" <?php selected( $existing_priority, 'normal' ); ?>>
-				<?php esc_html_e( 'Normal', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?>
 			</option>
 			<option value="high" <?php selected( $existing_priority, 'high' ); ?>>
-				<?php esc_html_e( 'High', 'wb-todo' ); ?>
+				<?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?>
 			</option>
 			<option value="critical" <?php selected( $existing_priority, 'critical' ); ?>>
-				<?php esc_html_e( 'Critical', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?>
 			</option>
 		</select>
 	</div>
@@ -193,16 +193,16 @@ $id_prefix = 'bptodo-' . $context . '-';
 	<!-- Group Members Field -->
 	<div class="bptodo-form-group bptodo-form-group--full">
 		<label class="bptodo-form-group__label" for="<?php echo esc_attr( $id_prefix ); ?>members">
-			<?php esc_html_e( 'Assign to Members', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Assign to Members', 'bp-user-to-do-list' ); ?>
 		</label>
 		<select
 			name="todo_group_members[]"
 			id="todo_group_members"
 			class="bptodo-input bptodo-input--select"
 			multiple
-			data-placeholder="<?php esc_attr_e( 'Select members to assign this task', 'wb-todo' ); ?>"
+			data-placeholder="<?php esc_attr_e( 'Select members to assign this task', 'bp-user-to-do-list' ); ?>"
 		>
-			<option value="all"><?php esc_html_e( 'All Members', 'wb-todo' ); ?></option>
+			<option value="all"><?php esc_html_e( 'All Members', 'bp-user-to-do-list' ); ?></option>
 			<?php foreach ( $members_ids as $member_id => $member_name ) : ?>
 				<option value="<?php echo esc_attr( $member_id ); ?>">
 					<?php echo esc_html( $member_name ); ?>
@@ -210,7 +210,7 @@ $id_prefix = 'bptodo-' . $context . '-';
 			<?php endforeach; ?>
 		</select>
 		<p class="bptodo-form-group__help">
-			<?php esc_html_e( 'Leave empty or select "All Members" to assign to everyone in the group.', 'wb-todo' ); ?>
+			<?php esc_html_e( 'Leave empty or select "All Members" to assign to everyone in the group.', 'bp-user-to-do-list' ); ?>
 		</p>
 	</div>
 

@@ -6,9 +6,9 @@
 	"title": "Group Todos",
 	"category": "widgets",
 	"icon": "groups",
-	"description": "Shared todos for a BuddyPress/BuddyBoss group — create, assign, complete and filter without page reloads.",
+	"description": "Shared todos for a BuddyPress/BuddyBoss group: create, assign, complete and filter without page reloads.",
 	"keywords": [ "todo", "task", "group", "team" ],
-	"textdomain": "wb-todo",
+	"textdomain": "bp-user-to-do-list",
 	"supports": {
 		"interactivity": true,
 		"html": false,

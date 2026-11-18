@@ -30,8 +30,8 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	public function __construct() {
 
 		// Setup widget name & description.
-		$name        = _x( 'Member Todo', 'widget name', 'wb-todo' );
-		$description = __( 'The logged-in member\'s own todos. Hidden from visitors who are not logged in.', 'wb-todo' );
+		$name        = _x( 'Member Todo', 'widget name', 'bp-user-to-do-list' );
+		$description = __( 'The logged-in member\'s own todos. Hidden from visitors who are not logged in.', 'bp-user-to-do-list' );
 
 		// Call WP_Widget constructor.
 		parent::__construct(
@@ -51,7 +51,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	 */
 	protected static function plural_label() {
 		global $bptodo;
-		return ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label_plural ) ) ? $bptodo->profile_menu_label_plural : __( 'Todos', 'wb-todo' );
+		return ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label_plural ) ) ? $bptodo->profile_menu_label_plural : __( 'Todos', 'bp-user-to-do-list' );
 	}
 
 	/**
@@ -61,7 +61,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 	 */
 	protected static function default_title() {
 		/* translators: %s: plural todo label. */
-		return sprintf( __( 'My %s', 'wb-todo' ), self::plural_label() );
+		return sprintf( __( 'My %s', 'bp-user-to-do-list' ), self::plural_label() );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		if ( ! $r->have_posts() ) {
 			/* translators: %s: plural todo label as the site owner set it (e.g. Tasks). */
-			echo '<p class="bptodo-widget-empty">' . esc_html( sprintf( __( 'You have no %s yet.', 'wb-todo' ), $plural ) ) . '</p>';
+			echo '<p class="bptodo-widget-empty">' . esc_html( sprintf( __( 'You have no %s yet.', 'bp-user-to-do-list' ), $plural ) ) . '</p>';
 			echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			return;
 		}
@@ -127,7 +127,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 				?>
 			<li class="bptodo-widget-item">
 				<a class="bptodo-widget-link" href="<?php echo esc_url( bptodo_get_todo_view_url( $recent_todo->ID ) ); ?>">
-					<span class="bptodo-widget-title"><?php echo esc_html( '' !== $name ? $name : __( '(no title)', 'wb-todo' ) ); ?></span>
+					<span class="bptodo-widget-title"><?php echo esc_html( '' !== $name ? $name : __( '(no title)', 'bp-user-to-do-list' ) ); ?></span>
 					<span class="bptodo-widget-meta">
 						<span class="bptodo-widget-priority bptodo-priority-<?php echo esc_attr( $priority ); ?>"><?php echo esc_html( Bptodo_Todo::priority_label( $priority ) ); ?></span>
 						<?php if ( '' !== $due['text'] ) : ?>
@@ -178,7 +178,7 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>">
-				<?php esc_html_e( 'Title:', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Title:', 'bp-user-to-do-list' ); ?>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
 			</label>
 		</p>
@@ -186,13 +186,13 @@ class BP_ToDo_Member_ToDo_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>">
 				<input type="checkbox" name="<?php echo esc_attr( $this->get_field_name( 'link_title' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'link_title' ) ); ?>" value="1" <?php checked( $link_title ); ?> />
-				<?php esc_html_e( 'Link widget title to archive page of Todo', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Link widget title to archive page of Todo', 'bp-user-to-do-list' ); ?>
 			</label>
 		</p>
 
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>">
-				<?php esc_html_e( 'Number of todos to show:', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Number of todos to show:', 'bp-user-to-do-list' ); ?>
 				<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'number' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'number' ) ); ?>" type="number" min="1" max="<?php echo esc_attr( self::MAX_ITEMS ); ?>" value="<?php echo esc_attr( $number ); ?>" />
 			</label>
 		</p>

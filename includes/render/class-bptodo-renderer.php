@@ -57,10 +57,10 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			global $bptodo;
 			$singular = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label ) )
 				? $bptodo->profile_menu_label
-				: __( 'Todo', 'wb-todo' );
+				: __( 'Todo', 'bp-user-to-do-list' );
 			$plural   = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_label_plural ) )
 				? $bptodo->profile_menu_label_plural
-				: __( 'Todos', 'wb-todo' );
+				: __( 'Todos', 'bp-user-to-do-list' );
 			return array(
 				'singular' => $singular,
 				'plural'   => $plural,
@@ -136,19 +136,19 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					'restRoot' => esc_url_raw( rest_url( 'bptodo/v1' ) ),
 					'nonce'    => wp_create_nonce( 'wp_rest' ),
 					'i18n'     => array(
-						'confirmDelete' => __( 'Are you sure you want to delete this task?', 'wb-todo' ),
-						'saving'        => __( 'Saving…', 'wb-todo' ),
-						'error'         => __( 'Something went wrong. Please try again.', 'wb-todo' ),
-						'completed'     => __( 'Task completed.', 'wb-todo' ),
-						'reopened'      => __( 'Task marked incomplete.', 'wb-todo' ),
-						'deleted'       => __( 'Task deleted.', 'wb-todo' ),
-						'added'         => __( 'Task added.', 'wb-todo' ),
-						'updated'       => __( 'Task updated.', 'wb-todo' ),
+						'confirmDelete' => __( 'Are you sure you want to delete this task?', 'bp-user-to-do-list' ),
+						'saving'        => __( 'Saving…', 'bp-user-to-do-list' ),
+						'error'         => __( 'Something went wrong. Please try again.', 'bp-user-to-do-list' ),
+						'completed'     => __( 'Task completed.', 'bp-user-to-do-list' ),
+						'reopened'      => __( 'Task marked incomplete.', 'bp-user-to-do-list' ),
+						'deleted'       => __( 'Task deleted.', 'bp-user-to-do-list' ),
+						'added'         => __( 'Task added.', 'bp-user-to-do-list' ),
+						'updated'       => __( 'Task updated.', 'bp-user-to-do-list' ),
 						/* translators: %s: the task title. */
-						'markComplete'  => __( 'Mark "%s" complete', 'wb-todo' ),
-						'categoryAdded' => __( 'Category added.', 'wb-todo' ),
-						'titleRequired' => __( 'Please enter a title.', 'wb-todo' ),
-						'dueRequired'   => __( 'Please set a due date.', 'wb-todo' ),
+						'markComplete'  => __( 'Mark "%s" complete', 'bp-user-to-do-list' ),
+						'categoryAdded' => __( 'Category added.', 'bp-user-to-do-list' ),
+						'titleRequired' => __( 'Please enter a title.', 'bp-user-to-do-list' ),
+						'dueRequired'   => __( 'Please set a due date.', 'bp-user-to-do-list' ),
 					),
 				)
 			);
@@ -211,7 +211,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 				$bptodo_is_member   = function_exists( 'groups_is_user_member' ) && groups_is_user_member( $viewer, $bptodo_gid );
 				$bptodo_can_oversee = current_user_can( 'manage_options' );
 				if ( ! $bptodo_is_member && ! $bptodo_can_oversee ) {
-					return '<div class="bptodo-app bptodo-app--denied"><p>' . esc_html__( 'You do not have access to this group\'s todos.', 'wb-todo' ) . '</p></div>';
+					return '<div class="bptodo-app bptodo-app--denied"><p>' . esc_html__( 'You do not have access to this group\'s todos.', 'bp-user-to-do-list' ) . '</p></div>';
 				}
 			}
 
@@ -323,9 +323,9 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 							// several languages need different words than the adjectives used
 							// elsewhere in the UI.
 							?>
-							<span class="bptodo-summary__stat"><b data-wp-text="context.stats.total"><?php echo esc_html( $stats['total'] ); ?></b> <?php echo esc_html( _x( 'total', 'todo count stat label', 'wb-todo' ) ); ?></span>
-							<span class="bptodo-summary__stat bptodo-summary__stat--pending"><b data-wp-text="context.stats.pending"><?php echo esc_html( $stats['pending'] ); ?></b> <?php echo esc_html( _x( 'pending', 'todo count stat label', 'wb-todo' ) ); ?></span>
-							<span class="bptodo-summary__stat bptodo-summary__stat--done"><b data-wp-text="context.stats.completed"><?php echo esc_html( $stats['completed'] ); ?></b> <?php echo esc_html( _x( 'done', 'todo count stat label', 'wb-todo' ) ); ?></span>
+							<span class="bptodo-summary__stat"><b data-wp-text="context.stats.total"><?php echo esc_html( $stats['total'] ); ?></b> <?php echo esc_html( _x( 'total', 'todo count stat label', 'bp-user-to-do-list' ) ); ?></span>
+							<span class="bptodo-summary__stat bptodo-summary__stat--pending"><b data-wp-text="context.stats.pending"><?php echo esc_html( $stats['pending'] ); ?></b> <?php echo esc_html( _x( 'pending', 'todo count stat label', 'bp-user-to-do-list' ) ); ?></span>
+							<span class="bptodo-summary__stat bptodo-summary__stat--done"><b data-wp-text="context.stats.completed"><?php echo esc_html( $stats['completed'] ); ?></b> <?php echo esc_html( _x( 'done', 'todo count stat label', 'bp-user-to-do-list' ) ); ?></span>
 							<span class="bptodo-summary__pct"><b data-wp-text="context.stats.progress"><?php echo esc_html( $stats['progress'] ); ?></b>%</span>
 						</div>
 						<div class="bptodo-summary__track">
@@ -340,33 +340,33 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 						<input
 							type="text"
 							class="bptodo-add__input"
-							placeholder="<?php echo esc_attr( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Add a %s and press Enter…', 'wb-todo' ), strtolower( $label_singular ) ) ); ?>"
+							placeholder="<?php echo esc_attr( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Add a %s and press Enter…', 'bp-user-to-do-list' ), strtolower( $label_singular ) ) ); ?>"
 							data-wp-bind--value="context.draftTitle"
 							data-wp-on--input="actions.setDraft"
-							aria-label="<?php esc_attr_e( 'New task title', 'wb-todo' ); ?>"
+							aria-label="<?php esc_attr_e( 'New task title', 'bp-user-to-do-list' ); ?>"
 						/>
-						<button type="submit" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
+						<button type="submit" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm"><?php esc_html_e( 'Add', 'bp-user-to-do-list' ); ?></button>
 					</form>
 				<?php elseif ( $bptodo_can_add && $bptodo_due_required && $args['show_add'] ) : ?>
-					<p class="bptodo-add-hint"><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'A due date is required. Use the Add %s form to set one.', 'wb-todo' ), strtolower( $label_singular ) ) ); ?></p>
+					<p class="bptodo-add-hint"><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'A due date is required. Use the Add %s form to set one.', 'bp-user-to-do-list' ), strtolower( $label_singular ) ) ); ?></p>
 				<?php endif; ?>
 
 				<div class="bptodo-filters">
-					<input type="search" class="bptodo-filter bptodo-filter--search" placeholder="<?php esc_attr_e( 'Search todos…', 'wb-todo' ); ?>" data-wp-on--input="actions.setSearch" aria-label="<?php esc_attr_e( 'Search todos', 'wb-todo' ); ?>" />
-					<select class="bptodo-filter" data-wp-on--change="actions.setStatus" aria-label="<?php esc_attr_e( 'Filter by status', 'wb-todo' ); ?>">
-						<option value="all"><?php esc_html_e( 'All status', 'wb-todo' ); ?></option>
-						<option value="incomplete"><?php esc_html_e( 'Pending', 'wb-todo' ); ?></option>
-						<option value="complete"><?php esc_html_e( 'Completed', 'wb-todo' ); ?></option>
+					<input type="search" class="bptodo-filter bptodo-filter--search" placeholder="<?php esc_attr_e( 'Search todos…', 'bp-user-to-do-list' ); ?>" data-wp-on--input="actions.setSearch" aria-label="<?php esc_attr_e( 'Search todos', 'bp-user-to-do-list' ); ?>" />
+					<select class="bptodo-filter" data-wp-on--change="actions.setStatus" aria-label="<?php esc_attr_e( 'Filter by status', 'bp-user-to-do-list' ); ?>">
+						<option value="all"><?php esc_html_e( 'All status', 'bp-user-to-do-list' ); ?></option>
+						<option value="incomplete"><?php esc_html_e( 'Pending', 'bp-user-to-do-list' ); ?></option>
+						<option value="complete"><?php esc_html_e( 'Completed', 'bp-user-to-do-list' ); ?></option>
 					</select>
-					<select class="bptodo-filter" data-wp-on--change="actions.setPriority" aria-label="<?php esc_attr_e( 'Filter by priority', 'wb-todo' ); ?>">
-						<option value="all"><?php esc_html_e( 'All priorities', 'wb-todo' ); ?></option>
-						<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-						<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-						<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+					<select class="bptodo-filter" data-wp-on--change="actions.setPriority" aria-label="<?php esc_attr_e( 'Filter by priority', 'bp-user-to-do-list' ); ?>">
+						<option value="all"><?php esc_html_e( 'All priorities', 'bp-user-to-do-list' ); ?></option>
+						<option value="critical"><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
+						<option value="high"><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+						<option value="normal"><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
 					</select>
 					<?php if ( ! empty( $categories ) ) : ?>
-						<select class="bptodo-filter" data-wp-on--change="actions.setCategory" aria-label="<?php esc_attr_e( 'Filter by category', 'wb-todo' ); ?>">
-							<option value=""><?php esc_html_e( 'All categories', 'wb-todo' ); ?></option>
+						<select class="bptodo-filter" data-wp-on--change="actions.setCategory" aria-label="<?php esc_attr_e( 'Filter by category', 'bp-user-to-do-list' ); ?>">
+							<option value=""><?php esc_html_e( 'All categories', 'bp-user-to-do-list' ); ?></option>
 							<?php foreach ( $categories as $cat ) : ?>
 								<option value="<?php echo esc_attr( $cat['slug'] ); ?>"><?php echo esc_html( $cat['name'] ); ?></option>
 							<?php endforeach; ?>
@@ -389,44 +389,44 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 									<span class="bptodo-item__sub">
 										<span class="bptodo-item__prio" data-wp-text="context.todo.priority_label"></span>
 										<span class="bptodo-item__due" data-wp-bind--data-due="context.todo.due_human.state" data-wp-text="context.todo.due_human.text"></span>
-										<button type="button" class="bptodo-item__more" data-wp-bind--hidden="!context.todo.description" data-wp-on--click="actions.toggleDetails" data-wp-bind--aria-expanded="context.todo.detailsOpen" data-wp-class--is-open="context.todo.detailsOpen"><?php esc_html_e( 'Details', 'wb-todo' ); ?></button>
+										<button type="button" class="bptodo-item__more" data-wp-bind--hidden="!context.todo.description" data-wp-on--click="actions.toggleDetails" data-wp-bind--aria-expanded="context.todo.detailsOpen" data-wp-class--is-open="context.todo.detailsOpen"><?php esc_html_e( 'Details', 'bp-user-to-do-list' ); ?></button>
 									</span>
 									<p class="bptodo-item__note" data-wp-bind--hidden="!context.todo.detailsOpen" data-wp-text="context.todo.description"></p>
 								</span>
 								<span class="bptodo-item__act">
-									<button type="button" class="bptodo-iconbtn" data-wp-on--click="actions.startEdit" data-wp-bind--hidden="!state.showEditBtn"><?php esc_html_e( 'Edit', 'wb-todo' ); ?></button>
-									<button type="button" class="bptodo-iconbtn bptodo-iconbtn--danger" data-wp-on--click="actions.askDelete" data-wp-bind--hidden="!state.showDeleteBtn"><?php esc_html_e( 'Delete', 'wb-todo' ); ?></button>
-									<span class="bptodo-confirm" role="group" aria-label="<?php esc_attr_e( 'Confirm delete', 'wb-todo' ); ?>" data-wp-bind--hidden="!state.showConfirm">
-										<span class="bptodo-confirm__text"><?php esc_html_e( 'Delete?', 'wb-todo' ); ?></span>
-										<button type="button" class="bptodo-iconbtn bptodo-iconbtn--danger" data-wp-on--click="actions.confirmDelete"><?php esc_html_e( 'Yes', 'wb-todo' ); ?></button>
-										<button type="button" class="bptodo-iconbtn" data-wp-on--click="actions.cancelDelete"><?php esc_html_e( 'No', 'wb-todo' ); ?></button>
+									<button type="button" class="bptodo-iconbtn" data-wp-on--click="actions.startEdit" data-wp-bind--hidden="!state.showEditBtn"><?php esc_html_e( 'Edit', 'bp-user-to-do-list' ); ?></button>
+									<button type="button" class="bptodo-iconbtn bptodo-iconbtn--danger" data-wp-on--click="actions.askDelete" data-wp-bind--hidden="!state.showDeleteBtn"><?php esc_html_e( 'Delete', 'bp-user-to-do-list' ); ?></button>
+									<span class="bptodo-confirm" role="group" aria-label="<?php esc_attr_e( 'Confirm delete', 'bp-user-to-do-list' ); ?>" data-wp-bind--hidden="!state.showConfirm">
+										<span class="bptodo-confirm__text"><?php esc_html_e( 'Delete?', 'bp-user-to-do-list' ); ?></span>
+										<button type="button" class="bptodo-iconbtn bptodo-iconbtn--danger" data-wp-on--click="actions.confirmDelete"><?php esc_html_e( 'Yes', 'bp-user-to-do-list' ); ?></button>
+										<button type="button" class="bptodo-iconbtn" data-wp-on--click="actions.cancelDelete"><?php esc_html_e( 'No', 'bp-user-to-do-list' ); ?></button>
 									</span>
 								</span>
 							</div>
 							<form class="bptodo-item__edit" data-wp-bind--hidden="!state.isEditing" data-wp-on--submit="actions.saveEdit">
-								<input type="text" class="bptodo-input bptodo-item__editfull bptodo-item__edittitle" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'wb-todo' ); ?>" />
-								<textarea class="bptodo-input bptodo-textarea bptodo-item__editfull" rows="2" placeholder="<?php esc_attr_e( 'Details (optional)', 'wb-todo' ); ?>" data-wp-bind--value="context.todo.editDesc" data-wp-on--input="actions.setEditDesc" aria-label="<?php esc_attr_e( 'Edit details', 'wb-todo' ); ?>"></textarea>
-								<select class="bptodo-select" data-wp-bind--value="context.todo.editPriority" data-wp-on--change="actions.setEditPriority" aria-label="<?php esc_attr_e( 'Edit priority', 'wb-todo' ); ?>">
-									<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-									<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-									<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+								<input type="text" class="bptodo-input bptodo-item__editfull bptodo-item__edittitle" data-wp-bind--value="context.todo.editTitle" data-wp-on--input="actions.setEditTitle" aria-label="<?php esc_attr_e( 'Edit title', 'bp-user-to-do-list' ); ?>" />
+								<textarea class="bptodo-input bptodo-textarea bptodo-item__editfull" rows="2" placeholder="<?php esc_attr_e( 'Details (optional)', 'bp-user-to-do-list' ); ?>" data-wp-bind--value="context.todo.editDesc" data-wp-on--input="actions.setEditDesc" aria-label="<?php esc_attr_e( 'Edit details', 'bp-user-to-do-list' ); ?>"></textarea>
+								<select class="bptodo-select" data-wp-bind--value="context.todo.editPriority" data-wp-on--change="actions.setEditPriority" aria-label="<?php esc_attr_e( 'Edit priority', 'bp-user-to-do-list' ); ?>">
+									<option value="critical"><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
+									<option value="high"><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+									<option value="normal"><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
 								</select>
-								<input type="date" class="bptodo-input" data-wp-bind--value="context.todo.editDue" data-wp-on--change="actions.setEditDue" aria-label="<?php esc_attr_e( 'Edit due date', 'wb-todo' ); ?>" />
-								<button type="submit" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm"><?php esc_html_e( 'Save', 'wb-todo' ); ?></button>
-								<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.cancelEdit"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></button>
+								<input type="date" class="bptodo-input" data-wp-bind--value="context.todo.editDue" data-wp-on--change="actions.setEditDue" aria-label="<?php esc_attr_e( 'Edit due date', 'bp-user-to-do-list' ); ?>" />
+								<button type="submit" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm"><?php esc_html_e( 'Save', 'bp-user-to-do-list' ); ?></button>
+								<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.cancelEdit"><?php esc_html_e( 'Cancel', 'bp-user-to-do-list' ); ?></button>
 							</form>
 						</li>
 					</template>
 				</ul>
 
 				<div class="bptodo-empty" tabindex="-1" data-wp-bind--hidden="context.total">
-					<p><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Nothing here yet. Add your first %s above.', 'wb-todo' ), strtolower( $label_singular ) ) ); ?></p>
+					<p><?php echo esc_html( sprintf( /* translators: %s: singular todo label, lowercased. */ __( 'Nothing here yet. Add your first %s above.', 'bp-user-to-do-list' ), strtolower( $label_singular ) ) ); ?></p>
 				</div>
 
-				<nav class="bptodo-pager" data-wp-bind--hidden="context.singlePage" aria-label="<?php esc_attr_e( 'Todo pagination', 'wb-todo' ); ?>">
-					<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.prevPage" data-wp-bind--disabled="context.isFirstPage"><?php esc_html_e( 'Previous', 'wb-todo' ); ?></button>
+				<nav class="bptodo-pager" data-wp-bind--hidden="context.singlePage" aria-label="<?php esc_attr_e( 'Todo pagination', 'bp-user-to-do-list' ); ?>">
+					<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.prevPage" data-wp-bind--disabled="context.isFirstPage"><?php esc_html_e( 'Previous', 'bp-user-to-do-list' ); ?></button>
 					<span class="bptodo-pager__info"><span data-wp-text="context.page"><?php echo esc_html( $result['page'] ); ?></span> / <span data-wp-text="context.totalPages"><?php echo esc_html( $result['total_pages'] ); ?></span></span>
-					<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.nextPage" data-wp-bind--disabled="context.isLastPage"><?php esc_html_e( 'Next', 'wb-todo' ); ?></button>
+					<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.nextPage" data-wp-bind--disabled="context.isLastPage"><?php esc_html_e( 'Next', 'bp-user-to-do-list' ); ?></button>
 				</nav>
 			</div>
 			<?php
@@ -452,7 +452,7 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			);
 
 			if ( ! is_user_logged_in() ) {
-				return '<div class="bptodo-app bptodo-app--loggedout"><p>' . esc_html__( 'Please log in to add a task.', 'wb-todo' ) . '</p></div>';
+				return '<div class="bptodo-app bptodo-app--loggedout"><p>' . esc_html__( 'Please log in to add a task.', 'bp-user-to-do-list' ) . '</p></div>';
 			}
 
 			self::register_module();
@@ -492,26 +492,26 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 			<div class="bptodo-app bptodo-wrapper" data-wp-interactive="bptodo" data-wp-context='<?php echo esc_attr( wp_json_encode( $context ) ); ?>'>
 				<form class="bptodo-addform" data-wp-on--submit="actions.submitFull">
 					<div class="bptodo-field">
-						<label class="bptodo-field__label" for="bptodo-add-title"><?php esc_html_e( 'Title', 'wb-todo' ); ?> <span class="bptodo-req" aria-hidden="true">*</span></label>
-						<input type="text" id="bptodo-add-title" class="bptodo-input" required placeholder="<?php esc_attr_e( 'What needs to be done?', 'wb-todo' ); ?>" data-wp-bind--value="context.fTitle" data-wp-on--input="actions.setFTitle" />
+						<label class="bptodo-field__label" for="bptodo-add-title"><?php esc_html_e( 'Title', 'bp-user-to-do-list' ); ?> <span class="bptodo-req" aria-hidden="true">*</span></label>
+						<input type="text" id="bptodo-add-title" class="bptodo-input" required placeholder="<?php esc_attr_e( 'What needs to be done?', 'bp-user-to-do-list' ); ?>" data-wp-bind--value="context.fTitle" data-wp-on--input="actions.setFTitle" />
 					</div>
 
 					<div class="bptodo-field">
-						<label class="bptodo-field__label" for="bptodo-add-desc"><?php esc_html_e( 'Description', 'wb-todo' ); ?></label>
-						<textarea id="bptodo-add-desc" class="bptodo-input bptodo-textarea" rows="4" placeholder="<?php esc_attr_e( 'Add details (optional)', 'wb-todo' ); ?>" data-wp-bind--value="context.fDesc" data-wp-on--input="actions.setFDesc"></textarea>
+						<label class="bptodo-field__label" for="bptodo-add-desc"><?php esc_html_e( 'Description', 'bp-user-to-do-list' ); ?></label>
+						<textarea id="bptodo-add-desc" class="bptodo-input bptodo-textarea" rows="4" placeholder="<?php esc_attr_e( 'Add details (optional)', 'bp-user-to-do-list' ); ?>" data-wp-bind--value="context.fDesc" data-wp-on--input="actions.setFDesc"></textarea>
 					</div>
 
 					<div class="bptodo-field-grid">
 						<?php if ( ! empty( $categories ) || $can_add_cat ) : ?>
 							<div class="bptodo-field">
 								<span class="bptodo-field__labelrow">
-									<label class="bptodo-field__label" for="bptodo-add-cat"><?php esc_html_e( 'Category', 'wb-todo' ); ?></label>
+									<label class="bptodo-field__label" for="bptodo-add-cat"><?php esc_html_e( 'Category', 'bp-user-to-do-list' ); ?></label>
 									<?php if ( $can_add_cat ) : ?>
-										<button type="button" class="bptodo-linkbtn" data-wp-on--click="actions.toggleAddCat" data-wp-bind--hidden="context.addingCat"><?php esc_html_e( '+ New', 'wb-todo' ); ?></button>
+										<button type="button" class="bptodo-linkbtn" data-wp-on--click="actions.toggleAddCat" data-wp-bind--hidden="context.addingCat"><?php esc_html_e( '+ New', 'bp-user-to-do-list' ); ?></button>
 									<?php endif; ?>
 								</span>
 								<select id="bptodo-add-cat" class="bptodo-select" data-wp-bind--value="context.fCat" data-wp-on--change="actions.setFCat" data-wp-bind--hidden="context.addingCat">
-									<option value=""><?php esc_html_e( 'None', 'wb-todo' ); ?></option>
+									<option value=""><?php esc_html_e( 'None', 'bp-user-to-do-list' ); ?></option>
 									<?php foreach ( $categories as $bptodo_cat ) : ?>
 										<option value="<?php echo esc_attr( $bptodo_cat['slug'] ); ?>"><?php echo esc_html( $bptodo_cat['name'] ); ?></option>
 									<?php endforeach; ?>
@@ -522,26 +522,26 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 								</select>
 								<?php if ( $can_add_cat ) : ?>
 									<span class="bptodo-newcat" data-wp-bind--hidden="!context.addingCat">
-										<input type="text" class="bptodo-input" placeholder="<?php esc_attr_e( 'New category name', 'wb-todo' ); ?>" data-wp-bind--value="context.fNewCat" data-wp-on--input="actions.setNewCat" data-wp-on--keydown="actions.newCatKeydown" aria-label="<?php esc_attr_e( 'New category name', 'wb-todo' ); ?>" />
-										<button type="button" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm" data-wp-on--click="actions.addCategory"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
-										<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.toggleAddCat"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></button>
+										<input type="text" class="bptodo-input" placeholder="<?php esc_attr_e( 'New category name', 'bp-user-to-do-list' ); ?>" data-wp-bind--value="context.fNewCat" data-wp-on--input="actions.setNewCat" data-wp-on--keydown="actions.newCatKeydown" aria-label="<?php esc_attr_e( 'New category name', 'bp-user-to-do-list' ); ?>" />
+										<button type="button" class="bptodo-btn bptodo-btn--primary bptodo-btn--sm" data-wp-on--click="actions.addCategory"><?php esc_html_e( 'Add', 'bp-user-to-do-list' ); ?></button>
+										<button type="button" class="bptodo-btn bptodo-btn--ghost bptodo-btn--sm" data-wp-on--click="actions.toggleAddCat"><?php esc_html_e( 'Cancel', 'bp-user-to-do-list' ); ?></button>
 									</span>
 								<?php endif; ?>
 							</div>
 						<?php endif; ?>
 
 						<div class="bptodo-field">
-							<label class="bptodo-field__label" for="bptodo-add-priority"><?php esc_html_e( 'Priority', 'wb-todo' ); ?></label>
+							<label class="bptodo-field__label" for="bptodo-add-priority"><?php esc_html_e( 'Priority', 'bp-user-to-do-list' ); ?></label>
 							<select id="bptodo-add-priority" class="bptodo-select" data-wp-on--change="actions.setFPriority">
-								<option value="normal"><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
-								<option value="high"><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-								<option value="critical"><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
+								<option value="normal"><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
+								<option value="high"><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+								<option value="critical"><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
 							</select>
 						</div>
 
 						<div class="bptodo-field">
 							<label class="bptodo-field__label" for="bptodo-add-due">
-								<?php esc_html_e( 'Due date', 'wb-todo' ); ?>
+								<?php esc_html_e( 'Due date', 'bp-user-to-do-list' ); ?>
 								<?php
 								if ( $require_due ) :
 									?>
@@ -553,8 +553,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 
 					<?php if ( $is_group ) : ?>
 						<div class="bptodo-field">
-							<span class="bptodo-field__label"><?php esc_html_e( 'Assign to members', 'wb-todo' ); ?></span>
-							<div class="bptodo-assignees" role="group" aria-label="<?php esc_attr_e( 'Assign to members', 'wb-todo' ); ?>">
+							<span class="bptodo-field__label"><?php esc_html_e( 'Assign to members', 'bp-user-to-do-list' ); ?></span>
+							<div class="bptodo-assignees" role="group" aria-label="<?php esc_attr_e( 'Assign to members', 'bp-user-to-do-list' ); ?>">
 								<?php foreach ( $args['members'] as $bptodo_member ) : ?>
 									<label class="bptodo-assignee">
 										<input type="checkbox" class="bptodo-assignee__cb" value="<?php echo esc_attr( $bptodo_member['id'] ); ?>" data-wp-on--change="actions.toggleAssignee" />
@@ -563,14 +563,14 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 									</label>
 								<?php endforeach; ?>
 							</div>
-							<p class="bptodo-field__hint"><?php esc_html_e( 'Leave all unchecked to assign to everyone in the group.', 'wb-todo' ); ?></p>
+							<p class="bptodo-field__hint"><?php esc_html_e( 'Leave all unchecked to assign to everyone in the group.', 'bp-user-to-do-list' ); ?></p>
 							<?php if ( (int) $args['members_total'] > count( $args['members'] ) ) : ?>
 								<p class="bptodo-field__hint">
 									<?php
 									echo esc_html(
 										sprintf(
 											/* translators: 1: members listed, 2: total group members. */
-											__( 'Showing the first %1$d of %2$d members, A to Z.', 'wb-todo' ),
+											__( 'Showing the first %1$d of %2$d members, A to Z.', 'bp-user-to-do-list' ),
 											count( $args['members'] ),
 											(int) $args['members_total']
 										)
@@ -584,8 +584,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 					<p class="bptodo-addform__error" role="alert" data-wp-bind--hidden="!context.formError" data-wp-text="context.formError"></p>
 
 					<div class="bptodo-addform__actions">
-						<a class="bptodo-btn bptodo-btn--ghost" data-wp-bind--href="context.listUrl"><?php esc_html_e( 'Cancel', 'wb-todo' ); ?></a>
-						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php echo esc_html( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'Create %s', 'wb-todo' ), $label_singular ) ); ?></button>
+						<a class="bptodo-btn bptodo-btn--ghost" data-wp-bind--href="context.listUrl"><?php esc_html_e( 'Cancel', 'bp-user-to-do-list' ); ?></a>
+						<button type="submit" class="bptodo-btn bptodo-btn--primary" data-wp-bind--disabled="context.submitting"><?php echo esc_html( sprintf( /* translators: %s: the configured todo label (singular), e.g. "Task". */ __( 'Create %s', 'bp-user-to-do-list' ), $label_singular ) ); ?></button>
 					</div>
 				</form>
 			</div>

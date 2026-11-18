@@ -20,6 +20,7 @@
 
 	/* Surfaces */
 	--bptodo-admin-white: #ffffff;
+	--bptodo-admin-on-accent: #ffffff; /* text/icons on a filled accent, danger or dark surface */
 	--bptodo-admin-surface-1: #f8fafc;
 	--bptodo-admin-surface-2: #f1f5f9;
 	--bptodo-admin-border: #e2e8f0;
@@ -37,6 +38,7 @@
 	--bptodo-admin-success-light: #dcfce7;
 	--bptodo-admin-warn: #f59e0b;
 	--bptodo-admin-warn-light: #fef9c3;
+	--bptodo-admin-warn-text: #92400e;
 	--bptodo-admin-danger: #dc2626;
 	--bptodo-admin-danger-dark: #b91c1c;
 	--bptodo-admin-danger-light: #fee2e2;
@@ -130,7 +132,7 @@
 	display: inline-block;
 	padding: 4px 10px;
 	background: var(--bptodo-admin-accent);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	border-radius: 999px;
 	font-size: 11px;
 	font-weight: 600;
@@ -176,12 +178,12 @@
 	height: 32px;
 	border-radius: var(--bptodo-admin-radius-sm);
 	background: var(--bptodo-admin-accent);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	flex-shrink: 0;
 }
 
 .bptodo-settings-brand-icon .dashicons {
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	width: 18px;
 	height: 18px;
 	font-size: 18px;
@@ -589,7 +591,7 @@
 
 .bptodo-btn-primary {
 	background: var(--bptodo-admin-accent);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	border-color: var(--bptodo-admin-accent);
 }
 
@@ -597,7 +599,7 @@
 .bptodo-btn-primary:focus {
 	background: var(--bptodo-admin-accent-hover);
 	border-color: var(--bptodo-admin-accent-hover);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 }
 
 .bptodo-btn-secondary {
@@ -622,7 +624,7 @@
 .bptodo-btn-danger:hover,
 .bptodo-btn-danger:focus {
 	background: var(--bptodo-admin-danger);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	border-color: var(--bptodo-admin-danger);
 }
 
@@ -697,7 +699,7 @@
 .bptodo-notice--warn {
 	background: var(--bptodo-admin-warn-light);
 	border-color: rgba(245, 158, 11, 0.3);
-	color: #92400e;
+	color: var(--bptodo-admin-warn-text);
 }
 
 .bptodo-notice--success {
@@ -782,7 +784,7 @@
 
 .bptodo-toast {
 	background: var(--bptodo-admin-text);
-	color: #fff;
+	color: var(--bptodo-admin-on-accent);
 	padding: 12px 16px;
 	border-radius: var(--bptodo-admin-radius-sm);
 	font-size: 13px;
@@ -1087,7 +1089,7 @@
 	width: 18px;
 	left: 3px;
 	top: 3px;
-	background: #fff;
+	background: var(--bptodo-admin-white);
 	border-radius: 50%;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	transition: transform 0.18s;

@@ -3,7 +3,7 @@
   "name": "Todo for BuddyPress & BuddyBoss",
   "version": "4.0.0",
   "branch": "3.6.0",
-  "text_domain": "wb-todo",
+  "text_domain": "bp-user-to-do-list",
   "admin_ui_wrapper": "NEW",
   "counts": {
     "rest_endpoints": 12,

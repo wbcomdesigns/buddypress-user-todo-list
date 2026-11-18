@@ -23,7 +23,7 @@ $group_id = isset( $bp->groups->current_group->id ) ? $bp->groups->current_group
 
 // Check if user is logged in.
 if ( ! is_user_logged_in() ) {
-	bp_core_add_message( __( 'You must be logged in to add todos.', 'wb-todo' ), 'error' );
+	bp_core_add_message( __( 'You must be logged in to add todos.', 'bp-user-to-do-list' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }
@@ -35,7 +35,7 @@ $is_group_admin  = groups_is_user_admin( $current_user_id, $group_id );
 $is_group_mod    = groups_is_user_mod( $current_user_id, $group_id );
 
 if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
-	bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'wb-todo' ), 'error' );
+	bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'bp-user-to-do-list' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }
@@ -70,7 +70,8 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 		}
 	}
 	$bptodo_list_url = trailingslashit( bptodo_get_group_url( $bp->groups->current_group ) . $bptodo->profile_menu_slug ) . 'list';
-	echo Bptodo_Renderer::render_add_form( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+	// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped Interactivity markup.
+	echo Bptodo_Renderer::render_add_form(
 		array(
 			'scope'         => 'group',
 			'group_id'      => (int) $group_id,
@@ -79,6 +80,7 @@ if ( function_exists( 'bptodo_render_todos' ) && 'modern' === bptodo_layout_mode
 			'members_total' => isset( $bptodo_page['count'] ) ? (int) $bptodo_page['count'] : count( $bptodo_members ),
 		)
 	);
+	// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 	return;
 }
 
@@ -128,7 +130,7 @@ $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 			<?php
 			printf(
 				/* translators: %s: Todo label */
-				esc_html__( 'Add Group %s', 'wb-todo' ),
+				esc_html__( 'Add Group %s', 'bp-user-to-do-list' ),
 				esc_html( $profile_menu_label )
 			);
 			?>
@@ -139,7 +141,7 @@ $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 					<line x1="19" y1="12" x2="5" y2="12"></line>
 					<polyline points="12 19 5 12 12 5"></polyline>
 				</svg>
-				<?php esc_html_e( 'Back to List', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Back to List', 'bp-user-to-do-list' ); ?>
 			</a>
 		</div>
 	</div>
@@ -191,7 +193,7 @@ $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 					<input type="hidden" name="group_todo_create" value="1">
 					<input type="hidden" name="todo_group_id" value="<?php echo esc_attr( $group_id ); ?>">
 					<button type="button" class="bptodo-btn bptodo-btn--secondary js-bptodo-cancel">
-						<?php esc_html_e( 'Cancel', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Cancel', 'bp-user-to-do-list' ); ?>
 					</button>
 					<button type="submit" class="bptodo-btn bptodo-btn--primary" id="bp-add-new-todo">
 						<svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -200,7 +202,7 @@ $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 						<?php
 						printf(
 							/* translators: %s: Todo label */
-							esc_html__( 'Assign %s', 'wb-todo' ),
+							esc_html__( 'Assign %s', 'bp-user-to-do-list' ),
 							esc_html( $profile_menu_label )
 						);
 						?>
@@ -221,29 +223,3 @@ $allow_add_category = 'yes' === $bptodo->allow_user_add_category;
 	</div>
 </div>
 
-<script>
-(function() {
-	'use strict';
-
-	document.addEventListener('DOMContentLoaded', function() {
-		// Cancel button handler
-		var cancelBtn = document.querySelector('.js-bptodo-cancel');
-		if (cancelBtn) {
-			cancelBtn.addEventListener('click', function() {
-				window.history.back();
-			});
-		}
-
-		// Form submission with loading state
-		var form = document.getElementById('bptodo-group-add-form');
-		if (form) {
-			form.addEventListener('submit', function() {
-				var submitBtn = form.querySelector('[type="submit"]');
-				if (submitBtn && window.BPTodo && window.BPTodo.loading) {
-					window.BPTodo.loading.button(submitBtn, '<?php echo esc_js( __( 'Assigning...', 'wb-todo' ) ); ?>');
-				}
-			});
-		}
-	});
-})();
-</script>

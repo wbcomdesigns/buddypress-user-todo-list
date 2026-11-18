@@ -42,27 +42,27 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 		public static function get_tabs() {
 			$tabs = array(
 				'overview'   => array(
-					'label' => __( 'Overview', 'wb-todo' ),
+					'label' => __( 'Overview', 'bp-user-to-do-list' ),
 					'icon'  => 'dashicons-chart-bar',
 					'group' => 'main',
 				),
 				'general'    => array(
-					'label' => __( 'General', 'wb-todo' ),
+					'label' => __( 'General', 'bp-user-to-do-list' ),
 					'icon'  => 'dashicons-admin-generic',
 					'group' => 'settings',
 				),
 				'group'      => array(
-					'label' => __( 'Group Todo', 'wb-todo' ),
+					'label' => __( 'Group Todo', 'bp-user-to-do-list' ),
 					'icon'  => 'dashicons-groups',
 					'group' => 'settings',
 				),
 				'retention'  => array(
-					'label' => __( 'Data Retention', 'wb-todo' ),
+					'label' => __( 'Data Retention', 'bp-user-to-do-list' ),
 					'icon'  => 'dashicons-database',
 					'group' => 'settings',
 				),
 				'shortcodes' => array(
-					'label' => __( 'Shortcodes', 'wb-todo' ),
+					'label' => __( 'Shortcodes', 'bp-user-to-do-list' ),
 					'icon'  => 'dashicons-shortcode',
 					'group' => 'settings',
 				),
@@ -76,7 +76,7 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 			 * tab-removal filter can never accidentally drop it.
 			 */
 			$tabs['discover'] = array(
-				'label' => __( 'Discover', 'wb-todo' ),
+				'label' => __( 'Discover', 'bp-user-to-do-list' ),
 				'icon'  => 'dashicons-products',
 				'group' => 'discover',
 			);
@@ -111,8 +111,8 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 			// $GLOBALS['submenu']['wbcomplugins'].
 			if ( empty( $GLOBALS['admin_page_hooks']['wbcomplugins'] ) ) {
 				add_menu_page(
-					esc_html__( 'WB Plugins', 'wb-todo' ),
-					esc_html__( 'WB Plugins', 'wb-todo' ),
+					esc_html__( 'WB Plugins', 'bp-user-to-do-list' ),
+					esc_html__( 'WB Plugins', 'bp-user-to-do-list' ),
 					$cap,
 					'wbcomplugins',
 					array( $this, 'render_hub' ),
@@ -123,8 +123,8 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 
 			add_submenu_page(
 				'wbcomplugins',
-				esc_html__( 'Todo for BuddyPress & BuddyBoss', 'wb-todo' ),
-				esc_html__( 'Todo Lists', 'wb-todo' ),
+				esc_html( 'Todo for BuddyPress & BuddyBoss' ), // Product name: never translated.
+				esc_html__( 'Todo Lists', 'bp-user-to-do-list' ),
 				$cap,
 				self::MENU_SLUG,
 				array( $this, 'render_page' )
@@ -198,12 +198,12 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 				array(
 					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 					'i18n'    => array(
-						'saved'           => __( 'Settings saved.', 'wb-todo' ),
-						'saveFailed'      => __( 'Could not save. Please try again.', 'wb-todo' ),
-						'confirmDanger'   => __( 'Are you sure? This cannot be undone.', 'wb-todo' ),
-						'confirmContinue' => __( 'Continue', 'wb-todo' ),
-						'confirmCancel'   => __( 'Cancel', 'wb-todo' ),
-						'rolePlaceholder' => __( 'Select user roles', 'wb-todo' ),
+						'saved'           => __( 'Settings saved.', 'bp-user-to-do-list' ),
+						'saveFailed'      => __( 'Could not save. Please try again.', 'bp-user-to-do-list' ),
+						'confirmDanger'   => __( 'Are you sure? This cannot be undone.', 'bp-user-to-do-list' ),
+						'confirmContinue' => __( 'Continue', 'bp-user-to-do-list' ),
+						'confirmCancel'   => __( 'Cancel', 'bp-user-to-do-list' ),
+						'rolePlaceholder' => __( 'Select user roles', 'bp-user-to-do-list' ),
 					),
 				)
 			);
@@ -301,7 +301,7 @@ if ( ! class_exists( 'Bptodo_Admin_Panel' ) ) {
 				// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only post-redirect flag.
 				$bptodo_updated = isset( $_GET['settings-updated'] ) && 'true' === sanitize_text_field( wp_unslash( $_GET['settings-updated'] ) );
 				if ( $bptodo_saved || $bptodo_updated ) {
-					add_settings_error( 'general', 'bptodo_settings_saved', __( 'Settings saved.', 'wb-todo' ), 'updated' );
+					add_settings_error( 'general', 'bptodo_settings_saved', __( 'Settings saved.', 'bp-user-to-do-list' ), 'updated' );
 					if ( $bptodo_saved ) {
 						delete_transient( 'bptodo_settings_saved' );
 					}

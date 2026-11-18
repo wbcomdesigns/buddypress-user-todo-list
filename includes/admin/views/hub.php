@@ -60,7 +60,7 @@ $bptodo_plugin_count = count( $bptodo_plugins );
 		<div class="bptodo-page-header__title">
 			<span class="dashicons dashicons-lightbulb" aria-hidden="true"></span>
 			<div>
-				<h1><?php esc_html_e( 'WB Plugins', 'wb-todo' ); ?></h1>
+				<h1><?php esc_html_e( 'WB Plugins', 'bp-user-to-do-list' ); ?></h1>
 				<p class="bptodo-page-header__subtitle">
 					<?php
 					echo esc_html(
@@ -70,7 +70,7 @@ $bptodo_plugin_count = count( $bptodo_plugins );
 								'%d Wbcom plugin active on this site.',
 								'%d Wbcom plugins active on this site.',
 								$bptodo_plugin_count,
-								'wb-todo'
+								'bp-user-to-do-list'
 							),
 							$bptodo_plugin_count
 						)
@@ -86,9 +86,9 @@ $bptodo_plugin_count = count( $bptodo_plugins );
 			<span class="bptodo-empty-state__icon" aria-hidden="true">
 				<span class="dashicons dashicons-lightbulb"></span>
 			</span>
-			<p class="bptodo-empty-state__title"><?php esc_html_e( 'No Wbcom plugins attached to this hub yet', 'wb-todo' ); ?></p>
+			<p class="bptodo-empty-state__title"><?php esc_html_e( 'No Wbcom plugins attached to this hub yet', 'bp-user-to-do-list' ); ?></p>
 			<p class="bptodo-empty-state__desc">
-				<?php esc_html_e( 'Activate one or more Wbcom plugins and they will appear here automatically.', 'wb-todo' ); ?>
+				<?php esc_html_e( 'Activate one or more Wbcom plugins and they will appear here automatically.', 'bp-user-to-do-list' ); ?>
 			</p>
 		</div>
 	<?php else : ?>
@@ -103,7 +103,7 @@ $bptodo_plugin_count = count( $bptodo_plugins );
 						<span class="bptodo-hub-card__subtitle"><?php echo esc_html( $bptodo_p['page_title'] ); ?></span>
 					<?php endif; ?>
 					<span class="bptodo-hub-card__cta">
-						<?php esc_html_e( 'Open settings', 'wb-todo' ); ?>
+						<?php esc_html_e( 'Open settings', 'bp-user-to-do-list' ); ?>
 						<span class="dashicons dashicons-arrow-right-alt" aria-hidden="true"></span>
 					</span>
 				</a>
@@ -113,15 +113,15 @@ $bptodo_plugin_count = count( $bptodo_plugins );
 
 	<div class="bptodo-card bptodo-card--spaced">
 		<div class="bptodo-card__head">
-			<p class="bptodo-card__title"><?php esc_html_e( 'About WB Plugins', 'wb-todo' ); ?></p>
+			<p class="bptodo-card__title"><?php esc_html_e( 'About WB Plugins', 'bp-user-to-do-list' ); ?></p>
 		</div>
 		<div class="bptodo-card__body">
 			<p class="bptodo-card__lead">
-				<?php esc_html_e( 'This hub is the single entry point for every Wbcom Designs plugin installed on your site. Each plugin lives on its own page under this menu and keeps its own settings, license, and data.', 'wb-todo' ); ?>
+				<?php esc_html_e( 'This hub is the single entry point for every Wbcom Designs plugin installed on your site. Each plugin lives on its own page under this menu and keeps its own settings, license, and data.', 'bp-user-to-do-list' ); ?>
 			</p>
 			<p>
 				<a href="https://wbcomdesigns.com/" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'Visit wbcomdesigns.com for more plugins and themes', 'wb-todo' ); ?>
+					<?php esc_html_e( 'Visit wbcomdesigns.com for more plugins and themes', 'bp-user-to-do-list' ); ?>
 				</a>
 			</p>
 		</div>

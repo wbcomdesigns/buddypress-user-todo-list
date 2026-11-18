@@ -1,5 +1,7 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * BuddyPress/BuddyBoss compatibility helper for getting member URL.
  * Supports BuddyPress 12.0+, older BuddyPress versions, and BuddyBoss.
@@ -200,34 +202,6 @@ function bptodo_report_view_enabled( $group_id, $current_user ) {
 	return apply_filters( 'bptodo_exclude_modrator_edit', $can_views, $group_id, $current_user );
 }
 
-
-/**
- * Hide the todo tab when group todo disable option is enabled.
- *
- * @return void
- */
-function bptodo_disable_group_todo(){
-	// Check if groups component is active
-	if ( ! function_exists( 'bp_is_active' ) || ! bp_is_active( 'groups' ) ) {
-		return;
-	}
-
-	global $bp;
-	if ( function_exists( 'bp_is_group' ) && bp_is_group() ) {
-		$group_id 			 = $bp->groups->current_group->id;
-		$group_disable_todos = function_exists( 'groups_get_groupmeta' ) ? groups_get_groupmeta( $group_id, 'group-disable-todos', true ) : false;
-		if ( 1 === (int) $group_disable_todos ) {
-		?>
-		<style>
-			#nav-to-do{
-				display:none!important;
-			}
-		</style>
-		<?php
-		}
-	}
-}
-add_action( 'wp', 'bptodo_disable_group_todo' );
 
 /**
  * Check if current user is a site admin.
@@ -628,13 +602,13 @@ if ( ! function_exists( 'bptodo_localize_modern_i18n' ) ) {
 			'bptodo-modern-js',
 			'bptodoModernI18n',
 			array(
-				'closeNotification' => __( 'Close notification', 'wb-todo' ),
-				'closeModal'        => __( 'Close modal', 'wb-todo' ),
-				'ajaxError'         => __( 'An error occurred. Please try again.', 'wb-todo' ),
-				'confirmTitle'      => _x( 'Confirm', 'confirmation dialog heading', 'wb-todo' ),
-				'confirmMessage'    => __( 'Are you sure?', 'wb-todo' ),
-				'confirmOk'         => _x( 'Confirm', 'confirmation dialog accept button', 'wb-todo' ),
-				'confirmCancel'     => _x( 'Cancel', 'confirmation dialog dismiss button', 'wb-todo' ),
+				'closeNotification' => __( 'Close notification', 'bp-user-to-do-list' ),
+				'closeModal'        => __( 'Close modal', 'bp-user-to-do-list' ),
+				'ajaxError'         => __( 'An error occurred. Please try again.', 'bp-user-to-do-list' ),
+				'confirmTitle'      => _x( 'Confirm', 'confirmation dialog heading', 'bp-user-to-do-list' ),
+				'confirmMessage'    => __( 'Are you sure?', 'bp-user-to-do-list' ),
+				'confirmOk'         => _x( 'Confirm', 'confirmation dialog accept button', 'bp-user-to-do-list' ),
+				'confirmCancel'     => _x( 'Cancel', 'confirmation dialog dismiss button', 'bp-user-to-do-list' ),
 			)
 		);
 	}
@@ -696,5 +670,99 @@ if ( ! function_exists( 'bptodo_render_todos' ) ) {
 			$html = wp_interactivity_process_directives( $html );
 		}
 		return $html;
+	}
+}
+
+/*
+ * Time helpers - the one place this plugin picks a timezone and formats a time.
+ * Standard: docs/standards/time.md. Stored instants are UTC; a due date is a
+ * calendar day ('Y-m-d') with no timezone, so it is never shifted.
+ */
+
+if ( ! function_exists( 'bptodo_display_timezone' ) ) {
+	/**
+	 * Timezone every time is shown in.
+	 *
+	 * @since 4.0.1
+	 * @param int $user_id Member the time is shown to (0 = current viewer).
+	 * @return DateTimeZone
+	 */
+	function bptodo_display_timezone( $user_id = 0 ) {
+		/**
+		 * Filter the display timezone, e.g. to show each member their own.
+		 *
+		 * @since 4.0.1
+		 * @param DateTimeZone $timezone Site timezone.
+		 * @param int          $user_id  Member the time is shown to.
+		 */
+		$timezone = apply_filters( 'bptodo_display_timezone', wp_timezone(), (int) $user_id );
+		return $timezone instanceof DateTimeZone ? $timezone : wp_timezone();
+	}
+}
+
+if ( ! function_exists( 'bptodo_date_label' ) ) {
+	/**
+	 * Format a stored UTC instant for display.
+	 *
+	 * @since 4.0.1
+	 * @param string|int|null $utc      UTC 'Y-m-d H:i:s' (naive strings read as UTC) or a Unix timestamp.
+	 * @param string          $fallback Returned for empty, zero or unparseable values.
+	 * @param string|null     $format   PHP date format; defaults to the site date + time format.
+	 * @param int             $user_id  Member the time is shown to.
+	 * @return string
+	 */
+	function bptodo_date_label( $utc, $fallback = '', $format = null, $user_id = 0 ) {
+		if ( null === $format ) {
+			$format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+		}
+		if ( is_numeric( $utc ) ) {
+			$timestamp = (int) $utc;
+		} else {
+			if ( empty( $utc ) || 0 === strpos( (string) $utc, '0000-00-00' ) ) {
+				return $fallback;
+			}
+			try {
+				$timestamp = ( new DateTimeImmutable( (string) $utc, new DateTimeZone( 'UTC' ) ) )->getTimestamp();
+			} catch ( Exception $e ) {
+				return $fallback;
+			}
+		}
+		if ( $timestamp <= 0 ) {
+			return $fallback;
+		}
+		return wp_date( $format, $timestamp, bptodo_display_timezone( $user_id ) );
+	}
+}
+
+if ( ! function_exists( 'bptodo_day_label' ) ) {
+	/**
+	 * Format a calendar day ('Y-m-d', e.g. a due date) without any timezone shift.
+	 *
+	 * @since 4.0.1
+	 * @param string      $day      'Y-m-d'.
+	 * @param string      $fallback Returned for an empty or unparseable day.
+	 * @param string|null $format   PHP date format; defaults to the site date format.
+	 * @return string
+	 */
+	function bptodo_day_label( $day, $fallback = '', $format = null ) {
+		$utc  = new DateTimeZone( 'UTC' );
+		$date = $day ? DateTimeImmutable::createFromFormat( '!Y-m-d', substr( (string) $day, 0, 10 ), $utc ) : false;
+		if ( ! $date ) {
+			return $fallback;
+		}
+		return wp_date( null === $format ? get_option( 'date_format' ) : $format, $date->getTimestamp(), $utc );
+	}
+}
+
+if ( ! function_exists( 'bptodo_today' ) ) {
+	/**
+	 * Today's calendar day in the display timezone - what due dates compare against.
+	 *
+	 * @since 4.0.1
+	 * @param int $user_id Member the day is for.
+	 * @return string 'Y-m-d'.
+	 */
+	function bptodo_today( $user_id = 0 ) {
+		return wp_date( 'Y-m-d', null, bptodo_display_timezone( $user_id ) );
 	}
 }

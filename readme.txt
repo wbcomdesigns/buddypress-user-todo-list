@@ -8,7 +8,7 @@ Stable tag: 4.0.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: wb-todo
+Text Domain: bp-user-to-do-list
 Domain Path: /languages
 
 A modern to-do and task manager for WordPress. Every logged-in user gets a private task list they manage without page reloads. BuddyPress and BuddyBoss are optional and add profile tabs and group to-dos.
@@ -243,12 +243,8 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 
 = 4.0.1 =
 
-Group members can complete the group tasks assigned to them again, and the group Add and Add Media screens are fixed in dark mode.* Fix      - In the Classic layout, adding a category shows the reason when it is refused, and a new category is selected in the add form.
-* Fix      - The Member-created categories setting now lets members add categories when it is turned on.
-* Fix      - On BuddyBoss, group todo notifications and emails open the group's todo tab instead of a missing page.
-* Fix      - Keyboard focus stays on the delete question and returns to Delete when you choose No.
-* Fix      - Overdue, Delete and completed-count text is readable in light mode.
-* Dev      - Renamed the admin page layout view file so security filters on some hosts no longer block the plugin upload.
+Group members can complete the group tasks assigned to them again, translations load from WordPress.org language packs, and due dates follow the site's timezone.
+* Fix      - Edit and Delete on each todo are now full strength instead of faded until hover.
 
 = 4.0.0 =
 
@@ -260,6 +256,7 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 
 * Improve  - The group "Assign to members" picker lists the first 100 members A to Z instead of every member, so large groups load quickly. Filter `bptodo_assignee_picker_limit` changes the number.
 * Improve  - Group and notification features load only when the BuddyPress Groups or Notifications component is turned on.
+* Improve  - Group todo screens no longer load a 950 KB table library; it only served an unlinked Reports page, which is removed (the Overview tab covers it).
 * Fix      - Members assigned a group task get their on-site notification again.
 * Fix      - The search field on the todo list is a normal height on phones.
 * Fix      - Plugin settings fit the screen on phones with no sideways scrolling.
@@ -274,7 +271,26 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 * Fix      - Export on the classic My Todos screen is now a real, keyboard-reachable button.
 * Fix      - The Add Media window is readable in dark mode: details panel text, fields, links and the selection bar.
 * Fix      - Dropdown options in the members picker are readable in dark mode.
+* Fix      - In the Classic layout, adding a category shows the reason when it is refused, and a new category is selected in the add form.
+* Fix      - The Member-created categories setting now lets members add categories when it is turned on.
+* Fix      - On BuddyBoss, group todo notifications and emails open the group's todo tab instead of a missing page.
+* Fix      - Keyboard focus stays on the delete question and returns to Delete when you choose No.
+* Fix      - Overdue, Delete and completed-count text is readable in light mode.
+* Fix      - Translations from WordPress.org language packs now load: the text domain is now bp-user-to-do-list, the plugin's WordPress.org slug. If you keep your own translation files, rename them from wb-todo-{locale} to bp-user-to-do-list-{locale}.
+* Fix      - Settings for the My Todos and Group Todos blocks are translated in the block editor.
+* Fix      - Seven messages that showed in English on German, Spanish, French, Italian and Brazilian Portuguese sites are translated.
+* Fix      - Due today, Due tomorrow and Overdue follow the site's timezone instead of UTC, and completion and cleanup times show in the site's timezone. Existing completion times are converted once, using the timezone rule of their own date, including on sites already updated to an earlier 4.0.1 build.
+* Fix      - The search and filter fields sit in one row on wide screens and stack on phones.
+* Fix      - High priority, Due today and Normal priority labels meet 4.5:1 contrast in light and dark mode.
+* Fix      - The plugin name stays in English in every language, as a product name.
+* Fix      - Automatic cleanup measures task age in UTC, so it no longer removes tasks hours early or late.
+* Fix      - Turning off todos for one group no longer prints a stray style block at the top of the page.
+* Fix      - The review request on the Plugins screen uses the standard WordPress notice style.
 * Security - Todo stats for another member are only returned to site administrators.
+* Security - Every plugin file now refuses direct web access, and the shortcodes setting is sanitized when saved.
+* Dev      - Renamed the admin page layout view file so security filters on some hosts no longer block the plugin upload.
+* Dev      - New filter `bptodo_display_timezone` sets the timezone times are shown in, for example each member's own.
+* Dev      - Added bin/build-release.sh, bin/local-ci.sh and .distignore; template scripts moved into bptodo-front.js and admin colors use the plugin's CSS tokens.
 
 = 4.0.0 =
 

@@ -110,7 +110,7 @@ class Bptodo_Data_Retention {
 				array(
 					'before'    => $cutoff_date,
 					'inclusive' => true,
-					'column'    => 'post_date', // Explicitly set column
+					'column'    => 'post_date_gmt', // Cutoff is UTC, so compare the UTC column.
 				),
 			),
 		);
@@ -293,7 +293,7 @@ class Bptodo_Data_Retention {
 
 		$subject = sprintf(
 			/* translators: %s: site name */
-			__( '[%s] Todo List Cleanup Summary', 'wb-todo' ),
+			__( '[%s] Todo List Cleanup Summary', 'bp-user-to-do-list' ),
 			get_bloginfo( 'name' )
 		);
 
@@ -302,42 +302,42 @@ class Bptodo_Data_Retention {
 		$permanent_delete = isset( $settings['permanent_delete'] ) && $settings['permanent_delete'] === 'yes';
 
 		$cleanup_type_label = array(
-			'completed' => __( 'Completed Tasks', 'wb-todo' ),
-			'pending'   => __( 'Pending Tasks', 'wb-todo' ),
-			'all'       => __( 'All Tasks', 'wb-todo' ),
+			'completed' => __( 'Completed Tasks', 'bp-user-to-do-list' ),
+			'pending'   => __( 'Pending Tasks', 'bp-user-to-do-list' ),
+			'all'       => __( 'All Tasks', 'bp-user-to-do-list' ),
 		);
 
 		$message = sprintf(
 			/* translators: %1$s: site name, %2$s: date and time */
-			__( 'Automatic cleanup ran on %1$s at %2$s', 'wb-todo' ),
+			__( 'Automatic cleanup ran on %1$s at %2$s', 'bp-user-to-do-list' ),
 			get_bloginfo( 'name' ),
-			current_time( 'mysql' )
+			bptodo_date_label( time() )
 		) . "\n\n";
 
-		$message .= __( 'Cleanup Summary:', 'wb-todo' ) . "\n";
+		$message .= __( 'Cleanup Summary:', 'bp-user-to-do-list' ) . "\n";
 		$message .= str_repeat( '-', 50 ) . "\n";
 		/* translators: %s: cleanup type (all, group, personal) */
-		$message .= sprintf( __( 'Cleanup Type: %s', 'wb-todo' ), $cleanup_type_label[ $cleanup_type ] ) . "\n";
+		$message .= sprintf( __( 'Cleanup Type: %s', 'bp-user-to-do-list' ), $cleanup_type_label[ $cleanup_type ] ) . "\n";
 		/* translators: %d: number of days */
-		$message .= sprintf( __( 'Retention Period: %d days', 'wb-todo' ), $retention_days ) . "\n";
+		$message .= sprintf( __( 'Retention Period: %d days', 'bp-user-to-do-list' ), $retention_days ) . "\n";
 		/* translators: %s: delete method (Permanent or Moved to Trash) */
-		$message .= sprintf( __( 'Delete Method: %s', 'wb-todo' ), $permanent_delete ? __( 'Permanent', 'wb-todo' ) : __( 'Moved to Trash', 'wb-todo' ) ) . "\n\n";
+		$message .= sprintf( __( 'Delete Method: %s', 'bp-user-to-do-list' ), $permanent_delete ? __( 'Permanent', 'bp-user-to-do-list' ) : __( 'Moved to Trash', 'bp-user-to-do-list' ) ) . "\n\n";
 
-		$message .= __( 'Tasks Deleted:', 'wb-todo' ) . "\n";
+		$message .= __( 'Tasks Deleted:', 'bp-user-to-do-list' ) . "\n";
 		/* translators: %d: number of group tasks deleted */
-		$message .= sprintf( __( '- Group Tasks: %d', 'wb-todo' ), $deleted_tasks['group'] ) . "\n";
+		$message .= sprintf( __( '- Group Tasks: %d', 'bp-user-to-do-list' ), $deleted_tasks['group'] ) . "\n";
 		/* translators: %d: number of personal tasks deleted */
-		$message .= sprintf( __( '- Personal Tasks: %d', 'wb-todo' ), $deleted_tasks['personal'] ) . "\n";
+		$message .= sprintf( __( '- Personal Tasks: %d', 'bp-user-to-do-list' ), $deleted_tasks['personal'] ) . "\n";
 		/* translators: %d: total number of tasks deleted */
-		$message .= sprintf( __( '- Total: %d', 'wb-todo' ), $deleted_tasks['total'] ) . "\n\n";
+		$message .= sprintf( __( '- Total: %d', 'bp-user-to-do-list' ), $deleted_tasks['total'] ) . "\n\n";
 
 		if ( ! $permanent_delete ) {
-			$message .= __( 'Note: Tasks have been moved to trash and can be recovered within 30 days.', 'wb-todo' ) . "\n";
+			$message .= __( 'Note: Tasks have been moved to trash and can be recovered within 30 days.', 'bp-user-to-do-list' ) . "\n";
 		}
 
 		$message .= "\n" . sprintf(
 			/* translators: %s: settings page URL */
-			__( 'Manage retention settings: %s', 'wb-todo' ),
+			__( 'Manage retention settings: %s', 'bp-user-to-do-list' ),
 			admin_url( 'admin.php?page=user-todo-list-settings&tab=data-retention-settings' )
 		);
 
@@ -351,7 +351,7 @@ class Bptodo_Data_Retention {
 	 */
 	private function log_cleanup( $deleted_tasks ) {
 		$log_entry = array(
-			'timestamp'     => current_time( 'mysql' ),
+			'timestamp'     => current_time( 'mysql', true ), // UTC.
 			'group_tasks'   => $deleted_tasks['group'],
 			'personal_tasks' => $deleted_tasks['personal'],
 			'total_tasks'   => $deleted_tasks['total'],

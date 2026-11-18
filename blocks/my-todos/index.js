@@ -33,9 +33,9 @@
 					{},
 					el(
 						PanelBody,
-						{ title: __( 'Todo list settings', 'wb-todo' ), initialOpen: true },
+						{ title: __( 'Todo list settings', 'bp-user-to-do-list' ), initialOpen: true },
 						el( RangeControl, {
-							label: __( 'Items per page', 'wb-todo' ),
+							label: __( 'Items per page', 'bp-user-to-do-list' ),
 							value: atts.perPage,
 							min: 1,
 							max: 50,
@@ -44,39 +44,39 @@
 							},
 						} ),
 						el( SelectControl, {
-							label: __( 'Default status filter', 'wb-todo' ),
+							label: __( 'Default status filter', 'bp-user-to-do-list' ),
 							value: atts.status,
 							options: [
-								{ label: __( 'All', 'wb-todo' ), value: 'all' },
-								{ label: __( 'Pending', 'wb-todo' ), value: 'incomplete' },
-								{ label: __( 'Completed', 'wb-todo' ), value: 'complete' },
+								{ label: __( 'All', 'bp-user-to-do-list' ), value: 'all' },
+								{ label: __( 'Pending', 'bp-user-to-do-list' ), value: 'incomplete' },
+								{ label: __( 'Completed', 'bp-user-to-do-list' ), value: 'complete' },
 							],
 							onChange: function ( v ) {
 								setAttributes( { status: v } );
 							},
 						} ),
 						el( SelectControl, {
-							label: __( 'Default priority filter', 'wb-todo' ),
+							label: __( 'Default priority filter', 'bp-user-to-do-list' ),
 							value: atts.priority,
 							options: [
-								{ label: __( 'All', 'wb-todo' ), value: 'all' },
-								{ label: __( 'Critical', 'wb-todo' ), value: 'critical' },
-								{ label: __( 'High', 'wb-todo' ), value: 'high' },
-								{ label: __( 'Normal', 'wb-todo' ), value: 'normal' },
+								{ label: __( 'All', 'bp-user-to-do-list' ), value: 'all' },
+								{ label: __( 'Critical', 'bp-user-to-do-list' ), value: 'critical' },
+								{ label: __( 'High', 'bp-user-to-do-list' ), value: 'high' },
+								{ label: __( 'Normal', 'bp-user-to-do-list' ), value: 'normal' },
 							],
 							onChange: function ( v ) {
 								setAttributes( { priority: v } );
 							},
 						} ),
 						el( ToggleControl, {
-							label: __( 'Show quick-add box', 'wb-todo' ),
+							label: __( 'Show quick-add box', 'bp-user-to-do-list' ),
 							checked: atts.showAdd,
 							onChange: function ( v ) {
 								setAttributes( { showAdd: v } );
 							},
 						} ),
 						el( ToggleControl, {
-							label: __( 'Show stat cards', 'wb-todo' ),
+							label: __( 'Show stat cards', 'bp-user-to-do-list' ),
 							checked: atts.showStats,
 							onChange: function ( v ) {
 								setAttributes( { showStats: v } );

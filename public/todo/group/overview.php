@@ -3,6 +3,8 @@
  * Template for Group Overview - Shows all tasks with completion stats
  */
 
+defined( 'ABSPATH' ) || exit;
+
 // Ensure BuddyPress and Groups component are active
 if ( ! function_exists( 'bp_get_current_group_id' ) || ! function_exists( 'groups_is_user_admin' ) ) {
 	return;
@@ -14,7 +16,7 @@ $group = groups_get_group($group_id);
 
 // Check if user is logged in
 if ( ! is_user_logged_in() ) {
-	bp_core_add_message( __( 'You must be logged in to view group todos.', 'wb-todo' ), 'error' );
+	bp_core_add_message( __( 'You must be logged in to view group todos.', 'bp-user-to-do-list' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }
@@ -26,7 +28,7 @@ $is_group_admin  = groups_is_user_admin( $current_user_id, $group_id );
 $is_group_mod    = groups_is_user_mod( $current_user_id, $group_id );
 
 if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
-	bp_core_add_message( __( 'You must be a group administrator or moderator to view group overview.', 'wb-todo' ), 'error' );
+	bp_core_add_message( __( 'You must be a group administrator or moderator to view group overview.', 'bp-user-to-do-list' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }
@@ -190,10 +192,10 @@ $base_url = $admin_link . 'overview/';
 
     <!-- Task Selector -->
     <div class="bptodo-task-selector">
-        <label for="task-selector"><?php esc_html_e('View Progress For:', 'wb-todo'); ?></label>
+        <label for="task-selector"><?php esc_html_e('View Progress For:', 'bp-user-to-do-list'); ?></label>
         <select id="task-selector" class="bptodo-task-dropdown">
             <option value="<?php echo esc_url($base_url); ?>" <?php selected($selected_task_id, 0); ?>>
-                <?php esc_html_e('Overall Progress (All Tasks)', 'wb-todo'); ?>
+                <?php esc_html_e('Overall Progress (All Tasks)', 'bp-user-to-do-list'); ?>
             </option>
             <?php if (!empty($selector_tasks)) : ?>
                 <?php foreach ($selector_tasks as $task) : ?>
@@ -211,9 +213,9 @@ $base_url = $admin_link . 'overview/';
             <?php
             if ($selected_task && $selected_task_id > 0) {
                 /* translators: %s: the task title. */
-                printf(esc_html__('Task Progress: %s', 'wb-todo'), esc_html($selected_task->post_title));
+                printf(esc_html__('Task Progress: %s', 'bp-user-to-do-list'), esc_html($selected_task->post_title));
             } else {
-                esc_html_e('Group Task Progress', 'wb-todo');
+                esc_html_e('Group Task Progress', 'bp-user-to-do-list');
             }
             ?>
         </h3>
@@ -236,7 +238,7 @@ $base_url = $admin_link . 'overview/';
                     // untranslatable in isolation.
                     printf(
                         /* translators: %1$d: number of members who completed the task. %2$d: total members assigned the task. */
-                        esc_html( _n( '%1$d of %2$d member completed', '%1$d of %2$d members completed', $total_members_with_tasks, 'wb-todo' ) ),
+                        esc_html( _n( '%1$d of %2$d member completed', '%1$d of %2$d members completed', $total_members_with_tasks, 'bp-user-to-do-list' ) ),
                         (int) $completed_members,
                         (int) $total_members_with_tasks
                     );
@@ -248,7 +250,7 @@ $base_url = $admin_link . 'overview/';
                     <?php
                     printf(
                         /* translators: %1$d: number of completed tasks. %2$d: total number of tasks. */
-                        esc_html( _n( '%1$d of %2$d task completed', '%1$d of %2$d tasks completed', $group_total_tasks, 'wb-todo' ) ),
+                        esc_html( _n( '%1$d of %2$d task completed', '%1$d of %2$d tasks completed', $group_total_tasks, 'bp-user-to-do-list' ) ),
                         (int) $group_completed_tasks,
                         (int) $group_total_tasks
                     );
@@ -267,18 +269,18 @@ $base_url = $admin_link . 'overview/';
     <!-- Member Progress List -->
     <div class="bptodo-member-progress-list">
         <div class="bptodo-member-list-header">
-            <h4 class="bptodo-member-list-title"><?php esc_html_e('Member Status', 'wb-todo'); ?></h4>
+            <h4 class="bptodo-member-list-title"><?php esc_html_e('Member Status', 'bp-user-to-do-list'); ?></h4>
             <div class="bptodo-member-filters">
                 <button class="bptodo-filter-btn active" data-filter="all">
-                    <?php esc_html_e('All', 'wb-todo'); ?>
+                    <?php esc_html_e('All', 'bp-user-to-do-list'); ?>
                     <span class="bptodo-filter-count"><?php echo esc_html($total_members_with_tasks); ?></span>
                 </button>
                 <button class="bptodo-filter-btn" data-filter="completed">
-                    <?php esc_html_e('Completed', 'wb-todo'); ?>
+                    <?php esc_html_e('Completed', 'bp-user-to-do-list'); ?>
                     <span class="bptodo-filter-count"><?php echo esc_html($completed_members); ?></span>
                 </button>
                 <button class="bptodo-filter-btn" data-filter="pending">
-                    <?php esc_html_e('Pending', 'wb-todo'); ?>
+                    <?php esc_html_e('Pending', 'bp-user-to-do-list'); ?>
                     <span class="bptodo-filter-count"><?php echo esc_html($pending_members); ?></span>
                 </button>
             </div>
@@ -294,7 +296,7 @@ $base_url = $admin_link . 'overview/';
                     <div class="bptodo-member-item <?php echo esc_attr($status_class); ?>">
                         <?php echo get_avatar($member['user_id'], 40, '', '', array('class' => 'bptodo-member-avatar')); ?>
                         <div class="bptodo-member-info">
-                            <a href="<?php echo bptodo_get_member_url($member['user_id']); ?>" class="bptodo-member-name">
+                            <a href="<?php echo esc_url( bptodo_get_member_url( $member['user_id'] ) ); ?>" class="bptodo-member-name">
                                 <?php echo esc_html(ucfirst($member['name'])); ?>
                             </a>
                             <span class="bptodo-member-status">
@@ -305,15 +307,15 @@ $base_url = $admin_link . 'overview/';
                                         // Each branch must be its own literal gettext call - the POT
                                         // scanner cannot extract a string from a ternary argument.
                                         if ($selected_task_id > 0) {
-                                            esc_html_e('Completed', 'wb-todo');
+                                            esc_html_e('Completed', 'bp-user-to-do-list');
                                         } else {
-                                            esc_html_e('All Complete', 'wb-todo');
+                                            esc_html_e('All Complete', 'bp-user-to-do-list');
                                         }
                                         ?>
                                     </span>
                                     <?php if ($selected_task_id > 0 && !empty($member['completed_date'])) : ?>
                                         <span class="bptodo-member-time">
-                                            <?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($member['completed_date']))); ?>
+                                            <?php echo esc_html( bptodo_date_label( $member['completed_date'] ) ); ?>
                                         </span>
                                     <?php endif; ?>
                                 <?php else : ?>
@@ -322,9 +324,9 @@ $base_url = $admin_link . 'overview/';
                                         <?php
                                         // Literal per branch - see the note on the Completed badge above.
                                         if ($selected_task_id > 0) {
-                                            esc_html_e('Pending', 'wb-todo');
+                                            esc_html_e('Pending', 'bp-user-to-do-list');
                                         } else {
-                                            esc_html_e('Incomplete', 'wb-todo');
+                                            esc_html_e('Incomplete', 'bp-user-to-do-list');
                                         }
                                         ?>
                                     </span>
@@ -336,7 +338,7 @@ $base_url = $admin_link . 'overview/';
                                         // {n} / {n} + _e('tasks') + (pct%) fragments.
                                         printf(
                                             /* translators: %1$d: tasks this member completed. %2$d: tasks assigned to them. %3$d: completion percentage. */
-                                            esc_html__( '%1$d / %2$d tasks (%3$d%%)', 'wb-todo' ),
+                                            esc_html__( '%1$d / %2$d tasks (%3$d%%)', 'bp-user-to-do-list' ),
                                             (int) $member['completed_tasks'],
                                             (int) $member['total_tasks'],
                                             (int) $member['completion_percentage']
@@ -350,7 +352,7 @@ $base_url = $admin_link . 'overview/';
                 <?php endforeach; ?>
             <?php else : ?>
                 <div class="bptodo-no-tasks">
-                    <p><?php esc_html_e('No members with assigned tasks found.', 'wb-todo'); ?></p>
+                    <p><?php esc_html_e('No members with assigned tasks found.', 'bp-user-to-do-list'); ?></p>
                 </div>
             <?php endif; ?>
         </div>
@@ -365,10 +367,10 @@ $base_url = $admin_link . 'overview/';
                 $end = min($offset + $members_per_page, $total_members_with_tasks);
                 printf(
                     /* translators: %1$d: first member shown on this page. %2$d: last member shown. %3$d: total number of members. */
-                    esc_html__('Showing %1$d-%2$d of %3$d members', 'wb-todo'),
-                    $start,
-                    $end,
-                    $total_members_with_tasks
+                    esc_html__('Showing %1$d-%2$d of %3$d members', 'bp-user-to-do-list'),
+                    (int) $start,
+                    (int) $end,
+                    (int) $total_members_with_tasks
                 );
                 ?>
             </div>
@@ -376,7 +378,7 @@ $base_url = $admin_link . 'overview/';
                 <?php if ($current_page > 1) : ?>
                     <a href="<?php echo esc_url(add_query_arg('overview_page', $current_page - 1, $base_url)); ?>" class="bptodo-page-btn bptodo-prev-btn">
                         <span class="dashicons dashicons-arrow-left-alt2"></span>
-                        <?php esc_html_e('Previous', 'wb-todo'); ?>
+                        <?php esc_html_e('Previous', 'bp-user-to-do-list'); ?>
                     </a>
                 <?php endif; ?>
 
@@ -395,20 +397,20 @@ $base_url = $admin_link . 'overview/';
 
                 for ($i = $start_page; $i <= $end_page; $i++) {
                     $active_class = ($i === $current_page) ? 'active' : '';
-                    echo '<a href="' . esc_url(add_query_arg('overview_page', $i, $base_url)) . '" class="bptodo-page-num ' . esc_attr($active_class) . '">' . $i . '</a>';
+                    echo '<a href="' . esc_url(add_query_arg('overview_page', $i, $base_url)) . '" class="bptodo-page-num ' . esc_attr($active_class) . '">' . (int) $i . '</a>';
                 }
 
                 if ($end_page < $total_pages) {
                     if ($end_page < $total_pages - 1) {
                         echo '<span class="bptodo-page-dots">...</span>';
                     }
-                    echo '<a href="' . esc_url(add_query_arg('overview_page', $total_pages, $base_url)) . '" class="bptodo-page-num">' . $total_pages . '</a>';
+                    echo '<a href="' . esc_url(add_query_arg('overview_page', $total_pages, $base_url)) . '" class="bptodo-page-num">' . (int) $total_pages . '</a>';
                 }
                 ?>
 
                 <?php if ($current_page < $total_pages) : ?>
                     <a href="<?php echo esc_url(add_query_arg('overview_page', $current_page + 1, $base_url)); ?>" class="bptodo-page-btn bptodo-next-btn">
-                        <?php esc_html_e('Next', 'wb-todo'); ?>
+                        <?php esc_html_e('Next', 'bp-user-to-do-list'); ?>
                         <span class="dashicons dashicons-arrow-right-alt2"></span>
                     </a>
                 <?php endif; ?>

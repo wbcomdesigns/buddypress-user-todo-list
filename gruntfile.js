@@ -11,7 +11,7 @@ module.exports = function ( grunt ) {
 			// Check text domain
 			checktextdomain: {
 				options: {
-					text_domain: [ 'wb-todo', 'buddypress' ], // Specify allowed domain(s)
+					text_domain: [ 'bp-user-to-do-list', 'buddypress' ], // Specify allowed domain(s)
 					keywords: [ // List keyword specifications
 						'__:1,2d',
 						'_e:1,2d',
@@ -55,18 +55,14 @@ module.exports = function ( grunt ) {
 						exclude: [
 							'node_modules/*',
 							'options/framework/*',
-							'assets/js/datatables.js',
-							'assets/js/datatables.min.js',
 							'assets/js/select2.full.js',
 							'assets/js/select2.full.min.js',
-							'assets/css/datatables.css',
-							'assets/css/datatables.min.css',
 							'assets/css/select2.css',
 							'assets/css/select2.min.css',
 							'assets/css/jquery-ui.css'
 						], // List of files or directories to ignore.
 						mainFile: 'bp-user-todo-list.php', // Main project file.
-						potFilename: 'wb-todo.pot', // Name of the POT file.
+						potFilename: 'bp-user-to-do-list.pot', // Name of the POT file.
 						potHeaders: { // Headers to add to the generated POT file.
 							poedit: true, // Includes common Poedit headers.
 							'Last-Translator': 'Varun Dubey',

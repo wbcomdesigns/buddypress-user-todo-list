@@ -6,7 +6,7 @@
     "version": "4.0.1",
     "namespace": "(none - prefixed procedural + Bptodo_* classes)",
     "main_file": "bp-user-todo-list.php",
-    "text_domain": "wb-todo",
+    "text_domain": "bp-user-to-do-list",
     "extends": null,
     "extension_hook_consumed": null,
     "extension_hook_fired": null
@@ -55,7 +55,6 @@
     { "action": "bptodo_add_todo_category_front", "handler": "public/class-bptodo-public.php::bptodo_add_todo_category_front", "nonce": "bptodo-add-todo-category", "capability": "logged-in member (gated by allow_user_add_category)", "purpose": "Create a todo category from the frontend (legacy layout).", "registered_at": "includes/class-bptodo.php:271" },
     { "action": "bptodo_update_form_popup", "handler": "public/class-bptodo-public.php::bptodo_update_form_popup", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Persist edits from the full-page edit form (submitted via AJAX).", "registered_at": "includes/class-bptodo.php:280" },
     { "action": "bptodo_get_todo_card_html", "handler": "public/class-bptodo-public.php::bptodo_get_todo_card_html", "nonce": "bptodo-todo-nonce", "capability": "logged-in member", "purpose": "Return rendered todo-card HTML (used to refresh list after AJAX ops).", "registered_at": "includes/class-bptodo.php:283" },
-    { "action": "get_group_todo_report", "handler": "public/class-bptodo-public.php::bptodo_display_group_todo_report", "nonce": "bptodo-todo-nonce (ajax_nonce)", "capability": "logged-in group member/moderator", "purpose": "Return a group todo member report (GET-driven).", "registered_at": "includes/class-bptodo.php:295" },
     { "action": "bptodo_network_deactivate", "handler": "bp-user-todo-list.php::bptodo_handle_network_deactivation", "nonce": "bptodo_network_nonce", "capability": "manage_network_plugins (bp-user-todo-list.php:594)", "purpose": "Network-wide deactivation (only when BPTODO_ENABLE_ADVANCED_MULTISITE is defined true; off by default).", "registered_at": "bp-user-todo-list.php:586" }
   ],
   "admin_pages": [
@@ -213,8 +212,8 @@
   },
   "buddypress_integration": { "enabled_when": "OPTIONAL since 4.0 - bptodo_is_buddypress_active() (bp-user-todo-list.php:250). The plugin works standalone (personal todos via the My Todos block / [bptodo_list]); BuddyPress/BuddyBoss adds the member profile tab + group todos.", "manager": "Group_Extension_Todo + Bptodo_Public + Bptodo_Emails", "sub_classes": ["Group_Extension_Todo", "Bptodo_Emails"] },
   "frontend_assets": {
-    "js": ["assets/js/bptodo-view.js (script module, @wordpress/interactivity - modern layout)", "assets/js/bptodo-front.js (+.min - legacy layout)", "assets/js/bptodo-modern.js (+.min - toast/modal)", "assets/js/select2.full.min.js (+ select2.full.js source)", "assets/js/datatables.min.js (+ datatables.js source)"],
-    "css": ["assets/css/bptodo-design-system.css (+.min/-rtl)", "assets/css/bptodo-components.css (+.min/-rtl)", "assets/css/bptodo-blocks.css (modern layout)", "assets/css/bptodo-widget.css (+.min, logical properties so no -rtl; Member Todo widget)", "assets/css/bptodo-front.css (+.min/-rtl - legacy layout)", "assets/css/select2.min.css", "assets/css/jquery-ui.min.css", "assets/css/datatables.min.css"],
+    "js": ["assets/js/bptodo-view.js (script module, @wordpress/interactivity - modern layout)", "assets/js/bptodo-front.js (+.min - legacy layout)", "assets/js/bptodo-modern.js (+.min - toast/modal)", "assets/js/select2.full.min.js (+ select2.full.js source)"],
+    "css": ["assets/css/bptodo-design-system.css (+.min/-rtl)", "assets/css/bptodo-components.css (+.min/-rtl)", "assets/css/bptodo-blocks.css (modern layout)", "assets/css/bptodo-widget.css (+.min, logical properties so no -rtl; Member Todo widget)", "assets/css/bptodo-front.css (+.min/-rtl - legacy layout)", "assets/css/select2.min.css", "assets/css/jquery-ui.min.css"],
     "admin": ["assets/css/admin.css", "assets/js/admin.js", "admin/assets/js/bp-todo-list-admin.js (network-admin only)"],
     "note": "Frontend assets are gated to todo surfaces only (member/group Todo tab slug in URI, or a page carrying a todo shortcode/block) - admin/class-bptodo-admin.php. Versioning via bptodo_asset_ver() (filemtime on local/WP_DEBUG, BPTODO_VERSION in production)."
   },

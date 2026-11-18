@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 if ( ! is_user_logged_in() ) {
 	printf(
 		'<div class="bptodo-app bptodo-app--loggedout"><p>%s</p></div>',
-		esc_html__( 'Please log in to view your todos.', 'wb-todo' )
+		esc_html__( 'Please log in to view your todos.', 'bp-user-to-do-list' )
 	);
 	return;
 }
@@ -28,7 +28,8 @@ if ( ! class_exists( 'Bptodo_Renderer' ) ) {
 
 $bptodo_atts = is_array( $attributes ) ? $attributes : array();
 
-echo Bptodo_Renderer::render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped SSR markup with Interactivity directives.
+// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Renderer returns escaped SSR markup with Interactivity directives.
+echo Bptodo_Renderer::render(
 	array(
 		'scope'      => 'member',
 		'user_id'    => 0,
@@ -39,3 +40,4 @@ echo Bptodo_Renderer::render( // phpcs:ignore WordPress.Security.EscapeOutput.Ou
 		'show_stats' => isset( $bptodo_atts['showStats'] ) ? (bool) $bptodo_atts['showStats'] : true,
 	)
 );
+// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped

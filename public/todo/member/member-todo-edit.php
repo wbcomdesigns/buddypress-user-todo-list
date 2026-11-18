@@ -51,11 +51,11 @@ if ( 'yes' === $bptodo->req_duedate ) {
 	<table class="bptodo-add-todo-tbl">
 		<?php do_action( 'bptodo_add_field_before_edit_default_listing', $displayed_uid, $form_post_link ); ?>
 		<tr>
-			<td><?php esc_html_e( 'Category', 'wb-todo' ); ?></td>
+			<td><?php esc_html_e( 'Category', 'bp-user-to-do-list' ); ?></td>
 			<td>
 				<div class="bp_todo_categories">
-					<select name="todo_cat" id="bp_todo_categories" aria-label="<?php esc_attr_e( 'Category', 'wb-todo' ); ?>" required>
-						<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
+					<select name="todo_cat" id="bp_todo_categories" aria-label="<?php esc_attr_e( 'Category', 'bp-user-to-do-list' ); ?>" required>
+						<option value=""><?php esc_html_e( '--Select--', 'bp-user-to-do-list' ); ?></option>
 						<?php if ( isset( $todo_cats ) && ! empty( $todo_cats ) ) { ?>
 							<?php foreach ( $todo_cats as $cat ) { ?>
 								<option value="<?php echo esc_html( $cat->name ); ?>" <?php selected( $todo_cat_id, $cat->term_id ); ?>>
@@ -71,23 +71,23 @@ if ( 'yes' === $bptodo->req_duedate ) {
 				<?php if ( 'yes' === $bptodo->allow_user_add_category ) { ?>
 					<div class="add-todo-cat-row">
 						<?php /* translators: %1$s: the configured todo label (singular), e.g. "Task". */ ?>
-						<input type="text" id="todo-category-name" aria-label="<?php echo esc_attr( sprintf( esc_html__( 'New %1$s category name', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'wb-todo' ), esc_html( $profile_menu_label ) ) ); ?>">
+						<input type="text" id="todo-category-name" aria-label="<?php echo esc_attr( sprintf( esc_html__( 'New %1$s category name', 'bp-user-to-do-list' ), esc_html( $profile_menu_label ) ) ); ?>" placeholder="<?php echo esc_attr( sprintf( esc_html__( '%1$s category', 'bp-user-to-do-list' ), esc_html( $profile_menu_label ) ) ); ?>">
 						<input type="hidden" id="bptodo-add-category-nonce" value="<?php echo esc_attr( wp_create_nonce( 'bptodo-add-todo-category' ) ); ?>">
-						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'wb-todo' ); ?></button>
+						<button type="button" id="add-todo-cat" class="btn button"><?php esc_html_e( 'Add', 'bp-user-to-do-list' ); ?></button>
 					</div>
 				<?php } ?>
 			</td>
 		</tr>
 
 		<tr>
-			<td><?php esc_html_e( 'Title', 'wb-todo' ); ?></td>
+			<td><?php esc_html_e( 'Title', 'bp-user-to-do-list' ); ?></td>
 			<td>
-				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" aria-label="<?php esc_attr_e( 'Title', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Title', 'wb-todo' ); ?>" name="todo_title" required class="bptodo-text-input">
+				<input value="<?php echo esc_html( $todo->post_title ); ?>" type="text" aria-label="<?php esc_attr_e( 'Title', 'bp-user-to-do-list' ); ?>" placeholder="<?php esc_html_e( 'Title', 'bp-user-to-do-list' ); ?>" name="todo_title" required class="bptodo-text-input">
 			</td>
 		</tr>
 
 		<tr>
-			<td><?php esc_html_e( 'Summary', 'wb-todo' ); ?></td>
+			<td><?php esc_html_e( 'Summary', 'bp-user-to-do-list' ); ?></td>
 			<td>
 				<?php
 				$settings = array(
@@ -101,20 +101,20 @@ if ( 'yes' === $bptodo->req_duedate ) {
 		</tr>
 
 		<tr>
-			<td><?php esc_html_e( 'Due Date', 'wb-todo' ); ?></td>
+			<td><?php esc_html_e( 'Due Date', 'bp-user-to-do-list' ); ?></td>
 			<td>
-				<input type="date" aria-label="<?php esc_attr_e( 'Due Date', 'wb-todo' ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'wb-todo' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
+				<input type="date" aria-label="<?php esc_attr_e( 'Due Date', 'bp-user-to-do-list' ); ?>" placeholder="<?php esc_html_e( 'Due Date', 'bp-user-to-do-list' ); ?>" class="todo_due_date bptodo-text-input" name="todo_due_date" value="<?php echo esc_html( $todo_due_date ); ?>" <?php echo esc_attr( $bptodo_req ); ?>>
 			</td>
 		</tr>
 
 		<tr>
-			<td><?php esc_html_e( 'Priority', 'wb-todo' ); ?></td>
+			<td><?php esc_html_e( 'Priority', 'bp-user-to-do-list' ); ?></td>
 			<td>
-				<select name="todo_priority" id="bp_todo_priority" aria-label="<?php esc_attr_e( 'Priority', 'wb-todo' ); ?>">
-					<option value=""><?php esc_html_e( '--Select--', 'wb-todo' ); ?></option>
-					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'wb-todo' ); ?></option>
-					<option value="high" <?php selected( $todo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'wb-todo' ); ?></option>
-					<option value="normal" <?php selected( $todo_priority, 'normal' ); ?>><?php esc_html_e( 'Normal', 'wb-todo' ); ?></option>
+				<select name="todo_priority" id="bp_todo_priority" aria-label="<?php esc_attr_e( 'Priority', 'bp-user-to-do-list' ); ?>">
+					<option value=""><?php esc_html_e( '--Select--', 'bp-user-to-do-list' ); ?></option>
+					<option value="critical" <?php selected( $todo_priority, 'critical' ); ?>><?php esc_html_e( 'Critical', 'bp-user-to-do-list' ); ?></option>
+					<option value="high" <?php selected( $todo_priority, 'high' ); ?>><?php esc_html_e( 'High', 'bp-user-to-do-list' ); ?></option>
+					<option value="normal" <?php selected( $todo_priority, 'normal' ); ?>><?php esc_html_e( 'Normal', 'bp-user-to-do-list' ); ?></option>
 				</select>
 			</td>
 		</tr>
@@ -129,7 +129,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 					<!-- Hidden input ensures todo_update is submitted even when button is disabled by loading state -->
 					<input type="hidden" name="todo_update" value="1">
 					<?php /* translators: %s: the configured todo label (singular), e.g. "Task". */ ?>
-					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'wb-todo' ), esc_attr( $profile_menu_label ) ) ); ?>">
+					<input type="submit" data-tid="<?php echo esc_attr( $todo_id ); ?>" id="todo_update" value="<?php echo esc_html( sprintf( esc_html__( 'Update %s', 'bp-user-to-do-list' ), esc_attr( $profile_menu_label ) ) ); ?>">
 				</td>
 			</tr>
 		<?php } else { ?>
@@ -151,7 +151,7 @@ if ( 'yes' === $bptodo->req_duedate ) {
 				<div id="message" class="info">
 		<?php } ?>
 					<p>
-						<?php echo sprintf( esc_html__( '%1$s updated successfully!', 'wb-todo' ), esc_html( $profile_menu_label ) ); ?>
+						<?php echo sprintf( esc_html__( '%1$s updated successfully!', 'bp-user-to-do-list' ), esc_html( $profile_menu_label ) ); ?>
 					</p>
 				</div>
 	<?php } ?>

@@ -1,0 +1,42 @@
+# Files and directories excluded from the release zip (bin/build-release.sh).
+# Mirrors the copy:build excludes in gruntfile.js - keep the two in step.
+# Dotfiles: grunt's '**' glob never matches them, so every dotfile is listed here.
+.git
+.github
+.gitignore
+.gitattributes
+.distignore
+.editorconfig
+.eslintrc*
+.stylelintrc*
+.wbcom-i18n.json
+.time-standard-allow
+.core-first-allow
+.claude
+.claude-tmp
+.DS_Store
+node_modules
+build
+dist
+audit
+docs
+tests
+bin
+vendor/bin
+*.md
+*.map
+*.zip
+*.log
+gruntfile.js
+Gruntfile.js
+package.json
+package-lock.json
+composer.json
+composer.lock
+phpcs.xml
+phpcs.xml.dist
+phpunit.xml
+phpunit.xml.dist
+phpstan.neon
+phpstan.neon.dist
+screenshot-*.png
