@@ -66,6 +66,13 @@ class Bptodo_List {
 	protected $version;
 
 	/**
+	 * Public-facing hook owner, kept for the component-gated hooks added on bp_loaded.
+	 *
+	 * @var Bptodo_Public
+	 */
+	protected $plugin_public;
+
+	/**
 	 * Define the core functionality of the plugin.
 	 *
 	 * Set the plugin name and the plugin version that can be used throughout the plugin.
@@ -221,7 +228,11 @@ class Bptodo_List {
 		$this->loader->add_action( 'rest_api_init', $bptodo_rest, 'register_routes' );
 
 		$this->loader->add_action( 'bp_init', $plugin_public, 'bptodo_register_templates_pack', 5 );
-		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_add_todo_tabs_in_groups', 10 );
+
+		// Group and notification features attach only when their BuddyPress component
+		// is active, decided once on bp_loaded (after BP has read its active components).
+		$this->plugin_public = $plugin_public;
+		add_action( 'bp_loaded', array( $this, 'define_bp_component_hooks' ), 20 );
 		$this->loader->add_action( 'bp_setup_nav', $plugin_public, 'bptodo_member_profile_todo_tab' );
 
 		$this->loader->add_action( 'bptodo_todo_notification', $plugin_public, 'bptodo_manage_todo_due_date' );
@@ -229,8 +240,6 @@ class Bptodo_List {
 		$this->loader->add_action( 'bp_setup_admin_bar', $plugin_public, 'bptodo_setup_admin_bar', 80 );
 		$this->loader->add_filter( 'manage_bp-todo_posts_columns', $plugin_public, 'bptodo_due_date_column_heading', 10 );
 		$this->loader->add_action( 'manage_bp-todo_posts_custom_column', $plugin_public, 'bptodo_due_date_column_content', 10, 2 );
-		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_due_date_notifications_component' );
-		$this->loader->add_filter( 'bp_notifications_get_notifications_for_user', $plugin_public, 'bptodo_format_due_date_notifications', 10, 8 );
 
 		/** Export My Tasks. */
 		$this->loader->add_action( 'wp_ajax_bptodo_export_my_tasks', $plugin_public, 'bptodo_export_my_tasks' );
@@ -264,12 +273,6 @@ class Bptodo_List {
 		$this->loader->add_action( 'bp_core_notification_settings_after_save', $plugin_public, 'bptodo_mail_settings_after_save' );
 		
 		
-		$this->loader->add_action( 'groups_custom_group_fields_editable', $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox', 999 );
-		$this->loader->add_action( 'groups_group_details_edited', $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited', 999 );
-		$this->loader->add_filter( 'bp_notifications_get_registered_components', $plugin_public, 'bptodo_notifications_get_registered_components' );
-		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_notification', 10, 2 );
-		$this->loader->add_action( 'bptodo_group_todo_submit', $plugin_public, 'bptodo_group_member_assignment_email', 10, 2 );
-		$this->loader->add_action( 'wp_ajax_get_group_todo_report', $plugin_public, 'bptodo_display_group_todo_report' );
 
 		// Process todo form submissions early (before output starts) to allow redirects
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'bptodo_process_form_submissions', 5 );
@@ -278,6 +281,39 @@ class Bptodo_List {
 		$this->loader->add_action( 'save_post_bp-todo', $plugin_public, 'bptodo_clear_cache_on_save', 10, 3 );
 		$this->loader->add_action( 'before_delete_post', $plugin_public, 'bptodo_clear_cache_on_delete', 10, 2 );
 
+	}
+
+	/**
+	 * Register the hooks that need an optional BuddyPress component.
+	 *
+	 * Runs on bp_loaded, so bp_is_active() reflects the owner's component settings.
+	 * Nothing here is attached when Groups or Notifications is switched off.
+	 *
+	 * @since 4.0.1
+	 */
+	public function define_bp_component_hooks() {
+		$plugin_public = $this->plugin_public;
+		$groups        = bp_is_active( 'groups' );
+		$notifications = bp_is_active( 'notifications' );
+
+		if ( $groups ) {
+			add_action( 'bp_setup_nav', array( $plugin_public, 'bptodo_add_todo_tabs_in_groups' ), 10 );
+			add_action( 'groups_custom_group_fields_editable', array( $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox' ), 999 );
+			add_action( 'groups_group_details_edited', array( $plugin_public, 'bp_nouveau_add_disable_group_todolists_details_edited' ), 999 );
+			add_action( 'bptodo_group_todo_submit', array( $plugin_public, 'bptodo_group_member_assignment_email' ), 10, 2 );
+			add_action( 'wp_ajax_get_group_todo_report', array( $plugin_public, 'bptodo_display_group_todo_report' ) );
+		}
+
+		if ( $notifications ) {
+			add_filter( 'bp_notifications_get_registered_components', array( $plugin_public, 'bptodo_due_date_notifications_component' ) );
+			add_filter( 'bp_notifications_get_notifications_for_user', array( $plugin_public, 'bptodo_format_due_date_notifications' ), 10, 8 );
+		}
+
+		if ( $groups && $notifications ) {
+			add_filter( 'bp_notifications_get_registered_components', array( $plugin_public, 'bptodo_notifications_get_registered_components' ) );
+			add_action( 'bptodo_group_todo_submit', array( $plugin_public, 'bptodo_group_member_notification' ), 10, 2 );
+			add_action( 'template_redirect', array( $plugin_public, 'bptodo_mark_group_notification_read' ) );
+		}
 	}
 
 	/**

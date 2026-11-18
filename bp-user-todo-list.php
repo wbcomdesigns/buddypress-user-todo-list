@@ -181,6 +181,9 @@ function run_wp_bptodo_list() {
     }
 
     // Group extension depends on $bptodo and BuddyPress groups.
+	if ( ! bp_is_active( 'groups' ) ) {
+		return;
+	}
     $include_files = array(
         'public/class-bptodo-groups-extension-tab.php',
     );
