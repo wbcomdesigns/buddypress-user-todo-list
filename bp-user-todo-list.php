@@ -150,39 +150,54 @@ function bptodo_upgrade_routine( $from_version ) {
 /**
  * One-time move of stored completion times from the site's clock time to UTC.
  *
- * Uses wp_timezone() (the old values were written in the site timezone) at its
- * current offset, so a value written on the other side of a daylight-saving
- * change can be off by one hour. Display-only fields, so that is acceptable.
+ * Each value is converted with the site timezone rule for its own date, so
+ * values written on either side of a daylight-saving change convert correctly.
+ * todo_complete_time held current_time( 'timestamp' ): UTC seconds plus the
+ * offset of that moment, i.e. the local wall time read as if it were UTC.
  *
  * @since 4.0.1
  */
 function bptodo_migrate_completion_times_to_utc() {
-    global $wpdb;
+	global $wpdb;
 
-    $offset = (int) wp_timezone()->getOffset( new DateTimeImmutable( 'now' ) );
-    if ( 0 === $offset ) {
-        return;
-    }
+	$tz = wp_timezone();
+	if ( in_array( $tz->getName(), array( 'UTC', '+00:00' ), true ) ) {
+		return;
+	}
+	$utc = new DateTimeZone( 'UTC' );
 
-    // phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade; no API converts meta in place.
-    $post_ids = $wpdb->get_col( "SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( 'todo_completed_date', 'todo_complete_time' )" );
-    $wpdb->query(
-        $wpdb->prepare(
-            "UPDATE {$wpdb->postmeta} SET meta_value = DATE_FORMAT( DATE_SUB( meta_value, INTERVAL %d SECOND ), '%%Y-%%m-%%d %%H:%%i:%%s' ) WHERE meta_key = 'todo_completed_date' AND meta_value REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$' AND meta_value <> '0000-00-00 00:00:00'",
-            $offset
-        )
-    );
-    $wpdb->query(
-        $wpdb->prepare(
-            "UPDATE {$wpdb->postmeta} SET meta_value = CAST( meta_value AS SIGNED ) - %d WHERE meta_key = 'todo_complete_time' AND meta_value REGEXP '^[0-9]+$'",
-            $offset
-        )
-    );
-    // phpcs:enable WordPress.DB.DirectDatabaseQuery
-    // Meta changed behind the object cache: drop each touched post's cached meta.
-    foreach ( $post_ids as $post_id ) {
-        wp_cache_delete( (int) $post_id, 'post_meta' );
-    }
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade; no API converts meta in place.
+	$last = 0;
+	do {
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_id > %d AND meta_key IN ( 'todo_completed_date', 'todo_complete_time' ) ORDER BY meta_id ASC LIMIT 500",
+				$last
+			)
+		);
+		foreach ( $rows as $row ) {
+			$last  = (int) $row->meta_id;
+			$value = (string) $row->meta_value;
+			if ( 'todo_complete_time' === $row->meta_key ) {
+				if ( ! ctype_digit( $value ) ) {
+					continue;
+				}
+				$local = gmdate( 'Y-m-d H:i:s', (int) $value );
+				$new   = (string) date_create_immutable( $local, $tz )->getTimestamp();
+			} else {
+				if ( ! preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value ) || '0000-00-00 00:00:00' === $value ) {
+					continue;
+				}
+				$new = date_create_immutable( $value, $tz )->setTimezone( $utc )->format( 'Y-m-d H:i:s' );
+			}
+			if ( $new !== $value ) {
+				$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $new ), array( 'meta_id' => $last ) );
+				// Meta changed behind the object cache: drop the post's cached meta.
+				wp_cache_delete( (int) $row->post_id, 'post_meta' );
+			}
+		}
+	} while ( count( $rows ) === 500 );
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery
 }
 
 /**

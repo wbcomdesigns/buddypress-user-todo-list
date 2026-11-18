@@ -6,7 +6,7 @@
 	"title": "My Todos",
 	"category": "widgets",
 	"icon": "editor-ul",
-	"description": "A personal todo list for the logged-in user — add, complete, filter and paginate without page reloads.",
+	"description": "A personal todo list for the logged-in user: add, complete, filter and paginate without page reloads.",
 	"keywords": [ "todo", "task", "list", "checklist" ],
 	"textdomain": "bp-user-to-do-list",
 	"supports": {

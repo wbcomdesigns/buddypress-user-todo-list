@@ -278,7 +278,7 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 * Fix      - Translations from WordPress.org language packs now load: the text domain is now bp-user-to-do-list, the plugin's WordPress.org slug. If you keep your own translation files, rename them from wb-todo-{locale} to bp-user-to-do-list-{locale}.
 * Fix      - Settings for the My Todos and Group Todos blocks are translated in the block editor.
 * Fix      - Seven messages that showed in English on German, Spanish, French, Italian and Brazilian Portuguese sites are translated.
-* Fix      - Due today, Due tomorrow and Overdue follow the site's timezone instead of UTC, and completion and cleanup times show in the site's timezone.
+* Fix      - Due today, Due tomorrow and Overdue follow the site's timezone instead of UTC, and completion and cleanup times show in the site's timezone. Existing completion times are converted using the timezone rule of their own date, so daylight-saving changes are handled.
 * Fix      - Automatic cleanup measures task age in UTC, so it no longer removes tasks hours early or late.
 * Fix      - Turning off todos for one group no longer prints a stray style block at the top of the page.
 * Fix      - The review request on the Plugins screen uses the standard WordPress notice style.

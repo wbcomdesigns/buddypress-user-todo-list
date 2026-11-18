@@ -155,7 +155,7 @@ $bptodo_next_run = wp_next_scheduled( 'bptodo_daily_cleanup' );
 				);
 			} else {
 				echo ' ';
-				esc_html_e( 'The cleanup runs once a day. It is not scheduled yet — it schedules automatically when auto-cleanup is enabled.', 'bp-user-to-do-list' );
+				esc_html_e( 'The cleanup runs once a day. It is not scheduled yet. It schedules automatically when auto-cleanup is enabled.', 'bp-user-to-do-list' );
 			}
 			?>
 		</div>

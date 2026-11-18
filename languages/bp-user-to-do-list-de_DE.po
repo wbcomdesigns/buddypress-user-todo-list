@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Todo for BuddyPress & BuddyBoss 4.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bp-user-to-do-"
 "list\n"
-"POT-Creation-Date: 2026-11-18T17:33:45+00:00\n"
+"POT-Creation-Date: 2026-11-18T18:18:04+00:00\n"
 "PO-Revision-Date: 2026-07-27T12:15:00+00:00\n"
 "Last-Translator: Wbcom Designs <admin@wbcomdesigns.com>\n"
 "Language-Team: Wbcom Designs\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Plugin Name of the plugin
-#: bp-user-todo-list.php bp-user-todo-list.php:436 bp-user-todo-list.php:448
+#: bp-user-todo-list.php bp-user-todo-list.php:440 bp-user-todo-list.php:452
 #: includes/admin/class-bptodo-admin-panel.php:126
 #: includes/admin/views/page-layout.php:32
 msgid "Todo for BuddyPress & BuddyBoss"
@@ -228,12 +228,12 @@ msgstr "Keine Todo-Kategorien gefunden"
 msgid "Categories"
 msgstr "Kategorien"
 
-#: admin/class-bptodo-feedback.php:100
+#: admin/class-bptodo-feedback.php:102
 msgid "Are you enjoying Todo for BuddyPress & BuddyBoss?"
 msgstr "Gefällt dir Todo für BuddyPress & BuddyBoss?"
 
 #. translators: 1. Name
-#: admin/class-bptodo-feedback.php:103
+#: admin/class-bptodo-feedback.php:105
 #, php-format
 msgid ""
 "We hope you're enjoying %1$s! Could you please do us a BIG favor and give it "
@@ -244,11 +244,11 @@ msgstr ""
 "tun und uns eine 5-Sterne-Bewertung auf WordPress geben, um uns zu helfen, "
 "das Wort zu verbreiten und unsere Motivation zu steigern?"
 
-#: admin/class-bptodo-feedback.php:106
+#: admin/class-bptodo-feedback.php:108
 msgid "Leave a Review"
 msgstr "Eine Bewertung schreiben"
 
-#: admin/class-bptodo-feedback.php:107
+#: admin/class-bptodo-feedback.php:109
 msgid "No thanks / I already have"
 msgstr "Nein danke / Ich habe bereits"
 
@@ -314,16 +314,16 @@ msgstr "Bitte melde dich an, um Gruppen-Todos anzusehen."
 msgid "Please log in to view your todos."
 msgstr "Bitte melde dich an, um deine Todos anzusehen."
 
-#: bp-user-todo-list.php:240 includes/admin/views/page-layout.php:69
+#: bp-user-todo-list.php:244 includes/admin/views/page-layout.php:69
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: bp-user-todo-list.php:241
+#: bp-user-todo-list.php:245
 msgid "Support"
 msgstr "Support"
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:435
+#: bp-user-todo-list.php:439
 #, php-format
 msgid ""
 "%s: personal todo lists are active on this site. Group todos and the member "
@@ -334,7 +334,7 @@ msgstr ""
 "verfügbar."
 
 #. Translators: %s: plugin name.
-#: bp-user-todo-list.php:450
+#: bp-user-todo-list.php:454
 #, php-format
 msgid ""
 "%s: personal todo lists are active. Install and activate BuddyPress or "
@@ -344,33 +344,33 @@ msgstr ""
 "oder BuddyBoss Platform, um auch Gruppen-Todos und den Mitglieds-Profiltab "
 "zu aktivieren."
 
-#: bp-user-todo-list.php:478
+#: bp-user-todo-list.php:482
 msgid "Export"
 msgstr "Exportieren"
 
-#: bp-user-todo-list.php:630 bp-user-todo-list.php:651
+#: bp-user-todo-list.php:634 bp-user-todo-list.php:655
 msgid "Network Deactivate"
 msgstr "Im Netzwerk deaktivieren"
 
-#: bp-user-todo-list.php:652
+#: bp-user-todo-list.php:656
 msgid "Are you sure you want to deactivate this plugin across all sites?"
 msgstr ""
 "Bist du dir sicher, dass du dieses Plugin auf allen Websites deaktivieren "
 "möchtest?"
 
-#: bp-user-todo-list.php:653
+#: bp-user-todo-list.php:657
 msgid "There was an error with the request."
 msgstr "Es gab einen Fehler bei der Anfrage."
 
-#: bp-user-todo-list.php:654
+#: bp-user-todo-list.php:658
 msgid "Error"
 msgstr "Fehler"
 
-#: bp-user-todo-list.php:669
+#: bp-user-todo-list.php:673
 msgid "Insufficient permissions"
 msgstr "Unzureichende Berechtigungen"
 
-#: bp-user-todo-list.php:676
+#: bp-user-todo-list.php:680
 msgid "Plugin deactivated across all sites"
 msgstr "Plugin auf allen Sites deaktiviert"
 
@@ -1074,10 +1074,10 @@ msgstr "Die Bereinigung läuft einmal täglich. Nächste Ausführung: %s."
 
 #: includes/admin/views/settings-retention.php:158
 msgid ""
-"The cleanup runs once a day. It is not scheduled yet — it schedules "
+"The cleanup runs once a day. It is not scheduled yet. It schedules "
 "automatically when auto-cleanup is enabled."
 msgstr ""
-"Die Bereinigung läuft einmal täglich. Sie ist noch nicht geplant — sie wird "
+"Die Bereinigung läuft einmal täglich. Sie ist noch nicht geplant. Sie wird "
 "automatisch geplant, wenn die automatische Bereinigung aktiviert wird."
 
 #: includes/admin/views/settings-shortcodes.php:21
@@ -1195,33 +1195,33 @@ msgstr ""
 msgid "Display %s filtered by a specific category ID."
 msgstr "Zeige %s gefiltert nach einer bestimmten Kategorie-ID an."
 
-#: includes/bptodo-functions.php:603
+#: includes/bptodo-functions.php:605
 msgid "Close notification"
 msgstr "Benachrichtigung schließen"
 
-#: includes/bptodo-functions.php:604
+#: includes/bptodo-functions.php:606
 msgid "Close modal"
 msgstr "Modal schließen"
 
-#: includes/bptodo-functions.php:605
+#: includes/bptodo-functions.php:607
 msgid "An error occurred. Please try again."
 msgstr "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
 
-#: includes/bptodo-functions.php:606
+#: includes/bptodo-functions.php:608
 msgctxt "confirmation dialog heading"
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: includes/bptodo-functions.php:607
+#: includes/bptodo-functions.php:609
 msgid "Are you sure?"
 msgstr "Bist du dir sicher?"
 
-#: includes/bptodo-functions.php:608
+#: includes/bptodo-functions.php:610
 msgctxt "confirmation dialog accept button"
 msgid "Confirm"
 msgstr "Bestätigen"
 
-#: includes/bptodo-functions.php:609
+#: includes/bptodo-functions.php:611
 msgctxt "confirmation dialog dismiss button"
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -1638,8 +1638,8 @@ msgid "All status"
 msgstr "Alle Status"
 
 #: includes/render/class-bptodo-renderer.php:358 public/todo/group/list.php:182
-#: public/todo/group/list.php:253 public/todo/group/overview.php:281
-#: public/todo/group/overview.php:325
+#: public/todo/group/list.php:253 public/todo/group/overview.php:283
+#: public/todo/group/overview.php:327
 #: public/todo/member/member-todo-list.php:151
 #: public/todo/member/member-todo-list.php:222 blocks/my-todos/index.js:51
 msgid "Pending"
@@ -1649,7 +1649,7 @@ msgstr "Ausstehend"
 #: public/todo/bptodo-shortcode-template.php:184
 #: public/todo/bptodo-shortcode-template.php:266 public/todo/group/list.php:195
 #: public/todo/group/list.php:254 public/todo/group/list.php:340
-#: public/todo/group/overview.php:277 public/todo/group/overview.php:308
+#: public/todo/group/overview.php:279 public/todo/group/overview.php:310
 #: public/todo/member/member-todo-list.php:164
 #: public/todo/member/member-todo-list.php:223
 #: public/todo/member/member-todo-list.php:309
@@ -1746,7 +1746,7 @@ msgstr "Todo-Paginierung"
 #: includes/render/class-bptodo-renderer.php:427
 #: public/todo/bptodo-shortcode-template.php:399
 #: public/todo/bptodo-shortcode-template.php:406
-#: public/todo/group/overview.php:379 public/todo/partials/pagination.php:59
+#: public/todo/group/overview.php:381 public/todo/partials/pagination.php:59
 #: public/todo/partials/pagination.php:66
 msgid "Previous"
 msgstr "Zurück"
@@ -1754,7 +1754,7 @@ msgstr "Zurück"
 #: includes/render/class-bptodo-renderer.php:429
 #: public/todo/bptodo-shortcode-template.php:439
 #: public/todo/bptodo-shortcode-template.php:446
-#: public/todo/group/overview.php:411 public/todo/partials/pagination.php:100
+#: public/todo/group/overview.php:413 public/todo/partials/pagination.php:100
 #: public/todo/partials/pagination.php:107
 msgid "Next"
 msgstr "Nächste"
@@ -1846,7 +1846,7 @@ msgstr "Du musst angemeldet sein."
 msgid "You are not allowed to do that."
 msgstr "Dir ist nicht erlaubt, das zu tun."
 
-#: public/class-bptodo-groups-extension-tab.php:107
+#: public/class-bptodo-groups-extension-tab.php:109
 msgid "Group administration menu"
 msgstr "Gruppenadministrationsmenü"
 
@@ -2142,7 +2142,7 @@ msgid "All Status"
 msgstr "Alle Status"
 
 #: public/todo/bptodo-shortcode-template.php:183
-#: public/todo/group/overview.php:327
+#: public/todo/group/overview.php:329
 msgid "Incomplete"
 msgstr "Unvollständig"
 
@@ -2320,36 +2320,36 @@ msgstr "Paginierung aller Aufgaben"
 msgid "Completed todos pagination"
 msgstr "Paginierung abgeschlossener Aufgaben"
 
-#: public/todo/group/overview.php:17
+#: public/todo/group/overview.php:19
 msgid "You must be logged in to view group todos."
 msgstr "Du musst angemeldet sein, um Gruppen-Aufgaben anzuzeigen."
 
-#: public/todo/group/overview.php:29
+#: public/todo/group/overview.php:31
 msgid "You must be a group administrator or moderator to view group overview."
 msgstr ""
 "Du musst ein Gruppenadministrator oder Moderator sein, um die "
 "Gruppenübersicht anzuzeigen."
 
-#: public/todo/group/overview.php:193
+#: public/todo/group/overview.php:195
 msgid "View Progress For:"
 msgstr "Fortschritt anzeigen für:"
 
-#: public/todo/group/overview.php:196
+#: public/todo/group/overview.php:198
 msgid "Overall Progress (All Tasks)"
 msgstr "Gesamtfortschritt (alle Aufgaben)"
 
 #. translators: %s: the task title.
-#: public/todo/group/overview.php:214
+#: public/todo/group/overview.php:216
 #, php-format
 msgid "Task Progress: %s"
 msgstr "Aufgabenfortschritt: %s"
 
-#: public/todo/group/overview.php:216
+#: public/todo/group/overview.php:218
 msgid "Group Task Progress"
 msgstr "Gruppenaufgaben-Fortschritt"
 
 #. translators: %1$d: number of members who completed the task. %2$d: total members assigned the task.
-#: public/todo/group/overview.php:239
+#: public/todo/group/overview.php:241
 #, php-format
 msgid "%1$d of %2$d member completed"
 msgid_plural "%1$d of %2$d members completed"
@@ -2357,38 +2357,38 @@ msgstr[0] "%1$d von %2$d Mitglied abgeschlossen"
 msgstr[1] "%1$d von %2$d Mitglieder abgeschlossen"
 
 #. translators: %1$d: number of completed tasks. %2$d: total number of tasks.
-#: public/todo/group/overview.php:251
+#: public/todo/group/overview.php:253
 #, php-format
 msgid "%1$d of %2$d task completed"
 msgid_plural "%1$d of %2$d tasks completed"
 msgstr[0] "%1$d von %2$d Aufgabe abgeschlossen"
 msgstr[1] "%1$d von %2$d Aufgaben abgeschlossen"
 
-#: public/todo/group/overview.php:270
+#: public/todo/group/overview.php:272
 msgid "Member Status"
 msgstr "Mitgliederstatus"
 
-#: public/todo/group/overview.php:273 blocks/my-todos/index.js:50
+#: public/todo/group/overview.php:275 blocks/my-todos/index.js:50
 #: blocks/my-todos/index.js:62
 msgid "All"
 msgstr "Alle"
 
-#: public/todo/group/overview.php:310
+#: public/todo/group/overview.php:312
 msgid "All Complete"
 msgstr "Alle abgeschlossen"
 
 #. translators: %1$d: tasks this member completed. %2$d: tasks assigned to them. %3$d: completion percentage.
-#: public/todo/group/overview.php:339
+#: public/todo/group/overview.php:341
 #, php-format
 msgid "%1$d / %2$d tasks (%3$d%%)"
 msgstr "%1$d / %2$d Aufgaben (%3$d%%)"
 
-#: public/todo/group/overview.php:353
+#: public/todo/group/overview.php:355
 msgid "No members with assigned tasks found."
 msgstr "Keine Mitglieder mit zugewiesenen Aufgaben gefunden."
 
 #. translators: %1$d: first member shown on this page. %2$d: last member shown. %3$d: total number of members.
-#: public/todo/group/overview.php:368
+#: public/todo/group/overview.php:370
 #, php-format
 msgid "Showing %1$d-%2$d of %3$d members"
 msgstr "Zeige %1$d-%2$d von %3$d Mitgliedern"
@@ -2569,10 +2569,10 @@ msgstr "Gruppen-Aufgaben"
 #: blocks/group-todos/block.json
 msgctxt "block description"
 msgid ""
-"Shared todos for a BuddyPress/BuddyBoss group — create, assign, complete and "
+"Shared todos for a BuddyPress/BuddyBoss group: create, assign, complete and "
 "filter without page reloads."
 msgstr ""
-"Gemeinsame Aufgaben für eine BuddyPress/BuddyBoss-Gruppe — erstelle, weise "
+"Gemeinsame Aufgaben für eine BuddyPress/BuddyBoss-Gruppe: erstelle, weise "
 "zu, vervollständige und filtere ohne Seite neu zu laden."
 
 #: blocks/group-todos/block.json blocks/my-todos/block.json
@@ -2603,10 +2603,10 @@ msgstr "Meine Aufgaben"
 #: blocks/my-todos/block.json
 msgctxt "block description"
 msgid ""
-"A personal todo list for the logged-in user — add, complete, filter and "
+"A personal todo list for the logged-in user: add, complete, filter and "
 "paginate without page reloads."
 msgstr ""
-"Eine persönliche Aufgabenliste für den angemeldeten Benutzer — füge hinzu, "
+"Eine persönliche Aufgabenliste für den angemeldeten Benutzer: füge hinzu, "
 "vervollständige, filtere und paginiere ohne Seite neu zu laden."
 
 #: blocks/my-todos/block.json
