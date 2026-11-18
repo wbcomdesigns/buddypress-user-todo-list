@@ -403,21 +403,14 @@
 }
 
 /*
- * Row actions. Kept subtle but always present (touch devices have no hover),
- * and de-emphasised until the row is hovered/focused on pointer devices.
+ * Row actions. Always full strength: dimming them dropped Edit/Delete below
+ * 4.5:1 contrast at rest.
  */
 .bptodo-item__act {
 	display: flex;
 	align-items: center;
 	gap: 6px;
 	flex: 0 0 auto;
-	opacity: 0.7;
-	transition: opacity 0.12s ease;
-}
-
-.bptodo-item:hover .bptodo-item__act,
-.bptodo-item:focus-within .bptodo-item__act {
-	opacity: 1;
 }
 
 /*
@@ -630,12 +623,6 @@
 	border-radius: var( --bpt-radius );
 }
 
-/* Actions always visible on touch (no hover) */
-@media ( hover: none ) {
-	.bptodo-item__act {
-		opacity: 1;
-	}
-}
 
 /* Responsive */
 @media ( max-width: 640px ) {
@@ -659,7 +646,6 @@
 		flex-wrap: wrap;
 	}
 	.bptodo-item__act {
-		opacity: 1;
 		width: 100%;
 		justify-content: flex-end;
 	}

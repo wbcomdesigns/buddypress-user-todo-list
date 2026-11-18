@@ -244,6 +244,7 @@ We regularly update the plugin to ensure compatibility with the latest versions 
 = 4.0.1 =
 
 Group members can complete the group tasks assigned to them again, translations load from WordPress.org language packs, and due dates follow the site's timezone.
+* Fix      - Edit and Delete on each todo are now full strength instead of faded until hover.
 
 = 4.0.0 =
 
