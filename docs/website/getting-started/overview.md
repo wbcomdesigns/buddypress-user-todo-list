@@ -9,7 +9,7 @@ Todo for BuddyPress & BuddyBoss adds personal and group task management to your 
 Every member gets a private To-do tab on their profile. Group admins and moderators can
 assign shared tasks to a BuddyPress or BuddyBoss group and track who has finished what.
 
-The plugin requires BuddyPress or BuddyBoss. Tasks are stored as a private custom post type
+The plugin works on any WordPress site: add the My Todos block or the `[bptodo_list]` shortcode and every logged-in user gets a private list. BuddyPress or BuddyBoss adds the profile tab and the group Todos tab. Tasks are stored as a private custom post type
 (`bp-todo`) with post meta for status, priority, due date, and group assignment. No custom
 database tables are used, so there is nothing to migrate between versions.
 
@@ -30,8 +30,7 @@ any time from the plugin's General settings. See
   sub-tabs. See [Group to-dos](../features/group-todos).
 - **Any page** - the `bptodo/my-todos` block, the `bptodo/group-todos` block, or the
   `[bptodo_list]` / `[bptodo_by_category]` shortcodes. See
-  [Blocks](../developer-guide/blocks) and the legacy `docs/shortcodes.md` for shortcode
-  attributes.
+  [Blocks](../developer-guide/blocks) for the block settings.
 - **Admin** - Settings → Todo List (under the shared Wbcom Plugins menu). See
   [Admin settings](../settings/admin-settings).
 
