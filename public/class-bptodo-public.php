@@ -1126,19 +1126,63 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		/**
-		 * Map the To-do tab slug to Reign's list-todo icon (reign_bp_nav_icons, Reign 8.1+).
+		 * The To-do nav items and their Lucide icon, for themes with an icon nav.
+		 *
+		 * Keys are nav li ids without the -personal-li / -groups-li suffix: the
+		 * member tab is {slug}, the group tab (BP_Group_Extension) is nav-{slug}.
+		 * The group sub-tabs have generic ids (list, add, overview), so they are
+		 * only listed on the group To-do screen, never on another plugin's tab.
 		 *
 		 * @since 4.0.1
-		 * @param array $icons Nav item slug => Reign icon name.
+		 * @return array Nav id => Lucide icon name.
+		 */
+		private function bptodo_nav_icons() {
+			global $bptodo;
+			$slug  = sanitize_title( ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo' );
+			$icons = array(
+				$slug          => 'list-todo',
+				'nav-' . $slug => 'list-todo',
+			);
+			if ( function_exists( 'bp_is_group' ) && bp_is_group() && bp_is_current_action( $slug ) ) {
+				$icons += array(
+					'list'     => 'list-todo',
+					'add'      => 'file-plus',
+					'overview' => 'gauge',
+				);
+			}
+			return $icons;
+		}
+
+		/**
+		 * Reign 8.1+ icon nav (reign_bp_nav_icons). The theme's own map wins for ids it already has.
+		 *
+		 * @since 4.0.1
+		 * @param array $icons Nav id => Reign icon name.
 		 * @return array
 		 */
 		public function bptodo_reign_nav_icon( $icons ) {
-			global $bptodo;
-			$slug = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo';
-			// Member tab id: {slug}-personal-li. Group tab (BP_Group_Extension): nav-{slug}-groups-li.
-			$icons[ $slug ]          = 'list-todo';
-			$icons[ 'nav-' . $slug ] = 'list-todo';
-			return $icons;
+			return (array) $icons + $this->bptodo_nav_icons();
+		}
+
+		/**
+		 * BuddyX Pro icon nav: the theme masks each tab's ::before with --bx-icon-mask,
+		 * keyed by the li id, and shows a generic info glyph for ids it does not know.
+		 * Printed with the theme's global stylesheet, so it reaches every member and
+		 * group page, not only the To-do screen. No-op on any other theme.
+		 *
+		 * @since 4.0.1
+		 */
+		public function bptodo_buddyx_nav_icons() {
+			if ( ! wp_style_is( 'buddyxpro-global', 'enqueued' ) || ! ( bp_is_user() || ( function_exists( 'bp_is_group' ) && bp_is_group() ) ) ) {
+				return;
+			}
+			$css = '';
+			foreach ( $this->bptodo_nav_icons() as $id => $icon ) {
+				// BuddyX Pro ships list-checks, not list-todo.
+				$icon = 'list-todo' === $icon ? 'list-checks' : $icon;
+				$css .= sprintf( '.buddyx-nav-iconic :is(#%1$s-personal-li,#%1$s-groups-li)>a::before{content:"";--bx-icon-mask:var(--bx-icon-%2$s)}', sanitize_html_class( $id ), sanitize_html_class( $icon ) );
+			}
+			wp_add_inline_style( 'buddyxpro-global', $css );
 		}
 
 		/**
