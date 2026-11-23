@@ -1126,6 +1126,22 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 		}
 
 		/**
+		 * Map the To-do tab slug to Reign's list-todo icon (reign_bp_nav_icons, Reign 8.1+).
+		 *
+		 * @since 4.0.1
+		 * @param array $icons Nav item slug => Reign icon name.
+		 * @return array
+		 */
+		public function bptodo_reign_nav_icon( $icons ) {
+			global $bptodo;
+			$slug = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo';
+			// Member tab id: {slug}-personal-li. Group tab (BP_Group_Extension): nav-{slug}-groups-li.
+			$icons[ $slug ]          = 'list-todo';
+			$icons[ 'nav-' . $slug ] = 'list-todo';
+			return $icons;
+		}
+
+		/**
 		 * Save the classic edit form (no-JS POST and AJAX) through the domain layer.
 		 *
 		 * Same permission and write path as REST PATCH, so a group primary's edit
