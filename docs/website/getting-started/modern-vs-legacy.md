@@ -7,7 +7,7 @@ slug: modern-vs-legacy
 
 Version 4.0 ships a new **Frontend layout** setting under Settings → Todo List → General.
 
-![Frontend layout setting](../images/admin-frontend-layout.png)
+![Frontend layout setting](../images/admin-frontend-layout.webp)
 
 ## Modern (default)
 

@@ -8,7 +8,7 @@ slug: add-a-todo
 Beyond the quick-add field on the list, a full Add form is available for creating a task
 with all its details at once (the To-do tab's Add sub-page, or a group's Add sub-tab).
 
-![Add to-do form](../images/add-todo-form.png)
+![Add to-do form](../images/add-todo-form.webp)
 
 ## Fields
 

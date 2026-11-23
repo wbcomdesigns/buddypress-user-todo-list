@@ -27,13 +27,19 @@ General tab. They are stored in the `user_todo_list_settings` option.
 
 | Setting | Default | Description |
 |---|---|---|
-| Send notification | Off | Sends a BuddyPress notification when a task's due date arrives. |
+| Send notification | Off | Sends a BuddyPress notification when a task's due date arrives. Needs the BuddyPress Notifications component to be active. |
 | Send email | Off | Sends an email reminder when a task's due date arrives. |
 | Require due date | Off | Makes the due date mandatory when creating a task, enforced on both the form and the REST API. |
 
+## Todos page
+
+| Setting | Description |
+|---|---|
+| Todos page | The page that holds the My Todos block or the `[bptodo_list]` shortcode. Reminder and view links use it when BuddyPress is not active. Not needed when BuddyPress profile tabs are in use. |
+
 ## Frontend layout
 
-![Frontend layout setting](../images/admin-frontend-layout.png)
+![Frontend layout setting](../images/admin-frontend-layout.webp)
 
 | Setting | Default | Description |
 |---|---|---|
@@ -41,6 +47,6 @@ General tab. They are stored in the `user_todo_list_settings` option.
 
 ## Group settings
 
-Group-level toggles (group-todo-list-settings option, on the Group tab) control whether
+Group-level toggles (group-todo-list-settings option, on the Group tab, shown when the BuddyPress Groups component is active) control whether
 the group Todos tab appears, whether moderators can add tasks or view the Overview
 report, and whether modification is restricted. See [Group to-dos](../features/group-todos).
