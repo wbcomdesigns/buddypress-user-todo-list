@@ -147,7 +147,7 @@
 	padding: 9px 12px;
 	font: inherit;
 	color: inherit;
-	background: var( --bpt-surface );
+	background-color: var( --bpt-surface );
 	border: 1px solid var( --bpt-border );
 	border-radius: 10px;
 	min-height: 40px;
@@ -509,7 +509,7 @@
 	padding: 9px 12px;
 	font: inherit;
 	color: inherit;
-	background: var( --bpt-surface );
+	background-color: var( --bpt-surface );
 	border: 1px solid var( --bpt-border );
 	border-radius: 8px;
 }
@@ -694,10 +694,39 @@
 	padding: 11px 13px;
 	font: inherit;
 	color: inherit;
-	background: var( --bpt-surface );
+	background-color: var( --bpt-surface );
 	border: 1px solid var( --bpt-border );
 	border-radius: 10px;
 	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/*
+ * Our selects keep the theme's own dropdown arrow. Only background-color is set
+ * above (the shorthand reset the theme's background-repeat, so BuddyX/Reign dark
+ * mode tiled their arrow image across the field, and light mode lost it). We pin
+ * no-repeat, leave room for the arrow, and size selects and text/date inputs
+ * the same way so a theme's fixed height (Reign: 42px) cannot clip the value
+ * and the fields in one row line up.
+ */
+.bptodo-app select.bptodo-select,
+.bptodo-app select.bptodo-filter,
+.bptodo-app input.bptodo-input {
+	height: auto;
+	min-height: 44px;
+	line-height: 1.4;
+	padding-block: 10px;
+}
+
+.bptodo-app select.bptodo-select,
+.bptodo-app select.bptodo-filter {
+	padding-inline-end: 40px;
+	background-repeat: no-repeat;
+}
+
+.bptodo-app .bptodo-item__edit select.bptodo-select,
+.bptodo-app .bptodo-item__edit input.bptodo-input {
+	min-height: 40px;
+	padding-block: 8px;
 }
 
 .bptodo-app .bptodo-input:focus,
@@ -717,6 +746,7 @@
 .bptodo-field-grid {
 	display: grid;
 	grid-template-columns: repeat( 3, 1fr );
+	align-items: end; /* The "+ New" link makes the Category label row taller; keep the controls in line. */
 	gap: 14px;
 }
 

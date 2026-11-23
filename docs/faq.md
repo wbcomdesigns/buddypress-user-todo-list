@@ -41,9 +41,7 @@ The plugin won't activate without one of these.
 
 ### Where are the settings?
 
-**Location:** `WordPress Admin > BuddyPress > Settings > Todo List`
-
-Or for BuddyBoss: `Settings > BuddyBoss > Integrations > Todo List`
+**Location:** `WordPress Admin > WB Plugins > Todo Lists`
 
 ### Can I change "Todo" to something else?
 
@@ -128,15 +126,14 @@ By default: All user roles except Administrator
 
 ### When are notifications sent?
 
-**Email:** Morning of due date (once per todo)
-
-**BuddyPress Notification:** When due date arrives
+A scheduled check runs every six hours. Each incomplete todo whose due date has arrived
+or passed gets one email and one BuddyPress notification.
 
 **Not sent:**
-- Before due date
-- After due date passed
-- If already sent
-- If user disabled notifications
+- Before the due date
+- If already sent for that due date (changing the due date re-arms the reminder)
+- If the todo is complete
+- If the member turned off todo emails in their notification settings
 
 ### Can I disable notifications for specific users?
 

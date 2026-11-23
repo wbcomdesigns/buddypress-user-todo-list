@@ -104,8 +104,7 @@ class Bptodo_Data_Retention {
 		// Build query args
 		$base_args = array(
 			'post_type'      => 'bp-todo',
-			'post_status'    => 'any', // Include all post statuses
-			'posts_per_page' => -1,
+			'post_status'    => 'any', // Every status except trash (already cleaned).
 			'date_query'     => array(
 				array(
 					'before'    => $cutoff_date,
@@ -209,74 +208,18 @@ class Bptodo_Data_Retention {
 	}
 
 	/**
-	 * Delete tasks based on query args
+	 * Delete or trash every task the query matches.
 	 *
-	 * @param array $args Query arguments.
+	 * Each task, a group primary or a member's copy, is judged by the cleanup
+	 * rules on its own (the query already selects matching copies), so a pending
+	 * copy survives "Only completed" even when its primary is removed.
+	 *
+	 * @param array $args      Query arguments.
 	 * @param bool  $permanent Whether to permanently delete or move to trash.
-	 * @return int Number of tasks deleted.
+	 * @return int Number of tasks removed.
 	 */
 	private function delete_tasks( $args, $permanent = false ) {
-		$query = new WP_Query( $args );
-		$count = 0;
-
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				$post_id = get_the_ID();
-
-				// Delete associated todos first
-				$this->delete_associated_todos( $post_id, $permanent );
-
-				// Delete the main todo
-				if ( $permanent ) {
-					wp_delete_post( $post_id, true );
-				} else {
-					wp_trash_post( $post_id );
-				}
-
-				$count++;
-			}
-		}
-
-		wp_reset_postdata();
-
-		return $count;
-	}
-
-	/**
-	 * Delete associated todos for a primary todo
-	 *
-	 * @param int  $primary_todo_id Primary todo ID.
-	 * @param bool $permanent Whether to permanently delete.
-	 */
-	private function delete_associated_todos( $primary_todo_id, $permanent = false ) {
-		$associated_args = array(
-			'post_type'      => 'bp-todo',
-			'posts_per_page' => -1,
-			'meta_query'     => array(
-				array(
-					'key'   => 'todo_primary_id',
-					'value' => $primary_todo_id,
-				),
-			),
-		);
-
-		$associated_query = new WP_Query( $associated_args );
-
-		if ( $associated_query->have_posts() ) {
-			while ( $associated_query->have_posts() ) {
-				$associated_query->the_post();
-				$associated_id = get_the_ID();
-
-				if ( $permanent ) {
-					wp_delete_post( $associated_id, true );
-				} else {
-					wp_trash_post( $associated_id );
-				}
-			}
-		}
-
-		wp_reset_postdata();
+		return bptodo_delete_todos_in_batches( $args, $permanent );
 	}
 
 	/**

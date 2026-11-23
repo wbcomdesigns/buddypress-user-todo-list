@@ -296,6 +296,9 @@ class Bptodo_List {
 		$groups        = bp_is_active( 'groups' );
 		$notifications = bp_is_active( 'notifications' );
 
+		// Reign's icon nav: our member + group tab get a to-do icon, not the generic one.
+		add_filter( 'reign_bp_nav_icons', array( $plugin_public, 'bptodo_reign_nav_icon' ) );
+
 		if ( $groups ) {
 			add_action( 'bp_setup_nav', array( $plugin_public, 'bptodo_add_todo_tabs_in_groups' ), 10 );
 			add_action( 'groups_custom_group_fields_editable', array( $plugin_public, 'bp_nouveau_add_disable_group_todolists_checkbox' ), 999 );

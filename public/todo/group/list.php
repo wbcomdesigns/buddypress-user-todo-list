@@ -49,18 +49,11 @@ $is_site_admin    = bptodo_is_site_admin();
 $is_group_member  = groups_is_user_member( $current_user_id, $group_id );
 $is_admin_non_member = $is_site_admin && ! $is_group_member;
 
-// Determine modification and view permissions.
-$can_modify = ( function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( $current_user_id, $group_id ) ) || $is_admin_non_member;
-$can_views  = $can_modify || ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $group_id ) );
-
-// Check moderator permissions.
+// Determine modification and view permissions (same rule as REST + AJAX).
+$can_modify = Bptodo_Permissions::can_manage_group_tasks( $current_user_id, $group_id );
+$can_views  = $can_modify;
 if ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $group_id ) ) {
-	if ( bptodo_if_moderator_modification_enabled( $group_id, $current_user_id ) ) {
-		$can_modify = true;
-	}
-	if ( bptodo_report_view_enabled( $group_id, $current_user_id ) ) {
-		$can_views = true;
-	}
+	$can_views = (bool) bptodo_report_view_enabled( $group_id, $current_user_id );
 }
 
 /*
@@ -125,7 +118,7 @@ $completion_percentage = $all_todo_count > 0 ? round( ( $all_completed_todo * 10
 		<?php
 		$context    = 'group';
 		$filter     = '';
-		$can_create = $can_modify;
+		$can_create = Bptodo_Permissions::can_create_group_todo( $group_id, false, $current_user_id );
 		include BPTODO_PLUGIN_PATH . 'public/todo/partials/empty-state.php';
 		?>
 	<?php else : ?>

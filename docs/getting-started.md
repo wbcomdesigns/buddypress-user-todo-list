@@ -6,9 +6,9 @@ This guide will help you install and configure the Todo plugin for your BuddyPre
 
 Before installing, make sure you have:
 
-- ✅ WordPress 4.0.1 or higher
-- ✅ BuddyPress OR BuddyBoss Platform
-- ✅ PHP 7.4 or higher (8.0+ recommended)
+- ✅ WordPress 6.5 or higher
+- ✅ BuddyPress 12.0+ or BuddyBoss Platform (optional, for profile tabs, group to-dos and email reminders)
+- ✅ PHP 8.0 or higher
 - ✅ MySQL 5.6 or higher
 
 ## 🔧 Installation

@@ -28,14 +28,10 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
-// Check if user is a group admin or moderator (or site admin).
+// Group admin, site admin, or a moderator the group settings allow (same rule as REST).
 $current_user_id = get_current_user_id();
-$is_site_admin   = bptodo_is_site_admin();
-$is_group_admin  = groups_is_user_admin( $current_user_id, $group_id );
-$is_group_mod    = groups_is_user_mod( $current_user_id, $group_id );
-
-if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
-	bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'bp-user-to-do-list' ), 'error' );
+if ( ! Bptodo_Permissions::can_create_group_todo( $group_id, false, $current_user_id ) ) {
+	bp_core_add_message( __( 'You do not have permission to create todos.', 'bp-user-to-do-list' ), 'error' );
 	bp_core_redirect( bptodo_get_group_url() );
 	exit;
 }

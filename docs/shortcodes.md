@@ -80,13 +80,13 @@ Display todos anywhere on your WordPress site using shortcodes. Perfect for dash
 wp term list todo_category --fields=term_id,slug,name
 ```
 
-Both an ID (`category="5"`) and a slug (`category="work"`) are accepted.
+Both an ID (`category="5"`) and a slug (`category="work"`) are accepted by `[bptodo_list]`.
 
 ---
 
 ## 🏷️ Todo by Category
 
-`[bptodo_by_category]` is a **legacy** shortcode kept for backward compatibility. It displays todos from a single category and accepts **only** the `category` parameter.
+`[bptodo_by_category]` is a **legacy** shortcode kept for backward compatibility. It displays todos from a single category and accepts **only** the `category` parameter. Use the category **ID** (`category="5"`): the Classic layout looks the category up by ID only. A slug works in the Modern layout.
 
 > For any filtering beyond a single category (status, priority, user, sorting, pagination), use `[bptodo_list]` instead — e.g. `[bptodo_list category="5" status="incomplete"]`.
 

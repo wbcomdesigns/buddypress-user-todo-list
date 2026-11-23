@@ -190,21 +190,9 @@ class BPTODO_CLI_Commands {
 	public function cleanup( $args, $assoc_args ) {
 		$delete_all = isset( $assoc_args['all'] );
 
-		// Use batch processing to avoid memory issues with large datasets
-		$batch_size = 100;
-		$paged = 1;
-		$deleted = 0;
-		$total_found = 0;
-
-		// First, count total items
-		$count_args = array(
-			'post_type'      => 'bp-todo',
-			'posts_per_page' => 1,
-			'fields'         => 'ids',
-		);
-
+		$query_args = array( 'post_type' => 'bp-todo' );
 		if ( ! $delete_all ) {
-			$count_args['meta_query'] = array(
+			$query_args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'   => '_bptodo_demo_data',
 					'value' => '1',
@@ -212,10 +200,10 @@ class BPTODO_CLI_Commands {
 			);
 		}
 
-		$count_query = new WP_Query( $count_args );
-		$total_found = $count_query->found_posts;
+		$count_query = new WP_Query( $query_args + array( 'posts_per_page' => 1, 'fields' => 'ids' ) );
+		$total_found = (int) $count_query->found_posts;
 
-		if ( $total_found === 0 ) {
+		if ( 0 === $total_found ) {
 			WP_CLI::log( 'No demo data found to clean up.' );
 			return;
 		}
@@ -226,38 +214,8 @@ class BPTODO_CLI_Commands {
 
 		WP_CLI::confirm( $confirm_message );
 
-		// Process in batches
-		do {
-			$query_args = array(
-				'post_type'      => 'bp-todo',
-				'posts_per_page' => $batch_size,
-				'paged'          => $paged,
-				'fields'         => 'ids',
-			);
-
-			if ( ! $delete_all ) {
-				$query_args['meta_query'] = array(
-					array(
-						'key'   => '_bptodo_demo_data',
-						'value' => '1',
-					),
-				);
-			}
-
-			$query = new WP_Query( $query_args );
-			$todo_ids = $query->posts;
-
-			foreach ( $todo_ids as $todo_id ) {
-				if ( wp_delete_post( $todo_id, true ) ) {
-					$deleted++;
-					if ( $deleted % 50 === 0 ) {
-						WP_CLI::log( "Deleted {$deleted}/{$total_found} todos..." );
-					}
-				}
-			}
-
-			$paged++;
-		} while ( $paged <= $query->max_num_pages );
+		// Batches of 100, always re-reading the first page (see the helper).
+		$deleted = bptodo_delete_todos_in_batches( $query_args, true, 100 );
 
 		WP_CLI::success( "Deleted {$deleted} todos." );
 	}
@@ -266,35 +224,19 @@ class BPTODO_CLI_Commands {
 	 * Helper: Clean up demo data without confirmation using batch processing.
 	 */
 	private function cleanup_demo_data() {
-		$batch_size = 100;
-		$paged = 1;
-		$deleted = 0;
-
-		do {
-			$query_args = array(
-				'post_type'      => 'bp-todo',
-				'posts_per_page' => $batch_size,
-				'paged'          => $paged,
-				'fields'         => 'ids',
-				'meta_query'     => array(
+		$deleted = bptodo_delete_todos_in_batches(
+			array(
+				'post_type'  => 'bp-todo',
+				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 					array(
 						'key'   => '_bptodo_demo_data',
 						'value' => '1',
 					),
 				),
-			);
-
-			$query = new WP_Query( $query_args );
-			$todo_ids = $query->posts;
-
-			foreach ( $todo_ids as $todo_id ) {
-				if ( wp_delete_post( $todo_id, true ) ) {
-					$deleted++;
-				}
-			}
-
-			$paged++;
-		} while ( $paged <= $query->max_num_pages );
+			),
+			true,
+			100
+		);
 
 		if ( $deleted > 0 ) {
 			WP_CLI::log( 'Cleaned up ' . $deleted . ' existing demo todos.' );

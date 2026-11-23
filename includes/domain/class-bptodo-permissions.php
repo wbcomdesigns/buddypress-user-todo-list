@@ -66,10 +66,45 @@ if ( ! class_exists( 'Bptodo_Permissions' ) ) {
 		}
 
 		/**
+		 * May the user change the group's tasks (edit, complete or delete tasks they do not own)?
+		 *
+		 * Group admins and site admins always may. Moderators may unless the site owner
+		 * turned on "Lock list for moderators" (`mod_enable`, filter
+		 * `alter_bptodo_if_moderator_modification_enabled`).
+		 *
+		 * @since 4.0.1
+		 * @param int $user_id  User ID (0 = current).
+		 * @param int $group_id Group ID.
+		 * @return bool
+		 */
+		public static function can_manage_group_tasks( $user_id, $group_id ) {
+			$user_id = self::uid( $user_id );
+			if ( ! self::is_group_manager( $user_id, $group_id ) ) {
+				return false;
+			}
+			if ( self::is_group_admin( $user_id, $group_id ) ) {
+				return true;
+			}
+			return (bool) bptodo_if_moderator_modification_enabled( (int) $group_id, $user_id );
+		}
+
+		/**
+		 * Group admin of this group, or a site admin (never just a moderator).
+		 *
+		 * @param int $user_id  User ID.
+		 * @param int $group_id Group ID.
+		 * @return bool
+		 */
+		protected static function is_group_admin( $user_id, $group_id ) {
+			return user_can( $user_id, 'manage_options' )
+				|| ( function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( $user_id, (int) $group_id ) );
+		}
+
+		/**
 		 * Can the user modify (edit/complete) a todo?
 		 *
-		 * Mirrors the historic rule: owner, or `edit_others_posts`, or manager of the
-		 * todo's group.
+		 * Owner, or `edit_others_posts`, or someone who may manage the todo's group
+		 * tasks (group admin, site admin, or a moderator while the list is not locked).
 		 *
 		 * @param Bptodo_Todo|int $todo    Todo or ID.
 		 * @param int             $user_id User ID (0 = current).
@@ -90,7 +125,7 @@ if ( ! class_exists( 'Bptodo_Permissions' ) ) {
 			if ( user_can( $user_id, 'edit_others_posts' ) ) {
 				return true;
 			}
-			return self::is_group_manager( $user_id, $todo->group_id() );
+			return self::can_manage_group_tasks( $user_id, $todo->group_id() );
 		}
 
 		/**
@@ -183,12 +218,14 @@ if ( ! class_exists( 'Bptodo_Permissions' ) ) {
 				return false;
 			}
 			// Creating a group todo fans a copy out to members (an empty assignee
-			// list means everyone), so it always requires a group manager
-			// (admin/mod) or a site admin - matching the legacy group Add flow and
-			// the documented behaviour. The $assigning flag is kept for callers but
-			// no longer relaxes the check.
+			// list means everyone), so it needs a group admin or site admin, or a
+			// moderator when "Moderators can add tasks" is on and the list is not
+			// locked. The $assigning flag is kept for callers but never relaxes it.
 			unset( $assigning );
-			return self::is_group_manager( $user_id, $group_id );
+			if ( self::is_group_admin( $user_id, $group_id ) ) {
+				return true;
+			}
+			return self::can_manage_group_tasks( $user_id, $group_id ) && (bool) bptodo_list_group_modrator();
 		}
 
 		/**

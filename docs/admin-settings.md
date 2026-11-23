@@ -4,9 +4,7 @@ Complete guide to configuring Todo for BuddyPress & BuddyBoss plugin settings.
 
 ## 📍 Accessing Settings
 
-**Location:** `WordPress Admin > BuddyPress > Settings > Todo List`
-
-Or: `WordPress Admin > Settings > BuddyBoss > Integrations > Todo List` (for BuddyBoss)
+**Location:** `WordPress Admin > WB Plugins > Todo Lists` (the same on BuddyPress, BuddyBoss and sites without either)
 
 ## ⚙️ Settings Overview
 
@@ -223,7 +221,7 @@ Each member can enable/disable their own email notifications in their profile se
 
 **When ON:**
 - Groups show todo tab
-- Group admins/moderators can create tasks
+- Group admins can create tasks (moderators per the settings below)
 - Tasks assigned to group members
 - Progress tracking available
 
@@ -232,19 +230,21 @@ Each member can enable/disable their own email notifications in their profile se
 - Only personal todos work
 - Good for member-focused communities
 
-### Group Admin/Moderator Permissions
+### Group Moderator Permissions
 
-**Create Tasks:** ON / OFF
-- Moderators can create group tasks
+Group admins and site admins can always create, edit, complete and delete group tasks.
+Ordinary group members cannot create group tasks; they see and complete the tasks
+assigned to them. These rules are enforced on the server (REST API and Classic forms).
 
-**Edit Tasks:** ON / OFF
-- Moderators can edit existing tasks
+**Lock list for moderators:** ON / OFF (default OFF)
+- ON: moderators cannot add, edit, complete or delete the group's tasks; they see only
+  the tasks assigned to them
 
-**Delete Tasks:** ON / OFF
-- Moderators can remove tasks
+**Moderators can add tasks:** ON / OFF (default ON)
+- Moderators can create group tasks while the list is not locked
 
-**View Reports:** ON / OFF
-- Moderators can access completion reports
+**Moderators can view report:** ON / OFF (default ON)
+- Moderators can open the group Overview
 
 ---
 

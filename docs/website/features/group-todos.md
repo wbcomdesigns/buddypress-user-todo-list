@@ -15,14 +15,21 @@ The default sub-tab lists group tasks using the same modern list described
 in [Modern personal to-do list](modern-todo-list) (or the legacy list in Classic mode).
 What you see depends on your role:
 
-- Group admins (and moderators who may modify tasks) see the group's tasks and their count.
-- Other members see the tasks assigned to them, can tick them complete, and the count and
-  stats match that list.
+- Group admins, site admins and moderators (unless the list is locked for moderators) see
+  the group's tasks and their count, and can edit, complete or delete them.
+- Other members, and moderators while the list is locked, see the tasks assigned to them,
+  can tick them complete, and the count and stats match that list.
+
+Each assigned member gets their own copy of the task. The copy lives on the group's Todos
+tab; it does not appear in the member's personal to-do list. Editing the group's task
+updates the title, details, due date, priority and category on every copy, and each
+member keeps their own completed state. A member who deletes their copy removes only
+their own; deleting the group's task removes every copy.
 
 ## Add
 
-Visible to group admins, and to moderators when the "moderators can add" setting allows
-it (or to site admins always). The Add sub-tab is the same form as
+Visible to group admins and site admins, and to moderators when **Moderators can add
+tasks** is on and **Lock list for moderators** is off. The Add sub-tab is the same form as
 [Add a to-do](add-a-todo), plus an **Assign to members** section:
 
 ![Assign to members](../images/group-assign.webp)
@@ -34,8 +41,9 @@ it (or to site admins always). The Add sub-tab is the same form as
   reached by leaving every box unchecked. Developers can change the number with the
   `bptodo_assignee_picker_limit` filter.
 
-Assigning to specific members requires group admin/moderator permission; any confirmed
-group member can create an unassigned group task if group settings allow it.
+Only the people who can see the Add sub-tab can create group tasks, with or without
+specific assignees. Ordinary group members cannot create group tasks. The same rule
+applies to the REST API and the Classic layout.
 
 ## Overview
 

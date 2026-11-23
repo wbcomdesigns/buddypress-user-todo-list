@@ -149,12 +149,33 @@ $bptodo_instance_id = 'bptodo-shortcode-' . wp_rand( 1000, 9999 );
 	 role="region"
 	 aria-label="<?php esc_attr_e( 'Todo List', 'bp-user-to-do-list' ); ?>">
 	<?php if ( $bptodo_show_add && is_user_logged_in() ) : ?>
-		<!-- Quick Add Form -->
+		<?php
+		/*
+		 * The Classic layout's add form is the member's own profile Add screen, so
+		 * show_add links there. Only when the member may create todos and the
+		 * profile To-do tab exists (BuddyPress member pages + the member tab on).
+		 */
+		$bptodo_member_settings = get_option( 'user_todo_list_settings' );
+		$bptodo_add_url         = '';
+		if ( Bptodo_Permissions::can_create()
+			&& ( function_exists( 'bp_members_get_user_url' ) || function_exists( 'bp_core_get_user_domain' ) )
+			&& ( empty( $bptodo_member_settings['enable_todo_member'] ) || in_array( $bptodo_member_settings['enable_todo_member'], array( 'yes', 'on' ), true ) ) ) {
+			$bptodo_add_url = trailingslashit( bptodo_get_member_url( get_current_user_id() ) . $bptodo_menu_slug ) . 'add/';
+		}
+		?>
 		<div class="bptodo-shortcode-header">
 			<h3 class="bptodo-shortcode-title">
 				<?php echo esc_html( $bptodo_menu_label_plural ); ?>
 				<span class="bptodo-count">(<?php echo esc_html( $bptodo_total_count ); ?>)</span>
 			</h3>
+			<?php if ( $bptodo_add_url ) : ?>
+				<a class="bptodo-btn bptodo-btn--primary" href="<?php echo esc_url( $bptodo_add_url ); ?>">
+					<?php
+					/* translators: %s: the configured todo label (singular), e.g. "Task". */
+					echo esc_html( sprintf( __( 'Add New %s', 'bp-user-to-do-list' ), $bptodo_menu_label ) );
+					?>
+				</a>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 

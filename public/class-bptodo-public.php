@@ -451,26 +451,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				),
 				$default_params
 			);
-			$is_admin   = function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 ));
-			$can_list 	= false;
-			$can_views  = function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 ));
-			
-			if ( function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), ( function_exists( 'bp_get_current_group_id' ) ? bp_get_current_group_id() : 0 )) ) {
-				$group_id    = $bp->groups->current_group->id;
-				$mod_can_add = bptodo_list_group_modrator( $group_id, get_current_user_id() );
-				$can_list    = false;
-				if ( $mod_can_add ) {
-					$can_list = true;
-				}
-
-				$mod_can_views = bptodo_report_view_enabled($group_id, get_current_user_id());
-				$can_views = false;
-				if ($mod_can_views) {
-					$can_views = true;
-				}
+			$group_id  = (int) $bp->groups->current_group->id;
+			$is_admin  = function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( get_current_user_id(), $group_id );
+			$can_views = false;
+			if ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( get_current_user_id(), $group_id ) ) {
+				$can_views = (bool) bptodo_report_view_enabled( $group_id, get_current_user_id() );
 			}
 
-			if ( $is_admin || $can_list ) {
+			if ( Bptodo_Permissions::can_create_group_todo( $group_id ) ) {
 				$sub_nav[] = array_merge(
 					array(
 						'name'            => esc_html__( 'Add', 'bp-user-to-do-list' ),
@@ -660,38 +648,16 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 					exit;
 				}
 
-				// Check if user is a group admin or moderator (or site admin)
+				// Same rule as REST: group admin, site admin, or a moderator the group settings allow.
 				$current_user_id = get_current_user_id();
-				$is_site_admin   = bptodo_is_site_admin();
-				$is_group_admin  = function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( $current_user_id, $group_id );
-				$is_group_mod    = function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $group_id );
-
-				if ( ! $is_group_admin && ! $is_group_mod && ! $is_site_admin ) {
-					bp_core_add_message( __( 'You must be a group administrator or moderator to add todos.', 'bp-user-to-do-list' ), 'error' );
+				if ( ! Bptodo_Permissions::can_create_group_todo( $group_id, false, $current_user_id ) ) {
+					bp_core_add_message( __( 'You do not have permission to create todos.', 'bp-user-to-do-list' ), 'error' );
 					bp_core_redirect( $group_url );
 					exit;
 				}
 
-				// Get group members
-				$group_members = groups_get_group_members(
-					array(
-						'group_id'            => $group_id,
-						'exclude_admins_mods' => false,
-					)
-				);
-
-				$group_members_ids = array();
-				if ( ! empty( $group_members['members'] ) ) {
-					foreach ( $group_members['members'] as $member ) {
-						$group_members_ids[] = $member->ID;
-					}
-				}
-
-				// Check if specific members were selected
+				// Selected members, or empty / 'all' for everyone (resolved by assign_to_group).
 				$todo_group_members = isset( $_POST['todo_group_members'] ) ? array_map( 'sanitize_text_field', (array) wp_unslash( $_POST['todo_group_members'] ) ) : array();
-				if ( ! empty( $todo_group_members ) && ! in_array( 'all', $todo_group_members, true ) ) {
-					$group_members_ids = array_map( 'absint', $todo_group_members );
-				}
 
 				$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
 				$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
@@ -800,42 +766,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 			// Process UPDATE todo form
 			if ( isset( $_POST['todo_update'] ) && isset( $_POST['save_update_todo_data_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['save_update_todo_data_nonce'] ) ), 'wp-bp-todo' ) ) {
 
-				$cat      = isset( $_POST['todo_cat'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_cat'] ) ) : '';
-				$title    = isset( $_POST['todo_title'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_title'] ) ) : '';
-				$summary  = isset( $_POST['bptodo-summary-input'] ) ? wp_kses_post( wp_unslash( $_POST['bptodo-summary-input'] ) ) : '';
-				$due_date = isset( $_POST['todo_due_date'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_due_date'] ) ) : '';
-				$priority = isset( $_POST['todo_priority'] ) ? sanitize_text_field( wp_unslash( $_POST['todo_priority'] ) ) : '';
-				$todo_id  = isset( $_POST['hidden_todo_id'] ) ? absint( $_POST['hidden_todo_id'] ) : 0;
+				$todo_id = isset( $_POST['hidden_todo_id'] ) ? absint( $_POST['hidden_todo_id'] ) : 0;
+				$result  = $this->bptodo_update_from_form( $todo_id, $_POST ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- nonce checked above; the repository unslashes and sanitizes each field.
 
-				// Permission check: allow owner, users with edit_others_posts, or group admins/mods
-				$todo = get_post( $todo_id );
-				$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
-				$is_group_admin_or_mod = $todo_group_id && ( ( function_exists( 'groups_is_user_admin' ) && groups_is_user_admin( get_current_user_id(), $todo_group_id ) ) || ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( get_current_user_id(), $todo_group_id ) ) );
-
-				if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
+				if ( is_wp_error( $result ) && 'bptodo_forbidden' === $result->get_error_code() ) {
 					bp_core_add_message( esc_html__( 'You do not have permission to edit this todo.', 'bp-user-to-do-list' ), 'error' );
-					$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
-					bp_core_redirect( $url );
-					exit;
-				}
-
-				$taxonomy     = 'todo_category';
-				$args         = array(
-					'ID'           => $todo_id,
-					'post_type'    => 'bp-todo',
-					'post_status'  => 'publish',
-					'post_title'   => $title,
-					'post_content' => $summary,
-				);
-				$todo_post_id = wp_update_post( $args );
-
-				if ( ! is_wp_error( $todo_post_id ) ) {
-					update_post_meta( $todo_post_id, 'todo_status', 'incomplete' );
-					update_post_meta( $todo_post_id, 'todo_due_date', $due_date );
-					update_post_meta( $todo_post_id, 'todo_priority', $priority );
-
-					wp_set_object_terms( $todo_post_id, $cat, $taxonomy );
-
+				} elseif ( is_wp_error( $result ) ) {
+					bp_core_add_message( __( 'There was a problem updating your todo. Please try again.', 'bp-user-to-do-list' ), 'error' );
+				} else {
 					bp_core_add_message(
 						sprintf(
 							/* translators: %s: Todo label */
@@ -843,8 +781,6 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 							esc_html( $profile_menu_label )
 						)
 					);
-				} else {
-					bp_core_add_message( __( 'There was a problem updating your todo. Please try again.', 'bp-user-to-do-list' ), 'error' );
 				}
 
 				$url = trailingslashit( bp_displayed_user_domain() . $profile_menu_slug . '/list' );
@@ -1172,88 +1108,68 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				$update_form_data = isset( $_POST['update_form_data'] ) ? $_POST['update_form_data']  : ''; //phpcs:ignore
 
 				if ( is_array( $update_form_data ) ) {
-					// Convert serialized array to associative array
 					$update_data = array();
-					foreach ( $update_form_data as $key => $value ) {
-						$update_data[ $value['name'] ] = $value['value'];
-					}
-
-					// Extract and sanitize form data
-					$cat              = sanitize_text_field( $update_data['todo_cat'] ?? '' );
-					$title            = sanitize_text_field( $update_data['todo_title'] ?? '' );
-					$summary          = wp_kses_post( $update_data['bptodo-summary-input'] ?? '' );
-					$due_date         = sanitize_text_field( $update_data['todo_due_date'] ?? '' );
-					$priority         = sanitize_text_field( $update_data['todo_priority'] ?? '' );
-					$todo_id          = sanitize_text_field( $update_data['hidden_todo_id'] ?? '' );
-					$primary_todo_id  = sanitize_text_field( $update_data['hidden_primary_id'] ?? '' );
-
-					// Permission check: allow owner, users with edit_others_posts, or group admins/mods
-					$todo = get_post( $todo_id );
-					$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
-					$is_group_admin_or_mod = $todo_group_id && ((function_exists('groups_is_user_admin') && groups_is_user_admin(get_current_user_id(), $todo_group_id)) || (function_exists('groups_is_user_mod') && groups_is_user_mod(get_current_user_id(), $todo_group_id)));
-
-					if ( ! $todo || ( $todo->post_author != get_current_user_id() && ! current_user_can( 'edit_others_posts' ) && ! $is_group_admin_or_mod ) ) {
-						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'bp-user-to-do-list' ) ) );
-						wp_die();
-					}
-
-					// Update main todo
-					$taxonomy = 'todo_category';
-					$args     = array(
-						'ID'           => $todo_id,
-						'post_type'    => 'bp-todo',
-						'post_status'  => 'publish',
-						'post_title'   => $title,
-						'post_content' => $summary,
-					);
-					$post_id = wp_update_post( $args );
-
-					if ( $post_id ) {
-						update_post_meta( $post_id, 'todo_status', 'incomplete' );
-						update_post_meta( $post_id, 'todo_due_date', $due_date );
-						update_post_meta( $post_id, 'todo_priority', $priority );
-
-						if ( ! empty( $todo_group_id ) ) {
-							update_post_meta( $post_id, 'todo_group_id', $todo_group_id );
-						}
-
-						wp_set_object_terms( $post_id, $cat, $taxonomy );
-
-						// Update associated todos if this is a primary todo
-						if ( ! empty( $primary_todo_id ) ) {
-							$associated_todo = get_post_meta( $primary_todo_id, 'botodo_associated_todo', true );
-
-							if ( is_array( $associated_todo ) && ! in_array( $primary_todo_id, $associated_todo ) ) {
-								array_push( $associated_todo, $primary_todo_id );
-							}
-
-							foreach ( (array) $associated_todo as $key => $_todo_id ) {
-								$args    = array(
-									'ID'           => $_todo_id,
-									'post_type'    => 'bp-todo',
-									'post_status'  => 'publish',
-									'post_title'   => $title,
-									'post_content' => $summary,
-								);
-								$associated_post_id = wp_update_post( $args );
-
-								if ( $associated_post_id ) {
-									update_post_meta( $associated_post_id, 'todo_status', 'incomplete' );
-									update_post_meta( $associated_post_id, 'todo_due_date', $due_date );
-									update_post_meta( $associated_post_id, 'todo_priority', $priority );
-
-									if ( ! empty( $todo_group_id ) ) {
-										update_post_meta( $associated_post_id, 'todo_group_id', $todo_group_id );
-									}
-
-									wp_set_object_terms( $associated_post_id, $cat, $taxonomy );
-								}
-							}
+					foreach ( $update_form_data as $field ) {
+						if ( isset( $field['name'], $field['value'] ) ) {
+							$update_data[ (string) $field['name'] ] = $field['value']; // Still slashed: the repository unslashes + sanitizes.
 						}
 					}
+					$todo_id = isset( $update_data['hidden_todo_id'] ) ? absint( $update_data['hidden_todo_id'] ) : 0;
+					$result  = $this->bptodo_update_from_form( $todo_id, $update_data );
+					if ( is_wp_error( $result ) ) {
+						wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized', 'bp-user-to-do-list' ) ), 'bptodo_forbidden' === $result->get_error_code() ? 403 : 400 );
+					}
+					wp_send_json_success();
 				}
 			}
 			exit();
+		}
+
+		/**
+		 * Map the To-do tab slug to Reign's list-todo icon (reign_bp_nav_icons, Reign 8.1+).
+		 *
+		 * @since 4.0.1
+		 * @param array $icons Nav item slug => Reign icon name.
+		 * @return array
+		 */
+		public function bptodo_reign_nav_icon( $icons ) {
+			global $bptodo;
+			$slug = ( is_object( $bptodo ) && ! empty( $bptodo->profile_menu_slug ) ) ? $bptodo->profile_menu_slug : 'todo';
+			// Member tab id: {slug}-personal-li. Group tab (BP_Group_Extension): nav-{slug}-groups-li.
+			$icons[ $slug ]          = 'list-todo';
+			$icons[ 'nav-' . $slug ] = 'list-todo';
+			return $icons;
+		}
+
+		/**
+		 * Save the classic edit form (no-JS POST and AJAX) through the domain layer.
+		 *
+		 * Same permission and write path as REST PATCH, so a group primary's edit
+		 * reaches its members' copies and a copy owner can only change their own copy.
+		 *
+		 * @since 4.0.1
+		 * @param int   $todo_id Todo ID.
+		 * @param array $fields  Raw (slashed) form fields.
+		 * @return Bptodo_Todo|WP_Error
+		 */
+		private function bptodo_update_from_form( $todo_id, $fields ) {
+			if ( ! $todo_id || ! Bptodo_Permissions::can_edit( $todo_id ) ) {
+				return new WP_Error( 'bptodo_forbidden' );
+			}
+			$map  = array(
+				'title'       => 'todo_title',
+				'description' => 'bptodo-summary-input',
+				'due_date'    => 'todo_due_date',
+				'priority'    => 'todo_priority',
+				'category'    => 'todo_cat',
+			);
+			$data = array();
+			foreach ( $map as $key => $field ) {
+				if ( isset( $fields[ $field ] ) && is_scalar( $fields[ $field ] ) ) {
+					$data[ $key ] = $fields[ $field ];
+				}
+			}
+			return Bptodo_Todo_Repository::update( $todo_id, $data );
 		}
 
 		/**
@@ -1707,28 +1623,14 @@ if ( ! class_exists( 'Bptodo_Public' ) ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Todo not found.', 'bp-user-to-do-list' ) ) );
 			}
 
-			// Check permissions - user must be author, admin, or group admin/mod.
-			$current_user_id = get_current_user_id();
-			$todo_group_id   = get_post_meta( $todo_id, 'todo_group_id', true );
-			$is_owner        = ( (int) $todo->post_author === $current_user_id );
-			$is_admin        = current_user_can( 'edit_others_posts' );
-			$is_group_admin_or_mod = false;
-
-			if ( $todo_group_id && function_exists( 'groups_is_user_admin' ) ) {
-				$is_group_admin_or_mod = groups_is_user_admin( $current_user_id, $todo_group_id )
-					|| ( function_exists( 'groups_is_user_mod' ) && groups_is_user_mod( $current_user_id, $todo_group_id ) );
-			}
-
-			if ( ! $is_owner && ! $is_admin && ! $is_group_admin_or_mod ) {
+			// The card refresh follows the same rule as editing (Bptodo_Permissions).
+			$can_edit = Bptodo_Permissions::can_edit( $todo_id );
+			if ( ! $can_edit ) {
 				wp_send_json_error( array( 'message' => esc_html__( 'Unauthorized.', 'bp-user-to-do-list' ) ) );
 			}
-
-			// Determine context based on group association.
-			$context = ! empty( $todo_group_id ) ? 'group' : 'member';
-
-			// Determine edit/delete permissions.
-			$can_edit   = $is_owner || $is_admin || $is_group_admin_or_mod;
-			$can_delete = $can_edit;
+			$can_delete    = Bptodo_Permissions::can_delete( $todo_id );
+			$todo_group_id = get_post_meta( $todo_id, 'todo_group_id', true );
+			$context       = ! empty( $todo_group_id ) ? 'group' : 'member';
 
 			// Capture the todo card HTML.
 			ob_start();

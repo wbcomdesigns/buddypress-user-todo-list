@@ -225,10 +225,11 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		 * group list, count and stat (REST, SSR, nav badge, legacy template).
 		 *
 		 * A group todo is a primary owned by the manager who created it plus one
-		 * copy per assigned member. Managers (group admin/mod, site admin) see the
-		 * primaries they manage; every other member sees the copies assigned to
-		 * them, which they own and can complete. Listing primaries to members
-		 * showed tasks they could not complete (403 on the checkbox).
+		 * copy per assigned member. Whoever may manage the group's tasks (group
+		 * admin, site admin, moderator while the list is not locked) sees the
+		 * primaries; everyone else, a locked moderator included, sees the copies
+		 * assigned to them, which they own and can complete. Listing primaries to
+		 * them showed tasks they could not complete (403 on the checkbox).
 		 *
 		 * @param int $group_id  Group ID.
 		 * @param int $viewer_id Viewer (0 = current user).
@@ -237,7 +238,7 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		public static function group_scope_args( $group_id, $viewer_id = 0 ) {
 			$viewer_id = $viewer_id ? (int) $viewer_id : (int) get_current_user_id();
 			$args      = array( 'group_id' => (int) $group_id );
-			if ( Bptodo_Permissions::is_group_manager( $viewer_id, $group_id ) ) {
+			if ( Bptodo_Permissions::can_manage_group_tasks( $viewer_id, $group_id ) ) {
 				$args['primary_only'] = true;
 			} else {
 				$args['author'] = $viewer_id;
@@ -418,14 +419,36 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 				}
 			}
 
+			$meta = array();
 			if ( array_key_exists( 'priority', $data ) ) {
-				update_post_meta( $todo->id(), Bptodo_Todo::META_PRIORITY, self::sanitize_priority( $data['priority'] ) );
+				$meta[ Bptodo_Todo::META_PRIORITY ] = self::sanitize_priority( $data['priority'] );
 			}
 			if ( array_key_exists( 'due_date', $data ) ) {
-				update_post_meta( $todo->id(), Bptodo_Todo::META_DUE_DATE, sanitize_text_field( wp_unslash( $data['due_date'] ) ) );
+				$due = sanitize_text_field( wp_unslash( $data['due_date'] ) );
+				if ( $due !== $todo->due_date() ) {
+					// A new due date earns a new reminder: clear the "already sent" flags.
+					$meta[ Bptodo_Todo::META_DUE_DATE ]   = $due;
+					$meta[ Bptodo_Todo::META_MAIL_SENT ]  = 'no';
+					$meta[ Bptodo_Todo::META_NOTIF_SENT ] = 'no';
+				}
 			}
+			foreach ( $meta as $key => $value ) {
+				update_post_meta( $todo->id(), $key, $value );
+			}
+			$term_ids = null;
 			if ( array_key_exists( 'category', $data ) && '' !== (string) $data['category'] ) {
-				wp_set_object_terms( $todo->id(), self::resolve_category_terms( $data['category'] ), Bptodo_Todo::TAXONOMY );
+				$term_ids = self::resolve_category_terms( $data['category'] );
+				$current  = wp_get_object_terms( $todo->id(), Bptodo_Todo::TAXONOMY, array( 'fields' => 'ids' ) );
+				if ( ! is_wp_error( $current ) && array_map( 'intval', $current ) === $term_ids ) {
+					$term_ids = null; // Unchanged: nothing to write here or on the copies.
+				} else {
+					wp_set_object_terms( $todo->id(), $term_ids, Bptodo_Todo::TAXONOMY );
+				}
+			}
+
+			// A group primary carries the shared task: its members' copies follow it.
+			if ( $todo->group_id() && (int) get_post_meta( $todo->id(), Bptodo_Todo::META_PRIMARY_ID, true ) === $todo->id() ) {
+				self::sync_copies( $todo->id(), array_diff_key( $postarr, array( 'ID' => 0 ) ), $meta, $term_ids );
 			}
 
 			$fresh = Bptodo_Todo::from_id( $todo->id() );
@@ -464,10 +487,12 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		}
 
 		/**
-		 * Delete a todo (and, for a group primary/copy, its associated fan-out copies).
+		 * Delete a todo.
 		 *
-		 * Faithful port of the historic delete: any todo carrying a primary id causes the
-		 * primary's associated copies to be removed too.
+		 * Deleting a group primary also deletes its members' copies (callers check
+		 * can_delete() first, which only a group task manager passes for a primary).
+		 * Deleting a member's copy deletes that copy only and drops it from the
+		 * primary's list; the other members keep theirs.
 		 *
 		 * @param int $id Todo ID.
 		 * @return true|WP_Error
@@ -478,11 +503,14 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 				return new WP_Error( 'bptodo_not_found', __( 'Todo not found.', 'bp-user-to-do-list' ), array( 'status' => 404 ) );
 			}
 			$primary_id = (int) get_post_meta( $todo->id(), Bptodo_Todo::META_PRIMARY_ID, true );
-			if ( $primary_id ) {
-				$associated = get_post_meta( $primary_id, Bptodo_Todo::META_ASSOCIATED, true );
-				foreach ( (array) $associated as $assoc_id ) {
-					wp_delete_post( (int) $assoc_id, true );
+			$copy_ids   = array_map( 'intval', (array) get_post_meta( $primary_id ? $primary_id : $todo->id(), Bptodo_Todo::META_ASSOCIATED, true ) );
+			if ( $primary_id === $todo->id() ) {
+				// ponytail: one wp_delete_post per copy so delete hooks and caches stay right; a 2000-member fan-out is a slow request, batch in the background if owners hit it.
+				foreach ( array_filter( $copy_ids ) as $copy_id ) {
+					wp_delete_post( $copy_id, true );
 				}
+			} elseif ( $primary_id ) {
+				update_post_meta( $primary_id, Bptodo_Todo::META_ASSOCIATED, array_values( array_diff( $copy_ids, array( $todo->id() ) ) ) );
 			}
 			wp_delete_post( $todo->id(), true );
 			do_action( 'bptodo_todo_deleted', $todo->id() );
@@ -490,6 +518,50 @@ if ( ! class_exists( 'Bptodo_Todo_Repository' ) ) {
 		}
 
 		// Internal helpers.
+
+		/**
+		 * Copy a primary's shared fields to its members' copies.
+		 *
+		 * Title, description, due date, priority and category follow the primary;
+		 * each copy keeps its own completion state. Batched SQL so a task assigned
+		 * to a whole 2000-member group is a handful of queries, not thousands.
+		 *
+		 * @param int        $primary_id Primary todo ID.
+		 * @param array      $post_fields post_title / post_content values to copy.
+		 * @param array      $meta        Meta key => value to copy.
+		 * @param int[]|null $term_ids    Category term IDs to copy, null = unchanged.
+		 * @return void
+		 */
+		protected static function sync_copies( $primary_id, $post_fields, $meta, $term_ids ) {
+			global $wpdb;
+			$copy_ids = array_values( array_filter( array_map( 'intval', (array) get_post_meta( $primary_id, Bptodo_Todo::META_ASSOCIATED, true ) ) ) );
+			if ( ! $copy_ids || ( ! $post_fields && ! $meta && null === $term_ids ) ) {
+				return;
+			}
+			$post_fields['post_modified']     = current_time( 'mysql' );
+			$post_fields['post_modified_gmt'] = current_time( 'mysql', true );
+
+			foreach ( array_chunk( $copy_ids, 500 ) as $chunk ) {
+				$in = implode( ',', $chunk ); // Integers only (intval above).
+				$set = array();
+				foreach ( $post_fields as $column => $value ) {
+					$set[] = $wpdb->prepare( "`{$column}` = %s", $value ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- column names are fixed keys from update().
+				}
+				$wpdb->query( "UPDATE {$wpdb->posts} SET " . implode( ', ', $set ) . " WHERE ID IN ({$in}) AND post_type = '" . Bptodo_Todo::POST_TYPE . "'" ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery -- values prepared above, ids are ints.
+				foreach ( $meta as $key => $value ) {
+					$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_value = %s WHERE meta_key = %s AND post_id IN ({$in})", $value, $key ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery -- ids are ints.
+				}
+				if ( null !== $term_ids ) {
+					// ponytail: wp_set_object_terms per copy (a few queries each); only runs when the category changes.
+					foreach ( $chunk as $copy_id ) {
+						wp_set_object_terms( $copy_id, $term_ids, Bptodo_Todo::TAXONOMY );
+					}
+				}
+				foreach ( $chunk as $copy_id ) {
+					clean_post_cache( $copy_id );
+				}
+			}
+		}
 
 		/**
 		 * Resolve a category value to EXISTING term IDs only.
