@@ -75,7 +75,9 @@ wp bptodo generate group-todos --groups=1 --count=8
 
 ### 3. Cleanup Demo Data
 
-Remove demo todos from the database.
+Remove demo todos from the database. This command only removes demo data (or every todo
+with `--all`); it does not run the data retention cleanup of old completed tasks. Retention
+runs on its own daily scheduled job, using the Data Retention settings.
 
 ```bash
 wp bptodo cleanup [--all]
@@ -83,7 +85,10 @@ wp bptodo cleanup [--all]
 
 #### Options
 
-- `--all` - Delete ALL bp-todo posts, not just demo data (use with caution!)
+- `--all` - Permanently delete EVERY todo on the site, including real members' tasks, not
+  just demo data. It cannot be undone. Take a database backup first.
+
+Todos are deleted in batches, so the command works on large sites.
 
 #### Examples
 

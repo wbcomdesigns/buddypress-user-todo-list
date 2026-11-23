@@ -31,9 +31,9 @@ so nothing is exported, imported, or lost when you switch back and forth.
 
 ## Automatic fallback
 
-`bptodo_layout_mode()` automatically returns Classic when the site's WordPress version or
-active theme does not support the block/Interactivity runtime (for example, WordPress
-older than 6.5). This means the Modern default never breaks an older site; it degrades
+`bptodo_layout_mode()` automatically returns Classic when WordPress itself lacks the
+block/Interactivity runtime (WordPress older than 6.5). It does not check the active
+theme; if a theme conflicts with the Modern list, switch to Classic in settings. This means the Modern default never breaks an older site; it degrades
 to the layout that was already working.
 
 ## Developer override

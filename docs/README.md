@@ -7,11 +7,11 @@ Welcome to the comprehensive user guide for **Todo for BuddyPress & BuddyBoss**!
 1. [Getting Started](getting-started.md) - Installation and basic setup
 2. [Admin Settings Guide](admin-settings.md) - Configure plugin settings
 3. [Member Guide](member-guide.md) - How members use the todo system
-4. [Group Todos Guide](group-todos.md) - Managing group tasks
-5. [Email & Notifications](email-notifications.md) - Configure reminders
+4. [Group Todos Guide](website/features/group-todos.md) - Managing group tasks
+5. [Email & Notifications](website/settings/admin-settings.md) - Configure reminders
 6. [Shortcodes](shortcodes.md) - Display todos anywhere on your site
-7. [WP-CLI Commands](wp-cli-commands.md) - Command-line tools for developers
-8. [Troubleshooting](troubleshooting.md) - Common issues and solutions
+7. [WP-CLI Commands](WP-CLI-COMMANDS.md) - Command-line tools for developers
+8. [Troubleshooting](website/troubleshooting/common-problems.md) - Common issues and solutions
 9. [FAQ](faq.md) - Frequently asked questions
 
 ## 🎯 Quick Links
@@ -29,10 +29,10 @@ Welcome to the comprehensive user guide for **Todo for BuddyPress & BuddyBoss**!
 - [Managing Notifications](member-guide.md#notification-settings)
 
 ### For Group Admins
-- [Creating Group Tasks](group-todos.md#creating-group-tasks)
-- [Assigning Tasks to Members](group-todos.md#assigning-tasks)
-- [Tracking Progress](group-todos.md#progress-tracking)
-- [Viewing Reports](group-todos.md#reports)
+- [Creating Group Tasks](website/features/group-todos.md)
+- [Assigning Tasks to Members](website/features/group-todos.md)
+- [Tracking Progress](website/features/group-todos.md)
+- [Viewing Reports](website/features/group-todos.md)
 
 ## 🚀 Key Features
 
@@ -70,15 +70,14 @@ Welcome to the comprehensive user guide for **Todo for BuddyPress & BuddyBoss**!
 ## 🆘 Need Help?
 
 - 📖 Check the [FAQ](faq.md) for common questions
-- 🔍 Review [Troubleshooting](troubleshooting.md) for solutions
+- 🔍 Review [Troubleshooting](website/troubleshooting/common-problems.md) for solutions
 - 💬 Visit [Wbcom Designs Support](https://wbcomdesigns.com/helpdesk/)
 - 🐛 Report issues on [GitHub](https://github.com/wbcomdesigns/buddypress-user-todo-list/)
 
 ## 📝 Version Information
 
-**Current Version:** 3.5.0
-**Last Updated:** October 2025
-**Requires:** WordPress 4.0.1+, BuddyPress or BuddyBoss
+**Current Version:** 4.0.1
+**Requires:** WordPress 6.5+, PHP 8.0+. BuddyPress or BuddyBoss is optional.
 
 ---
 

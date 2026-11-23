@@ -33,11 +33,11 @@ BuddyPress or BuddyBoss is optional, on single sites and on multisite alike. Whe
 * Organize tasks with custom categories; optionally let members create their own.
 * Priority levels (Critical, High, Normal) with clear visual indicators.
 * Due dates, and an optional "require a due date" rule.
-* Email reminders before a task is due (these use the BuddyPress email system, so they need BuddyPress or BuddyBoss active).
+* Email reminders when a task's due date arrives (these use the BuddyPress email system, so they need BuddyPress or BuddyBoss active).
 
 **With BuddyPress or BuddyBoss (optional)**
 * A To-do tab on every member profile.
-* Group to-dos: assign a task to specific members or the whole group, each member gets their own copy.
+* Group to-dos: assign a task to specific members or the whole group, each member gets their own copy on the group's Todos tab.
 * Group overview: per-member completion progress with All, Completed and Pending filters.
 * BuddyPress notifications and email reminders when a due date arrives.
 * Site admins get read-only oversight of group tasks.
@@ -174,7 +174,7 @@ No. Personal todos are completely private. Only the member who created the todo 
 
 = How do group todos work? =
 
-When a group admin or moderator creates a group todo, they can assign it to all members or selected individuals. Each assigned member receives their own copy of the task in their personal todo list, which they can mark complete independently. The group overview page shows everyone's progress.
+Group admins (and moderators, if the group settings allow it) create group todos and assign them to all members or selected individuals. Each assigned member gets their own copy of the task on the group's Todos tab, separate from their personal todo list, and marks it complete independently. Editing the group task updates every copy, and the group Overview shows everyone's progress.
 
 = Can I customize the "Todo" label? =
 
@@ -182,7 +182,7 @@ Yes. Navigate to WB Plugins > Todo Lists > General. You can customize both the s
 
 = How do email notifications work? =
 
-The plugin uses BuddyPress's native email system, so email reminders need BuddyPress or BuddyBoss active. Members receive automatic reminders before their tasks are due. Members can control their own notification preferences from their profile settings, and site admins can customize email templates from Settings > BuddyPress > Emails.
+The plugin uses BuddyPress's native email system, so email reminders need BuddyPress or BuddyBoss active. Members receive one automatic reminder when a task's due date arrives (checked every six hours), and again if the due date is changed. Members can control their own notification preferences from their profile settings, and site admins can customize email templates from Settings > BuddyPress > Emails.
 
 = Can members create their own categories? =
 
@@ -190,7 +190,7 @@ This is configurable by site admins. In the General Settings, you can choose to 
 
 = Will old completed tasks slow down my database? =
 
-The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. It runs on a scheduled job and works with or without BuddyPress. You can also run it on demand with WP-CLI: wp bptodo cleanup.
+The plugin includes an automatic data retention feature that cleans up old completed tasks. You can configure retention periods and choose whether to trash or permanently delete old tasks. It runs on a scheduled job and works with or without BuddyPress. The WP-CLI command wp bptodo cleanup is separate: it removes demo data only, and with --all it permanently deletes every todo on the site.
 
 = Can site admins view all group todos? =
 
@@ -286,6 +286,15 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 * Fix      - Automatic cleanup measures task age in UTC, so it no longer removes tasks hours early or late.
 * Fix      - Turning off todos for one group no longer prints a stray style block at the top of the page.
 * Fix      - The review request on the Plugins screen uses the standard WordPress notice style.
+* Fix      - Deleting your copy of a group task deletes only your copy, not the group task and everyone else's.
+* Fix      - Automatic cleanup keeps member copies of group tasks that do not match the chosen status, and works through large sites in batches.
+* Fix      - Editing a group task updates the title, details, due date, priority and category on every member's copy, and each member keeps their own completed state.
+* Fix      - Changing a task's due date sends its reminder again for the new date.
+* Fix      - The WP-CLI cleanup command removes every matching todo on large sites instead of skipping every other batch.
+* Fix      - Dropdown arrows no longer repeat across the field in BuddyX and Reign dark mode, and the selected text is no longer cut off.
+* Fix      - The Classic [bptodo_list show_add="yes"] shortcode shows an Add button that opens your Add form.
+* Fix      - The Todos tab shows a to-do icon in Reign instead of the generic one.
+* Security - Group moderator settings (lock the list, allow adding tasks) are enforced for every way of adding or changing a group task.
 * Security - Todo stats for another member are only returned to site administrators.
 * Security - Every plugin file now refuses direct web access, and the shortcodes setting is sanitized when saved.
 * Dev      - Renamed the admin page layout view file so security filters on some hosts no longer block the plugin upload.

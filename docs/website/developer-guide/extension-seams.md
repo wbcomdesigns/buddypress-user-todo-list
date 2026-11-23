@@ -34,6 +34,20 @@ allowed to do.
 | `bptodo_group_overview_members_per_page` | Group Overview template | Members shown per Overview page (default 15). |
 | `bptodo_group_overview_task_selector_limit` | Group Overview template | Max primary tasks loaded for the task selector (default 100). |
 
+## Actions
+
+| Action | Arguments | Fires when |
+|---|---|---|
+| `bptodo_todo_created` | `$todo_id, $data, $todo` | A todo (personal, group primary or member copy) is created, from any surface. |
+| `bptodo_todo_updated` | `$todo_id, $data, $todo` | A todo is edited through the repository. Member copies synced from a group primary are written in bulk and do not fire it. |
+| `bptodo_todo_completed` | `$todo_id, $actor_id` | A todo is marked complete. |
+| `bptodo_todo_uncompleted` | `$todo_id, $actor_id` | A completed todo is reopened. |
+| `bptodo_todo_deleted` | `$todo_id` | A todo is deleted through the repository (fires for the deleted todo; copies removed with a group primary are deleted directly). |
+| `bptodo_group_todo_submit` | `$member_ids, $primary_id` | A group todo is assigned, after the member copies exist. |
+
+The Classic templates also keep their field hooks (`bptodo_add_field_before_default_listing`,
+`bp_group_todo_add_field_after_default_listing` and similar) for extra form fields.
+
 ## Storage contract
 
 Meta keys are constants on `Bptodo_Todo` (`META_STATUS`, `META_PRIORITY`, `META_DUE_DATE`,

@@ -58,9 +58,9 @@ The **Todo for BuddyPress & BuddyBoss** plugin allows BuddyPress and BuddyBoss m
 
 ### Requirements
 
-- WordPress 4.0.1 or higher
-- BuddyPress 12.0+ or BuddyBoss Platform
-- PHP 7.0 or higher
+- WordPress 6.5 or higher
+- BuddyPress 12.0+ or BuddyBoss Platform (optional, for profile tabs, group to-dos and email reminders)
+- PHP 8.0 or higher
 
 ---
 

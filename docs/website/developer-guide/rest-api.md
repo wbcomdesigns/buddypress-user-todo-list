@@ -68,8 +68,11 @@ Create a personal to-do.
 
 ### `GET /todos/{id}`
 
-- **Permission:** owner, a user with `edit_others_posts`, or a manager of the todo's group.
-- **Returns:** the todo object, or `404 bptodo_rest_not_found`.
+- **Permission:** the owner, a user with `edit_others_posts`, anyone who may manage the
+  todo's group tasks (see below), or a member of the todo's group.
+- **Returns:** the todo object. A todo id that does not exist (or that you may not see)
+  returns `403 bptodo_rest_forbidden`, because the permission check runs before the todo
+  is loaded.
 
 ### `PATCH /todos/{id}`
 
@@ -77,19 +80,27 @@ Update a to-do.
 
 - **Params:** `title`, `description`, `priority`, `due_date`, `category` (only fields
   present in the request are changed).
-- **Permission:** same as `GET /todos/{id}`.
+- **Permission:** the owner, a user with `edit_others_posts`, or someone who may manage the
+  todo's group tasks: a group admin, a site admin, or a group moderator while
+  **Lock list for moderators** is off. Plain group members can view a group todo but not
+  change it.
+- **Group tasks:** editing the group's task (the primary) also updates the title,
+  description, due date, priority and category on every member's copy; each copy keeps
+  its own completion state. Changing the due date re-arms the due reminder.
 - **Returns:** the updated todo object.
 
 ### `DELETE /todos/{id}`
 
-- **Permission:** same as `GET /todos/{id}`.
+- **Permission:** same as `PATCH /todos/{id}`.
+- **Group tasks:** deleting the group's task (the primary) deletes every member's copy.
+  A member deleting their own copy deletes only that copy.
 - **Returns:** `{ "deleted": true, "id": 123 }`.
 
 ### `POST /todos/{id}/complete`
 
 Mark complete.
 
-- **Permission:** owner, `edit_others_posts`, or group manager.
+- **Permission:** same as `PATCH /todos/{id}`.
 - **Returns:** the updated todo object (`status: "complete"`).
 
 ### `DELETE /todos/{id}/complete`
@@ -128,9 +139,10 @@ Create a group to-do, optionally assigning it.
 
 - **Params:** `title` (required), `description`, `priority`, `due_date`, `category`,
   `assignees` (array of user IDs, or `["all"]`/omitted to assign the whole group).
-- **Permission:** any confirmed group member can create an unassigned task; assigning
-  specific `assignees` requires a group admin or moderator
-  (`Bptodo_Permissions::can_create_group_todo()`).
+- **Permission:** a group admin or site admin, or a group moderator when
+  **Moderators can add tasks** is on and **Lock list for moderators** is off
+  (`Bptodo_Permissions::can_create_group_todo()`). Other members cannot create group
+  tasks, with or without `assignees`.
 - **Errors:** `400 bptodo_due_required` (same rule as `POST /todos`).
 - **Returns:** the created (primary) todo object; member copies fan out internally using
   the same code path as the legacy assignment flow.
@@ -143,7 +155,7 @@ Errors are standard `WP_Error` responses with an HTTP status:
 |---|---|---|
 | `bptodo_rest_unauthorized` | 401 | Not logged in. |
 | `bptodo_rest_forbidden` | 403 | Logged in, but not permitted. |
-| `bptodo_rest_not_found` | 404 | Todo does not exist. |
+| `bptodo_rest_not_found` | 404 | Todo does not exist (returned by the handlers; the single-todo routes usually answer `403` first, see above). |
 | `bptodo_due_required` | 400 | Due date missing while required. |
 | `bptodo_cannot_add_category` | 403 | Not permitted to add categories. |
 | `bptodo_empty_category` | 400 | Category name was empty. |
