@@ -296,8 +296,9 @@ class Bptodo_List {
 		$groups        = bp_is_active( 'groups' );
 		$notifications = bp_is_active( 'notifications' );
 
-		// Reign's icon nav: our member + group tab get a to-do icon, not the generic one.
+		// Reign and BuddyX Pro icon navs: our member + group tab get a to-do icon, not the generic one.
 		add_filter( 'reign_bp_nav_icons', array( $plugin_public, 'bptodo_reign_nav_icon' ) );
+		add_action( 'wp_enqueue_scripts', array( $plugin_public, 'bptodo_buddyx_nav_icons' ), 20 );
 
 		if ( $groups ) {
 			add_action( 'bp_setup_nav', array( $plugin_public, 'bptodo_add_todo_tabs_in_groups' ), 10 );

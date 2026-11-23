@@ -293,7 +293,7 @@ Major update: the todo list now uses blocks + REST for a faster, richer experien
 * Fix      - The WP-CLI cleanup command removes every matching todo on large sites instead of skipping every other batch.
 * Fix      - Dropdown arrows no longer repeat across the field in BuddyX and Reign dark mode, and the selected text is no longer cut off.
 * Fix      - The Classic [bptodo_list show_add="yes"] shortcode shows an Add button that opens your Add form.
-* Fix      - The Todos tab shows a to-do icon in Reign instead of the generic one.
+* Fix      - The member and group Todos tabs show a to-do icon in Reign and BuddyX Pro instead of the generic one.
 * Security - Group moderator settings (lock the list, allow adding tasks) are enforced for every way of adding or changing a group task.
 * Security - Todo stats for another member are only returned to site administrators.
 * Security - Every plugin file now refuses direct web access, and the shortcodes setting is sanitized when saved.

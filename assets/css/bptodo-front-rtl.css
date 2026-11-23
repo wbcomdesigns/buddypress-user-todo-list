@@ -1574,43 +1574,6 @@ Edit popup
     color: var(--reign-site-button-text-color);
 }
 
-/* Add Nav Icons */
-.buddyx-nav-iconic .groups-nav li#nav-to-do-groups-li a:before,
-.wb-reign-theme #nav-to-do-groups-li a#nav-to-do::before {
-    content: "\f044";
-}
-
-.buddyx-nav-iconic #todo-personal-li>a:before,
-.buddyx-nav-iconic #nav-todo-groups-li>a:before,
-.reign-nav-iconic #todo-personal-li>a:before,
-.reign-nav-iconic #nav-todo-groups-li>a:before {
-    content: "\f0ae";
-}
-
-.reign-nav-iconic #add-groups-li>a:before,
-.reign-nav-iconic #add-personal-li>a:before,
-.buddyx-nav-iconic #add-groups-li>a:before,
-.buddyx-nav-iconic #add-personal-li>a:before {
-    content: "\f044";
-}
-
-.reign-nav-iconic #list-groups-li>a:before,
-.reign-nav-iconic #list-personal-li>a:before,
-.buddyx-nav-iconic #list-groups-li>a:before,
-.buddyx-nav-iconic #list-personal-li>a:before {
-    content: "\f0ae";
-}
-
-.reign-nav-iconic #reports-groups-li>a:before,
-.buddyx-nav-iconic #reports-groups-li>a:before {
-    content: "\f15b";
-}
-
-.reign-nav-iconic #overview-groups-li>a:before,
-.buddyx-nav-iconic #overview-groups-li>a:before {
-    content: "\f080";
-}
-
 /*BuddyBoss Theme*/
 
 body.bp-user.list.buddypress.buddyboss-theme footer.entry-footer {
