@@ -766,3 +766,46 @@ if ( ! function_exists( 'bptodo_today' ) ) {
 		return wp_date( 'Y-m-d', null, bptodo_display_timezone( $user_id ) );
 	}
 }
+
+if ( ! function_exists( 'bptodo_delete_todos_in_batches' ) ) {
+	/**
+	 * Delete (or trash) every todo a query matches, in id batches.
+	 *
+	 * Always re-reads the first page: each pass removes its rows from the set, so
+	 * paging forward would skip a batch every time. Stops when a pass removes
+	 * nothing, so a post that refuses to delete cannot loop forever.
+	 *
+	 * @since 4.0.1
+	 * @param array $query_args WP_Query args (post_type, meta_query, date_query...).
+	 * @param bool  $permanent  True deletes, false moves to the trash.
+	 * @param int   $batch      Rows per pass.
+	 * @return int Rows removed.
+	 */
+	function bptodo_delete_todos_in_batches( $query_args, $permanent = true, $batch = 200 ) {
+		$query_args = array_merge(
+			$query_args,
+			array(
+				'fields'                 => 'ids',
+				'posts_per_page'         => max( 1, (int) $batch ),
+				'paged'                  => 1,
+				'orderby'                => 'ID',
+				'order'                  => 'ASC',
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+			)
+		);
+		$removed    = 0;
+		do {
+			$ids  = ( new WP_Query( $query_args ) )->posts;
+			$pass = 0;
+			foreach ( $ids as $id ) {
+				if ( $permanent ? wp_delete_post( $id, true ) : wp_trash_post( $id ) ) {
+					++$pass;
+				}
+			}
+			$removed += $pass;
+		} while ( $ids && $pass );
+		return $removed;
+	}
+}
