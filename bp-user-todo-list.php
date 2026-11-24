@@ -589,11 +589,11 @@ if ( ! function_exists( 'list_todo_tab_function_to_show_title' ) ) {
 	        $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' );
 	        ?>
 	        <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-        <button type="button" id="export_my_tasks" class="bptodo-btn bptodo-btn--secondary">
-            <svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span><?php echo esc_html__( 'Export', 'bp-user-to-do-list' ); ?></span>
-        </button>
-        <?php
+	        <button type="button" id="export_my_tasks" class="bptodo-btn bptodo-btn--secondary">
+	            <svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+	            <span><?php echo esc_html__( 'Export', 'bp-user-to-do-list' ); ?></span>
+	        </button>
+	        <?php
 	    }
 	}
 }
