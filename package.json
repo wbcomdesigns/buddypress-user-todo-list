@@ -6,7 +6,7 @@
   "description": "Group review plugin for BuddyPress",
   "scripts": {
     "build": "grunt build",
-    "release": "grunt release"
+    "release": "bash bin/build-release.sh"
   },
   "devDependencies": {
     "grunt": "^1.0.4",

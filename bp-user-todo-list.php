@@ -19,17 +19,25 @@
 
 defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
 
+// One copy only: stop if this plugin is already loaded from another folder.
+if ( defined( 'BP_USER_TO_DO_LIST_LOADED' ) ) {
+	return;
+}
+define( 'BP_USER_TO_DO_LIST_LOADED', __FILE__ );
+
 /**
  * Load plugin textdomain.
  */
 // init, not plugins_loaded: loading a text domain before init triggers
 // _load_textdomain_just_in_time on WordPress 6.7+.
 add_action( 'init', 'bptodo_load_textdomain' );
-function bptodo_load_textdomain() {
-    // load_plugin_textdomain() already checks wp-content/languages/plugins first
-    // (the WordPress.org language pack) and falls back to the bundled file, so
-    // both paths work from this one call.
-    load_plugin_textdomain( 'bp-user-to-do-list', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+if ( ! function_exists( 'bptodo_load_textdomain' ) ) {
+	function bptodo_load_textdomain() {
+	    // load_plugin_textdomain() already checks wp-content/languages/plugins first
+	    // (the WordPress.org language pack) and falls back to the bundled file, so
+	    // both paths work from this one call.
+	    load_plugin_textdomain( 'bp-user-to-do-list', false, plugin_basename( dirname( __FILE__ ) ) . '/languages' );
+	}
 }
 
 // Constants used in the plugin.
@@ -60,17 +68,21 @@ if ( ! defined( 'BPTODO_TEMPLATE_PATH' ) ) {
     define( 'BPTODO_TEMPLATE_PATH', BPTODO_PLUGIN_PATH . '/inc/templates/' );
 }
 
-/**
- * Activation and deactivation hooks.
- */
-function activate_bptodo_list() {
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-activator.php';
-    Bptodo_List_Activator::activate();
+if ( ! function_exists( 'activate_bptodo_list' ) ) {
+	/**
+	 * Activation and deactivation hooks.
+	 */
+	function activate_bptodo_list() {
+	    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-activator.php';
+	    Bptodo_List_Activator::activate();
+	}
 }
 
-function deactivate_bptodo_list() {
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-deactivator.php';
-    Bptodo_List_Deactivator::deactivate();
+if ( ! function_exists( 'deactivate_bptodo_list' ) ) {
+	function deactivate_bptodo_list() {
+	    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-deactivator.php';
+	    Bptodo_List_Deactivator::deactivate();
+	}
 }
 
 register_activation_hook( __FILE__, 'activate_bptodo_list' );
@@ -80,68 +92,74 @@ register_deactivation_hook( __FILE__, 'deactivate_bptodo_list' );
  * Check for plugin updates and run upgrade routines.
  */
 add_action( 'plugins_loaded', 'bptodo_check_plugin_update' );
-function bptodo_check_plugin_update() {
-    $installed_version = get_option( 'bptodo_version', '0.0.0' );
+if ( ! function_exists( 'bptodo_check_plugin_update' ) ) {
+	function bptodo_check_plugin_update() {
+	    $installed_version = get_option( 'bptodo_version', '0.0.0' );
 
-    if ( version_compare( $installed_version, BPTODO_VERSION, '<' ) ) {
-        // Persist the new version FIRST so that if a one-off upgrade task fails, this
-        // routine (and its side effects) can never re-run on every request and wedge
-        // the site. Then defer the actual upgrade work to 'init', when BuddyPress email
-        // post types + taxonomies are registered (plugins_loaded is too early - creating
-        // the email posts there previously failed term assignment and triggered a delete
-        // that could fatal via other plugins hooking wp_delete_post).
-        update_option( 'bptodo_version', BPTODO_VERSION );
-        update_option( 'bptodo_pending_upgrade_from', $installed_version );
-    }
+	    if ( version_compare( $installed_version, BPTODO_VERSION, '<' ) ) {
+	        // Persist the new version FIRST so that if a one-off upgrade task fails, this
+	        // routine (and its side effects) can never re-run on every request and wedge
+	        // the site. Then defer the actual upgrade work to 'init', when BuddyPress email
+	        // post types + taxonomies are registered (plugins_loaded is too early - creating
+	        // the email posts there previously failed term assignment and triggered a delete
+	        // that could fatal via other plugins hooking wp_delete_post).
+	        update_option( 'bptodo_version', BPTODO_VERSION );
+	        update_option( 'bptodo_pending_upgrade_from', $installed_version );
+	    }
 
-    if ( false !== get_option( 'bptodo_pending_upgrade_from', false ) ) {
-        add_action( 'init', 'bptodo_run_pending_upgrade', 20 );
-    }
+	    if ( false !== get_option( 'bptodo_pending_upgrade_from', false ) ) {
+	        add_action( 'init', 'bptodo_run_pending_upgrade', 20 );
+	    }
+	}
 }
 
-/**
- * Run the deferred one-off upgrade tasks exactly once, on init.
- */
-function bptodo_run_pending_upgrade() {
-    $from = get_option( 'bptodo_pending_upgrade_from', false );
-    if ( false === $from ) {
-        return;
-    }
-    delete_option( 'bptodo_pending_upgrade_from' );
-    bptodo_upgrade_routine( $from );
+if ( ! function_exists( 'bptodo_run_pending_upgrade' ) ) {
+	/**
+	 * Run the deferred one-off upgrade tasks exactly once, on init.
+	 */
+	function bptodo_run_pending_upgrade() {
+	    $from = get_option( 'bptodo_pending_upgrade_from', false );
+	    if ( false === $from ) {
+	        return;
+	    }
+	    delete_option( 'bptodo_pending_upgrade_from' );
+	    bptodo_upgrade_routine( $from );
 
-    // The bp-todo CPT/taxonomy became private in 4.0.0 (no public single pages,
-    // archive or term URLs). Flush once so the stale /todo/ and /todo_category/
-    // rewrite rules are dropped and those URLs stop resolving to todo data.
-    flush_rewrite_rules();
+	    // The bp-todo CPT/taxonomy became private in 4.0.0 (no public single pages,
+	    // archive or term URLs). Flush once so the stale /todo/ and /todo_category/
+	    // rewrite rules are dropped and those URLs stop resolving to todo data.
+	    flush_rewrite_rules();
+	}
 }
 
-/**
- * Plugin upgrade routine - runs when plugin is updated.
- *
- * @param string $from_version The version being upgraded from.
- */
-function bptodo_upgrade_routine( $from_version ) {
-    // Check if BuddyPress is active
-    if ( ! function_exists( 'bp_is_active' ) ) {
-        return;
-    }
+if ( ! function_exists( 'bptodo_upgrade_routine' ) ) {
+	/**
+	 * Plugin upgrade routine - runs when plugin is updated.
+	 *
+	 * @param string $from_version The version being upgraded from.
+	 */
+	function bptodo_upgrade_routine( $from_version ) {
+	    // Check if BuddyPress is active
+	    if ( ! function_exists( 'bp_is_active' ) ) {
+	        return;
+	    }
 
-    // Load dependencies
-    require_once plugin_dir_path( __FILE__ ) . 'inc/class-bptodo-globals.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
-    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
+	    // Load dependencies
+	    require_once plugin_dir_path( __FILE__ ) . 'inc/class-bptodo-globals.php';
+	    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+	    require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
 
-    // Install/update email templates
-    // These functions check if emails exist before creating them
-    Bptodo_Emails::install_emails(); // Due date reminder email
-    Bptodo_Emails::install_assigned_email(); // Assignment notification email
+	    // Install/update email templates
+	    // These functions check if emails exist before creating them
+	    Bptodo_Emails::install_emails(); // Due date reminder email
+	    Bptodo_Emails::install_assigned_email(); // Assignment notification email
 
-    // Add any future upgrade routines here based on version
-    // Example:
-    // if ( version_compare( $from_version, '3.5.0', '<' ) ) {
-    //     // Upgrade routine for versions before 3.5.0
-    // }
+	    // Add any future upgrade routines here based on version
+	    // Example:
+	    // if ( version_compare( $from_version, '3.5.0', '<' ) ) {
+	    //     // Upgrade routine for versions before 3.5.0
+	    // }
+	}
 }
 
 /**
@@ -155,99 +173,103 @@ function bptodo_upgrade_routine( $from_version ) {
  * @since 4.0.1
  */
 add_action( 'plugins_loaded', 'bptodo_maybe_migrate_completion_times', 5 );
-function bptodo_maybe_migrate_completion_times() {
-	$state = get_option( BPTODO_UTC_MARKER, '' );
-	if ( 0 !== strpos( (string) $state, 'done:' ) ) {
-		bptodo_migrate_completion_times_to_utc();
+if ( ! function_exists( 'bptodo_maybe_migrate_completion_times' ) ) {
+	function bptodo_maybe_migrate_completion_times() {
+		$state = get_option( BPTODO_UTC_MARKER, '' );
+		if ( 0 !== strpos( (string) $state, 'done:' ) ) {
+			bptodo_migrate_completion_times_to_utc();
+		}
 	}
 }
 
-/**
- * One-time move of stored completion times from the site's clock time to UTC.
- *
- * Each value is converted with the site timezone rule for its own date, so
- * values written on either side of a daylight-saving change convert correctly.
- * todo_complete_time held current_time( 'timestamp' ): UTC seconds plus the
- * offset of that moment, i.e. the local wall time read as if it were UTC.
- *
- * Exactly once: the marker row is claimed with an atomic INSERT IGNORE (the same
- * lock core's WP_Upgrader::create_lock() uses), the cursor is saved after every
- * row, and a run that died is resumed from its cursor after 10 minutes. A fresh
- * install has no rows, so it records "done:0".
- *
- * ponytail: a member re-completing a not-yet-reached todo during the run (seconds
- * long) gets that one value shifted; per-row markers if that ever matters.
- *
- * @since 4.0.1
- */
-function bptodo_migrate_completion_times_to_utc() {
-	global $wpdb;
+if ( ! function_exists( 'bptodo_migrate_completion_times_to_utc' ) ) {
+	/**
+	 * One-time move of stored completion times from the site's clock time to UTC.
+	 *
+	 * Each value is converted with the site timezone rule for its own date, so
+	 * values written on either side of a daylight-saving change convert correctly.
+	 * todo_complete_time held current_time( 'timestamp' ): UTC seconds plus the
+	 * offset of that moment, i.e. the local wall time read as if it were UTC.
+	 *
+	 * Exactly once: the marker row is claimed with an atomic INSERT IGNORE (the same
+	 * lock core's WP_Upgrader::create_lock() uses), the cursor is saved after every
+	 * row, and a run that died is resumed from its cursor after 10 minutes. A fresh
+	 * install has no rows, so it records "done:0".
+	 *
+	 * ponytail: a member re-completing a not-yet-reached todo during the run (seconds
+	 * long) gets that one value shifted; per-row markers if that ever matters.
+	 *
+	 * @since 4.0.1
+	 */
+	function bptodo_migrate_completion_times_to_utc() {
+		global $wpdb;
 
-	// phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade + atomic lock; no API converts meta in place.
-	$now     = time();
-	$claimed = $wpdb->query(
-		$wpdb->prepare(
-			"INSERT IGNORE INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'yes' )",
-			BPTODO_UTC_MARKER,
-			'running:0:' . $now
-		)
-	);
-	$current = (string) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", BPTODO_UTC_MARKER ) );
-	if ( ! $claimed ) {
-		// Someone else holds it. Take it over only if that run died (no progress for 10 minutes).
-		$parts = explode( ':', $current );
-		if ( 3 !== count( $parts ) || 'running' !== $parts[0] || (int) $parts[2] > $now - 10 * MINUTE_IN_SECONDS ) {
-			return;
-		}
-		$takeover = 'running:' . (int) $parts[1] . ':' . $now;
-		if ( 1 !== (int) $wpdb->update( $wpdb->options, array( 'option_value' => $takeover ), array( 'option_name' => BPTODO_UTC_MARKER, 'option_value' => $current ) ) ) {
-			return;
-		}
-		$current = $takeover;
-	}
-	wp_cache_delete( 'alloptions', 'options' );
-	wp_cache_delete( 'notoptions', 'options' );
-	wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
-
-	$last      = (int) explode( ':', $current )[1];
-	$converted = 0;
-	$tz        = wp_timezone();
-	$is_utc    = 0 === $tz->getOffset( new DateTimeImmutable( '2026-01-01' ) ) && 0 === $tz->getOffset( new DateTimeImmutable( '2026-07-01' ) );
-	$utc       = new DateTimeZone( 'UTC' );
-
-	while ( ! $is_utc ) {
-		$rows = $wpdb->get_results(
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery -- one-time bulk upgrade + atomic lock; no API converts meta in place.
+		$now     = time();
+		$claimed = $wpdb->query(
 			$wpdb->prepare(
-				"SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_id > %d AND meta_key IN ( 'todo_completed_date', 'todo_complete_time' ) ORDER BY meta_id ASC LIMIT 500",
-				$last
+				"INSERT IGNORE INTO {$wpdb->options} ( option_name, option_value, autoload ) VALUES ( %s, %s, 'yes' )",
+				BPTODO_UTC_MARKER,
+				'running:0:' . $now
 			)
 		);
-		foreach ( $rows as $row ) {
-			$value = (string) $row->meta_value;
-			$new   = $value;
-			if ( 'todo_complete_time' === $row->meta_key && ctype_digit( $value ) ) {
-				$new = (string) date_create_immutable( gmdate( 'Y-m-d H:i:s', (int) $value ), $tz )->getTimestamp();
-			} elseif ( 'todo_completed_date' === $row->meta_key && '0000-00-00 00:00:00' !== $value && preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value ) ) {
-				$new = date_create_immutable( $value, $tz )->setTimezone( $utc )->format( 'Y-m-d H:i:s' );
+		$current = (string) $wpdb->get_var( $wpdb->prepare( "SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", BPTODO_UTC_MARKER ) );
+		if ( ! $claimed ) {
+			// Someone else holds it. Take it over only if that run died (no progress for 10 minutes).
+			$parts = explode( ':', $current );
+			if ( 3 !== count( $parts ) || 'running' !== $parts[0] || (int) $parts[2] > $now - 10 * MINUTE_IN_SECONDS ) {
+				return;
 			}
-			if ( $new !== $value ) {
-				$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $new ), array( 'meta_id' => (int) $row->meta_id ) );
-				wp_cache_delete( (int) $row->post_id, 'post_meta' );
-				++$converted;
+			$takeover = 'running:' . (int) $parts[1] . ':' . $now;
+			if ( 1 !== (int) $wpdb->update( $wpdb->options, array( 'option_value' => $takeover ), array( 'option_name' => BPTODO_UTC_MARKER, 'option_value' => $current ) ) ) {
+				return;
 			}
-			$last = (int) $row->meta_id;
-			// Cursor after every row, so a resumed run never converts a row twice.
-			$wpdb->update( $wpdb->options, array( 'option_value' => 'running:' . $last . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
+			$current = $takeover;
 		}
-		if ( count( $rows ) < 500 ) {
-			break;
-		}
-	}
+		wp_cache_delete( 'alloptions', 'options' );
+		wp_cache_delete( 'notoptions', 'options' );
+		wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
 
-	$wpdb->update( $wpdb->options, array( 'option_value' => 'done:' . $converted . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
-	// phpcs:enable WordPress.DB.DirectDatabaseQuery
-	wp_cache_delete( 'alloptions', 'options' );
-	wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
+		$last      = (int) explode( ':', $current )[1];
+		$converted = 0;
+		$tz        = wp_timezone();
+		$is_utc    = 0 === $tz->getOffset( new DateTimeImmutable( '2026-01-01' ) ) && 0 === $tz->getOffset( new DateTimeImmutable( '2026-07-01' ) );
+		$utc       = new DateTimeZone( 'UTC' );
+
+		while ( ! $is_utc ) {
+			$rows = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT meta_id, post_id, meta_key, meta_value FROM {$wpdb->postmeta} WHERE meta_id > %d AND meta_key IN ( 'todo_completed_date', 'todo_complete_time' ) ORDER BY meta_id ASC LIMIT 500",
+					$last
+				)
+			);
+			foreach ( $rows as $row ) {
+				$value = (string) $row->meta_value;
+				$new   = $value;
+				if ( 'todo_complete_time' === $row->meta_key && ctype_digit( $value ) ) {
+					$new = (string) date_create_immutable( gmdate( 'Y-m-d H:i:s', (int) $value ), $tz )->getTimestamp();
+				} elseif ( 'todo_completed_date' === $row->meta_key && '0000-00-00 00:00:00' !== $value && preg_match( '/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $value ) ) {
+					$new = date_create_immutable( $value, $tz )->setTimezone( $utc )->format( 'Y-m-d H:i:s' );
+				}
+				if ( $new !== $value ) {
+					$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $new ), array( 'meta_id' => (int) $row->meta_id ) );
+					wp_cache_delete( (int) $row->post_id, 'post_meta' );
+					++$converted;
+				}
+				$last = (int) $row->meta_id;
+				// Cursor after every row, so a resumed run never converts a row twice.
+				$wpdb->update( $wpdb->options, array( 'option_value' => 'running:' . $last . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
+			}
+			if ( count( $rows ) < 500 ) {
+				break;
+			}
+		}
+
+		$wpdb->update( $wpdb->options, array( 'option_value' => 'done:' . $converted . ':' . time() ), array( 'option_name' => BPTODO_UTC_MARKER ) );
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery
+		wp_cache_delete( 'alloptions', 'options' );
+		wp_cache_delete( BPTODO_UTC_MARKER, 'options' );
+	}
 }
 
 /**
@@ -261,158 +283,172 @@ function bptodo_migrate_completion_times_to_utc() {
  * BuddyPress is present it re-runs on bp_init for full group context.
  */
 add_action( 'init', 'bptodo_init_globals', 1 );
-function bptodo_init_globals() {
-    global $bptodo;
-    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
-        $bptodo = new Bptodo_Globals();
-        $bptodo->setup_globals();
-    }
+if ( ! function_exists( 'bptodo_init_globals' ) ) {
+	function bptodo_init_globals() {
+	    global $bptodo;
+	    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+	        $bptodo = new Bptodo_Globals();
+	        $bptodo->setup_globals();
+	    }
+	}
 }
 
 /**
  * Load the BuddyPress group extension - only when BuddyPress/BuddyBoss is active.
  */
 add_action( 'bp_loaded', 'run_wp_bptodo_list' );
-function run_wp_bptodo_list() {
-    global $bptodo;
+if ( ! function_exists( 'run_wp_bptodo_list' ) ) {
+	function run_wp_bptodo_list() {
+	    global $bptodo;
 
-    // With BP_ENABLE_MULTIBLOG off, bp_loaded still fires on every subsite of a network
-    // where BuddyPress is network-active, but groups only have screens on BP_ROOT_BLOG.
-    // Keep the group layer off elsewhere (this used to be enforced by deactivating the
-    // whole plugin on non-root subsites - see bptodo_check_buddypress_subsite_activation).
-    if ( ! bptodo_is_bp_root_blog() ) {
-        return;
-    }
+	    // With BP_ENABLE_MULTIBLOG off, bp_loaded still fires on every subsite of a network
+	    // where BuddyPress is network-active, but groups only have screens on BP_ROOT_BLOG.
+	    // Keep the group layer off elsewhere (this used to be enforced by deactivating the
+	    // whole plugin on non-root subsites - see bptodo_check_buddypress_subsite_activation).
+	    if ( ! bptodo_is_bp_root_blog() ) {
+	        return;
+	    }
 
-    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
-        $bptodo = new Bptodo_Globals();
-        $bptodo->setup_globals();
-    }
+	    if ( ! ( $bptodo instanceof Bptodo_Globals ) ) {
+	        $bptodo = new Bptodo_Globals();
+	        $bptodo->setup_globals();
+	    }
 
-    // Group extension depends on $bptodo and BuddyPress groups.
-	if ( ! bp_is_active( 'groups' ) ) {
-		return;
+	    // Group extension depends on $bptodo and BuddyPress groups.
+		if ( ! bp_is_active( 'groups' ) ) {
+			return;
+		}
+	    $include_files = array(
+	        'public/class-bptodo-groups-extension-tab.php',
+	    );
+	    foreach ( $include_files as $include_file ) {
+	        include $include_file;
+	    }
 	}
-    $include_files = array(
-        'public/class-bptodo-groups-extension-tab.php',
-    );
-    foreach ( $include_files as $include_file ) {
-        include $include_file;
-    }
 }
 
-/**
- * Admin page links.
- */
-function bptodo_admin_page_link( $links ) {
-    $bptodo_links = array(
-        '<a href="' . admin_url( 'admin.php?page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'bp-user-to-do-list' ) . '</a>',
-        '<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'bp-user-to-do-list' ) . '</a>',
-    );
-    return array_merge( $links, $bptodo_links );
+if ( ! function_exists( 'bptodo_admin_page_link' ) ) {
+	/**
+	 * Admin page links.
+	 */
+	function bptodo_admin_page_link( $links ) {
+	    $bptodo_links = array(
+	        '<a href="' . admin_url( 'admin.php?page=user-todo-list-settings' ) . '">' . esc_html__( 'Settings', 'bp-user-to-do-list' ) . '</a>',
+	        '<a href="https://wbcomdesigns.com/contact/" target="_blank">' . esc_html__( 'Support', 'bp-user-to-do-list' ) . '</a>',
+	    );
+	    return array_merge( $links, $bptodo_links );
+	}
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'bptodo_admin_page_link' );
 
-/**
- * Allow subscribers to upload media files only on BuddyPress todo pages.
- *
- * Uses user_has_cap filter to dynamically grant upload capability
- * instead of permanently modifying the subscriber role.
- *
- * @param array $allcaps All capabilities of the user.
- * @param array $caps    Required capabilities.
- * @param array $args    Arguments (capability being checked, user ID, etc).
- * @return array Modified capabilities.
- */
-function bptodo_grant_upload_cap_on_todo_pages( $allcaps, $caps, $args ) {
-	// Only process upload_files capability checks.
-	if ( ! in_array( 'upload_files', $caps, true ) ) {
-		return $allcaps;
-	}
-
-	// User already has the capability.
-	if ( ! empty( $allcaps['upload_files'] ) ) {
-		return $allcaps;
-	}
-
-	// Check if we're on a BuddyPress todo page.
-	$is_todo_page = false;
-
-	if ( function_exists( 'bp_is_user' ) && bp_is_user() ) {
-		// Check if on member todo tab.
-		$current_component = function_exists( 'bp_current_component' ) ? bp_current_component() : '';
-		$todo_slug         = 'todo'; // Default slug.
-
-		// Get custom slug from settings if available.
-		$settings = get_option( 'user_todo_list_settings' );
-		if ( ! empty( $settings['profile_menu_label'] ) ) {
-			$todo_slug = sanitize_title( $settings['profile_menu_label'] );
+if ( ! function_exists( 'bptodo_grant_upload_cap_on_todo_pages' ) ) {
+	/**
+	 * Allow subscribers to upload media files only on BuddyPress todo pages.
+	 *
+	 * Uses user_has_cap filter to dynamically grant upload capability
+	 * instead of permanently modifying the subscriber role.
+	 *
+	 * @param array $allcaps All capabilities of the user.
+	 * @param array $caps    Required capabilities.
+	 * @param array $args    Arguments (capability being checked, user ID, etc).
+	 * @return array Modified capabilities.
+	 */
+	function bptodo_grant_upload_cap_on_todo_pages( $allcaps, $caps, $args ) {
+		// Only process upload_files capability checks.
+		if ( ! in_array( 'upload_files', $caps, true ) ) {
+			return $allcaps;
 		}
 
-		if ( $current_component === $todo_slug ) {
-			$is_todo_page = true;
+		// User already has the capability.
+		if ( ! empty( $allcaps['upload_files'] ) ) {
+			return $allcaps;
 		}
-	}
 
-	// Grant capability only on todo pages.
-	if ( $is_todo_page ) {
-		$allcaps['upload_files'] = true;
-	}
+		// Check if we're on a BuddyPress todo page.
+		$is_todo_page = false;
 
-	return $allcaps;
+		if ( function_exists( 'bp_is_user' ) && bp_is_user() ) {
+			// Check if on member todo tab.
+			$current_component = function_exists( 'bp_current_component' ) ? bp_current_component() : '';
+			$todo_slug         = 'todo'; // Default slug.
+
+			// Get custom slug from settings if available.
+			$settings = get_option( 'user_todo_list_settings' );
+			if ( ! empty( $settings['profile_menu_label'] ) ) {
+				$todo_slug = sanitize_title( $settings['profile_menu_label'] );
+			}
+
+			if ( $current_component === $todo_slug ) {
+				$is_todo_page = true;
+			}
+		}
+
+		// Grant capability only on todo pages.
+		if ( $is_todo_page ) {
+			$allcaps['upload_files'] = true;
+		}
+
+		return $allcaps;
+	}
 }
 add_filter( 'user_has_cap', 'bptodo_grant_upload_cap_on_todo_pages', 10, 3 );
 
-/**
- * Whether BuddyPress or BuddyBoss Platform is active.
- *
- * Since 4.0 the plugin works standalone (personal todos for any WordPress user);
- * BuddyPress/BuddyBoss is an optional enhancement (profile tab + group todos).
- *
- * @return bool
- */
-function bptodo_is_bp_active() {
-	return function_exists( 'buddypress' ) || class_exists( 'BuddyPress' );
+if ( ! function_exists( 'bptodo_is_bp_active' ) ) {
+	/**
+	 * Whether BuddyPress or BuddyBoss Platform is active.
+	 *
+	 * Since 4.0 the plugin works standalone (personal todos for any WordPress user);
+	 * BuddyPress/BuddyBoss is an optional enhancement (profile tab + group todos).
+	 *
+	 * @return bool
+	 */
+	function bptodo_is_bp_active() {
+		return function_exists( 'buddypress' ) || class_exists( 'BuddyPress' );
+	}
 }
 
-/**
- * Whether the current site is a blog where BuddyPress itself runs.
- *
- * BuddyPress serves its member profiles and groups from a single blog - BP_ROOT_BLOG -
- * unless BP_ENABLE_MULTIBLOG is on, in which case it runs everywhere. On any other
- * subsite there are no BP profile/group URLs to hang our tabs off, so the group and
- * profile layers must stay out of the way there. Personal todos are unaffected: they
- * are plain CPT posts and work on every site.
- *
- * @since 4.0.0
- * @return bool
- */
-function bptodo_is_bp_root_blog() {
-	if ( ! is_multisite() ) {
-		return true;
-	}
+if ( ! function_exists( 'bptodo_is_bp_root_blog' ) ) {
+	/**
+	 * Whether the current site is a blog where BuddyPress itself runs.
+	 *
+	 * BuddyPress serves its member profiles and groups from a single blog - BP_ROOT_BLOG -
+	 * unless BP_ENABLE_MULTIBLOG is on, in which case it runs everywhere. On any other
+	 * subsite there are no BP profile/group URLs to hang our tabs off, so the group and
+	 * profile layers must stay out of the way there. Personal todos are unaffected: they
+	 * are plain CPT posts and work on every site.
+	 *
+	 * @since 4.0.0
+	 * @return bool
+	 */
+	function bptodo_is_bp_root_blog() {
+		if ( ! is_multisite() ) {
+			return true;
+		}
 
-	if ( defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ) {
-		return true;
-	}
+		if ( defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ) {
+			return true;
+		}
 
-	// BP_ROOT_BLOG is always defined by this point (BuddyPress defines it, and this
-	// plugin falls back to 1 above), so there is no is_main_site() branch to take.
-	return defined( 'BP_ROOT_BLOG' )
-		? (int) get_current_blog_id() === (int) BP_ROOT_BLOG
-		: is_main_site();
+		// BP_ROOT_BLOG is always defined by this point (BuddyPress defines it, and this
+		// plugin falls back to 1 above), so there is no is_main_site() branch to take.
+		return defined( 'BP_ROOT_BLOG' )
+			? (int) get_current_blog_id() === (int) BP_ROOT_BLOG
+			: is_main_site();
+	}
 }
 
-/**
- * Whether the BuddyPress-dependent layer (profile tab + group todos) can run here.
- *
- * Needs BuddyPress/BuddyBoss active AND a blog where BuddyPress serves its screens.
- *
- * @since 4.0.0
- * @return bool
- */
-function bptodo_bp_features_available() {
-	return bptodo_is_bp_active() && bptodo_is_bp_root_blog();
+if ( ! function_exists( 'bptodo_bp_features_available' ) ) {
+	/**
+	 * Whether the BuddyPress-dependent layer (profile tab + group todos) can run here.
+	 *
+	 * Needs BuddyPress/BuddyBoss active AND a blog where BuddyPress serves its screens.
+	 *
+	 * @since 4.0.0
+	 * @return bool
+	 */
+	function bptodo_bp_features_available() {
+		return bptodo_is_bp_active() && bptodo_is_bp_root_blog();
+	}
 }
 
 /**
@@ -422,22 +458,24 @@ function bptodo_bp_features_available() {
  * BuddyPress layer is available (BP active, on the BP root blog).
  */
 add_action( 'init', 'bptodo_register_blocks' );
-function bptodo_register_blocks() {
-	if ( ! function_exists( 'register_block_type' ) ) {
-		return;
-	}
-	$blocks = array( register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' ) );
+if ( ! function_exists( 'bptodo_register_blocks' ) ) {
+	function bptodo_register_blocks() {
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+		$blocks = array( register_block_type( BPTODO_PLUGIN_PATH . 'blocks/my-todos' ) );
 
-	if ( bptodo_bp_features_available() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
-		$blocks[] = register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
-	}
+		if ( bptodo_bp_features_available() && file_exists( BPTODO_PLUGIN_PATH . 'blocks/group-todos/block.json' ) ) {
+			$blocks[] = register_block_type( BPTODO_PLUGIN_PATH . 'blocks/group-todos' );
+		}
 
-	// The editor scripts have no asset file, so core never wires their translations.
-	// Point them at the bundled JSON; a WordPress.org language pack still wins.
-	foreach ( $blocks as $block ) {
-		if ( $block instanceof WP_Block_Type ) {
-			foreach ( $block->editor_script_handles as $handle ) {
-				wp_set_script_translations( $handle, 'bp-user-to-do-list', BPTODO_PLUGIN_PATH . 'languages' );
+		// The editor scripts have no asset file, so core never wires their translations.
+		// Point them at the bundled JSON; a WordPress.org language pack still wins.
+		foreach ( $blocks as $block ) {
+			if ( $block instanceof WP_Block_Type ) {
+				foreach ( $block->editor_script_handles as $handle ) {
+					wp_set_script_translations( $handle, 'bp-user-to-do-list', BPTODO_PLUGIN_PATH . 'languages' );
+				}
 			}
 		}
 	}
@@ -453,101 +491,111 @@ function bptodo_register_blocks() {
  * the front end already enqueues these on demand from Bptodo_Renderer::render().
  */
 add_action( 'enqueue_block_assets', 'bptodo_enqueue_block_editor_styles' );
-function bptodo_enqueue_block_editor_styles() {
-	if ( ! is_admin() || ! class_exists( 'Bptodo_Renderer' ) ) {
-		return;
+if ( ! function_exists( 'bptodo_enqueue_block_editor_styles' ) ) {
+	function bptodo_enqueue_block_editor_styles() {
+		if ( ! is_admin() || ! class_exists( 'Bptodo_Renderer' ) ) {
+			return;
+		}
+		Bptodo_Renderer::enqueue_styles();
 	}
-	Bptodo_Renderer::enqueue_styles();
 }
 
-/**
- * Surface the availability of the BuddyPress layer on the current site.
- *
- * Since 4.0 BuddyPress is OPTIONAL: personal todos are plain CPT posts and work on any
- * WordPress site, single or multisite. This check therefore never deactivates the plugin
- * - it only explains, via a dismissible notice, when the group/profile layer is not
- * available here so the site owner is not left wondering where those tabs went.
- *
- * Before 4.0.0 the multisite branch self-deactivated the plugin whenever BuddyPress was
- * not network-active, or the current blog was not BP_ROOT_BLOG. That killed personal
- * todos on every subsite of every multisite network, which contradicts standalone mode.
- */
-function bptodo_check_buddypress_subsite_activation() {
-	if ( is_multisite() && is_network_admin() ) {
-		// Nothing site-specific to report from the network screens.
-		return;
-	}
+if ( ! function_exists( 'bptodo_check_buddypress_subsite_activation' ) ) {
+	/**
+	 * Surface the availability of the BuddyPress layer on the current site.
+	 *
+	 * Since 4.0 BuddyPress is OPTIONAL: personal todos are plain CPT posts and work on any
+	 * WordPress site, single or multisite. This check therefore never deactivates the plugin
+	 * - it only explains, via a dismissible notice, when the group/profile layer is not
+	 * available here so the site owner is not left wondering where those tabs went.
+	 *
+	 * Before 4.0.0 the multisite branch self-deactivated the plugin whenever BuddyPress was
+	 * not network-active, or the current blog was not BP_ROOT_BLOG. That killed personal
+	 * todos on every subsite of every multisite network, which contradicts standalone mode.
+	 */
+	function bptodo_check_buddypress_subsite_activation() {
+		if ( is_multisite() && is_network_admin() ) {
+			// Nothing site-specific to report from the network screens.
+			return;
+		}
 
-	if ( ! bptodo_is_bp_active() ) {
-		add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
-		return;
-	}
+		if ( ! bptodo_is_bp_active() ) {
+			add_action( 'admin_notices', 'bptodo_plugin_admin_notice' );
+			return;
+		}
 
-	// BuddyPress is active, but this subsite is not where it serves its screens, so the
-	// group/profile layer stays off here (bptodo_bp_features_available()). Personal
-	// todos keep working.
-	if ( ! bptodo_is_bp_root_blog() ) {
-		add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
+		// BuddyPress is active, but this subsite is not where it serves its screens, so the
+		// group/profile layer stays off here (bptodo_bp_features_available()). Personal
+		// todos keep working.
+		if ( ! bptodo_is_bp_root_blog() ) {
+			add_action( 'admin_notices', 'bptodo_show_bp_root_blog_notice' );
+		}
 	}
 }
 add_action( 'admin_init', 'bptodo_check_buddypress_subsite_activation' );
 
-/**
- * Notice: BuddyPress is active on the network but not on this subsite's blog.
- *
- * Informational and dismissible - the plugin stays active and personal todos still work.
- */
-function bptodo_show_bp_root_blog_notice() {
-	echo '<div class="notice notice-info is-dismissible"><p>';
-	printf(
+if ( ! function_exists( 'bptodo_show_bp_root_blog_notice' ) ) {
+	/**
+	 * Notice: BuddyPress is active on the network but not on this subsite's blog.
+	 *
+	 * Informational and dismissible - the plugin stays active and personal todos still work.
+	 */
+	function bptodo_show_bp_root_blog_notice() {
+		echo '<div class="notice notice-info is-dismissible"><p>';
+		printf(
+			/* Translators: %s: plugin name. */
+			esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'bp-user-to-do-list' ),
+			'<strong>' . esc_html( 'Todo for BuddyPress & BuddyBoss' ) . '</strong>'
+		);
+		echo '</p></div>';
+	}
+}
+
+if ( ! function_exists( 'bptodo_plugin_admin_notice' ) ) {
+	/**
+	 * Plugin notice - activate buddypress - single site.
+	 *
+	 * @author  wbcomdesigns
+	 * @since   1.0.0
+	 */
+	function bptodo_plugin_admin_notice() {
+		$bptodo_plugin = 'Todo for BuddyPress & BuddyBoss'; // Product name: never translated.
 		/* Translators: %s: plugin name. */
-		esc_html__( '%s: personal todo lists are active on this site. Group todos and the member profile tab are only available on the BuddyPress root blog.', 'bp-user-to-do-list' ),
-		'<strong>' . esc_html( 'Todo for BuddyPress & BuddyBoss' ) . '</strong>'
-	);
-	echo '</p></div>';
+		echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'bp-user-to-do-list' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
+	}
 }
 
-/**
- * Plugin notice - activate buddypress - single site.
- *
- * @author  wbcomdesigns
- * @since   1.0.0
- */
-function bptodo_plugin_admin_notice() {
-	$bptodo_plugin = 'Todo for BuddyPress & BuddyBoss'; // Product name: never translated.
-	/* Translators: %s: plugin name. */
-	echo '<div class="notice notice-info is-dismissible"><p>' . sprintf( esc_html__( '%s: personal todo lists are active. Install and activate BuddyPress or BuddyBoss Platform to also enable group todos and the member profile tab.', 'bp-user-to-do-list' ), '<strong>' . esc_html( $bptodo_plugin ) . '</strong>' ) . '</p></div>';
-}
+if ( ! function_exists( 'list_todo_tab_function_to_show_title' ) ) {
+	/**
+	 * Screen function for todo list title.
+	 */
+	function list_todo_tab_function_to_show_title() {
+	    global $bptodo;
+	    $profile_menu_label = $bptodo->profile_menu_label;
 
-/**
- * Screen function for todo list title.
- */
-function list_todo_tab_function_to_show_title() {
-    global $bptodo;
-    $profile_menu_label = $bptodo->profile_menu_label;
+	    // Get displayed user ID with fallback
+	    $displayed_user_id = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
 
-    // Get displayed user ID with fallback
-    $displayed_user_id = function_exists( 'bp_displayed_user_id' ) ? bp_displayed_user_id() : get_current_user_id();
-
-    // Only check if user has any todos - no need to load all posts
-    $args  = array(
-        'post_type'      => 'bp-todo',
-        'author'         => $displayed_user_id,
-        'post_status'    => 'publish',
-        'posts_per_page' => 1,
-        'fields'         => 'ids',
-    );
-    $todos = get_posts( $args );
-    if ( ! empty( $todos ) ) {
-        $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' );
-        ?>
-        <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
-        <button type="button" id="export_my_tasks" class="bptodo-btn bptodo-btn--secondary">
-            <svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span><?php echo esc_html__( 'Export', 'bp-user-to-do-list' ); ?></span>
-        </button>
-        <?php
-    }
+	    // Only check if user has any todos - no need to load all posts
+	    $args  = array(
+	        'post_type'      => 'bp-todo',
+	        'author'         => $displayed_user_id,
+	        'post_status'    => 'publish',
+	        'posts_per_page' => 1,
+	        'fields'         => 'ids',
+	    );
+	    $todos = get_posts( $args );
+	    if ( ! empty( $todos ) ) {
+	        $todo_export_nonce = wp_create_nonce( 'bptodo-export-todo' );
+	        ?>
+	        <input type="hidden" id="bptodo-export-todo-nonce" value="<?php echo esc_html( $todo_export_nonce ); ?>">
+	        <button type="button" id="export_my_tasks" class="bptodo-btn bptodo-btn--secondary">
+	            <svg class="bptodo-btn__icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+	            <span><?php echo esc_html__( 'Export', 'bp-user-to-do-list' ); ?></span>
+	        </button>
+	        <?php
+	    }
+	}
 }
 
 /**
@@ -561,25 +609,29 @@ function list_todo_tab_function_to_show_title() {
  * Redirect to settings page after activation.
  */
 add_action( 'activated_plugin', 'bptodo_activation_redirect_settings' );
-function bptodo_activation_redirect_settings( $plugin ) {
-    if ( is_multisite() ) {
-        return;
-    } 
-    if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
-        if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'activate' && isset( $_REQUEST['plugin'] ) && $_REQUEST['plugin'] === $plugin ) { //phpcs:ignore
-            wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
-            exit;
-        }
-    }
+if ( ! function_exists( 'bptodo_activation_redirect_settings' ) ) {
+	function bptodo_activation_redirect_settings( $plugin ) {
+	    if ( is_multisite() ) {
+	        return;
+	    } 
+	    if ( $plugin == plugin_basename( __FILE__ ) && class_exists( 'BuddyPress' ) ) {
+	        if ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'activate' && isset( $_REQUEST['plugin'] ) && $_REQUEST['plugin'] === $plugin ) { //phpcs:ignore
+	            wp_redirect( admin_url( 'admin.php?page=user-todo-list-settings' ) );
+	            exit;
+	        }
+	    }
+	}
 }
 
-/**
- * Run the main plugin class.
- */
-function bptodo_run() {
-    require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo.php';
-    $plugin = new Bptodo_List();
-    $plugin->run();
+if ( ! function_exists( 'bptodo_run' ) ) {
+	/**
+	 * Run the main plugin class.
+	 */
+	function bptodo_run() {
+	    require plugin_dir_path( __FILE__ ) . 'includes/class-bptodo.php';
+	    $plugin = new Bptodo_List();
+	    $plugin->run();
+	}
 }
 bptodo_run();
 
@@ -594,8 +646,10 @@ bptodo_run();
  * stays scheduled (the class self-registers on include).
  */
 add_action( 'plugins_loaded', 'bptodo_load_data_retention', 20 );
-function bptodo_load_data_retention() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
+if ( ! function_exists( 'bptodo_load_data_retention' ) ) {
+	function bptodo_load_data_retention() {
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-data-retention.php';
+	}
 }
 
 /**
@@ -605,12 +659,14 @@ function bptodo_load_data_retention() {
  * bp_send_email(). The class self-instantiates on bp_loaded.
  */
 add_action( 'plugins_loaded', 'bptodo_load_bp_integrations', 20 );
-function bptodo_load_bp_integrations() {
-	if ( ! function_exists( 'bp_is_active' ) ) {
-		return;
-	}
+if ( ! function_exists( 'bptodo_load_bp_integrations' ) ) {
+	function bptodo_load_bp_integrations() {
+		if ( ! function_exists( 'bp_is_active' ) ) {
+			return;
+		}
 
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+		require_once plugin_dir_path( __FILE__ ) . 'includes/class-bptodo-emails.php';
+	}
 }
 
 /**

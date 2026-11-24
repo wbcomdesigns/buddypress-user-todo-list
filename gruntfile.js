@@ -145,78 +145,13 @@ module.exports = function ( grunt ) {
 					files: ['assets/js/*.js', 'admin/assets/js/*.js', '!**/*.min.js'],
 					tasks: ['uglify']
 				}
-			},
-
-			// Clean build directory
-			clean: {
-				build: ['build'],
-				zip: ['*.zip'],
-				dist: ['dist']
-			},
-
-			// Copy files to build directory
-			copy: {
-				build: {
-					expand: true,
-					src: [
-						'**',
-						'!node_modules/**',
-						'!build/**',
-						'!dist/**',
-						'!.git/**',
-						'!.github/**',
-						'!.gitignore',
-						'!.gitattributes',
-						// Internal dev tooling / docs - never ship to WP.org.
-						'!audit/**',
-						'!.wbcom-i18n.json',
-						'!docs/**',
-						'!.claude/**',
-						'!**/*.md',            // all markdown, at any depth (readme.txt/license.txt still ship).
-						'!gruntfile.js',       // lowercase - the real filename (case-sensitive on Linux/SVN).
-						'!Gruntfile.js',
-						'!package.json',
-						'!package-lock.json',
-						'!composer.json',
-						'!composer.lock',
-						'!phpcs.xml',
-						'!phpcs.xml.dist',
-						'!phpunit.xml',
-						'!phpunit.xml.dist',
-						'!.editorconfig',
-						'!.eslintrc*',
-						'!.stylelintrc*',
-						'!.DS_Store',
-						'!*.zip',
-						// WP.org serves screenshots from the SVN /assets dir, not the plugin zip.
-						'!screenshot-*.png',
-						'!**/*.map',
-						'!tests/**',
-						'!bin/**',
-						'!vendor/bin/**'
-					],
-					dest: 'build/buddypress-user-todo-list/'
-				}
-			},
-
-			// Create zip file
-			compress: {
-				build: {
-					options: {
-						mode: 'zip',
-						archive: 'dist/buddypress-user-todo-list-<%= pkg.version %>.zip'
-					},
-					expand: true,
-					cwd: 'build/',
-					src: ['**/*'],
-					dest: '/'
-				}
 			}
 		}
 	);
 
 	// register tasks
-	// NOTE: build and release deliberately do NOT run makepot.
+	// The release zip is built by bin/build-release.sh only (folder = WordPress.org slug).
+	// NOTE: build deliberately does NOT run makepot.
 	//
 	// The shipped POT is generated with `wp i18n make-pot` (see .wbcom-i18n.json
 	// and the rest of the free series, which all do the same). grunt-wp-i18n finds
@@ -228,5 +163,4 @@ module.exports = function ( grunt ) {
 	grunt.registerTask( 'build', [ 'checktextdomain', 'uglify', 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'css', [ 'cssmin', 'rtlcss' ] );
 	grunt.registerTask( 'js', [ 'uglify' ] );
-	grunt.registerTask( 'release', [ 'checktextdomain', 'uglify', 'cssmin', 'rtlcss', 'clean:dist', 'clean:build', 'copy:build', 'compress:build', 'clean:build' ] );
 };
