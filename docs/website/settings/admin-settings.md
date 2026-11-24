@@ -65,3 +65,23 @@ Group-level toggles (group-todo-list-settings option, on the Group tab, shown wh
 
 These rules are enforced on the server for the REST API, the Classic layout and the
 Modern layout alike. See [Group to-dos](../features/group-todos).
+
+## Data Retention (auto-cleanup)
+
+Auto-cleanup removes old tasks so the database stays small. It is off by default. Open **Settings > Todo Lists** and choose the **Data Retention** tab.
+
+| Setting | Default | Description |
+|---|---|---|
+| Enable auto-cleanup | Off | Turns on the daily cleanup. |
+| Task scope | Group tasks and Personal tasks | Which kinds of tasks the cleanup applies to. |
+| Tasks to clean up | Only completed tasks | Choose only completed tasks, only pending tasks, or all tasks. |
+| Retention period | 90 days | Tasks older than this are cleaned up. The minimum is 7 days. |
+| Permanent delete | Off | Off moves tasks to the trash, where they can be recovered for 30 days. On deletes them for good. |
+| Email notifications | On | Sends a summary email after each cleanup run. |
+| Notification email(s) | Site admin email | Where the summaries go. Separate several addresses with commas. |
+
+The cleanup runs once a day, and the tab shows when the next run is due. A task's age is counted from the day it was created, in UTC. Large sites are worked through in batches. Each task is judged by the cleanup type on its own, so a member's copy of a group task that does not match the chosen status is kept.
+
+## WP-CLI
+
+`wp bptodo generate member-todos` and `wp bptodo generate group-todos` create sample tasks for testing. `wp bptodo cleanup` deletes the sample tasks after you confirm, and `wp bptodo cleanup --all` deletes every todo. On large sites the commands delete in batches until every matching todo is gone.
