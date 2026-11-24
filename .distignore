@@ -1,5 +1,4 @@
 # Files and directories excluded from the release zip (bin/build-release.sh).
-# Mirrors the copy:build excludes in gruntfile.js - keep the two in step.
 # Dotfiles: grunt's '**' glob never matches them, so every dotfile is listed here.
 .git
 .github

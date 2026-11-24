@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Build dist/bp-user-to-do-list-{version}.zip (runs local CI first). The zip folder is the WordPress.org slug.
-# Same entries as `npx grunt release`; .distignore mirrors its copy:build excludes.
+# The only zip builder: grunt builds assets, .distignore decides what ships.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 slug=bp-user-to-do-list
@@ -19,15 +19,13 @@ with zipfile.ZipFile(sys.argv[1], "w", zipfile.ZIP_DEFLATED) as z:
         for n in sorted(f): z.write(os.path.join(r, n))' "$slug-$version.zip" "$slug" )
 rm -rf "dist/$slug"
 zip="dist/$slug-$version.zip"
-# pipefail off for the lock block: unzip piped into head / grep -q exits 141 (SIGPIPE) on larger zips.
-set +o pipefail
 # --- WordPress.org folder lock (Wbcom standard - do not edit) ----------------------
-top=$(unzip -Z1 "$zip" | head -1 | cut -d/ -f1)
+entries=$(unzip -Z1 "$zip")   # read the whole list once: no early-exit pipe, safe under pipefail
+top=${entries%%/*}
 [ "$top" = "$slug" ] || { echo "Zip folder '$top' is not the WordPress.org slug '$slug'"; exit 1; }
-unzip -Z1 "$zip" | grep -qx "$slug/$main" || { echo "Main file $slug/$main missing from zip"; exit 1; }
+grep -qx "$slug/$main" <<<"$entries" || { echo "Main file $slug/$main missing from zip"; exit 1; }
 [ "$(LC_ALL=C grep -a -c '<?php' "$zip" || true)" = 0 ] || { echo "Zip has plain-text PHP (upload firewall)"; exit 1; }
 # -----------------------------------------------------------------------------------
-set -o pipefail
 entries=$(unzip -Z1 "dist/$slug-$version.zip")
 leaks=$(echo "$entries" | grep -iE '/docs/|/audit/|/bin/|/tests/|node_modules|CLAUDE|gruntfile|package(-lock)?\.json|\.md$' || true)
 [ -z "$leaks" ] || { echo "Zip contains dev files:"; echo "$leaks"; exit 1; }
