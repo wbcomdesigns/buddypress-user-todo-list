@@ -38,4 +38,4 @@ Yes. The `bptodo/v1` namespace covers to-dos, completion, stats, categories and 
 
 ## Is the plugin translated?
 
-German, Spanish, French, Italian and Portuguese (Brazil) are included, and translations load from WordPress.org language packs.
+German, Spanish, French, Italian and Portuguese (Brazil) are included, and translations load from WordPress.org language packs. The text domain is `bp-user-to-do-list`. If you keep your own translation files, rename them from `wb-todo-{locale}` to `bp-user-to-do-list-{locale}`.
